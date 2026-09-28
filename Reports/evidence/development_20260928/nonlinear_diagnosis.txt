@@ -1,0 +1,1 @@
+The unmodified high-resolution confined run fails despite hydrostatic residual below 3e-15. First-step failures increase with spatial refinement. Complex-step diagnostic initially discarded luminosity derivatives because transport arrays had real dtype. No closure changes made.

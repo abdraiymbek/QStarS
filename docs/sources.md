@@ -162,9 +162,9 @@ This register distinguishes implemented laws, derived numerical identities, opti
 
 - Status: `audited_backend_decision`
 - Assumptions: Validated microphysics requires versioned EOS/opacity/atmosphere infrastructure
-- Domain: MESA absent on available Mac; documented 20 GB installation and SDK dependencies
+- Domain: Existing MESA 24.08.1 and ARM SDK 24.7.1 recovered from earlier runtime; local build changes recorded
 - Variables and units: Not applicable
-- Interpretation: MESA is preferred for future full-envelope production fidelity. This development solver cannot replace MESA ionization microphysics. No production backend is claimed.
+- Interpretation: Direct EOS and opacity calls are implemented for fixed H/He composition. Stellar evolution, atmosphere, and moving cavity production gates remain open. Report 5 corrects the earlier absence claim.
 - Implementation: `docs/mesa.md`
 
 ## ideal_eos — Classical ideal-gas plus radiation thermodynamics
@@ -243,4 +243,26 @@ This register distinguishes implemented laws, derived numerical identities, opti
 - Variables and units: Mass g, volume cm^3, energy erg
 - Interpretation: New internal energy is remapped total energy minus new discrete gravity and kinetic energies. Reject negative internal energy; log entropy changes.
 - Implementation: `src/qstars/mesh.py`
+
+## mesa_microphysics — MESA 24.08.1 EOS and opacity public APIs
+
+[MESA 24.08.1 EOS and opacity public APIs](https://docs.mesastar.org/en/24.08.1/eos/overview.html) · eosDT_get, kap_get; eos_def quantity definitions; source commit 5c166bf174b477823a2ca0031c4f57210c8e67a8
+
+- Status: `implemented_direct_library_interface`
+- Assumptions: Fixed H1/He4 composition Z=0; default EOS blends and Type2 opacity with Zbase=0; matched electron state
+- Domain: Query rectangle rho=1e-14..1e3 g/cm3 and T=3000..1e8 K is only a bounding box. Reject neutral ideal backstop and first-law defect above 1 percent; no production atmosphere claim.
+- Variables and units: P erg/cm3, u erg/g, s erg/g/K, kappa cm2/g; derivatives with respect to natural logarithms
+- Interpretation: Versioned C ABI and Python interface cross-checked against separate Fortran process. Wide audit preserves failing blend states. Existing binary/build/table provenance must accompany each run.
+- Implementation: `backends/mesa/microphysics.f90; src/qstars/mesa_microphysics.py`
+
+## inverse_transport — Inverse radiative/convective flux solve
+
+[Inverse radiative/convective flux solve](https://docs.mesastar.org/en/24.08.1/) · Algebraic derivation in docs/equations.md, using existing diffusion and lossless MLT equations
+
+- Status: `derived_and_tested`
+- Assumptions: Same physical closure as forward flux; luminosities retained as nonlinear unknowns; active-piece complex-step derivatives
+- Domain: Smooth subsonic hot envelopes; transport validity unchanged by nonlinear method
+- Variables and units: L erg/s, logarithmic thermal contrast dimensionless
+- Interpretation: Solving thermal contrast from luminosity avoids ill conditioning near adiabatic stratification; no transport coefficient changed. Numerical reference is QStarS derivation, not copied MESA implementation.
+- Implementation: `src/qstars/transport.py; src/qstars/nonlinear.py`
 

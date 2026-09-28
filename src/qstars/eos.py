@@ -27,6 +27,16 @@ class IdealGasRadiation:
         self.composition = composition
         self.R = KB / (composition.mu * MU)
 
+    def thermal_contrast(self,rho,T,q):
+        """Stable adjacent dlnT - mean(nabla_ad)*dlnP near radiation dominance."""
+        lt=np.log1p(np.diff(T)/T[:-1])
+        lr=np.log1p(np.diff(rho)/rho[:-1])
+        beta=q['pg']/q['p']
+        one_minus_four_grad=-3*beta**2/(32-24*beta-3*beta**2)
+        grad=.5*(q['grad_ad'][:-1]+q['grad_ad'][1:])
+        gas_correction=np.log1p(beta[:-1]*np.expm1(lr-3*lt))
+        return .5*(one_minus_four_grad[:-1]+one_minus_four_grad[1:])*lt-grad*gas_correction
+
     def evaluate(self, rho, T):
         rho, T = np.asarray(rho), np.asarray(T)
         if np.any(rho <= 0) or np.any(T <= 0):

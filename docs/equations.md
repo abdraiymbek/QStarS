@@ -149,3 +149,38 @@ New internal energy equals remapped total energy minus new gravity and kinetic
 energy. Negative internal energy is rejected. Entropy and hydrostatic balance
 can change and must be assessed. Refinement is optional, disabled by default,
 and doubles zones on a cadence; it is not feature-sensitive research AMR.
+
+## Numerically equivalent inverse transport solve
+
+The default `newton_flux` method solves for face luminosities in addition to
+midpoint velocities and log temperatures. The energy equation therefore sees
+the same luminosity unknown from both adjoining cells. The closure is an
+algebraic inverse of the previously documented diffusion plus capped MLT law.
+Write `d = delta ln T - mean(nabla_ad) delta ln P`, and `D = -Hp*d/dr`.
+For a trial luminosity, solve the monotone radiative-plus-convective relation
+for D, then require `d + D*dr/Hp = 0`. Radiation uses the exact exponential
+T^4 contrast; convection retains its existing D^(3/2) coefficient and cap.
+Stable faces invert the pure radiative relation. No coefficients are fitted.
+This avoids amplifying temperature roundoff into large heat-flow residuals
+when convection is extremely efficient. Saved face luminosities are the
+converged unknowns. They are also saved in restart files.
+
+The block-local Jacobian uses complex-step differentiation in seven colors,
+checked against a full column-by-column Jacobian. This differentiates the
+active piece of a closure, so changes of convective branch still require a
+line search. Invalid geometry is rejected and cannot be a root of a penalty.
+`newton` (forward flux) and `hybr` remain explicit legacy solver choices.
+
+Cell volumes advance by the difference of exact secant face sweeps. Keeping
+these volumes avoids subtracting nearly equal cubed radii at every residual
+evaluation. The radial geometry remains an independently checked constraint:
+relative disagreement above 1e-8 is a numerical rejection. Checkpoints contain
+both representations. The mechanical work identity remains unchanged.
+
+Boundary-cell depletion triggers conservative overlap redistribution to the
+stored reference mass fractions. The default threshold is a 20% change in
+boundary-cell mass relative to its target; zero disables the trigger for
+historical experiments. This represents mesh motion, without a new mass or
+energy source. Remapping remains first order, records its entropy change, and
+must be included in spatial and timestep convergence studies. It is not a
+moving physical cavity.

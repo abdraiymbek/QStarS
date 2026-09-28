@@ -8,3 +8,5 @@ sources/cache/
 .DS_Store
 /dist/
 /build/
+
+/backends/mesa/build*/

@@ -14,13 +14,17 @@ class State:
     ledger: dict = field(default_factory=dict)
     steps: int = 0
     next_dt: float = 0.
+    cell_volume: np.ndarray | None = None
+    face_luminosity: np.ndarray | None = None
+    reference_mass_fractions: np.ndarray | None = None
 
     def copy(self):
         return copy.deepcopy(self)
 
     @property
     def volume(self):
-        return 4*PI/3*np.diff(self.r**3)
+        if self.cell_volume is not None: return self.cell_volume
+        return 4*PI/3*np.diff(self.r)*(self.r[1:]**2+self.r[1:]*self.r[:-1]+self.r[:-1]**2)
 
     @property
     def rho(self):

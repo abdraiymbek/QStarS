@@ -47,7 +47,10 @@ def save_checkpoint(path,state,config):
     # NPZ contains JSON strings, never pickled Python objects.
     temporary=path.with_suffix(".tmp")
     with temporary.open("wb") as f:
-        np.savez_compressed(f,schema_version=1,time=state.time,bh_mass=state.bh_mass,dm=state.dm,r=state.r,v=state.v,T=state.T,
+        np.savez_compressed(f,schema_version=4,time=state.time,bh_mass=state.bh_mass,dm=state.dm,r=state.r,v=state.v,T=state.T,
+            cell_volume=state.volume,
+            face_luminosity=state.face_luminosity if state.face_luminosity is not None else np.array([]),
+            reference_mass_fractions=state.reference_mass_fractions if state.reference_mass_fractions is not None else state.dm/state.dm.sum(),
             ledger=json.dumps(state.ledger),steps=state.steps,next_dt=state.next_dt,config=json.dumps(config))
         f.flush(); os.fsync(f.fileno())
     temporary.replace(path)
@@ -55,14 +58,25 @@ def save_checkpoint(path,state,config):
 def load_checkpoint(path):
     from .config import resolve
     with np.load(path,allow_pickle=False) as f:
-        if int(f["schema_version"])!=1: raise ValueError("Unsupported checkpoint schema")
+        if int(f["schema_version"]) not in (1,2,3,4): raise ValueError("Unsupported checkpoint schema")
         state=State(float(f["time"]),float(f["bh_mass"]),f["dm"].copy(),f["r"].copy(),f["v"].copy(),f["T"].copy(),
                     json.loads(str(f["ledger"])),int(f["steps"]),float(f["next_dt"]))
         config=resolve(json.loads(str(f["config"])))
+        if int(f['schema_version']) >= 2: state.cell_volume=f['cell_volume'].copy()
+        if int(f['schema_version']) >= 3 and len(f['face_luminosity']):state.face_luminosity=f['face_luminosity'].copy()
+        state.reference_mass_fractions=f['reference_mass_fractions'].copy() if int(f['schema_version'])>=4 else state.dm/state.dm.sum()
     if not (len(state.r)==len(state.dm)+1==len(state.v) and len(state.T)==len(state.dm)):
         raise ValueError("Malformed checkpoint dimensions")
     if np.any(np.diff(state.r)<=0) or np.any(state.dm<=0) or np.any(state.T<=0):
         raise ValueError("Invalid checkpoint physical state")
+    geometric_volume=4*PI/3*np.diff(state.r)*(state.r[1:]**2+state.r[1:]*state.r[:-1]+state.r[:-1]**2)
+    if state.volume.shape != state.dm.shape or np.any(state.volume<=0) or not np.allclose(state.volume,geometric_volume,rtol=1e-8,atol=0):
+        raise ValueError('Checkpoint volume and geometry disagree')
+    if state.face_luminosity is not None and (state.face_luminosity.shape!=state.r.shape or not np.all(np.isfinite(state.face_luminosity))):
+        raise ValueError('Malformed checkpoint face luminosities')
+    f=state.reference_mass_fractions
+    if f.shape!=state.dm.shape or np.any(f<=0) or not np.isclose(f.sum(),1.,rtol=1e-12,atol=0):
+        raise ValueError('Malformed checkpoint reference mass fractions')
     return state,config
 
 def history_row(state,eos,opacity,config):
@@ -103,6 +117,9 @@ def save_profile(path,state,eos,opacity,config):
     q=eos.evaluate(state.rho,state.T)
     e=rates(state,eos,config["engine"])
     L,d=luminosities(state,eos,opacity,config,e["luminosity"])
+    if state.face_luminosity is not None:
+        L=state.face_luminosity
+        d['convective']=L-d['radiative'];d['convective'][0]=0.;d['convective'][-1]=0.
     np.savez_compressed(path,time_seconds=state.time,dm_g=state.dm,r_edges_cm=state.r,r_cm=state.rc,
         enclosed_mass_g=.5*(state.enclosed[:-1]+state.enclosed[1:]),density_cgs=state.rho,
         pressure_cgs=q["p"],temperature_K=state.T,entropy_cgs=q["s"],internal_energy_erg_g=q["u"],

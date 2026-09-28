@@ -15,6 +15,10 @@ from .controls import next_event
 from . import io
 
 def physics(config):
+    if config['eos']=='mesa':
+        from .mesa_microphysics import MesaMicrophysics
+        eos=MesaMicrophysics(Composition(**config['composition']),**config['mesa'])
+        return eos,eos.opacity
     eos=IdealGasRadiation(Composition(**config["composition"]))
     op=ElectronScattering(eos.composition) if config["opacity"]["model"]=="electron_scattering" else OpacityTable(config["opacity"]["table_path"])
     return eos,op
@@ -54,6 +58,11 @@ def run(config,output_parent="results",restart=None,stop_after_steps=None):
             f.write(json.dumps(dict(event=event,**data),default=float,allow_nan=False)+"\n")
     try:
         eos,opacity=physics(config)
+        if hasattr(eos,'manifest'):
+            io.json_write(path/'microphysics_build.json',eos.manifest)
+            from pathlib import Path
+            bridge=Path(__file__).resolve().parents[2]/'backends/mesa/microphysics.f90'
+            if bridge.exists(): (path/'microphysics_bridge.f90').write_bytes(bridge.read_bytes())
         if restart is not None: state=restart.copy()
         else:
             state,error=initialize(config,eos); ledger.initialize(state,eos)
@@ -88,6 +97,20 @@ def run(config,output_parent="results",restart=None,stop_after_steps=None):
             else: raise last_exception
             state=candidate; accepted+=1
             state.next_dt=min(dt*1.25,c["max_dt_years"]*YEAR)
+            if c['boundary_remesh_fraction'] and state.reference_mass_fractions is not None:
+                import numpy as np
+                from .mesh import remap
+                target_dm=state.reference_mass_fractions*state.dm.sum()
+                boundary_change=float(max(abs(state.dm[[0,-1]]/target_dm[[0,-1]]-1)))
+                if boundary_change>=c['boundary_remesh_fraction']:
+                    before=state.energies(eos)['total']
+                    remapped=remap(state,target_dm,eos)
+                    errors,_,_=check(remapped,eos,opacity,config)
+                    if errors:log('boundary_remap_rejected',errors=errors)
+                    else:
+                        state=remapped
+                        log('boundary_remapped',zones=len(state.dm),boundary_fraction=boundary_change,
+                            energy_change=state.energies(eos)['total']-before)
             if c["refine_every_steps"] and state.steps % c["refine_every_steps"]==0 and len(state.dm)*2<=c["max_zones"]:
                 import numpy as np
                 from .mesh import remap

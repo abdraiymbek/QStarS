@@ -16,6 +16,9 @@ def remap(state,new_dm,eos):
     V = overlap@(state.volume/state.dm)
     out = state.copy()
     out.dm = new_dm.copy()
+    out.face_luminosity=None
+    out.reference_mass_fractions=new_dm/new_dm.sum()
+    out.cell_volume = V.copy()
     out.r = np.r_[state.r[0],np.cbrt(state.r[0]**3+3*np.cumsum(V)/(4*PI))]
     out.r[-1] = state.r[-1]
     out.v = np.interp(b,a,state.v)

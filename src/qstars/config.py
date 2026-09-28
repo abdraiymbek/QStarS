@@ -22,6 +22,7 @@ DEFAULT = dict(
                  temperature_perturbation=0.,perturbation_mass_center=.5,perturbation_mass_width=.1),
     composition=dict(X=.75,Y=.25,Z=0.),
     eos="ideal_gas_radiation",
+    mesa=dict(library_path="",mesa_dir=""),
     opacity=dict(model="electron_scattering",table_path=""),
     engine=dict(model="bra2008",efficiency=.1,coupling=.1,rest_mass_rate_msun_per_year=1e-5),
     feeding=dict(rate_msun_per_year=0.,thermodynamics="specified",density_cgs=1e-7,temperature_K=1e6),
@@ -31,6 +32,7 @@ DEFAULT = dict(
                   bath_temperature_K=0.,luminosity_erg_s=1e41),
     evolution=dict(end_time_years=.1,max_steps=10000,max_wall_seconds=0.),
     numerics=dict(zones=32,mesh="cosine",initial_dt_years=.001,max_dt_years=.005,min_dt_years=1e-10,
+                  nonlinear_solver="newton_flux",boundary_remesh_fraction=.2,
                   solver_tolerance=1e-9,max_fractional_change=.02,max_retries=12,
                   conservation_tolerance=1e-7,refine_every_steps=0,max_zones=256),
     validity=dict(min_temperature_K=1e5,max_temperature_K=1e8,max_mach=.2,max_compactness=.001,
@@ -84,9 +86,10 @@ def resolve(raw):
     if not isinstance(c['name'],str) or not re.fullmatch(r'[a-zA-Z0-9_-]{1,100}',c['name']):
         raise ValueError('name must use 1-100 letters, digits, hyphens, or underscores')
     if c["schema_version"] != 1: raise ValueError("Unsupported schema version")
-    choices = [(c["eos"],["ideal_gas_radiation"]),
-        (c['numerics']['mesh'],['cosine','core_refined']),
-        (c["opacity"]["model"],["electron_scattering","table"]),
+    choices = [(c["eos"],["ideal_gas_radiation","mesa"]),
+        (c['numerics']['mesh'],['cosine','core_refined','log_radius','log_radius_cosine']),
+        (c['numerics']['nonlinear_solver'],['newton','newton_flux','hybr']),
+        (c["opacity"]["model"],["electron_scattering","table","mesa"]),
         (c["boundary"]["inner"],["fixed_excision"]),
         (c["boundary"]["thermal"],["grey","luminosity","insulated"]),
         (c["engine"]["model"],["off","bra2008","ball2011_printed","quest2025_eq11","prescribed"]),
@@ -113,11 +116,18 @@ def resolve(raw):
     for key in ["zones","max_retries","max_zones","refine_every_steps"]:
         if not isinstance(c["numerics"][key],int): raise ValueError(f"{key} must be an integer")
     if c['numerics']['refine_every_steps']<0:raise ValueError('refine_every_steps must be nonnegative')
+    if not 0<=c['numerics']['boundary_remesh_fraction']<=.5:
+        raise ValueError('boundary_remesh_fraction must lie between 0 (disabled) and 0.5')
     for key in ('profile_every_steps','checkpoint_every_steps'):
         if not isinstance(c['output'][key],int):raise ValueError(f'{key} must be an integer')
     if c["numerics"]["zones"]<4: raise ValueError("At least four zones required")
-    if c['validity']['min_temperature_K']<1e5 or c['validity']['max_temperature_K']>1e8:
-        raise ValueError('Configured EOS limits must stay within the supported 1e5-1e8 K interval')
+    floor=3000. if c['eos']=='mesa' else 1e5
+    if c['validity']['min_temperature_K']<floor or c['validity']['max_temperature_K']>1e8:
+        raise ValueError(f'Configured EOS limits must stay within the supported {floor:g}-1e8 K interval')
+    if (c['eos']=='mesa') != (c['opacity']['model']=='mesa'):
+        raise ValueError('MESA EOS and opacity must be selected together for this audited interface')
+    if c['eos']=='mesa' and (not c['mesa']['library_path'] or not c['mesa']['mesa_dir']):
+        raise ValueError('MESA requires explicit library_path and mesa_dir')
     if c["numerics"]["min_dt_years"]>c["numerics"]["max_dt_years"]: raise ValueError("Invalid timestep bounds")
     if not 0<c["engine"]["efficiency"]<1: raise ValueError("Efficiency must lie strictly between zero and one")
     if c["initial"]["radius_cm"]<=c["initial"]["inner_radius_cm"]: raise ValueError("Outer radius must exceed inner radius")
@@ -136,4 +146,9 @@ def load(path):
         p=Path(config['opacity']['table_path'])
         if not p.is_absolute():p=Path(path).resolve().parent/p
         config['opacity']['table_path']=str(p.resolve())
+    if config['eos']=='mesa':
+        for key in ('library_path','mesa_dir'):
+            p=Path(config['mesa'][key])
+            if not p.is_absolute():p=Path(path).resolve().parent/p
+            config['mesa'][key]=str(p.resolve())
     return config

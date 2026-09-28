@@ -32,10 +32,10 @@ def exchange(old,dt,eos,config,engine,wind_rate):
                 raise DomainError('Supplied material lies outside the EOS temperature domain')
             ne=f['density_cgs']/MU*(eos.composition.X+eos.composition.Y/2+eos.composition.Z/2)
             phase=(2*PI*ME*KB*incoming_T/H**2)**1.5
-            if ne/phase>.1:raise DomainError('Supplied material is outside the nondegenerate EOS domain')
+            if config['eos']=='ideal_gas_radiation' and ne/phase>.1:raise DomainError('Supplied material is outside the nondegenerate EOS domain')
             for fraction,chi in ((eos.composition.X,13.5984),(eos.composition.Y,54.4178)):
                 ratio=phase/ne*np.exp(-chi*1.602176634e-12/(KB*incoming_T))
-                if fraction>0 and ratio/(1+ratio)<.99:
+                if config['eos']=='ideal_gas_radiation' and fraction>0 and ratio/(1+ratio)<.99:
                     raise DomainError('Supplied material fails fully ionized EOS screening')
         incoming = eos.evaluate(f["density_cgs"],incoming_T)
         incoming_h,incoming_s = incoming["h"],incoming["s"]

@@ -1,28 +1,84 @@
-# MESA and production fidelity
+# MESA infrastructure and supported interface
 
-MESA was absent from the initial environment. Its documented installation
-requires a version-matched SDK and about 20 GB of disk space. This Mac has
-enough storage and memory, but no MESA build or stellar model was executed.
-These are outstanding tasks, not evidence that MESA cannot run here.
+QStarS can call the **MESA 24.08.1 EOS and radiative opacity libraries directly**
+for fixed H1/He4 composition (`Z=0`). It keeps its own finite-volume evolution
+and independent boundary ledger. This is not yet the MESA stellar-evolution
+backend, a production atmosphere, or a validated moving cavity.
 
-MESA-QUEST was inspected at commit
-`671eb9b898b28c0d02a6a2455dacc0f5b269e280`. Its README associates the early
-Bondi model with MESA r24.03.1, the saturated/wind model with r24.08.1 or
-r25.12.1, and its colors model with r25.12.1. It is cached, not vendored. No
-upstream executable was run.
+A pre-existing ARM SDK 24.7.1 and MESA 24.08.1 installation were found in the
+earlier runtime. The initial development report's absence claim was wrong;
+Report 5 records the correction. The existing installation is reused without
+modification. Its source commit is
+`5c166bf174b477823a2ca0031c4f57210c8e67a8`; the interface build records all local
+Git changes. PGSTAR, GYRE, and ADIPLS were disabled in that installation. No
+pulsation capability is claimed.
 
-Full scientific evolution should use established MESA microphysics with
-independently audited QStarS boundary accounting. Remaining work includes:
+## Build and run
 
-1. Pin and build MESA/SDK/QUEST and reproduce an unmodified stellar benchmark.
-2. Audit startup, retries, restart storage, and core relaxation for BH/cavity
-   variables. Upstream module-level BH state motivates this audit; it is not
-   a demonstrated upstream retry bug.
-3. Add independent boundary enthalpy/entropy streams and matching potential work.
-4. Establish conservative restart/remesh/retry tests for that actual backend.
-5. Reproduce multiple full evolution and advective-wind benchmarks.
+First install the pinned MESA/SDK using the
+[official instructions](https://docs.mesastar.org/en/24.08.1/installation.html).
+Then, from this repository, with the Python environment activated:
 
-No placeholder MESA adapter is advertised as implemented.
-[Installation](https://docs.mesastar.org/en/latest/installation.html),
-[energy equations](https://docs.mesastar.org/en/latest/reference/controls.html#energy-eqn-option),
-[MESA-QUEST](https://github.com/andysantarelli/MESA-QUEST).
+```sh
+python scripts/build_mesa_microphysics.py \
+  --mesa-dir /absolute/path/to/mesa-24.08.1 \
+  --sdk-dir /absolute/path/to/mesasdk \
+  --output backends/mesa/build_local
+qstars run backends/mesa/build_local/example.yaml
+python scripts/validate_mesa_microphysics.py \
+  --library backends/mesa/build_local/libqstars_mesa.dylib \
+  --mesa-dir /absolute/path/to/mesa-24.08.1
+QSTARS_MESA_LIBRARY="$PWD/backends/mesa/build_local/libqstars_mesa.dylib" \
+  MESA_DIR=/absolute/path/to/mesa-24.08.1 python -m pytest -q
+```
+
+The builder creates a new directory and refuses to overwrite failed builds.
+It generates an example with the actual paths. The current build recipe is
+validated on Apple Silicon macOS; the ordinary Python solver is portable,
+but a Linux shared-library build has not yet been validated. No shell profile
+is changed. The macOS SDK build uses deployment target 14.0 unless explicitly
+overridden, with that choice recorded. Compiled binaries are local build
+artifacts, not distributed under the QStarS license.
+
+## Numerical and physical domain
+
+The interface passes exactly the same composition and electron state to
+`eosDT_get` and `kap_get`. It uses MESA's radiation constant and EOS derivatives.
+The radiative opacity handle disables electron conduction: the separate
+radiation-plus-conduction handle measures the omitted conductive contribution.
+Runs reject an omitted contribution exceeding 1% of diffusive heat transport.
+This avoids treating conductive opacity as photon optical depth or radiation
+force. The initial interface experiment used the combined opacity; those
+results are preserved and superseded by ABI 3.
+
+The bounding query rectangle is density `1e-14..1e3 g/cm³` and temperature
+`3000..1e8 K`. **This rectangle is not a declaration of validity at every
+point.** Every accepted state is checked for a first-law defect below 1% using
+symmetric finite differences, and the neutral ideal EOS backstop is rejected.
+The first-law test normalizes its residual by `|dU/dlnX| + P/rho` to avoid an
+artificial divergence from cancellation. It is a screening limit, not proof of
+percent-level evolutionary accuracy. Existing diffusion, optical-depth, Mach,
+compactness, geometry, and whole-energy checks remain active.
+
+The 153-point audit matches a separate Fortran process exactly. Five points
+exceed the 1% first-law threshold; the maximum is about 0.315 at density
+`1e-4 g/cm³`, T≈6812 K, in an OPAL/SCVH–FreeEOS blend. These are retained
+counterexamples. MESA documents the difficulty of combining inconsistent
+sources in its [EOS overview](https://docs.mesastar.org/en/24.08.1/eos/overview.html).
+No coefficients or table entries were adjusted to make the test pass.
+
+## Upstream stellar benchmarks
+
+`scripts/run_mesa_reference.py` builds isolated ordinary MESA or upstream
+QUEST work directories and records input hashes, compiler logs, explicit
+changes, histories, and termination logs. `--saved-seed` uses the upstream
+provided stellar model; `--startup-cgs-fix` explicitly corrects the startup
+assignment of a solar-mass number to CGS `M_center`. The original and repaired
+runs are distinct. A process exit or a short MESA run is not full published
+replication, and MESA's energy diagnostic is not the QStarS external ledger.
+
+Remaining production work includes validated atmosphere/convection coupling,
+conservative cavity evolution, wind-bearing published tracks, independent
+full-system accounting for an actual stellar backend, and cross-validation.
+[Upstream QUEST](https://github.com/andysantarelli/MESA-QUEST) is pinned at
+`671eb9b898b28c0d02a6a2455dacc0f5b269e280`.
