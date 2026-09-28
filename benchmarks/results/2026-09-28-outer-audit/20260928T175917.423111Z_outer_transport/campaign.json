@@ -1,0 +1,10 @@
+{
+  "outcome": "OUTER FAIL",
+  "stage_b_run": false,
+  "physical_impossibility_claimed": false,
+  "moving_face_worst_relative_defect": 2.1028395784573352e-10,
+  "mlt_exits": 4,
+  "elapsed_seconds": 31.73929229201167,
+  "peak_rss_mib": 555.0,
+  "source_snapshot_verified": true
+}

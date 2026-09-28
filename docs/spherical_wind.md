@@ -1,7 +1,7 @@
 # Spherical atmosphere and wind components
 
-Status: research component; **not a production outer boundary**. Report 9 and
-its machine-readable evidence distinguish equation verification from physical
+Status: research component; **not a production outer boundary**. Reports 9–10 and
+their machine-readable evidence distinguish equation verification from physical
 validation and published-model replication. The Report 8 plane-parallel MLT
 candidate remains rejected. Neither solver failure nor a local wind branch
 proves the absence of other stationary solutions, time-dependent outflows or
@@ -58,9 +58,15 @@ match would not validate the complete stellar boundary.
 
 `boundary_flux()` returns mass, momentum stress, separate radiative and
 advected gas/radiation internal energy, pressure work, kinetic and potential
-energy, and advected entropy. The interface is for a **fixed** sphere.
-For a moving envelope face, material flux must use velocity relative to that
-face and the associated pressure work. That time-dependent coupling is not
+energy, and advected entropy. Since Report 10 it accepts `face_velocity=u`.
+For area A, its relative mass flux is A*rho*(v-u). Relative enthalpy advection
+is supplemented by `moving_pressure_work=A*(Pg+Pr)*u`. Thus a comoving face
+retains diffusive radiation and pressure work. Equivalently, energy flux is
+the fixed-sphere flux minus u times area times lab-frame conserved energy
+density. Momentum likewise subtracts swept momentum; entropy uses relative
+mass transport. These formulas assume LTE isotropic radiation and a static
+central potential. Independent swept-volume and energy-gauge checks are in
+[Report 10](../Reports/Report_10.md). A moving stellar reconstruction is not
 implemented or claimed. Feeding remains an independent channel in the core.
 
 ## Equations and independent derivation
@@ -201,3 +207,23 @@ critical derivative step, independent integrator, outer placement, and
 matching-radius recovery tests. Full stellar evolution is deliberately gated
 on independent outer-boundary validation, as requested; no coupled parameter
 sweep is performed.
+
+## Report 10 attribution and validity enforcement
+
+The historical-opacity adapter selects `paper_gs98` or `paper_gn93` through
+`FreeEOSOpacity(eos, mesa, opacity_family=...)`. Both require ABI 6 and use
+separate MESA handles, pure OPAL Type1 above 7000 K and AF94 below. No table
+or sonic coefficient is fitted. The common table rectangle is checked.
+The paper's stalled cutoff can be reproduced with `stalled_mach=1.5`;
+the default remains sqrt(1.01). The independent second-sonic cutoff remains active even when a higher comparison Mach is never reached. This changes only stopping conditions.
+
+42 runs show that the tested opacity families, abundance convention and
+Euler discretization do not account for the published red branch. See
+[Report 10](../Reports/Report_10.md) for profile comparisons, conditional
+input sensitivity, improved inner coverage and retained failure evidence.
+
+The separate grey/MLT atmosphere now raises `AtmosphereDomainExit` at the
+first convective Mach-one event. This implements the explicit validity-exit
+option; it is not a turbulence model or evidence that the wind's zero
+convective flux assumption is valid at a physical base. Escaping radiation
+and physical matching remain unresolved; Stage B was not run.

@@ -5,7 +5,7 @@ important numerical checks for a specified hot-envelope problem and adds direct
 MESA microphysics and a stationary advective-wind reference. It does not
 reproduce complete published quasi-star evolutionary tracks.
 
-The current automated suite has **70 passing tests with MESA and FreeEOS enabled**
+The current automated suite has **76 passing tests with MESA and FreeEOS enabled**
 (optional native-library tests require the pinned builds).
 The full `qstars validate --require-v1` campaign has **29 passing checks and two
 retained printed-value discrepancies** and correctly exits 2. Passing software
@@ -21,6 +21,16 @@ the photosphere of 6.68% of radius, incompatible with one-percent
 plane-parallel accuracy. These are converged component-model validity failures,
 not physical destruction or completed evolution. See [the equations, sensitivity
 tests and resolution criteria](atmosphere.md). General v1 remains blocked.
+
+## Current outer-closure gate
+
+[Report 10](../Reports/Report_10.md) classifies the campaign as **OUTER FAIL**.
+Historical OPAL/AF94 selection changes the red comparison photosphere from
+656.64 to 656.79 Rsun, still far below the published roughly 1400 Rsun.
+42 attribution runs isolate numerical and input-convention effects without
+retuning. Moving-surface mass/energy identities pass at 2.11e-10 relative;
+the atmosphere now exits at convective Mach one. These improvements do not
+validate escaping transfer or physical-base matching. Stage B remains unrun.
 
 ## Spherical outer component campaign
 

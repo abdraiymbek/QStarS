@@ -1,0 +1,68 @@
+[
+  {
+    "dimensionless_displacement": 0.001,
+    "channel": "mass",
+    "swept_inventory": -8.323222324053733e+26,
+    "dt": 600.7596498581617,
+    "boundary_fluxes": [
+      7.538455853273861e+24,
+      8.923905478571282e+24
+    ],
+    "relative_defect": 1.1482180534092344e-10
+  },
+  {
+    "dimensionless_displacement": 0.001,
+    "channel": "total_energy",
+    "swept_inventory": 6.961039613234552e+41,
+    "dt": 600.7596498581617,
+    "boundary_fluxes": [
+      1.8218102514476153e+40,
+      1.7059396267832742e+40
+    ],
+    "relative_defect": 2.1028395784573352e-10
+  },
+  {
+    "dimensionless_displacement": 0.0001,
+    "channel": "mass",
+    "swept_inventory": -8.323454253677733e+25,
+    "dt": 60.075964985816164,
+    "boundary_fluxes": [
+      7.538412315996228e+24,
+      8.923900548366913e+24
+    ],
+    "relative_defect": 1.1484737704697479e-12
+  },
+  {
+    "dimensionless_displacement": 0.0001,
+    "channel": "total_energy",
+    "swept_inventory": 6.961646896856631e+40,
+    "dt": 60.075964985816164,
+    "boundary_fluxes": [
+      1.8218211831808242e+40,
+      1.7059404495418376e+40
+    ],
+    "relative_defect": 2.1031534423136107e-12
+  },
+  {
+    "dimensionless_displacement": 1e-05,
+    "channel": "mass",
+    "swept_inventory": -8.323477448834209e+24,
+    "dt": 6.007596498581616,
+    "boundary_fluxes": [
+      7.538407962004414e+24,
+      8.923900055356348e+24
+    ],
+    "relative_defect": 1.1430593422970237e-14
+  },
+  {
+    "dimensionless_displacement": 1e-05,
+    "channel": "total_energy",
+    "swept_inventory": 6.961707633422227e+39,
+    "dt": 6.007596498581616,
+    "boundary_fluxes": [
+      1.8218222764540384e+40,
+      1.7059405318151703e+40
+    ],
+    "relative_defect": 2.096914523088282e-14
+  }
+]

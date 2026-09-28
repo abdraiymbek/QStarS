@@ -13,16 +13,80 @@ module qstars_mesa_microphysics
  use kap_lib
  implicit none
  integer :: eh, kh, kh_conduction
+ integer :: kh_paper(2,2)=0
  integer, pointer :: chem_id(:),net_iso(:)
  logical :: initialized=.false.
  real(dp) :: atmosphere_x, atmosphere_fixed_kappa
 contains
  integer(c_int) function qstars_api_version() bind(C)
-  qstars_api_version=5
+  qstars_api_version=6
  end function
  subroutine qstars_constants(arad) bind(C)
   real(c_double), intent(out) :: arad
   arad=crad
+ end subroutine
+
+ ! Historical-paper diagnostic only: OPAL Type1 above 7000 K, AF94 below.
+ ! Separate handles force pure high/low tables without a zero-width blend.
+ ! They do not change the production/default opacity handle. The MESA table
+ ! processing/interpolation is retained; this is not the authors' exact code.
+ subroutine qstars_opacity_paper(n,rho,temp,hydrogen,mixture,kappa,fractions,ierr) bind(C)
+  integer(c_int), value :: n,mixture
+  real(c_double), intent(in) :: rho(n),temp(n)
+  real(c_double), value :: hydrogen
+  real(c_double), intent(out) :: kappa(n),fractions(3,n)
+  integer(c_int), intent(out) :: ierr
+  type(Kap_General_Info), pointer :: kp
+  integer :: i,j,handle
+  real(dp) :: dkd,dkt,logr
+  ierr=0
+  if(mixture<1.or.mixture>2.or.hydrogen/=0.7d0) then
+   ierr=-105;return
+  endif
+  do j=1,2
+   if(kh_paper(j,mixture)/=0) cycle
+   handle=alloc_kap_handle(ierr)
+   if(ierr/=0)return
+   call kap_ptr(handle,kp,ierr)
+   if(ierr/=0)return
+   kp% Zbase=0d0
+   kp% use_Type2_opacities=.false.
+   kp% include_electron_conduction=.false.
+   if(mixture==1) then
+    call kap_set_control_namelist(handle,'kap_file_prefix',"'gs98'",ierr)
+   else
+    call kap_set_control_namelist(handle,'kap_file_prefix',"'gn93'",ierr)
+   endif
+   if(ierr/=0)return
+   call kap_set_control_namelist(handle,'kap_lowT_prefix',"'lowT_af94_gn93'",ierr)
+   if(ierr/=0)return
+   if(j==1) then
+    kp% kap_blend_logT_lower_bdy=3.75d0
+    kp% kap_blend_logT_upper_bdy=3.76d0
+   else
+    kp% kap_blend_logT_lower_bdy=4.0d0
+    kp% kap_blend_logT_upper_bdy=4.1d0
+   endif
+   call kap_setup_tables(handle,ierr)
+   if(ierr/=0)return
+   kh_paper(j,mixture)=handle
+  enddo
+  do i=1,n
+   if(rho(i)<=0d0.or.temp(i)<=0d0) then
+    ierr=-106;return
+   endif
+   logr=log10(rho(i))-3d0*log10(temp(i))+18d0
+   ! Explicit common table rectangle: no extrapolation or implicit fallback.
+   if(logr< -7d0.or.logr>1d0.or.temp(i)<3000d0.or.temp(i)>1d7) then
+    ierr=-107;return
+   endif
+   j=1
+   if(temp(i)<7000d0)j=2
+   call kap_get_radiative_opacity(kh_paper(j,mixture),hydrogen,0d0,0d0,0d0,0d0,0d0, &
+       log10(rho(i)),log10(temp(i)),fractions(1,i),fractions(2,i),fractions(3,i), &
+       kappa(i),dkd,dkt,ierr)
+   if(ierr/=0)return
+  enddo
  end subroutine
 
  ! Opacity-only reference: the supplied electrons and degeneracy come from

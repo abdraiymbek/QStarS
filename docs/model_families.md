@@ -48,3 +48,16 @@ separate from Fiacconi and Dotan. See [its domain and equations](spherical_wind.
 A completed reference integration is never converted automatically into
 stellar mass removal. A local critical point, a resolved decelerating branch,
 a photosphere comparison endpoint and a validated terminal wind are distinct.
+
+## Report 10 additions and restrictions
+
+The spherical wind's optional `paper_gs98` and `paper_gn93` opacity adapters
+use MESA's Type1 OPAL and AF94 with the paper's 7000 K switch. They are
+attribution references, not new production wind families. The mass-number
+abundance experiment lives only in the campaign driver. None reproduces the
+published escaping branch. All original alternatives retain their own assumptions.
+
+Moving-face fluxes now include relative advection and explicit surface work;
+no evolving cavity or physical matching result follows from that interface.
+The grey/MLT atmosphere raises `AtmosphereDomainExit` at Mach one. No invalid
+supersonic profile is returned. See [Report 10](../Reports/Report_10.md).

@@ -1,0 +1,27 @@
+{
+  "outcome": "OUTER FAIL",
+  "stage_b_run": false,
+  "v1_complete": false,
+  "tests_passed": 76,
+  "tests_failed": 0,
+  "tests_seconds": 32.69,
+  "require_v1_exit_code": 2,
+  "archive_files_verified": 114,
+  "cpu": "Apple M5",
+  "memory_bytes": 17179869184,
+  "native_bridge_source_matches_build": true,
+  "source_files": {
+    "src/qstars/atmosphere_reference.py": "a19e47f62931b07126f35adf991123f6d1d5a9df8e6a63bec404625b4be5eeca",
+    "src/qstars/spherical_wind.py": "f43b9d1f32e3e64671a65968d7f78e4287323464adb5c02e6143e73b979ef581",
+    "src/qstars/mesa_microphysics.py": "78461a53c221b6659c116bddfbf75525f9a005c065921057ce017eeb02be033f",
+    "backends/mesa/microphysics.f90": "43f83e7309698667f343fe918619913c1a24528317083456e09211e5e56746f6"
+  },
+  "prior_report8_evidence_unchanged": true,
+  "label_correction": "Derived normalized cases preserve raw mixed-endpoint photo_rsun label; no raw measurements overwritten",
+  "build_failures_retained": [
+    "benchmarks/results/2026-09-28-outer-audit/build_outer_1"
+  ],
+  "visual_qa": "outer_discrepancy.png inspected; axes and stalled/photo markers legible",
+  "test_log": "Reports/evidence/outer_report10_20260928/final_tests_guard.log",
+  "final_guard_regression": "An unreachable comparison Mach threshold cannot disable the independent second-sonic domain exit"
+}

@@ -114,3 +114,19 @@ conservative cavity evolution, wind-bearing published tracks, independent
 full-system accounting for an actual stellar backend, and cross-validation.
 [Upstream QUEST](https://github.com/andysantarelli/MESA-QUEST) is pinned at
 `671eb9b898b28c0d02a6a2455dacc0f5b269e280`.
+
+## Historical wind-opacity audit (Report 10)
+
+Bridge ABI 6 adds a diagnostic `opacity_paper_reference` call using separate
+native handles, X=.7 and Z=0. Select `gs98` or `gn93` OPAL Type1 above 7000 K,
+MESA `lowT_af94_gn93` below. Each call checks the returned table fractions;
+the Python interface validates the finite inputs and native query bounds.
+The common rectangle is -7 <= logR <= 1, 3000 <= T <= 1e7 K. MESA's
+processed files/interpolation are retained. The AF94 file header cites 1995;
+identity with the authors' original files is not claimed.
+
+The successful build is `backends/mesa/build_outer_2`; `build_outer_1` is a
+retained compilation failure. ABI 3–5 remain accepted for earlier operations;
+the new call explicitly requires ABI 6. Table-node tests verify the returned
+values and that these diagnostic handles do not mutate the default opacity.
+The tables and native binary are hashed in the campaign evidence.

@@ -1,5 +1,14 @@
 # Apple Silicon performance report
 
+Report 10 measured **205.23 s / 676.58 MiB** for 42 stationary attribution
+runs and **31.74 s / 555.00 MiB** for the moving-face, MLT-exit and coverage
+audit on the Apple M5 MacBook. The full 76-test suite took 32.69 s. These
+are component measurements; no coupled evolution was run because Stage A
+failed. Independent cases can use separate processes locally or on cloud CPU;
+MESA calls are not thread-safe. No parallel scaling measurement is claimed.
+See [Report 10](../Reports/Report_10.md) and its frozen drivers.
+
+
 Report 9 adds a spherical wind component campaign: **170.41 s**, **569.16 MiB**
 peak RSS on the same Apple M5 / 16 GiB machine. The two baseline low-gravity
 controls take 0.77 and 0.64 s including diagnostics; base root searches dominate

@@ -67,7 +67,7 @@ benchmarks:
     source: grey_mlt_atmosphere_reference
     status: converged_candidate_fails_physical_validity
     command: python scripts/validate_atmosphere_reference.py --freeeos-library PATH --mesa-library PATH --mesa-dir PATH
-    discrepancy: Teff=6000 K and g=1 requires Mach 2.3367 convection for Henyey and ML1; Teff=8000 K and g=3 has a photosphere-to-base depth 6.68 percent of radius at 10000 solar masses. No physical disruption or full stellar evolution inferred.
+    discrepancy: Archived Report 8 continuation requires Mach 2.3367 convection; current reference exits at Mach one near tau 2.837 for Henyey and ML1; Teff=8000 K and g=3 has a photosphere-to-base depth 6.68 percent of radius at 10000 solar masses. No physical disruption or full stellar evolution inferred.
   - id: spherical_gas_sonic_wind
     source: nakauchi2017
     location: equations 1-9; Figure 2
@@ -84,3 +84,16 @@ benchmarks:
     command: python scripts/validate_spherical_wind.py
     required_checks: [Parker_critical_point, spherical_radiative_zero, enclosed_mass, independent_momentum_integral, independent_diffusion_integral, independent_first_law_integral, sonic_offset, tolerance, radial_step, output_sampling, matching_radius_recovery, outer_radius, independent_integrator, stage_retries]
     limitation: Known-solution base recovery verifies numerical matching; it does not validate evolving-envelope matching, turbulence, photospheric transfer or escape.
+
+  - id: outer_discrepancy_attribution
+    source: nakauchi_opacity_audit
+    status: completed_attribution_benchmark_unresolved
+    command: python scripts/validate_outer_discrepancy.py
+    required_checks: [historical_opacity, abundance_convention, Euler_discretization, printed_input_sensitivity, internal_profile_refinement, diffusion_validity]
+    discrepancy: No tested change reproduces the published escaping red branch; conditional input samples do not constitute an enclosure or parameter fit.
+  - id: outer_moving_surface_and_mlt_exit
+    source: moving_wind_flux
+    status: component_accounting_and_validity_exit_pass_physical_matching_unvalidated
+    command: python scripts/validate_outer_transport.py
+    required_checks: [independent_swept_volume, comoving_pressure_work, energy_gauge, MLT_domain_exit, profile_coverage]
+    limitation: Moving interface is not coupled evolution; MLT exit is not a turbulent-wind closure.

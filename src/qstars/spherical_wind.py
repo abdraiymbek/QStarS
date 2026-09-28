@@ -35,12 +35,15 @@ class FreeEOSOpacity:
     gas-pressure cancellation. Constants and composition must match exactly.
     Bounds are an evaluation box, not evidence for LTE in an exposed wind.
     """
-    def __init__(self, eos, mesa):
+    def __init__(self, eos, mesa, opacity_family='default'):
         if eos.hydrogen != mesa.composition.X:
             raise ValueError('Wind EOS and opacity composition differ')
         if abs(eos.radiation_constant / mesa.radiation_constant - 1) > 1e-12:
             raise ValueError('Wind radiation constants differ')
+        if opacity_family not in ('default','paper_gs98','paper_gn93'):
+            raise ValueError('Unknown reference opacity family')
         self.eos, self.mesa = eos, mesa
+        self.opacity_family=opacity_family
         self.arad = eos.radiation_constant
 
     def __call__(self, rho, temperature):
@@ -48,7 +51,9 @@ class FreeEOSOpacity:
             raise ValueError(f'Wind microphysics evaluation box exceeded: rho={rho}, T={temperature}')
         x = self.eos.raw(rho, temperature)
         pg = float(np.exp(x[0])); pr = self.arad * temperature**4 / 3
-        kappa = float(self.mesa.opacity_external_eos(rho, temperature, x[15], x[16]))
+        kappa = float(self.mesa.opacity_external_eos(rho, temperature, x[15], x[16])
+                      if self.opacity_family=='default' else
+                      self.mesa.opacity_paper_reference(rho, temperature, self.opacity_family[6:]))
         return GasState(pg, pr, float(x[3]), float(x[6]), pg*x[1]/rho,
                         pg*x[2]/rho, float(x[3])+(pg+4*pr)/rho,
                         float(x[6])+4*pr/(rho*temperature), kappa, float(x[18]))
@@ -134,22 +139,29 @@ class DiffusionWind:
         slope,roots=regular_sonic_slope(coefficients,g,self.derivative_step)
         return slope,roots,g
 
-    def boundary_flux(self,x,z):
-        """Fluxes across a FIXED matching sphere; no evolution update implied.
+    def boundary_flux(self,x,z,*,face_velocity=0.):
+        """Lab-frame conserved fluxes across a possibly moving sphere.
 
-        Enthalpy includes PdV exactly once. Radiation pressure belongs to the
-        momentum stress and its 4Pr/rho enthalpy to energy. Entropy advection
-        is a boundary flux, not a claim that diffusion is isentropic.
+        Reynolds transport subtracts face speed times the conserved density.
+        Relative enthalpy advection needs an additional P*A*face_velocity work
+        term. Omitting it would incorrectly remove pressure work at a comoving
+        face. This interface alone does not implement a moving stellar update.
         """
+        if not np.isfinite(face_velocity):raise ValueError('Face velocity must be finite')
         r,v,T,rho,q,L,*_=self.state(x,z)
+        area=4*np.pi*r*r;mdot=area*rho*(v-face_velocity)
+        moving_work=area*(q.pg+q.pr)*face_velocity
+        total=L+mdot*(q.h+v*v/2-G*self.mass/r)+moving_work
         return dict(radius=r,density=rho,temperature=T,velocity=v,
-                    mass=self.mdot,momentum=self.mdot*v+4*np.pi*r*r*(q.pg+q.pr),
-                    radiative_energy=L,gas_internal_energy=self.mdot*q.gas_u,
-                    gas_pressure_work=self.mdot*q.pg/rho,
-                    radiation_internal_energy=self.mdot*3*q.pr/rho,
-                    radiation_pressure_work=self.mdot*q.pr/rho,
-                    kinetic_energy=self.mdot*v*v/2,potential_energy=-self.mdot*G*self.mass/r,
-                    entropy=self.mdot*q.s,total_energy=self.energy)
+                    face_velocity=face_velocity,mass=mdot,
+                    momentum=mdot*v+area*(q.pg+q.pr),
+                    radiative_energy=L,gas_internal_energy=mdot*q.gas_u,
+                    gas_pressure_work=mdot*q.pg/rho,
+                    radiation_internal_energy=mdot*3*q.pr/rho,
+                    radiation_pressure_work=mdot*q.pr/rho,
+                    moving_pressure_work=moving_work,
+                    kinetic_energy=mdot*v*v/2,potential_energy=-mdot*G*self.mass/r,
+                    entropy=mdot*q.s,total_energy=total)
 
     def rhs(self,x,z):
         r,v,T,rho,q,L,g,n,d,gamma=self.state(x,z)
@@ -157,24 +169,30 @@ class DiffusionWind:
 
     def integrate(self, *, inner_ratio=.5, outer_ratio=100., rtol=1e-8,
                   sonic_offset=1e-6, max_log_step=.02, samples=1001,
-                  endpoint='diffusion_limit', method='DOP853'):
+                  endpoint='diffusion_limit', method='DOP853', stalled_mach=np.sqrt(1.01)):
         if not 0 < inner_ratio < 1 < outer_ratio or not 0 < rtol < 1e-3:
             raise ValueError('Invalid wind integration bounds or tolerance')
         if not 0 < sonic_offset < min(.01,-np.log(inner_ratio),np.log(outer_ratio)):
             raise ValueError('Invalid sonic offset')
         if endpoint not in ('diffusion_limit','paper_photosphere') or samples < 11 or max_log_step<=0:
             raise ValueError('Invalid endpoint or radial sampling')
+        if not np.isfinite(stalled_mach) or stalled_mach<=1:
+            raise ValueError('Stalled-branch endpoint must exceed gas Mach one')
         limit=.1 if endpoint=='diffusion_limit' else .75
         def radiation_limit(x,z):
             r,v,T,rho,q,L,*_=self.state(x,z)
             return 3*L/(4*np.pi*r*r*C*self.micro.arad*T**4)-limit
         def luminosity_zero(x,z):return self.state(x,z)[5]/self.ls
         def recross(x,z):
+            a=self.state(x,z);return a[1]**2/a[4].ct2-stalled_mach**2
+        def critical_floor(x,z):
+            # A requested high-Mach comparison cutoff may never be reached.
+            # It must not disable the independent second-sonic safety exit.
             a=self.state(x,z);return a[1]**2/a[4].ct2-1.01
         def too_cold(x,z):return self.ts*np.exp(z[1])-3100
         radiation_limit.direction=1;luminosity_zero.direction=-1
-        recross.direction=-1;too_cold.direction=-1
-        for f in (radiation_limit,luminosity_zero,recross,too_cold):f.terminal=True
+        recross.direction=-1;critical_floor.direction=-1;too_cold.direction=-1
+        for f in (radiation_limit,luminosity_zero,recross,too_cold,critical_floor):f.terminal=True
         if radiation_limit(0,np.zeros(2))>=0:
             raise WindBranchError('Sonic state already outside selected radiation domain')
         parts=[]; terminations={}; raw=[]; retries=[]
@@ -182,6 +200,7 @@ class DiffusionWind:
             x0=direction*sonic_offset
             z0=x0*np.array([self.slope,self.sonic_temperature_slope])
             events=(radiation_limit,luminosity_zero,recross,too_cold) if direction>0 else (luminosity_zero,)
+            if direction>0 and stalled_mach!=np.sqrt(1.01):events=(*events,critical_floor)
             # An explicit RK trial can leave the EOS box although the accepted
             # solution stays inside. Retry from the identical sonic start with
             # a smaller step; never clamp a trial thermodynamic state.
@@ -200,6 +219,7 @@ class DiffusionWind:
                         raise error from exc
             raw.append(sol)
             labels=[endpoint,'nonpositive_luminosity','approaching_second_sonic_point','microphysics_temperature_limit'] if direction>0 else ['nonpositive_luminosity']
+            if direction>0 and stalled_mach!=np.sqrt(1.01):labels.append('approaching_second_sonic_point')
             reached=[labels[i] for i,v in enumerate(sol.t_events) if len(v)]
             terminations['outward' if direction>0 else 'inward']=reached[0] if reached else ('radial_bound' if sol.success else 'numerical_failure')
             # Retain the integrator's knots and subdivide them for independent
@@ -215,6 +235,7 @@ class DiffusionWind:
         summary=self.summary(fields,terminations)
         summary.update(rtol=rtol,sonic_offset=sonic_offset,derivative_step=self.derivative_step,
                        max_log_step=max_log_step,samples=samples,endpoint=endpoint,method=method,
+                       stalled_mach=stalled_mach,
                        solver_success=bool(all(s.success for s in raw)),
                        solver_messages=[s.message for s in raw],nfev=sum(s.nfev for s in raw),
                        integration_retries=retries)

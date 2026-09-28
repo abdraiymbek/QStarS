@@ -10,6 +10,12 @@ import numpy as np
 from scipy.integrate import solve_ivp
 from .constants import C
 
+class AtmosphereDomainExit(RuntimeError):
+    """A resolved closure limit, not a stellar disruption or no-root result."""
+    def __init__(self,diagnostics):
+        super().__init__('Subsonic MLT domain ends at convective Mach one')
+        self.diagnostics=diagnostics
+
 @dataclass
 class AtmosphereProfile:
     tau: np.ndarray
@@ -69,9 +75,22 @@ def integrate_atmosphere(eos,mesa,*,teff,gravity,gas_pressure_outer,
     meshes=[np.geomspace(tau_outer,tau_match,points),np.geomspace(tau_match,tau_base,points)]
     profiles=[]
     for thick,mesh in zip((False,True),meshes):
+        def mlt_limit(x,y):
+            v=state(np.exp(x),y,thick)[1]
+            return v[5]/v[8]-1
+        mlt_limit.direction=1;mlt_limit.terminal=True
+        if thick and mlt_limit(np.log(mesh[0]),y0)>=0:
+            raise AtmosphereDomainExit(dict(tau=float(mesh[0]),reason='matching state already outside subsonic MLT',
+                                           physical_impossibility_claimed=False))
         sol=solve_ivp(lambda x,y:rhs(x,y,thick),np.log(mesh[[0,-1]]),y0,
-                      t_eval=np.log(mesh),rtol=rtol,atol=[gas_pressure_outer*rtol,teff*rtol,1.,1e-12,1.],method='DOP853')
+                      t_eval=np.log(mesh),rtol=rtol,atol=[gas_pressure_outer*rtol,teff*rtol,1.,1e-12,1.],method='DOP853',
+                      events=mlt_limit if thick else None)
         if not sol.success:raise RuntimeError(f'Atmosphere integration failed: {sol.message}')
+        if thick and len(sol.t_events[0]):
+            tau=float(np.exp(sol.t_events[0][0]));y=sol.y_events[0][0];v=state(tau,y,True)[1]
+            raise AtmosphereDomainExit(dict(tau=tau,density=v[0],temperature=v[7],gas_pressure=float(y[0]),
+                convective_velocity=v[5],sound_speed=v[8],convective_mach=v[5]/v[8],
+                physical_impossibility_claimed=False))
         values=np.array([state(tau,y,thick)[1] for tau,y in zip(mesh,sol.y.T)])
         if not thick:sol.y[1]=values[:,7]
         profiles.append((mesh,sol.y,values));y0=sol.y[:,-1]

@@ -1,0 +1,171 @@
+{
+  "checks": [
+    {
+      "name": "Lane-Emden n=1 radius",
+      "actual": 3.1415926535873955,
+      "reference": 3.141592653589793,
+      "absolute_error": 2.397637643980488e-12,
+      "tolerance": 1e-08,
+      "passed": true,
+      "source": "analytic sin(x)/x",
+      "level": "A"
+    },
+    {
+      "name": "Ball 2011 n=2 maximum BH fraction",
+      "actual": 0.12675259050436447,
+      "reference": 0.127,
+      "absolute_error": 0.0002474094956355366,
+      "tolerance": 0.0005,
+      "passed": true,
+      "source": "ball2011 section 4.1",
+      "level": "C-structure"
+    },
+    {
+      "name": "Ball 2011 n=3 maximum BH fraction",
+      "actual": 0.10151516249158155,
+      "reference": 0.102,
+      "absolute_error": 0.0004848375084184481,
+      "tolerance": 0.0005,
+      "passed": true,
+      "source": "ball2011 section 4.1",
+      "level": "C-structure"
+    },
+    {
+      "name": "Ball 2011 n=4 maximum BH fraction",
+      "actual": 0.08852070726685707,
+      "reference": 0.089,
+      "absolute_error": 0.00047929273314292753,
+      "tolerance": 0.0005,
+      "passed": true,
+      "source": "ball2011 section 4.1",
+      "level": "C-structure"
+    },
+    {
+      "name": "CB24 corrected Bondi N=1",
+      "actual": 0.017040027221003805,
+      "reference": 0.017,
+      "absolute_error": 4.002722100380357e-05,
+      "tolerance": 0.0001,
+      "passed": true,
+      "source": "coughlin2024 section 2, Figure 1 prose",
+      "level": "C-structure"
+    },
+    {
+      "name": "CB24 corrected Bondi N=2",
+      "actual": 0.005755921466625292,
+      "reference": 0.0058,
+      "absolute_error": 4.4078533374707594e-05,
+      "tolerance": 0.0001,
+      "passed": true,
+      "source": "coughlin2024 section 2, Figure 1 prose",
+      "level": "C-structure"
+    },
+    {
+      "name": "CB24 corrected Bondi N=0.333333",
+      "actual": 0.1263147141037867,
+      "reference": 0.13,
+      "absolute_error": 0.0036852858962133084,
+      "tolerance": 0.005,
+      "passed": true,
+      "source": "coughlin2024 section 2, Figure 1 prose",
+      "level": "C-structure"
+    },
+    {
+      "name": "CB24 saturated entropy minimum radius",
+      "actual": 1.0148354305817882,
+      "reference": 1.015,
+      "absolute_error": 0.0001645694182117463,
+      "tolerance": 0.001,
+      "passed": true,
+      "source": "coughlin2024 section 3.1",
+      "level": "C-structure"
+    },
+    {
+      "name": "CB24 printed Ki_max",
+      "actual": 0.4683569905792735,
+      "reference": 0.46554,
+      "absolute_error": 0.0028169905792734817,
+      "tolerance": 5e-05,
+      "passed": false,
+      "source": "coughlin2024 section 3.1",
+      "level": "C-open-discrepancy"
+    },
+    {
+      "name": "CB24 printed BH/inner mass",
+      "actual": 0.6251015602357203,
+      "reference": 0.6321,
+      "absolute_error": 0.006998439764279718,
+      "tolerance": 0.0001,
+      "passed": false,
+      "source": "coughlin2024 section 3.1",
+      "level": "C-open-discrepancy"
+    },
+    {
+      "name": "CB24 printed cutoff Ki (x_tilde=1)",
+      "actual": 0.46554529552993895,
+      "reference": 0.46554,
+      "absolute_error": 5.295529938942334e-06,
+      "tolerance": 1e-05,
+      "passed": true,
+      "source": "coughlin2024 printed cutoff interpretation",
+      "level": "C-structure"
+    },
+    {
+      "name": "CB24 printed cutoff BH/inner mass",
+      "actual": 0.6320874468538957,
+      "reference": 0.6321,
+      "absolute_error": 1.2553146104266055e-05,
+      "tolerance": 0.0001,
+      "passed": true,
+      "source": "coughlin2024 printed cutoff interpretation",
+      "level": "C-structure"
+    },
+    {
+      "name": "CB24 composite maximum at printed cutoff",
+      "actual": 0.6178279952051948,
+      "reference": 0.618,
+      "absolute_error": 0.0001720047948051695,
+      "tolerance": 0.001,
+      "passed": true,
+      "source": "coughlin2024 section 3.2",
+      "level": "C-structure"
+    },
+    {
+      "name": "Two-stream evolution completes",
+      "passed": true,
+      "actual": "completed_requested_interval",
+      "level": "A-integration"
+    },
+    {
+      "name": "mass_residual_relative",
+      "actual": 1.1756803922309254e-16,
+      "reference": 0.0,
+      "absolute_error": 1.1756803922309254e-16,
+      "tolerance": 1e-08,
+      "passed": true,
+      "source": "independent ledger",
+      "level": "A-integration"
+    },
+    {
+      "name": "energy_residual_relative",
+      "actual": 1.2029733266271373e-12,
+      "reference": 0.0,
+      "absolute_error": 1.2029733266271373e-12,
+      "tolerance": 1e-08,
+      "passed": true,
+      "source": "independent ledger",
+      "level": "A-integration"
+    }
+  ],
+  "convergence": [],
+  "v1_validated": false,
+  "pending": [
+    "Full Ball 2011 Table 1 evolutionary replication",
+    "MESA-QUEST thermal tracks",
+    "Coupling stationary Fiacconi & Rossi winds to a conserved evolving envelope",
+    "Cantiello nonadiabatic stability",
+    "Production atmosphere and stellar evolution with audited MESA microphysics",
+    "Moving cavity/Bondi/saturated inner evolution",
+    "Long-duration quasi-static sequences and QSRD demonstration"
+  ]
+}

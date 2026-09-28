@@ -1,0 +1,294 @@
+[
+  {
+    "sonic_density": 9.65e-09,
+    "status": "completed_component",
+    "summary": {
+      "family": "nakauchi2017_lte_diffusion",
+      "mass": 1.9884699999999998e+35,
+      "sonic_radius": 3478500000000.0,
+      "sonic_density": 9.65e-09,
+      "sonic_temperature": 250000.0,
+      "sonic_velocity": 5791942.945971901,
+      "sonic_luminosity": 1.4228979879820573e+40,
+      "mass_flux": 8.498562407370582e+24,
+      "total_energy_flux": 1.75012438605489e+40,
+      "sonic_slope": 0.7201801001768056,
+      "critical_slopes": [
+        {
+          "real": -139.73310837864142,
+          "imag": 0.0
+        },
+        {
+          "real": 0.7201801001768056,
+          "imag": 0.0
+        }
+      ],
+      "sonic_regularity_residual": 3.120658736177636e-14,
+      "mass_flux_relative_defect": 1.3322676295501878e-15,
+      "energy_algebra_relative_defect": 1.4229772513597747e-14,
+      "momentum_integral_relative_defect": 2.2905890399051832e-11,
+      "diffusion_integral_relative_defect": 1.0993054869325028e-10,
+      "first_law_integral_relative_defect": 1.2243104617768244e-08,
+      "shell_mass_fraction": 0.0005291674420415161,
+      "point_mass_screen_passed": true,
+      "diffusion_screen_passed": true,
+      "spherical_gravity_change": 0.999996817755196,
+      "max_knudsen": 0.0030782495183800523,
+      "max_velocity_over_escape": 0.49916703790439293,
+      "max_velocity_over_c": 0.00045346124417260325,
+      "nonrelativistic_screen_passed": true,
+      "endpoint_velocity_over_escape": 0.20675139294979938,
+      "endpoint_temperature": 38570.70332273927,
+      "endpoint_radius": 97497890446449.77,
+      "terminations": {
+        "inward": "radial_bound",
+        "outward": "approaching_second_sonic_point"
+      },
+      "escaping_wind_validated": false,
+      "convection_assumption": "Zero convective flux in wind; requires separate matching validity",
+      "physical_impossibility_claimed": false,
+      "v1_validated": false,
+      "rtol": 1e-09,
+      "sonic_offset": 1e-07,
+      "derivative_step": 0.0001,
+      "max_log_step": 0.02,
+      "samples": 1001,
+      "endpoint": "paper_photosphere",
+      "method": "DOP853",
+      "stalled_mach": 1.5,
+      "solver_success": true,
+      "solver_messages": [
+        "The solver successfully reached the end of the integration interval.",
+        "A termination event occurred."
+      ],
+      "nfev": 32842,
+      "integration_retries": []
+    },
+    "radial_range_rsun": [
+      2.5000000000000004,
+      1401.4358264546465
+    ],
+    "total_samples": 721,
+    "uncovered_inner": 0.0,
+    "uncovered_outer": 0.0
+  },
+  {
+    "sonic_density": 9.71e-09,
+    "status": "completed_component",
+    "summary": {
+      "family": "nakauchi2017_lte_diffusion",
+      "mass": 1.9884699999999998e+35,
+      "sonic_radius": 3478500000000.0,
+      "sonic_density": 9.71e-09,
+      "sonic_temperature": 250000.0,
+      "sonic_velocity": 5791942.432835805,
+      "sonic_luminosity": 1.422710273399833e+40,
+      "mass_flux": 8.551402452293499e+24,
+      "total_energy_flux": 1.7303941553388325e+40,
+      "sonic_slope": 0.7367253758054214,
+      "critical_slopes": [
+        {
+          "real": -139.78752923178507,
+          "imag": 0.0
+        },
+        {
+          "real": 0.7367253758054214,
+          "imag": 0.0
+        }
+      ],
+      "sonic_regularity_residual": 2.328850215765714e-14,
+      "mass_flux_relative_defect": 1.3322676295501878e-15,
+      "energy_algebra_relative_defect": 1.732631853496498e-14,
+      "momentum_integral_relative_defect": 1.643872940041149e-10,
+      "diffusion_integral_relative_defect": 1.461189597891873e-10,
+      "first_law_integral_relative_defect": 1.8682016992443097e-08,
+      "shell_mass_fraction": 0.00018949387735412397,
+      "point_mass_screen_passed": true,
+      "diffusion_screen_passed": false,
+      "spherical_gravity_change": 0.9999855113115488,
+      "max_knudsen": 0.7500000000000785,
+      "max_velocity_over_escape": 0.8368012698303231,
+      "max_velocity_over_c": 0.0006727524241560003,
+      "nonrelativistic_screen_passed": true,
+      "endpoint_velocity_over_escape": 0.8368012698303231,
+      "endpoint_temperature": 10468.508200127304,
+      "endpoint_radius": 45692768767582.59,
+      "terminations": {
+        "inward": "radial_bound",
+        "outward": "paper_photosphere"
+      },
+      "escaping_wind_validated": false,
+      "convection_assumption": "Zero convective flux in wind; requires separate matching validity",
+      "physical_impossibility_claimed": false,
+      "v1_validated": false,
+      "rtol": 1e-09,
+      "sonic_offset": 1e-07,
+      "derivative_step": 0.0001,
+      "max_log_step": 0.02,
+      "samples": 1001,
+      "endpoint": "paper_photosphere",
+      "method": "DOP853",
+      "stalled_mach": 1.5,
+      "solver_success": true,
+      "solver_messages": [
+        "The solver successfully reached the end of the integration interval.",
+        "A termination event occurred."
+      ],
+      "nfev": 32377,
+      "integration_retries": []
+    },
+    "radial_range_rsun": [
+      2.5000000000000004,
+      656.7883968317176
+    ],
+    "total_samples": 691,
+    "uncovered_inner": 0.0,
+    "uncovered_outer": 100.0
+  },
+  {
+    "sonic_density": 9.85e-09,
+    "status": "completed_component",
+    "summary": {
+      "family": "nakauchi2017_lte_diffusion",
+      "mass": 1.9884699999999998e+35,
+      "sonic_radius": 3478500000000.0,
+      "sonic_density": 9.85e-09,
+      "sonic_temperature": 250000.0,
+      "sonic_velocity": 5791941.241644123,
+      "sonic_luminosity": 1.4222708531002357e+40,
+      "mass_flux": 8.674695863210749e+24,
+      "total_energy_flux": 1.6843555438916496e+40,
+      "sonic_slope": 0.7753181005030666,
+      "critical_slopes": [
+        {
+          "real": -139.91427951333486,
+          "imag": 0.0
+        },
+        {
+          "real": 0.7753181005030666,
+          "imag": 0.0
+        }
+      ],
+      "sonic_regularity_residual": 1.4438877276849532e-14,
+      "mass_flux_relative_defect": 1.4432899320127035e-15,
+      "energy_algebra_relative_defect": 2.2680517803003032e-14,
+      "momentum_integral_relative_defect": 3.5100857257189565e-11,
+      "diffusion_integral_relative_defect": 7.122367769248533e-10,
+      "first_law_integral_relative_defect": 1.091894380844817e-08,
+      "shell_mass_fraction": 0.00012463637083728153,
+      "point_mass_screen_passed": true,
+      "diffusion_screen_passed": false,
+      "spherical_gravity_change": 0.9999280960621024,
+      "max_knudsen": 0.7499999999999895,
+      "max_velocity_over_escape": 0.6017938664889647,
+      "max_velocity_over_c": 0.0007221236993074167,
+      "nonrelativistic_screen_passed": true,
+      "endpoint_velocity_over_escape": 0.6017938664889647,
+      "endpoint_temperature": 16110.679004549134,
+      "endpoint_radius": 20510945195729.367,
+      "terminations": {
+        "inward": "radial_bound",
+        "outward": "paper_photosphere"
+      },
+      "escaping_wind_validated": false,
+      "convection_assumption": "Zero convective flux in wind; requires separate matching validity",
+      "physical_impossibility_claimed": false,
+      "v1_validated": false,
+      "rtol": 1e-09,
+      "sonic_offset": 1e-07,
+      "derivative_step": 0.0001,
+      "max_log_step": 0.02,
+      "samples": 1001,
+      "endpoint": "paper_photosphere",
+      "method": "DOP853",
+      "stalled_mach": 1.5,
+      "solver_success": true,
+      "solver_messages": [
+        "The solver successfully reached the end of the integration interval.",
+        "A termination event occurred."
+      ],
+      "nfev": 31387,
+      "integration_retries": []
+    },
+    "radial_range_rsun": [
+      2.5000000000000004,
+      294.8245679995597
+    ],
+    "total_samples": 546,
+    "uncovered_inner": 0.0,
+    "uncovered_outer": 15.0
+  },
+  {
+    "sonic_density": 1.05e-08,
+    "status": "completed_component",
+    "summary": {
+      "family": "nakauchi2017_lte_diffusion",
+      "mass": 1.9884699999999998e+35,
+      "sonic_radius": 3478500000000.0,
+      "sonic_density": 1.05e-08,
+      "sonic_temperature": 250000.0,
+      "sonic_velocity": 5791935.818780296,
+      "sonic_luminosity": 1.4202108759934024e+40,
+      "mass_flux": 9.247129064318063e+24,
+      "total_energy_flux": 1.4705852726270536e+40,
+      "sonic_slope": 0.9542390226151652,
+      "critical_slopes": [
+        {
+          "real": -140.4983843124536,
+          "imag": 0.0
+        },
+        {
+          "real": 0.9542390226151652,
+          "imag": 0.0
+        }
+      ],
+      "sonic_regularity_residual": 1.9562386490581954e-14,
+      "mass_flux_relative_defect": 1.5543122344752192e-15,
+      "energy_algebra_relative_defect": 2.877249247228209e-14,
+      "momentum_integral_relative_defect": 3.673313333933043e-10,
+      "diffusion_integral_relative_defect": 1.0164308688778769e-09,
+      "first_law_integral_relative_defect": 5.913361471106116e-08,
+      "shell_mass_fraction": 0.0001079754243285809,
+      "point_mass_screen_passed": true,
+      "diffusion_screen_passed": false,
+      "spherical_gravity_change": 0.9997465436067595,
+      "max_knudsen": 0.7500000000000331,
+      "max_velocity_over_escape": 0.4851527609395996,
+      "max_velocity_over_c": 0.000797682367370757,
+      "nonrelativistic_screen_passed": true,
+      "endpoint_velocity_over_escape": 0.4851527609395996,
+      "endpoint_temperature": 22808.377373152107,
+      "endpoint_radius": 10924721810419.012,
+      "terminations": {
+        "inward": "radial_bound",
+        "outward": "paper_photosphere"
+      },
+      "escaping_wind_validated": false,
+      "convection_assumption": "Zero convective flux in wind; requires separate matching validity",
+      "physical_impossibility_claimed": false,
+      "v1_validated": false,
+      "rtol": 1e-09,
+      "sonic_offset": 1e-07,
+      "derivative_step": 0.0001,
+      "max_log_step": 0.02,
+      "samples": 1001,
+      "endpoint": "paper_photosphere",
+      "method": "DOP853",
+      "stalled_mach": 1.5,
+      "solver_success": true,
+      "solver_messages": [
+        "The solver successfully reached the end of the integration interval.",
+        "A termination event occurred."
+      ],
+      "nfev": 29473,
+      "integration_retries": []
+    },
+    "radial_range_rsun": [
+      2.5000000000000004,
+      157.03208006926855
+    ],
+    "total_samples": 476,
+    "uncovered_inner": 0.0,
+    "uncovered_outer": 6.0
+  }
+]

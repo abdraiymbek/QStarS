@@ -1,0 +1,5 @@
+results/20260928T174737.114167Z_outer_opacity_probe
+default 656.6424595090655 0.8367801645486262
+paper_gs98 656.6424533320389 0.8367801640558445
+paper_gn93 656.7883736060999 0.8368012462794044
+write /Users/abraiymbek/qsrd-runtime/mesa/data/kap_data/cache/gn93_z0.0_x0.7.bin

@@ -1,0 +1,13 @@
+{
+  "outcome": "OUTER FAIL",
+  "v1_validated": false,
+  "stage_b_run": false,
+  "original_benchmark_reproduced": false,
+  "discrepancy_explained": false,
+  "abundance_first_law_max_defect": 1.1163130560378696e-08,
+  "cases": 42,
+  "completed": 42,
+  "elapsed_seconds": 205.23156670798198,
+  "peak_rss_mib": 676.578125,
+  "source_snapshot_verified": true
+}

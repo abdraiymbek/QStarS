@@ -8,7 +8,7 @@ from qstars.constants import G,PI,C,MSUN
 from qstars.eos import Composition
 from qstars.freeeos_reference import FreeEOSReference
 from qstars.mesa_microphysics import MesaMicrophysics
-from qstars.atmosphere_reference import integrate_atmosphere
+from qstars.atmosphere_reference import integrate_atmosphere,AtmosphereDomainExit
 p=argparse.ArgumentParser();p.add_argument('--freeeos-library',required=True);p.add_argument('--mesa-library',required=True);p.add_argument('--mesa-dir',required=True);a=p.parse_args()
 out=io.create_directory('results','atmosphere_reference');io.provenance(out,vars(a))
 m=MesaMicrophysics(Composition(X=.7,Y=.3),a.mesa_library,a.mesa_dir)
@@ -44,10 +44,14 @@ for teff,g in ((8000.,3.),(6000.,1.)):
     tau=q.tau[:301];F=f.radiation_constant*C*teff**4/4
     expected=inputs['gas_pressure_outer']+(tau-inputs['tau_outer'])*(g/.34-F/C)
     row['analytic_grey_gas_pressure_relative_max']=float(max(abs(q.gas_pressure[:301]-expected))/max(expected))
-   if variant in ('tolerance','outer_tau','outer_pressure'):
+   if variant in ('tolerance','outer_tau','outer_pressure') and f'T{int(teff)}_g{g}_baseline' in profiles:
     b=profiles[f'T{int(teff)}_g{g}_baseline'];common=np.geomspace(max(q.tau[0],b.tau[0]),min(q.tau[-1],b.tau[-1]),3001)
     row['max_log_profile_difference_vs_baseline']={key:float(max(abs(np.interp(np.log(common),np.log(q.tau),np.log(getattr(q,key)))-np.interp(np.log(common),np.log(b.tau),np.log(getattr(b,key)))))) for key in ('gas_pressure','temperature','density','opacity')}
     row['photosphere_relative_difference_vs_baseline']={key:float(getattr(q,key)[300]/getattr(b,key)[300]-1) for key in ('gas_pressure','temperature','density','opacity')}
+   elif variant in ('tolerance','outer_tau','outer_pressure'):
+    row['reference_comparison_unavailable']='Baseline exited its validity domain or failed'
+  except AtmosphereDomainExit as error:
+   row.update(status='validity_domain_exit',error=str(error),diagnostics=error.diagnostics)
   except (ValueError,RuntimeError) as error:row.update(status='failed_reference',error=str(error))
   row['runtime_seconds']=time.perf_counter()-t0;rows.append(row);print(json.dumps(row),flush=True)
 report=dict(scope='Uncoupled candidate atmosphere; validity failures prevent promotion to production.',

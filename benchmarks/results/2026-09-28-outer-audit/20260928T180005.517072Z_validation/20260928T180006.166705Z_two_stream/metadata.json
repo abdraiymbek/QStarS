@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "git_commit": "c8ad44764c92182a8f425e846343a38dd3c1a9f6",
+  "git_status": "M backends/mesa/microphysics.f90\n M docs/sources.md\n M scripts/build_registry.py\n M scripts/validate_atmosphere_reference.py\n M src/qstars/atmosphere_reference.py\n M src/qstars/data/sources.json\n M src/qstars/mesa_microphysics.py\n M src/qstars/spherical_wind.py\n M tests/test_freeeos_atmosphere.py\n M tests/test_spherical_wind.py\n?? Reports/evidence/outer_20260928/abundance_probe.log\n?? Reports/evidence/outer_20260928/abundance_probe.py\n?? Reports/evidence/outer_20260928/campaign_initial.log\n?? Reports/evidence/outer_20260928/component_tests_initial.log\n?? Reports/evidence/outer_20260928/final_tests.log\n?? Reports/evidence/outer_20260928/opacity_probe.log\n?? Reports/evidence/outer_20260928/opacity_probe.py\n?? Reports/evidence/outer_20260928/transport_campaign.log\n?? Reports/evidence/outer_20260928/transport_tests_initial.log\n?? Reports/evidence/outer_20260928/v1_gate_check.log\n?? scripts/validate_outer_discrepancy.py\n?? scripts/validate_outer_transport.py\n?? tests/test_wind_moving_boundary.py",
+  "source_sha256": "f104b8716a3a705bf29a9a2daed113e10465f3d4ad57e0652fd8687242e0e4dc",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "created_utc": "2026-09-28T18:00:06.203430+00:00",
+  "process_package_sha256": "33cb012eb056f76314ec34d1bd218394af7ce842e360512a14095b2a9f3bdce2",
+  "source_tree_matches_import": true,
+  "dependencies": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.11.2"
+  },
+  "source_tree_matches_at_end": true,
+  "source_snapshot_verified": true
+}

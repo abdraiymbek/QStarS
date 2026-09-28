@@ -1,5 +1,13 @@
 # Outer-boundary validation and the v1 release blocker
 
+**Current behavior (Report 10):** the reference terminates at the first
+resolved convective Mach-one crossing and raises `AtmosphereDomainExit`.
+It returns no profile beyond that limit. The supersonic profiles and maxima
+below describe the archived Report 8 diagnostic continuation, not the current
+accepted domain. Henyey and ML1 now exit near tau=2.837 for the cool control.
+See [Report 10](../Reports/Report_10.md) for event refinement and evidence.
+
+
 **The current atmosphere candidate fails the general-use gate.** It is an
 executable diagnostic, not an enabled evolution boundary. The failure is a
 specific physical validity conflict: a converged cool model requires supersonic

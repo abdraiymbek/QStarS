@@ -1,0 +1,38 @@
+[
+  {
+    "sonic_density": 9.65e-09,
+    "total_samples": 721,
+    "uncovered_samples": 40,
+    "radial_range_rsun": [
+      5.000000000000001,
+      1401.4358328356802
+    ]
+  },
+  {
+    "sonic_density": 9.71e-09,
+    "total_samples": 691,
+    "uncovered_samples": 132,
+    "radial_range_rsun": [
+      5.000000000000001,
+      656.7883736060999
+    ]
+  },
+  {
+    "sonic_density": 9.85e-09,
+    "total_samples": 546,
+    "uncovered_samples": 53,
+    "radial_range_rsun": [
+      5.000000000000001,
+      294.8245674177436
+    ]
+  },
+  {
+    "sonic_density": 1.05e-08,
+    "total_samples": 476,
+    "uncovered_samples": 39,
+    "radial_range_rsun": [
+      5.000000000000001,
+      157.03208113821165
+    ]
+  }
+]

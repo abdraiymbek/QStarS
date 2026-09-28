@@ -58,7 +58,13 @@ def test_cool_supersonic_mlt_candidate_is_not_certified(mesa):
     f=FreeEOSReference(os.environ['QSTARS_FREEEOS_LIBRARY'],hydrogen=mesa.composition.X,
                       radiation_constant=mesa.radiation_constant) if os.environ.get('QSTARS_FREEEOS_LIBRARY') else None
     if f is None:pytest.skip('Direct FreeEOS required')
-    q=integrate_atmosphere(f,mesa,teff=6000.,gravity=1.,gas_pressure_outer=1e-6,points=121)
-    mach=q.convective_velocity/q.sound_speed
-    assert max(mach)>2 and q.tau[np.argmax(mach)]>10
-    assert max(q.radiative_eddington_factor)>1
+    from qstars.atmosphere_reference import AtmosphereDomainExit
+    exits=[]
+    for rtol,points in [(1e-7,41),(1e-9,121)]:
+        with pytest.raises(AtmosphereDomainExit) as exc:
+            integrate_atmosphere(f,mesa,teff=6000.,gravity=1.,gas_pressure_outer=1e-6,points=points,rtol=rtol)
+        d=exc.value.diagnostics
+        assert d['convective_mach']==pytest.approx(1.,rel=1e-8)
+        assert not d['physical_impossibility_claimed']
+        exits.append(d['tau'])
+    assert abs(exits[0]/exits[1]-1)<1e-5

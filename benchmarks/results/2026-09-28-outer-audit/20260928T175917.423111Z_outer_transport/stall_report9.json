@@ -1,0 +1,62 @@
+{
+  "family": "nakauchi2017_lte_diffusion",
+  "mass": 1.9884699999999998e+35,
+  "sonic_radius": 3478500000000.0,
+  "sonic_density": 9.65e-09,
+  "sonic_temperature": 250000.0,
+  "sonic_velocity": 5791942.945971901,
+  "sonic_luminosity": 1.4228979879820573e+40,
+  "mass_flux": 8.498562407370582e+24,
+  "total_energy_flux": 1.75012438605489e+40,
+  "sonic_slope": 0.7201801001768056,
+  "critical_slopes": [
+    {
+      "real": -139.73310837864142,
+      "imag": 0.0
+    },
+    {
+      "real": 0.7201801001768056,
+      "imag": 0.0
+    }
+  ],
+  "sonic_regularity_residual": 3.120658736177636e-14,
+  "mass_flux_relative_defect": 1.1102230246251565e-15,
+  "energy_algebra_relative_defect": 7.874728478398806e-15,
+  "momentum_integral_relative_defect": 3.665673821506122e-11,
+  "diffusion_integral_relative_defect": 3.9720428340829967e-10,
+  "first_law_integral_relative_defect": 1.273623182356353e-09,
+  "shell_mass_fraction": 0.0006029072072148215,
+  "point_mass_screen_passed": true,
+  "diffusion_screen_passed": true,
+  "spherical_gravity_change": 0.9999886530823139,
+  "max_knudsen": 0.0030782495183800523,
+  "max_velocity_over_escape": 0.49916687284806377,
+  "max_velocity_over_c": 0.00045346123954749404,
+  "nonrelativistic_screen_passed": true,
+  "endpoint_velocity_over_escape": 0.1420937231950328,
+  "endpoint_temperature": 38331.95139440186,
+  "endpoint_radius": 103264977680173.11,
+  "terminations": {
+    "inward": "radial_bound",
+    "outward": "approaching_second_sonic_point"
+  },
+  "escaping_wind_validated": false,
+  "convection_assumption": "Zero convective flux in wind; requires separate matching validity",
+  "physical_impossibility_claimed": false,
+  "v1_validated": false,
+  "rtol": 1e-09,
+  "sonic_offset": 1e-07,
+  "derivative_step": 0.0001,
+  "max_log_step": 0.02,
+  "samples": 1001,
+  "endpoint": "paper_photosphere",
+  "method": "DOP853",
+  "stalled_mach": 1.004987562112089,
+  "solver_success": true,
+  "solver_messages": [
+    "The solver successfully reached the end of the integration interval.",
+    "A termination event occurred."
+  ],
+  "nfev": 25177,
+  "integration_retries": []
+}

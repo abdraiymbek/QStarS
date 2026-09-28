@@ -1,0 +1,3 @@
+scope: Stage A component accounting; no coupled stellar evolution
+mass_energy_tolerance: 2.0e-07
+mlt_exit_tau_tolerance: 1.0e-05

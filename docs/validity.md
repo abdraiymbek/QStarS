@@ -83,3 +83,19 @@ local inadmissible critical states are not global proofs of nonexistence.
 FreeEOS and supplied base energy must use one energy zero. The fixed-sphere
 flux interface still needs a conservative moving-face evolution update.
 See [the full validity boundary](spherical_wind.md) and [Report 9](../Reports/Report_9.md).
+
+## Report 10 enforcement
+
+`integrate_atmosphere` now terminates on an accepted convective-Mach-one
+event and raises `AtmosphereDomainExit` with structured diagnostics. The
+sound speed is the local adiabatic EOS sound speed. Supersonic MLT is neither
+clipped nor returned as a valid profile. Earlier archived continuations are
+invalid diagnostics. This rejection policy does not validate a zero-convection
+wind base or an unresolved turbulent state.
+
+The historical-opacity reference rejects states outside its explicit common
+table rectangle and verifies pure OPAL/AF94 fractions on each call. It returns
+only a Rosseland mean, not a flux mean for escaping radiation. The strict wind
+still stops at R_E=0.1. `paper_photosphere` is solely a comparison continuation;
+its R_E=0.75 endpoint must not be exported as a validated stellar photosphere.
+Overall outcome: **OUTER FAIL**; coupled Stage B and QSRD remain gated.

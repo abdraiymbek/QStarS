@@ -1,0 +1,22 @@
+no_input_fitting: true
+baseline:
+- 1.9884699999999998e+35
+- 3478500000000.0
+- 9.71e-09
+- 250000.0
+numerical_profile_log_target: 0.001
+endpoint_relative_target: 0.001
+density_rounding_half_width: 5.0e-12
+conditional_printed_rounding_half_widths:
+- 9.94235e+32
+- 34785000000.0
+- 5.0e-12
+- 5000.0
+rounding_interpretation: 'Deterministic sensitivity design only: not probability bounds
+  or proof authors rounded nominal model inputs'
+euler_epsilons:
+- 0.001
+- 0.0003
+- 0.0001
+- 3.0e-05
+stage_b_allowed: false

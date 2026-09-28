@@ -114,3 +114,51 @@ def test_step_reduction_preserves_published_inputs(real_micro):
     assert a['solver_success'] and b['solver_success']
     assert abs(a['endpoint_radius']/b['endpoint_radius']-1)<1e-6
     assert not a['diffusion_screen_passed']
+
+
+def test_paper_opacity_matches_table_nodes_without_mutating_default(real_micro):
+    from pathlib import Path
+    mesa=real_micro.mesa
+    if mesa.abi_version<6:pytest.skip('Historical table audit requires bridge ABI 6')
+    rho=np.array([1e-7,1e-10]);T=np.array([1e5,1e4])
+    x=real_micro.eos.raw(rho,T)
+    before=mesa.opacity_external_eos(rho,T,x[15],x[16]).copy()
+    for mixture in ['gs98','gn93']:
+        for name,logT in [(mixture,5.),('lowT_af94_gn93',3.8)]:
+            path=Path(os.environ['MESA_DIR'])/'data/kap_data'/f'{name}_z0.0_x0.7.data'
+            lines=path.read_text().splitlines();logR=np.array([float(t) for t in lines[5].split()])
+            grid=np.loadtxt(path,skiprows=7)
+            i=int(np.argmin(abs(grid[:,0]-logT)));j=int(np.argmin(abs(logR+4)))
+            temp=10**grid[i,0];density=10**(logR[j]+3*grid[i,0]-18)
+            actual=mesa.opacity_paper_reference(density,temp,mixture)
+            assert abs(np.log10(actual)-grid[i,j+1])<1e-9
+    after=mesa.opacity_external_eos(rho,T,x[15],x[16])
+    np.testing.assert_array_equal(before,after)
+    with pytest.raises(ValueError,match='domain'):
+        mesa.opacity_paper_reference(1e-30,1e4)
+
+
+def test_stall_endpoint_change_does_not_change_overlapping_solution(real_micro):
+    w=DiffusionWind(real_micro,100*MSUN,50*RSUN,9.65e-9,2.5e5)
+    opts=dict(inner_ratio=.1,outer_ratio=100,endpoint='paper_photosphere',rtol=1e-9,sonic_offset=1e-7,samples=501)
+    f,s=w.integrate(**opts,stalled_mach=1.5)
+    g,t=w.integrate(**opts)
+    assert s['terminations']['outward']=='approaching_second_sonic_point'
+    assert f['mach'][-1]==pytest.approx(1.5,rel=1e-8)
+    assert g['radius'][-1]>f['radius'][-1]
+    from scipy.interpolate import PchipInterpolator
+    for key in ['density','temperature','velocity']:
+        value=PchipInterpolator(np.log(g['radius']),np.log(g[key]))(np.log(f['radius']))
+        assert max(abs(value-np.log(f[key])))<1e-4
+    with pytest.raises(ValueError,match='Mach one'):
+        w.integrate(stalled_mach=1.)
+
+
+def test_unreached_comparison_mach_cannot_disable_second_sonic_exit(real_micro):
+    w=DiffusionWind(real_micro,1e4*MSUN,1.152e15,3e-11,1e4)
+    opts=dict(inner_ratio=.995,outer_ratio=2,rtol=1e-9,sonic_offset=1e-7,samples=251)
+    f,s=w.integrate(**opts,stalled_mach=100.)
+    g,t=w.integrate(**opts)
+    assert s['solver_success'] and s['terminations']['outward']=='approaching_second_sonic_point'
+    assert f['mach'][-1]==pytest.approx(np.sqrt(1.01),rel=1e-8)
+    assert abs(s['endpoint_radius']/t['endpoint_radius']-1)<1e-8

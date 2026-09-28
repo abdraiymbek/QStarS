@@ -1,0 +1,28 @@
+{
+  "published_vector_endpoint_rsun": 1365.92691551488,
+  "published_radius_stroke_band_rsun": [
+    1333.4454642282146,
+    1399.1995837699112
+  ],
+  "published_vector_endpoint_temperature_K": 7098.693481118269,
+  "red_model_endpoint_rsun": 656.7883736060999,
+  "red_model_max_profile_log_refinement": 2.9492370983930094e-05,
+  "red_model_max_endpoint_relative_refinement": 4.955708643450407e-08,
+  "density_rounding_photo_rsun": [
+    767.5741678731567,
+    592.9101129448874
+  ],
+  "conditional_rounding_samples": 24,
+  "conditional_rounding_photospheres": 13,
+  "conditional_rounding_stalled": 11,
+  "conditional_rounding_escape_criterion_passed": 0,
+  "conditional_rounding_is_not_a_bound": true,
+  "published_profile_counts": {
+    "compared": 2331,
+    "passed": 2257,
+    "uncovered": 103
+  },
+  "outcome": "OUTER FAIL",
+  "reproduction": false,
+  "causal_explanation_complete": false
+}

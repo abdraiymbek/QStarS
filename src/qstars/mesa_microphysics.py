@@ -30,7 +30,7 @@ class MesaMicrophysics(IdealGasRadiation):
         self.lib=ct.CDLL(str(path))
         self.lib.qstars_api_version.restype=ct.c_int
         self.abi_version=self.lib.qstars_api_version()
-        if self.abi_version not in (3,4,5):raise ValueError('Incompatible QStarS/MESA bridge ABI')
+        if self.abi_version not in (3,4,5,6):raise ValueError('Incompatible QStarS/MESA bridge ABI')
         self.lib.qstars_constants.argtypes=[ct.POINTER(ct.c_double)]
         arad=ct.c_double();self.lib.qstars_constants(ct.byref(arad));self.radiation_constant=arad.value
         self.lib.qstars_init.argtypes=[ct.POINTER(ct.c_int)]
@@ -119,6 +119,33 @@ class MesaMicrophysics(IdealGasRadiation):
     def _require_stellar_bridge(self):
         if self.abi_version<4:
             raise ValueError('Atmosphere and full MLT require a freshly built ABI 4 MESA bridge')
+
+    def opacity_paper_reference(self,rho,T,mixture='gs98'):
+        """OPAL/AF94 with the Nakauchi 7000 K switch; diagnostic only.
+
+        Uses MESA's processed tables and interpolation, not the original
+        authors' files. At Z=0 the two metal-mixture labels should largely
+        agree; retaining both measures table realization differences.
+        """
+        if self.abi_version<6:raise RuntimeError('Paper opacity reference requires MESA bridge ABI 6')
+        if mixture not in ('gs98','gn93') or self.composition.X!=.7:
+            raise ValueError('Paper opacity supports X=.7, Z=0 and gs98/gn93 only')
+        rho,T=np.broadcast_arrays(rho,T)
+        if np.iscomplexobj(rho) or np.iscomplexobj(T):raise ValueError('Paper opacity requires real states')
+        if np.any(~np.isfinite(rho+T)) or np.any(rho<=0) or np.any(T<=0):
+            raise ValueError('Paper opacity requires finite positive states')
+        rr=np.ascontiguousarray(rho.ravel(),dtype=np.float64)
+        tt=np.ascontiguousarray(T.ravel(),dtype=np.float64)
+        kap=np.empty(len(rr));fracs=np.empty((3,len(rr)),order='F');err=ct.c_int()
+        array=np.ctypeslib.ndpointer(dtype=np.float64,flags='F_CONTIGUOUS')
+        f=self.lib.qstars_opacity_paper
+        f.argtypes=[ct.c_int,array,array,ct.c_double,ct.c_int,array,array,ct.POINTER(ct.c_int)]
+        f(len(rr),rr,tt,self.composition.X,1 if mixture=='gs98' else 2,kap,fracs,ct.byref(err))
+        if err.value:raise ValueError(f'Paper opacity table/domain error {err.value}')
+        target=np.stack([tt<7000,tt>=7000,np.zeros(len(tt),dtype=bool)])
+        if not np.all(np.isfinite(kap)) or np.any(kap<=0) or not np.allclose(fracs,target,atol=1e-12,rtol=0):
+            raise ValueError('Paper opacity has unexpected table blend or invalid value')
+        return kap.reshape(rho.shape)
 
     def opacity_external_eos(self,rho,T,free_e,eta):
         """MESA opacity reference with caller-supplied EOS state; no derivatives.

@@ -318,7 +318,7 @@ This register distinguishes implemented laws, derived numerical identities, opti
 - Assumptions: Plane-parallel hydrostatic layer, grey radiative atmosphere to tau=2/3, diffusion plus native MLT below; external Pg explicit
 - Domain: No spherical transfer, non-LTE populations, moving mass, wind coupling or physical disruption claim. Geometric thickness and supersonic convection veto promotion.
 - Variables and units: dP/dtau=g/kappa, dT/dtau=(T/P)*nabla*g/kappa; column mass g/cm2, energy erg/cm2
-- Interpretation: Integrate explicit gas pressure and subtract radiation-pressure gradient; retain depth, mass and energy inventories. Constant opacity has analytic check. At 6000 K and g=1 the converged candidate demands supersonic MLT; no velocity clipping or fitted opacity.
+- Interpretation: Integrate explicit gas pressure and subtract radiation-pressure gradient; retain depth, mass and energy inventories. Constant opacity has analytic check. Report 10 stops at the first resolved convective Mach-one crossing with a structured validity-domain exit; no supersonic profile is returned. The archived Report 8 continuation remains an invalid diagnostic, not a closure.
 - Implementation: `src/qstars/atmosphere_reference.py; scripts/validate_atmosphere_reference.py`
 
 ## dilute_gas_screen — Dilute classical-gas limit for H/He
@@ -386,4 +386,26 @@ This register distinguishes implemented laws, derived numerical identities, opti
 - Variables and units: Optical depth and convective Mach dimensionless
 - Interpretation: Supports checking diffusion time versus dynamical time and forbids assuming supersonic local MLT remains valid. Does not prove a universal no-go for 1D quasi-stars.
 - Implementation: `docs/spherical_wind.md`
+
+## nakauchi_opacity_audit — MESA historical OPAL / Alexander-Ferguson opacity audit
+
+[MESA historical OPAL / Alexander-Ferguson opacity audit](https://docs.mesastar.org/en/24.08.1/kap/defaults.html) · kap_get_radiative_opacity; kap controls; Nakauchi section 2.1
+
+- Status: `implemented_diagnostic_only`
+- Assumptions: Type1 OPAL gs98 or gn93 above 7000 K; MESA lowT_af94_gn93 below; X=.7, Z=0; native interpolation
+- Domain: Common table rectangle logR=-7..1, T=3000..1e7 K; Rosseland mean only, no flux-mean or non-LTE inference
+- Variables and units: kappa cm2/g; R=rho/(T/1e6)^3
+- Interpretation: Separate native handles preserve the default opacity. MESA lowT_af94 header says Alexander & Ferguson (1995); processed tables cannot be certified identical to the authors files. No fitting of sonic inputs.
+- Implementation: `backends/mesa/microphysics.f90; scripts/validate_outer_discrepancy.py`
+
+## moving_wind_flux — Reynolds transport for an LTE wind matching sphere
+
+[Reynolds transport for an LTE wind matching sphere](https://arxiv.org/abs/1708.07790) · QStarS derivation from Reynolds transport; stationary energy channels consistent with Owocki et al. equations 5-10
+
+- Status: `derived_and_tested_component`
+- Assumptions: Newtonian LTE isotropic radiation pressure, static central potential, lab conserved variables, specified face speed
+- Domain: No automatic moving-cavity or evolving atmosphere reconstruction; conservation interface only
+- Variables and units: mass g/s, momentum dyn, energy erg/s, face speed cm/s
+- Interpretation: Relative enthalpy advection plus P*A*face_speed work equals fixed flux minus swept conserved density. Tested against independently integrated swept volumes and an energy-gauge shift.
+- Implementation: `src/qstars/spherical_wind.py; tests/test_wind_moving_boundary.py; scripts/validate_outer_transport.py`
 

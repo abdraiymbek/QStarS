@@ -1,0 +1,548 @@
+[
+  {
+    "label": "default",
+    "max_profile_log_errors": {
+      "density": 0.0005303160481204827,
+      "temperature": 0.026222472454046297,
+      "velocity": 0.0005303165987093905,
+      "opacity": 0.07903757017918617,
+      "gas_pressure": 0.02836331570029582,
+      "radiative_luminosity": 0.00035007459666758223,
+      "hydrogen_ionized": 0.0031320678763489167
+    },
+    "endpoint_relative_change": -0.00022216303287037054
+  },
+  {
+    "label": "paper_gs98",
+    "max_profile_log_errors": {
+      "density": 0.0005303378479268872,
+      "temperature": 0.026223486014604447,
+      "velocity": 0.0005303383988746191,
+      "opacity": 0.07904065398993709,
+      "gas_pressure": 0.028364403432722174,
+      "radiative_luminosity": 0.0003500886171394768,
+      "hydrogen_ionized": 0.0031321639088340205
+    },
+    "endpoint_relative_change": -0.00022217243776678774
+  },
+  {
+    "label": "paper_gn93",
+    "max_profile_log_errors": {
+      "density": 0.0,
+      "temperature": 0.0,
+      "velocity": 0.0,
+      "opacity": 0.0,
+      "gas_pressure": 0.0,
+      "radiative_luminosity": 0.0,
+      "hydrogen_ionized": 0.0
+    },
+    "endpoint_relative_change": 0.0
+  },
+  {
+    "label": "mass_number_diagnostic",
+    "max_profile_log_errors": {
+      "density": 0.01570871772768001,
+      "temperature": 0.5082063668297714,
+      "velocity": 0.019109831871642058,
+      "opacity": 0.8062218308072545,
+      "gas_pressure": 0.5697880972324563,
+      "radiative_luminosity": 0.022879707898709967,
+      "hydrogen_ionized": 0.0077157167823583995
+    },
+    "endpoint_relative_change": -0.02472193663703226
+  },
+  {
+    "label": "paper_9.65e-09",
+    "max_profile_log_errors": {
+      "density": 0.5104821516128482,
+      "temperature": 1.3718681853399488,
+      "velocity": 0.5166804293635714,
+      "opacity": 0.9407027360462973,
+      "gas_pressure": 1.983971555509004,
+      "radiative_luminosity": 0.5947001481363117,
+      "hydrogen_ionized": 0.009078931984038495
+    },
+    "endpoint_relative_change": 1.1337707687197476
+  },
+  {
+    "label": "paper_9.85e-09",
+    "max_profile_log_errors": {
+      "density": 0.3491751874836204,
+      "temperature": 1.221197753930353,
+      "velocity": 0.3634901547007132,
+      "opacity": 0.7173706579369155,
+      "gas_pressure": 1.6219887254520655,
+      "radiative_luminosity": 0.33682417437097456,
+      "hydrogen_ionized": 0.0001268512403651405
+    },
+    "endpoint_relative_change": -0.5511117747121377
+  },
+  {
+    "label": "paper_1.05e-08",
+    "max_profile_log_errors": {
+      "density": 0.6080327579351064,
+      "temperature": 1.3891414398197401,
+      "velocity": 0.6862505908255407,
+      "opacity": 0.701179184375648,
+      "gas_pressure": 2.044919325623516,
+      "radiative_luminosity": 0.5038343307515731,
+      "hydrogen_ionized": 1.4677309784511342e-05
+    },
+    "endpoint_relative_change": -0.7609091642776405
+  },
+  {
+    "label": "tight",
+    "max_profile_log_errors": {
+      "density": 1.424087123780282e-07,
+      "temperature": 6.474980443371692e-06,
+      "velocity": 1.4568611561571743e-07,
+      "opacity": 1.615363565504041e-05,
+      "gas_pressure": 8.319670966372428e-06,
+      "radiative_luminosity": 1.0592653723051626e-06,
+      "hydrogen_ionized": 8.066792310159471e-07
+    },
+    "endpoint_relative_change": 4.207131021338739e-08
+  },
+  {
+    "label": "radial_step",
+    "max_profile_log_errors": {
+      "density": 1.544763783556391e-07,
+      "temperature": 6.454141638911892e-06,
+      "velocity": 1.556450328621395e-07,
+      "opacity": 1.9024931787160748e-05,
+      "gas_pressure": 8.408765189926726e-06,
+      "radiative_luminosity": 1.3314616609250152e-06,
+      "hydrogen_ionized": 9.513534405796581e-07
+    },
+    "endpoint_relative_change": 4.955708643450407e-08
+  },
+  {
+    "label": "radau",
+    "max_profile_log_errors": {
+      "density": 1.4381102531046963e-07,
+      "temperature": 6.461933688584054e-06,
+      "velocity": 1.458620353389506e-07,
+      "opacity": 1.4442018780425059e-05,
+      "gas_pressure": 8.393975482690053e-06,
+      "radiative_luminosity": 1.051018259090597e-06,
+      "hydrogen_ionized": 7.223324348677035e-07
+    },
+    "endpoint_relative_change": 3.761316347272725e-08
+  },
+  {
+    "label": "sonic_offset",
+    "max_profile_log_errors": {
+      "density": 5.823805899751733e-07,
+      "temperature": 2.55714363674997e-05,
+      "velocity": 5.82688048922364e-07,
+      "opacity": 2.9492370983930094e-05,
+      "gas_pressure": 2.640526166075574e-05,
+      "radiative_luminosity": 2.630692321758943e-06,
+      "hydrogen_ionized": 5.5492062148512766e-08
+    },
+    "endpoint_relative_change": 2.8890989600682815e-09
+  },
+  {
+    "label": "strict_diffusion",
+    "max_profile_log_errors": {
+      "density": 2.0254435995070708e-07,
+      "temperature": 1.004815256777647e-05,
+      "velocity": 2.0210719142710332e-07,
+      "opacity": 1.3748960318582526e-05,
+      "gas_pressure": 1.0335497262925486e-05,
+      "radiative_luminosity": 3.4115981293325603e-06,
+      "hydrogen_ionized": 2.2454416541022837e-09
+    },
+    "endpoint_relative_change": -0.023394073791008774
+  },
+  {
+    "label": "report9_stall",
+    "max_profile_log_errors": {
+      "density": 0.0,
+      "temperature": 0.0,
+      "velocity": 0.0,
+      "opacity": 0.0,
+      "gas_pressure": 0.0,
+      "radiative_luminosity": 0.0,
+      "hydrogen_ionized": 0.0
+    },
+    "endpoint_relative_change": 0.0
+  },
+  {
+    "label": "critical_derivative",
+    "max_profile_log_errors": {
+      "density": 1.5834617173027254e-07,
+      "temperature": 7.608259807057038e-06,
+      "velocity": 1.5847234280386147e-07,
+      "opacity": 1.3002894628133532e-05,
+      "gas_pressure": 8.294565775557317e-06,
+      "radiative_luminosity": 2.4732154884077318e-06,
+      "hydrogen_ionized": 4.729517459282212e-07
+    },
+    "endpoint_relative_change": -2.482391869840228e-08
+  },
+  {
+    "label": "round_axis0_-1",
+    "max_profile_log_errors": {
+      "density": 0.43133556952133745,
+      "temperature": 1.3326552809572085,
+      "velocity": 0.431335569660952,
+      "opacity": 0.930566268237257,
+      "gas_pressure": 1.8655007151176144,
+      "radiative_luminosity": 0.5531630076914951,
+      "hydrogen_ionized": 0.009078927404203692
+    },
+    "endpoint_relative_change": 1.4467901613192176
+  },
+  {
+    "label": "round_axis0_+1",
+    "max_profile_log_errors": {
+      "density": 0.23019380641939335,
+      "temperature": 1.1190374690586538,
+      "velocity": 0.23019380641943954,
+      "opacity": 0.7071720995111344,
+      "gas_pressure": 1.4264073080196624,
+      "radiative_luminosity": 0.25185256857733407,
+      "hydrogen_ionized": 0.0005090756047495449
+    },
+    "endpoint_relative_change": -0.38721693739621954
+  },
+  {
+    "label": "round_axis1_-1",
+    "max_profile_log_errors": {
+      "density": 0.3377506987334904,
+      "temperature": 1.1922480985276973,
+      "velocity": 0.317650027031501,
+      "opacity": 0.7137224230746462,
+      "gas_pressure": 1.5866024856581529,
+      "radiative_luminosity": 0.30081971331470925,
+      "hydrogen_ionized": 0.00019888862016077124
+    },
+    "endpoint_relative_change": -0.5006647172686542
+  },
+  {
+    "label": "round_axis1_+1",
+    "max_profile_log_errors": {
+      "density": 0.775834228478633,
+      "temperature": 1.4525722046038485,
+      "velocity": 0.7559335672887464,
+      "opacity": 0.9519886907969509,
+      "gas_pressure": 2.330116581254265,
+      "radiative_luminosity": 0.6299834653321312,
+      "hydrogen_ionized": 0.00907893673952359
+    },
+    "endpoint_relative_change": 0.6860411798897894
+  },
+  {
+    "label": "round_axis2_-1",
+    "max_profile_log_errors": {
+      "density": 0.05352778562080118,
+      "temperature": 0.8330794018717711,
+      "velocity": 0.05404284392022518,
+      "opacity": 0.8780041735274291,
+      "gas_pressure": 0.9410265127113626,
+      "radiative_luminosity": 0.08751796885515262,
+      "hydrogen_ionized": 0.009078339701139351
+    },
+    "endpoint_relative_change": 0.1686780684907483
+  },
+  {
+    "label": "round_axis2_+1",
+    "max_profile_log_errors": {
+      "density": 0.04719253773622967,
+      "temperature": 0.7838414429933085,
+      "velocity": 0.04770733090416002,
+      "opacity": 0.8105938955956564,
+      "gas_pressure": 0.8830293848015076,
+      "radiative_luminosity": 0.07112666627439523,
+      "hydrogen_ionized": 0.00463727696136514
+    },
+    "endpoint_relative_change": -0.09725851313489098
+  },
+  {
+    "label": "round_axis3_-1",
+    "max_profile_log_errors": {
+      "density": 0.6843491606028707,
+      "temperature": 1.3989921976804371,
+      "velocity": 0.6742469256767905,
+      "opacity": 0.6809000367448244,
+      "gas_pressure": 2.1310825709051846,
+      "radiative_luminosity": 0.4728571319526651,
+      "hydrogen_ionized": 1.4357728724449682e-05
+    },
+    "endpoint_relative_change": -0.762409302994703
+  },
+  {
+    "label": "round_axis3_+1",
+    "max_profile_log_errors": {
+      "density": 1.3018334184017881,
+      "temperature": 0.5318758022960832,
+      "velocity": 1.2919312665505345,
+      "opacity": 0.07152734794018034,
+      "gas_pressure": 1.8340085692368095,
+      "radiative_luminosity": 0.16743736691768163,
+      "hydrogen_ionized": 4.360930769626212e-08
+    },
+    "endpoint_relative_change": -0.37511793612202504
+  },
+  {
+    "label": "round_corner_mmmm",
+    "max_profile_log_errors": {
+      "density": 0.7237043848092242,
+      "temperature": 1.4110160117356951,
+      "velocity": 0.6929864201095093,
+      "opacity": 0.6839316858023221,
+      "gas_pressure": 2.1824522853865194,
+      "radiative_luminosity": 0.46734515847380464,
+      "hydrogen_ionized": 1.3233693141068658e-05
+    },
+    "endpoint_relative_change": -0.7698445700283415
+  },
+  {
+    "label": "round_corner_mmmp",
+    "max_profile_log_errors": {
+      "density": 1.310566078813956,
+      "temperature": 0.5438432702400462,
+      "velocity": 1.3212796571728855,
+      "opacity": 0.08662369653081703,
+      "gas_pressure": 1.8549487424820494,
+      "radiative_luminosity": 0.1806853495056231,
+      "hydrogen_ionized": 5.119113917280371e-08
+    },
+    "endpoint_relative_change": -0.34898301374493157
+  },
+  {
+    "label": "round_corner_mmpm",
+    "max_profile_log_errors": {
+      "density": 0.7260050071488138,
+      "temperature": 1.4124328005102456,
+      "velocity": 0.6963168934584587,
+      "opacity": 0.6857414672083069,
+      "gas_pressure": 2.1861683555932903,
+      "radiative_luminosity": 0.46839659703449854,
+      "hydrogen_ionized": 1.3065416361364251e-05
+    },
+    "endpoint_relative_change": -0.7709949734651558
+  },
+  {
+    "label": "round_corner_mmpp",
+    "max_profile_log_errors": {
+      "density": 1.319297306805307,
+      "temperature": 0.5491355714751958,
+      "velocity": 1.3289810332886205,
+      "opacity": 0.09160805132161687,
+      "gas_pressure": 1.8690772244015603,
+      "radiative_luminosity": 0.18334594140429772,
+      "hydrogen_ionized": 5.374773283837887e-08
+    },
+    "endpoint_relative_change": -0.3413635899743379
+  },
+  {
+    "label": "round_corner_mpmm",
+    "max_profile_log_errors": {
+      "density": 0.6068838285792353,
+      "temperature": 1.3715155326090525,
+      "velocity": 0.6161671973116398,
+      "opacity": 0.6706546144111696,
+      "gas_pressure": 2.0261818420574063,
+      "radiative_luminosity": 0.4562185406953745,
+      "hydrogen_ionized": 1.906757585207832e-05
+    },
+    "endpoint_relative_change": -0.738817628314218
+  },
+  {
+    "label": "round_corner_mpmp",
+    "max_profile_log_errors": {
+      "density": 1.2163314410669805,
+      "temperature": 0.47996657931737907,
+      "velocity": 1.1870436860345457,
+      "opacity": 0.025685975845784692,
+      "gas_pressure": 1.6963418659242588,
+      "radiative_luminosity": 0.14578504232237322,
+      "hydrogen_ionized": 2.5357144932596245e-08
+    },
+    "endpoint_relative_change": -0.4711162562081139
+  },
+  {
+    "label": "round_corner_mppm",
+    "max_profile_log_errors": {
+      "density": 0.6096898774618538,
+      "temperature": 1.3732564477010243,
+      "velocity": 0.6200030972098638,
+      "opacity": 0.6719883988792443,
+      "gas_pressure": 2.030725521459665,
+      "radiative_luminosity": 0.4577711548035239,
+      "hydrogen_ionized": 1.8722709872321215e-05
+    },
+    "endpoint_relative_change": -0.7404802551881993
+  },
+  {
+    "label": "round_corner_mppp",
+    "max_profile_log_errors": {
+      "density": 1.2242311573781919,
+      "temperature": 0.483526515829924,
+      "velocity": 1.1939135504530185,
+      "opacity": 0.027186599008056644,
+      "gas_pressure": 1.7078067865539754,
+      "radiative_luminosity": 0.14765388204969554,
+      "hydrogen_ionized": 2.621780878228261e-08
+    },
+    "endpoint_relative_change": -0.46489227688779045
+  },
+  {
+    "label": "round_corner_pmmm",
+    "max_profile_log_errors": {
+      "density": 0.7550183892882067,
+      "temperature": 1.422073010357705,
+      "velocity": 0.7243004245933093,
+      "opacity": 0.6960238236453191,
+      "gas_pressure": 2.2248085947230063,
+      "radiative_luminosity": 0.4833108246306921,
+      "hydrogen_ionized": 1.1545596865561817e-05
+    },
+    "endpoint_relative_change": -0.7799171759042485
+  },
+  {
+    "label": "round_corner_pmmp",
+    "max_profile_log_errors": {
+      "density": 1.3908607593583788,
+      "temperature": 0.6076850963755263,
+      "velocity": 1.4015743377431473,
+      "opacity": 0.13570783657666186,
+      "gas_pressure": 2.0027046596456204,
+      "radiative_luminosity": 0.20108530033965621,
+      "hydrogen_ionized": 9.084251645111456e-08
+    },
+    "endpoint_relative_change": -0.26816631902656685
+  },
+  {
+    "label": "round_corner_pmpm",
+    "max_profile_log_errors": {
+      "density": 0.7570067155405944,
+      "temperature": 1.4233616961247417,
+      "velocity": 0.7273186018562008,
+      "opacity": 0.6980745086123012,
+      "gas_pressure": 2.2280844355876894,
+      "radiative_luminosity": 0.48426837233917297,
+      "hydrogen_ionized": 1.1419344596083244e-05
+    },
+    "endpoint_relative_change": -0.7809100272696328
+  },
+  {
+    "label": "round_corner_pmpp",
+    "max_profile_log_errors": {
+      "density": 1.4002630483745868,
+      "temperature": 0.6157134904300392,
+      "velocity": 1.4099467748579837,
+      "opacity": 0.1389516329420838,
+      "gas_pressure": 2.0212413937056795,
+      "radiative_luminosity": 0.20495985967100694,
+      "hydrogen_ionized": 9.736613748811198e-08
+    },
+    "endpoint_relative_change": -0.259471895357021
+  },
+  {
+    "label": "round_corner_ppmm",
+    "max_profile_log_errors": {
+      "density": 0.6429262549933732,
+      "temperature": 1.3853638212483563,
+      "velocity": 0.6522096236956791,
+      "opacity": 0.6775204011597487,
+      "gas_pressure": 2.0760438658003233,
+      "radiative_luminosity": 0.4764166151077518,
+      "hydrogen_ionized": 1.5871342123158712e-05
+    },
+    "endpoint_relative_change": -0.7531892494525007
+  },
+  {
+    "label": "round_corner_ppmp",
+    "max_profile_log_errors": {
+      "density": 1.2859590208274128,
+      "temperature": 0.517808115888057,
+      "velocity": 1.256671265793324,
+      "opacity": 0.05475821402700676,
+      "gas_pressure": 1.8039211213975443,
+      "radiative_luminosity": 0.15348478234206198,
+      "hydrogen_ionized": 3.6373760564504666e-08
+    },
+    "endpoint_relative_change": -0.4063478628854026
+  },
+  {
+    "label": "round_corner_pppm",
+    "max_profile_log_errors": {
+      "density": 0.6454002082034016,
+      "temperature": 1.386913243168598,
+      "velocity": 0.6557134279772647,
+      "opacity": 0.6789801723602757,
+      "gas_pressure": 2.080065272935724,
+      "radiative_luminosity": 0.47772930737924924,
+      "hydrogen_ionized": 1.563196893926791e-05
+    },
+    "endpoint_relative_change": -0.7545709110540939
+  },
+  {
+    "label": "round_corner_pppp",
+    "max_profile_log_errors": {
+      "density": 1.2941630847661365,
+      "temperature": 0.5219402238522974,
+      "velocity": 1.2638454778387835,
+      "opacity": 0.058552689609972064,
+      "gas_pressure": 1.81628069528308,
+      "radiative_luminosity": 0.15546855543254878,
+      "hydrogen_ionized": 3.7817757588177885e-08
+    },
+    "endpoint_relative_change": -0.39953426318695817
+  },
+  {
+    "label": "euler_0.001",
+    "max_profile_log_errors": {
+      "density": 0.056719563430963404,
+      "temperature": 0.8182789527537313,
+      "velocity": 0.05671956348593454,
+      "opacity": 0.7931928706843935,
+      "gas_pressure": 0.9270950383958145,
+      "radiative_luminosity": 0.08250540019263042,
+      "hydrogen_ionized": 0.004109401627421484
+    },
+    "endpoint_relative_change": -0.11353485271506325
+  },
+  {
+    "label": "euler_0.0003",
+    "max_profile_log_errors": {
+      "density": 0.02494679650043352,
+      "temperature": 0.6030772846533257,
+      "velocity": 0.024946796587371978,
+      "opacity": 0.8377754356162056,
+      "gas_pressure": 0.6810368352617688,
+      "radiative_luminosity": 0.03368238642026711,
+      "hydrogen_ionized": 0.006857205458880705
+    },
+    "endpoint_relative_change": -0.040912881903076626
+  },
+  {
+    "label": "euler_0.0001",
+    "max_profile_log_errors": {
+      "density": 0.0125264202009987,
+      "temperature": 0.41540829809409097,
+      "velocity": 0.012526419216857931,
+      "opacity": 0.7332314265065135,
+      "gas_pressure": 0.4805778601813584,
+      "radiative_luminosity": 0.01456367364785649,
+      "hydrogen_ionized": 0.008195496823977513
+    },
+    "endpoint_relative_change": -0.014506009385837126
+  },
+  {
+    "label": "euler_3e-05",
+    "max_profile_log_errors": {
+      "density": 0.005540989349025693,
+      "temperature": 0.23905164323586447,
+      "velocity": 0.00554099199310798,
+      "opacity": 0.5400610361214926,
+      "gas_pressure": 0.2742536318076576,
+      "radiative_luminosity": 0.005576523182767801,
+      "hydrogen_ionized": 0.008538724214628082
+    },
+    "endpoint_relative_change": -0.004452004430675505
+  }
+]

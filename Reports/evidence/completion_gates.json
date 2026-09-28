@@ -9,7 +9,7 @@
     "CONDITIONAL": "Bounded evidence exists; does not certify general use.",
     "FAIL": "Required capability or validation missing or failing."
   },
-  "automated_tests_passed": 70,
+  "automated_tests_passed": 76,
   "automated_tests_failed": 0,
   "optional_mesa_tests": 10,
   "cli_validation": {
@@ -22,7 +22,7 @@
       "CB24 printed BH/inner mass"
     ]
   },
-  "source_registry_entries": 35,
+  "source_registry_entries": 37,
   "published_full_evolution_replication": false,
   "published_full_evolution_replicas": 0,
   "published_structure_replication": "subset_passes_with_two_retained_printed_value_discrepancies",
@@ -80,13 +80,14 @@
       "priority": 4,
       "name": "Wind physics",
       "status": "FAIL",
-      "achieved": "Independent feed/removal channels and launch/tiring energy debit; stationary advective wind ODE component and digitized profiles. Spherical gas-sonic FreeEOS/MESA component, conservative fixed-sphere flux interface and converged recombination controls.",
-      "remaining": "Published escaping-wind replication, physical envelope matching, complete outer radiation transfer and evolving conservative coupling remain unvalidated.",
+      "achieved": "Stationary gas-sonic component with historical opacity audit, profile convergence, independent conservation and moving-surface flux identity.",
+      "remaining": "Published escaping branch, justified exterior transfer and physical envelope match remain unvalidated; no coupled wind evolution.",
       "evidence": [
         "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json",
         "docs/equations.md",
         "Reports/evidence/development_20260928/final_tests/result.json",
-        "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/validation.json"
+        "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/validation.json",
+        "Reports/Report_10.md"
       ]
     },
     {
@@ -125,7 +126,7 @@
         "Reports/evidence/development_20260928/final_tests/result.json",
         "docs/validity.md",
         "benchmarks/results/2026-09-28-outer-boundary/20260928T042828.972984Z_outer_final_verification/verification.json",
-        "Reports/evidence/outer_20260928/hot_mesa_previous_comparison.json",
+        "Reports/evidence/outer_report10_20260928/hot_mesa_previous_comparison.json",
         "Reports/evidence/spherical_20260928/final_tests.log"
       ]
     },
@@ -137,7 +138,9 @@
       "remaining": "Full published-track cost unknown; Linux MESA bridge unvalidated; development high-resolution timings include concurrent workloads.",
       "evidence": [
         "benchmarks/results/2026-09-28-closure/20260928T031938.396825Z_performance_validation/performance.json",
-        "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/validation.json"
+        "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/validation.json",
+        "benchmarks/results/2026-09-28-outer-audit/20260928T175917.423111Z_outer_transport/campaign.json",
+        "benchmarks/results/2026-09-28-outer-audit/20260928T175246.266274Z_outer_discrepancy/campaign.json"
       ]
     },
     {
@@ -338,6 +341,13 @@
       "threshold": 0.01,
       "units": "shell mass / central mass",
       "reason": "Limit neglected self-gravity to a percent scale; hydrostatic reference supports enclosed mass explicitly."
+    },
+    {
+      "quantity": "Moving-surface swept-volume mass and energy",
+      "threshold": 2e-07,
+      "measured_max": 2.1028395784573352e-10,
+      "reason": "Independent quadrature and midpoint-time comparison; numerical identity only",
+      "evidence": "benchmarks/results/2026-09-28-outer-audit/20260928T175917.423111Z_outer_transport/moving_sphere.json"
     }
   ],
   "validity_boundary": {
@@ -364,7 +374,7 @@
     "wind": "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json",
     "cli": "benchmarks/results/2026-09-28-closure/20260928T031903.825105Z_validation/validation.json",
     "performance": "benchmarks/results/2026-09-28-closure/20260928T031938.396825Z_performance_validation/performance.json",
-    "tests": "benchmarks/results/2026-09-28-outer-verified/20260928T043954.437393Z_outer_abi_guard_verification/verification.json",
+    "tests": "Reports/evidence/outer_report10_20260928/final_tests_guard.log",
     "sources": "src/qstars/data/sources.json",
     "published_suite": "benchmarks/manifest.yaml",
     "validity": "docs/validity.md",
@@ -379,13 +389,18 @@
     "outer_report": "Reports/Report_8.md",
     "outer_atmosphere_verified": "benchmarks/results/2026-09-28-outer-verified/20260928T044002.683023Z_atmosphere_reference/validation.json",
     "freeeos_verified": "benchmarks/results/2026-09-28-outer-verified/20260928T044002.107801Z_freeeos_audit/audit.json",
-    "outer_bitwise_repeat": "Reports/evidence/outer_20260928/final_abi_guard_repeat.json",
+    "outer_bitwise_repeat": "Reports/evidence/outer_report10_20260928/final_abi_guard_repeat.json",
     "spherical_wind": "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/validation.json",
     "spherical_profiles": "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/published_profile_comparison.json",
     "spherical_matching": "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/matching.json",
     "spherical_convergence": "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/convergence.json",
     "spherical_report": "Reports/Report_9.md",
-    "spherical_tests": "Reports/evidence/spherical_20260928/final_tests.log"
+    "spherical_tests": "Reports/evidence/spherical_20260928/final_tests.log",
+    "outer_report10": "Reports/Report_10.md",
+    "outer_discrepancy": "benchmarks/results/2026-09-28-outer-audit/20260928T175246.266274Z_outer_discrepancy/",
+    "outer_transport": "benchmarks/results/2026-09-28-outer-audit/20260928T175917.423111Z_outer_transport/",
+    "outer_analysis": "Reports/evidence/outer_report10_20260928/analysis/analysis.json",
+    "outer_tests": "Reports/evidence/outer_report10_20260928/final_tests_guard.log"
   },
   "provenance_caveat": "Earlier exploratory campaigns need first snapshots and chronology. All four fresh spatial cases verify unchanged sources and exactly reproduce previous states and ledgers bitwise. Fresh final tests, robustness, independent-method, MESA confirmation and performance also verify unchanged sources. All original local runs remain intact.",
   "deliverables": {
@@ -393,38 +408,262 @@
     "working_development_software": "DELIVERED",
     "validation_report": "docs/validation.md",
     "published_benchmark_suite": "PARTIAL; missing full tracks explicit in manifest",
-    "regression_suite": "70 passing with pinned MESA and FreeEOS",
+    "regression_suite": "76 passing with pinned MESA and FreeEOS",
     "model_families": "docs/model_families.md",
     "performance_report": "docs/performance.md",
     "source_registry": "src/qstars/data/sources.json",
     "validity_domain": "docs/validity.md",
     "gate_matrix": "Reports/evidence/completion_gates.json",
-    "latest_release_report": "Reports/Report_9.md"
+    "latest_release_report": "Reports/Report_10.md"
   },
-  "optional_freeeos_tests": 8,
-  "production_atmosphere": "spherical_diffusion_component_verified_full_outer_closure_incomplete",
+  "optional_freeeos_tests": 11,
+  "production_atmosphere": "OUTER_FAIL_historical_opacity_audit_moving_flux_and_MLT_exit_do_not_validate_exterior",
   "native_full_mlt": "reference_only_not_envelope_transport",
   "freeeos_reference": "153_state_gas_audit_passes_upstream_byte_tests_fail",
-  "latest_report": "Reports/Report_9.md",
+  "latest_report": "Reports/Report_10.md",
   "release_blocker": {
-    "id": "spherical_outer_closure_validation",
+    "id": "outer_closure_stage_a",
     "status": "FAIL",
-    "finding": "Spherical gas-sonic component and internal numerical checks pass; escaping published benchmark, physical envelope matching and complete outer radiation transfer do not pass.",
+    "finding": "Stationary red branch remains unresolved after 42 attribution cases; escaping radiation and physical base match still fail. MLT now exits and moving-surface accounting passes.",
     "cool_max_convective_mach": 2.336716044874007,
     "cool_tau_at_peak_mach": 19.78778393333309,
     "warm_photosphere_to_base_depth_over_radius": 0.06675656145899557,
     "physical_impossibility_of_1d_claimed": false,
     "is_physical_disruption_diagnosis": false,
-    "resolution": "Resolve published microphysics discrepancies, validate transport through recombination/photosphere and physical turbulent or outflow matching, then conservative moving-face coupling.",
+    "resolution": "Attributable stationary benchmark, validated expanding radiative transfer, and physical envelope match required before Stage B.",
     "evidence": [
-      "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/validation.json",
-      "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/published_scalar_comparison.json",
-      "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/report8_base_attempts.json",
-      "docs/spherical_wind.md"
+      "Reports/Report_10.md",
+      "Reports/evidence/outer_report10_20260928/analysis/analysis.json",
+      "benchmarks/results/2026-09-28-outer-audit/20260928T175917.423111Z_outer_transport/campaign.json"
     ],
-    "report8_blocker_retained": true
+    "report8_blocker_retained": true,
+    "report9_blocker_retained": {
+      "id": "spherical_outer_closure_validation",
+      "status": "FAIL",
+      "finding": "Spherical gas-sonic component and internal numerical checks pass; escaping published benchmark, physical envelope matching and complete outer radiation transfer do not pass.",
+      "cool_max_convective_mach": 2.336716044874007,
+      "cool_tau_at_peak_mach": 19.78778393333309,
+      "warm_photosphere_to_base_depth_over_radius": 0.06675656145899557,
+      "physical_impossibility_of_1d_claimed": false,
+      "is_physical_disruption_diagnosis": false,
+      "resolution": "Resolve published microphysics discrepancies, validate transport through recombination/photosphere and physical turbulent or outflow matching, then conservative moving-face coupling.",
+      "evidence": [
+        "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/validation.json",
+        "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/published_scalar_comparison.json",
+        "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/report8_base_attempts.json",
+        "docs/spherical_wind.md"
+      ],
+      "report8_blocker_retained": true
+    }
   },
   "active_request_gates": [
+    {
+      "id": "A_numerics",
+      "name": "Stationary spherical convergence",
+      "status": "PASS",
+      "scope": "Reference equations only",
+      "evidence": [
+        "benchmarks/results/2026-09-28-outer-audit/20260928T175246.266274Z_outer_discrepancy/comparisons.json",
+        "benchmarks/results/2026-09-28-outer-audit/20260928T175246.266274Z_outer_discrepancy/cases.json"
+      ]
+    },
+    {
+      "id": "A1",
+      "name": "Published benchmark reproduced or explained",
+      "status": "FAIL",
+      "finding": "Historical opacity radius 656.788 Rsun versus published vector band 1333.45\u20131399.20; tested differences do not explain it.",
+      "evidence": [
+        "Reports/evidence/outer_report10_20260928/analysis/analysis.json",
+        "benchmarks/results/2026-09-28-outer-audit/20260928T175246.266274Z_outer_discrepancy/cases.json"
+      ]
+    },
+    {
+      "id": "A2",
+      "name": "Validated escaping radiation",
+      "status": "FAIL",
+      "finding": "Rosseland diffusion component only; no validated exterior flux mean, energy exchange or emergent observables.",
+      "evidence": [
+        "Reports/Report_10.md",
+        "docs/spherical_wind.md"
+      ]
+    },
+    {
+      "id": "A3",
+      "name": "Physical envelope-to-wind eigenvalue match",
+      "status": "FAIL",
+      "finding": "Moving-face interface is verified, but physical base match and evolving reconstruction remain unvalidated. Failed optimizers do not prove no roots.",
+      "evidence": [
+        "benchmarks/results/2026-09-28-outer-audit/20260928T175917.423111Z_outer_transport/moving_sphere.json",
+        "Reports/Report_9.md"
+      ]
+    },
+    {
+      "id": "A_conservation",
+      "name": "Conservative moving matching surface",
+      "status": "PASS",
+      "scope": "Component flux identity, not stellar evolution",
+      "evidence": [
+        "benchmarks/results/2026-09-28-outer-audit/20260928T175917.423111Z_outer_transport/moving_sphere.json",
+        "tests/test_wind_moving_boundary.py"
+      ]
+    },
+    {
+      "id": "A4",
+      "name": "Convection validity handled by explicit exit",
+      "status": "PASS",
+      "scope": "Local MLT Mach-one rejection policy; zero-convection wind base and turbulence not validated",
+      "evidence": [
+        "benchmarks/results/2026-09-28-outer-audit/20260928T175917.423111Z_outer_transport/mlt_exits.json"
+      ]
+    },
+    {
+      "id": "A_domain",
+      "name": "Explicit outer validity domain",
+      "status": "PASS",
+      "scope": "Documented restrictions and rejected production use",
+      "evidence": [
+        "docs/validity.md",
+        "Reports/Report_10.md"
+      ]
+    },
+    {
+      "id": "B1",
+      "name": "Coupled major fluxes",
+      "status": "FAIL",
+      "disposition": "NOT_RUN_PREREQUISITE_A_FAILED",
+      "evidence": [
+        "Reports/Report_10.md"
+      ]
+    },
+    {
+      "id": "B2",
+      "name": "Conservative evolving quasi-star",
+      "status": "FAIL",
+      "disposition": "NOT_RUN_PREREQUISITE_A_FAILED",
+      "evidence": [
+        "Reports/Report_10.md"
+      ]
+    },
+    {
+      "id": "B3",
+      "name": "Coupled profile convergence",
+      "status": "FAIL",
+      "disposition": "NOT_RUN_PREREQUISITE_A_FAILED",
+      "evidence": [
+        "Reports/Report_10.md"
+      ]
+    },
+    {
+      "id": "B4",
+      "name": "Coupled restart retry remesh",
+      "status": "FAIL",
+      "disposition": "NOT_RUN_PREREQUISITE_A_FAILED",
+      "evidence": [
+        "Reports/Report_10.md"
+      ]
+    },
+    {
+      "id": "B5",
+      "name": "Full published evolutionary track",
+      "status": "FAIL",
+      "disposition": "NOT_RUN_PREREQUISITE_A_FAILED",
+      "evidence": [
+        "Reports/Report_10.md"
+      ]
+    },
+    {
+      "id": "B6",
+      "name": "Coupled MacBook performance",
+      "status": "FAIL",
+      "disposition": "NOT_RUN_PREREQUISITE_A_FAILED",
+      "evidence": [
+        "Reports/Report_10.md"
+      ]
+    }
+  ],
+  "previous_active_request_gates_report8": [
+    {
+      "priority": 1,
+      "name": "Production outer atmosphere and full stellar coupling",
+      "status": "FAIL",
+      "evidence": [
+        "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.865567Z_atmosphere_reference/validation.json",
+        "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.119787Z_freeeos_audit/audit.json",
+        "docs/atmosphere.md"
+      ]
+    },
+    {
+      "priority": 2,
+      "name": "Conservative evolving cavity and BH boundary",
+      "status": "FAIL",
+      "evidence": [
+        "docs/model_families.md"
+      ]
+    },
+    {
+      "priority": 3,
+      "name": "Coupled wind and evolving atmosphere",
+      "status": "FAIL",
+      "evidence": [
+        "docs/model_families.md",
+        "benchmarks/manifest.yaml"
+      ]
+    },
+    {
+      "priority": 4,
+      "name": "Multiple complete published evolutionary tracks",
+      "status": "FAIL",
+      "evidence": [
+        "benchmarks/manifest.yaml"
+      ]
+    },
+    {
+      "priority": 5,
+      "name": "Cross-paper validation without retuning",
+      "status": "FAIL",
+      "evidence": [
+        "benchmarks/manifest.yaml"
+      ]
+    },
+    {
+      "priority": 6,
+      "name": "Convergence on production quasi-star evolution",
+      "status": "FAIL",
+      "evidence": [
+        "docs/validation.md"
+      ]
+    },
+    {
+      "priority": 7,
+      "name": "Apple Silicon performance",
+      "status": "CONDITIONAL",
+      "evidence": [
+        "benchmarks/results/2026-09-28-outer-boundary/20260928T042828.972984Z_outer_final_verification/verification.json",
+        "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.865567Z_atmosphere_reference/validation.json",
+        "docs/performance.md"
+      ]
+    },
+    {
+      "priority": 8,
+      "name": "General-purpose v1 release",
+      "status": "FAIL",
+      "evidence": [
+        "Reports/Report_8.md"
+      ]
+    }
+  ],
+  "outer_campaign_completion": {
+    "outcome": "OUTER FAIL",
+    "stage_a_pass": false,
+    "stage_b_run": false,
+    "no_go_for_1d_demonstrated": false,
+    "conservative_coupled_evolution_attempted": false,
+    "stopping_reason": "User-authorized stop when Stage A conditions do not pass",
+    "evidence": [
+      "Reports/Report_10.md"
+    ]
+  },
+  "previous_active_request_gates_report9": [
     {
       "priority": 1,
       "name": "Targeted literature and method audit",
@@ -552,78 +791,7 @@
       "scope": "INCOMPLETE. More than one issue remains, so B is not claimed. No general no-go proof supports C."
     }
   ],
-  "previous_active_request_gates_report8": [
-    {
-      "priority": 1,
-      "name": "Production outer atmosphere and full stellar coupling",
-      "status": "FAIL",
-      "evidence": [
-        "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.865567Z_atmosphere_reference/validation.json",
-        "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.119787Z_freeeos_audit/audit.json",
-        "docs/atmosphere.md"
-      ]
-    },
-    {
-      "priority": 2,
-      "name": "Conservative evolving cavity and BH boundary",
-      "status": "FAIL",
-      "evidence": [
-        "docs/model_families.md"
-      ]
-    },
-    {
-      "priority": 3,
-      "name": "Coupled wind and evolving atmosphere",
-      "status": "FAIL",
-      "evidence": [
-        "docs/model_families.md",
-        "benchmarks/manifest.yaml"
-      ]
-    },
-    {
-      "priority": 4,
-      "name": "Multiple complete published evolutionary tracks",
-      "status": "FAIL",
-      "evidence": [
-        "benchmarks/manifest.yaml"
-      ]
-    },
-    {
-      "priority": 5,
-      "name": "Cross-paper validation without retuning",
-      "status": "FAIL",
-      "evidence": [
-        "benchmarks/manifest.yaml"
-      ]
-    },
-    {
-      "priority": 6,
-      "name": "Convergence on production quasi-star evolution",
-      "status": "FAIL",
-      "evidence": [
-        "docs/validation.md"
-      ]
-    },
-    {
-      "priority": 7,
-      "name": "Apple Silicon performance",
-      "status": "CONDITIONAL",
-      "evidence": [
-        "benchmarks/results/2026-09-28-outer-boundary/20260928T042828.972984Z_outer_final_verification/verification.json",
-        "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.865567Z_atmosphere_reference/validation.json",
-        "docs/performance.md"
-      ]
-    },
-    {
-      "priority": 8,
-      "name": "General-purpose v1 release",
-      "status": "FAIL",
-      "evidence": [
-        "Reports/Report_8.md"
-      ]
-    }
-  ],
-  "outer_campaign_completion": {
+  "previous_outer_campaign_completion_report9": {
     "status": "INCOMPLETE",
     "outcome_A": false,
     "outcome_B": false,
