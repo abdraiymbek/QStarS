@@ -115,7 +115,7 @@
       "assumptions": "Self-consistent Bondi radius including rho~r^-3/2 cavity",
       "validity": "Below critical mass, choose small positive radius continuous as MBH tends to zero",
       "variables_units": "rho g/cm^3, cs cm/s, N dimensionless",
-      "implementation_interpretation": "Solve Appendix A cubic directly. Inspected Eq 6 prefactor gives twice the positive double root at Mcrit; do not encode that inconsistency. Full ~0.33 evolutionary limit remains unreplicated.",
+      "implementation_interpretation": "Solve Appendix A cubic directly for stability near zero BH mass; verified equivalent to printed Eq 6. An initial factor-of-two audit suspicion was retracted (Report 4). Full ~0.33 evolutionary limit remains unreplicated.",
       "implementation": "src/qstars/reference.py",
       "inspected_utc": "2026-09-28"
     },

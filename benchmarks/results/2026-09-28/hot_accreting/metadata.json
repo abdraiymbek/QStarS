@@ -1,0 +1,15 @@
+{
+  "version": "0.1.0",
+  "git_commit": "f72088755ceba66e91264f7b89093b68d3775a47",
+  "git_status": "M configs/pressure_confined.yaml\n M docs/usage.md\n M src/qstars/cli.py\n M src/qstars/config.py\n M src/qstars/validation.py\n M tests/test_physics.py",
+  "source_sha256": "994a48f20deee372a5ffd9d46dadc6b70cdc843cc717e6919691ec4bcfc9212d",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "created_utc": "2026-09-28T01:11:35.335873+00:00",
+  "dependencies": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.11.2"
+  }
+}

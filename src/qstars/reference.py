@@ -90,8 +90,8 @@ def hassan_critical_mass(rho,cs,N=1):
 def hassan_radius(mbh,rho,cs,N=1):
     """Small positive root continuous with zero BH mass, using stable brentq.
 
-    The displayed Eq 6 in the inspected PDF is inconsistent with its cubic at
-    the double-root limit; use Appendix A cubic directly, document discrepancy.
+    This is equivalent to the paper's trigonometric Eq 6. Solving the cubic
+    directly avoids cancellation in that expression as MBH/Mcrit tends to zero.
     """
     crit=hassan_critical_mass(rho,cs,N)
     if not 0<mbh<=crit: raise ValueError("No small positive corrected Bondi root")
@@ -99,3 +99,34 @@ def hassan_radius(mbh,rho,cs,N=1):
     ratio=mbh/crit
     x=brentq(lambda x:(x**3-3*x+2*ratio),0.,1.,xtol=1e-14)
     return turning*x
+
+def run_reference(config,output='results'):
+    """Configurable published STATIC families; no thermal-evolution claim."""
+    import csv
+    from . import io
+    allowed={'family','n','N','minimum','maximum','samples'}
+    if set(config)-allowed:raise ValueError('Unknown reference configuration key')
+    family=config['family'];samples=config.get('samples',80)
+    if not isinstance(samples,int) or not 4<=samples<=10000:raise ValueError('Reference samples must be 4-10000')
+    if family=='ball2011':
+        n=config.get('n',3)
+        if n not in (2,3,4):raise ValueError('Validated Ball reference indices are 2,3,4')
+        x=np.linspace(config.get('minimum',.05),config.get('maximum',1.5),samples)
+        if min(x)<=0:raise ValueError('xi0 must be positive')
+        rows=[ball_loaded(v,n) for v in x]
+    elif family=='corrected_bondi':
+        N=config.get('N',1.)
+        if N<=0:raise ValueError('Bondi factor must be positive')
+        x=np.linspace(config.get('minimum',5.5*N),config.get('maximum',25*N),samples)
+        rows=[dict(K=v,bh_fraction=corrected_bondi(v,N)) for v in x]
+    elif family=='saturated_convection':
+        x=np.linspace(config.get('minimum',.15),config.get('maximum',1.),samples)
+        rows=[dict(xmatch=v,**saturated_composite(v)) for v in x]
+    else:raise ValueError('Unknown static reference family')
+    path=io.create_directory(output,'reference_'+family);io.provenance(path,config)
+    with (path/'sequence.csv').open('w',newline='') as f:
+        w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
+    report=dict(status='completed_reference',family=family,samples=samples,v1_validated=False,
+                scope='Dimensionless published structure equations only; no time evolution or photosphere.')
+    io.json_write(path/'termination.json',report)
+    return path,report

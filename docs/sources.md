@@ -98,7 +98,7 @@ This register distinguishes implemented laws, derived numerical identities, opti
 - Assumptions: Self-consistent Bondi radius including rho~r^-3/2 cavity
 - Domain: Below critical mass, choose small positive radius continuous as MBH tends to zero
 - Variables and units: rho g/cm^3, cs cm/s, N dimensionless
-- Interpretation: Solve Appendix A cubic directly. Inspected Eq 6 prefactor gives twice the positive double root at Mcrit; do not encode that inconsistency. Full ~0.33 evolutionary limit remains unreplicated.
+- Interpretation: Solve Appendix A cubic directly for stability near zero BH mass; verified equivalent to printed Eq 6. An initial factor-of-two audit suspicion was retracted (Report 4). Full ~0.33 evolutionary limit remains unreplicated.
 - Implementation: `src/qstars/reference.py`
 
 ## cantiello2025 — Cantiello et al. (2025/2026)

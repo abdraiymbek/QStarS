@@ -28,12 +28,13 @@ qstars sweep configs/hot_accreting.yaml configs/sweep.yaml --workers 2
 python -m pytest -q
 qstars validate
 qstars validate --require-v1
+qstars reference benchmarks/coughlin2024_saturated.yaml
 ```
 
 Each run prints its unique result directory. `requirements-lock.txt` records
 the measured environment, including optional audit/testing packages.
 `validate` produces Markdown/JSON evidence and currently exits **2** for two
-explicitly tracked published cutoff discrepancies. `--require-v1` also exits 2
+published cutoff discrepancies and a concentrated-mesh solver failure. `--require-v1` also exits 2
 while the full scientific gates remain open. A completed example is not v1 validation.
 
 ## Examples

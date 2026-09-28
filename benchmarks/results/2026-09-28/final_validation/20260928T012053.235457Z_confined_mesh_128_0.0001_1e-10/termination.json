@@ -1,0 +1,23 @@
+{
+  "status": "numerical_failure",
+  "reason": "Coupled solve residual=0.0105084; The iteration is not making good progress, as measured by the \n improvement from the last ten iterations.",
+  "accepted_steps_this_run": 1,
+  "retries": 21,
+  "runtime_seconds": 2.120866624987684,
+  "process_peak_rss_MiB": 85.296875,
+  "final_time_years": 2.44140625e-08,
+  "v1_validated": false,
+  "conservation": {
+    "mass_residual_g": -2.3611832414348226e+21,
+    "mass_residual_relative": -1.1756803922309254e-16,
+    "energy_residual_erg": -3.294662630192483e+37,
+    "energy_residual_relative": -1.0980877602512368e-16,
+    "energy_residual_relative_to_binding": -3.4557262062537415e-15,
+    "energy_residual_relative_to_throughput": -2.00338664985157e-05,
+    "engine_conversion_residual_erg": 1.5474250491067253e+26,
+    "internal": 3.0003636771616524e+53,
+    "gravity": -3.095702903521523e+53,
+    "kinetic": 5.231138109021054e+33,
+    "total": -9.533922635987042e+51
+  }
+}

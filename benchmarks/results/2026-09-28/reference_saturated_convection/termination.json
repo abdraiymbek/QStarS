@@ -1,0 +1,7 @@
+{
+  "status": "completed_reference",
+  "family": "saturated_convection",
+  "samples": 80,
+  "v1_validated": false,
+  "scope": "Dimensionless published structure equations only; no time evolution or photosphere."
+}

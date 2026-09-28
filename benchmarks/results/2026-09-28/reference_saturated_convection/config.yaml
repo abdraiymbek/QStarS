@@ -1,0 +1,4 @@
+family: saturated_convection
+minimum: 0.15
+maximum: 1.0
+samples: 80

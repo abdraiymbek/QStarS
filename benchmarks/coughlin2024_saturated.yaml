@@ -1,0 +1,5 @@
+family: saturated_convection
+minimum: 0.15
+# Printed cutoff; mathematical entropy-minimum cutoff is ~1.01483543.
+maximum: 1.0
+samples: 80

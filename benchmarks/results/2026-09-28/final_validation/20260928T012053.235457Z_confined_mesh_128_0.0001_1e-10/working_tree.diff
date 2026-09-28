@@ -1,0 +1,365 @@
+diff --git a/README.md b/README.md
+index f0cbf88..0ce361c 100644
+--- a/README.md
++++ b/README.md
+@@ -28,6 +28,7 @@ qstars sweep configs/hot_accreting.yaml configs/sweep.yaml --workers 2
+ python -m pytest -q
+ qstars validate
+ qstars validate --require-v1
++qstars reference benchmarks/coughlin2024_saturated.yaml
+ ```
+ 
+ Each run prints its unique result directory. `requirements-lock.txt` records
+diff --git a/configs/pressure_confined.yaml b/configs/pressure_confined.yaml
+index 578811a..2ee3285 100644
+--- a/configs/pressure_confined.yaml
++++ b/configs/pressure_confined.yaml
+@@ -3,6 +3,8 @@ name: pressure_confined_hot_envelope
+ # Finite-pressure truncation keeps every resolved zone in the ionized domain.
+ boundary:
+   pressure_cgs: 1.0e8
++  thermal: luminosity
++  luminosity_erg_s: 1.0e42
+ engine:
+   model: prescribed
+   rest_mass_rate_msun_per_year: 0.0002
+diff --git a/docs/usage.md b/docs/usage.md
+index 76ea5f2..93173ce 100644
+--- a/docs/usage.md
++++ b/docs/usage.md
+@@ -1,7 +1,8 @@
+ # Configuration and output reference
+ 
+ Configuration is strict YAML; unknown keys and unsupported physics raise errors.
+-Quote `"off"`: YAML 1.1 otherwise interprets it as a boolean. Mass rates use
++The safe loader accepts scientific notation and reserves only true/false as
++booleans; `off` remains a string. Mass rates use
+ solar masses/year; other physical controls use CGS and kelvin. Initial mass
+ means envelope mass excluding the BH. The initializer is hydrostatic n=3, not
+ thermal equilibrium. A Gaussian temperature perturbation may be specified by
+diff --git a/src/qstars/cli.py b/src/qstars/cli.py
+index 4fd0b61..711adb9 100644
+--- a/src/qstars/cli.py
++++ b/src/qstars/cli.py
+@@ -2,7 +2,7 @@ import argparse,copy,itertools,json
+ from concurrent.futures import ProcessPoolExecutor
+ from pathlib import Path
+ import yaml
+-from .config import load,resolve
++from .config import load,resolve,ScientificLoader
+ from .evolution import run
+ from .io import load_checkpoint
+ 
+@@ -20,6 +20,7 @@ def main(argv=None):
+     r=sub.add_parser('validate');r.add_argument('--output',default='results');r.add_argument('--quick',action='store_true')
+     r.add_argument('--require-v1',action='store_true',help='Fail unless every v1 scientific gate is passed')
+     r=sub.add_parser('plot');r.add_argument('directory')
++    r=sub.add_parser('reference');r.add_argument('config');r.add_argument('--output',default='results')
+     r=sub.add_parser('sweep');r.add_argument('config');r.add_argument('grid');r.add_argument('--workers',type=int,default=1);r.add_argument('--output',default='results')
+     args=p.parse_args(argv)
+     try:
+@@ -39,8 +40,11 @@ def main(argv=None):
+         elif args.command=='plot':
+             from .plotting import plot_run
+             print('\n'.join(plot_run(args.directory)));return 0
++        elif args.command=='reference':
++            from .reference import run_reference
++            path,report=run_reference(yaml.load(Path(args.config).read_text(),Loader=ScientificLoader),args.output)
+         else:
+-            c=load(args.config);grid=yaml.safe_load(Path(args.grid).read_text());configs=[]
++            c=load(args.config);grid=yaml.load(Path(args.grid).read_text(),Loader=ScientificLoader);configs=[]
+             if args.workers<1:raise ValueError('workers must be positive')
+             for i,values in enumerate(itertools.product(*grid.values())):
+                 model=copy.deepcopy(c)
+@@ -53,7 +57,7 @@ def main(argv=None):
+             with ProcessPoolExecutor(max_workers=args.workers) as pool:reports=list(pool.map(_sweep_one,configs))
+             print(json.dumps(reports,indent=2));return int(any(x['status']!='completed_requested_interval' for x in reports))
+         print(path);print(json.dumps(report,indent=2))
+-        return 0 if report['status'] in ('completed_requested_interval','control_stop') else 1
++        return 0 if report['status'] in ('completed_requested_interval','completed_reference','control_stop') else 1
+     except (ValueError,OSError,KeyError) as exc:
+         p.exit(2,f'qstars: {exc}\n')
+ 
+diff --git a/src/qstars/config.py b/src/qstars/config.py
+index 9532e91..415b693 100644
+--- a/src/qstars/config.py
++++ b/src/qstars/config.py
+@@ -5,6 +5,17 @@ import math
+ import re
+ import yaml
+ 
++class ScientificLoader(yaml.SafeLoader):
++    """Safe YAML with scientific notation and only true/false booleans."""
++    yaml_implicit_resolvers=copy.deepcopy(yaml.SafeLoader.yaml_implicit_resolvers)
++
++for _char,_resolvers in ScientificLoader.yaml_implicit_resolvers.items():
++    ScientificLoader.yaml_implicit_resolvers[_char]=[(tag,rx) for tag,rx in _resolvers
++                                                    if tag!='tag:yaml.org,2002:bool']
++ScientificLoader.add_implicit_resolver('tag:yaml.org,2002:bool',re.compile(r'^(?:true|false|True|False|TRUE|FALSE)$'),list('tTfF'))
++ScientificLoader.add_implicit_resolver('tag:yaml.org,2002:float',
++    re.compile(r'^[-+]?(?:[0-9][0-9_]*(?:\.[0-9_]*)?|\.[0-9_]+)[eE][-+]?[0-9]+$'),list('-+0123456789.'))
++
+ DEFAULT = dict(
+     schema_version=1,name="hot_envelope",fidelity="exploratory",
+     initial=dict(envelope_mass_msun=1e4,bh_mass_msun=100.,radius_cm=1e14,inner_radius_cm=1e12,
+@@ -18,7 +29,7 @@ DEFAULT = dict(
+     transport=dict(convection="mlt_lossless",mixing_length_alpha=2.),
+     boundary=dict(inner="fixed_excision",pressure_cgs=0.,thermal="grey",external_optical_depth=0.,
+                   bath_temperature_K=0.,luminosity_erg_s=1e41),
+-    evolution=dict(end_time_years=.1,max_steps=10000),
++    evolution=dict(end_time_years=.1,max_steps=10000,max_wall_seconds=0.),
+     numerics=dict(zones=32,mesh="cosine",initial_dt_years=.001,max_dt_years=.005,min_dt_years=1e-10,
+                   solver_tolerance=1e-9,max_fractional_change=.02,max_retries=12,
+                   conservation_tolerance=1e-7,refine_every_steps=0,max_zones=256),
+@@ -39,6 +50,7 @@ def merge(base,updates,path=""):
+ 
+ def check_control(v,label,nonnegative=True):
+     from .controls import value
++    if not isinstance(v,(float,int,dict)) or isinstance(v,bool): raise ValueError(f'{label}: expected number or control mapping')
+     if isinstance(v,dict):
+         kind = v.get("kind")
+         schemas = {"table":{"kind","time_years","values"},
+@@ -91,12 +103,18 @@ def resolve(raw):
+     positive("initial",["envelope_mass_msun","bh_mass_msun","radius_cm","inner_radius_cm","perturbation_mass_width"])
+     positive("numerics",["zones","initial_dt_years","max_dt_years","min_dt_years","solver_tolerance","max_fractional_change","max_retries","conservation_tolerance","max_zones"])
+     positive("evolution",["end_time_years","max_steps"])
++    wall=c['evolution']['max_wall_seconds']
++    if isinstance(wall,bool) or not isinstance(wall,(int,float)) or not math.isfinite(wall) or wall<0:
++        raise ValueError('evolution.max_wall_seconds must be a finite nonnegative number')
+     positive("output",["profile_every_steps","checkpoint_every_steps"])
+     positive("validity",["min_temperature_K","max_temperature_K","max_mach","max_compactness"])
+     positive("feeding",["density_cgs"])
+     positive("transport",["mixing_length_alpha"])
+     for key in ["zones","max_retries","max_zones","refine_every_steps"]:
+         if not isinstance(c["numerics"][key],int): raise ValueError(f"{key} must be an integer")
++    if c['numerics']['refine_every_steps']<0:raise ValueError('refine_every_steps must be nonnegative')
++    for key in ('profile_every_steps','checkpoint_every_steps'):
++        if not isinstance(c['output'][key],int):raise ValueError(f'{key} must be an integer')
+     if c["numerics"]["zones"]<4: raise ValueError("At least four zones required")
+     if c['validity']['min_temperature_K']<1e5 or c['validity']['max_temperature_K']>1e8:
+         raise ValueError('Configured EOS limits must stay within the supported 1e5-1e8 K interval')
+@@ -113,7 +131,7 @@ def resolve(raw):
+     return c
+ 
+ def load(path):
+-    with open(path) as f: config=resolve(yaml.safe_load(f))
++    with open(path) as f: config=resolve(yaml.load(f,Loader=ScientificLoader))
+     if config['opacity']['model']=='table':
+         p=Path(config['opacity']['table_path'])
+         if not p.is_absolute():p=Path(path).resolve().parent/p
+diff --git a/src/qstars/evolution.py b/src/qstars/evolution.py
+index 24fabe0..f2bb6ae 100644
+--- a/src/qstars/evolution.py
++++ b/src/qstars/evolution.py
+@@ -65,6 +65,8 @@ def run(config,output_parent="results",restart=None,stop_after_steps=None):
+         end=config["evolution"]["end_time_years"]*YEAR
+         c=config["numerics"]
+         while state.time<end*(1-1e-14):
++            if config['evolution']['max_wall_seconds'] and time.perf_counter()-start>=config['evolution']['max_wall_seconds']:
++                status,reason='control_stop','configured wall time budget reached';break
+             if state.steps>=config["evolution"]["max_steps"]:
+                 status,reason="control_stop","maximum accepted steps reached"; break
+             if stop_after_steps is not None and accepted>=stop_after_steps:
+@@ -105,6 +107,9 @@ def run(config,output_parent="results",restart=None,stop_after_steps=None):
+         else: status,reason="completed_requested_interval","requested end time reached within configured domain"
+     except DomainError as exc:
+         status,reason="model_domain_exit",str(exc); log(status,error=reason)
++    except KeyboardInterrupt:
++        status,reason='control_stop','execution interrupted; last accepted state preserved'
++        log(status,reason=reason)
+     except (RuntimeError,ValueError,ArithmeticError) as exc:
+         status,reason="numerical_failure",str(exc); log(status,error=reason)
+     finally:
+diff --git a/src/qstars/mass_transport.py b/src/qstars/mass_transport.py
+index dd6e3fb..0ef72d0 100644
+--- a/src/qstars/mass_transport.py
++++ b/src/qstars/mass_transport.py
+@@ -5,7 +5,7 @@ resolved velocity. Injected energy is enthalpy. The gravitational flux uses
+ the derivative of the discrete binding energy; no residual is zeroed.
+ """
+ import numpy as np
+-from .constants import G,C,MSUN,YEAR
++from .constants import G,C,MSUN,YEAR,ME,KB,H,MU,PI
+ from .controls import value
+ 
+ class DomainError(RuntimeError):
+@@ -26,7 +26,18 @@ def exchange(old,dt,eos,config,engine,wind_rate):
+     if f["thermodynamics"] == "surface":
+         incoming_h,incoming_s = q["h"][-1],q["s"][-1]
+     else:
+-        incoming = eos.evaluate(f["density_cgs"],value(f["temperature_K"],old.time/YEAR))
++        incoming_T=value(f['temperature_K'],old.time/YEAR)
++        if added>0:
++            if not config['validity']['min_temperature_K']<=incoming_T<=config['validity']['max_temperature_K']:
++                raise DomainError('Supplied material lies outside the EOS temperature domain')
++            ne=f['density_cgs']/MU*(eos.composition.X+eos.composition.Y/2+eos.composition.Z/2)
++            phase=(2*PI*ME*KB*incoming_T/H**2)**1.5
++            if ne/phase>.1:raise DomainError('Supplied material is outside the nondegenerate EOS domain')
++            for fraction,chi in ((eos.composition.X,13.5984),(eos.composition.Y,54.4178)):
++                ratio=phase/ne*np.exp(-chi*1.602176634e-12/(KB*incoming_T))
++                if fraction>0 and ratio/(1+ratio)<.99:
++                    raise DomainError('Supplied material fails fully ionized EOS screening')
++        incoming = eos.evaluate(f["density_cgs"],incoming_T)
+         incoming_h,incoming_s = incoming["h"],incoming["s"]
+     U = old.dm*q["u"]
+     U[0] -= swallowed*q["h"][0]
+diff --git a/src/qstars/plotting.py b/src/qstars/plotting.py
+index 1fcadc1..2573b3e 100644
+--- a/src/qstars/plotting.py
++++ b/src/qstars/plotting.py
+@@ -12,11 +12,11 @@ def plot_run(directory):
+                          'axes.spines.right':False,'axes.grid':True,'grid.alpha':.15,'figure.dpi':130})
+     fig,ax=plt.subplots(2,3,figsize=(14,8),constrained_layout=True)
+     t=h['time_years']
+-    ax[0,0].plot(t,h['bh_mass_msun'],color='#146a79');ax[0,0].set(ylabel='BH mass [solar masses]')
++    ax[0,0].plot(t,h['bh_mass_msun']-h['bh_mass_msun'][0],color='#146a79');ax[0,0].set(ylabel='BH mass gained [solar masses]')
+     ax[0,1].plot(t,h['radius_cm']/1e14,color='#784bb2');ax[0,1].set(ylabel='Outer radius [10¹⁴ cm]')
+-    ax[0,2].plot(t,h['luminosity_erg_s'],label='Boundary outflow',color='#df8832')
+-    ax[0,2].plot(t,h['engine_luminosity_erg_s'],label='BH deposition',color='#146a79')
+-    ax[0,2].set(ylabel='Luminosity [erg/s]');ax[0,2].set_yscale('symlog',linthresh=1e35);ax[0,2].legend(fontsize=8)
++    ax[0,2].plot(t,h['luminosity_erg_s']/1e42,label='Boundary outflow',color='#df8832')
++    ax[0,2].plot(t,h['engine_luminosity_erg_s']/1e42,label='BH deposition',color='#146a79')
++    ax[0,2].set(ylabel='Luminosity [10⁴² erg/s]');ax[0,2].legend(fontsize=8)
+     ax[1,0].plot(t,h['energy_residual_relative'],label='Energy / initial U')
+     ax[1,0].plot(t,h['mass_residual_relative'],label='Mass / initial mass');ax[1,0].legend(fontsize=8);ax[1,0].set(ylabel='Signed conservation residual')
+     for k,label in [('supplied_mass','Delivered'),('wind_mass','Escaping wind'),('accreted_rest_mass','BH rest mass')]:
+diff --git a/src/qstars/reference.py b/src/qstars/reference.py
+index 4becbe0..152cb38 100644
+--- a/src/qstars/reference.py
++++ b/src/qstars/reference.py
+@@ -99,3 +99,34 @@ def hassan_radius(mbh,rho,cs,N=1):
+     ratio=mbh/crit
+     x=brentq(lambda x:(x**3-3*x+2*ratio),0.,1.,xtol=1e-14)
+     return turning*x
++
++def run_reference(config,output='results'):
++    """Configurable published STATIC families; no thermal-evolution claim."""
++    import csv
++    from . import io
++    allowed={'family','n','N','minimum','maximum','samples'}
++    if set(config)-allowed:raise ValueError('Unknown reference configuration key')
++    family=config['family'];samples=config.get('samples',80)
++    if not isinstance(samples,int) or not 4<=samples<=10000:raise ValueError('Reference samples must be 4-10000')
++    if family=='ball2011':
++        n=config.get('n',3)
++        if n not in (2,3,4):raise ValueError('Validated Ball reference indices are 2,3,4')
++        x=np.linspace(config.get('minimum',.05),config.get('maximum',1.5),samples)
++        if min(x)<=0:raise ValueError('xi0 must be positive')
++        rows=[ball_loaded(v,n) for v in x]
++    elif family=='corrected_bondi':
++        N=config.get('N',1.)
++        if N<=0:raise ValueError('Bondi factor must be positive')
++        x=np.linspace(config.get('minimum',5.5*N),config.get('maximum',25*N),samples)
++        rows=[dict(K=v,bh_fraction=corrected_bondi(v,N)) for v in x]
++    elif family=='saturated_convection':
++        x=np.linspace(config.get('minimum',.15),config.get('maximum',1.),samples)
++        rows=[dict(xmatch=v,**saturated_composite(v)) for v in x]
++    else:raise ValueError('Unknown static reference family')
++    path=io.create_directory(output,'reference_'+family);io.provenance(path,config)
++    with (path/'sequence.csv').open('w',newline='') as f:
++        w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
++    report=dict(status='completed_reference',family=family,samples=samples,v1_validated=False,
++                scope='Dimensionless published structure equations only; no time evolution or photosphere.')
++    io.json_write(path/'termination.json',report)
++    return path,report
+diff --git a/src/qstars/validation.py b/src/qstars/validation.py
+index 1fedbcb..04da939 100644
+--- a/src/qstars/validation.py
++++ b/src/qstars/validation.py
+@@ -57,6 +57,8 @@ def campaign(parent='results',convergence=True):
+             c['numerics'].update(zones=n,initial_dt_years=dt,max_dt_years=dt,solver_tolerance=tol)
+             if axis=='confined_mesh':
+                 c['boundary']['pressure_cgs']=1e8
++                c['boundary']['thermal']='luminosity'
++                c['boundary']['luminosity_erg_s']=1e42
+                 c['numerics']['mesh']='core_refined'
+             p,r=run(c,out)
+             row=dict(axis=axis,zones=n,dt_years=dt,solver_tolerance=tol,path=str(p),**r)
+@@ -65,12 +67,17 @@ def campaign(parent='results',convergence=True):
+                 for key in ('radius_cm','luminosity_erg_s','bh_mass_msun','internal','gravity','kinetic','energy_residual_relative'):
+                     row[key]=float(h[key][-1])
+             convergence_rows.append(row)
++            checks.append(dict(name=f"{axis} n={n}, dt={dt:g}, tol={tol:g} completes",
++                passed=r['status']=='completed_requested_interval',actual=r['status'],level='B'))
+         for axis in ('mesh','timestep','solver','confined_mesh'):
+             group=[r for r in convergence_rows if r['axis']==axis]
+             reference=group[-1]
+             for row in group:
+-                row['relative_difference_to_finest']={k:abs(row[k]-reference[k])/max(abs(reference[k]),1.)
+-                    for k in ('radius_cm','luminosity_erg_s','internal')}
++                comparable=(reference['status']==row['status']=='completed_requested_interval' and
++                            abs(row['final_time_years']-reference['final_time_years'])<1e-12)
++                row['comparable']=comparable
++                row['relative_difference_to_finest']=({k:abs(row[k]-reference[k])/max(abs(reference[k]),1.)
++                    for k in ('radius_cm','luminosity_erg_s','internal')} if comparable else {})
+     summary=dict(checks=checks,convergence=convergence_rows,v1_validated=False,
+         pending=['Full Ball 2011 Table 1 evolutionary replication','MESA-QUEST thermal tracks',
+                  'Fiacconi & Rossi transonic advective wind solutions','Cantiello nonadiabatic stability',
+diff --git a/tests/test_physics.py b/tests/test_physics.py
+index bca137b..15b2b73 100644
+--- a/tests/test_physics.py
++++ b/tests/test_physics.py
+@@ -32,6 +32,12 @@ def test_eos_first_law_and_derivatives():
+     np.testing.assert_allclose(e.temperature(rho,q['p'],'p'),T,rtol=1e-12)
+     assert np.all((q['grad_ad']>=.25)&(q['grad_ad']<=.4))
+ 
++def test_example_configuration_loading():
++    from pathlib import Path
++    from qstars.config import load
++    for p in Path('configs').glob('*.yaml'):
++        if p.name!='sweep.yaml':physics(load(p))
++
+ def test_hydrostatic_and_energy(model):
+     s,e,op,c=model
+     assert max(abs(hydrostatic_residual(s,e,0)))<1e-9
+@@ -82,6 +88,20 @@ def test_two_stream_equal_rates_do_not_cancel(model):
+     assert out.energies(e)['internal']!=s.energies(e)['internal']
+     assert abs(ledger.residuals(out,e)['energy_residual_relative'])<1e-12
+ 
++def test_cold_supplied_material_is_rejected(model):
++    s,e,op,c=model
++    c['feeding'].update(rate_msun_per_year=.01,temperature_K=4000.)
++    with pytest.raises(DomainError):exchange(s,YEAR*.001,e,c,rates(s,e,c['engine']),0.)
++
++def test_control_event_mass_integral(model,tmp_path):
++    s,e,op,c=model
++    c['feeding'].update(rate_msun_per_year=dict(kind='pulse',base=.01,amplitude=.02,start_years=.001,end_years=.002),thermodynamics='surface')
++    c['evolution']['end_time_years']=.003
++    p,r=run(c,tmp_path)
++    out,_=load_checkpoint(p/'checkpoint.npz')
++    assert r['status']=='completed_requested_interval'
++    assert np.isclose(out.ledger['supplied_mass']/MSUN,.01*.003+.02*.001,rtol=1e-12)
++
+ def test_accretion_mass_defect_and_energy(model):
+     s,e,op,c=model;c['engine'].update(model='prescribed',rest_mass_rate_msun_per_year=1e-4)
+     out,d=attempt_step(s,1e-4*YEAR,e,op,c)
+@@ -138,6 +158,29 @@ def test_hassan_cubic_and_domain():
+         assert np.isclose(r,2*G*(mass+8*PI/3*rho*r**3)/cs**2,rtol=1e-10)
+     with pytest.raises(ValueError): hassan_radius(crit*1.01,rho,cs)
+ 
++def test_saturated_published_cutoff_and_entropy_root():
++    from qstars.reference import saturated_inner,saturated_composite
++    info,sol=saturated_inner()
++    assert abs(info['x_entropy_min']-1.015)<.001
++    m=float(sol.sol(0)[0])
++    assert abs(1/m-.6321)<.0001
++    assert abs(saturated_composite(1.)['bh_fraction']-.618)<.001
++    # Preserve the distinction: the entropy-minimum scalar is NOT the printed cutoff.
++    assert abs(info['Ki_max']-.46554)>.002
++
++def test_refined_restart_and_ledger(model,tmp_path):
++    s,e,op,c=model
++    c['numerics'].update(refine_every_steps=2,max_zones=32)
++    c['evolution']['end_time_years']=.003
++    p,r=run(c,tmp_path,stop_after_steps=2)
++    middle,cc=load_checkpoint(p/'checkpoint.npz')
++    assert len(middle.dm)==32
++    p2,r2=run(cc,tmp_path,restart=middle)
++    p3,r3=run(c,tmp_path)
++    a,_=load_checkpoint(p2/'checkpoint.npz');b,_=load_checkpoint(p3/'checkpoint.npz')
++    np.testing.assert_array_equal(a.T,b.T)
++    assert abs(ledger.residuals(a,e)['energy_residual_relative'])<1e-10
++
+ def test_domain_exit_and_preserved_run(tmp_path):
+     c=resolve({'name':'unsupported_cool_model','validity':{'min_temperature_K':1e7}})
+     p,r=run(c,tmp_path)

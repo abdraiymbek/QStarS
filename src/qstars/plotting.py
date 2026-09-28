@@ -12,11 +12,11 @@ def plot_run(directory):
                          'axes.spines.right':False,'axes.grid':True,'grid.alpha':.15,'figure.dpi':130})
     fig,ax=plt.subplots(2,3,figsize=(14,8),constrained_layout=True)
     t=h['time_years']
-    ax[0,0].plot(t,h['bh_mass_msun'],color='#146a79');ax[0,0].set(ylabel='BH mass [solar masses]')
+    ax[0,0].plot(t,h['bh_mass_msun']-h['bh_mass_msun'][0],color='#146a79');ax[0,0].set(ylabel='BH mass gained [solar masses]')
     ax[0,1].plot(t,h['radius_cm']/1e14,color='#784bb2');ax[0,1].set(ylabel='Outer radius [10¹⁴ cm]')
-    ax[0,2].plot(t,h['luminosity_erg_s'],label='Boundary outflow',color='#df8832')
-    ax[0,2].plot(t,h['engine_luminosity_erg_s'],label='BH deposition',color='#146a79')
-    ax[0,2].set(ylabel='Luminosity [erg/s]');ax[0,2].set_yscale('symlog',linthresh=1e35);ax[0,2].legend(fontsize=8)
+    ax[0,2].plot(t,h['luminosity_erg_s']/1e42,label='Boundary outflow',color='#df8832')
+    ax[0,2].plot(t,h['engine_luminosity_erg_s']/1e42,label='BH deposition',color='#146a79')
+    ax[0,2].set(ylabel='Luminosity [10⁴² erg/s]');ax[0,2].legend(fontsize=8)
     ax[1,0].plot(t,h['energy_residual_relative'],label='Energy / initial U')
     ax[1,0].plot(t,h['mass_residual_relative'],label='Mass / initial mass');ax[1,0].legend(fontsize=8);ax[1,0].set(ylabel='Signed conservation residual')
     for k,label in [('supplied_mass','Delivered'),('wind_mass','Escaping wind'),('accreted_rest_mass','BH rest mass')]:

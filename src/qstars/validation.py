@@ -57,6 +57,8 @@ def campaign(parent='results',convergence=True):
             c['numerics'].update(zones=n,initial_dt_years=dt,max_dt_years=dt,solver_tolerance=tol)
             if axis=='confined_mesh':
                 c['boundary']['pressure_cgs']=1e8
+                c['boundary']['thermal']='luminosity'
+                c['boundary']['luminosity_erg_s']=1e42
                 c['numerics']['mesh']='core_refined'
             p,r=run(c,out)
             row=dict(axis=axis,zones=n,dt_years=dt,solver_tolerance=tol,path=str(p),**r)
@@ -65,12 +67,17 @@ def campaign(parent='results',convergence=True):
                 for key in ('radius_cm','luminosity_erg_s','bh_mass_msun','internal','gravity','kinetic','energy_residual_relative'):
                     row[key]=float(h[key][-1])
             convergence_rows.append(row)
+            checks.append(dict(name=f"{axis} n={n}, dt={dt:g}, tol={tol:g} completes",
+                passed=r['status']=='completed_requested_interval',actual=r['status'],level='B'))
         for axis in ('mesh','timestep','solver','confined_mesh'):
             group=[r for r in convergence_rows if r['axis']==axis]
             reference=group[-1]
             for row in group:
-                row['relative_difference_to_finest']={k:abs(row[k]-reference[k])/max(abs(reference[k]),1.)
-                    for k in ('radius_cm','luminosity_erg_s','internal')}
+                comparable=(reference['status']==row['status']=='completed_requested_interval' and
+                            abs(row['final_time_years']-reference['final_time_years'])<1e-12)
+                row['comparable']=comparable
+                row['relative_difference_to_finest']=({k:abs(row[k]-reference[k])/max(abs(reference[k]),1.)
+                    for k in ('radius_cm','luminosity_erg_s','internal')} if comparable else {})
     summary=dict(checks=checks,convergence=convergence_rows,v1_validated=False,
         pending=['Full Ball 2011 Table 1 evolutionary replication','MESA-QUEST thermal tracks',
                  'Fiacconi & Rossi transonic advective wind solutions','Cantiello nonadiabatic stability',

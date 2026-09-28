@@ -24,10 +24,10 @@ The BH-only Bondi radius plus cavity gives Ball's n=3 polytropic limit near
 N=1. These are distinct static models, not universal destruction thresholds.
 
 Hassan's Appendix A cubic has a small positive root up to the quoted critical
-mass. At the critical mass the inspected displayed Eq 6 returns twice the
-positive double root when substituted into the cubic. QStarS solves the cubic
-directly and checks it by substitution. This is an equation-level discrepancy,
-not evidence that the authors' MESA implementation used a wrong root.
+mass. Its displayed trigonometric Eq 6 agrees with this root. QStarS solves the
+cubic directly to avoid cancellation near zero BH mass and checks both cubic
+substitution and agreement with Eq 6. An earlier audit suspicion about a factor
+of two was an interpretation error, corrected in Report 4; it is not a paper error.
 [Hassan et al.](https://arxiv.org/abs/2510.18301)
 
 ## Saturated-convection cutoff

@@ -1,7 +1,8 @@
 # Configuration and output reference
 
 Configuration is strict YAML; unknown keys and unsupported physics raise errors.
-Quote `"off"`: YAML 1.1 otherwise interprets it as a boolean. Mass rates use
+The safe loader accepts scientific notation and reserves only true/false as
+booleans; `off` remains a string. Mass rates use
 solar masses/year; other physical controls use CGS and kelvin. Initial mass
 means envelope mass excluding the BH. The initializer is hydrostatic n=3, not
 thermal equilibrium. A Gaussian temperature perturbation may be specified by

@@ -65,6 +65,8 @@ def run(config,output_parent="results",restart=None,stop_after_steps=None):
         end=config["evolution"]["end_time_years"]*YEAR
         c=config["numerics"]
         while state.time<end*(1-1e-14):
+            if config['evolution']['max_wall_seconds'] and time.perf_counter()-start>=config['evolution']['max_wall_seconds']:
+                status,reason='control_stop','configured wall time budget reached';break
             if state.steps>=config["evolution"]["max_steps"]:
                 status,reason="control_stop","maximum accepted steps reached"; break
             if stop_after_steps is not None and accepted>=stop_after_steps:
@@ -105,6 +107,9 @@ def run(config,output_parent="results",restart=None,stop_after_steps=None):
         else: status,reason="completed_requested_interval","requested end time reached within configured domain"
     except DomainError as exc:
         status,reason="model_domain_exit",str(exc); log(status,error=reason)
+    except KeyboardInterrupt:
+        status,reason='control_stop','execution interrupted; last accepted state preserved'
+        log(status,reason=reason)
     except (RuntimeError,ValueError,ArithmeticError) as exc:
         status,reason="numerical_failure",str(exc); log(status,error=reason)
     finally:

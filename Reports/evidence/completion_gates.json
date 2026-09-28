@@ -1,0 +1,13 @@
+{
+  "v1_complete": false,
+  "automated_tests_passed": 29,
+  "published_full_evolution_replication": false,
+  "published_structure_replication": true,
+  "scientific_spatial_convergence": false,
+  "moving_inner_boundaries": false,
+  "ionization_microphysics": false,
+  "two_stream_effective_boundary": true,
+  "finite_hot_envelope_thermal_evolution": true,
+  "restart_retry_remap_controlled_tests": true,
+  "qsrd_demonstration": "deferred_until_framework_validated"
+}

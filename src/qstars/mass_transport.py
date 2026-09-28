@@ -5,7 +5,7 @@ resolved velocity. Injected energy is enthalpy. The gravitational flux uses
 the derivative of the discrete binding energy; no residual is zeroed.
 """
 import numpy as np
-from .constants import G,C,MSUN,YEAR
+from .constants import G,C,MSUN,YEAR,ME,KB,H,MU,PI
 from .controls import value
 
 class DomainError(RuntimeError):
@@ -26,7 +26,18 @@ def exchange(old,dt,eos,config,engine,wind_rate):
     if f["thermodynamics"] == "surface":
         incoming_h,incoming_s = q["h"][-1],q["s"][-1]
     else:
-        incoming = eos.evaluate(f["density_cgs"],value(f["temperature_K"],old.time/YEAR))
+        incoming_T=value(f['temperature_K'],old.time/YEAR)
+        if added>0:
+            if not config['validity']['min_temperature_K']<=incoming_T<=config['validity']['max_temperature_K']:
+                raise DomainError('Supplied material lies outside the EOS temperature domain')
+            ne=f['density_cgs']/MU*(eos.composition.X+eos.composition.Y/2+eos.composition.Z/2)
+            phase=(2*PI*ME*KB*incoming_T/H**2)**1.5
+            if ne/phase>.1:raise DomainError('Supplied material is outside the nondegenerate EOS domain')
+            for fraction,chi in ((eos.composition.X,13.5984),(eos.composition.Y,54.4178)):
+                ratio=phase/ne*np.exp(-chi*1.602176634e-12/(KB*incoming_T))
+                if fraction>0 and ratio/(1+ratio)<.99:
+                    raise DomainError('Supplied material fails fully ionized EOS screening')
+        incoming = eos.evaluate(f["density_cgs"],incoming_T)
         incoming_h,incoming_s = incoming["h"],incoming["s"]
     U = old.dm*q["u"]
     U[0] -= swallowed*q["h"][0]

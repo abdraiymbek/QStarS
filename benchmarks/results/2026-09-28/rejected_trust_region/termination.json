@@ -1,0 +1,23 @@
+{
+  "status": "numerical_failure",
+  "reason": "initialization did not complete",
+  "accepted_steps_this_run": 504,
+  "retries": 171,
+  "runtime_seconds": 275.16980404098285,
+  "process_peak_rss_MiB": 86.234375,
+  "final_time_years": 2.6784097832776202e-05,
+  "v1_validated": false,
+  "conservation": {
+    "mass_residual_g": 0.0,
+    "mass_residual_relative": 0.0,
+    "energy_residual_erg": 1.1741339113172922e+38,
+    "energy_residual_relative": 3.913305311136227e-16,
+    "energy_residual_relative_to_binding": 1.2315328707125694e-14,
+    "energy_residual_relative_to_throughput": 6.51117453496844e-08,
+    "engine_conversion_residual_erg": -1.5845632502852868e+30,
+    "internal": 3.0003636781609545e+53,
+    "gravity": -3.095702903405314e+53,
+    "kinetic": 6.033294373047951e+39,
+    "total": -9.533922524429898e+51
+  }
+}

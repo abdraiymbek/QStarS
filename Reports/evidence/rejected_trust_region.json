@@ -1,0 +1,10 @@
+{
+  "actual_stop": "Interrupted by developer after a bounded performance investigation; not a physical or initialization failure.",
+  "original_termination_note": "The pre-fix interruption handler retained its initial placeholder reason. Original termination.json is preserved.",
+  "algorithm": "hybr plus three-point trust-region least-squares fallback",
+  "finding": "Fallback made progress but repeatedly shortened timesteps on an extremely concentrated 128-zone core mesh. Rejected as default algorithm pending conditioning/physics review.",
+  "elapsed_seconds": 275.16980404098285,
+  "physical_time_years": 2.6784097832776202e-05,
+  "accepted_steps": 504,
+  "retries": 171
+}

@@ -1,0 +1,219 @@
+diff --git a/configs/pressure_confined.yaml b/configs/pressure_confined.yaml
+index 578811a..2ee3285 100644
+--- a/configs/pressure_confined.yaml
++++ b/configs/pressure_confined.yaml
+@@ -3,6 +3,8 @@ name: pressure_confined_hot_envelope
+ # Finite-pressure truncation keeps every resolved zone in the ionized domain.
+ boundary:
+   pressure_cgs: 1.0e8
++  thermal: luminosity
++  luminosity_erg_s: 1.0e42
+ engine:
+   model: prescribed
+   rest_mass_rate_msun_per_year: 0.0002
+diff --git a/docs/usage.md b/docs/usage.md
+index 76ea5f2..93173ce 100644
+--- a/docs/usage.md
++++ b/docs/usage.md
+@@ -1,7 +1,8 @@
+ # Configuration and output reference
+ 
+ Configuration is strict YAML; unknown keys and unsupported physics raise errors.
+-Quote `"off"`: YAML 1.1 otherwise interprets it as a boolean. Mass rates use
++The safe loader accepts scientific notation and reserves only true/false as
++booleans; `off` remains a string. Mass rates use
+ solar masses/year; other physical controls use CGS and kelvin. Initial mass
+ means envelope mass excluding the BH. The initializer is hydrostatic n=3, not
+ thermal equilibrium. A Gaussian temperature perturbation may be specified by
+diff --git a/src/qstars/cli.py b/src/qstars/cli.py
+index 4fd0b61..8f60ee9 100644
+--- a/src/qstars/cli.py
++++ b/src/qstars/cli.py
+@@ -2,7 +2,7 @@ import argparse,copy,itertools,json
+ from concurrent.futures import ProcessPoolExecutor
+ from pathlib import Path
+ import yaml
+-from .config import load,resolve
++from .config import load,resolve,ScientificLoader
+ from .evolution import run
+ from .io import load_checkpoint
+ 
+@@ -40,7 +40,7 @@ def main(argv=None):
+             from .plotting import plot_run
+             print('\n'.join(plot_run(args.directory)));return 0
+         else:
+-            c=load(args.config);grid=yaml.safe_load(Path(args.grid).read_text());configs=[]
++            c=load(args.config);grid=yaml.load(Path(args.grid).read_text(),Loader=ScientificLoader);configs=[]
+             if args.workers<1:raise ValueError('workers must be positive')
+             for i,values in enumerate(itertools.product(*grid.values())):
+                 model=copy.deepcopy(c)
+diff --git a/src/qstars/config.py b/src/qstars/config.py
+index 9532e91..b1d4988 100644
+--- a/src/qstars/config.py
++++ b/src/qstars/config.py
+@@ -5,6 +5,17 @@ import math
+ import re
+ import yaml
+ 
++class ScientificLoader(yaml.SafeLoader):
++    """Safe YAML with scientific notation and only true/false booleans."""
++    yaml_implicit_resolvers=copy.deepcopy(yaml.SafeLoader.yaml_implicit_resolvers)
++
++for _char,_resolvers in ScientificLoader.yaml_implicit_resolvers.items():
++    ScientificLoader.yaml_implicit_resolvers[_char]=[(tag,rx) for tag,rx in _resolvers
++                                                    if tag!='tag:yaml.org,2002:bool']
++ScientificLoader.add_implicit_resolver('tag:yaml.org,2002:bool',re.compile(r'^(?:true|false|True|False|TRUE|FALSE)$'),list('tTfF'))
++ScientificLoader.add_implicit_resolver('tag:yaml.org,2002:float',
++    re.compile(r'^[-+]?(?:[0-9][0-9_]*(?:\.[0-9_]*)?|\.[0-9_]+)[eE][-+]?[0-9]+$'),list('-+0123456789.'))
++
+ DEFAULT = dict(
+     schema_version=1,name="hot_envelope",fidelity="exploratory",
+     initial=dict(envelope_mass_msun=1e4,bh_mass_msun=100.,radius_cm=1e14,inner_radius_cm=1e12,
+@@ -39,6 +50,7 @@ def merge(base,updates,path=""):
+ 
+ def check_control(v,label,nonnegative=True):
+     from .controls import value
++    if not isinstance(v,(float,int,dict)) or isinstance(v,bool): raise ValueError(f'{label}: expected number or control mapping')
+     if isinstance(v,dict):
+         kind = v.get("kind")
+         schemas = {"table":{"kind","time_years","values"},
+@@ -113,7 +125,7 @@ def resolve(raw):
+     return c
+ 
+ def load(path):
+-    with open(path) as f: config=resolve(yaml.safe_load(f))
++    with open(path) as f: config=resolve(yaml.load(f,Loader=ScientificLoader))
+     if config['opacity']['model']=='table':
+         p=Path(config['opacity']['table_path'])
+         if not p.is_absolute():p=Path(path).resolve().parent/p
+diff --git a/src/qstars/numerics.py b/src/qstars/numerics.py
+index bad1f40..9e65254 100644
+--- a/src/qstars/numerics.py
++++ b/src/qstars/numerics.py
+@@ -5,7 +5,7 @@ globally to nonlinear tolerance. Heat transport is backward Euler, mechanics
+ implicit midpoint. No artificial damping, gravity correction, or energy reset.
+ """
+ import numpy as np
+-from scipy.optimize import root
++from scipy.optimize import root,least_squares
+ from .constants import G,PI
+ from .transport import luminosities
+ from .mass_transport import DomainError
+@@ -44,6 +44,17 @@ def thermal_mechanical_step(old,dt,eos,opacity,config,luminosity):
+     initial = np.r_[old.v[1:]/cs[1:],np.zeros(n)]
+     sol = root(residual,initial,method="hybr",options={"xtol":config["numerics"]["solver_tolerance"],"maxfev":30*(2*n+1)})
+     error = float(max(abs(residual(sol.x))))
++    method='hybr'
++    if not np.isfinite(error) or error > config['numerics']['solver_tolerance']*10:
++        # Trust-region fallback resolves convection activation on fine meshes.
++        # This changes the nonlinear algorithm, never the physical residual.
++        guess=sol.x if np.all(np.isfinite(sol.x)) and error<1 else initial
++        trial=least_squares(residual,guess,jac='3-point',x_scale='jac',
++                            xtol=1e-13,ftol=1e-13,gtol=1e-13,max_nfev=100)
++        trial_error=float(max(abs(residual(trial.x))))
++        if trial_error<error:
++            sol=trial;error=trial_error;method='trust_region'
++        else: residual(sol.x)
+     if not np.isfinite(error) or error > config["numerics"]["solver_tolerance"]*10:
+         raise StepRejected(f"Coupled solve residual={error:g}; {sol.message}")
+     state = last["state"]
+@@ -55,4 +66,4 @@ def thermal_mechanical_step(old,dt,eos,opacity,config,luminosity):
+     state.ledger["boundary_work"] -= pext*4*PI/3*(state.r[-1]**3-old.r[-1]**3)
+     state.steps = old.steps+1
+     return state,dict(nonlinear_residual=error,nfev=int(sol.nfev),fractional_change=change,
+-                      luminosity=float(last["L"][-1]))
++                      nonlinear_method=method,luminosity=float(last["L"][-1]))
+diff --git a/src/qstars/plotting.py b/src/qstars/plotting.py
+index 1fcadc1..2573b3e 100644
+--- a/src/qstars/plotting.py
++++ b/src/qstars/plotting.py
+@@ -12,11 +12,11 @@ def plot_run(directory):
+                          'axes.spines.right':False,'axes.grid':True,'grid.alpha':.15,'figure.dpi':130})
+     fig,ax=plt.subplots(2,3,figsize=(14,8),constrained_layout=True)
+     t=h['time_years']
+-    ax[0,0].plot(t,h['bh_mass_msun'],color='#146a79');ax[0,0].set(ylabel='BH mass [solar masses]')
++    ax[0,0].plot(t,h['bh_mass_msun']-h['bh_mass_msun'][0],color='#146a79');ax[0,0].set(ylabel='BH mass gained [solar masses]')
+     ax[0,1].plot(t,h['radius_cm']/1e14,color='#784bb2');ax[0,1].set(ylabel='Outer radius [10¹⁴ cm]')
+-    ax[0,2].plot(t,h['luminosity_erg_s'],label='Boundary outflow',color='#df8832')
+-    ax[0,2].plot(t,h['engine_luminosity_erg_s'],label='BH deposition',color='#146a79')
+-    ax[0,2].set(ylabel='Luminosity [erg/s]');ax[0,2].set_yscale('symlog',linthresh=1e35);ax[0,2].legend(fontsize=8)
++    ax[0,2].plot(t,h['luminosity_erg_s']/1e42,label='Boundary outflow',color='#df8832')
++    ax[0,2].plot(t,h['engine_luminosity_erg_s']/1e42,label='BH deposition',color='#146a79')
++    ax[0,2].set(ylabel='Luminosity [10⁴² erg/s]');ax[0,2].legend(fontsize=8)
+     ax[1,0].plot(t,h['energy_residual_relative'],label='Energy / initial U')
+     ax[1,0].plot(t,h['mass_residual_relative'],label='Mass / initial mass');ax[1,0].legend(fontsize=8);ax[1,0].set(ylabel='Signed conservation residual')
+     for k,label in [('supplied_mass','Delivered'),('wind_mass','Escaping wind'),('accreted_rest_mass','BH rest mass')]:
+diff --git a/src/qstars/validation.py b/src/qstars/validation.py
+index 1fedbcb..12748a8 100644
+--- a/src/qstars/validation.py
++++ b/src/qstars/validation.py
+@@ -57,6 +57,8 @@ def campaign(parent='results',convergence=True):
+             c['numerics'].update(zones=n,initial_dt_years=dt,max_dt_years=dt,solver_tolerance=tol)
+             if axis=='confined_mesh':
+                 c['boundary']['pressure_cgs']=1e8
++                c['boundary']['thermal']='luminosity'
++                c['boundary']['luminosity_erg_s']=1e42
+                 c['numerics']['mesh']='core_refined'
+             p,r=run(c,out)
+             row=dict(axis=axis,zones=n,dt_years=dt,solver_tolerance=tol,path=str(p),**r)
+@@ -69,8 +71,11 @@ def campaign(parent='results',convergence=True):
+             group=[r for r in convergence_rows if r['axis']==axis]
+             reference=group[-1]
+             for row in group:
+-                row['relative_difference_to_finest']={k:abs(row[k]-reference[k])/max(abs(reference[k]),1.)
+-                    for k in ('radius_cm','luminosity_erg_s','internal')}
++                comparable=(reference['status']==row['status']=='completed_requested_interval' and
++                            abs(row['final_time_years']-reference['final_time_years'])<1e-12)
++                row['comparable']=comparable
++                row['relative_difference_to_finest']=({k:abs(row[k]-reference[k])/max(abs(reference[k]),1.)
++                    for k in ('radius_cm','luminosity_erg_s','internal')} if comparable else {})
+     summary=dict(checks=checks,convergence=convergence_rows,v1_validated=False,
+         pending=['Full Ball 2011 Table 1 evolutionary replication','MESA-QUEST thermal tracks',
+                  'Fiacconi & Rossi transonic advective wind solutions','Cantiello nonadiabatic stability',
+diff --git a/tests/test_physics.py b/tests/test_physics.py
+index bca137b..017a6bc 100644
+--- a/tests/test_physics.py
++++ b/tests/test_physics.py
+@@ -32,6 +32,12 @@ def test_eos_first_law_and_derivatives():
+     np.testing.assert_allclose(e.temperature(rho,q['p'],'p'),T,rtol=1e-12)
+     assert np.all((q['grad_ad']>=.25)&(q['grad_ad']<=.4))
+ 
++def test_example_configuration_loading():
++    from pathlib import Path
++    from qstars.config import load
++    for p in Path('configs').glob('*.yaml'):
++        if p.name!='sweep.yaml':physics(load(p))
++
+ def test_hydrostatic_and_energy(model):
+     s,e,op,c=model
+     assert max(abs(hydrostatic_residual(s,e,0)))<1e-9
+@@ -138,6 +144,29 @@ def test_hassan_cubic_and_domain():
+         assert np.isclose(r,2*G*(mass+8*PI/3*rho*r**3)/cs**2,rtol=1e-10)
+     with pytest.raises(ValueError): hassan_radius(crit*1.01,rho,cs)
+ 
++def test_saturated_published_cutoff_and_entropy_root():
++    from qstars.reference import saturated_inner,saturated_composite
++    info,sol=saturated_inner()
++    assert abs(info['x_entropy_min']-1.015)<.001
++    m=float(sol.sol(0)[0])
++    assert abs(1/m-.6321)<.0001
++    assert abs(saturated_composite(1.)['bh_fraction']-.618)<.001
++    # Preserve the distinction: the entropy-minimum scalar is NOT the printed cutoff.
++    assert abs(info['Ki_max']-.46554)>.002
++
++def test_refined_restart_and_ledger(model,tmp_path):
++    s,e,op,c=model
++    c['numerics'].update(refine_every_steps=2,max_zones=32)
++    c['evolution']['end_time_years']=.003
++    p,r=run(c,tmp_path,stop_after_steps=2)
++    middle,cc=load_checkpoint(p/'checkpoint.npz')
++    assert len(middle.dm)==32
++    p2,r2=run(cc,tmp_path,restart=middle)
++    p3,r3=run(c,tmp_path)
++    a,_=load_checkpoint(p2/'checkpoint.npz');b,_=load_checkpoint(p3/'checkpoint.npz')
++    np.testing.assert_array_equal(a.T,b.T)
++    assert abs(ledger.residuals(a,e)['energy_residual_relative'])<1e-10
++
+ def test_domain_exit_and_preserved_run(tmp_path):
+     c=resolve({'name':'unsupported_cool_model','validity':{'min_temperature_K':1e7}})
+     p,r=run(c,tmp_path)

@@ -3,6 +3,8 @@ name: pressure_confined_hot_envelope
 # Finite-pressure truncation keeps every resolved zone in the ionized domain.
 boundary:
   pressure_cgs: 1.0e8
+  thermal: luminosity
+  luminosity_erg_s: 1.0e42
 engine:
   model: prescribed
   rest_mass_rate_msun_per_year: 0.0002

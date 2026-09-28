@@ -1,0 +1,182 @@
+[
+  {
+    "Ki": 0.04189965715986666,
+    "bh_fraction": 0.016100462946635433,
+    "outer_inner_radius": 78.3557106089059,
+    "adiabatic_mass_fraction": 0.9837967049160635
+  },
+  {
+    "Ki": 0.05632564758936796,
+    "bh_fraction": 0.020983574976417865,
+    "outer_inner_radius": 58.275850293437024,
+    "adiabatic_mass_fraction": 0.9788059550938821
+  },
+  {
+    "Ki": 0.07216749796561123,
+    "bh_fraction": 0.026538206599392312,
+    "outer_inner_radius": 44.94546569834027,
+    "adiabatic_mass_fraction": 0.9730720284106115
+  },
+  {
+    "Ki": 0.08921784789377463,
+    "bh_fraction": 0.03286997867283952,
+    "outer_inner_radius": 35.573260370179774,
+    "adiabatic_mass_fraction": 0.966458589973614
+  },
+  {
+    "Ki": 0.107270842187792,
+    "bh_fraction": 0.040106722548356774,
+    "outer_inner_radius": 28.695725295296587,
+    "adiabatic_mass_fraction": 0.9587979541359994
+  },
+  {
+    "Ki": 0.12612127947714996,
+    "bh_fraction": 0.04839889593017432,
+    "outer_inner_radius": 23.47984904946145,
+    "adiabatic_mass_fraction": 0.9498883621157095
+  },
+  {
+    "Ki": 0.14556564272274553,
+    "bh_fraction": 0.05791922495884588,
+    "outer_inner_radius": 19.420822411531574,
+    "adiabatic_mass_fraction": 0.9394916200053703
+  },
+  {
+    "Ki": 0.1654042357442659,
+    "bh_fraction": 0.06886067808778458,
+    "outer_inner_radius": 16.19717913770629,
+    "adiabatic_mass_fraction": 0.9273320885538056
+  },
+  {
+    "Ki": 0.18544390732599178,
+    "bh_fraction": 0.08143182296341758,
+    "outer_inner_radius": 13.595734826484744,
+    "adiabatic_mass_fraction": 0.9130981963594544
+  },
+  {
+    "Ki": 0.20550097877633425,
+    "bh_fraction": 0.09584861342711982,
+    "outer_inner_radius": 11.470165928672074,
+    "adiabatic_mass_fraction": 0.8964478235568948
+  },
+  {
+    "Ki": 0.2254040778764636,
+    "bh_fraction": 0.11232182469215672,
+    "outer_inner_radius": 9.716941596553665,
+    "adiabatic_mass_fraction": 0.8770189328028214
+  },
+  {
+    "Ki": 0.2449966520562408,
+    "bh_fraction": 0.13103981552375255,
+    "outer_inner_radius": 8.260732681854554,
+    "adiabatic_mass_fraction": 0.8544465511093179
+  },
+  {
+    "Ki": 0.26413899787354417,
+    "bh_fraction": 0.15214711656832172,
+    "outer_inner_radius": 7.045258630414679,
+    "adiabatic_mass_fraction": 0.8283864873004295
+  },
+  {
+    "Ki": 0.2827097050217973,
+    "bh_fraction": 0.17572048500153925,
+    "outer_inner_radius": 6.027392502177031,
+    "adiabatic_mass_fraction": 0.7985449510773888
+  },
+  {
+    "Ki": 0.30060647015232905,
+    "bh_fraction": 0.20174532312624668,
+    "outer_inner_radius": 5.1732916488590615,
+    "adiabatic_mass_fraction": 0.7647116425761598
+  },
+  {
+    "Ki": 0.3177462861627667,
+    "bh_fraction": 0.23009634749147126,
+    "outer_inner_radius": 4.455825081184168,
+    "adiabatic_mass_fraction": 0.7267922701249525
+  },
+  {
+    "Ki": 0.33406505397090897,
+    "bh_fraction": 0.26052665254837926,
+    "outer_inner_radius": 3.852847011867465,
+    "adiabatic_mass_fraction": 0.6848353807230614
+  },
+  {
+    "Ki": 0.3495166943750534,
+    "bh_fraction": 0.29266850594422966,
+    "outer_inner_radius": 3.3460268038388126,
+    "adiabatic_mass_fraction": 0.6390483918239213
+  },
+  {
+    "Ki": 0.3640718569932244,
+    "bh_fraction": 0.32604727648155507,
+    "outer_inner_radius": 2.9200441967844495,
+    "adiabatic_mass_fraction": 0.5897991448938917
+  },
+  {
+    "Ki": 0.3777163319934538,
+    "bh_fraction": 0.3601074869238071,
+    "outer_inner_radius": 2.562020670053201,
+    "adiabatic_mass_fraction": 0.5376016772519522
+  },
+  {
+    "Ki": 0.39044926987281536,
+    "bh_fraction": 0.394247372210768,
+    "outer_inner_radius": 2.2611031615568735,
+    "adiabatic_mass_fraction": 0.48308812323374384
+  },
+  {
+    "Ki": 0.4022813068370971,
+    "bh_fraction": 0.4278571408619255,
+    "outer_inner_radius": 2.008143340460516,
+    "adiabatic_mass_fraction": 0.42697071093202577
+  },
+  {
+    "Ki": 0.41323268049107315,
+    "bh_fraction": 0.4603557542857936,
+    "outer_inner_radius": 1.7954387247811252,
+    "adiabatic_mass_fraction": 0.36999928095315904
+  },
+  {
+    "Ki": 0.42333140561478416,
+    "bh_fraction": 0.49122210180957154,
+    "outer_inner_radius": 1.616515179035558,
+    "adiabatic_mass_fraction": 0.31291950843263816
+  },
+  {
+    "Ki": 0.4326115623158965,
+    "bh_fraction": 0.5200182203495576,
+    "outer_inner_radius": 1.4659390833788752,
+    "adiabatic_mass_fraction": 0.2564356503734877
+  },
+  {
+    "Ki": 0.44111173426510086,
+    "bh_fraction": 0.546403942470234,
+    "outer_inner_radius": 1.3391531046170848,
+    "adiabatic_mass_fraction": 0.20117995653181298
+  },
+  {
+    "Ki": 0.4488736187042607,
+    "bh_fraction": 0.5701429694827823,
+    "outer_inner_radius": 1.2323343011452466,
+    "adiabatic_mass_fraction": 0.1476904088732427
+  },
+  {
+    "Ki": 0.455940819176212,
+    "bh_fraction": 0.5911027116209985,
+    "outer_inner_radius": 1.1422696973912094,
+    "adiabatic_mass_fraction": 0.09639513389146226
+  },
+  {
+    "Ki": 0.4623578209834385,
+    "bh_fraction": 0.6092468435782269,
+    "outer_inner_radius": 1.06625485406709,
+    "adiabatic_mass_fraction": 0.047606714159751706
+  },
+  {
+    "Ki": 0.4681691422363378,
+    "bh_fraction": 0.6246250911621246,
+    "outer_inner_radius": 1.0020056703267601,
+    "adiabatic_mass_fraction": 0.0015211635756678943
+  }
+]

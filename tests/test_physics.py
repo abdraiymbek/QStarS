@@ -32,6 +32,12 @@ def test_eos_first_law_and_derivatives():
     np.testing.assert_allclose(e.temperature(rho,q['p'],'p'),T,rtol=1e-12)
     assert np.all((q['grad_ad']>=.25)&(q['grad_ad']<=.4))
 
+def test_example_configuration_loading():
+    from pathlib import Path
+    from qstars.config import load
+    for p in Path('configs').glob('*.yaml'):
+        if p.name!='sweep.yaml':physics(load(p))
+
 def test_hydrostatic_and_energy(model):
     s,e,op,c=model
     assert max(abs(hydrostatic_residual(s,e,0)))<1e-9
@@ -81,6 +87,20 @@ def test_two_stream_equal_rates_do_not_cancel(model):
     assert out.ledger['supplied_mass']>0 and out.ledger['wind_mass']>0
     assert out.energies(e)['internal']!=s.energies(e)['internal']
     assert abs(ledger.residuals(out,e)['energy_residual_relative'])<1e-12
+
+def test_cold_supplied_material_is_rejected(model):
+    s,e,op,c=model
+    c['feeding'].update(rate_msun_per_year=.01,temperature_K=4000.)
+    with pytest.raises(DomainError):exchange(s,YEAR*.001,e,c,rates(s,e,c['engine']),0.)
+
+def test_control_event_mass_integral(model,tmp_path):
+    s,e,op,c=model
+    c['feeding'].update(rate_msun_per_year=dict(kind='pulse',base=.01,amplitude=.02,start_years=.001,end_years=.002),thermodynamics='surface')
+    c['evolution']['end_time_years']=.003
+    p,r=run(c,tmp_path)
+    out,_=load_checkpoint(p/'checkpoint.npz')
+    assert r['status']=='completed_requested_interval'
+    assert np.isclose(out.ledger['supplied_mass']/MSUN,.01*.003+.02*.001,rtol=1e-12)
 
 def test_accretion_mass_defect_and_energy(model):
     s,e,op,c=model;c['engine'].update(model='prescribed',rest_mass_rate_msun_per_year=1e-4)
@@ -136,7 +156,32 @@ def test_hassan_cubic_and_domain():
     for ratio in (.001,.1,.9,.9999):
         mass=crit*ratio;r=hassan_radius(mass,rho,cs)
         assert np.isclose(r,2*G*(mass+8*PI/3*rho*r**3)/cs**2,rtol=1e-10)
+        printed=6*G*crit/cs**2*np.cos(np.arccos(ratio)/3+np.pi/3)
+        assert np.isclose(r,printed,rtol=1e-10)
     with pytest.raises(ValueError): hassan_radius(crit*1.01,rho,cs)
+
+def test_saturated_published_cutoff_and_entropy_root():
+    from qstars.reference import saturated_inner,saturated_composite
+    info,sol=saturated_inner()
+    assert abs(info['x_entropy_min']-1.015)<.001
+    m=float(sol.sol(0)[0])
+    assert abs(1/m-.6321)<.0001
+    assert abs(saturated_composite(1.)['bh_fraction']-.618)<.001
+    # Preserve the distinction: the entropy-minimum scalar is NOT the printed cutoff.
+    assert abs(info['Ki_max']-.46554)>.002
+
+def test_refined_restart_and_ledger(model,tmp_path):
+    s,e,op,c=model
+    c['numerics'].update(refine_every_steps=2,max_zones=32)
+    c['evolution']['end_time_years']=.003
+    p,r=run(c,tmp_path,stop_after_steps=2)
+    middle,cc=load_checkpoint(p/'checkpoint.npz')
+    assert len(middle.dm)==32
+    p2,r2=run(cc,tmp_path,restart=middle)
+    p3,r3=run(c,tmp_path)
+    a,_=load_checkpoint(p2/'checkpoint.npz');b,_=load_checkpoint(p3/'checkpoint.npz')
+    np.testing.assert_array_equal(a.T,b.T)
+    assert abs(ledger.residuals(a,e)['energy_residual_relative'])<1e-10
 
 def test_domain_exit_and_preserved_run(tmp_path):
     c=resolve({'name':'unsupported_cool_model','validity':{'min_temperature_K':1e7}})

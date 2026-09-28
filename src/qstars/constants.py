@@ -1,4 +1,4 @@
-"""CGS throughout the solver. IAU nominal solar units, CODATA constants."""
+"""CGS: CODATA constants, nominal solar radius/luminosity, adopted solar mass."""
 import numpy as np
 G = 6.67430e-8
 C = 2.99792458e10

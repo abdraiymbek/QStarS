@@ -5,6 +5,17 @@ import math
 import re
 import yaml
 
+class ScientificLoader(yaml.SafeLoader):
+    """Safe YAML with scientific notation and only true/false booleans."""
+    yaml_implicit_resolvers=copy.deepcopy(yaml.SafeLoader.yaml_implicit_resolvers)
+
+for _char,_resolvers in ScientificLoader.yaml_implicit_resolvers.items():
+    ScientificLoader.yaml_implicit_resolvers[_char]=[(tag,rx) for tag,rx in _resolvers
+                                                    if tag!='tag:yaml.org,2002:bool']
+ScientificLoader.add_implicit_resolver('tag:yaml.org,2002:bool',re.compile(r'^(?:true|false|True|False|TRUE|FALSE)$'),list('tTfF'))
+ScientificLoader.add_implicit_resolver('tag:yaml.org,2002:float',
+    re.compile(r'^[-+]?(?:[0-9][0-9_]*(?:\.[0-9_]*)?|\.[0-9_]+)[eE][-+]?[0-9]+$'),list('-+0123456789.'))
+
 DEFAULT = dict(
     schema_version=1,name="hot_envelope",fidelity="exploratory",
     initial=dict(envelope_mass_msun=1e4,bh_mass_msun=100.,radius_cm=1e14,inner_radius_cm=1e12,
@@ -18,7 +29,7 @@ DEFAULT = dict(
     transport=dict(convection="mlt_lossless",mixing_length_alpha=2.),
     boundary=dict(inner="fixed_excision",pressure_cgs=0.,thermal="grey",external_optical_depth=0.,
                   bath_temperature_K=0.,luminosity_erg_s=1e41),
-    evolution=dict(end_time_years=.1,max_steps=10000),
+    evolution=dict(end_time_years=.1,max_steps=10000,max_wall_seconds=0.),
     numerics=dict(zones=32,mesh="cosine",initial_dt_years=.001,max_dt_years=.005,min_dt_years=1e-10,
                   solver_tolerance=1e-9,max_fractional_change=.02,max_retries=12,
                   conservation_tolerance=1e-7,refine_every_steps=0,max_zones=256),
@@ -39,6 +50,7 @@ def merge(base,updates,path=""):
 
 def check_control(v,label,nonnegative=True):
     from .controls import value
+    if not isinstance(v,(float,int,dict)) or isinstance(v,bool): raise ValueError(f'{label}: expected number or control mapping')
     if isinstance(v,dict):
         kind = v.get("kind")
         schemas = {"table":{"kind","time_years","values"},
@@ -91,12 +103,18 @@ def resolve(raw):
     positive("initial",["envelope_mass_msun","bh_mass_msun","radius_cm","inner_radius_cm","perturbation_mass_width"])
     positive("numerics",["zones","initial_dt_years","max_dt_years","min_dt_years","solver_tolerance","max_fractional_change","max_retries","conservation_tolerance","max_zones"])
     positive("evolution",["end_time_years","max_steps"])
+    wall=c['evolution']['max_wall_seconds']
+    if isinstance(wall,bool) or not isinstance(wall,(int,float)) or not math.isfinite(wall) or wall<0:
+        raise ValueError('evolution.max_wall_seconds must be a finite nonnegative number')
     positive("output",["profile_every_steps","checkpoint_every_steps"])
     positive("validity",["min_temperature_K","max_temperature_K","max_mach","max_compactness"])
     positive("feeding",["density_cgs"])
     positive("transport",["mixing_length_alpha"])
     for key in ["zones","max_retries","max_zones","refine_every_steps"]:
         if not isinstance(c["numerics"][key],int): raise ValueError(f"{key} must be an integer")
+    if c['numerics']['refine_every_steps']<0:raise ValueError('refine_every_steps must be nonnegative')
+    for key in ('profile_every_steps','checkpoint_every_steps'):
+        if not isinstance(c['output'][key],int):raise ValueError(f'{key} must be an integer')
     if c["numerics"]["zones"]<4: raise ValueError("At least four zones required")
     if c['validity']['min_temperature_K']<1e5 or c['validity']['max_temperature_K']>1e8:
         raise ValueError('Configured EOS limits must stay within the supported 1e5-1e8 K interval')
@@ -113,7 +131,7 @@ def resolve(raw):
     return c
 
 def load(path):
-    with open(path) as f: config=resolve(yaml.safe_load(f))
+    with open(path) as f: config=resolve(yaml.load(f,Loader=ScientificLoader))
     if config['opacity']['model']=='table':
         p=Path(config['opacity']['table_path'])
         if not p.is_absolute():p=Path(path).resolve().parent/p

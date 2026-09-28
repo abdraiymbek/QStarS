@@ -2,7 +2,7 @@ import argparse,copy,itertools,json
 from concurrent.futures import ProcessPoolExecutor
 from pathlib import Path
 import yaml
-from .config import load,resolve
+from .config import load,resolve,ScientificLoader
 from .evolution import run
 from .io import load_checkpoint
 
@@ -20,6 +20,7 @@ def main(argv=None):
     r=sub.add_parser('validate');r.add_argument('--output',default='results');r.add_argument('--quick',action='store_true')
     r.add_argument('--require-v1',action='store_true',help='Fail unless every v1 scientific gate is passed')
     r=sub.add_parser('plot');r.add_argument('directory')
+    r=sub.add_parser('reference');r.add_argument('config');r.add_argument('--output',default='results')
     r=sub.add_parser('sweep');r.add_argument('config');r.add_argument('grid');r.add_argument('--workers',type=int,default=1);r.add_argument('--output',default='results')
     args=p.parse_args(argv)
     try:
@@ -39,8 +40,11 @@ def main(argv=None):
         elif args.command=='plot':
             from .plotting import plot_run
             print('\n'.join(plot_run(args.directory)));return 0
+        elif args.command=='reference':
+            from .reference import run_reference
+            path,report=run_reference(yaml.load(Path(args.config).read_text(),Loader=ScientificLoader),args.output)
         else:
-            c=load(args.config);grid=yaml.safe_load(Path(args.grid).read_text());configs=[]
+            c=load(args.config);grid=yaml.load(Path(args.grid).read_text(),Loader=ScientificLoader);configs=[]
             if args.workers<1:raise ValueError('workers must be positive')
             for i,values in enumerate(itertools.product(*grid.values())):
                 model=copy.deepcopy(c)
@@ -53,7 +57,7 @@ def main(argv=None):
             with ProcessPoolExecutor(max_workers=args.workers) as pool:reports=list(pool.map(_sweep_one,configs))
             print(json.dumps(reports,indent=2));return int(any(x['status']!='completed_requested_interval' for x in reports))
         print(path);print(json.dumps(report,indent=2))
-        return 0 if report['status'] in ('completed_requested_interval','control_stop') else 1
+        return 0 if report['status'] in ('completed_requested_interval','completed_reference','control_stop') else 1
     except (ValueError,OSError,KeyError) as exc:
         p.exit(2,f'qstars: {exc}\n')
 

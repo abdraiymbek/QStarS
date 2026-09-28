@@ -17,6 +17,7 @@ MESA is preferred for full production microphysics and complete stellar tracks.
 No MESA installation or full stellar replication is claimed. The dedicated
 kernel and its static reference ODEs do not close the user's v1 objective.
 
-The audit identified Ball/QUEST normalization differences, a saturated-convection
-cutoff inconsistency, and a displayed Hassan radius differing from its defining
-cubic. These are preserved explicitly rather than absorbed into tuned coefficients.
+The audit identified Ball/QUEST normalization differences and a saturated-convection
+cutoff inconsistency. An initial suspicion about Hassan's radius formula was
+subsequently retracted after direct comparison (Report 4). No physical
+coefficients were tuned to force agreement.
