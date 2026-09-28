@@ -1,0 +1,35 @@
+schema_version: 1
+benchmarks:
+  - id: ball_loaded_polytropes
+    source: ball2011
+    location: section 4.1
+    command: qstars validate --quick
+    status: implemented_structure_replication
+    targets: {n2: 0.127, n3: 0.102, n4: 0.089}
+    absolute_tolerance: 0.0005
+    tolerance_reason: Half a unit in the last published decimal place.
+  - id: corrected_bondi_limits
+    source: coughlin2024
+    location: section 2, equations 2-7 and figure 1 prose
+    command: qstars validate --quick
+    status: implemented_structure_replication
+  - id: saturated_composite
+    source: coughlin2024
+    location: section 3, equations 11-21
+    command: qstars validate --quick
+    status: implemented_with_documented_cutoff_discrepancy
+  - id: ball_stellar_tracks
+    source: ball2011
+    location: table 1
+    reference_file: ball2011_table1.csv
+    status: pending_microphysics_and_moving_cavity
+    uncertainties: Published table rounding; no figure digitization performed.
+  - id: quest_stellar_tracks
+    source: quest2025
+    status: pending_version_pinned_mesa_execution
+  - id: fiacconi_wind
+    source: fiacconi2016
+    status: pending_advective_transonic_wind_solver
+  - id: cantiello_stability
+    source: cantiello2025
+    status: pending_gyre_and_ionization_opacity

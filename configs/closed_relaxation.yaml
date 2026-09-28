@@ -1,0 +1,14 @@
+schema_version: 1
+name: closed_relaxation
+engine:
+  model: "off"
+boundary:
+  thermal: insulated
+transport:
+  convection: "off"
+initial:
+  temperature_perturbation: 0.0001
+evolution:
+  end_time_years: 1
+numerics:
+  max_dt_years: 0.01

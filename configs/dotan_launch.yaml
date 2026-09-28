@@ -1,0 +1,17 @@
+schema_version: 1
+name: dotan_launch_closure
+# Controlled luminous surface/sonic-boundary approximation.
+engine:
+  model: prescribed
+  rest_mass_rate_msun_per_year: 0.0004
+boundary:
+  thermal: luminosity
+  luminosity_erg_s: 2.0e42
+wind:
+  model: dotan2011
+  W: 10
+feeding:
+  rate_msun_per_year: 0.01
+  thermodynamics: surface
+evolution:
+  end_time_years: 0.1

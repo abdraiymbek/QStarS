@@ -1,0 +1,11 @@
+schema_version: 1
+name: bra_luminosity_transient
+# BRA08 Eq 3 at a fixed excision. This is NOT the complete BRA08 model.
+engine:
+  model: bra2008
+  coupling: 0.1
+  efficiency: 0.1
+evolution:
+  end_time_years: 0.1
+numerics:
+  max_dt_years: 0.002

@@ -1,0 +1,93 @@
+[
+  {
+    "id": "bra2008",
+    "url": "https://arxiv.org/abs/0711.4078",
+    "sha256": "b279aaee678a0188c4bc9386563e6c18a8cf17e6f486a0913f3892b6bc082a45",
+    "pages": 12,
+    "status": "downloaded"
+  },
+  {
+    "id": "ball2011",
+    "url": "https://arxiv.org/abs/1102.5098",
+    "sha256": "4d33fae7ae5c90b9fe1a9d6c688b3b0f86b6926a2d8b727babb3ff17f999c83f",
+    "pages": 12,
+    "status": "downloaded"
+  },
+  {
+    "id": "dotan2011",
+    "url": "https://arxiv.org/abs/1107.3562",
+    "sha256": "89b66f1e8098c2e4910e3ef28a8abe8204d3b5f33f64617eb90351a036e20445",
+    "pages": 12,
+    "status": "downloaded"
+  },
+  {
+    "id": "ball_thesis",
+    "url": "https://arxiv.org/abs/1207.5972",
+    "sha256": "2b7aad8e59ec038aac071aa33f83629b2116fa4da9f2fef0a63a31216e94861c",
+    "pages": 145,
+    "status": "downloaded"
+  },
+  {
+    "id": "fiacconi2016",
+    "url": "https://arxiv.org/abs/1509.07511",
+    "sha256": "1d965558e4cb4cd5a6b98e28d34be1968e3c176955623f0eae78d4fcf8e3729e",
+    "pages": 15,
+    "status": "downloaded"
+  },
+  {
+    "id": "coughlin2024",
+    "url": "https://arxiv.org/abs/2405.00084",
+    "sha256": "d2f6b51506e7e1f87ffdc812ce931bc293e00d56eecf9bc9fa0e7c0c566674e6",
+    "pages": 14,
+    "status": "downloaded"
+  },
+  {
+    "id": "quest2025",
+    "url": "https://arxiv.org/abs/2507.12651",
+    "sha256": "4743bd8ce029b3885bb0f46a6d44bda8f49c0972ab078cd0c887fe6fbed0e923",
+    "pages": 3,
+    "status": "downloaded"
+  },
+  {
+    "id": "santarelli2025",
+    "url": "https://arxiv.org/abs/2510.11772",
+    "sha256": "894576cca365d657c2e13f69251132c0f6753696fc7461e137b7b6de94c5fd00",
+    "pages": 16,
+    "status": "downloaded"
+  },
+  {
+    "id": "hassan2025",
+    "url": "https://arxiv.org/abs/2510.18301",
+    "sha256": "f534512f9259e25af870e4c1630c0cba1a61ce47dadb4c52fde1e16ab47db218",
+    "pages": 17,
+    "status": "downloaded"
+  },
+  {
+    "id": "cantiello2025",
+    "url": "https://arxiv.org/abs/2512.17997",
+    "sha256": "344c9812f3e63de400a738178293bc1ec4f3b228dab39b345957cf43cfd97ac0",
+    "pages": 11,
+    "status": "downloaded"
+  },
+  {
+    "id": "roman2026",
+    "url": "https://arxiv.org/abs/2603.21714",
+    "sha256": "68252d1fb2547e066e81f5691fa3481a4e73a21aa7517deaf18d622d27f1b4a2",
+    "pages": 10,
+    "status": "downloaded"
+  },
+  {
+    "id": "begelman2026",
+    "url": "https://arxiv.org/abs/2507.09085",
+    "sha256": "f10ccd15e128c35e2806eb84bbea2569e7c00ee2a7884919ea273fb4b21029ea",
+    "pages": 8,
+    "status": "downloaded"
+  },
+  {
+    "id": "atmosphere2026",
+    "url": "https://arxiv.org/abs/2605.12141",
+    "sha256": "b64f1bbceb39b2846af47ae190dc37d6f6fb759625a6dc59910a8dbe99c1bd33",
+    "pages": 17,
+    "status": "downloaded"
+  }
+]

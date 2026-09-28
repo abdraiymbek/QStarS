@@ -1,0 +1,24 @@
+schema_version: 1
+name: two_stream_pulse
+engine:
+  model: prescribed
+  rest_mass_rate_msun_per_year: 0.0002
+feeding:
+  rate_msun_per_year:
+    kind: pulse
+    base: 0.01
+    amplitude: 0.03
+    start_years: 2
+    end_years: 4
+  thermodynamics: specified
+  temperature_K: 400000
+  density_cgs: 1.0e-7
+wind:
+  model: prescribed
+  rate_msun_per_year: 0.008
+  terminal_speed_cm_s: 1.0e6
+evolution:
+  end_time_years: 10
+numerics:
+  zones: 32
+  max_dt_years: 0.05

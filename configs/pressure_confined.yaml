@@ -1,0 +1,15 @@
+schema_version: 1
+name: pressure_confined_hot_envelope
+# Finite-pressure truncation keeps every resolved zone in the ionized domain.
+boundary:
+  pressure_cgs: 1.0e8
+engine:
+  model: prescribed
+  rest_mass_rate_msun_per_year: 0.0002
+numerics:
+  mesh: core_refined
+  zones: 64
+  initial_dt_years: 0.0001
+  max_dt_years: 0.0001
+evolution:
+  end_time_years: 0.01

@@ -1,0 +1,19 @@
+schema_version: 1
+name: hot_accreting
+# Controlled hot-envelope evolution, not an equilibrium model from a paper.
+initial:
+  envelope_mass_msun: 10000
+  bh_mass_msun: 100
+  radius_cm: 1.0e14
+  inner_radius_cm: 1.0e12
+engine:
+  model: prescribed
+  efficiency: 0.1
+  rest_mass_rate_msun_per_year: 0.0002
+evolution:
+  end_time_years: 10
+numerics:
+  zones: 32
+  max_dt_years: 0.05
+output:
+  profile_every_steps: 10

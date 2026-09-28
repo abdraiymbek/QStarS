@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "Development software: cite the exact commit and selected physical prescriptions; full v1 validation is pending."
+type: software
+title: "QStarS: Quasi-Star Simulation"
+version: 0.1.0
+authors:
+  - name: QStarS contributors
+repository-code: https://github.com/abdraiymbek/QStarS
+license: MIT
