@@ -288,3 +288,47 @@ This register distinguishes implemented laws, derived numerical identities, opti
 - Interpretation: Diagnostic heating is derived from momentum work and never from a global energy residual. It is excluded from the external ledger balance. Both midpoint and backward_euler are explicit selectable numerical methods.
 - Implementation: `src/qstars/numerics.py; src/qstars/ledger.py`
 
+## mesa_atmosphere_mlt — MESA 24.08.1 atmosphere and native MLT
+
+[MESA 24.08.1 atmosphere and native MLT](https://docs.mesastar.org/en/24.08.1/reference/controls.html) · atm_T_tau_varying.f90; atm_T_tau_uniform.f90; turb set_mlt and mlt.f90
+
+- Status: `implemented_reference_not_evolution_boundary`
+- Assumptions: Eddington T(tau); native fixed/varying opacity; Henyey or ML1 with alpha=2 explicit, Henyey nu=8 and y=1/3
+- Domain: Native varying atmosphere starts with rho_outer=1e-10; inappropriate as an implicit vacuum boundary at low gravity. MLT subsonic validity checked separately.
+- Variables and units: tau dimensionless, Pg dyn/cm2, v cm/s; native automatic derivatives
+- Interpretation: At Teff=8000 K, g=3 and kappa=.34, native varying constant-opacity photospheric Pg is 78.96 times the analytic vacuum value. Native MLT availability is not a validated coupled stellar model.
+- Implementation: `backends/mesa/microphysics.f90; src/qstars/mesa_microphysics.py`
+
+## freeeos3 — Irwin FreeEOS 3.0.0 (2022)
+
+[Irwin FreeEOS 3.0.0 (2022)](https://sourceforge.net/projects/freeeos/files/freeeos/3.0.0%20Source/) · mod_free_eos modern API; EOS1 (3,11,-2); mod_free_eos_constants and mod_isotopic_mass_data
+
+- Status: `implemented_audited_reference`
+- Assumptions: Free-energy minimization for LTE H1/He4, gas-only evaluation followed by explicit blackbody radiation; no EOS fitting or stitching
+- Domain: 153-state component audit is not global EOS certification or non-LTE atmosphere validation. Upstream byte comparisons fail; physical reference fields quantified separately.
+- Variables and units: CGS; derivatives in ln rho and ln T; energy zero from upstream
+- Interpretation: Source tar SHA256 4ab1c15a51385a3eab3b08c6f3f240739c0105d92ec828d635ac95720edefb09. ARM portability patch removes duplicate extended/quadruple generic declarations after compiler-kind check; physical formulae unchanged. GPL dependency separately installed.
+- Implementation: `backends/freeeos/interface.f90; src/qstars/freeeos_reference.py; scripts/build_freeeos.py`
+
+## grey_mlt_atmosphere_reference — Finite-pressure grey and MLT outer-layer reference
+
+[Finite-pressure grey and MLT outer-layer reference](https://adsabs.harvard.edu/pdf/1965ApJ...142..841H) · Eddington grey relation and hydrostatic first-law derivation in docs/atmosphere.md; native Henyey implementation
+
+- Status: `implemented_candidate_fails_general_use`
+- Assumptions: Plane-parallel hydrostatic layer, grey radiative atmosphere to tau=2/3, diffusion plus native MLT below; external Pg explicit
+- Domain: No spherical transfer, non-LTE populations, moving mass, wind coupling or physical disruption claim. Geometric thickness and supersonic convection veto promotion.
+- Variables and units: dP/dtau=g/kappa, dT/dtau=(T/P)*nabla*g/kappa; column mass g/cm2, energy erg/cm2
+- Interpretation: Integrate explicit gas pressure and subtract radiation-pressure gradient; retain depth, mass and energy inventories. Constant opacity has analytic check. At 6000 K and g=1 the converged candidate demands supersonic MLT; no velocity clipping or fitted opacity.
+- Implementation: `src/qstars/atmosphere_reference.py; scripts/validate_atmosphere_reference.py`
+
+## dilute_gas_screen — Dilute classical-gas limit for H/He
+
+[Dilute classical-gas limit for H/He](https://sourceforge.net/projects/freeeos/files/freeeos/3.0.0%20Source/) · Ideal-gas limit Pg=rho kT/(mu m_u); Debye-Huckel weak-coupling and nondegeneracy screening
+
+- Status: `implemented_validity_screen`
+- Assumptions: H/He only, T>=40000 K, eta<-10 and conservative charge-2 Coulomb Gamma<.01
+- Domain: A 1% dilute-gas discrepancy is a rejection threshold, not a correction or global EOS accuracy claim
+- Variables and units: Gamma and relative Pg defect dimensionless
+- Interpretation: Radiation-dominated total first-law agreement can conceal significant gas-pressure error. The historical MESA table discrepancy is retained and rejected in evolution when the dilute limit applies; its radiation-scaled origin is an inference, not a proven table-generation bug.
+- Implementation: `src/qstars/mesa_microphysics.py; src/qstars/validity.py`
+

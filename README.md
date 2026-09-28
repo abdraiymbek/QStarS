@@ -12,6 +12,12 @@ photospheres, moving cavities, and coupled transonic winds remain open validatio
 Fiacconi–Rossi stationary wind solver now includes radiation enthalpy advection.
 These examples do not establish quasi-star lifetimes or QSRD recovery results.
 
+[Report 8](Reports/Report_8.md) establishes a concrete outer-boundary release
+blocker: the converged recombining candidate requires supersonic convection,
+and the warmer candidate violates thin-atmosphere geometry. Direct FreeEOS,
+native MESA atmosphere/MLT references and new gas-pressure validity checks
+are available; they are not certified production atmosphere coupling.
+
 ## Install and run
 
 Python 3.11+; tested on Python 3.12 on an Apple M5 Mac with 16 GiB RAM.
@@ -72,6 +78,7 @@ defaults in one engine. Their names do not certify scientific validity.
 - [Source registry](docs/sources.md) and [JSON registry](src/qstars/data/sources.json)
 - [Configuration and outputs](docs/usage.md)
 - [MESA backend decision](docs/mesa.md)
+- [Atmosphere physics, counterexamples and reproduction](docs/atmosphere.md)
 - [Validation and v1 gates](docs/validation.md)
 - [Measured performance](docs/performance.md)
 - [Supported model families](docs/model_families.md)

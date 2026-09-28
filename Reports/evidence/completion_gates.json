@@ -9,9 +9,9 @@
     "CONDITIONAL": "Bounded evidence exists; does not certify general use.",
     "FAIL": "Required capability or validation missing or failing."
   },
-  "automated_tests_passed": 52,
+  "automated_tests_passed": 62,
   "automated_tests_failed": 0,
-  "optional_mesa_tests": 4,
+  "optional_mesa_tests": 10,
   "cli_validation": {
     "checks": 31,
     "passed": 29,
@@ -22,7 +22,7 @@
       "CB24 printed BH/inner mass"
     ]
   },
-  "source_registry_entries": 26,
+  "source_registry_entries": 30,
   "published_full_evolution_replication": false,
   "published_full_evolution_replicas": 0,
   "published_structure_replication": "subset_passes_with_two_retained_printed_value_discrepancies",
@@ -52,13 +52,16 @@
       "priority": 2,
       "name": "Production microphysics",
       "status": "FAIL",
-      "achieved": "Direct MESA 24.08.1 EOS, ionization and radiative opacity; separate conduction diagnostic; exact standalone Fortran agreement at 153 states; conserved ten-year envelope run.",
-      "remaining": "Five audited states fail the 1% first-law screen. Atmosphere, full convection and composition/stellar-evolution coupling remain unvalidated or absent.",
+      "achieved": "Native EOS/opacity, atmosphere and full MLT references; direct FreeEOS gas audit; explicit-pressure layer integration and new dilute-gas validity guard.",
+      "remaining": "Candidate fails geometry and subsonic-convection validity; no validated conservative atmosphere/envelope/wind coupling. Historical table counterexamples retained.",
       "evidence": [
         "benchmarks/results/2026-09-28-closure/20260928T021532.646459Z_mesa_microphysics_validation/validation.json",
         "benchmarks/results/2026-09-28-closure/20260928T030928.629959Z_mesa_hot_current_verification/termination.json",
         "benchmarks/results/2026-09-28-closure/20260928T025423.972541Z_robustness_validation/campaign.json",
-        "benchmarks/results/2026-09-28-closure/20260928T030927.417120Z_mesa_data_inventory/inventory.json"
+        "benchmarks/results/2026-09-28-closure/20260928T030927.417120Z_mesa_data_inventory/inventory.json",
+        "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.865567Z_atmosphere_reference/validation.json",
+        "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.119787Z_freeeos_audit/audit.json",
+        "docs/atmosphere.md"
       ]
     },
     {
@@ -113,20 +116,22 @@
       "priority": 7,
       "name": "Numerical robustness",
       "status": "CONDITIONAL",
-      "achieved": "52 passing tests with MESA; hot timestep/tolerance/remap campaigns and bitwise restarts; transactional retry, fine-mesh remap and provenance regressions.",
+      "achieved": "62 regression tests pass with real libraries; prior hot campaigns retained; fresh ABI 5 ten-year MESA state and ledger repeat bitwise.",
       "remaining": "Full production-family campaigns absent. MESA remap-threshold cases do not actually remap. Early campaigns predate unchanged-source guards.",
       "evidence": [
         "benchmarks/results/2026-09-28-closure/20260928T030639.520967Z_robustness_validation/campaign.json",
         "benchmarks/results/2026-09-28-closure/20260928T025423.972541Z_robustness_validation/campaign.json",
         "Reports/evidence/development_20260928/final_tests/result.json",
-        "docs/validity.md"
+        "docs/validity.md",
+        "benchmarks/results/2026-09-28-outer-boundary/20260928T042828.972984Z_outer_final_verification/verification.json",
+        "Reports/evidence/outer_20260928/hot_mesa_previous_comparison.json"
       ]
     },
     {
       "priority": 8,
       "name": "Apple Silicon MacBook",
       "status": "CONDITIONAL",
-      "achieved": "Fresh sequential CPU benchmarks: ten years, 512 analytic zones: 24.215 s / 88.9 MiB; 128 MESA zones: 31.293 s / 1045.4 MiB.",
+      "achieved": "Fresh sequential CPU benchmarks: ten years, 512 analytic zones: 24.215 s / 88.9 MiB; 128 MESA zones: 31.293 s / 1045.4 MiB. Fresh ABI 5 verification: 30.830 s / 1045.0 MiB. Fourteen reference atmospheres: 7.159 s / 527.4 MiB, with physical validity failures.",
       "remaining": "Full published-track cost unknown; Linux MESA bridge unvalidated; development high-resolution timings include concurrent workloads.",
       "evidence": [
         "benchmarks/results/2026-09-28-closure/20260928T031938.396825Z_performance_validation/performance.json"
@@ -300,6 +305,12 @@
       "threshold": 1e-08,
       "units": "relative",
       "reason": "Independent roundoff-control invariant; failure is numerical, not physical."
+    },
+    {
+      "quantity": "dilute gas-pressure limit",
+      "threshold": 0.01,
+      "units": "relative gas pressure",
+      "reason": "Apply only for H/He at T>=40000 K, eta<-10 and conservative charge-2 Coulomb Gamma<0.01. Radiation-dominated total first-law agreement can hide a large gas-pressure discrepancy."
     }
   ],
   "validity_boundary": {
@@ -326,13 +337,22 @@
     "wind": "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json",
     "cli": "benchmarks/results/2026-09-28-closure/20260928T031903.825105Z_validation/validation.json",
     "performance": "benchmarks/results/2026-09-28-closure/20260928T031938.396825Z_performance_validation/performance.json",
-    "tests": "Reports/evidence/development_20260928/final_tests/result.json",
+    "tests": "benchmarks/results/2026-09-28-outer-verified/20260928T043954.437393Z_outer_abi_guard_verification/verification.json",
     "sources": "src/qstars/data/sources.json",
     "published_suite": "benchmarks/manifest.yaml",
     "validity": "docs/validity.md",
     "families": "docs/model_families.md",
     "equations": "docs/equations.md",
-    "spatial_repeat_comparison": "benchmarks/results/2026-09-28-verified-spatial/20260928T033503.024409Z_spatial_validation/previous_campaign_comparison.json"
+    "spatial_repeat_comparison": "benchmarks/results/2026-09-28-verified-spatial/20260928T033503.024409Z_spatial_validation/previous_campaign_comparison.json",
+    "outer_atmosphere": "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.865567Z_atmosphere_reference/validation.json",
+    "freeeos": "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.119787Z_freeeos_audit/audit.json",
+    "native_atmosphere": "benchmarks/results/2026-09-28-outer-boundary/20260928T035924.646752Z_outer_microphysics_audit/audit.json",
+    "final_outer_verification": "benchmarks/results/2026-09-28-outer-boundary/20260928T042828.972984Z_outer_final_verification/verification.json",
+    "freeeos_upstream": "benchmarks/results/2026-09-28-outer-boundary/20260928T042823.829545Z_freeeos_upstream_checks/comparison.json",
+    "outer_report": "Reports/Report_8.md",
+    "outer_atmosphere_verified": "benchmarks/results/2026-09-28-outer-verified/20260928T044002.683023Z_atmosphere_reference/validation.json",
+    "freeeos_verified": "benchmarks/results/2026-09-28-outer-verified/20260928T044002.107801Z_freeeos_audit/audit.json",
+    "outer_bitwise_repeat": "Reports/evidence/outer_20260928/final_abi_guard_repeat.json"
   },
   "provenance_caveat": "Earlier exploratory campaigns need first snapshots and chronology. All four fresh spatial cases verify unchanged sources and exactly reproduce previous states and ledgers bitwise. Fresh final tests, robustness, independent-method, MESA confirmation and performance also verify unchanged sources. All original local runs remain intact.",
   "deliverables": {
@@ -340,11 +360,104 @@
     "working_development_software": "DELIVERED",
     "validation_report": "docs/validation.md",
     "published_benchmark_suite": "PARTIAL; missing full tracks explicit in manifest",
-    "regression_suite": "52 passing with MESA",
+    "regression_suite": "62 passing with MESA and FreeEOS; 48 passing / 14 skipped without optional libraries",
     "model_families": "docs/model_families.md",
     "performance_report": "docs/performance.md",
     "source_registry": "src/qstars/data/sources.json",
     "validity_domain": "docs/validity.md",
-    "gate_matrix": "Reports/evidence/completion_gates.json"
-  }
+    "gate_matrix": "Reports/evidence/completion_gates.json",
+    "latest_release_report": "Reports/Report_8.md"
+  },
+  "optional_freeeos_tests": 4,
+  "production_atmosphere": "candidate_integrates_but_fails_physical_validity",
+  "native_full_mlt": "reference_only_not_envelope_transport",
+  "freeeos_reference": "153_state_gas_audit_passes_upstream_byte_tests_fail",
+  "latest_report": "Reports/Report_8.md",
+  "release_blocker": {
+    "id": "outer_boundary_closure_validity",
+    "status": "FAIL",
+    "finding": "Converged native-MESA-MLT/direct-FreeEOS/MESA-opacity candidate requires supersonic convection at Teff=6000 K, g=1; warmer branch violates plane-parallel geometry.",
+    "cool_max_convective_mach": 2.336716044874007,
+    "cool_tau_at_peak_mach": 19.78778393333309,
+    "warm_photosphere_to_base_depth_over_radius": 0.06675656145899557,
+    "physical_impossibility_of_1d_claimed": false,
+    "is_physical_disruption_diagnosis": false,
+    "resolution": "Validate spherical transport and a conservative dynamical/wind or published alternative closure in this regime; then complete coupled evolution and cross-paper campaigns.",
+    "evidence": [
+      "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.865567Z_atmosphere_reference/validation.json",
+      "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.119787Z_freeeos_audit/audit.json",
+      "docs/atmosphere.md"
+    ]
+  },
+  "active_request_gates": [
+    {
+      "priority": 1,
+      "name": "Production outer atmosphere and full stellar coupling",
+      "status": "FAIL",
+      "evidence": [
+        "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.865567Z_atmosphere_reference/validation.json",
+        "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.119787Z_freeeos_audit/audit.json",
+        "docs/atmosphere.md"
+      ]
+    },
+    {
+      "priority": 2,
+      "name": "Conservative evolving cavity and BH boundary",
+      "status": "FAIL",
+      "evidence": [
+        "docs/model_families.md"
+      ]
+    },
+    {
+      "priority": 3,
+      "name": "Coupled wind and evolving atmosphere",
+      "status": "FAIL",
+      "evidence": [
+        "docs/model_families.md",
+        "benchmarks/manifest.yaml"
+      ]
+    },
+    {
+      "priority": 4,
+      "name": "Multiple complete published evolutionary tracks",
+      "status": "FAIL",
+      "evidence": [
+        "benchmarks/manifest.yaml"
+      ]
+    },
+    {
+      "priority": 5,
+      "name": "Cross-paper validation without retuning",
+      "status": "FAIL",
+      "evidence": [
+        "benchmarks/manifest.yaml"
+      ]
+    },
+    {
+      "priority": 6,
+      "name": "Convergence on production quasi-star evolution",
+      "status": "FAIL",
+      "evidence": [
+        "docs/validation.md"
+      ]
+    },
+    {
+      "priority": 7,
+      "name": "Apple Silicon performance",
+      "status": "CONDITIONAL",
+      "evidence": [
+        "benchmarks/results/2026-09-28-outer-boundary/20260928T042828.972984Z_outer_final_verification/verification.json",
+        "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.865567Z_atmosphere_reference/validation.json",
+        "docs/performance.md"
+      ]
+    },
+    {
+      "priority": 8,
+      "name": "General-purpose v1 release",
+      "status": "FAIL",
+      "evidence": [
+        "Reports/Report_8.md"
+      ]
+    }
+  ]
 }

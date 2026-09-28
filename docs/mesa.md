@@ -5,6 +5,16 @@ for fixed H1/He4 composition (`Z=0`). It keeps its own finite-volume evolution
 and independent boundary ledger. This is not yet the MESA stellar-evolution
 backend, a production atmosphere, or a validated moving cavity.
 
+Bridge ABI 5 additionally exposes native pressure inversion, Eddington
+atmosphere references, full Henyey/ML1 MLT with automatic derivatives, and
+radiative opacity using an explicitly supplied external EOS electron state.
+ABI 3 and 4 libraries remain readable for their earlier EOS/opacity calls;
+ABI 4 also supports the native atmosphere and pressure inversion. Native MLT
+requires ABI 5 because exploratory ABI 4 builds had different argument layouts. The
+new reference atmosphere has demonstrated validity failures; see
+[the boundary audit](atmosphere.md). Evolution still uses the existing
+screened envelope transport, not the native MLT reference automatically.
+
 A pre-existing ARM SDK 24.7.1 and MESA 24.08.1 installation were found in the
 earlier runtime. The initial development report's absence claim was wrong;
 Report 5 records the correction. The existing installation is reused without
@@ -59,6 +69,13 @@ The first-law test normalizes its residual by `|dU/dlnX| + P/rho` to avoid an
 artificial divergence from cancellation. It is a screening limit, not proof of
 percent-level evolutionary accuracy. Existing diffusion, optical-depth, Mach,
 compactness, geometry, and whole-energy checks remain active.
+
+An additional evolution screen checks gas pressure against the dilute
+classical limit where T>=40000 K, eta<-10 and the charge-2 Coulomb bound is
+below 0.01. It rejects discrepancies above 1%. The retained test at rho=1e-9,
+T=1e6 has an 8.28% gas-pressure discrepancy but a 1.04e-8 total first-law
+defect. No table value is adjusted. Low-density neutral fallback and the
+table-loader electron floor are separately audited in Report 8.
 
 The 153-point audit matches a separate Fortran process exactly. Five points
 exceed the 1% first-law threshold; the maximum is about 0.315 at density

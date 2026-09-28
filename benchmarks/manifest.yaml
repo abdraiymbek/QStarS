@@ -53,3 +53,18 @@ benchmarks:
   - id: cantiello_stability
     source: cantiello2025
     status: pending_gyre_and_ionization_opacity
+  - id: mesa_native_atmosphere
+    source: mesa_atmosphere_mlt
+    status: reference_passes_equations_fails_implicit_vacuum_boundary
+    command: python scripts/audit_outer_microphysics.py --library PATH --mesa-dir PATH
+    discrepancy: Varying-opacity routine's fixed starting density gives 78.96 times the analytic vacuum gas pressure at Teff=8000 K and g=3 with constant opacity.
+  - id: direct_freeeos_outer_states
+    source: freeeos3
+    status: component_audit_pass_not_global_eos_or_evolution_validation
+    command: python scripts/audit_freeeos.py --library PATH --mesa-library PATH --mesa-dir PATH
+    discrepancy: 153-state gas-only first-law audit passes; historical MESA gas pressure and low-electron states retain discrepancies; all upstream byte comparisons fail despite first-state physical-field agreement.
+  - id: grey_mlt_outer_candidate
+    source: grey_mlt_atmosphere_reference
+    status: converged_candidate_fails_physical_validity
+    command: python scripts/validate_atmosphere_reference.py --freeeos-library PATH --mesa-library PATH --mesa-dir PATH
+    discrepancy: Teff=6000 K and g=1 requires Mach 2.3367 convection for Henyey and ML1; Teff=8000 K and g=3 has a photosphere-to-base depth 6.68 percent of radius at 10000 solar masses. No physical disruption or full stellar evolution inferred.

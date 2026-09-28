@@ -5,11 +5,22 @@ important numerical checks for a specified hot-envelope problem and adds direct
 MESA microphysics and a stationary advective-wind reference. It does not
 reproduce complete published quasi-star evolutionary tracks.
 
-The current automated suite has **52 passing tests with MESA enabled**
-(48 passing and four optional MESA tests skipped without the installed library).
+The current automated suite has **62 passing tests with MESA and FreeEOS enabled**
+(48 passing and fourteen optional tests skipped without those libraries).
 The full `qstars validate --require-v1` campaign has **29 passing checks and two
 retained printed-value discrepancies** and correctly exits 2. Passing software
 tests is distinct from passing the scientific release gates below.
+
+The [Report 8 atmosphere campaign](../Reports/Report_8.md) now supplies a specific
+physical blocker rather than only a list of missing modules. Native MESA's
+implicit starting pressure dominates the low-gravity grey boundary. Replacing
+that with explicit pressure and audited direct FreeEOS fixes that particular
+problem, but the 6000 K, g=1 candidate still demands Mach 2.3367 convection at
+tau≈20 under both Henyey and ML1. The 8000 K, g=3 candidate has a depth below
+the photosphere of 6.68% of radius, incompatible with one-percent
+plane-parallel accuracy. These are converged component-model validity failures,
+not physical destruction or completed evolution. See [the equations, sensitivity
+tests and resolution criteria](atmosphere.md). General v1 remains blocked.
 
 ## Controlled spatial and nonlinear convergence
 
@@ -171,12 +182,12 @@ missing; none of the failures below is waived as impossible in spherical 1D.
 | User's priority gate | Status | Evidence and remaining boundary |
 |---|---|---|
 | Spatial/nonlinear convergence | CONDITIONAL | Hot 512–2048-zone profiles, timestep and inter-method comparisons pass the one-percent target; production atmosphere/cavity/wind models untested |
-| Production microphysics | FAIL | Direct MESA EOS/opacity interface and ionization audit work; excluded blend states, atmosphere, full convection and stellar evolution remain |
+| Production microphysics | FAIL | Direct EOS/opacity and native atmosphere/MLT references work; the explicit-pressure candidate fails geometry/subsonic validity; coupled stellar boundary remains unvalidated |
 | Inner cavity and model families | FAIL | Fixed-excision ledger works; conservative moving physical cavity and alternative evolving inner flows absent |
 | Wind physics | FAIL | Stationary advective wind component exists; envelope/atmosphere coupling and complete validation absent |
 | Multiple full published evolutions | FAIL | Static results and wind-component comparisons are insufficient; zero complete evolutionary replicas |
 | Cross-validation without retuning | FAIL | No multi-paper evolutionary predictive validation |
-| Numerical robustness | CONDITIONAL | Hot-model campaigns and 52 tests pass; full production-model campaigns remain |
+| Numerical robustness | CONDITIONAL | Hot-model campaigns and 62 tests pass; full production-model campaigns remain |
 | Apple Silicon performance | CONDITIONAL | Useful local runs measured; full stellar-track costs unestablished |
 | QSRD readiness after independent v1 | FAIL | Deliberately deferred until the preceding framework gates pass |
 

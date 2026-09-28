@@ -1,0 +1,287 @@
+{
+  "files": [
+    {
+      "original": "results/20260928T043954.437393Z_outer_abi_guard_verification/command_0.stderr",
+      "archived": "20260928T043954.437393Z_outer_abi_guard_verification/command_0.stderr.gz",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "compressed": true
+    },
+    {
+      "original": "results/20260928T043954.437393Z_outer_abi_guard_verification/command_0.stdout",
+      "archived": "20260928T043954.437393Z_outer_abi_guard_verification/command_0.stdout.gz",
+      "original_sha256": "8ec176c0f1463084ff34b08b1d616158a8993859a68ac76958135405b160fcd5",
+      "bytes": 99,
+      "compressed": true
+    },
+    {
+      "original": "results/20260928T043954.437393Z_outer_abi_guard_verification/command_1.stderr",
+      "archived": "20260928T043954.437393Z_outer_abi_guard_verification/command_1.stderr.gz",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "compressed": true
+    },
+    {
+      "original": "results/20260928T043954.437393Z_outer_abi_guard_verification/command_1.stdout",
+      "archived": "20260928T043954.437393Z_outer_abi_guard_verification/command_1.stdout.gz",
+      "original_sha256": "963ed5824be19b185ce1b17c97163423f4339307269946d93c2aa626f8865a9b",
+      "bytes": 3290,
+      "compressed": true
+    },
+    {
+      "original": "results/20260928T043954.437393Z_outer_abi_guard_verification/command_2.stderr",
+      "archived": "20260928T043954.437393Z_outer_abi_guard_verification/command_2.stderr.gz",
+      "original_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "compressed": true
+    },
+    {
+      "original": "results/20260928T043954.437393Z_outer_abi_guard_verification/command_2.stdout",
+      "archived": "20260928T043954.437393Z_outer_abi_guard_verification/command_2.stdout.gz",
+      "original_sha256": "7da970a257c703a4df0267a45a40e645217c3a8ed9260e272df13ba37deb492d",
+      "bytes": 17964,
+      "compressed": true
+    },
+    {
+      "original": "results/20260928T043954.437393Z_outer_abi_guard_verification/config.yaml",
+      "archived": "20260928T043954.437393Z_outer_abi_guard_verification/config.yaml",
+      "original_sha256": "3bfbd8a4798b817e03b04f58dfdcb0a77616c3b9d526422bc45c71928b095043",
+      "bytes": 89,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T043954.437393Z_outer_abi_guard_verification/metadata.json",
+      "archived": "20260928T043954.437393Z_outer_abi_guard_verification/metadata.json",
+      "original_sha256": "d9d0382025f93e955ccd74f4820fa6ada50f79100c4a1114414f180df4b5edba",
+      "bytes": 1728,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T043954.437393Z_outer_abi_guard_verification/source_prescriptions.json",
+      "archived": "20260928T043954.437393Z_outer_abi_guard_verification/source_prescriptions.json",
+      "original_sha256": "82340e6d7832b72a327a603c9b27fd9c2ef364c235aab37f27fa81bd86ed9ee8",
+      "bytes": 26960,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T043954.437393Z_outer_abi_guard_verification/source_snapshot.zip",
+      "archived": "20260928T043954.437393Z_outer_abi_guard_verification/source_snapshot.zip",
+      "original_sha256": "d84e53da8fe08c5cea64cc0b06907e804b2b46e3316da3bafa64986054dc627d",
+      "bytes": 60201,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T043954.437393Z_outer_abi_guard_verification/verification.json",
+      "archived": "20260928T043954.437393Z_outer_abi_guard_verification/verification.json",
+      "original_sha256": "5fc4eafd9dd72bf3bb9b92e330cf30f724b4b7886ea2b24fbb71a4e88493363e",
+      "bytes": 1339,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T043954.437393Z_outer_abi_guard_verification/working_tree.diff",
+      "archived": "20260928T043954.437393Z_outer_abi_guard_verification/working_tree.diff.gz",
+      "original_sha256": "3f04cbe258f6374bad493d03aac18e0fc1171d33e6ed5744179cd59abc0a23d3",
+      "bytes": 63737,
+      "compressed": true
+    },
+    {
+      "original": "results/20260928T044002.107801Z_freeeos_audit/audit.json",
+      "archived": "20260928T044002.107801Z_freeeos_audit/audit.json",
+      "original_sha256": "31bfd5968fead4730b59db18928ab27531ed4c506971c4423b1a98d133a28301",
+      "bytes": 83617,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.107801Z_freeeos_audit/config.yaml",
+      "archived": "20260928T044002.107801Z_freeeos_audit/config.yaml",
+      "original_sha256": "fb7d1e32da64d3fad09f96fc43e75be34c7e2d7fb866e8c8e01281f0823f99a9",
+      "bytes": 247,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.107801Z_freeeos_audit/grid.npz",
+      "archived": "20260928T044002.107801Z_freeeos_audit/grid.npz",
+      "original_sha256": "66f6da081425d91949f3f63cdfee580ef0df6c3d9f434735ebad50e7bdcb5315",
+      "bytes": 43779,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.107801Z_freeeos_audit/metadata.json",
+      "archived": "20260928T044002.107801Z_freeeos_audit/metadata.json",
+      "original_sha256": "0b668101c1e1ed71a5862033248abcb510821e52da06a4ebd5fb705a053a15c7",
+      "bytes": 1728,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.107801Z_freeeos_audit/source_prescriptions.json",
+      "archived": "20260928T044002.107801Z_freeeos_audit/source_prescriptions.json",
+      "original_sha256": "82340e6d7832b72a327a603c9b27fd9c2ef364c235aab37f27fa81bd86ed9ee8",
+      "bytes": 26960,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.107801Z_freeeos_audit/source_snapshot.zip",
+      "archived": "20260928T044002.107801Z_freeeos_audit/source_snapshot.zip",
+      "original_sha256": "5a241d04a2433f4fb8d42f03b8f42babb7585a3d75fb4934c09bf06f5e246174",
+      "bytes": 60201,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.107801Z_freeeos_audit/working_tree.diff",
+      "archived": "20260928T044002.107801Z_freeeos_audit/working_tree.diff.gz",
+      "original_sha256": "3f04cbe258f6374bad493d03aac18e0fc1171d33e6ed5744179cd59abc0a23d3",
+      "bytes": 63737,
+      "compressed": true
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/T6000_g1.0_ML1.npz",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/T6000_g1.0_ML1.npz",
+      "original_sha256": "8287c57dd1a8765892b7625cb12b673b5b0acefbd10d2300f7bc4eb6c987d83f",
+      "bytes": 69063,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/T6000_g1.0_baseline.npz",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/T6000_g1.0_baseline.npz",
+      "original_sha256": "14cc602a9b9b77bcff8854ac119e97c860ab6b3aaecb131359769b0928d62eff",
+      "bytes": 69104,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/T6000_g1.0_constant_opacity.npz",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/T6000_g1.0_constant_opacity.npz",
+      "original_sha256": "41741c27c546ae7e8003b9f93ffdedb040e43d4f128db0adb4968788689f48c0",
+      "bytes": 54133,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/T6000_g1.0_finite_pressure.npz",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/T6000_g1.0_finite_pressure.npz",
+      "original_sha256": "608ba19c719eb67b782c66c09b2eb44d4d21aaf452ed002a3e7919d495294be0",
+      "bytes": 68634,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/T6000_g1.0_outer_pressure.npz",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/T6000_g1.0_outer_pressure.npz",
+      "original_sha256": "8703938c9562e69d42e14ce9fff1a1627b649e94cdb14f444cb36f62c81c8d4f",
+      "bytes": 69031,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/T6000_g1.0_outer_tau.npz",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/T6000_g1.0_outer_tau.npz",
+      "original_sha256": "c919476a0f77d73b9a4fe99fd9e9a1fd981bb53ab9cd759f432ce804d942d10e",
+      "bytes": 68972,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/T6000_g1.0_tolerance.npz",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/T6000_g1.0_tolerance.npz",
+      "original_sha256": "6c81f960b2a513a38bad124f5ff6799523cef8072457d4e9f6a7a03de61100ea",
+      "bytes": 69053,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/T8000_g3.0_ML1.npz",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/T8000_g3.0_ML1.npz",
+      "original_sha256": "e66f49516c3f66a09911d52e3229c6f05e72b35bf48537b5bea217260ef5f0ad",
+      "bytes": 67264,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/T8000_g3.0_baseline.npz",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/T8000_g3.0_baseline.npz",
+      "original_sha256": "df0c654bf9077f1cf0466f2d34f74b2b58145555a77b6e495a6d2705679ff648",
+      "bytes": 67265,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/T8000_g3.0_constant_opacity.npz",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/T8000_g3.0_constant_opacity.npz",
+      "original_sha256": "1d02d00bfbd85f4fa5b626b184028c0c794786048fc06558b9599e2ad46a7434",
+      "bytes": 52468,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/T8000_g3.0_finite_pressure.npz",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/T8000_g3.0_finite_pressure.npz",
+      "original_sha256": "bfc193b11a1792d2cb1d4cb2b0e63d98aa66111960e428a03d6a8ced3f205019",
+      "bytes": 66658,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/T8000_g3.0_outer_pressure.npz",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/T8000_g3.0_outer_pressure.npz",
+      "original_sha256": "e1b1724489c3591adaf5510c25ffcd5dfd72768ecfc36492be0c9b97f81ae155",
+      "bytes": 67304,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/T8000_g3.0_outer_tau.npz",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/T8000_g3.0_outer_tau.npz",
+      "original_sha256": "5466427fc11d639e78510afebe20d5b32a1bbd6b768447b7ddeea3f10cd04a0a",
+      "bytes": 66989,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/T8000_g3.0_tolerance.npz",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/T8000_g3.0_tolerance.npz",
+      "original_sha256": "315335dba8633d9a119e6704233a5cc65e178bd71b44b7c523c2d5c29a9505c1",
+      "bytes": 67251,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/atmosphere_validity.png",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/atmosphere_validity.png",
+      "original_sha256": "293fb5eb9c3189f4d5ed4c42c1795e1e83845a0fe8d1121670b7f221a49808a1",
+      "bytes": 147682,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/config.yaml",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/config.yaml",
+      "original_sha256": "0d505e0cfe0f4703273ba624bf7af7cb2c6276899c3b0b229b5823d938ee9e13",
+      "bytes": 255,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/metadata.json",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/metadata.json",
+      "original_sha256": "f56b5da80874c15b5fd188734ba28c2f827dffa31f9516fb15fb7bfc765fa766",
+      "bytes": 1728,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/source_prescriptions.json",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/source_prescriptions.json",
+      "original_sha256": "82340e6d7832b72a327a603c9b27fd9c2ef364c235aab37f27fa81bd86ed9ee8",
+      "bytes": 26960,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/source_snapshot.zip",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/source_snapshot.zip",
+      "original_sha256": "5a241d04a2433f4fb8d42f03b8f42babb7585a3d75fb4934c09bf06f5e246174",
+      "bytes": 60201,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/validation.json",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/validation.json",
+      "original_sha256": "ae7affc8e23e4244a923d733ff26bf0eafb667a86423f0891bd33f85e986b849",
+      "bytes": 102426,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T044002.683023Z_atmosphere_reference/working_tree.diff",
+      "archived": "20260928T044002.683023Z_atmosphere_reference/working_tree.diff.gz",
+      "original_sha256": "3f04cbe258f6374bad493d03aac18e0fc1171d33e6ed5744179cd59abc0a23d3",
+      "bytes": 63737,
+      "compressed": true
+    }
+  ],
+  "omitted": [],
+  "scope": "Selected complete histories, ledgers, checkpoints and source snapshots; first/final profiles. Original results remain intact.",
+  "omitted_upstream_assets": "Source commit/input hashes identify separately installed MESA and cached QUEST; no upstream binaries or full stellar source redistributed."
+}

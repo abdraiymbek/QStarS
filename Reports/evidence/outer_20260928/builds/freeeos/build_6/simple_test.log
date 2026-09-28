@@ -1,0 +1,41 @@
+[ 66%] Built target free_eos
+[ 69%] Built target solve_linear_test
+[ 69%] Generating solve_linear_test.stdout, solve_linear_test.stderr
+Check that solve_linear_test.stdout results are consistent with previous results
+/Users/abraiymbek/Projects/QStarS/backends/freeeos/build_6/source/test_FreeEOS/solve_linear_test.stdout_standard /Users/abraiymbek/Projects/QStarS/backends/freeeos/build_6/cmake/test_FreeEOS/solve_linear_test.stdout differ: char 182, line 3
+make[3]: *** [test_FreeEOS/CMakeFiles/check_solve_linear_test] Error 1
+make[3]: Target `test_FreeEOS/CMakeFiles/check_solve_linear_test.dir/build' not remade because of errors.
+make[2]: *** [test_FreeEOS/CMakeFiles/check_solve_linear_test.dir/all] Error 2
+[ 75%] Built target free_eos_utils
+[ 77%] Built target free_eos_test
+[ 80%] Generating free_eos_test.stdout, free_eos_test.stderr
+Check that free_eos_test.stdout results are consistent with previous results
+/Users/abraiymbek/Projects/QStarS/backends/freeeos/build_6/source/test_FreeEOS/free_eos_test.stdout_standard /Users/abraiymbek/Projects/QStarS/backends/freeeos/build_6/cmake/test_FreeEOS/free_eos_test.stdout differ: char 2141, line 34
+make[3]: *** [test_FreeEOS/CMakeFiles/check_free_eos_test] Error 1
+make[3]: Target `test_FreeEOS/CMakeFiles/check_free_eos_test.dir/build' not remade because of errors.
+make[2]: *** [test_FreeEOS/CMakeFiles/check_free_eos_test.dir/all] Error 2
+[ 83%] Built target exchange_test
+[ 83%] Generating exchange_test.stdout, exchange_test.stderr
+Check that exchange_test.stdout results are consistent with previous results
+/Users/abraiymbek/Projects/QStarS/backends/freeeos/build_6/source/test_FreeEOS/exchange_test.stdout_standard /Users/abraiymbek/Projects/QStarS/backends/freeeos/build_6/cmake/test_FreeEOS/exchange_test.stdout differ: char 36505, line 1613
+make[3]: *** [test_FreeEOS/CMakeFiles/check_exchange_test] Error 1
+make[3]: Target `test_FreeEOS/CMakeFiles/check_exchange_test.dir/build' not remade because of errors.
+make[2]: *** [test_FreeEOS/CMakeFiles/check_exchange_test.dir/all] Error 2
+[ 88%] Built target fermi_dirac_test
+[ 91%] Generating fermi_dirac_test.stdout, fermi_dirac_test.stderr
+Check that fermi_dirac_test.stdout results are consistent with previous results
+/Users/abraiymbek/Projects/QStarS/backends/freeeos/build_6/source/test_FreeEOS/fermi_dirac_test.stdout_standard /Users/abraiymbek/Projects/QStarS/backends/freeeos/build_6/cmake/test_FreeEOS/fermi_dirac_test.stdout differ: char 1153, line 27
+make[3]: *** [test_FreeEOS/CMakeFiles/check_fermi_dirac_test] Error 1
+make[3]: Target `test_FreeEOS/CMakeFiles/check_fermi_dirac_test.dir/build' not remade because of errors.
+make[2]: *** [test_FreeEOS/CMakeFiles/check_fermi_dirac_test.dir/all] Error 2
+[ 97%] Built target rosenbrock_test
+[100%] Generating rosenbrock_test.stdout, rosenbrock_test.stderr
+Check that rosenbrock_test.stdout results are consistent with previous results
+/Users/abraiymbek/Projects/QStarS/backends/freeeos/build_6/source/test_FreeEOS/rosenbrock_test.stdout_standard /Users/abraiymbek/Projects/QStarS/backends/freeeos/build_6/cmake/test_FreeEOS/rosenbrock_test.stdout differ: char 260, line 6
+make[3]: *** [test_FreeEOS/CMakeFiles/check_rosenbrock_test] Error 1
+make[3]: Target `test_FreeEOS/CMakeFiles/check_rosenbrock_test.dir/build' not remade because of errors.
+make[2]: *** [test_FreeEOS/CMakeFiles/check_rosenbrock_test.dir/all] Error 2
+make[2]: Target `test_FreeEOS/CMakeFiles/simple_test.dir/all' not remade because of errors.
+make[1]: *** [test_FreeEOS/CMakeFiles/simple_test.dir/rule] Error 2
+make[1]: Target `simple_test' not remade because of errors.
+make: *** [simple_test] Error 2

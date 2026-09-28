@@ -23,7 +23,7 @@ for source in a.sources:
             or file.name=='check_microphysics' or (file.name.startswith('profile_') and file.suffix=='.npz' and file not in keep)):
             omitted.append(str(file));continue
         target=a.destination/source.name/relative;target.parent.mkdir(parents=True,exist_ok=True)
-        compress=file.name in ('events.jsonl','run.log','build.log','standalone.stdout','standalone.stderr')
+        compress=(file.name=='events.jsonl' or file.suffix in ('.stdout','.stderr','.diff','.log'))
         if compress:target=target.with_name(target.name+'.gz')
         data=file.read_bytes()
         if compress:

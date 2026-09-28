@@ -1,0 +1,39 @@
+{
+  "commands": [
+    {
+      "command": [
+        ".venv/bin/pytest",
+        "-q"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 7.491350458993111
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "qstars",
+        "validate",
+        "--require-v1",
+        "--output",
+        "results/20260928T042828.972984Z_outer_final_verification"
+      ],
+      "exit_code": 2,
+      "wall_seconds": 9.801805334020173
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "-m",
+        "qstars",
+        "run",
+        "results/20260928T042828.972984Z_outer_final_verification/hot_mesa.yaml",
+        "--output",
+        "results/20260928T042828.972984Z_outer_final_verification"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 31.078167208994273
+    }
+  ],
+  "source_snapshot_verified": true
+}

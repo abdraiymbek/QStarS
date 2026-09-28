@@ -1,0 +1,21 @@
+{
+  "reference": "benchmarks/results/2026-09-28-closure/20260928T030928.629959Z_mesa_hot_current_verification/checkpoint.npz",
+  "current": "results/20260928T042828.972984Z_outer_final_verification/20260928T042846.487497Z_mesa_hot_gas_screen_verification/checkpoint.npz",
+  "bitwise_equal": {
+    "schema_version": true,
+    "time": true,
+    "bh_mass": true,
+    "dm": true,
+    "r": true,
+    "v": true,
+    "T": true,
+    "cell_volume": true,
+    "radius_compensation": true,
+    "face_luminosity": true,
+    "reference_mass_fractions": true,
+    "ledger": true,
+    "steps": true,
+    "next_dt": true
+  },
+  "all_state_and_ledger_equal": true
+}

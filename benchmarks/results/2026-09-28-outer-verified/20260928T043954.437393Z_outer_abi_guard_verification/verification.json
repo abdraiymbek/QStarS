@@ -1,0 +1,43 @@
+{
+  "commands": [
+    {
+      "command": [
+        ".venv/bin/pytest",
+        "-q"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 7.445567874994595
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "scripts/audit_freeeos.py",
+        "--library",
+        "/Users/abraiymbek/Projects/QStarS/backends/freeeos/build_bridge_2/libqstars_freeeos.dylib",
+        "--mesa-library",
+        "/Users/abraiymbek/Projects/QStarS/backends/mesa/build_atmosphere_3/libqstars_mesa.dylib",
+        "--mesa-dir",
+        "/Users/abraiymbek/qsrd-runtime/mesa"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 0.5692514579859562,
+      "result_path": "results/20260928T044002.107801Z_freeeos_audit"
+    },
+    {
+      "command": [
+        ".venv/bin/python",
+        "scripts/validate_atmosphere_reference.py",
+        "--freeeos-library",
+        "/Users/abraiymbek/Projects/QStarS/backends/freeeos/build_bridge_2/libqstars_freeeos.dylib",
+        "--mesa-library",
+        "/Users/abraiymbek/Projects/QStarS/backends/mesa/build_atmosphere_3/libqstars_mesa.dylib",
+        "--mesa-dir",
+        "/Users/abraiymbek/qsrd-runtime/mesa"
+      ],
+      "exit_code": 0,
+      "wall_seconds": 7.647377000015695,
+      "result_path": "results/20260928T044002.683023Z_atmosphere_reference"
+    }
+  ],
+  "source_snapshot_verified": true
+}

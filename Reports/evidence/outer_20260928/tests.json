@@ -1,0 +1,13 @@
+{
+  "passed": 62,
+  "failed": 0,
+  "skipped": 0,
+  "pytest_seconds": 7.33,
+  "without_optional": {
+    "passed": 48,
+    "skipped": 14,
+    "seconds": 6.0
+  },
+  "source_snapshot_verified": true,
+  "evidence": "benchmarks/results/2026-09-28-outer-verified/20260928T043954.437393Z_outer_abi_guard_verification/verification.json"
+}

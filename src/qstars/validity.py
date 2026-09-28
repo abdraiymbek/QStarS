@@ -9,6 +9,8 @@ def check(state,eos,opacity,config):
     q=eos.evaluate(state.rho,state.T)
     eos_defect=float(max(eos.consistency(state.rho,state.T))) if hasattr(eos,'consistency') else 0.
     if eos_defect>.01:errors.append('MESA first-law defect exceeds 1% audit limit')
+    gas_defect=float(np.max(eos.gas_pressure_limit(state.rho,state.T,q)['screened_relative_error'])) if hasattr(eos,'gas_pressure_limit') else 0.
+    if gas_defect>.01:errors.append('MESA gas pressure differs by more than 1% from the dilute classical limit')
     conduction=float(np.max(q.get('conductive_fraction',0.)))
     if conduction>.01:errors.append('Omitted electron conduction exceeds 1% of diffusive heat flux')
     v=config["validity"]
@@ -62,6 +64,7 @@ def check(state,eos,opacity,config):
         raise StepRejected("Conservation tolerance exceeded")
     return errors,dict(max_mach=mach,max_compactness=compactness,min_zone_optical_depth=float(min(tau)),
                        max_eos_first_law_defect=eos_defect,
+                       max_eos_dilute_gas_pressure_defect=gas_defect,
                        max_omitted_conductive_fraction=conduction,
                        max_radiation_knudsen=float(max(kn)),
                        outer_radiation_knudsen=float(outer_kn),

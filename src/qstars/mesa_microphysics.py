@@ -8,7 +8,7 @@ import ctypes as ct
 import hashlib,json,os
 from pathlib import Path
 import numpy as np
-from .constants import A
+from .constants import A,KB,MU,C,PI
 from .eos import IdealGasRadiation
 
 class MesaMicrophysics(IdealGasRadiation):
@@ -29,7 +29,8 @@ class MesaMicrophysics(IdealGasRadiation):
         os.environ.setdefault('OMP_NUM_THREADS','1')
         self.lib=ct.CDLL(str(path))
         self.lib.qstars_api_version.restype=ct.c_int
-        if self.lib.qstars_api_version()!=3:raise ValueError('Incompatible QStarS/MESA bridge ABI')
+        self.abi_version=self.lib.qstars_api_version()
+        if self.abi_version not in (3,4,5):raise ValueError('Incompatible QStarS/MESA bridge ABI')
         self.lib.qstars_constants.argtypes=[ct.POINTER(ct.c_double)]
         arad=ct.c_double();self.lib.qstars_constants(ct.byref(arad));self.radiation_constant=arad.value
         self.lib.qstars_init.argtypes=[ct.POINTER(ct.c_int)]
@@ -40,6 +41,7 @@ class MesaMicrophysics(IdealGasRadiation):
         type(self)._loaded_library=identity
         self.manifest=manifest
         self._cache=None
+        self._mlt_cache=None
 
     def raw(self,rho,T):
         rho,T=np.broadcast_arrays(rho,T)
@@ -93,6 +95,112 @@ class MesaMicrophysics(IdealGasRadiation):
         return np.log1p(np.diff(T)/T[:-1])-grad*np.log1p(np.diff(q['p'])/q['p'][:-1])
 
     def opacity(self,rho,T):return self.raw(rho,T)[19]
+
+    def gas_pressure_limit(self,rho,T,q=None):
+        """Independent dilute classical-gas screen, unaffected by Prad.
+
+        H/He only: use charge 2 and rho/m_u as conservative upper estimates
+        in the Coulomb parameter. Gamma<0.01 and eta<-10 make Coulomb and
+        degeneracy corrections far smaller than the 1% acceptance threshold.
+        The T cut excludes molecular/neutral-fluid interaction regimes.
+        This is a validity screen, never a correction to the library output.
+        """
+        rho,T=np.broadcast_arrays(rho,T)
+        if q is None:q=self.evaluate(rho,T)
+        radius=(3*MU/(4*PI*rho))**(1/3)
+        charge=1.602176634e-19*.1*C
+        coupling=4*charge**2/(radius*KB*T)
+        dilute=(T>=4e4)&(coupling<.01)&(q['eta']<-10)
+        expected=rho*KB*T/(MU*q['mu'])
+        discrepancy=abs(q['pg']/expected-1)
+        return dict(applicable=dilute,coupling=coupling,relative_error=discrepancy,
+                    screened_relative_error=np.where(dilute,discrepancy,0.))
+
+    def _require_stellar_bridge(self):
+        if self.abi_version<4:
+            raise ValueError('Atmosphere and full MLT require a freshly built ABI 4 MESA bridge')
+
+    def opacity_external_eos(self,rho,T,free_e,eta):
+        """MESA opacity reference with caller-supplied EOS state; no derivatives.
+
+        This does not expand the validated density/temperature domain of any
+        underlying opacity table. Inspect table boundary use separately.
+        """
+        if self.abi_version<5:raise ValueError('External-EOS opacity requires bridge ABI 5')
+        shape=np.broadcast_shapes(np.shape(rho),np.shape(T),np.shape(free_e),np.shape(eta))
+        args=[np.ascontiguousarray(np.broadcast_to(v,shape).ravel(),dtype=np.float64) for v in (rho,T,free_e,eta)]
+        if any(np.any(~np.isfinite(v)) for v in args) or any(np.any(v<=0) for v in args[:3]):
+            raise ValueError('Invalid opacity state')
+        out=np.empty_like(args[0]);array=np.ctypeslib.ndpointer(dtype=np.float64,flags='F_CONTIGUOUS')
+        f=self.lib.qstars_opacity_external;f.argtypes=[ct.c_int,array,array,ct.c_double,array,array,array,ct.POINTER(ct.c_int)]
+        err=ct.c_int();f(out.size,args[0],args[1],self.composition.X,args[2],args[3],out,ct.byref(err))
+        if err.value or np.any(~np.isfinite(out)) or np.any(out<=0):raise ValueError(f'MESA opacity failed: {err.value}')
+        return out.reshape(shape)
+
+    def density_from_gas_pressure(self,pgas,T):
+        """Use MESA's native Pgas,T inversion without clipping negative pressure."""
+        self._require_stellar_bridge()
+        if not np.isfinite(pgas+T) or pgas<=0 or T<=0:
+            raise ValueError('MESA density inversion needs finite positive gas pressure and T')
+        f=self.lib.qstars_density_pt
+        f.argtypes=[ct.c_double]*3+[ct.POINTER(ct.c_double),ct.POINTER(ct.c_int)]
+        rho=ct.c_double();err=ct.c_int()
+        f(float(pgas),float(T),self.composition.X,ct.byref(rho),ct.byref(err))
+        if err.value or not np.isfinite(rho.value) or rho.value<=0:
+            raise ValueError(f'MESA Pgas,T inversion failed: {err.value}')
+        return rho.value
+
+    def native_atmosphere(self,teff,gravity,tau=2/3,mode='varying',kappa=.34,tolerance=1e-9):
+        """Auditable reference to MESA's unmodified Eddington atmosphere.
+
+        The varying modes retain MESA's built-in nonzero starting gas pressure.
+        This method is not by itself a validated QStarS evolution boundary.
+        """
+        self._require_stellar_bridge()
+        modes={'fixed':0,'varying_constant_opacity':1,'varying':2}
+        if mode not in modes:raise ValueError('Unsupported atmosphere reference mode')
+        if not all(np.isfinite(v) and v>0 for v in (teff,gravity,tau,kappa,tolerance)):
+            raise ValueError('Atmosphere inputs must be finite and positive')
+        array=np.ctypeslib.ndpointer(dtype=np.float64,flags='F_CONTIGUOUS')
+        f=self.lib.qstars_atmosphere
+        f.argtypes=[ct.c_int]+[ct.c_double]*6+[array,ct.POINTER(ct.c_int)]
+        out=np.zeros(2);err=ct.c_int()
+        f(modes[mode],tau,teff,gravity,self.composition.X,kappa,tolerance,out,ct.byref(err))
+        if err.value or not np.all(np.isfinite(out)):
+            raise ValueError(f'MESA atmosphere integration failed: {err.value}')
+        T,p=np.exp(out)
+        return dict(temperature=float(T),pressure=float(p),gas_pressure=float(p-self.radiation_constant*T**4/3))
+
+    def mlt(self,inputs,model='Henyey',alpha=2.):
+        """Full native MLT including blob radiative losses and AD derivatives.
+
+        Input leading axis: chiT, chiRho, cp, g, rho, P, T, kappa, grad_rad,
+        grad_ad. Fixed-composition Schwarzschild criterion equals Ledoux here.
+        Models and Henyey constants are explicit MESA prescriptions.
+        """
+        # ABI 4 existed in exploratory builds with two different MLT layouts.
+        # Refuse both rather than risk an incorrect native argument list.
+        if self.abi_version<5:raise ValueError('Native MLT derivatives require bridge ABI 5')
+        modes={'ML1':0,'Henyey':1}
+        x=np.asarray(inputs)
+        if model not in modes or not np.isfinite(alpha) or alpha<=0:raise ValueError('Invalid MLT model or alpha')
+        if x.shape[0]!=10 or not np.all(np.isfinite(x)) or np.any(x[:8].real<=0):
+            raise ValueError('Invalid MLT thermodynamic inputs')
+        real=np.asfortranarray(x.real.reshape(10,-1),dtype=np.float64)
+        key=(model,alpha,real.tobytes())
+        if self._mlt_cache is None or self._mlt_cache[0]!=key:
+            out=np.zeros((4,real.shape[1]),order='F');jac=np.zeros((4,10,real.shape[1]),order='F')
+            array=np.ctypeslib.ndpointer(dtype=np.float64,flags='F_CONTIGUOUS')
+            f=self.lib.qstars_mlt;f.argtypes=[ct.c_int,ct.c_int,ct.c_double,array,array,array,ct.POINTER(ct.c_int)]
+            err=ct.c_int();f(modes[model],real.shape[1],alpha,real,out,jac,ct.byref(err))
+            if err.value or not np.all(np.isfinite(out)) or not np.all(np.isfinite(jac)):
+                raise ValueError(f'MESA MLT evaluation failed: {err.value}')
+            if np.any(out[0]<np.minimum(real[8],real[9])-1e-10) or np.any(out[0]>real[8]+1e-10):
+                raise ValueError('MESA MLT returned a gradient outside radiative/adiabatic limits')
+            self._mlt_cache=(key,out,jac)
+        _,out,jac=self._mlt_cache
+        if np.iscomplexobj(x):out=out+1j*np.einsum('oin,in->on',jac,x.imag.reshape(10,-1))
+        return out.reshape((4,)+x.shape[1:])
 
     def consistency(self,rho,T):
         """Finite-difference first-law audit; fractions identify EOS blends.

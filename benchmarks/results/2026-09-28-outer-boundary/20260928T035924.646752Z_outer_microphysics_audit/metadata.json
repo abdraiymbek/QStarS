@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "git_commit": "b02facdf5d9085c4a84a0a5fb654e59e99309ee1",
+  "git_status": "M backends/mesa/Makefile\n M backends/mesa/microphysics.f90\n M src/qstars/mesa_microphysics.py\n?? scripts/audit_outer_microphysics.py",
+  "source_sha256": "f8a61a23a3987a28a442d9c1cf8a633f9a2a4df5fba328684000052e653d7fef",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "created_utc": "2026-09-28T03:59:24.678114+00:00",
+  "process_package_sha256": "f942c6db6f56f7937dda2a70c2c026f6b1e862afaaf106ae0bf98f061f3a96dc",
+  "source_tree_matches_import": true,
+  "dependencies": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.11.2"
+  },
+  "source_tree_matches_at_end": true,
+  "source_snapshot_verified": true
+}

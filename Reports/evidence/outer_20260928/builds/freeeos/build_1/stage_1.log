@@ -1,0 +1,24 @@
+[  3%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_free_eos_types.f90.o
+[  3%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_statistical_weight_data.f90.o
+[  5%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_info_data.f90.o
+[  5%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_flow_data.f90.o
+[  7%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_isotopic_mass_data.f90.o
+[  7%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_fermi_dirac_integrator.f90.o
+[  8%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_ionization_data.f90.o
+[ 10%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_pl.f90.o
+[ 12%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_aux_scale.f90.o
+[ 14%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_bfgs.f90.o
+[ 16%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_free_eos_constants.f90.o
+[ 17%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_free_eos_debug.f90.o
+/Users/abraiymbek/Projects/QStarS/sources/cache/free_eos-3.0.0/src/mod_free_eos_debug.f90:301:35:
+
+  301 |   subroutine set_snan_ep_fp_kind_3d(x)
+      |                                   1
+......
+  355 |   subroutine set_snan_qp_fp_kind_3d(x)
+      |                                   2
+Error: Ambiguous interfaces in generic interface 'taint_allocated_real' for 'set_snan_ep_fp_kind_3d' at (1) and 'set_snan_qp_fp_kind_3d' at (2)
+make[2]: *** [src/CMakeFiles/free_eos.dir/mod_free_eos_debug.f90.o] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [src/CMakeFiles/free_eos.dir/all] Error 2
+make: *** [all] Error 2

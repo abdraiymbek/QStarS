@@ -15,6 +15,7 @@ not complete quasi-star evolutionary tracks.
 | Newtonian gravity | Maximum compactness 2GM/(rc²) = 0.001 by default |
 | Ideal EOS | T=1e5..1e8 K, H and He ionization screening >=99%, electron occupation <=0.1 |
 | MESA interface | H1/He4 only; reject neutral ideal backstop, nonfinite values, unsupported query coordinates and first-law defect >1% |
+| MESA dilute gas pressure | Reject >1% discrepancy from rho kT/(mu m_u) when T>=40000 K, eta<-10 and conservative Coulomb Gamma<0.01; radiation must not hide gas-pressure error |
 | Omitted conduction | Reject conductive contribution >1% of diffusive heat transport |
 | Radiative diffusion | Radiation-gradient Knudsen number <=0.1 and flux below free streaming; outer flux is checked separately |
 | Efficient convection | Pe>=100 on faces carrying >1% of the transported flux in convection; no supersonic blobs |
@@ -38,9 +39,14 @@ normalizations and require convergence of interior profiles.
 
 - A moving cavity is absent. Mesh redistribution conserves resolved-domain
   mass and energy but does not create the missing physical cavity reservoir.
-- A production atmosphere and full radiatively lossy convection are absent.
+- A validated coupled production atmosphere and full radiatively lossy convection are absent.
   Effective temperature from luminosity and outer radius is a diagnostic;
   the envelope solver has no validated photospheric radius.
+  Native full MLT and explicit-pressure atmosphere references now execute,
+  but the 6000 K candidate requires Mach 2.34 convection and the 8000 K
+  candidate is geometrically extended. Numerical convergence does not make
+  those assumptions physical; [Report 8](../Reports/Report_8.md) records the
+  specific release blocker and its sensitivity tests.
 - The wind ODE component is not coupled to the envelope. A prescribed wind or
   launch formula does not prove an escaping transonic solution exists.
 - MESA EOS blending has retained first-law counterexamples. Rejecting them

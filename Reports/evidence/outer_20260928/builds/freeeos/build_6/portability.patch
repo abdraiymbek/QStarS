@@ -1,0 +1,12 @@
+--- upstream/src/mod_free_eos_debug.f90
++++ arm/src/mod_free_eos_debug.f90
+@@ -49,9 +49,6 @@
+      module procedure set_snan_dp_fp_kind_1d
+      module procedure set_snan_dp_fp_kind_2d
+      module procedure set_snan_dp_fp_kind_3d
+-     module procedure set_snan_ep_fp_kind_1d
+-     module procedure set_snan_ep_fp_kind_2d
+-     module procedure set_snan_ep_fp_kind_3d
+      module procedure set_snan_qp_fp_kind_1d
+      module procedure set_snan_qp_fp_kind_2d
+      module procedure set_snan_qp_fp_kind_3d

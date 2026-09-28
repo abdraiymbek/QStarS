@@ -1,0 +1,160 @@
+{
+  "upstream_byte_tests": [
+    {
+      "name": "free_eos",
+      "byte_equal": false,
+      "reference_sha256": "8bfd23187df4d055f8ef076c6d6a654905aa81ae5af966090f20cb214c7a7e3a",
+      "actual_sha256": "b331159afef59fb71313fac6f0f048a7e0c5ef7fc85134c7d9d2a7380bb97517",
+      "stderr_bytes": 74,
+      "first_state_physical_fields": {
+        "degeneracy": {
+          "reference": [
+            0.6674212125463801,
+            1.1939974307773487,
+            -1.4447143412507382
+          ],
+          "actual": [
+            0.6674212125463841,
+            1.193997430777349,
+            -1.4447143412507357
+          ],
+          "max_scaled_absolute_error": 5.988426519141868e-15
+        },
+        "pressure": {
+          "reference": [
+            30.148800380666653,
+            1.1882567955958119,
+            0.8551682255314964
+          ],
+          "actual": [
+            30.148800380666657,
+            1.1882567955958108,
+            0.8551682255314986
+          ],
+          "max_scaled_absolute_error": 2.5965020483195357e-15
+        },
+        "density": {
+          "reference": [
+            -5.551115123125783e-17,
+            1.0,
+            0.0
+          ],
+          "actual": [
+            -5.551115123125783e-17,
+            1.0,
+            0.0
+          ],
+          "max_scaled_absolute_error": 0.0
+        },
+        "energy": {
+          "reference": [
+            19894773720804.89,
+            1796062697105.1482,
+            17752001365505.71
+          ],
+          "actual": [
+            19894773720804.918,
+            1796062697105.1267,
+            17752001365505.75
+          ],
+          "max_scaled_absolute_error": 1.1961929299365781e-14
+        },
+        "enthalpy": {
+          "reference": [
+            32295800385680.4,
+            4130640239132.8296,
+            28356965333276.07
+          ],
+          "actual": [
+            32295800385680.47,
+            4130640239132.803,
+            28356965333276.176
+          ],
+          "max_scaled_absolute_error": 6.383317348773861e-15
+        },
+        "entropy": {
+          "reference": [
+            939254041.2405468,
+            -106049639.67770278,
+            177520013.6550572
+          ],
+          "actual": [
+            939254041.2405467,
+            -106049639.67770301,
+            177520013.65505788
+          ],
+          "max_scaled_absolute_error": 3.861274009638772e-15
+        },
+        "gamma1,gamma2,gamma3": {
+          "reference": [
+            1.6991303602951582,
+            1.5422315007731164,
+            1.5973954006322355
+          ],
+          "actual": [
+            1.6991303602951573,
+            1.5422315007731153,
+            1.5973954006322344
+          ],
+          "max_scaled_absolute_error": 7.198809154582855e-16
+        },
+        "h2rat,h2plusrat": {
+          "reference": [
+            0.028199364015098916,
+            0.00019871647413779832
+          ],
+          "actual": [
+            0.028199364015099312,
+            0.00019871647413780116
+          ],
+          "max_scaled_absolute_error": 1.4322067232336724e-14
+        },
+        "fh2,fhe2,fhe3": {
+          "reference": [
+            0.9693165647069403,
+            0.5598684593909111,
+            0.04768630999469492
+          ],
+          "actual": [
+            0.9693165647069403,
+            0.5598684593909111,
+            0.04768630999469492
+          ],
+          "max_scaled_absolute_error": 0.0
+        }
+      }
+    },
+    {
+      "name": "exchange",
+      "byte_equal": false,
+      "reference_sha256": "f5ce1001da4888bfa7fd34e7363026cbc9ed70aad7b3b8219dfcbff1ed218527",
+      "actual_sha256": "6d3a6c093f4a5dc25888b99f450b207427d4bf1f42b4daed48180280f1fc4cc8",
+      "stderr_bytes": 24
+    },
+    {
+      "name": "fermi_dirac",
+      "byte_equal": false,
+      "reference_sha256": "a6e63c37b42215b05d82a1d5d8158fd441b954d542cd2a8dbc89801e55b40e0c",
+      "actual_sha256": "cd2995093c62f026a61011f0b62be5d301efcdc9a787e683824fad53522c437a",
+      "stderr_bytes": 24
+    },
+    {
+      "name": "rosenbrock",
+      "byte_equal": false,
+      "reference_sha256": "88ec8dadff5f26ce497fbb3b4368c3826af876779c235edc1128e4c47319c426",
+      "actual_sha256": "01ad8353cd03ae14c8a9b8c7f5714c65d20cc9d42a603fe176b47b3bf4c19f40",
+      "stderr_bytes": 24
+    },
+    {
+      "name": "solve_linear",
+      "byte_equal": false,
+      "reference_sha256": "39daf61ce116d39084332cb7cdb5d6e77058bf710cbac19adebb4f0371f897c8",
+      "actual_sha256": "25f09a79a5ac67f30c0fdb2deb0e61f956c6b70e4fff848e47c18c65f1f83234",
+      "stderr_bytes": 544
+    }
+  ],
+  "byte_test_status": "FAIL",
+  "scope": "No claim of complete upstream suite success. First-state physical fields are quantified independently of platform-sensitive finite-difference diagnostics.",
+  "first_state_physical_fields_max_scaled_error": 1.4322067232336724e-14,
+  "source_snapshot_verified": true
+}

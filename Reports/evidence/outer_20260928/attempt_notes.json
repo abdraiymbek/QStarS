@@ -1,0 +1,11 @@
+{
+  "build_1": "Compiler ambiguity: selected extended and quadruple kinds coincide on ARM.",
+  "build_2": "copytree failed on dangling upstream website image symlinks; original exception only in task tool output, no build.json was written. Destination retained.",
+  "build_3": "Link failure: missing BLAS and crmath dependencies.",
+  "build_4": "Link failure: missing libscs dependency of static crlibm.",
+  "build_5": "Successful build after isolated generic repair and complete static dependency links; all five upstream byte checks differ.",
+  "build_6": "Fresh successful build with required compiler-kind probe 8/16/16; all five upstream byte checks still differ.",
+  "audit_20260928T041545": "Superseded composition-mismatch experiment: raw MESA/FreeEOS used X=.7 but opacity handle X=.75. Its opacity comparison is invalid; corrected 041620 and final 042655 align X=.7. Original results retained.",
+  "atmosphere_exploration": "Earlier campaign used radius 1e14 cm only as geometry screen; final campaign uses enclosed mass 10000 Msun and radius=sqrt(GM/g).",
+  "unarchived_exploration": "One preliminary solar-gravity outer-reference probe returned FreeEOS info 111 in native pressure inversion. Its tool output is retained in task history; it is a numerical reference failure, not a solar-atmosphere result."
+}

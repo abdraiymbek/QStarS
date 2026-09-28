@@ -1,0 +1,101 @@
+[  3%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_statistical_weight_data.f90.o
+[  3%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_free_eos_types.f90.o
+[  5%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_info_data.f90.o
+[  5%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_flow_data.f90.o
+[  7%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_isotopic_mass_data.f90.o
+[  7%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_fermi_dirac_integrator.f90.o
+[  8%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_ionization_data.f90.o
+[ 10%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_pl.f90.o
+[ 12%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_aux_scale.f90.o
+[ 14%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_bfgs.f90.o
+[ 16%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_free_eos_constants.f90.o
+[ 17%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_free_eos_debug.f90.o
+[ 19%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_diagnostics.f90.o
+[ 19%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_excitation_block.f90.o
+[ 21%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_helium1_data.f90.o
+[ 23%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_poly_sum.f90.o
+[ 25%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_nuvar.f90.o
+[ 26%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_lapack.f90.o
+[ 26%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_pi_fit.f90.o
+[ 26%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_molecular_hydrogen.f90.o
+[ 28%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_fermi_dirac.f90.o
+[ 30%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_pi.f90.o
+[ 30%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_coulomb.f90.o
+[ 32%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_excitation.f90.o
+[ 33%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_exchange.f90.o
+[ 35%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_eos_calc.f90.o
+[ 37%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_eos_jacobian.f90.o
+[ 39%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_eos_bfgs.f90.o
+[ 39%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_free_eos_detailed.f90.o
+[ 41%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_free_eos.f90.o
+[ 42%] Linking Fortran static library libfree_eos.a
+[ 42%] Built target free_eos
+[ 42%] Building Fortran object test_FreeEOS/utils/CMakeFiles/exchange_test.dir/exchange_test_main.f90.o
+[ 44%] Building Fortran object test_FreeEOS/utils/CMakeFiles/free_eos_utils.dir/mod_abund_process.f90.o
+[ 46%] Linking Fortran static library libfree_eos_utils.a
+[ 48%] Linking Fortran executable exchange_test
+[ 48%] Built target free_eos_utils
+[ 48%] Built target exchange_test
+[ 50%] Building Fortran object test_FreeEOS/utils/CMakeFiles/fermi_dirac_test.dir/fermi_dirac_test_main.f90.o
+[ 51%] Building Fortran object test_FreeEOS/utils/CMakeFiles/free_eos_test.dir/free_eos_test_main.f90.o
+[ 53%] Linking Fortran executable fermi_dirac_test
+[ 53%] Built target fermi_dirac_test
+[ 55%] Building Fortran object test_FreeEOS/utils/CMakeFiles/rosenbrock_test.dir/rosenbrock_test_main.f90.o
+[ 55%] Linking Fortran executable free_eos_test
+ld: warning: ignoring duplicate libraries: '../../src/libfree_eos.a'
+[ 57%] Linking Fortran executable rosenbrock_test
+[ 57%] Built target free_eos_test
+[ 58%] Building Fortran object test_FreeEOS/utils/CMakeFiles/generate_mod_isotopic_mass_data.dir/generate_mod_isotopic_mass_data_main.f90.o
+[ 58%] Built target rosenbrock_test
+[ 58%] Building Fortran object test_FreeEOS/utils/CMakeFiles/solve_linear_test.dir/solve_linear_test_main.f90.o
+[ 58%] Linking Fortran executable generate_mod_isotopic_mass_data
+[ 60%] Linking Fortran executable solve_linear_test
+[ 60%] Built target generate_mod_isotopic_mass_data
+ld: warning: ignoring duplicate libraries: '/Users/abraiymbek/qsrd-runtime/mesasdk/lib/libcrlibm.a', '/Users/abraiymbek/qsrd-runtime/mesasdk/lib/libcrmath.a', '/Users/abraiymbek/qsrd-runtime/mesasdk/lib/libscs.a', '/Users/abraiymbek/qsrd-runtime/mesasdk/math-slots/crmath/lib/libblas.a', '/Users/abraiymbek/qsrd-runtime/mesasdk/math-slots/crmath/lib/liblapack.a'
+[ 60%] Building Fortran object document_FreeEOS/figure_utils/CMakeFiles/free_eos_figure_utils.dir/mod_exchange_integrator.f90.o
+[ 60%] Built target solve_linear_test
+[ 62%] Building Fortran object document_FreeEOS/figure_utils/CMakeFiles/coulomb_adjust.dir/coulomb_adjust_main.f90.o
+[ 64%] Building Fortran object document_FreeEOS/figure_utils/CMakeFiles/free_eos_figure_utils.dir/mod_free_eos_figure_utils.f90.o
+[ 66%] Linking Fortran executable coulomb_adjust
+[ 67%] Building Fortran object document_FreeEOS/figure_utils/CMakeFiles/free_eos_figure_utils.dir/mod_read_specially_formatted_data.f90.o
+[ 67%] Built target coulomb_adjust
+[ 69%] Building Fortran object document_FreeEOS/figure_utils/CMakeFiles/eff_check.dir/eff_check_main.f90.o
+[ 71%] Linking Fortran executable eff_check
+[ 71%] Built target eff_check
+[ 73%] Building Fortran object document_FreeEOS/figure_utils/CMakeFiles/free_eos_compare.dir/free_eos_compare_main.f90.o
+[ 75%] Linking Fortran static library libfree_eos_figure_utils.a
+[ 75%] Built target free_eos_figure_utils
+[ 76%] Building Fortran object document_FreeEOS/figure_utils/CMakeFiles/free_eos_grid2yplot.dir/free_eos_grid2yplot_main.f90.o
+[ 78%] Linking Fortran executable free_eos_compare
+ld: warning: ignoring duplicate libraries: '../../src/libfree_eos.a'
+[ 78%] Built target free_eos_compare
+[ 78%] Building Fortran object document_FreeEOS/figure_utils/CMakeFiles/free_eos_grid.dir/free_eos_grid_main.f90.o
+[ 80%] Linking Fortran executable free_eos_grid2yplot
+[ 80%] Built target free_eos_grid2yplot
+[ 80%] Building Fortran object document_FreeEOS/figure_utils/CMakeFiles/free_eos_model.dir/free_eos_model_main.f90.o
+[ 82%] Linking Fortran executable free_eos_grid
+ld: warning: ignoring duplicate libraries: '../../src/libfree_eos.a'
+[ 82%] Built target free_eos_grid
+[ 83%] Building Fortran object document_FreeEOS/figure_utils/CMakeFiles/gnuplot2yplot.dir/gnuplot2yplot_main.f90.o
+[ 85%] Linking Fortran executable free_eos_model
+ld: warning: ignoring duplicate libraries: '../../src/libfree_eos.a'
+[ 85%] Built target free_eos_model
+[ 87%] Building Fortran object document_FreeEOS/figure_utils/CMakeFiles/gong2ascii.dir/gong2ascii_main.f90.o
+[ 87%] Linking Fortran executable gong2ascii
+[ 89%] Linking Fortran executable gnuplot2yplot
+ld: warning: ignoring duplicate libraries: '../../src/libfree_eos.a'
+ld: warning: ignoring duplicate libraries: '../../src/libfree_eos.a'
+[ 89%] Built target gong2ascii
+[ 89%] Built target gnuplot2yplot
+[ 92%] Building Fortran object document_FreeEOS/figure_utils/CMakeFiles/free_eos_opal_model.dir/free_eos_opal_model_main.f90.o
+[ 92%] Building Fortran object document_FreeEOS/figure_utils/CMakeFiles/opal_compare_model.dir/opal_compare_model_main.f90.o
+[ 94%] Linking Fortran executable opal_compare_model
+[ 96%] Linking Fortran executable free_eos_opal_model
+ld: warning: ignoring duplicate libraries: '../../src/libfree_eos.a'
+ld: warning: ignoring duplicate libraries: '../../src/libfree_eos.a'
+[ 96%] Built target opal_compare_model
+[ 96%] Built target free_eos_opal_model
+[ 98%] Building Fortran object document_FreeEOS/figure_utils/CMakeFiles/exchange_check.dir/exchange_check_main.f90.o
+[100%] Linking Fortran executable exchange_check
+ld: warning: ignoring duplicate libraries: '../../src/libfree_eos.a'
+[100%] Built target exchange_check

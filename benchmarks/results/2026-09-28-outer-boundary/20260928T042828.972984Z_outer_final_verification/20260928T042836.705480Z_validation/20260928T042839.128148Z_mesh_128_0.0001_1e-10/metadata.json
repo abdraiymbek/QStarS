@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "git_commit": "b02facdf5d9085c4a84a0a5fb654e59e99309ee1",
+  "git_status": "M .gitignore\n M backends/mesa/Makefile\n M backends/mesa/microphysics.f90\n M docs/sources.md\n M pyproject.toml\n M requirements-lock.txt\n M scripts/build_registry.py\n M src/qstars/data/sources.json\n M src/qstars/mesa_microphysics.py\n M src/qstars/validity.py\n M tests/test_mesa.py\n?? backends/freeeos/\n?? scripts/audit_freeeos.py\n?? scripts/audit_outer_microphysics.py\n?? scripts/build_freeeos.py\n?? scripts/build_freeeos_bridge.py\n?? scripts/check_freeeos_upstream.py\n?? scripts/validate_atmosphere_reference.py\n?? src/qstars/atmosphere_reference.py\n?? src/qstars/freeeos_reference.py\n?? tests/test_freeeos_atmosphere.py",
+  "source_sha256": "7229d836c488ffc1d831ea0a23d494a98c75a467362f7e656835e14ad3b331f7",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "created_utc": "2026-09-28T04:28:39.152578+00:00",
+  "process_package_sha256": "4fa5e50c0af61d64f5a8031e2674d721a08a8193a1e2f86bb5aca05f4c05d08d",
+  "source_tree_matches_import": true,
+  "dependencies": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.11.2"
+  },
+  "source_tree_matches_at_end": true,
+  "source_snapshot_verified": true
+}

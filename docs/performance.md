@@ -1,5 +1,14 @@
 # Apple Silicon performance report
 
+The Report 8 sequential verification with the new dilute-gas validity screen
+completes the same 128-zone MESA ten-year envelope in **30.830 s**, at
+**1045.0 MiB** peak RSS, with 500 accepted steps and no retries. The 14-case
+uncoupled atmosphere campaign takes **7.159 s**, with **527.4 MiB** peak RSS.
+Those atmosphere cases fail physical validity and are not production-track
+performance measurements. Full quasi-star evolutionary-track costs remain
+unknown; extra cloud CPUs cannot repair the demonstrated physical closure
+failures. See [Report 8](../Reports/Report_8.md).
+
 Measured on **Apple M5, 16 GiB RAM, macOS 27 arm64**, Python 3.12.14. Final cases ran sequentially in fresh CPU processes after the other QStarS campaigns finished. No GPU, cloud resources or compiled MESA redistribution is required for the analytic-EOS solver. MESA is a separate optional installation.
 
 Model runtime includes initialization, evolution and model-output I/O. Fresh-process wall time additionally includes interpreter startup and provenance setup. Plotting is excluded. Peak RSS is per fresh process.

@@ -1,0 +1,67 @@
+{
+  "reason": "Refuse ambiguous exploratory ABI 4 MLT argument layouts; ABI 5 physics unchanged",
+  "atmospheres": [
+    {
+      "case": "T6000_g1.0_ML1",
+      "arrays_equal": true
+    },
+    {
+      "case": "T6000_g1.0_outer_pressure",
+      "arrays_equal": true
+    },
+    {
+      "case": "T6000_g1.0_tolerance",
+      "arrays_equal": true
+    },
+    {
+      "case": "T8000_g3.0_outer_tau",
+      "arrays_equal": true
+    },
+    {
+      "case": "T8000_g3.0_finite_pressure",
+      "arrays_equal": true
+    },
+    {
+      "case": "T6000_g1.0_finite_pressure",
+      "arrays_equal": true
+    },
+    {
+      "case": "T8000_g3.0_outer_pressure",
+      "arrays_equal": true
+    },
+    {
+      "case": "T6000_g1.0_outer_tau",
+      "arrays_equal": true
+    },
+    {
+      "case": "T6000_g1.0_baseline",
+      "arrays_equal": true
+    },
+    {
+      "case": "T8000_g3.0_baseline",
+      "arrays_equal": true
+    },
+    {
+      "case": "T8000_g3.0_constant_opacity",
+      "arrays_equal": true
+    },
+    {
+      "case": "T8000_g3.0_tolerance",
+      "arrays_equal": true
+    },
+    {
+      "case": "T8000_g3.0_ML1",
+      "arrays_equal": true
+    },
+    {
+      "case": "T6000_g1.0_constant_opacity",
+      "arrays_equal": true
+    }
+  ],
+  "freeeos_grid_equal": true,
+  "source_verified": {
+    "20260928T044002.683023Z_atmosphere_reference": true,
+    "20260928T044002.107801Z_freeeos_audit": true,
+    "20260928T043954.437393Z_outer_abi_guard_verification": true
+  }
+}

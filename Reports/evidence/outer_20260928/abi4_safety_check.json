@@ -1,0 +1,6 @@
+{
+  "abi_version": 4,
+  "library_sha256": "cafba4dccc8298b959a14a2eb46766dc556004b879fa14f436351e16ffd25d20",
+  "error": "Native MLT derivatives require bridge ABI 5",
+  "safely_refused": true
+}

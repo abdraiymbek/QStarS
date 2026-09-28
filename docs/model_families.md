@@ -6,7 +6,10 @@ source; it does not claim reproduction of the source's entire stellar model.
 | Selectable capability | What executes | What is still missing |
 |---|---|---|
 | `ideal_gas_radiation` | Consistent hot, fully ionized ideal gas plus radiation thermodynamics | Ionization, molecules, degeneracy, evolving composition |
-| `mesa` EOS and opacity | Direct MESA 24.08.1 H1/He4 EOS, ionization and radiative opacity; independent QStarS ledger | Atmosphere, full MLT, nuclear/composition evolution and production stellar backend; excluded inconsistent blend states |
+| `mesa` EOS and opacity | Direct MESA 24.08.1 H1/He4 EOS, ionization and radiative opacity; independent QStarS ledger | Coupled atmosphere/full MLT, nuclear/composition evolution and production stellar backend; excluded inconsistent blend and dilute-gas states |
+| Native MESA atmosphere/MLT reference | Fixed/varying Eddington atmosphere, pressure inversion, Henyey/ML1 and automatic derivatives | Native starting-pressure prescription is not a validated low-gravity vacuum boundary |
+| Direct FreeEOS 3.0.0 reference | Gas EOS1, ionization, derivatives and explicit blackbody radiation; MESA opacity accepts the same electron state | Global EOS certification, arbitrary composition, safe stitching and evolution coupling |
+| Finite-pressure grey/MLT atmosphere reference | Hydrostatic layers, full local MLT, optical-depth profiles and mass/energy inventories | Supersonic cool candidate and extended warm candidate fail validity; spherical transfer and conservative envelope/wind coupling absent |
 | `fixed_excision` | Fixed inner radius with separate swallowed enthalpy, BH rest-mass conversion and central-potential work | Moving physical cavity, its mass/energy reservoir and pressure work |
 | `bra2008` | BRA08 equation 3 luminosity law | Complete BRA structure and evolution |
 | `ball2011_printed` | Ball's printed equation 15 with its stated coefficient | Moving Bondi boundary and complete Ball tracks |

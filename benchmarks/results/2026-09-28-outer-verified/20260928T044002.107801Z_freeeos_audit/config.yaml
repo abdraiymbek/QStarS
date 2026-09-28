@@ -1,0 +1,3 @@
+library: /Users/abraiymbek/Projects/QStarS/backends/freeeos/build_bridge_2/libqstars_freeeos.dylib
+mesa_library: /Users/abraiymbek/Projects/QStarS/backends/mesa/build_atmosphere_3/libqstars_mesa.dylib
+mesa_dir: /Users/abraiymbek/qsrd-runtime/mesa

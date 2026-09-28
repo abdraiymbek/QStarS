@@ -1,0 +1,70 @@
+-- The Fortran compiler identification is GNU 13.3.0
+cc1: warning: command-line option '-ffpe-summary=none' is valid for Fortran but not for C
+-- Checking whether Fortran compiler has -isysroot
+-- Checking whether Fortran compiler has -isysroot - yes
+-- Checking whether Fortran compiler supports OSX deployment target flag
+-- Checking whether Fortran compiler supports OSX deployment target flag - yes
+-- Detecting Fortran compiler ABI info
+-- Detecting Fortran compiler ABI info - done
+-- Check for working Fortran compiler: /Users/abraiymbek/qsrd-runtime/mesasdk/bin/gfortran - skipped
+-- Could NOT find LAPACK (missing: LAPACK_DIR)
+-- Found BLAS: /Users/abraiymbek/qsrd-runtime/mesasdk/math-slots/crmath/lib/libblas.a
+-- Found LAPACK: /Users/abraiymbek/qsrd-runtime/mesasdk/math-slots/crmath/lib/liblapack.a;/Users/abraiymbek/qsrd-runtime/mesasdk/math-slots/crmath/lib/libblas.a;/Users/abraiymbek/qsrd-runtime/mesasdk/lib/libcrmath.a;/Users/abraiymbek/qsrd-runtime/mesasdk/lib/libcrlibm.a;/Users/abraiymbek/qsrd-runtime/mesasdk/lib/libscs.a
+-- LAPACK_LINKER_FLAGS = 
+-- LAPACK_LIBRARIES = /Users/abraiymbek/qsrd-runtime/mesasdk/math-slots/crmath/lib/liblapack.a;/Users/abraiymbek/qsrd-runtime/mesasdk/math-slots/crmath/lib/libblas.a;/Users/abraiymbek/qsrd-runtime/mesasdk/lib/libcrmath.a;/Users/abraiymbek/qsrd-runtime/mesasdk/lib/libcrlibm.a;/Users/abraiymbek/qsrd-runtime/mesasdk/lib/libscs.a
+-- LAPACK_RPATH = /Users/abraiymbek/qsrd-runtime/mesasdk/math-slots/crmath/lib;/Users/abraiymbek/qsrd-runtime/mesasdk/lib
+
+Summary of CMake-based build system results for FreeEOS
+
+Install location variables which can be set by the user.  N.B. These
+variables are ordered by decreasing degree of generality, with the
+_default_ values of the later ones in the list determined by the
+values of variables earlier in the list.  So, for example, it is
+usually sufficient in the vast majority of cases to just set
+CMAKE_INSTALL_PREFIX, and the rest of these variables are adjusted
+accordingly (at least for a fresh configuration), and it is rare
+indeed that is is necessary for a user to set any variable here
+that appears late in this list.
+
+
+CMAKE_INSTALL_PREFIX: /Users/abraiymbek/Projects/QStarS/backends/freeeos/build_5/install
+CMAKE_INSTALL_EXEC_PREFIX: /Users/abraiymbek/Projects/QStarS/backends/freeeos/build_5/install
+CMAKE_INSTALL_BINDIR: /Users/abraiymbek/Projects/QStarS/backends/freeeos/build_5/install/bin
+CMAKE_INSTALL_DATADIR: /Users/abraiymbek/Projects/QStarS/backends/freeeos/build_5/install/share
+CMAKE_INSTALL_LIBDIR: /Users/abraiymbek/Projects/QStarS/backends/freeeos/build_5/install/lib
+CMAKE_INSTALL_INFODIR: /Users/abraiymbek/Projects/QStarS/backends/freeeos/build_5/install/share/info
+CMAKE_INSTALL_MANDIR: /Users/abraiymbek/Projects/QStarS/backends/freeeos/build_5/install/share/man
+CMAKE_INSTALL_MODDIR: /Users/abraiymbek/Projects/QStarS/backends/freeeos/build_5/install/lib/fortran/modules/free_eos
+CMAKE_INSTALL_DOCDIR: /Users/abraiymbek/Projects/QStarS/backends/freeeos/build_5/install/share/doc/free_eos
+
+
+Other important CMake variables:
+
+CMake information:
+CMAKE_VERSION:		3.31.6
+CMAKE_SYSTEM_NAME:	Darwin
+CMAKE_BUILD_TYPE:	Release
+
+CMake system information:
+UNIX:			1
+WIN32:			
+APPLE:			1
+MSVC:			
+(MSVC_VERSION:		)
+MINGW:			
+MSYS:			
+CYGWIN:			
+
+CMake compiler information:
+CMAKE_Fortran_COMPILER:	/Users/abraiymbek/qsrd-runtime/mesasdk/bin/gfortran
+CMAKE_Fortran_FLAGS:	
+
+CMake linker information:
+BUILD_SHARED_LIBS:	OFF
+
+FreeEOS version:
+FREE_EOS_VERSION:	3.0.0
+
+-- Configuring done (0.7s)
+-- Generating done (0.2s)
+-- Build files have been written to: /Users/abraiymbek/Projects/QStarS/backends/freeeos/build_5/cmake

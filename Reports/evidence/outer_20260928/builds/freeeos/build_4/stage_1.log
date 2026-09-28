@@ -1,0 +1,139 @@
+[  3%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_free_eos_types.f90.o
+[  3%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_statistical_weight_data.f90.o
+[  5%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_info_data.f90.o
+[  5%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_flow_data.f90.o
+[  7%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_isotopic_mass_data.f90.o
+[  7%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_fermi_dirac_integrator.f90.o
+[  8%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_ionization_data.f90.o
+[ 10%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_pl.f90.o
+[ 12%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_aux_scale.f90.o
+[ 14%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_bfgs.f90.o
+[ 16%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_free_eos_constants.f90.o
+[ 17%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_free_eos_debug.f90.o
+[ 19%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_diagnostics.f90.o
+[ 19%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_excitation_block.f90.o
+[ 21%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_helium1_data.f90.o
+[ 23%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_poly_sum.f90.o
+[ 25%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_nuvar.f90.o
+[ 26%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_lapack.f90.o
+[ 26%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_pi_fit.f90.o
+[ 26%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_molecular_hydrogen.f90.o
+[ 28%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_fermi_dirac.f90.o
+[ 30%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_pi.f90.o
+[ 30%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_coulomb.f90.o
+[ 32%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_excitation.f90.o
+[ 33%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_exchange.f90.o
+[ 35%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_eos_calc.f90.o
+[ 37%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_eos_jacobian.f90.o
+[ 39%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_eos_bfgs.f90.o
+[ 39%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_free_eos_detailed.f90.o
+[ 41%] Building Fortran object src/CMakeFiles/free_eos.dir/mod_free_eos.f90.o
+[ 42%] Linking Fortran static library libfree_eos.a
+[ 42%] Built target free_eos
+[ 42%] Building Fortran object test_FreeEOS/utils/CMakeFiles/exchange_test.dir/exchange_test_main.f90.o
+[ 44%] Building Fortran object test_FreeEOS/utils/CMakeFiles/free_eos_utils.dir/mod_abund_process.f90.o
+[ 46%] Linking Fortran static library libfree_eos_utils.a
+[ 48%] Linking Fortran executable exchange_test
+[ 48%] Built target free_eos_utils
+[ 48%] Built target exchange_test
+[ 50%] Building Fortran object test_FreeEOS/utils/CMakeFiles/fermi_dirac_test.dir/fermi_dirac_test_main.f90.o
+[ 51%] Building Fortran object test_FreeEOS/utils/CMakeFiles/free_eos_test.dir/free_eos_test_main.f90.o
+[ 53%] Linking Fortran executable fermi_dirac_test
+[ 53%] Built target fermi_dirac_test
+[ 55%] Building Fortran object test_FreeEOS/utils/CMakeFiles/rosenbrock_test.dir/rosenbrock_test_main.f90.o
+[ 55%] Linking Fortran executable free_eos_test
+ld: warning: ignoring duplicate libraries: '../../src/libfree_eos.a'
+Undefined symbols for architecture arm64:
+  "_scs_add", referenced from:
+      _scs_sin in libcrlibm.a[12](trigo_accurate.o)
+      _scs_sin in libcrlibm.a[12](trigo_accurate.o)
+      _scs_cos in libcrlibm.a[12](trigo_accurate.o)
+      _scs_cos in libcrlibm.a[12](trigo_accurate.o)
+      _scs_tan in libcrlibm.a[12](trigo_accurate.o)
+      _scs_tan in libcrlibm.a[12](trigo_accurate.o)
+      _scs_atan in libcrlibm.a[17](atan_accurate.o)
+      _scs_atan in libcrlibm.a[17](atan_accurate.o)
+      _scs_atan in libcrlibm.a[17](atan_accurate.o)
+      _scs_atan in libcrlibm.a[17](atan_accurate.o)
+      _scs_atan in libcrlibm.a[17](atan_accurate.o)
+      _scs_atan in libcrlibm.a[17](atan_accurate.o)
+      ...
+  "_scs_div", referenced from:
+      _scs_atan in libcrlibm.a[17](atan_accurate.o)
+  "_scs_get_d", referenced from:
+      _scs_sin_rn in libcrlibm.a[12](trigo_accurate.o)
+      _scs_sin_rn in libcrlibm.a[12](trigo_accurate.o)
+      _scs_sin_rn in libcrlibm.a[12](trigo_accurate.o)
+      _scs_cos_rn in libcrlibm.a[12](trigo_accurate.o)
+      _scs_cos_rn in libcrlibm.a[12](trigo_accurate.o)
+      _scs_cos_rn in libcrlibm.a[12](trigo_accurate.o)
+      _scs_tan_rn in libcrlibm.a[12](trigo_accurate.o)
+      ...
+  "_scs_get_d_minf", referenced from:
+      _scs_sin_rd in libcrlibm.a[12](trigo_accurate.o)
+      _scs_sin_rd in libcrlibm.a[12](trigo_accurate.o)
+      _scs_sin_ru in libcrlibm.a[12](trigo_accurate.o)
+      _scs_cos_rd in libcrlibm.a[12](trigo_accurate.o)
+      _scs_cos_rd in libcrlibm.a[12](trigo_accurate.o)
+      _scs_cos_ru in libcrlibm.a[12](trigo_accurate.o)
+      _scs_tan_rd in libcrlibm.a[12](trigo_accurate.o)
+      ...
+  "_scs_get_d_pinf", referenced from:
+      _scs_sin_rd in libcrlibm.a[12](trigo_accurate.o)
+      _scs_sin_ru in libcrlibm.a[12](trigo_accurate.o)
+      _scs_sin_ru in libcrlibm.a[12](trigo_accurate.o)
+      _scs_cos_rd in libcrlibm.a[12](trigo_accurate.o)
+      _scs_cos_ru in libcrlibm.a[12](trigo_accurate.o)
+      _scs_cos_ru in libcrlibm.a[12](trigo_accurate.o)
+      _scs_tan_ru in libcrlibm.a[12](trigo_accurate.o)
+      ...
+  "_scs_get_d_zero", referenced from:
+      _scs_sin_rz in libcrlibm.a[12](trigo_accurate.o)
+      _scs_sin_rz in libcrlibm.a[12](trigo_accurate.o)
+      _scs_sin_rz in libcrlibm.a[12](trigo_accurate.o)
+      _scs_cos_rz in libcrlibm.a[12](trigo_accurate.o)
+      _scs_cos_rz in libcrlibm.a[12](trigo_accurate.o)
+      _scs_cos_rz in libcrlibm.a[12](trigo_accurate.o)
+      _scs_tan_rz in libcrlibm.a[12](trigo_accurate.o)
+      ...
+  "_scs_inv", referenced from:
+      _scs_tan in libcrlibm.a[12](trigo_accurate.o)
+  "_scs_mul", referenced from:
+      _rem_pio2_scs in libcrlibm.a[10](rem_pio2_accurate.o)
+      _rem_pio256_scs in libcrlibm.a[11](trigo_fast.o)
+      _scs_sin in libcrlibm.a[12](trigo_accurate.o)
+      _scs_sin in libcrlibm.a[12](trigo_accurate.o)
+      _scs_sin in libcrlibm.a[12](trigo_accurate.o)
+      _scs_cos in libcrlibm.a[12](trigo_accurate.o)
+      _scs_cos in libcrlibm.a[12](trigo_accurate.o)
+      ...
+  "_scs_set", referenced from:
+      _rem_pio2_scs in libcrlibm.a[10](rem_pio2_accurate.o)
+      _rem_pio256_scs in libcrlibm.a[11](trigo_fast.o)
+      _scs_atan in libcrlibm.a[17](atan_accurate.o)
+      _scs_atan in libcrlibm.a[17](atan_accurate.o)
+  "_scs_set_d", referenced from:
+      _ComputeTrigWithArgred in libcrlibm.a[11](trigo_fast.o)
+      _scs_tan in libcrlibm.a[12](trigo_accurate.o)
+      _scs_sin_rn in libcrlibm.a[12](trigo_accurate.o)
+      _scs_sin_rd in libcrlibm.a[12](trigo_accurate.o)
+      _scs_sin_ru in libcrlibm.a[12](trigo_accurate.o)
+      _scs_sin_rz in libcrlibm.a[12](trigo_accurate.o)
+      _scs_cos_rn in libcrlibm.a[12](trigo_accurate.o)
+      ...
+  "_scs_square", referenced from:
+      _scs_sin in libcrlibm.a[12](trigo_accurate.o)
+      _scs_cos in libcrlibm.a[12](trigo_accurate.o)
+      _scs_tan in libcrlibm.a[12](trigo_accurate.o)
+      _scs_atan in libcrlibm.a[17](atan_accurate.o)
+      _scs_atan in libcrlibm.a[17](atan_accurate.o)
+  "_scs_sub", referenced from:
+      _scs_atan in libcrlibm.a[17](atan_accurate.o)
+ld: symbol(s) not found for architecture arm64
+collect2: error: ld returned 1 exit status
+make[2]: *** [test_FreeEOS/utils/free_eos_test] Error 1
+make[1]: *** [test_FreeEOS/utils/CMakeFiles/free_eos_test.dir/all] Error 2
+make[1]: *** Waiting for unfinished jobs....
+[ 57%] Linking Fortran executable rosenbrock_test
+[ 57%] Built target rosenbrock_test
+make: *** [all] Error 2

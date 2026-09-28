@@ -1,0 +1,20 @@
+[ 66%] Built target free_eos
+[ 75%] Built target solve_linear_test
+[ 75%] Built target free_eos_utils
+[ 80%] Built target exchange_test
+[ 83%] Built target fermi_dirac_test
+[ 86%] Generating solve_linear_test.stdout, solve_linear_test.stderr
+[ 88%] Built target rosenbrock_test
+[ 91%] Built target free_eos_test
+[ 91%] Generating exchange_test.stdout, exchange_test.stderr
+Check that solve_linear_test.stdout results are consistent with previous results
+/Users/abraiymbek/Projects/QStarS/backends/freeeos/build_5/source/test_FreeEOS/solve_linear_test.stdout_standard /Users/abraiymbek/Projects/QStarS/backends/freeeos/build_5/cmake/test_FreeEOS/solve_linear_test.stdout differ: char 182, line 3
+make[3]: *** [test_FreeEOS/CMakeFiles/check_solve_linear_test] Error 1
+make[2]: *** [test_FreeEOS/CMakeFiles/check_solve_linear_test.dir/all] Error 2
+make[2]: *** Waiting for unfinished jobs....
+Check that exchange_test.stdout results are consistent with previous results
+/Users/abraiymbek/Projects/QStarS/backends/freeeos/build_5/source/test_FreeEOS/exchange_test.stdout_standard /Users/abraiymbek/Projects/QStarS/backends/freeeos/build_5/cmake/test_FreeEOS/exchange_test.stdout differ: char 36505, line 1613
+make[3]: *** [test_FreeEOS/CMakeFiles/check_exchange_test] Error 1
+make[2]: *** [test_FreeEOS/CMakeFiles/check_exchange_test.dir/all] Error 2
+make[1]: *** [test_FreeEOS/CMakeFiles/simple_test.dir/rule] Error 2
+make: *** [simple_test] Error 2

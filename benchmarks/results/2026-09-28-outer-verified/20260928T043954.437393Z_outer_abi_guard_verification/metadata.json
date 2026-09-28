@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "git_commit": "b02facdf5d9085c4a84a0a5fb654e59e99309ee1",
+  "git_status": "M .gitignore\n M README.md\n M Reports/evidence/completion_gates.json\n M backends/mesa/Makefile\n M backends/mesa/microphysics.f90\n M benchmarks/manifest.yaml\n M docs/mesa.md\n M docs/model_families.md\n M docs/performance.md\n M docs/sources.md\n M docs/validation.md\n M docs/validity.md\n M pyproject.toml\n M requirements-lock.txt\n M scripts/build_registry.py\n M sources/acquisition.json\n M src/qstars/data/sources.json\n M src/qstars/mesa_microphysics.py\n M src/qstars/validity.py\n M tests/test_mesa.py\n?? Reports/Report_8.md\n?? Reports/evidence/outer_20260928/\n?? backends/freeeos/\n?? benchmarks/results/2026-09-28-outer-boundary/\n?? docs/atmosphere.md\n?? scripts/audit_freeeos.py\n?? scripts/audit_outer_microphysics.py\n?? scripts/build_freeeos.py\n?? scripts/build_freeeos_bridge.py\n?? scripts/check_freeeos_upstream.py\n?? scripts/plot_atmosphere_validation.py\n?? scripts/validate_atmosphere_reference.py\n?? src/qstars/atmosphere_reference.py\n?? src/qstars/freeeos_reference.py\n?? tests/test_freeeos_atmosphere.py",
+  "source_sha256": "d84e53da8fe08c5cea64cc0b06907e804b2b46e3316da3bafa64986054dc627d",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "created_utc": "2026-09-28T04:39:54.468611+00:00",
+  "process_package_sha256": "74fc9a6189c81a4af81a43b1ebfeb216ac774ee3d62081aed5b1f720270bf315",
+  "source_tree_matches_import": true,
+  "dependencies": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.11.2"
+  },
+  "source_tree_matches_at_end": true,
+  "source_snapshot_verified": true
+}

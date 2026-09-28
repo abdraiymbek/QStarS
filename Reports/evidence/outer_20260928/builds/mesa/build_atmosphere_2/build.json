@@ -1,0 +1,13 @@
+{
+  "mesa_dir": "/Users/abraiymbek/qsrd-runtime/mesa",
+  "sdk_dir": "/Users/abraiymbek/qsrd-runtime/mesasdk",
+  "mesa_tag": "24.08.1",
+  "mesa_commit": "5c166bf174b477823a2ca0031c4f57210c8e67a8",
+  "mesa_status": "M data/version_number\n M utils/makefile_header\n?? adipls/test/build_skip_test",
+  "source_sha256": "3a459b7d2fbe94f063aec261437259071ba73dd935d0dca6f0571a9b87d43044",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "deployment_target": "14.0",
+  "runtime_seconds": 0.38500354101415724,
+  "returncode": 0,
+  "library_sha256": "60cf935e2bdf47701f572bdf09503d888cf6ee7ac7d90ad57a02bd7a4f4b56b4"
+}

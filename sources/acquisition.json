@@ -89,5 +89,13 @@
     "sha256": "b64f1bbceb39b2846af47ae190dc37d6f6fb759625a6dc59910a8dbe99c1bd33",
     "pages": 17,
     "status": "downloaded"
+  },
+  {
+    "id": "freeeos3",
+    "url": "https://downloads.sourceforge.net/project/freeeos/freeeos/3.0.0%20Source/free_eos-3.0.0.tar.gz",
+    "sha256": "4ab1c15a51385a3eab3b08c6f3f240739c0105d92ec828d635ac95720edefb09",
+    "bytes": 4562264,
+    "status": "downloaded_source_tarball",
+    "license": "GPL-2.0-or-later; cached source and compiled binaries not redistributed"
   }
 ]

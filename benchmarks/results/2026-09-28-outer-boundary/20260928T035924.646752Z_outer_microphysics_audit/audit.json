@@ -1,0 +1,90 @@
+{
+  "scope": "EOS query audit and MESA boundary-prescription diagnostic, not stellar evolution.",
+  "query_points": 77,
+  "max_first_law_defect": 2.3202904166616082e-05,
+  "failed_first_law_screen": 0,
+  "neutral_ideal_backstop_points": 60,
+  "native_atmospheres": [
+    {
+      "teff": 8000.0,
+      "gravity": 3.0,
+      "kappa": 0.34,
+      "tau": 0.6666666666666666,
+      "fixed": {
+        "temperature": 7999.999999999986,
+        "pressure": 11.047226840034282,
+        "gas_pressure": 0.7174790423187272
+      },
+      "varying_constant_opacity": {
+        "temperature": 7999.999999999986,
+        "pressure": 66.98017390570882,
+        "gas_pressure": 56.65042610799327
+      },
+      "varying": {
+        "temperature": 7999.999999999986,
+        "pressure": 68.20427729234397,
+        "gas_pressure": 57.87452949462842
+      },
+      "constant_opacity_gas_pressure_ratio": 78.95760400876955
+    },
+    {
+      "teff": 6000.0,
+      "gravity": 1.0,
+      "kappa": 0.34,
+      "tau": 0.6666666666666666,
+      "fixed": {
+        "temperature": 5999.999999999995,
+        "pressure": 3.594982695785969,
+        "gas_pressure": 0.3265859316650199
+      },
+      "varying_constant_opacity": {
+        "temperature": 5999.999999999995,
+        "pressure": 45.54469510976752,
+        "gas_pressure": 42.276298345646566
+      },
+      "varying": {
+        "temperature": 5999.999999999995,
+        "pressure": 164.9740975919144,
+        "gas_pressure": 161.70570082779344
+      },
+      "constant_opacity_gas_pressure_ratio": 129.4492329480055
+    },
+    {
+      "teff": 5777.0,
+      "gravity": 27400.0,
+      "kappa": 0.34,
+      "tau": 0.6666666666666666,
+      "fixed": {
+        "temperature": 5776.999999999992,
+        "pressure": 53726.89465565838,
+        "gas_pressure": 53724.08573649844
+      },
+      "varying_constant_opacity": {
+        "temperature": 5776.999999999992,
+        "pressure": 53766.74806282564,
+        "gas_pressure": 53763.939143665695
+      },
+      "varying": {
+        "temperature": 5776.999999999992,
+        "pressure": 250615.45453336995,
+        "gas_pressure": 250612.64561421002
+      },
+      "constant_opacity_gas_pressure_ratio": 1.0007418163868387
+    }
+  ],
+  "build": {
+    "mesa_dir": "/Users/abraiymbek/qsrd-runtime/mesa",
+    "sdk_dir": "/Users/abraiymbek/qsrd-runtime/mesasdk",
+    "mesa_tag": "24.08.1",
+    "mesa_commit": "5c166bf174b477823a2ca0031c4f57210c8e67a8",
+    "mesa_status": "M data/version_number\n M utils/makefile_header\n?? adipls/test/build_skip_test",
+    "source_sha256": "3a459b7d2fbe94f063aec261437259071ba73dd935d0dca6f0571a9b87d43044",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "deployment_target": "14.0",
+    "runtime_seconds": 0.38500354101415724,
+    "returncode": 0,
+    "library_sha256": "60cf935e2bdf47701f572bdf09503d888cf6ee7ac7d90ad57a02bd7a4f4b56b4"
+  },
+  "v1_validated": false,
+  "source_snapshot_verified": true
+}

@@ -1,0 +1,2 @@
+library: backends/mesa/build_atmosphere_2/libqstars_mesa.dylib
+mesa_dir: /Users/abraiymbek/qsrd-runtime/mesa

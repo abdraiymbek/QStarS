@@ -10,3 +10,4 @@ sources/cache/
 /build/
 
 /backends/mesa/build*/
+/backends/freeeos/build*/
