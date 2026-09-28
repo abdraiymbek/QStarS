@@ -5,7 +5,7 @@ FIELDS = ["supplied_mass","accreted_rest_mass","wind_mass","mass_defect",
           "supplied_energy","wind_energy","advected_energy","central_generated",
           "radiated_energy","boundary_work","central_potential_work",
           "supplied_entropy","wind_entropy","advected_entropy",
-          "mixing_entropy_change","remap_entropy_change","wind_mechanical_energy"]
+          "mixing_entropy_change","remap_entropy_change","wind_mechanical_energy","numerical_kinetic_heating"]
 
 def initialize(state,eos):
     state.ledger = {k:0. for k in FIELDS}

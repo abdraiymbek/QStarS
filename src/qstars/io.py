@@ -14,6 +14,30 @@ from .winds import rate as wind_rate
 from .ledger import residuals
 from .structure import hydrostatic_residual
 
+def _package_sources():
+    root=Path(__file__).parent
+    return {str(p.relative_to(root.parent)):p.read_bytes() for p in sorted(root.rglob('*'))
+            if p.is_file() and '__pycache__' not in p.parts}
+
+def _source_digest(sources):
+    digest=hashlib.sha256()
+    for name,data in sources.items():digest.update(name.encode()+b'\0'+data+b'\0')
+    return digest.hexdigest()
+
+# A long-running campaign imports Python modules once. Reading current disk
+# files for each later run could otherwise archive code it never executed.
+_PROCESS_SOURCES=_package_sources()
+_PROCESS_SOURCE_DIGEST=_source_digest(_PROCESS_SOURCES)
+
+def finish_provenance(path):
+    file=Path(path)/'metadata.json';meta=json.loads(file.read_text())
+    unchanged=_source_digest(_package_sources())==meta['process_package_sha256']
+    verified=bool(unchanged and meta.get('source_tree_matches_import',False))
+    meta.update(source_tree_matches_at_end=unchanged,source_snapshot_verified=verified)
+    if not verified:meta['source_warning']='Package files changed during this process. Dynamic imports may differ from the frozen source snapshot; rerun in a fresh process with unchanged source.'
+    json_write(file,meta)
+    return verified
+
 def json_write(path,data):
     Path(path).write_text(json.dumps(data,indent=2,allow_nan=False,default=lambda x:float(x))+"\n")
 
@@ -29,11 +53,12 @@ def provenance(path,config):
         return subprocess.run(["git","-C",str(root),*args],capture_output=True,text=True).stdout.strip()
     snapshot=path/"source_snapshot.zip"
     with zipfile.ZipFile(snapshot,"w",compression=zipfile.ZIP_DEFLATED) as z:
-        for p in sorted(Path(__file__).parent.rglob("*")):
-            if p.is_file() and "__pycache__" not in p.parts: z.write(p,p.relative_to(Path(__file__).parent.parent))
+        for name,data in _PROCESS_SOURCES.items():z.writestr(name,data)
     meta=dict(version=__version__,git_commit=git("rev-parse","HEAD"),git_status=git("status","--porcelain"),
               source_sha256=hashlib.sha256(snapshot.read_bytes()).hexdigest(),python=sys.version,
               platform=platform.platform(),created_utc=datetime.now(timezone.utc).isoformat())
+    meta['process_package_sha256']=_PROCESS_SOURCE_DIGEST
+    meta['source_tree_matches_import']=_source_digest(_package_sources())==_PROCESS_SOURCE_DIGEST
     (path/"config.yaml").write_text(yaml.safe_dump(config,sort_keys=False))
     (path/"working_tree.diff").write_text(git("diff","HEAD"))
     import importlib.metadata
@@ -47,8 +72,9 @@ def save_checkpoint(path,state,config):
     # NPZ contains JSON strings, never pickled Python objects.
     temporary=path.with_suffix(".tmp")
     with temporary.open("wb") as f:
-        np.savez_compressed(f,schema_version=4,time=state.time,bh_mass=state.bh_mass,dm=state.dm,r=state.r,v=state.v,T=state.T,
+        np.savez_compressed(f,schema_version=6,time=state.time,bh_mass=state.bh_mass,dm=state.dm,r=state.r,v=state.v,T=state.T,
             cell_volume=state.volume,
+            radius_compensation=state.radius_compensation if state.radius_compensation is not None else np.zeros_like(state.r),
             face_luminosity=state.face_luminosity if state.face_luminosity is not None else np.array([]),
             reference_mass_fractions=state.reference_mass_fractions if state.reference_mass_fractions is not None else state.dm/state.dm.sum(),
             ledger=json.dumps(state.ledger),steps=state.steps,next_dt=state.next_dt,config=json.dumps(config))
@@ -58,15 +84,27 @@ def save_checkpoint(path,state,config):
 def load_checkpoint(path):
     from .config import resolve
     with np.load(path,allow_pickle=False) as f:
-        if int(f["schema_version"]) not in (1,2,3,4): raise ValueError("Unsupported checkpoint schema")
+        if int(f["schema_version"]) not in (1,2,3,4,5,6): raise ValueError("Unsupported checkpoint schema")
         state=State(float(f["time"]),float(f["bh_mass"]),f["dm"].copy(),f["r"].copy(),f["v"].copy(),f["T"].copy(),
                     json.loads(str(f["ledger"])),int(f["steps"]),float(f["next_dt"]))
         config=resolve(json.loads(str(f["config"])))
         if int(f['schema_version']) >= 2: state.cell_volume=f['cell_volume'].copy()
         if int(f['schema_version']) >= 3 and len(f['face_luminosity']):state.face_luminosity=f['face_luminosity'].copy()
         state.reference_mass_fractions=f['reference_mass_fractions'].copy() if int(f['schema_version'])>=4 else state.dm/state.dm.sum()
+        state.radius_compensation=f['radius_compensation'].copy() if int(f['schema_version'])>=5 else np.zeros_like(state.r)
+        if int(f['schema_version'])<6:state.ledger.setdefault('numerical_kinetic_heating',0.)
     if not (len(state.r)==len(state.dm)+1==len(state.v) and len(state.T)==len(state.dm)):
         raise ValueError("Malformed checkpoint dimensions")
+    if any(not np.all(np.isfinite(x)) for x in (state.r,state.dm,state.v,state.T)):
+        raise ValueError('Checkpoint contains nonfinite state arrays')
+    if not (np.isfinite(state.time) and state.time>=0 and np.isfinite(state.bh_mass) and state.bh_mass>0
+            and np.isfinite(state.next_dt) and state.next_dt>0 and state.steps>=0):
+        raise ValueError('Checkpoint contains invalid time, central mass, or step controls')
+    from .ledger import FIELDS
+    if not set(FIELDS+['initial_mass','initial_energy','initial_energy_scale'])<=state.ledger.keys():
+        raise ValueError('Checkpoint ledger is incomplete')
+    if any(isinstance(x,bool) or not isinstance(x,(int,float)) or not np.isfinite(x) for x in state.ledger.values()):
+        raise ValueError('Checkpoint contains invalid ledger values')
     if np.any(np.diff(state.r)<=0) or np.any(state.dm<=0) or np.any(state.T<=0):
         raise ValueError("Invalid checkpoint physical state")
     geometric_volume=4*PI/3*np.diff(state.r)*(state.r[1:]**2+state.r[1:]*state.r[:-1]+state.r[:-1]**2)
@@ -74,6 +112,8 @@ def load_checkpoint(path):
         raise ValueError('Checkpoint volume and geometry disagree')
     if state.face_luminosity is not None and (state.face_luminosity.shape!=state.r.shape or not np.all(np.isfinite(state.face_luminosity))):
         raise ValueError('Malformed checkpoint face luminosities')
+    if state.radius_compensation.shape!=state.r.shape or not np.all(np.isfinite(state.radius_compensation)):
+        raise ValueError('Malformed checkpoint radius compensation')
     f=state.reference_mass_fractions
     if f.shape!=state.dm.shape or np.any(f<=0) or not np.isclose(f.sum(),1.,rtol=1e-12,atol=0):
         raise ValueError('Malformed checkpoint reference mass fractions')

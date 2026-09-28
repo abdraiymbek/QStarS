@@ -47,7 +47,10 @@ radius and log radius agree, and tighter tolerances preserve the discrepancy.
 
 Dotan's launch/tiring prescription is an explicit optional boundary closure.
 Fiacconi & Rossi's radiation-enthalpy advection cannot be reproduced by a
-tiring cap alone. Their transonic solution remains an unimplemented benchmark.
+tiring cap alone. Their stationary wind equations are now implemented separately and checked
+against digitized Figure 4 profiles. The full evolving-envelope coupling
+remains unimplemented. Discrepancies and diagnostic conventions are retained
+in the wind validation report; no coefficients were fitted.
 Cantiello's modes require nonadiabatic GYRE analysis: QStarS domain exits are
 not evidence of these instabilities. Roman-Garza uses cold net mass gain,
 nuclear evolution, GR, and late analytic extrapolation; this does not validate

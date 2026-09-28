@@ -13,6 +13,7 @@ from qstars.config import resolve
 from qstars.evolution import run,physics
 from qstars.structure import initialize,continuum_polytrope
 from qstars.constants import PI
+from qstars.validation_metrics import interpolant_norms
 
 def profile_difference(a,b,eos):
     """Whole-mass overlap L2 plus smooth interpolation on the common center domain."""
@@ -28,10 +29,10 @@ def profile_difference(a,b,eos):
     out={'interpolation_excluded_mass_fraction':float(lo+1-hi),'fields':{}}
     for name,(x,y) in fields.items():
         lx,ly=np.log(x),np.log(y)
-        delta=PchipInterpolator(ca,lx)(sample)-PchipInterpolator(cb,ly)(sample)
+        linf,l2=interpolant_norms(ca,lx,cb,ly)
         out['fields'][name]={'mass_overlap_log_L2':float(np.sqrt(np.sum(overlap*(lx[:,None]-ly[None,:])**2))),
-                            'interpolated_log_Linf':float(max(abs(delta))),
-                            'interpolated_mass_log_L2':float(np.sqrt(np.trapezoid(delta**2,sample)/(hi-lo)))}
+                            'interpolated_log_Linf':linf,
+                            'interpolated_mass_log_L2':l2}
     # Entropy has an arbitrary zero; normalize differences by local heat capacity.
     sa=PchipInterpolator(ca,ea['s'])(sample);sb=PchipInterpolator(cb,eb['s'])(sample)
     cv=PchipInterpolator(cb,eb['cv'])(sample)
@@ -43,10 +44,11 @@ def main():
     ap=argparse.ArgumentParser();ap.add_argument('--end-time',type=float,default=.1)
     ap.add_argument('--zones',type=int,nargs='+',default=[64,128,256,512]);ap.add_argument('--parent',default='results')
     ap.add_argument('--max-dt',type=float,default=.001)
-    ap.add_argument('--mesh',choices=['log_radius','log_radius_cosine'],default='log_radius_cosine')
+    ap.add_argument('--mechanics',choices=['midpoint','backward_euler'],default='midpoint')
+    ap.add_argument('--mesh',choices=['log_radius','log_radius_cosine','log_radius_surface'],default='log_radius_cosine')
     ap.add_argument('--max-wall-seconds',type=float,default=600.)
     a=ap.parse_args();out=io.create_directory(a.parent,'spatial_validation')
-    base=resolve({'name':'spatial','numerics':{'mesh':a.mesh,'nonlinear_solver':'newton_flux','solver_tolerance':1e-10,'initial_dt_years':a.max_dt,'max_dt_years':a.max_dt},
+    base=resolve({'name':'spatial','numerics':{'mesh':a.mesh,'mechanics':a.mechanics,'nonlinear_solver':'newton_flux','solver_tolerance':1e-10,'initial_dt_years':a.max_dt,'max_dt_years':a.max_dt},
           'engine':{'model':'prescribed','rest_mass_rate_msun_per_year':2e-4},
           'feeding':{'rate_msun_per_year':.01,'thermodynamics':'surface'},'wind':{'model':'prescribed','rate_msun_per_year':.008},
           'boundary':{'pressure_cgs':1e8,'thermal':'luminosity','luminosity_erg_s':1e42},
@@ -66,7 +68,8 @@ def main():
         density_error=np.log(s.rho/(s.dm/vv))
         p,r=run(c,out);final,_=io.load_checkpoint(p/'checkpoint.npz');states.append(final)
         row={'zones':n,'path':str(p),'initial_density_log_Linf':float(max(abs(density_error))),
-             'initial_density_mass_log_L2':float(np.sqrt(np.dot(s.dm,density_error**2)/s.dm.sum())),**r}
+             'initial_density_mass_log_L2':float(np.sqrt(np.dot(s.dm,density_error**2)/s.dm.sum())),
+             'numerical_kinetic_heating_erg':final.ledger.get('numerical_kinetic_heating',0.),**r}
         rows.append(row);io.json_write(out/'campaign.json',{'rows':rows,'complete':False})
         print(n,r['status'],r['runtime_seconds'],flush=True)
     for i,row in enumerate(rows[:-1]):

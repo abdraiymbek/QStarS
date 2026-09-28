@@ -19,6 +19,8 @@ def luminosities(state,eos,opacity,config,inner_luminosity):
     dr = np.diff(state.rc)
     rad[1:-1] = -4*PI*radius**2*A*C/(3*k*rho)*np.diff(state.T**4)/dr
     saturation = np.zeros(n-1)
+    peclet=np.zeros(n-1)
+    convective_mach=np.zeros(n-1)
     if config["transport"]["convection"] == "mlt_lossless":
         p = .5*(q["p"][1:]+q["p"][:-1])
         T = .5*(state.T[1:]+state.T[:-1])
@@ -34,6 +36,8 @@ def luminosities(state,eos,opacity,config,inner_luminosity):
         contrast=eos.thermal_contrast(state.rho,state.T,q)
         excess = np.maximum(-hp*contrast/dr,0)
         velocity = np.sqrt(g*delta/(8*hp))*length*np.sqrt(excess)
+        peclet=3*k*rho**2*cp*velocity*length/(4*A*C*T**3)
+        convective_mach=velocity/cs
         flux = rho*cp*T*velocity*length/(2*hp)*excess
         saturation = flux/(p*cs)
         conv[1:-1] = 4*PI*radius**2*np.minimum(flux,p*cs)
@@ -49,7 +53,8 @@ def luminosities(state,eos,opacity,config,inner_luminosity):
     else: raise ValueError("Unknown outer thermal boundary")
     total = rad+conv
     total[0] = inner_luminosity
-    return total,dict(radiative=rad,convective=conv,opacity=kap,saturation=saturation)
+    return total,dict(radiative=rad,convective=conv,opacity=kap,saturation=saturation,
+                      peclet=peclet,convective_mach=convective_mach)
 
 
 def inverse_transport_residual(state,eos,opacity,config,L):

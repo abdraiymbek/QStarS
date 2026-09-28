@@ -32,7 +32,7 @@ DEFAULT = dict(
                   bath_temperature_K=0.,luminosity_erg_s=1e41),
     evolution=dict(end_time_years=.1,max_steps=10000,max_wall_seconds=0.),
     numerics=dict(zones=32,mesh="cosine",initial_dt_years=.001,max_dt_years=.005,min_dt_years=1e-10,
-                  nonlinear_solver="newton_flux",boundary_remesh_fraction=.2,
+                  nonlinear_solver="newton_flux",mechanics="midpoint",boundary_remesh_fraction=.2,
                   solver_tolerance=1e-9,max_fractional_change=.02,max_retries=12,
                   conservation_tolerance=1e-7,refine_every_steps=0,max_zones=256),
     validity=dict(min_temperature_K=1e5,max_temperature_K=1e8,max_mach=.2,max_compactness=.001,
@@ -87,8 +87,9 @@ def resolve(raw):
         raise ValueError('name must use 1-100 letters, digits, hyphens, or underscores')
     if c["schema_version"] != 1: raise ValueError("Unsupported schema version")
     choices = [(c["eos"],["ideal_gas_radiation","mesa"]),
-        (c['numerics']['mesh'],['cosine','core_refined','log_radius','log_radius_cosine']),
+        (c['numerics']['mesh'],['cosine','core_refined','log_radius','log_radius_cosine','log_radius_surface']),
         (c['numerics']['nonlinear_solver'],['newton','newton_flux','hybr']),
+        (c['numerics']['mechanics'],['midpoint','backward_euler']),
         (c["opacity"]["model"],["electron_scattering","table","mesa"]),
         (c["boundary"]["inner"],["fixed_excision"]),
         (c["boundary"]["thermal"],["grey","luminosity","insulated"]),

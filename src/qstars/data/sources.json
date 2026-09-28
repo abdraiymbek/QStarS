@@ -58,13 +58,13 @@
       "id": "fiacconi2016",
       "title": "Fiacconi & Rossi (2016)",
       "url": "https://arxiv.org/abs/1509.07511",
-      "reference_location": "Section 2.1; Eqs 1-3; wind coupling in Section 3",
-      "status": "audited_not_implemented_wind_ode",
+      "reference_location": "Sections 2.1-2.2; Eqs 12-22,25; Figures 2 and 4",
+      "status": "implemented_stationary_wind_reference",
       "assumptions": "Stationary spherical radiation-dominated wind; radiation enthalpy advection",
       "validity": "Gas pressure negligible and wind base optically thick",
       "variables_units": "mdot g/s, L erg/s, specific Bernoulli energy erg/g",
-      "implementation_interpretation": "Radiation enthalpy matters. A photon-tiring cap alone cannot reproduce these solutions; full transonic replication remains pending.",
-      "implementation": "docs/literature.md; src/qstars/mass_transport.py (energy accounting only)",
+      "implementation_interpretation": "Inward integration retains radiative, advected, kinetic and gravitational energy. Base Mach is explicitly 0.8 +/- 0.05, as in the paper; no gas sonic critical-point selection is claimed. Figure 4 vector paths retain calibration uncertainty and discrepancies; evolving-envelope coupling remains open.",
+      "implementation": "src/qstars/wind_reference.py; scripts/validate_wind.py; benchmarks/fiacconi2016_figure4.csv",
       "inspected_utc": "2026-09-28"
     },
     {
@@ -230,7 +230,7 @@
       "reference_location": "Temperature-gradient controls; diffusion derivation in docs/equations.md",
       "status": "derived",
       "assumptions": "Optically thick LTE; F=-ac/(3 kappa rho) grad(T^4)",
-      "validity": "Cell optical depth >=1; no resolved optically thin transfer",
+      "validity": "Radiation gradient Knudsen number <=0.1; LTE assumed; no resolved optically thin transfer",
       "variables_units": "Flux erg/cm^2/s; luminosity erg/s",
       "implementation_interpretation": "Backward-Euler diffusion shares exactly one flux per face; grey extrapolation is an optional outer closure.",
       "implementation": "src/qstars/transport.py",
@@ -243,7 +243,7 @@
       "reference_location": "ML1 reference in Section II; explicit derivation in docs/equations.md",
       "status": "optional_approximation",
       "assumptions": "Local buoyant blobs, no radiative heat leakage; l=alpha Hp",
-      "validity": "Efficient optically thick convection; not full ML1 or time-dependent convection",
+      "validity": "Pe>=100 where convection carries more than 1 percent of transported flux; subsonic blobs; not full ML1 or time-dependent convection",
       "variables_units": "cp erg/g/K; velocity cm/s; l cm",
       "implementation_interpretation": "Use v^2=g delta l^2 (nabla-nabla_ad)/(8Hp), F=rho cp T v l (nabla-nabla_ad)/(2Hp), capped by P cs. Entropy contrast discretized consistently.",
       "implementation": "src/qstars/transport.py",
@@ -284,7 +284,7 @@
       "assumptions": "Piecewise constant volume and total specific energy in mass coordinates",
       "validity": "Smooth resolved states; remap changes entropy and hydrostatic residual",
       "variables_units": "Mass g, volume cm^3, energy erg",
-      "implementation_interpretation": "New internal energy is remapped total energy minus new discrete gravity and kinetic energies. Reject negative internal energy; log entropy changes.",
+      "implementation_interpretation": "New internal energy is remapped total energy minus new discrete gravity and kinetic energies. Decimal overlap endpoints avoid cancellation of large cumulative CGS masses; the sweep is linear in zone count. Reject negative internal energy; log entropy changes.",
       "implementation": "src/qstars/mesh.py",
       "inspected_utc": "2026-09-28"
     },
@@ -297,7 +297,7 @@
       "assumptions": "Fixed H1/He4 composition Z=0; default EOS blends and Type2 opacity with Zbase=0; matched electron state",
       "validity": "Query rectangle rho=1e-14..1e3 g/cm3 and T=3000..1e8 K is only a bounding box. Reject neutral ideal backstop and first-law defect above 1 percent; no production atmosphere claim.",
       "variables_units": "P erg/cm3, u erg/g, s erg/g/K, kappa cm2/g; derivatives with respect to natural logarithms",
-      "implementation_interpretation": "Versioned C ABI and Python interface cross-checked against separate Fortran process. Wide audit preserves failing blend states. Existing binary/build/table provenance must accompany each run.",
+      "implementation_interpretation": "Versioned C ABI and Python interface cross-checked against separate Fortran process. Wide audit preserves failing blend states. Radiative opacity disables conduction; a separate combined-opacity call measures omitted conduction. Existing binary/build/table provenance must accompany each run.",
       "implementation": "backends/mesa/microphysics.f90; src/qstars/mesa_microphysics.py",
       "inspected_utc": "2026-09-28"
     },
@@ -312,6 +312,32 @@
       "variables_units": "L erg/s, logarithmic thermal contrast dimensionless",
       "implementation_interpretation": "Solving thermal contrast from luminosity avoids ill conditioning near adiabatic stratification; no transport coefficient changed. Numerical reference is QStarS derivation, not copied MESA implementation.",
       "implementation": "src/qstars/transport.py; src/qstars/nonlinear.py",
+      "inspected_utc": "2026-09-28"
+    },
+    {
+      "id": "diffusion_domain",
+      "title": "Levermore & Pomraning (1981)",
+      "url": "https://adsabs.harvard.edu/pdf/1981ApJ...248..321L",
+      "reference_location": "Section II, Eqs 7 and 18-31; pp321-324",
+      "status": "implemented_validity_screen",
+      "assumptions": "Near LTE and slowly varying radiation energy over a mean free path; no flux-limiter implementation added",
+      "validity": "R=|grad E|/(kappa rho E)<=0.1, using E=aT^4. Cell optical depth remains a diagnostic, not a mesh-dependent validity restriction.",
+      "variables_units": "R dimensionless, photon mean free path cm",
+      "implementation_interpretation": "Corrects prior tau_cell>=1 rejection, which incorrectly rejected increasingly fine representations of a smooth diffusive field. R<=0.1 is a conservative screening threshold, not a proof of full atmosphere validity.",
+      "implementation": "src/qstars/validity.py",
+      "inspected_utc": "2026-09-28"
+    },
+    {
+      "id": "backward_euler_work",
+      "title": "Conservative backward-Euler mechanical work",
+      "url": "https://docs.mesastar.org/en/24.08.1/",
+      "reference_location": "Independent derivation in docs/equations.md; not copied MESA code",
+      "status": "derived_and_tested",
+      "assumptions": "Implicit velocity and pressure with secant geometry/gravity; positive numerical kinetic heating retained as internal conversion",
+      "validity": "Smooth secular evolution; first order, requires timestep refinement; not a pulsation solver",
+      "variables_units": "Q_i=dm_i[(Delta v_i)^2+(Delta v_i+1)^2]/4 erg",
+      "implementation_interpretation": "Diagnostic heating is derived from momentum work and never from a global energy residual. It is excluded from the external ledger balance. Both midpoint and backward_euler are explicit selectable numerical methods.",
+      "implementation": "src/qstars/numerics.py; src/qstars/ledger.py",
       "inspected_utc": "2026-09-28"
     }
   ]

@@ -17,6 +17,7 @@ class State:
     cell_volume: np.ndarray | None = None
     face_luminosity: np.ndarray | None = None
     reference_mass_fractions: np.ndarray | None = None
+    radius_compensation: np.ndarray | None = None
 
     def copy(self):
         return copy.deepcopy(self)

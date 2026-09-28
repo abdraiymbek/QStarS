@@ -80,8 +80,8 @@ def campaign(parent='results',convergence=True):
                     for k in ('radius_cm','luminosity_erg_s','internal')} if comparable else {})
     summary=dict(checks=checks,convergence=convergence_rows,v1_validated=False,
         pending=['Full Ball 2011 Table 1 evolutionary replication','MESA-QUEST thermal tracks',
-                 'Fiacconi & Rossi transonic advective wind solutions','Cantiello nonadiabatic stability',
-                 'Validated ionization EOS and Rosseland opacity','Moving cavity/Bondi/saturated inner evolution',
+                 'Coupling stationary Fiacconi & Rossi winds to a conserved evolving envelope','Cantiello nonadiabatic stability',
+                 'Production atmosphere and stellar evolution with audited MESA microphysics','Moving cavity/Bondi/saturated inner evolution',
                  'Long-duration quasi-static sequences and QSRD demonstration'])
     io.json_write(out/'validation.json',summary)
     lines=['# QStarS validation evidence','', '**QStarS v1 is not validated.** This campaign separates numerical identities from publication replication.','',

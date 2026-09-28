@@ -104,6 +104,9 @@ def run_reference(config,output='results'):
     """Configurable published STATIC families; no thermal-evolution claim."""
     import csv
     from . import io
+    if config.get('family')=='fiacconi2016_wind':
+        from .wind_reference import run_wind_reference
+        return run_wind_reference(config,output)
     allowed={'family','n','N','minimum','maximum','samples'}
     if set(config)-allowed:raise ValueError('Unknown reference configuration key')
     family=config['family'];samples=config.get('samples',80)
@@ -128,5 +131,6 @@ def run_reference(config,output='results'):
         w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
     report=dict(status='completed_reference',family=family,samples=samples,v1_validated=False,
                 scope='Dimensionless published structure equations only; no time evolution or photosphere.')
+    report['source_snapshot_verified']=io.finish_provenance(path)
     io.json_write(path/'termination.json',report)
     return path,report

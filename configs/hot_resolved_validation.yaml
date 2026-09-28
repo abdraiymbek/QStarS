@@ -1,0 +1,35 @@
+# Controlled hot pressure-confined benchmark; not a complete published quasi-star.
+# Prescribed wind/feed rates exercise independent conservation channels.
+name: hot_resolved_validation
+initial:
+  envelope_mass_msun: 1e4
+  bh_mass_msun: 100
+  radius_cm: 1e14
+  inner_radius_cm: 1e12
+engine:
+  model: prescribed
+  rest_mass_rate_msun_per_year: 2e-4
+feeding:
+  rate_msun_per_year: 0.01
+  thermodynamics: surface
+wind:
+  model: prescribed
+  rate_msun_per_year: 0.008
+boundary:
+  pressure_cgs: 1e8
+  thermal: luminosity
+  luminosity_erg_s: 1e42
+numerics:
+  zones: 512
+  mesh: log_radius_surface
+  mechanics: backward_euler
+  nonlinear_solver: newton_flux
+  solver_tolerance: 1e-10
+  initial_dt_years: 0.02
+  max_dt_years: 0.02
+  max_zones: 2048
+evolution:
+  end_time_years: 10
+output:
+  profile_every_steps: 100
+  checkpoint_every_steps: 100

@@ -33,11 +33,26 @@ def check(state,eos,opacity,config):
     geometric=4*PI/3*np.diff(state.r)*(state.r[1:]**2+state.r[1:]*state.r[:-1]+state.r[:-1]**2)
     volume_error=float(max(abs(geometric/state.volume-1)))
     if volume_error>1e-8:raise StepRejected('Stored cell volumes disagree with radial geometry')
-    tau=opacity(state.rho,state.T)*state.rho*np.diff(state.r)
-    if v["require_optically_thick"] and min(tau)<1: errors.append("Diffusion cell is optically thin")
+    kap=opacity(state.rho,state.T)
+    tau=kap*state.rho*np.diff(state.r)
+    # Diffusion concerns the physical gradient scale, not the numerical cell
+    # width. Requiring tau_cell>1 incorrectly rejects convergent refinement.
+    rho_face=.5*(state.rho[:-1]+state.rho[1:]);kap_face=.5*(kap[:-1]+kap[1:])
+    kn=4*abs(np.diff(np.log(state.T)))/(np.diff(state.rc)*rho_face*kap_face)
+    if v["require_optically_thick"] and max(kn)>.1:
+        errors.append('Radiation gradient scale is outside the diffusion limit (Kn>0.1)')
     from .transport import luminosities
-    _,transport=luminosities(state,eos,opacity,config,0.)
+    total_luminosity,transport=luminosities(state,eos,opacity,config,0.)
+    significant=abs(transport['convective'][1:-1])>.01*(abs(transport['radiative'][1:-1])+abs(transport['convective'][1:-1]))
+    min_pe=float(min(transport['peclet'][significant])) if np.any(significant) else None
+    if min_pe is not None and min_pe<100:
+        errors.append('Lossless MLT outside efficient-convection domain (significant flux with Pe<100)')
+    if max(transport['convective_mach'],default=0)>1:
+        errors.append('Lossless MLT predicts supersonic convection')
     from .constants import A
+    outer_kn=3*abs(total_luminosity[-1])/(4*PI*state.r[-1]**2*C*A*state.T[-1]**4)
+    if v['require_optically_thick'] and outer_kn>.1:
+        errors.append('Outer radiation flux is outside the LTE diffusion limit')
     free_stream=4*PI*state.r[1:-1]**2*C*A*.5*(state.T[:-1]**4+state.T[1:]**4)
     if np.any(abs(transport['radiative'][1:-1])>free_stream):
         errors.append('Radiative diffusion exceeds free-streaming flux')
@@ -48,6 +63,10 @@ def check(state,eos,opacity,config):
     return errors,dict(max_mach=mach,max_compactness=compactness,min_zone_optical_depth=float(min(tau)),
                        max_eos_first_law_defect=eos_defect,
                        max_omitted_conductive_fraction=conduction,
+                       max_radiation_knudsen=float(max(kn)),
+                       outer_radiation_knudsen=float(outer_kn),
+                       minimum_significant_convective_peclet=min_pe,
+                       max_convective_mach=float(max(transport['convective_mach'],default=0)),
                        ideal_eos_helium_screen=float(min(helium_ratio/(1+helium_ratio))),
                        max_volume_geometry_error=volume_error,
                        max_temperature_jump=float(max(abs(np.diff(np.log(state.T)))))),conservation

@@ -5,10 +5,11 @@ evolution, self-gravity, gas and radiation pressure, radiation and convection,
 BH growth, separate feeding/wind streams, and conservative energy accounting.
 
 **Status: 0.1 development software. The requested scientifically validated
-general-purpose QStarS v1 is NOT complete.** The executable evolves hot,
-fully ionized envelopes. Published static structure benchmarks and numerical
+general-purpose QStarS v1 is NOT complete.** The executable evolves restricted envelopes with either an analytic hot EOS
+or direct, audited MESA EOS and opacity calls. Published static structure benchmarks and numerical
 conservation tests are implemented. Full published stellar evolution, cool
-photospheres, moving cavities, and transonic winds remain open validation gates.
+photospheres, moving cavities, and coupled transonic winds remain open validation gates. A separate
+Fiacconi–Rossi stationary wind solver now includes radiation enthalpy advection.
 These examples do not establish quasi-star lifetimes or QSRD recovery results.
 
 ## Install and run
@@ -29,12 +30,14 @@ python -m pytest -q
 qstars validate
 qstars validate --require-v1
 qstars reference benchmarks/coughlin2024_saturated.yaml
+qstars reference benchmarks/fiacconi2016_advective_wind.yaml
 ```
 
 Each run prints its unique result directory. `requirements-lock.txt` records
 the measured environment, including optional audit/testing packages.
 `validate` produces Markdown/JSON evidence and currently exits **2** for two
-published cutoff discrepancies and a concentrated-mesh solver failure. `--require-v1` also exits 2
+retained published cutoff discrepancies. The previously failing concentrated
+128-zone case now completes; full v1 gates remain open. `--require-v1` also exits 2
 while the full scientific gates remain open. A completed example is not v1 validation.
 
 ## Examples
@@ -69,6 +72,8 @@ defaults in one engine. Their names do not certify scientific validity.
 - [MESA backend decision](docs/mesa.md)
 - [Validation and v1 gates](docs/validation.md)
 - [Measured performance](docs/performance.md)
+- [Supported model families](docs/model_families.md)
+- [Validity domain and limitations](docs/validity.md)
 
 ## Reproducibility
 

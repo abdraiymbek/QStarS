@@ -48,14 +48,14 @@ This register distinguishes implemented laws, derived numerical identities, opti
 
 ## fiacconi2016 — Fiacconi & Rossi (2016)
 
-[Fiacconi & Rossi (2016)](https://arxiv.org/abs/1509.07511) · Section 2.1; Eqs 1-3; wind coupling in Section 3
+[Fiacconi & Rossi (2016)](https://arxiv.org/abs/1509.07511) · Sections 2.1-2.2; Eqs 12-22,25; Figures 2 and 4
 
-- Status: `audited_not_implemented_wind_ode`
+- Status: `implemented_stationary_wind_reference`
 - Assumptions: Stationary spherical radiation-dominated wind; radiation enthalpy advection
 - Domain: Gas pressure negligible and wind base optically thick
 - Variables and units: mdot g/s, L erg/s, specific Bernoulli energy erg/g
-- Interpretation: Radiation enthalpy matters. A photon-tiring cap alone cannot reproduce these solutions; full transonic replication remains pending.
-- Implementation: `docs/literature.md; src/qstars/mass_transport.py (energy accounting only)`
+- Interpretation: Inward integration retains radiative, advected, kinetic and gravitational energy. Base Mach is explicitly 0.8 +/- 0.05, as in the paper; no gas sonic critical-point selection is claimed. Figure 4 vector paths retain calibration uncertainty and discrepancies; evolving-envelope coupling remains open.
+- Implementation: `src/qstars/wind_reference.py; scripts/validate_wind.py; benchmarks/fiacconi2016_figure4.csv`
 
 ## coughlin2024 — Coughlin & Begelman (2024)
 
@@ -195,7 +195,7 @@ This register distinguishes implemented laws, derived numerical identities, opti
 
 - Status: `derived`
 - Assumptions: Optically thick LTE; F=-ac/(3 kappa rho) grad(T^4)
-- Domain: Cell optical depth >=1; no resolved optically thin transfer
+- Domain: Radiation gradient Knudsen number <=0.1; LTE assumed; no resolved optically thin transfer
 - Variables and units: Flux erg/cm^2/s; luminosity erg/s
 - Interpretation: Backward-Euler diffusion shares exactly one flux per face; grey extrapolation is an optional outer closure.
 - Implementation: `src/qstars/transport.py`
@@ -206,7 +206,7 @@ This register distinguishes implemented laws, derived numerical identities, opti
 
 - Status: `optional_approximation`
 - Assumptions: Local buoyant blobs, no radiative heat leakage; l=alpha Hp
-- Domain: Efficient optically thick convection; not full ML1 or time-dependent convection
+- Domain: Pe>=100 where convection carries more than 1 percent of transported flux; subsonic blobs; not full ML1 or time-dependent convection
 - Variables and units: cp erg/g/K; velocity cm/s; l cm
 - Interpretation: Use v^2=g delta l^2 (nabla-nabla_ad)/(8Hp), F=rho cp T v l (nabla-nabla_ad)/(2Hp), capped by P cs. Entropy contrast discretized consistently.
 - Implementation: `src/qstars/transport.py`
@@ -241,7 +241,7 @@ This register distinguishes implemented laws, derived numerical identities, opti
 - Assumptions: Piecewise constant volume and total specific energy in mass coordinates
 - Domain: Smooth resolved states; remap changes entropy and hydrostatic residual
 - Variables and units: Mass g, volume cm^3, energy erg
-- Interpretation: New internal energy is remapped total energy minus new discrete gravity and kinetic energies. Reject negative internal energy; log entropy changes.
+- Interpretation: New internal energy is remapped total energy minus new discrete gravity and kinetic energies. Decimal overlap endpoints avoid cancellation of large cumulative CGS masses; the sweep is linear in zone count. Reject negative internal energy; log entropy changes.
 - Implementation: `src/qstars/mesh.py`
 
 ## mesa_microphysics — MESA 24.08.1 EOS and opacity public APIs
@@ -252,7 +252,7 @@ This register distinguishes implemented laws, derived numerical identities, opti
 - Assumptions: Fixed H1/He4 composition Z=0; default EOS blends and Type2 opacity with Zbase=0; matched electron state
 - Domain: Query rectangle rho=1e-14..1e3 g/cm3 and T=3000..1e8 K is only a bounding box. Reject neutral ideal backstop and first-law defect above 1 percent; no production atmosphere claim.
 - Variables and units: P erg/cm3, u erg/g, s erg/g/K, kappa cm2/g; derivatives with respect to natural logarithms
-- Interpretation: Versioned C ABI and Python interface cross-checked against separate Fortran process. Wide audit preserves failing blend states. Existing binary/build/table provenance must accompany each run.
+- Interpretation: Versioned C ABI and Python interface cross-checked against separate Fortran process. Wide audit preserves failing blend states. Radiative opacity disables conduction; a separate combined-opacity call measures omitted conduction. Existing binary/build/table provenance must accompany each run.
 - Implementation: `backends/mesa/microphysics.f90; src/qstars/mesa_microphysics.py`
 
 ## inverse_transport — Inverse radiative/convective flux solve
@@ -265,4 +265,26 @@ This register distinguishes implemented laws, derived numerical identities, opti
 - Variables and units: L erg/s, logarithmic thermal contrast dimensionless
 - Interpretation: Solving thermal contrast from luminosity avoids ill conditioning near adiabatic stratification; no transport coefficient changed. Numerical reference is QStarS derivation, not copied MESA implementation.
 - Implementation: `src/qstars/transport.py; src/qstars/nonlinear.py`
+
+## diffusion_domain — Levermore & Pomraning (1981)
+
+[Levermore & Pomraning (1981)](https://adsabs.harvard.edu/pdf/1981ApJ...248..321L) · Section II, Eqs 7 and 18-31; pp321-324
+
+- Status: `implemented_validity_screen`
+- Assumptions: Near LTE and slowly varying radiation energy over a mean free path; no flux-limiter implementation added
+- Domain: R=|grad E|/(kappa rho E)<=0.1, using E=aT^4. Cell optical depth remains a diagnostic, not a mesh-dependent validity restriction.
+- Variables and units: R dimensionless, photon mean free path cm
+- Interpretation: Corrects prior tau_cell>=1 rejection, which incorrectly rejected increasingly fine representations of a smooth diffusive field. R<=0.1 is a conservative screening threshold, not a proof of full atmosphere validity.
+- Implementation: `src/qstars/validity.py`
+
+## backward_euler_work — Conservative backward-Euler mechanical work
+
+[Conservative backward-Euler mechanical work](https://docs.mesastar.org/en/24.08.1/) · Independent derivation in docs/equations.md; not copied MESA code
+
+- Status: `derived_and_tested`
+- Assumptions: Implicit velocity and pressure with secant geometry/gravity; positive numerical kinetic heating retained as internal conversion
+- Domain: Smooth secular evolution; first order, requires timestep refinement; not a pulsation solver
+- Variables and units: Q_i=dm_i[(Delta v_i)^2+(Delta v_i+1)^2]/4 erg
+- Interpretation: Diagnostic heating is derived from momentum work and never from a global energy residual. It is excluded from the external ledger balance. Both midpoint and backward_euler are explicit selectable numerical methods.
+- Implementation: `src/qstars/numerics.py; src/qstars/ledger.py`
 

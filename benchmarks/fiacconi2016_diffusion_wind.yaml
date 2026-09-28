@@ -1,0 +1,5 @@
+family: fiacconi2016_wind
+alpha: 0.4
+energy: 5.0
+beta: 100.0
+base_mach: 0.8

@@ -31,8 +31,10 @@ def test_inverse_transport_matches_forward_law():
 
 
 @pytest.mark.parametrize('mode',['newton','newton_flux'])
-def test_colored_jacobian_against_full_complex_step(monkeypatch,mode):
+@pytest.mark.parametrize('mechanics',['midpoint','backward_euler'])
+def test_colored_jacobian_against_full_complex_step(monkeypatch,mode,mechanics):
     s,e,op,c=confined(8);c['numerics']['nonlinear_solver']=mode
+    c['numerics']['mechanics']=mechanics
     original=numerics.newton
     checked=[]
     def audit(fun,x,tolerance,**kwargs):
@@ -92,3 +94,62 @@ def test_boundary_remap_restart_equivalence(tmp_path):
     assert 'boundary_remapped' in (full/'events.jsonl').read_text()
     np.testing.assert_array_equal(a.T,b.T);np.testing.assert_array_equal(a.cell_volume,b.cell_volume)
     assert a.ledger==b.ledger
+    np.testing.assert_array_equal(a.radius_compensation,b.radius_compensation)
+
+def test_sparse_initializer_matches_dense_equations():
+    from qstars.structure import sparse_polytrope
+    s,e,op,c=confined(64);continuum=continuum_polytrope(c,e)
+    r,V,rho,p,err=sparse_polytrope(s.dm,s.bh_mass,s.r[0],s.r[-1],1e8,continuum)
+    np.testing.assert_allclose(r,s.r,rtol=1e-8)
+    np.testing.assert_allclose(rho,s.rho,rtol=1e-8)
+    np.testing.assert_allclose(p,e.evaluate(s.rho,s.T)['p'],rtol=1e-8)
+
+def test_repeated_high_resolution_remap_geometry_and_conservation():
+    from qstars.mesh import remap
+    c=resolve({'numerics':{'zones':2048,'mesh':'log_radius_cosine'},'boundary':{'pressure_cgs':1e8}})
+    e,_=physics(c);s,_=initialize(c,e)
+    mass=s.dm.copy();initial=s.energies(e);volume=s.volume.sum()
+    for j in range(40):
+        dm=mass*(1+.01*np.sin(np.arange(len(mass))+j));dm*=mass.sum()/dm.sum()
+        s=remap(s,dm,e)
+        geometric=4*PI/3*np.diff(s.r)*(s.r[1:]**2+s.r[1:]*s.r[:-1]+s.r[:-1]**2)
+        assert max(abs(geometric/s.volume-1))<1e-8
+    assert abs(s.volume.sum()/volume-1)<1e-13
+    assert abs(s.energies(e)['total']-initial['total'])/abs(initial['total'])<1e-12
+
+def test_profile_norms_capture_narrow_boundary_structure():
+    from qstars.validation_metrics import interpolant_norms
+    x=np.array([0.,.5,.999,.999999,1.])
+    y=np.array([0.,0.,0.,.1,0.])
+    linf,l2=interpolant_norms(x,y,np.array([0.,1.]),np.array([0.,0.]))
+    assert abs(linf-.1)<1e-14
+    assert 0<l2<.1*np.sqrt(.001)
+
+def test_checkpoint_rejects_nonfinite_thermal_state(tmp_path):
+    from qstars.io import save_checkpoint,load_checkpoint
+    s,e,op,c=confined(8);s.T[0]=np.nan
+    file=tmp_path/'bad.npz';save_checkpoint(file,s,c)
+    with pytest.raises(ValueError,match='nonfinite state'):
+        load_checkpoint(file)
+
+def test_backward_euler_conserves_energy_and_dissipation_decreases_with_dt():
+    c=resolve({'numerics':{'zones':24,'mechanics':'backward_euler','solver_tolerance':1e-10},
+               'engine':{'model':'off'},'boundary':{'thermal':'insulated'},
+               'transport':{'convection':'off'},'initial':{'temperature_perturbation':.001}})
+    e,op=physics(c);initial,_=initialize(c,e);ledger.initialize(initial,e)
+    heat=[]
+    for steps in (10,20):
+        s=initial.copy()
+        for _ in range(steps):s,d=attempt_step(s,.001*YEAR/steps,e,op,c)
+        assert abs(ledger.residuals(s,e)['energy_residual_relative'])<1e-10
+        heat.append(s.ledger['numerical_kinetic_heating'])
+    assert 0<heat[1]<.7*heat[0]
+
+def test_provenance_flags_source_change_after_import(tmp_path,monkeypatch):
+    import json
+    from qstars import io
+    c=resolve({});io.provenance(tmp_path,c)
+    assert io.finish_provenance(tmp_path)
+    monkeypatch.setattr(io,'_package_sources',lambda:{'changed.py':b'changed'})
+    assert not io.finish_provenance(tmp_path)
+    assert json.loads((tmp_path/'metadata.json').read_text())['source_snapshot_verified'] is False

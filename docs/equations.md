@@ -90,7 +90,8 @@ by midpoint displacement and summing cancels interior pressure work, giving
 `Δ(U+K+Omega)=dt(Linner-Louter)-Pext ΔVouter`.
 
 Heat flux uses backward Euler; mechanics uses implicit midpoint. A coupled
-MINPACK hybrid solve advances T and velocity. Residuals are recomputed after
+Newton solve advances T, velocity and face luminosities (the legacy MINPACK
+method remains selectable). Residuals are recomputed after
 the solve; the optimizer success flag alone is insufficient. Accepted time
 steps have no energy-residual compensation. Rejected candidates never mutate
 the accepted state or ledger.
@@ -184,3 +185,70 @@ historical experiments. This represents mesh motion, without a new mass or
 energy source. Remapping remains first order, records its entropy change, and
 must be included in spatial and timestep convergence studies. It is not a
 moving physical cavity.
+
+## Fine-mesh arithmetic and hydrostatic initialization
+
+For large meshes, hydrostatic initialization uses face radii and one
+polytropic constant as unknowns. The same discrete pressure-support equations
+then have a tridiagonal block plus one column, rather than the dense Jacobian
+of cumulative volumes. The independent continuum solution supplies an initial
+guess only. A comparison against the dense discrete solve is a regression.
+
+Radius updates use compensated summation. Restart schema 5 retains the
+compensation so interrupted runs follow identical arithmetic. Conservative
+remapping computes overlap endpoints with 60-digit decimal arithmetic to avoid
+subtracting enormous cumulative CGS masses when a boundary cell is tiny. It
+then applies double-precision cell-integral weights in a linear-time sweep.
+This changes numerical arithmetic, not the piecewise-constant remap physics.
+Repeated 2048-cell remaps test mass, volume, energy and radial geometry.
+
+The `log_radius_surface` mesh uses `z=sin(pi*q/2)` in log radius to refine the
+outer boundary without overconcentrating the first accreting cell. It is a
+numerical mesh choice, not a change of physical equations. The symmetric
+cosine and uniform log-radius meshes remain available for comparisons.
+
+## Stationary advective wind reference
+
+Fiacconi & Rossi equations 12–22 are integrated inward. Write
+`t=ln(r/Rbase)`, `w=v²/vesc²`, and `y=u exp(2t)` where their dimensionless
+radiation energy density is `u`. With `tau=alpha beta exp(-t)/sqrt(w)`,
+`f=1+1.5 tau` and `g=f/(1+4.5 tau)`, the equations are
+
+`dw/dt = exp(-t)(Gamma-1)` and `dy/dt = 2y-2 Gamma f`,
+
+`Gamma = E-alpha(w-exp(-t))-(1+g)y sqrt(w)/beta`.
+
+The last equation retains the constant total energy flux. Independent
+quadratures check momentum and radiation-gradient equations; a small
+algebraic energy residual alone would not validate the ODE integrator.
+The asymptotic boundary uses the published optically thin expansion. Its
+location, integration tolerance, and Radau/DOP853 solver choice are tested.
+The photospheric condition is `y=4 Gamma`, as in the paper, not an atmosphere
+transfer solution. Base Mach is an explicit imposed closure. The LTE
+sound-speed proxy with `p=U/3` and the diagnostic using `p=gU` are both saved;
+only the optically thick sound speed has the stated thermodynamic meaning.
+This reference solver is not yet a wind boundary for envelope evolution.
+
+## Conservative backward-Euler mechanical option
+
+`numerics.mechanics: midpoint` retains the original nondissipative mechanical
+time centering. `backward_euler` uses the new velocity and pressure, while
+retaining secant area and gravity for the discrete work identity. In that
+case multiplying momentum by the displacement gives
+
+`Delta K = work - (1/2) sum_j w_j (vnew_j-vold_j)^2`.
+
+The positive difference is deposited locally as
+`Q_i = dm_i [(Delta v_i)^2 + (Delta v_{i+1})^2]/4` in the first-law equation.
+Thus total energy remains conserved; kinetic energy is converted to internal
+energy by the numerical time discretization. This is derived in advance from
+the method, not computed from a global conservation residual.
+
+The accumulated `numerical_kinetic_heating` is a diagnostic of internal
+conversion and is deliberately absent from the external energy ledger balance.
+It must decrease under timestep refinement and remain acceptably small.
+Backward Euler damps unresolved acoustic oscillations that midpoint can retain
+in a stiff stellar calculation. It is first order and is not a pulsation
+solver. The choice is explicit in saved configuration and the historical
+midpoint results are preserved. Schema 6 adds its cumulative diagnostic;
+older checkpoints load it as zero.

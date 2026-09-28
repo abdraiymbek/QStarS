@@ -26,10 +26,30 @@ benchmarks:
     uncertainties: Published table rounding; no figure digitization performed.
   - id: quest_stellar_tracks
     source: quest2025
-    status: pending_version_pinned_mesa_execution
+    status: pinned_execution_attempted_no_complete_track
+    command: python scripts/run_mesa_reference.py --family quest_saturated --saved-seed --mesa-dir PATH --sdk-dir PATH
+    discrepancy: Both upstream and explicitly documented startup CGS conversion experiments stalled during inner relaxation within the wall budget.
   - id: fiacconi_wind
     source: fiacconi2016
-    status: pending_advective_transonic_wind_solver
+    status: stationary_equations_implemented_full_evolution_pending
+    command: python scripts/validate_wind.py
+    configurations: [fiacconi2016_diffusion_wind.yaml, fiacconi2016_advective_wind.yaml]
+    reference_file: fiacconi2016_figure4.csv
+    uncertainties: Explicit vector-path calibration and stroke uncertainty in fiacconi2016_figure4.json; base Mach 0.8 +/- 0.05 from the paper, never fitted.
+    discrepancy: Not all printed Figure 4 diagnostics match; LTE versus variable-Eddington-factor sound speed and percent-level energy-curve differences retained.
+  - id: fiacconi_evolution
+    source: fiacconi2016
+    location: Section 3, Figure 8
+    status: pending_conservative_envelope_wind_atmosphere_coupling
+    required_observables: [BH_growth, envelope_mass, wind_rate, luminosity, radius, effective_temperature]
+  - id: dotan_evolution
+    source: dotan2011
+    location: Sections 4-5
+    status: pending_porous_atmosphere_and_full_evolution
+    required_observables: [BH_growth, envelope_mass, wind_rate, lifetime, photosphere]
+  - id: hassan_stellar_tracks
+    source: hassan2025
+    status: pending_moving_corrected_bondi_cavity_evolution
   - id: cantiello_stability
     source: cantiello2025
     status: pending_gyre_and_ionization_opacity

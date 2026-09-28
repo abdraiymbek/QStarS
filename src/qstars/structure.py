@@ -4,16 +4,63 @@ from scipy.optimize import least_squares
 from .constants import PI,G,MSUN
 from .state import State
 
+def sparse_polytrope(dm,bh_mass,r0,R,pext,continuum):
+    """Same discrete hydrostatic equations, with local face-radius unknowns.
+
+    The previous cumulative-volume parameterization has a dense Jacobian.
+    Radius variables instead give a tridiagonal block plus one K column.
+    A continuum solution is only a starting guess; the discrete equations
+    determine the returned volumes and pressure independently.
+    """
+    from scipy.interpolate import PchipInterpolator
+    from scipy.sparse import csc_matrix
+    from .nonlinear import newton
+    n=len(dm);mass=np.r_[0,np.cumsum(dm)/dm.sum()];mass[-1]=1.
+    z=np.linspace(np.log(r0/R),0,30001)
+    qm=continuum.sol(z)[0];qm[0]=0.;qm[-1]=1.
+    seed=PchipInterpolator(qm,np.exp(z)*R)(mass);seed[0]=r0;seed[-1]=R
+    enclosed=bh_mass+np.cumsum(dm)
+    weights=.5*np.r_[dm[:-1]+dm[1:],dm[-1]]
+    def unpack(x):
+        r=np.r_[r0,seed[1:]*np.exp(x[:n])]
+        V=4*PI/3*np.diff(r)*(r[1:]**2+r[1:]*r[:-1]+r[:-1]**2)
+        if np.any(V<=0):raise ValueError('Hydrostatic trial has crossing faces')
+        rho=dm/V;p=continuum.K*np.exp(x[-1])*rho**(4/3)
+        support=G*enclosed*weights/(4*PI*r[1:]**4)
+        return r,V,rho,p,support
+    def residual(x):
+        r,V,rho,p,support=unpack(x)
+        return np.r_[np.log(p/(np.r_[p[1:],pext]+support)),np.log(r[-1]/R)]
+    def jacobian(fun,x):
+        r,V,rho,p,support=unpack(x)
+        den=np.r_[p[1:],pext]+support
+        next_fraction=np.r_[p[1:]/den[:-1],0.]
+        left=(4/3)*4*PI*r[:-1]**3/V
+        right=-(4/3)*4*PI*r[1:]**3/V
+        diag=right+4*support/den
+        diag[:-1]-=next_fraction[:-1]*left[1:]
+        rows=np.r_[np.arange(n),np.arange(1,n),np.arange(n-1),np.arange(n),n]
+        cols=np.r_[np.arange(n),np.arange(n-1),np.arange(1,n),np.full(n,n),n-1]
+        values=np.r_[diag,left[1:],-next_fraction[:-1]*right[1:],1-next_fraction,1.]
+        return csc_matrix((values,(rows,cols)),shape=(n+1,n+1))
+    sol=newton(residual,np.zeros(n+1),2e-10,jacobian=jacobian)
+    err=float(max(abs(residual(sol.x))))
+    if err>1e-8:raise RuntimeError(f'Sparse hydrostatic initialization failed: residual {err:g}')
+    r,V,rho,p,_=unpack(sol.x)
+    return r,V,rho,p,err
+
 def initialize(config,eos):
     c,n = config["initial"],config["numerics"]["zones"]
     # Cosine mass mesh resolves both boundaries more finely than the bulk.
     q = .5*(1-np.cos(np.linspace(0,np.pi,n+1)))
     if config['numerics']['mesh']=='core_refined': q=q*q
     dm = c["envelope_mass_msun"]*MSUN*np.diff(q)
-    if config['numerics']['mesh'] in ('log_radius','log_radius_cosine'):
+    continuum=None
+    if config['numerics']['mesh'] in ('log_radius','log_radius_cosine','log_radius_surface'):
         continuum=continuum_polytrope(config,eos)
         z=np.linspace(0,1,n+1)
         if config['numerics']['mesh']=='log_radius_cosine':z=.5*(1-np.cos(np.pi*z))
+        if config['numerics']['mesh']=='log_radius_surface':z=np.sin(.5*np.pi*z)
         q=continuum.sol(np.log(c['inner_radius_cm']/c['radius_cm'])*(1-z))[0]
         q[0],q[-1]=0.,1.
         dm=c['envelope_mass_msun']*MSUN*np.diff(q)
@@ -38,12 +85,16 @@ def initialize(config,eos):
         hydro = np.log(p/(np.r_[p[1:],pext]+support))
         return np.r_[hydro,np.log(rr[-1]/R)]
     x0 = np.r_[np.log(np.diff(q)),0.]
-    sol = least_squares(residual,x0,xtol=1e-12,ftol=1e-12,gtol=1e-12,max_nfev=1500)
-    err = float(max(abs(residual(sol.x))))
-    if not sol.success or err > 1e-8:
-        raise RuntimeError(f"Hydrostatic initialization failed: residual {err:g}")
-    state.r,rho,p = unpack(sol.x)
-    state.cell_volume = dm/rho
+    if n>128:
+        if continuum is None:continuum=continuum_polytrope(config,eos)
+        state.r,state.cell_volume,rho,p,err=sparse_polytrope(dm,state.bh_mass,r0,R,pext,continuum)
+    else:
+        sol = least_squares(residual,x0,xtol=1e-12,ftol=1e-12,gtol=1e-12,max_nfev=1500)
+        err = float(max(abs(residual(sol.x))))
+        if not sol.success or err > 1e-8:
+            raise RuntimeError(f"Hydrostatic initialization failed: residual {err:g}")
+        state.r,rho,p = unpack(sol.x)
+        state.cell_volume = dm/rho
     state.reference_mass_fractions=dm/dm.sum()
     state.T = eos.temperature(rho,p,"p")
     perturb = c["temperature_perturbation"]

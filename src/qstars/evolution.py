@@ -51,7 +51,7 @@ def run(config,output_parent="results",restart=None,stop_after_steps=None):
                       'opacity_sha256':hashlib.sha256(data).hexdigest()})
     io.provenance(path,config)
     io.json_write(path/"validity_warnings.json",assumptions(config))
-    start=time.perf_counter(); accepted=0; retries=0; state=None
+    start=time.perf_counter(); accepted=0; retries=0; state=None;last_domain_rejection=None
     status="numerical_failure"; reason="initialization did not complete"
     def log(event,**data):
         with (path/"events.jsonl").open("a") as f:
@@ -91,6 +91,7 @@ def run(config,output_parent="results",restart=None,stop_after_steps=None):
                     break
                 except (StepRejected,DomainError,ValueError,FloatingPointError) as exc:
                     retries+=1; last_exception=exc
+                    if isinstance(exc,DomainError):last_domain_rejection=str(exc)
                     log("rejected",time_seconds=state.time,dt_seconds=dt,error=str(exc))
                     dt*=.5
                     if dt<c["min_dt_years"]*YEAR: raise exc
@@ -127,6 +128,12 @@ def run(config,output_parent="results",restart=None,stop_after_steps=None):
                 io.save_profile(path/f"profile_{state.steps:07d}.npz",state,eos,opacity,config)
             if state.steps%config["output"]["checkpoint_every_steps"]==0:
                 io.save_checkpoint(path/"checkpoint.npz",state,config)
+            # Locate a physical domain boundary to a finite margin; repeated
+            # bisection down to floating-point time would hide it behind a
+            # later nonlinear roundoff failure. This is not a disruption claim.
+            if diag['max_mach']>=config['validity']['max_mach']*(1-1e-4):
+                status,reason='model_domain_exit','radial Mach number approached configured limit within 0.01%; last accepted state preserved'
+                log(status,reason=reason);break
         else: status,reason="completed_requested_interval","requested end time reached within configured domain"
     except DomainError as exc:
         status,reason="model_domain_exit",str(exc); log(status,error=reason)
@@ -147,6 +154,8 @@ def run(config,output_parent="results",restart=None,stop_after_steps=None):
         report=dict(status=status,reason=reason,accepted_steps_this_run=accepted,retries=retries,
                     runtime_seconds=time.perf_counter()-start,process_peak_rss_MiB=memory,
                     final_time_years=state.time/YEAR if state is not None else 0.,v1_validated=False)
+        if last_domain_rejection is not None:report['last_domain_rejection']=last_domain_rejection
         if state is not None and state.ledger: report["conservation"]=ledger.residuals(state,eos)
+        report['source_snapshot_verified']=io.finish_provenance(path)
         io.json_write(path/"termination.json",report)
     return path,report

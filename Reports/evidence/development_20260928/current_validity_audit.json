@@ -1,0 +1,95 @@
+[
+  {
+    "zones": 256,
+    "path": "results/20260928T021050.807161Z_spatial_validation/20260928T021050.943261Z_log_radius_cosine_256",
+    "errors": [],
+    "final_state_diagnostics": {
+      "max_mach": 0.00010166176976723157,
+      "max_compactness": 4.345756961365279e-05,
+      "min_zone_optical_depth": 664.4877282969233,
+      "max_eos_first_law_defect": 0.0,
+      "max_omitted_conductive_fraction": 0.0,
+      "max_radiation_knudsen": 2.929764723633428e-06,
+      "outer_radiation_knudsen": 2.6181525444708398e-06,
+      "minimum_significant_convective_peclet": 323420.778759296,
+      "ideal_eos_helium_screen": 0.9999953268917441,
+      "max_volume_geometry_error": 8.648970428737357e-12,
+      "max_temperature_jump": 0.029258431262576323
+    },
+    "conservation": {
+      "mass_residual_g": -4.722366482869645e+21,
+      "mass_residual_relative": -2.351360784461851e-16,
+      "energy_residual_erg": 6.081073061487324e+38,
+      "energy_residual_relative": 2.0264138007889653e-15,
+      "energy_residual_relative_to_binding": 6.377537301096914e-14,
+      "energy_residual_relative_to_throughput": 8.78774221654991e-13,
+      "engine_conversion_residual_erg": -1.2876896209166373e+36,
+      "internal": 3.010801348139105e+53,
+      "gravity": -3.105923302617997e+53,
+      "kinetic": 7.716632516997819e+41,
+      "total": -9.512195447117508e+51
+    }
+  },
+  {
+    "zones": 512,
+    "path": "results/20260928T021050.807161Z_spatial_validation/20260928T021108.570307Z_log_radius_cosine_512",
+    "errors": [],
+    "final_state_diagnostics": {
+      "max_mach": 0.0010631981758708051,
+      "max_compactness": 4.3456116929323786e-05,
+      "min_zone_optical_depth": 165.89594146422257,
+      "max_eos_first_law_defect": 0.0,
+      "max_omitted_conductive_fraction": 0.0,
+      "max_radiation_knudsen": 2.930971234818253e-06,
+      "outer_radiation_knudsen": 2.620514066488219e-06,
+      "minimum_significant_convective_peclet": 242988.8548040728,
+      "ideal_eos_helium_screen": 0.9999953239724111,
+      "max_volume_geometry_error": 1.0757772450631364e-10,
+      "max_temperature_jump": 0.014633002148450203
+    },
+    "conservation": {
+      "mass_residual_g": 2.3611832414348226e+21,
+      "mass_residual_relative": 1.1756803922309254e-16,
+      "energy_residual_erg": 3.586110328546992e+38,
+      "energy_residual_relative": 1.1950056628564697e-15,
+      "energy_residual_relative_to_binding": 3.7609753105630587e-14,
+      "energy_residual_relative_to_throughput": 5.181923684762174e-13,
+      "engine_conversion_residual_erg": 5.399988732876221e+35,
+      "internal": 3.010736381322728e+53,
+      "gravity": -3.1058570512777897e+53,
+      "kinetic": 1.4932967319191458e+42,
+      "total": -9.512066994012888e+51
+    }
+  },
+  {
+    "zones": 1024,
+    "path": "results/20260928T021050.807161Z_spatial_validation/20260928T022441.183719Z_log_radius_cosine_1024",
+    "errors": [],
+    "final_state_diagnostics": {
+      "max_mach": 0.005844197079506909,
+      "max_compactness": 4.345505579157553e-05,
+      "min_zone_optical_depth": 41.429923034489114,
+      "max_eos_first_law_defect": 0.0,
+      "max_omitted_conductive_fraction": 0.0,
+      "max_radiation_knudsen": 2.9459100431250692e-06,
+      "outer_radiation_knudsen": 2.6191523045916424e-06,
+      "minimum_significant_convective_peclet": 5933.434007781937,
+      "ideal_eos_helium_screen": 0.9999946959194003,
+      "max_volume_geometry_error": 3.6019801585851496e-09,
+      "max_temperature_jump": 0.007318189112872631
+    },
+    "conservation": {
+      "mass_residual_g": -3.0695382138652694e+22,
+      "mass_residual_relative": -1.528384509900203e-15,
+      "energy_residual_erg": -3.049850091539201e+39,
+      "energy_residual_relative": -1.0163058029169162e-14,
+      "energy_residual_relative_to_binding": -3.198573503111778e-13,
+      "energy_residual_relative_to_throughput": -4.406929258269284e-12,
+      "engine_conversion_residual_erg": 6.230756230241793e+35,
+      "internal": 3.010670792577886e+53,
+      "gravity": -3.105791365029314e+53,
+      "kinetic": 1.8267834118125638e+43,
+      "total": -9.512057226874947e+51
+    }
+  }
+]

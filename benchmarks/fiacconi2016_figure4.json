@@ -1,0 +1,65 @@
+{
+  "source_url": "https://arxiv.org/pdf/1509.07511",
+  "source_sha256": "1d965558e4cb4cd5a6b98e28d34be1968e3c176955623f0eae78d4fcf8e3729e",
+  "page_one_based": 7,
+  "figure": 4,
+  "method": "Vector path vertex digitization with explicit logarithmic tick calibration",
+  "extraction_scope": "Plotted polyline vertices inside visible axes; not original simulation samples",
+  "axes": [
+    [
+      935.441,
+      6655.65,
+      693.14,
+      6139.45,
+      7348.79
+    ],
+    [
+      2447.11,
+      6819.72,
+      229.925,
+      6139.45,
+      7348.79
+    ],
+    [
+      3958.77,
+      6774.91,
+      635.46,
+      6139.45,
+      7348.79
+    ],
+    [
+      935.441,
+      5679.88,
+      441.305,
+      4930.12,
+      6139.45
+    ],
+    [
+      2447.11,
+      5461.27,
+      171.51,
+      4930.12,
+      6139.45
+    ],
+    [
+      3958.77,
+      5763.25,
+      416.565,
+      4930.12,
+      6139.45
+    ]
+  ],
+  "x_units_per_decade": 291.06125,
+  "rows": 461,
+  "uncertainty": "Half stroke width plus one PDF coordinate unit; published base Mach 0.8 +/- 0.05 propagated separately",
+  "parameters": {
+    "energy": 5.0,
+    "beta": 100.0,
+    "base_mach": 0.8,
+    "base_mach_range": [
+      0.75,
+      0.85
+    ]
+  },
+  "no_physical_parameters_fitted": true
+}

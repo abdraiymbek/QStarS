@@ -75,3 +75,35 @@ Opacity NPZ format: increasing `logrho`, increasing `logT`, rectangular
 All logs are base 10 in CGS/K. Log-space bilinear interpolation forbids
 extrapolation. Table paths resolve relative to the input YAML and are copied
 into the output. A provenance string alone is not scientific validation.
+
+## Validation campaigns
+
+```sh
+python scripts/validate_spatial.py --mesh log_radius_surface --zones 256 512 1024 2048 --end-time 10 --max-dt .02
+python scripts/validate_robustness.py --zones 256 --mesh log_radius_surface
+python scripts/digitize_wind_reference.py
+python scripts/validate_wind.py
+```
+
+Wind digitization requires the audited cached primary PDF and the `audit`
+extra. Its CSV and calibration/hash metadata are retained in `benchmarks/`.
+The two `fiacconi2016_*_wind.yaml` files run through `qstars reference`; they
+do not select an evolutionary wind rate. `docs/mesa.md` gives pinned build,
+ionization audit and optional MESA regression commands.
+
+Checkpoint schemas 1–6 remain readable. Current checkpoints include cell
+volumes, solved face luminosities, reference mass fractions and compensated
+radius updates. A successful restart is tested against an uninterrupted run,
+including remaps. Process peak RSS is cumulative within one Python process;
+compare memory across fresh processes when making performance claims.
+
+The explicit `mechanics` choice is `midpoint` or `backward_euler`. The latter
+records numerical kinetic heating; it is not an unaccounted energy sink.
+`configs/hot_resolved_validation.yaml` is the controlled pressure-confined
+benchmark, with the accuracy boundary given in the validation report.
+
+Source snapshots freeze the package files seen when a process imports QStarS.
+Run metadata reports whether the package remained unchanged through completion.
+Editing package files during a campaign invalidates that provenance check;
+rerun affected validation cases from a fresh process before claiming exact
+reproducibility. This guard also covers lazy imports.
