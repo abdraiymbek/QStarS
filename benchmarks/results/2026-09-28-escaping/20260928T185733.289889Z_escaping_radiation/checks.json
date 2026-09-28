@@ -1,0 +1,1322 @@
+[
+  {
+    "name": "published_table:0.04:J",
+    "value": 3.849768549080146e-05,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:0.04:f",
+    "value": 0.0004926334307013835,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:0.1:J",
+    "value": 0.0001879734361855956,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:0.1:f",
+    "value": 0.00031583335197615803,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:0.4:J",
+    "value": 0.0016449472674122667,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:0.4:f",
+    "value": 0.0007443114392936545,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:1.0:J",
+    "value": 0.0027949851819288885,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:1.0:f",
+    "value": 0.0009174300796556123,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:2.0:J",
+    "value": 0.0036821062124852144,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:2.0:f",
+    "value": 0.000926794662356456,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:4.0:J",
+    "value": 0.002981779152749553,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:4.0:f",
+    "value": 0.0001274910095264703,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:6.0:J",
+    "value": 0.002847019416512664,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:6.0:f",
+    "value": 6.214170187091028e-05,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:8.0:J",
+    "value": 0.0029874745643916345,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:8.0:f",
+    "value": 0.00010360145247734209,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:9.0:J",
+    "value": 0.0026896600005281712,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:9.0:f",
+    "value": 0.0001030780330402159,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:9.5:J",
+    "value": 0.002748451884704739,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:9.5:f",
+    "value": 5.8790069021208424e-05,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:10.0:J",
+    "value": 0.0032151064446479527,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:10.0:f",
+    "value": 6.914781218281263e-06,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_mesh_201:J",
+    "value": 0.0015484931246427802,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_mesh_201",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_mesh_201:f",
+    "value": 0.0030099197580752968,
+    "limit": 0.002,
+    "passed": false,
+    "scope": "grey_mesh_201",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_mesh_401:J",
+    "value": 0.0005938019260662841,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_mesh_401",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_mesh_401:f",
+    "value": 0.0011393906438113,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_mesh_401",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_mesh_801:J",
+    "value": 0.00013946764945649281,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_mesh_801",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_mesh_801:f",
+    "value": 0.0003287935770017736,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_mesh_801",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_inner_tau30:J",
+    "value": 7.372129827043494e-05,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_inner_tau30",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_inner_tau30:f",
+    "value": 0.00012271694173848768,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_inner_tau30",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_inner_tau300:J",
+    "value": 0.00013770539704160978,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_inner_tau300",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_inner_tau300:f",
+    "value": 0.00011821457272631619,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_inner_tau300",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_outer_placement:J",
+    "value": 0.00011726899060193752,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_outer_placement",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_outer_placement:f",
+    "value": 0.0001417328204427193,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_outer_placement",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_closure_tol1e-05:J",
+    "value": 2.460552468108723e-06,
+    "limit": 1e-05,
+    "passed": true,
+    "scope": "grey_closure_tol1e-05",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_closure_tol1e-05:f",
+    "value": 5.390220834122772e-07,
+    "limit": 1e-05,
+    "passed": true,
+    "scope": "grey_closure_tol1e-05",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_closure_tol1e-09:J",
+    "value": 2.376321894814737e-08,
+    "limit": 1e-05,
+    "passed": true,
+    "scope": "grey_closure_tol1e-09",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_closure_tol1e-09:f",
+    "value": 8.110713656250823e-09,
+    "limit": 1e-05,
+    "passed": true,
+    "scope": "grey_closure_tol1e-09",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_n1601:diffusion_J",
+    "value": 0.004756671662749623,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "diffusion asymptotic",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_n1601:diffusion_f",
+    "value": 0.0009378836452889061,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "diffusion asymptotic",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_n1601:angular_luminosity",
+    "value": 0.0005697684186076746,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "independent angular conservation",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_power1.5:diffusion_J",
+    "value": 0.008227165649309365,
+    "limit": 0.005,
+    "passed": false,
+    "scope": "diffusion asymptotic",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_power1.5:diffusion_f",
+    "value": 0.002920198532922469,
+    "limit": 0.001,
+    "passed": false,
+    "scope": "diffusion asymptotic",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_power1.5:angular_luminosity",
+    "value": 0.001045738768260751,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "independent angular conservation",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_power3:diffusion_J",
+    "value": 0.004550595419521075,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "diffusion asymptotic",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_power3:diffusion_f",
+    "value": 0.0003551399128185473,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "diffusion asymptotic",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_power3:angular_luminosity",
+    "value": 0.000994438867115477,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "independent angular conservation",
+    "expected_pass": true
+  },
+  {
+    "name": "far_field_flux_factor",
+    "value": 0.000497915733946197,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "free streaming",
+    "expected_pass": true
+  },
+  {
+    "name": "transparent:J",
+    "value": 6.130762564282577e-11,
+    "limit": 1e-06,
+    "passed": true,
+    "scope": "exact angular moments",
+    "expected_pass": true
+  },
+  {
+    "name": "transparent:H",
+    "value": 6.130762564282577e-11,
+    "limit": 1e-06,
+    "passed": true,
+    "scope": "exact angular moments",
+    "expected_pass": true
+  },
+  {
+    "name": "transparent:K",
+    "value": 6.130740359822084e-11,
+    "limit": 1e-06,
+    "passed": true,
+    "scope": "exact angular moments",
+    "expected_pass": true
+  },
+  {
+    "name": "moving_tau30_b0:angular_work",
+    "value": 0.0,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "moving radiation conservation",
+    "expected_pass": true
+  },
+  {
+    "name": "moving_tau30_b0:angular_flux",
+    "value": 0.000925759131937598,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "moving angular closure",
+    "expected_pass": true
+  },
+  {
+    "name": "moving_tau30_b0.001:angular_work",
+    "value": 7.943488934417098e-06,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "moving radiation conservation",
+    "expected_pass": true
+  },
+  {
+    "name": "moving_tau30_b0.001:angular_flux",
+    "value": 0.0008875050995134082,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "moving angular closure",
+    "expected_pass": true
+  },
+  {
+    "name": "moving_tau30_b0.01:angular_work",
+    "value": 5.4395513302579745e-05,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "moving radiation conservation",
+    "expected_pass": true
+  },
+  {
+    "name": "moving_tau30_b0.01:angular_flux",
+    "value": 0.0006331156179244513,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "moving angular closure",
+    "expected_pass": true
+  },
+  {
+    "name": "moving_tau0.3_b0.01:angular_work",
+    "value": 1.834318398992972e-07,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "moving radiation conservation",
+    "expected_pass": true
+  },
+  {
+    "name": "moving_tau0.3_b0.01:angular_flux",
+    "value": 9.163377085708024e-05,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "moving angular closure",
+    "expected_pass": true
+  },
+  {
+    "name": "moving_mesh:J",
+    "value": 0.00015785454393946186,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "moving_mesh",
+    "expected_pass": true
+  },
+  {
+    "name": "moving_mesh:H",
+    "value": 8.039881416177508e-08,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "moving_mesh",
+    "expected_pass": true
+  },
+  {
+    "name": "moving_mesh:K",
+    "value": 0.00017556720211708843,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "moving_mesh",
+    "expected_pass": true
+  },
+  {
+    "name": "direct_source_coarse_conservation",
+    "value": 0.3598487140742607,
+    "limit": 0.005,
+    "passed": false,
+    "scope": "retained converged-but-inaccurate method",
+    "expected_pass": false
+  },
+  {
+    "name": "wind_n201:velocity_reference_error",
+    "value": 0.0014495357325459146,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n201:density_reference_error",
+    "value": 0.0014516399418558201,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n201:luminosity_reference_error",
+    "value": 2.119735554417801e-06,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n201:force_reference_error",
+    "value": 0.0016027846777528776,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n201:photosphere_reference_error",
+    "value": 0.0008179583592535788,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n201:energy",
+    "value": 1.3508283491781015e-08,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "stationary whole energy",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n201:angular_momentum",
+    "value": 0.004582803367585173,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "stationary independent momentum",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n201:angular_work",
+    "value": 4.50346498545107e-06,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "stationary independent work",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n201:angular_flux",
+    "value": 0.00344134030297083,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "stationary angular closure",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n401:velocity_reference_error",
+    "value": 0.0014490178051725922,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n401:density_reference_error",
+    "value": 0.0014511205100746771,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n401:luminosity_reference_error",
+    "value": 2.1264170113610703e-06,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n401:force_reference_error",
+    "value": 0.0016018361682349491,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n401:photosphere_reference_error",
+    "value": 0.0008273798735796145,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n401:energy",
+    "value": 6.312910194594679e-09,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "stationary whole energy",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n401:angular_momentum",
+    "value": 0.0018879324036602436,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "stationary independent momentum",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n401:angular_work",
+    "value": 1.8710345005071294e-06,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "stationary independent work",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n401:angular_flux",
+    "value": 0.001997667016511384,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "stationary angular closure",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n801:velocity_reference_error",
+    "value": 0.0014488441998340429,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n801:density_reference_error",
+    "value": 0.0014509464005036943,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n801:luminosity_reference_error",
+    "value": 2.12923892983774e-06,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n801:force_reference_error",
+    "value": 0.0016014368187368122,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n801:photosphere_reference_error",
+    "value": 0.0008321629061494029,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n801:energy",
+    "value": 3.722913421988494e-09,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "stationary whole energy",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n801:angular_momentum",
+    "value": 0.0007875882950950734,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "stationary independent momentum",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n801:angular_work",
+    "value": 7.761465296339878e-07,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "stationary independent work",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_n801:angular_flux",
+    "value": 0.0012279231396143953,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "stationary angular closure",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_tolerance:velocity_reference_error",
+    "value": 0.0014518130846210564,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_tolerance:density_reference_error",
+    "value": 0.0014539239158417594,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_tolerance:luminosity_reference_error",
+    "value": 2.126416780434681e-06,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_tolerance:force_reference_error",
+    "value": 0.0016018362370722183,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_tolerance:photosphere_reference_error",
+    "value": 0.0008289737442168654,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_tolerance:energy",
+    "value": 7.3397448119294495e-09,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "stationary whole energy",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_tolerance:angular_momentum",
+    "value": 0.0018837850942329518,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "stationary independent momentum",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_tolerance:angular_work",
+    "value": 1.871029807248327e-06,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "stationary independent work",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_tolerance:angular_flux",
+    "value": 0.0019976699781529828,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "stationary angular closure",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_core64:velocity_reference_error",
+    "value": 0.0014490178165179612,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_core64:density_reference_error",
+    "value": 0.0014511205214531309,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_core64:luminosity_reference_error",
+    "value": 2.1264170275703265e-06,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_core64:force_reference_error",
+    "value": 0.0016018362009285747,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_core64:photosphere_reference_error",
+    "value": 0.0008273798798725807,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_core64:energy",
+    "value": 6.312910971750796e-09,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "stationary whole energy",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_core64:angular_momentum",
+    "value": 0.0018872272235066574,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "stationary independent momentum",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_core64:angular_work",
+    "value": 1.870339597660059e-06,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "stationary independent work",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_core64:angular_flux",
+    "value": 0.0019977754890707633,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "stationary angular closure",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_outer300:velocity_reference_error",
+    "value": 0.0014488749082864905,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_outer300:density_reference_error",
+    "value": 0.001450977198173442,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_outer300:luminosity_reference_error",
+    "value": 2.1312470139811523e-06,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_outer300:force_reference_error",
+    "value": 0.0016015103050560642,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_outer300:photosphere_reference_error",
+    "value": 0.000983060492593113,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_outer300:energy",
+    "value": 4.568359912582309e-09,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "stationary whole energy",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_outer300:angular_momentum",
+    "value": 0.0010372373652028195,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "stationary independent momentum",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_outer300:angular_work",
+    "value": 1.026154812682964e-06,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "stationary independent work",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_outer300:angular_flux",
+    "value": 0.0013422777235565508,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "stationary angular closure",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_crosscase:velocity_reference_error",
+    "value": 0.0010360223724659168,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_crosscase:density_reference_error",
+    "value": 0.0010370968815851533,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_crosscase:luminosity_reference_error",
+    "value": 2.6023650152584565e-06,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_crosscase:force_reference_error",
+    "value": 0.001716578276234837,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_crosscase:photosphere_reference_error",
+    "value": 0.0008082901095600725,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_crosscase:energy",
+    "value": 5.398372304732391e-09,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "stationary whole energy",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_crosscase:angular_momentum",
+    "value": 0.0013044679837137488,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "stationary independent momentum",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_crosscase:angular_work",
+    "value": 1.927729530322095e-06,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "stationary independent work",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_crosscase:angular_flux",
+    "value": 0.001244911416181771,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "stationary angular closure",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_drag_negative_control:velocity_reference_error",
+    "value": 0.01442085792940484,
+    "limit": 0.01,
+    "passed": false,
+    "scope": "stationary small-drag reference",
+    "expected_pass": false
+  },
+  {
+    "name": "wind_drag_negative_control:density_reference_error",
+    "value": 0.014631867357831618,
+    "limit": 0.01,
+    "passed": false,
+    "scope": "stationary small-drag reference",
+    "expected_pass": false
+  },
+  {
+    "name": "wind_drag_negative_control:luminosity_reference_error",
+    "value": 0.00021080042881904681,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": false
+  },
+  {
+    "name": "wind_drag_negative_control:force_reference_error",
+    "value": 0.015749611881763825,
+    "limit": 0.01,
+    "passed": false,
+    "scope": "stationary small-drag reference",
+    "expected_pass": false
+  },
+  {
+    "name": "wind_drag_negative_control:photosphere_reference_error",
+    "value": 0.008315545162810967,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "stationary small-drag reference",
+    "expected_pass": false
+  },
+  {
+    "name": "wind_drag_negative_control:energy",
+    "value": 5.940703362572464e-08,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "stationary whole energy",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_drag_negative_control:angular_momentum",
+    "value": 0.0019151939005896217,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "stationary independent momentum",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_drag_negative_control:angular_work",
+    "value": 1.8272904458868644e-05,
+    "limit": 0.001,
+    "passed": true,
+    "scope": "stationary independent work",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_drag_negative_control:angular_flux",
+    "value": 0.0019889688810620365,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "stationary angular closure",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_mesh201:velocity",
+    "value": 0.00042425889344144263,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_mesh201",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_mesh201:density",
+    "value": 0.00042194909284121174,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_mesh201",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_mesh201:J",
+    "value": 0.0013708070244771164,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_mesh201",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_mesh201:H",
+    "value": 2.385146458117049e-08,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_mesh201",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_mesh201:K",
+    "value": 0.001598505067343714,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_mesh201",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_mesh201:force",
+    "value": 1.7482665735091274e-06,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_mesh201",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_mesh401:velocity",
+    "value": 0.0003508261547734426,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_mesh401",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_mesh401:density",
+    "value": 0.0003520792162783337,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_mesh401",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_mesh401:J",
+    "value": 0.0003177371834612863,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_mesh401",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_mesh401:H",
+    "value": 6.3160205954204685e-09,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_mesh401",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_mesh401:K",
+    "value": 0.0004703912181269754,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_mesh401",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_mesh401:force",
+    "value": 5.466103827345137e-07,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_mesh401",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_tolerance:velocity",
+    "value": 2.7993976610130034e-06,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_tolerance",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_tolerance:density",
+    "value": 2.7994057456570687e-06,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_tolerance",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_tolerance:J",
+    "value": 2.6930751204634618e-06,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_tolerance",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_tolerance:H",
+    "value": 2.327027459614328e-13,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_tolerance",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_tolerance:K",
+    "value": 2.676215872243759e-06,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_tolerance",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_tolerance:force",
+    "value": 9.257202782109175e-10,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_tolerance",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_core_rays:velocity",
+    "value": 1.428772655742705e-10,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_core_rays",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_core_rays:density",
+    "value": 1.4287770966348035e-10,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_core_rays",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_core_rays:J",
+    "value": 8.719419684055651e-07,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_core_rays",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_core_rays:H",
+    "value": 1.9539925233402755e-14,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_core_rays",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_core_rays:K",
+    "value": 6.584165790357588e-08,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_core_rays",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_core_rays:force",
+    "value": 1.2943957017341745e-10,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_core_rays",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_outer:velocity",
+    "value": 0.0003025457389171926,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_outer",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_outer:density",
+    "value": 0.0003007869162250376,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_outer",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_outer:J",
+    "value": 0.09726687496633879,
+    "limit": 0.002,
+    "passed": false,
+    "scope": "wind_outer",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_outer:H",
+    "value": 2.4048646407592855e-09,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_outer",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_outer:K",
+    "value": 0.02977015436837105,
+    "limit": 0.002,
+    "passed": false,
+    "scope": "wind_outer",
+    "expected_pass": true
+  },
+  {
+    "name": "wind_outer:force",
+    "value": 1.3232921518446794e-05,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "wind_outer",
+    "expected_pass": true
+  }
+]

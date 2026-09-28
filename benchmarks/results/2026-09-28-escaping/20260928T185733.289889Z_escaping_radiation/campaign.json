@@ -1,0 +1,90 @@
+{
+  "outcome": "OUTER CLOSURE FAIL",
+  "cases": 31,
+  "completed": 30,
+  "failures": [
+    "grey_insufficient_iterations"
+  ],
+  "checks": 165,
+  "failed_checks": [
+    {
+      "name": "grey_mesh_201:f",
+      "value": 0.0030099197580752968,
+      "limit": 0.002,
+      "passed": false,
+      "scope": "grey_mesh_201",
+      "expected_pass": true
+    },
+    {
+      "name": "grey_power1.5:diffusion_J",
+      "value": 0.008227165649309365,
+      "limit": 0.005,
+      "passed": false,
+      "scope": "diffusion asymptotic",
+      "expected_pass": true
+    },
+    {
+      "name": "grey_power1.5:diffusion_f",
+      "value": 0.002920198532922469,
+      "limit": 0.001,
+      "passed": false,
+      "scope": "diffusion asymptotic",
+      "expected_pass": true
+    },
+    {
+      "name": "direct_source_coarse_conservation",
+      "value": 0.3598487140742607,
+      "limit": 0.005,
+      "passed": false,
+      "scope": "retained converged-but-inaccurate method",
+      "expected_pass": false
+    },
+    {
+      "name": "wind_drag_negative_control:velocity_reference_error",
+      "value": 0.01442085792940484,
+      "limit": 0.01,
+      "passed": false,
+      "scope": "stationary small-drag reference",
+      "expected_pass": false
+    },
+    {
+      "name": "wind_drag_negative_control:density_reference_error",
+      "value": 0.014631867357831618,
+      "limit": 0.01,
+      "passed": false,
+      "scope": "stationary small-drag reference",
+      "expected_pass": false
+    },
+    {
+      "name": "wind_drag_negative_control:force_reference_error",
+      "value": 0.015749611881763825,
+      "limit": 0.01,
+      "passed": false,
+      "scope": "stationary small-drag reference",
+      "expected_pass": false
+    },
+    {
+      "name": "wind_outer:J",
+      "value": 0.09726687496633879,
+      "limit": 0.002,
+      "passed": false,
+      "scope": "wind_outer",
+      "expected_pass": true
+    },
+    {
+      "name": "wind_outer:K",
+      "value": 0.02977015436837105,
+      "limit": 0.002,
+      "passed": false,
+      "scope": "wind_outer",
+      "expected_pass": true
+    }
+  ],
+  "elapsed_seconds": 55.424218624975765,
+  "peak_rss_mib": 745.03125,
+  "source_snapshot_verified": true,
+  "coupled_evolution_run": false,
+  "physical_envelope_match": false,
+  "published_full_evolution_replicas": 0,
+  "v1": false
+}

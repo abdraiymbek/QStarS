@@ -1,0 +1,156 @@
+{
+  "parameters": {
+    "gamma": 2,
+    "tiring": 0.001,
+    "escape_speed_c": 0.0001,
+    "w_base": 0.0001,
+    "numerical_damping": 0.5
+  },
+  "history": [
+    {
+      "iteration": 1,
+      "momentum_fixed_point_error": 0.0029010324255077657,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 9.561161262716666e-08,
+        "intensity_change": 4.3776743208212565e-07,
+        "angular_flux_max_error": 0.0012275307800677648,
+        "formal_source_max_error": 0.0003586253355041258
+      }
+    },
+    {
+      "iteration": 2,
+      "momentum_fixed_point_error": 0.001452737095497758,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 9.564516934013056e-08,
+        "intensity_change": 4.3769611313138057e-07,
+        "angular_flux_max_error": 0.0012277270995111333,
+        "formal_source_max_error": 0.00035856923709998156
+      }
+    },
+    {
+      "iteration": 3,
+      "momentum_fixed_point_error": 0.0007269535446542408,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 9.566194836274633e-08,
+        "intensity_change": 4.376601903111066e-07,
+        "angular_flux_max_error": 0.0012278254146674827,
+        "formal_source_max_error": 0.00035854114187650055
+      }
+    },
+    {
+      "iteration": 4,
+      "momentum_fixed_point_error": 0.0003636374355504568,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 9.567033809609882e-08,
+        "intensity_change": 4.376421665064356e-07,
+        "angular_flux_max_error": 0.0012278746259775097,
+        "formal_source_max_error": 0.0003585270839959742
+      }
+    },
+    {
+      "iteration": 5,
+      "momentum_fixed_point_error": 0.00018186601984571116,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 9.567453296277506e-08,
+        "intensity_change": 4.3763313684053173e-07,
+        "angular_flux_max_error": 0.0012278992524785703,
+        "formal_source_max_error": 0.0003585200531160959
+      }
+    },
+    {
+      "iteration": 6,
+      "momentum_fixed_point_error": 9.094838971213104e-05,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 9.567663017406858e-08,
+        "intensity_change": 4.3762861934304453e-07,
+        "angular_flux_max_error": 0.0012279115746403058,
+        "formal_source_max_error": 0.0003585165375055155
+      }
+    },
+    {
+      "iteration": 7,
+      "momentum_fixed_point_error": 4.547981288038905e-05,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 9.567767844664843e-08,
+        "intensity_change": 4.376263598171448e-07,
+        "angular_flux_max_error": 0.0012279177398045737,
+        "formal_source_max_error": 0.0003585147798162991
+      }
+    },
+    {
+      "iteration": 8,
+      "momentum_fixed_point_error": 2.274219583764392e-05,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 9.567820269396066e-08,
+        "intensity_change": 4.376252316085072e-07,
+        "angular_flux_max_error": 0.0012279208243235473,
+        "formal_source_max_error": 0.000358513901079327
+      }
+    },
+    {
+      "iteration": 9,
+      "momentum_fixed_point_error": 1.1372111961893694e-05,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 9.567846492863907e-08,
+        "intensity_change": 4.3762466650498766e-07,
+        "angular_flux_max_error": 0.0012279223675388806,
+        "formal_source_max_error": 0.0003585134617767327
+      }
+    },
+    {
+      "iteration": 10,
+      "momentum_fixed_point_error": 5.686529969572973e-06,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 9.567859637904519e-08,
+        "intensity_change": 4.376243840642502e-07,
+        "angular_flux_max_error": 0.0012279231396143953,
+        "formal_source_max_error": 0.0003585132421620729
+      }
+    }
+  ],
+  "velocity_reference_error": 0.0014488441998340429,
+  "density_reference_error": 0.0014509464005036943,
+  "luminosity_reference_error": 2.12923892983774e-06,
+  "force_reference_error": 0.0016014368187368122,
+  "total_energy_defect": 3.722913421988494e-09,
+  "independent_angular_momentum_defect": 0.0007875882950950734,
+  "independent_angular_work_defect": 7.761465296339878e-07,
+  "optical_depth_base": 39.45846669841557,
+  "radiation_drag_max": 0.00160198279427479,
+  "photospheric_radius_ratio": 23.350424750540956,
+  "analytic_photospheric_radius_ratio": 23.33100954983057,
+  "photosphere_reference_error": 0.0008321629061494029,
+  "velocity_to_local_escape_at_outer": 9.929833231482215,
+  "cg_scalars": {
+    "mass_loss_g_s": 6.544779242147335e+24,
+    "enclosed_mass_g": 1.9884699999999998e+35,
+    "grey_opacity_cgs": 0.34,
+    "photospheric_radius_cm": 6.896172900376178e+16,
+    "effective_temperature_K": 305.0720269392657,
+    "emergent_luminosity_erg_s": 2.9352657972545604e+40,
+    "angular_emergent_luminosity_erg_s": 2.934392149378747e+40,
+    "gas_temperature_K": null,
+    "ionization": null,
+    "entropy": null,
+    "gas_enthalpy": null,
+    "sonic_radius_cm": null,
+    "temperature_is_spectral_prediction": false
+  },
+  "missing": [
+    "gas EOS and T",
+    "ionization/flux mean",
+    "gas sonic regularity",
+    "mass-loss eigenvalue",
+    "physical envelope match"
+  ]
+}

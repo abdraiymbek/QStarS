@@ -1,0 +1,12 @@
+{
+  "reason": "First complete campaign found outer placement at 100R inadequate, and tau>=30 insufficient for the leading diffusion asymptotic when chi~r^-1.5. Preserve those failures; change domain/resolution, not tolerances or physical coefficients.",
+  "outer_wind_domains": [{"outer":10000,"n":1601},{"outer":30000,"n":1801},{"outer":100000,"n":2001}],
+  "common_profile_domain": [1,1000],
+  "profile_relative_tolerance": 0.002,
+  "photospheric_radius_and_effective_temperature_relative_tolerance": 0.002,
+  "luminosity_relative_tolerance": 0.002,
+  "microphysics": "unchanged constant grey scattering control; no thermodynamic or stellar validity inference",
+  "deep_diffusion": {"power":1.5,"tau_inner":300,"comparison_tau_min":100,"J_relative_tolerance":0.005,"f_absolute_tolerance":0.001},
+  "deep_diffusion_reason": "For chi=r^-n and leading J~r^-(n+1), the gradient Knudsen number is (n+1)*r^(n-1). At tau=30 it is about 0.16 for n=1.5, so leading diffusion asymptotics are not yet accurate at the predeclared sub-percent tolerance.",
+  "coupled_evolution_allowed": false
+}

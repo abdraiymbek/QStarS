@@ -1,0 +1,423 @@
+{
+  "outcome": "OUTER CLOSURE FAIL",
+  "cases": [
+    {
+      "name": "outer_10000",
+      "parameters": {
+        "outer": 10000,
+        "n": 1601
+      },
+      "status": "completed_component",
+      "summary": {
+        "history": [
+          {
+            "iteration": 1,
+            "momentum_fixed_point_error": 0.0029010338064670016,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.167698290455604e-08,
+              "intensity_change": 2.2705510382969862e-07,
+              "angular_flux_max_error": 0.0012275912024878322,
+              "formal_source_max_error": 0.0003586256118599529
+            }
+          },
+          {
+            "iteration": 2,
+            "momentum_fixed_point_error": 0.0014527377883125636,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.167721449707898e-08,
+              "intensity_change": 2.2705446811599472e-07,
+              "angular_flux_max_error": 0.001227787524252788,
+              "formal_source_max_error": 0.00035856951340640375
+            }
+          },
+          {
+            "iteration": 3,
+            "momentum_fixed_point_error": 0.0007269538917168417,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.167728355295111e-08,
+              "intensity_change": 2.2705382562993037e-07,
+              "angular_flux_max_error": 0.0012278858405634363,
+              "formal_source_max_error": 0.0003585414181582758
+            }
+          },
+          {
+            "iteration": 4,
+            "momentum_fixed_point_error": 0.00036363760929525313,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.167730631252311e-08,
+              "intensity_change": 2.2705342006545948e-07,
+              "angular_flux_max_error": 0.00122793505244434,
+              "formal_source_max_error": 0.000358527360265537
+            }
+          },
+          {
+            "iteration": 5,
+            "momentum_fixed_point_error": 0.0001818661067847227,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.167731419510659e-08,
+              "intensity_change": 2.2705319890903297e-07,
+              "angular_flux_max_error": 0.001227959679230839,
+              "formal_source_max_error": 0.00035852032937899736
+            }
+          },
+          {
+            "iteration": 6,
+            "momentum_fixed_point_error": 9.094843321910684e-05,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.167731719270876e-08,
+              "intensity_change": 2.2705308488912834e-07,
+              "angular_flux_max_error": 0.0012279720015292428,
+              "formal_source_max_error": 0.00035851681376597444
+            }
+          },
+          {
+            "iteration": 7,
+            "momentum_fixed_point_error": 4.547983463631944e-05,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.16773193021325e-08,
+              "intensity_change": 2.2705302094028212e-07,
+              "angular_flux_max_error": 0.0012279781667681178,
+              "formal_source_max_error": 0.00035851505607487066
+            }
+          },
+          {
+            "iteration": 8,
+            "momentum_fixed_point_error": 2.2742206732595527e-05,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.16773194131548e-08,
+              "intensity_change": 2.2705299340675111e-07,
+              "angular_flux_max_error": 0.001227981251329724,
+              "formal_source_max_error": 0.00035851417733667734
+            }
+          },
+          {
+            "iteration": 9,
+            "momentum_fixed_point_error": 1.1372117410757276e-05,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.167731974622171e-08,
+              "intensity_change": 2.2705297741953956e-07,
+              "angular_flux_max_error": 0.0012279827945563815,
+              "formal_source_max_error": 0.00035851373803419406
+            }
+          },
+          {
+            "iteration": 10,
+            "momentum_fixed_point_error": 5.686532690840629e-06,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.167732007928862e-08,
+              "intensity_change": 2.2705297175740213e-07,
+              "angular_flux_max_error": 0.0012279835666433314,
+              "formal_source_max_error": 0.0003585135184193122
+            }
+          }
+        ],
+        "photosphere": 30.219668983977392,
+        "effective_temperature": 268.16542280335364,
+        "emergent_luminosity_ratio": 0.9980043275507329,
+        "emergent_angular_ratio": 0.9976974750666447,
+        "flux_factor_at_outer": 0.9990057549515712,
+        "eddington_at_outer": 0.9982781033690087,
+        "photospheric_tau_tail_estimate": 0.0020041405510111176,
+        "total_energy_defect": 3.7228816696099898e-09,
+        "velocity_reference_error": 0.0014488448902837403,
+        "force_reference_error": 0.0016014375035492412,
+        "dimensional_wind_mass_over_central": 325.0516837983866,
+        "dimensional_scaling_is_physical_star": false
+      },
+      "seconds": 19.09365137500572
+    },
+    {
+      "name": "outer_30000",
+      "parameters": {
+        "outer": 30000,
+        "n": 1801
+      },
+      "status": "completed_component",
+      "summary": {
+        "history": [
+          {
+            "iteration": 1,
+            "momentum_fixed_point_error": 0.002901034571985206,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.050868333635663e-08,
+              "intensity_change": 2.2538277877348634e-07,
+              "angular_flux_max_error": 0.001077375450535878,
+              "formal_source_max_error": 0.000356484405085955
+            }
+          },
+          {
+            "iteration": 2,
+            "momentum_fixed_point_error": 0.0014527368154508835,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.050807959707583e-08,
+              "intensity_change": 2.2537849064807602e-07,
+              "angular_flux_max_error": 0.0010775430356777527,
+              "formal_source_max_error": 0.00035642529425772285
+            }
+          },
+          {
+            "iteration": 3,
+            "momentum_fixed_point_error": 0.0007269527248020546,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.050773032091229e-08,
+              "intensity_change": 2.2537601984673472e-07,
+              "angular_flux_max_error": 0.0010776269835367502,
+              "formal_source_max_error": 0.00035639569134626736
+            }
+          },
+          {
+            "iteration": 4,
+            "momentum_fixed_point_error": 0.00036363668522843007,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.050754513571178e-08,
+              "intensity_change": 2.253747027891606e-07,
+              "angular_flux_max_error": 0.0010776690096697683,
+              "formal_source_max_error": 0.00035638087923928197
+            }
+          },
+          {
+            "iteration": 5,
+            "momentum_fixed_point_error": 0.00018186547444798418,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.050744854630864e-08,
+              "intensity_change": 2.2537402677436091e-07,
+              "angular_flux_max_error": 0.001077690042453061,
+              "formal_source_max_error": 0.00035637347114469975
+            }
+          },
+          {
+            "iteration": 6,
+            "momentum_fixed_point_error": 9.094803192422063e-05,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.050739936342865e-08,
+              "intensity_change": 2.253736792745542e-07,
+              "angular_flux_max_error": 0.001077700567100881,
+              "formal_source_max_error": 0.00035636976689834565
+            }
+          },
+          {
+            "iteration": 7,
+            "momentum_fixed_point_error": 4.5479627378552934e-05,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.050737427238829e-08,
+              "intensity_change": 2.2537350452545013e-07,
+              "angular_flux_max_error": 0.0010777058331540301,
+              "formal_source_max_error": 0.00035636791488191655
+            }
+          },
+          {
+            "iteration": 8,
+            "momentum_fixed_point_error": 2.2742118226726227e-05,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.050736228197962e-08,
+              "intensity_change": 2.253734180390765e-07,
+              "angular_flux_max_error": 0.001077708467944305,
+              "formal_source_max_error": 0.00035636698897845154
+            }
+          },
+          {
+            "iteration": 9,
+            "momentum_fixed_point_error": 1.1372080720994937e-05,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.050735584268608e-08,
+              "intensity_change": 2.2537337784900302e-07,
+              "angular_flux_max_error": 0.0010777097861934815,
+              "formal_source_max_error": 0.0003563665260917226
+            }
+          },
+          {
+            "iteration": 10,
+            "momentum_fixed_point_error": 5.686518131042817e-06,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.050735328917312e-08,
+              "intensity_change": 2.2537335508943102e-07,
+              "angular_flux_max_error": 0.0010777104457438957,
+              "formal_source_max_error": 0.00035636629468482894
+            }
+          }
+        ],
+        "photosphere": 30.27980462906636,
+        "effective_temperature": 267.89899345986083,
+        "emergent_luminosity_ratio": 0.9980041942895737,
+        "emergent_angular_ratio": 0.9976994709955802,
+        "flux_factor_at_outer": 0.9996670259749962,
+        "eddington_at_outer": 0.9994229676044852,
+        "photospheric_tau_tail_estimate": 0.0006680245888795445,
+        "total_energy_defect": 3.923032343422506e-09,
+        "velocity_reference_error": 0.0014488439415815124,
+        "force_reference_error": 0.0016013754785410006,
+        "dimensional_wind_mass_over_central": 974.8626021674838,
+        "dimensional_scaling_is_physical_star": false
+      },
+      "seconds": 22.41802120799548
+    },
+    {
+      "name": "outer_100000",
+      "parameters": {
+        "outer": 100000,
+        "n": 2001
+      },
+      "status": "completed_component",
+      "summary": {
+        "history": [
+          {
+            "iteration": 1,
+            "momentum_fixed_point_error": 0.0029010338067909647,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.010429881049163e-08,
+              "intensity_change": 2.2475274796818212e-07,
+              "angular_flux_max_error": 0.001227603292053181,
+              "formal_source_max_error": 0.0003586257100441914
+            }
+          },
+          {
+            "iteration": 2,
+            "momentum_fixed_point_error": 0.001452737788428471,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.010371461113607e-08,
+              "intensity_change": 2.2475299232826984e-07,
+              "angular_flux_max_error": 0.0012277996142761038,
+              "formal_source_max_error": 0.00035856961159197454
+            }
+          },
+          {
+            "iteration": 3,
+            "momentum_fixed_point_error": 0.0007269538917655805,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.010337499391284e-08,
+              "intensity_change": 2.2475278671496568e-07,
+              "angular_flux_max_error": 0.0012278979308130156,
+              "formal_source_max_error": 0.0003585415163439576
+            }
+          },
+          {
+            "iteration": 4,
+            "momentum_fixed_point_error": 0.0003636376093076876,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.010319347244831e-08,
+              "intensity_change": 2.2475260508247885e-07,
+              "angular_flux_max_error": 0.0012279471428036093,
+              "formal_source_max_error": 0.0003585274584512188
+            }
+          },
+          {
+            "iteration": 5,
+            "momentum_fixed_point_error": 0.00018186610678549986,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.010310043575885e-08,
+              "intensity_change": 2.247524985010685e-07,
+              "angular_flux_max_error": 0.0012279717696497272,
+              "formal_source_max_error": 0.0003585204275647902
+            }
+          },
+          {
+            "iteration": 6,
+            "momentum_fixed_point_error": 9.094843321100221e-05,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.010305258514649e-08,
+              "intensity_change": 2.2475243421915536e-07,
+              "angular_flux_max_error": 0.0012279840919839913,
+              "formal_source_max_error": 0.0003585169119519893
+            }
+          },
+          {
+            "iteration": 7,
+            "momentum_fixed_point_error": 4.547983463787375e-05,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.010302838228455e-08,
+              "intensity_change": 2.2475240291086607e-07,
+              "angular_flux_max_error": 0.0012279902572286394,
+              "formal_source_max_error": 0.0003585151542612186
+            }
+          },
+          {
+            "iteration": 8,
+            "momentum_fixed_point_error": 2.2742206725823166e-05,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.01030170580097e-08,
+              "intensity_change": 2.2475238392605235e-07,
+              "angular_flux_max_error": 0.0012279933417987943,
+              "formal_source_max_error": 0.0003585142755231363
+            }
+          },
+          {
+            "iteration": 9,
+            "momentum_fixed_point_error": 1.1372117407981719e-05,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.010300961951543e-08,
+              "intensity_change": 2.247523822607178e-07,
+              "angular_flux_max_error": 0.001227994885031114,
+              "formal_source_max_error": 0.00035851383622020894
+            }
+          },
+          {
+            "iteration": 10,
+            "momentum_fixed_point_error": 5.686532692728008e-06,
+            "radiation": {
+              "iteration": 11,
+              "closure_change": 7.010300739906938e-08,
+              "intensity_change": 2.247523770426696e-07,
+              "angular_flux_max_error": 0.00122799565711873,
+              "formal_source_max_error": 0.0003585136166052161
+            }
+          }
+        ],
+        "photosphere": 30.300853110238318,
+        "effective_temperature": 267.80592619688906,
+        "emergent_luminosity_ratio": 0.9980041479458545,
+        "emergent_angular_ratio": 0.9976971708416484,
+        "flux_factor_at_outer": 0.9998999148085799,
+        "eddington_at_outer": 0.9998265097462365,
+        "photospheric_tau_tail_estimate": 0.00020040503944616678,
+        "total_energy_defect": 3.7228763405394716e-09,
+        "velocity_reference_error": 0.0014488448904048656,
+        "force_reference_error": 0.0016014375041166762,
+        "dimensional_wind_mass_over_central": 3249.1579249741244,
+        "dimensional_scaling_is_physical_star": false
+      },
+      "seconds": 25.95071137501509
+    }
+  ],
+  "checks": 35,
+  "failed_checks": [
+    {
+      "name": "outer_10000:photosphere",
+      "value": 0.0026792686649965702,
+      "limit": 0.002,
+      "passed": false
+    }
+  ],
+  "elapsed_seconds": 68.62920195801416,
+  "peak_rss_mib": 1213.5625,
+  "source_snapshot_verified": true,
+  "coupled_evolution_run": false
+}

@@ -97,3 +97,16 @@ benchmarks:
     command: python scripts/validate_outer_transport.py
     required_checks: [independent_swept_volume, comoving_pressure_work, energy_gauge, MLT_domain_exit, profile_coverage]
     limitation: Moving interface is not coupled evolution; MLT exit is not a turbulent-wind closure.
+
+  - id: hummer1971_grey_transfer
+    source: hummer1971
+    status: scoped_angular_component_pass
+    command: python scripts/validate_escaping_radiation.py
+    required_checks: [published_J_and_f_table, angular_flux, diffusion, streaming, Lorentz_moments, radial_mesh, inner_depth, outer_placement, closure_tolerance]
+    limitation: Specified grey transfer does not provide material temperature or ionization for the original recombining wind.
+  - id: constructed_continuum_escaping_wind
+    source: owocki2017_analytic
+    status: scoped_stationary_control_pass_physical_envelope_match_fail
+    command: python scripts/validate_escaping_extent.py
+    required_checks: [velocity_density_luminosity_force_profiles, radiation_work, total_energy, radial_mesh, core_rays, outer_placement, photosphere, small_drag_crosscase, retained_negative_controls]
+    limitation: Mass flow and base velocity supplied; no gas EOS or sonic eigenvalue; not a published thermodynamic star or full evolution replication.

@@ -1,0 +1,58 @@
+{
+  "date": "2026-09-28",
+  "base_commit": "46e01ea22be5321bdfbc36bdb3f091d47a452ba2",
+  "outcome": "OUTER CLOSURE FAIL",
+  "v1": false,
+  "regression_tests": {
+    "passed": 85,
+    "failed": 0,
+    "seconds": 34.29,
+    "native_mesa": true,
+    "native_freeeos": true,
+    "log": "Reports/evidence/escaping_20260928/full_tests.log",
+    "log_sha256": "ea4d81faa1c1697bde77f83d0d605e38446448471749a7bd3663286f66d4779b"
+  },
+  "component_tests": {
+    "passed": 9,
+    "seconds": 2.63
+  },
+  "final_source_and_input_sha256": {
+    "src/qstars/grey_transfer.py": "af9d9cab8fd361ee21266cf3a96e408c821f8a93f3785f56bd7b0afd485f1b05",
+    "src/qstars/continuum_wind.py": "845644d7c584c7e9cf74577c6c3ffa420ec5d48efbe5b4e1256eddc56b91a3c2",
+    "tests/test_grey_transfer.py": "6ca18eac2c4001a5e2a998126f06184be3e44a9e6b3df885bf79674f7e46a78a",
+    "scripts/validate_escaping_radiation.py": "d7abba45e45797cd6056b3ab8cf7f996e9c30202ea50ddfa6c9cbda7ccb8fd43",
+    "scripts/validate_escaping_extent.py": "ddbd75fe27a3f6e0ea7d7e67ca78704510c98a6f94bbb1681016082b26d71aee",
+    "scripts/analyze_escaping_radiation.py": "74c5f3c7abedcc1fbe56d35e62b65ab96cd070b2694c16bd8ae0619b9b35de34",
+    "scripts/register_outer_candidates.py": "fa7170208b2569bc80ad47e16214ebb37b825a4415a5be08aebf370d862ce50f",
+    "scripts/build_registry.py": "d46f0109b5d8a22e51ae777c63466b6abae26384a7271c7551dcba63ddc6dbf3",
+    "src/qstars/data/sources.json": "21eaf7d0482f8757fb53d62596e52542792088ae9e135c982a3a868346f77d10",
+    "benchmarks/escaping_transport_tolerances.json": "d81e5c086ea1b4048a4a82f0e731eae2bd1a4c984cdc1523c5df6a5c12017700",
+    "benchmarks/escaping_followup_plan.json": "398f9db515f9390726a58a8a185de3238c3080ca476f4329ad94e36552b0aff3",
+    "benchmarks/grey_continuum_wind.json": "db54e4458d4f7d8c41cdee3085e6ec107ab50efd9b398386299fcd15dc2c5dbc",
+    "benchmarks/hummer1971_table1.csv": "68daaabc432acb4bf835a32e086b14b69dca7d0c3e1a4c651e7e8febcec27ee3",
+    "benchmarks/outer_candidates.json": "9461fbf87e075e94061f892a4aee0b4befb669f988a3bf58a3370bbc62101ef5"
+  },
+  "completed_campaigns": [
+    {
+      "directory": "benchmarks/results/2026-09-28-escaping/20260928T185733.289889Z_escaping_radiation",
+      "package_matches_delivered_source": true,
+      "metadata_source_verified": true
+    },
+    {
+      "directory": "benchmarks/results/2026-09-28-escaping/20260928T190026.596335Z_escaping_extent",
+      "package_matches_delivered_source": true,
+      "metadata_source_verified": true
+    }
+  ],
+  "archive": {
+    "files": 132,
+    "all_sha256_verified": true,
+    "mismatches": 0
+  },
+  "registry_entries": 41,
+  "candidate_source_files_hashes_verified": true,
+  "plot_visually_inspected": true,
+  "coupled_evolution_run": false,
+  "published_full_evolution_replicas": 0,
+  "archived_driver_note": "The final working driver removes one trailing space from the executed archived driver. Archived raw bytes and their manifest hash are preserved; solver package snapshots match delivered source exactly."
+}

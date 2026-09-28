@@ -1,0 +1,21 @@
+{
+  "scope": "Declared before the formal Report 11 campaign; development probes retained separately",
+  "hummer1971_table1_J_relative": 0.005,
+  "hummer1971_table1_f_relative": 0.005,
+  "hummer1971_surface_relative": 0.01,
+  "grey_profile_mesh_relative": 0.002,
+  "grey_inner_placement_relative_at_r_ge_0p04": 0.002,
+  "grey_outer_placement_relative_at_r_le_3": 0.002,
+  "grey_angular_flux_relative": 0.005,
+  "grey_formal_source_relative": 0.005,
+  "grey_closure_tolerance_profile_relative": 0.00001,
+  "transparent_sphere_moments_relative": 0.000001,
+  "diffusion_J_relative_at_tau_ge_30": 0.005,
+  "diffusion_f_absolute_at_tau_ge_30": 0.001,
+  "far_field_flux_factor_error": 0.01,
+  "moving_independent_radiation_work_relative_to_base_L": 0.001,
+  "continuum_wind_analytic_velocity_L_acceleration_relative": 0.01,
+  "continuum_wind_mesh_profiles_relative": 0.002,
+  "continuum_wind_whole_energy_relative_to_base_L": 0.001,
+  "justification": "Published table accuracy is a few tenths of a percent, up to 1 percent at its surface. Numerical transfer errors must be below 0.5 percent and mesh differences below 0.2 percent; iteration error below 1e-5. Wind comparison is only a small-drag asymptotic verification with a 1 percent truncation budget, not a recombining wind or mass-loss eigenvalue benchmark. No tolerance passes a missing physical variable or an unvalidated physical assumption."
+}

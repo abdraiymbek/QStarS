@@ -1,0 +1,30 @@
+results/20260928T185125.386391Z_escaping_radiation
+grey_n201 completed_component 1.251
+grey_n401 completed_component 1.686
+grey_n801 completed_component 1.126
+grey_n1601 completed_component 1.632
+grey_tau30 completed_component 1.08
+grey_tau300 completed_component 1.258
+grey_outer30 completed_component 1.346
+grey_outer100 completed_component 1.42
+grey_outer300 completed_component 1.537
+grey_outer1000 completed_component 1.545
+grey_tol1e-05 completed_component 0.86
+grey_tol1e-09 numerical_or_domain_failure 11.433
+grey_power1.5 completed_component 1.568
+grey_power3 completed_component 1.278
+grey_insufficient_iterations numerical_or_domain_failure 0.021
+Traceback (most recent call last):
+  File "/Users/abraiymbek/Projects/QStarS/scripts/validate_escaping_radiation.py", line 82, in <module>
+    for tol in [1e-5,1e-9]:compare(f'grey_tol{tol}','grey_n801',.04,10,['J','f'],1e-5,f'grey_closure_tol{tol}')
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/abraiymbek/Projects/QStarS/scripts/validate_escaping_radiation.py", line 64, in compare
+    d,e=load(name),load(other);r=np.geomspace(lo,hi,1001);errors={}
+        ^^^^^^^^^^
+  File "/Users/abraiymbek/Projects/QStarS/scripts/validate_escaping_radiation.py", line 57, in load
+    def load(name):return dict(np.load(out/f'{name}.npz'))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/abraiymbek/Projects/QStarS/.venv/lib/python3.12/site-packages/numpy/lib/_npyio_impl.py", line 454, in load
+    fid = stack.enter_context(open(os.fspath(file), "rb"))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'results/20260928T185125.386391Z_escaping_radiation/grey_tol1e-09.npz'

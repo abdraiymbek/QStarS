@@ -1,0 +1,92 @@
+{
+  "history": [
+    {
+      "iteration": 1,
+      "closure_change": 1.9515535339027168,
+      "intensity_change": null,
+      "angular_luminosity_max_error": 0.5475478076894964,
+      "formal_source_max_error": 3.3334404061431373
+    },
+    {
+      "iteration": 2,
+      "closure_change": 0.10975423086293368,
+      "intensity_change": 8.461725650840876,
+      "angular_luminosity_max_error": 0.12133324479105578,
+      "formal_source_max_error": 0.10716096779501227
+    },
+    {
+      "iteration": 3,
+      "closure_change": 0.011495801698797825,
+      "intensity_change": 0.11029129812129024,
+      "angular_luminosity_max_error": 0.013058809982926967,
+      "formal_source_max_error": 0.010940118183546677
+    },
+    {
+      "iteration": 4,
+      "closure_change": 0.0033213820764566027,
+      "intensity_change": 0.01835336304310209,
+      "angular_luminosity_max_error": 0.002937905073887026,
+      "formal_source_max_error": 0.0020905142343760064
+    },
+    {
+      "iteration": 5,
+      "closure_change": 0.0007298474113195397,
+      "intensity_change": 0.002554474521447858,
+      "angular_luminosity_max_error": 0.001642032534489024,
+      "formal_source_max_error": 0.0007368637156507374
+    },
+    {
+      "iteration": 6,
+      "closure_change": 0.00013757539078862457,
+      "intensity_change": 0.0005218810403648799,
+      "angular_luminosity_max_error": 0.0016427774350604718,
+      "formal_source_max_error": 0.0006267029870669072
+    },
+    {
+      "iteration": 7,
+      "closure_change": 2.3329058307819395e-05,
+      "intensity_change": 0.0001324867161420773,
+      "angular_luminosity_max_error": 0.001642871509935473,
+      "formal_source_max_error": 0.0006015723036359999
+    },
+    {
+      "iteration": 8,
+      "closure_change": 6.162154035149747e-06,
+      "intensity_change": 2.9916547536812388e-05,
+      "angular_luminosity_max_error": 0.0016428826397023588,
+      "formal_source_max_error": 0.0006015773939204161
+    },
+    {
+      "iteration": 9,
+      "closure_change": 1.5627910041615678e-06,
+      "intensity_change": 6.207068093067036e-06,
+      "angular_luminosity_max_error": 0.0016428837498410065,
+      "formal_source_max_error": 0.0006015782759523081
+    },
+    {
+      "iteration": 10,
+      "closure_change": 3.6662418778643513e-07,
+      "intensity_change": 1.197841838607161e-06,
+      "angular_luminosity_max_error": 0.001642883805612838,
+      "formal_source_max_error": 0.000601578314103457
+    },
+    {
+      "iteration": 11,
+      "closure_change": 8.086511715799105e-08,
+      "intensity_change": 2.476479343815896e-07,
+      "angular_luminosity_max_error": 0.0016428837915418715,
+      "formal_source_max_error": 0.0006015782924756463
+    },
+    {
+      "iteration": 12,
+      "closure_change": 1.6916682166190355e-08,
+      "intensity_change": 6.522265316721843e-08,
+      "angular_luminosity_max_error": 0.0016428837848481148,
+      "formal_source_max_error": 0.0006015782849890794
+    }
+  ],
+  "photospheric_radius": 1.47792390073605,
+  "effective_temperature": 17.847339932309392,
+  "emergent_luminosity": 157.8204964817881,
+  "thermal_temperature_inferred": false
+}

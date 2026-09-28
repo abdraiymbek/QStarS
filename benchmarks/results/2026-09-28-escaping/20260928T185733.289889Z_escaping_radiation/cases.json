@@ -1,0 +1,3549 @@
+[
+  {
+    "name": "grey_n201",
+    "parameters": {
+      "n": 201
+    },
+    "status": "completed_component",
+    "summary": {
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.653415055028308,
+          "intensity_change": null,
+          "angular_luminosity_max_error": 0.4447140132747103,
+          "formal_source_max_error": 0.6772794317695305
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.07814162920013068,
+          "intensity_change": 1.4198753329116722,
+          "angular_luminosity_max_error": 0.04894122570233028,
+          "formal_source_max_error": 0.07270862261517475
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.017163902025292943,
+          "intensity_change": 0.0804457167371091,
+          "angular_luminosity_max_error": 0.010293492780564018,
+          "formal_source_max_error": 0.010794002537803715
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.0028202605047803475,
+          "intensity_change": 0.014558911399677577,
+          "angular_luminosity_max_error": 0.00559976674066176,
+          "formal_source_max_error": 0.0034087476677839845
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.0006610809603144752,
+          "intensity_change": 0.0033936334067001805,
+          "angular_luminosity_max_error": 0.005503516060403002,
+          "formal_source_max_error": 0.0034107407552519398
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.0001746298569660354,
+          "intensity_change": 0.0006795099119307757,
+          "angular_luminosity_max_error": 0.005503392722147726,
+          "formal_source_max_error": 0.003410192616245422
+        },
+        {
+          "iteration": 7,
+          "closure_change": 4.0342653662372996e-05,
+          "intensity_change": 0.00012220365498327723,
+          "angular_luminosity_max_error": 0.005503377563680689,
+          "formal_source_max_error": 0.003409961107599835
+        },
+        {
+          "iteration": 8,
+          "closure_change": 8.498078038821077e-06,
+          "intensity_change": 3.0447990325255248e-05,
+          "angular_luminosity_max_error": 0.005503375808202149,
+          "formal_source_max_error": 0.0034099248280520245
+        },
+        {
+          "iteration": 9,
+          "closure_change": 1.653664760015161e-06,
+          "intensity_change": 8.05351495802853e-06,
+          "angular_luminosity_max_error": 0.005503375611932815,
+          "formal_source_max_error": 0.0034099255943804696
+        },
+        {
+          "iteration": 10,
+          "closure_change": 4.131341925228682e-07,
+          "intensity_change": 1.9651302882728316e-06,
+          "angular_luminosity_max_error": 0.0055033755905804504,
+          "formal_source_max_error": 0.003409927892254805
+        },
+        {
+          "iteration": 11,
+          "closure_change": 1.0906166880708668e-07,
+          "intensity_change": 4.4873448490356793e-07,
+          "angular_luminosity_max_error": 0.005503375588329251,
+          "formal_source_max_error": 0.0034099287201885264
+        },
+        {
+          "iteration": 12,
+          "closure_change": 2.7174691275000384e-08,
+          "intensity_change": 9.674188139463524e-08,
+          "angular_luminosity_max_error": 0.00550337558809777,
+          "formal_source_max_error": 0.0034099289154929657
+        }
+      ],
+      "photospheric_radius": 1.3050308528735117,
+      "effective_temperature": 18.992806439880678,
+      "emergent_luminosity": 157.40821577687205,
+      "thermal_temperature_inferred": false
+    },
+    "seconds": 0.10368950001429766
+  },
+  {
+    "name": "grey_n401",
+    "parameters": {
+      "n": 401
+    },
+    "status": "completed_component",
+    "summary": {
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.653853796047004,
+          "intensity_change": null,
+          "angular_luminosity_max_error": 0.4438068666486026,
+          "formal_source_max_error": 0.6768643061422117
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.07799451870996399,
+          "intensity_change": 1.4204033950414905,
+          "angular_luminosity_max_error": 0.05162428515726303,
+          "formal_source_max_error": 0.07401182632971359
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.017097237082444705,
+          "intensity_change": 0.0802057729174146,
+          "angular_luminosity_max_error": 0.012685274643138289,
+          "formal_source_max_error": 0.012182689993405216
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.002803559471805883,
+          "intensity_change": 0.014510621246974331,
+          "angular_luminosity_max_error": 0.002901359435282913,
+          "formal_source_max_error": 0.0021445170444157613
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.0006579479252282194,
+          "intensity_change": 0.003375992761683211,
+          "angular_luminosity_max_error": 0.0022093411528060214,
+          "formal_source_max_error": 0.0014053660681976332
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.0001735617630653774,
+          "intensity_change": 0.0006747262174634505,
+          "angular_luminosity_max_error": 0.002032846015452394,
+          "formal_source_max_error": 0.0014050891466698134
+        },
+        {
+          "iteration": 7,
+          "closure_change": 4.008298629809559e-05,
+          "intensity_change": 0.00012119021595635715,
+          "angular_luminosity_max_error": 0.00203284381248503,
+          "formal_source_max_error": 0.0014050281004839293
+        },
+        {
+          "iteration": 8,
+          "closure_change": 8.428920309055954e-06,
+          "intensity_change": 3.030969529937977e-05,
+          "angular_luminosity_max_error": 0.002032846054006221,
+          "formal_source_max_error": 0.0014050260065000542
+        },
+        {
+          "iteration": 9,
+          "closure_change": 1.6389264008154214e-06,
+          "intensity_change": 8.018140479570945e-06,
+          "angular_luminosity_max_error": 0.002032846902333074,
+          "formal_source_max_error": 0.0014050282370220435
+        },
+        {
+          "iteration": 10,
+          "closure_change": 4.1201990741424055e-07,
+          "intensity_change": 1.954613950250206e-06,
+          "angular_luminosity_max_error": 0.0020328471260211423,
+          "formal_source_max_error": 0.001405029030253302
+        },
+        {
+          "iteration": 11,
+          "closure_change": 1.08785190966465e-07,
+          "intensity_change": 4.4601894955142996e-07,
+          "angular_luminosity_max_error": 0.00203284717732255,
+          "formal_source_max_error": 0.0014050291854246222
+        },
+        {
+          "iteration": 12,
+          "closure_change": 2.706381063699581e-08,
+          "intensity_change": 9.607531148425608e-08,
+          "angular_luminosity_max_error": 0.002032847188249476,
+          "formal_source_max_error": 0.0014050291999467834
+        }
+      ],
+      "photospheric_radius": 1.304537700097541,
+      "effective_temperature": 18.996396014255552,
+      "emergent_luminosity": 157.70149344725965,
+      "thermal_temperature_inferred": false
+    },
+    "seconds": 0.20006637499318458
+  },
+  {
+    "name": "grey_n801",
+    "parameters": {
+      "n": 801
+    },
+    "status": "completed_component",
+    "summary": {
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.6540379871406445,
+          "intensity_change": null,
+          "angular_luminosity_max_error": 0.4433994614640433,
+          "formal_source_max_error": 0.6766743672504795
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.07793565348868359,
+          "intensity_change": 1.4207534921212575,
+          "angular_luminosity_max_error": 0.052730802182312075,
+          "formal_source_max_error": 0.07461374137508225
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.01706825833937653,
+          "intensity_change": 0.08009111544783298,
+          "angular_luminosity_max_error": 0.013696130899696568,
+          "formal_source_max_error": 0.012815892187562294
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.002795865471738601,
+          "intensity_change": 0.014491307014603327,
+          "angular_luminosity_max_error": 0.0019806381237479354,
+          "formal_source_max_error": 0.0017891353425694145
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.0006564811479612409,
+          "intensity_change": 0.0033683487551511293,
+          "angular_luminosity_max_error": 0.0015832885262467844,
+          "formal_source_max_error": 0.0006889562183214348
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.00017304077878321777,
+          "intensity_change": 0.0006726111963083481,
+          "angular_luminosity_max_error": 0.0015841287220867972,
+          "formal_source_max_error": 0.0005505834758907646
+        },
+        {
+          "iteration": 7,
+          "closure_change": 3.9937792703392816e-05,
+          "intensity_change": 0.00012068321611791166,
+          "angular_luminosity_max_error": 0.0015842410203854573,
+          "formal_source_max_error": 0.0005505712667878138
+        },
+        {
+          "iteration": 8,
+          "closure_change": 8.391044724831431e-06,
+          "intensity_change": 3.0234566910536387e-05,
+          "angular_luminosity_max_error": 0.0015842555949310277,
+          "formal_source_max_error": 0.00055057233672684
+        },
+        {
+          "iteration": 9,
+          "closure_change": 1.6305317531717378e-06,
+          "intensity_change": 7.992670197465301e-06,
+          "angular_luminosity_max_error": 0.0015842573531554827,
+          "formal_source_max_error": 0.0005505730224739658
+        },
+        {
+          "iteration": 10,
+          "closure_change": 4.1092101599193853e-07,
+          "intensity_change": 1.9471356291766995e-06,
+          "angular_luminosity_max_error": 0.0015842575305906603,
+          "formal_source_max_error": 0.0005505731624625421
+        },
+        {
+          "iteration": 11,
+          "closure_change": 1.084283258734331e-07,
+          "intensity_change": 4.440748415657225e-07,
+          "angular_luminosity_max_error": 0.0015842575393327785,
+          "formal_source_max_error": 0.0005505731762049937
+        },
+        {
+          "iteration": 12,
+          "closure_change": 2.6961080812348825e-08,
+          "intensity_change": 9.559117586377397e-08,
+          "angular_luminosity_max_error": 0.001584257536910716,
+          "formal_source_max_error": 0.0005505731750381493
+        }
+      ],
+      "photospheric_radius": 1.3044014541013216,
+      "effective_temperature": 18.997388084338876,
+      "emergent_luminosity": 157.83036716807706,
+      "thermal_temperature_inferred": false
+    },
+    "seconds": 0.4417223750206176
+  },
+  {
+    "name": "grey_n1601",
+    "parameters": {
+      "n": 1601
+    },
+    "status": "completed_component",
+    "summary": {
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.6541081668380722,
+          "intensity_change": null,
+          "angular_luminosity_max_error": 0.44323017002007925,
+          "formal_source_max_error": 0.6765959426852896
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.07791435234462074,
+          "intensity_change": 1.4208811699908424,
+          "angular_luminosity_max_error": 0.05316054455656505,
+          "formal_source_max_error": 0.07486162265959861
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.017056751498342515,
+          "intensity_change": 0.08004370050042597,
+          "angular_luminosity_max_error": 0.014090556921281028,
+          "formal_source_max_error": 0.013074706621934995
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.002792681234033534,
+          "intensity_change": 0.01448331887748755,
+          "angular_luminosity_max_error": 0.0023639099033314626,
+          "formal_source_max_error": 0.0020668405920780675
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.0006559049271692707,
+          "intensity_change": 0.003365114985545925,
+          "angular_luminosity_max_error": 0.0006845085990695443,
+          "formal_source_max_error": 0.0005066137515004066
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.00017281997201035182,
+          "intensity_change": 0.0006716850122069351,
+          "angular_luminosity_max_error": 0.000569472972127949,
+          "formal_source_max_error": 0.00021246940116759205
+        },
+        {
+          "iteration": 7,
+          "closure_change": 3.987394860471838e-05,
+          "intensity_change": 0.00012046876849769461,
+          "angular_luminosity_max_error": 0.0005697176722323505,
+          "formal_source_max_error": 0.0002090123307386671
+        },
+        {
+          "iteration": 8,
+          "closure_change": 8.374233092300898e-06,
+          "intensity_change": 3.020187804514407e-05,
+          "angular_luminosity_max_error": 0.0005697595682554457,
+          "formal_source_max_error": 0.00020901272380591251
+        },
+        {
+          "iteration": 9,
+          "closure_change": 1.6266289049049476e-06,
+          "intensity_change": 7.981478352903082e-06,
+          "angular_luminosity_max_error": 0.0005697668620900931,
+          "formal_source_max_error": 0.00020901286179253464
+        },
+        {
+          "iteration": 10,
+          "closure_change": 4.10394756622523e-07,
+          "intensity_change": 1.9436944440620607e-06,
+          "angular_luminosity_max_error": 0.0005697681483511907,
+          "formal_source_max_error": 0.00020901288544772356
+        },
+        {
+          "iteration": 11,
+          "closure_change": 1.0825405116765552e-07,
+          "intensity_change": 4.431485614020403e-07,
+          "angular_luminosity_max_error": 0.0005697683774703588,
+          "formal_source_max_error": 0.00020901288868691026
+        },
+        {
+          "iteration": 12,
+          "closure_change": 2.690855305242934e-08,
+          "intensity_change": 9.536216993843993e-08,
+          "angular_luminosity_max_error": 0.0005697684186076746,
+          "formal_source_max_error": 0.0002090128891893972
+        }
+      ],
+      "photospheric_radius": 1.3043632597435622,
+      "effective_temperature": 18.997666223009197,
+      "emergent_luminosity": 157.88235205562557,
+      "thermal_temperature_inferred": false
+    },
+    "seconds": 1.1078648749971762
+  },
+  {
+    "name": "grey_tau30",
+    "parameters": {
+      "tau": 30
+    },
+    "status": "completed_component",
+    "summary": {
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.6540666694578823,
+          "intensity_change": null,
+          "angular_luminosity_max_error": 0.44333508736586336,
+          "formal_source_max_error": 0.6766447996979859
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.07792722624527992,
+          "intensity_change": 1.420806408242151,
+          "angular_luminosity_max_error": 0.05289336587357685,
+          "formal_source_max_error": 0.07470685711529246
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.017063878175161196,
+          "intensity_change": 0.08007226549221969,
+          "angular_luminosity_max_error": 0.013844486743549433,
+          "formal_source_max_error": 0.012914110442131976
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.002794623940731489,
+          "intensity_change": 0.014488204679821926,
+          "angular_luminosity_max_error": 0.00428521502533763,
+          "formal_source_max_error": 0.0018948856845228956
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.0006562768529048135,
+          "intensity_change": 0.0033670832945478235,
+          "angular_luminosity_max_error": 0.0042632845572314615,
+          "formal_source_max_error": 0.0006212509797253185
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.00017295184106913553,
+          "intensity_change": 0.0006722442421793762,
+          "angular_luminosity_max_error": 0.004259622593653756,
+          "formal_source_max_error": 0.000530836721249317
+        },
+        {
+          "iteration": 7,
+          "closure_change": 3.991366931832552e-05,
+          "intensity_change": 0.00012060231440946811,
+          "angular_luminosity_max_error": 0.004258983463218291,
+          "formal_source_max_error": 0.0005308745404519755
+        },
+        {
+          "iteration": 8,
+          "closure_change": 8.384516213766346e-06,
+          "intensity_change": 3.0222655714950974e-05,
+          "angular_luminosity_max_error": 0.004258868309778618,
+          "formal_source_max_error": 0.0005308813887425767
+        },
+        {
+          "iteration": 9,
+          "closure_change": 1.6290444693201067e-06,
+          "intensity_change": 7.988591839813708e-06,
+          "angular_luminosity_max_error": 0.004258847077205918,
+          "formal_source_max_error": 0.0005308826569475622
+        },
+        {
+          "iteration": 10,
+          "closure_change": 4.107426088140187e-07,
+          "intensity_change": 1.945806529901617e-06,
+          "angular_luminosity_max_error": 0.004258843097358578,
+          "formal_source_max_error": 0.0005308828955565836
+        },
+        {
+          "iteration": 11,
+          "closure_change": 1.0836098218724999e-07,
+          "intensity_change": 4.43718711107266e-07,
+          "angular_luminosity_max_error": 0.004258842343018987,
+          "formal_source_max_error": 0.0005308829409338411
+        },
+        {
+          "iteration": 12,
+          "closure_change": 2.694116740808994e-08,
+          "intensity_change": 9.551001345364796e-08,
+          "angular_luminosity_max_error": 0.004258842199042601,
+          "formal_source_max_error": 0.0005308829496215584
+        }
+      ],
+      "photospheric_radius": 1.304392553909792,
+      "effective_temperature": 18.997452896156293,
+      "emergent_luminosity": 157.85035454755769,
+      "thermal_temperature_inferred": false
+    },
+    "seconds": 0.4491754999908153
+  },
+  {
+    "name": "grey_tau300",
+    "parameters": {
+      "tau": 300
+    },
+    "status": "completed_component",
+    "summary": {
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.6540153697512618,
+          "intensity_change": null,
+          "angular_luminosity_max_error": 0.44345907318965516,
+          "formal_source_max_error": 0.6767023572891591
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.07794405813678429,
+          "intensity_change": 1.4207062033326143,
+          "angular_luminosity_max_error": 0.05257316318023686,
+          "formal_source_max_error": 0.07452649595683702
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.01707230965481421,
+          "intensity_change": 0.08010492856726881,
+          "angular_luminosity_max_error": 0.013552232501632622,
+          "formal_source_max_error": 0.012723090214714405
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.0027969182273238635,
+          "intensity_change": 0.014493960934640393,
+          "angular_luminosity_max_error": 0.0019612190903942617,
+          "formal_source_max_error": 0.0017663983354564428
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.0006567118411728856,
+          "intensity_change": 0.0033694505683448117,
+          "angular_luminosity_max_error": 0.0012656448809543752,
+          "formal_source_max_error": 0.000754737370540215
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.0001731153596373769,
+          "intensity_change": 0.0006729196374217761,
+          "angular_luminosity_max_error": 0.000989040020959231,
+          "formal_source_max_error": 0.0006741539322275836
+        },
+        {
+          "iteration": 7,
+          "closure_change": 3.996024654928654e-05,
+          "intensity_change": 0.00012075732622551794,
+          "angular_luminosity_max_error": 0.0009890315027549779,
+          "formal_source_max_error": 0.0006741364317557341
+        },
+        {
+          "iteration": 8,
+          "closure_change": 8.396581531178171e-06,
+          "intensity_change": 3.024478224356031e-05,
+          "angular_luminosity_max_error": 0.0009890303820737634,
+          "formal_source_max_error": 0.0006741375185961296
+        },
+        {
+          "iteration": 9,
+          "closure_change": 1.6318288824646032e-06,
+          "intensity_change": 7.996421877987103e-06,
+          "angular_luminosity_max_error": 0.0009890302384880645,
+          "formal_source_max_error": 0.0006741384479765911
+        },
+        {
+          "iteration": 10,
+          "closure_change": 4.1113014381810586e-07,
+          "intensity_change": 1.9482159208106253e-06,
+          "angular_luminosity_max_error": 0.0009890302203675594,
+          "formal_source_max_error": 0.0006741386574798947
+        },
+        {
+          "iteration": 11,
+          "closure_change": 1.0848037890198725e-07,
+          "intensity_change": 4.4439121249517655e-07,
+          "angular_luminosity_max_error": 0.0009890302181075894,
+          "formal_source_max_error": 0.0006741386812105787
+        },
+        {
+          "iteration": 12,
+          "closure_change": 2.6977180600518125e-08,
+          "intensity_change": 9.567197345461409e-08,
+          "angular_luminosity_max_error": 0.0009890302178231503,
+          "formal_source_max_error": 0.0006741386799179461
+        }
+      ],
+      "photospheric_radius": 1.3044355910627259,
+      "effective_temperature": 18.9971395027488,
+      "emergent_luminosity": 157.81214607526928,
+      "thermal_temperature_inferred": false
+    },
+    "seconds": 0.4439324169943575
+  },
+  {
+    "name": "grey_outer30",
+    "parameters": {
+      "outer": 30
+    },
+    "status": "completed_component",
+    "summary": {
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.8544641112627698,
+          "intensity_change": null,
+          "angular_luminosity_max_error": 0.5141358774883336,
+          "formal_source_max_error": 1.2411267099504584
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.10114514519952567,
+          "intensity_change": 3.46592260870744,
+          "angular_luminosity_max_error": 0.09297454101486147,
+          "formal_source_max_error": 0.09962944188613121
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.014771063224420455,
+          "intensity_change": 0.08122245319868682,
+          "angular_luminosity_max_error": 0.014900908426634274,
+          "formal_source_max_error": 0.012863945420707124
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.002989755054052079,
+          "intensity_change": 0.018524431798003116,
+          "angular_luminosity_max_error": 0.002474344120780292,
+          "formal_source_max_error": 0.002028549398779944
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.0007672519813217704,
+          "intensity_change": 0.003155702543078065,
+          "angular_luminosity_max_error": 0.0015022055612181617,
+          "formal_source_max_error": 0.0006970065137360537
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.00016261594210575936,
+          "intensity_change": 0.0004689365320742489,
+          "angular_luminosity_max_error": 0.0015031566722696343,
+          "formal_source_max_error": 0.000499127491091933
+        },
+        {
+          "iteration": 7,
+          "closure_change": 3.0627971655317054e-05,
+          "intensity_change": 0.00013325698952115772,
+          "angular_luminosity_max_error": 0.0015032907376053561,
+          "formal_source_max_error": 0.0004959816644716231
+        },
+        {
+          "iteration": 8,
+          "closure_change": 6.119012935790202e-06,
+          "intensity_change": 3.28968411247299e-05,
+          "angular_luminosity_max_error": 0.0015033095044605371,
+          "formal_source_max_error": 0.0004959848483153673
+        },
+        {
+          "iteration": 9,
+          "closure_change": 1.6624028714717909e-06,
+          "intensity_change": 7.382941730638137e-06,
+          "angular_luminosity_max_error": 0.0015033120616845252,
+          "formal_source_max_error": 0.0004959855445357819
+        },
+        {
+          "iteration": 10,
+          "closure_change": 4.141659999401526e-07,
+          "intensity_change": 1.5360712288803313e-06,
+          "angular_luminosity_max_error": 0.00150331239043755,
+          "formal_source_max_error": 0.0004959856055307688
+        },
+        {
+          "iteration": 11,
+          "closure_change": 9.650454890763882e-08,
+          "intensity_change": 2.98468287196485e-07,
+          "angular_luminosity_max_error": 0.0015033124277155085,
+          "formal_source_max_error": 0.0004959855976982563
+        },
+        {
+          "iteration": 12,
+          "closure_change": 2.1268118599593322e-08,
+          "intensity_change": 6.868644686353065e-08,
+          "angular_luminosity_max_error": 0.0015033124306707002,
+          "formal_source_max_error": 0.0004959855935353641
+        }
+      ],
+      "photospheric_radius": 1.4286313192785638,
+      "effective_temperature": 18.152625520814983,
+      "emergent_luminosity": 157.83772115163194,
+      "thermal_temperature_inferred": false
+    },
+    "seconds": 0.5916441250010394
+  },
+  {
+    "name": "grey_outer100",
+    "parameters": {
+      "outer": 100
+    },
+    "status": "completed_component",
+    "summary": {
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.9515535339027168,
+          "intensity_change": null,
+          "angular_luminosity_max_error": 0.5475478076894964,
+          "formal_source_max_error": 3.3334404061431373
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.10975423086293368,
+          "intensity_change": 8.461725650840876,
+          "angular_luminosity_max_error": 0.12133324479105578,
+          "formal_source_max_error": 0.10716096779501227
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.011495801698797825,
+          "intensity_change": 0.11029129812129024,
+          "angular_luminosity_max_error": 0.013058809982926967,
+          "formal_source_max_error": 0.010940118183546677
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.0033213820764566027,
+          "intensity_change": 0.01835336304310209,
+          "angular_luminosity_max_error": 0.002937905073887026,
+          "formal_source_max_error": 0.0020905142343760064
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.0007298474113195397,
+          "intensity_change": 0.002554474521447858,
+          "angular_luminosity_max_error": 0.001642032534489024,
+          "formal_source_max_error": 0.0007368637156507374
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.00013757539078862457,
+          "intensity_change": 0.0005218810403648799,
+          "angular_luminosity_max_error": 0.0016427774350604718,
+          "formal_source_max_error": 0.0006267029870669072
+        },
+        {
+          "iteration": 7,
+          "closure_change": 2.3329058307819395e-05,
+          "intensity_change": 0.0001324867161420773,
+          "angular_luminosity_max_error": 0.001642871509935473,
+          "formal_source_max_error": 0.0006015723036359999
+        },
+        {
+          "iteration": 8,
+          "closure_change": 6.162154035149747e-06,
+          "intensity_change": 2.9916547536812388e-05,
+          "angular_luminosity_max_error": 0.0016428826397023588,
+          "formal_source_max_error": 0.0006015773939204161
+        },
+        {
+          "iteration": 9,
+          "closure_change": 1.5627910041615678e-06,
+          "intensity_change": 6.207068093067036e-06,
+          "angular_luminosity_max_error": 0.0016428837498410065,
+          "formal_source_max_error": 0.0006015782759523081
+        },
+        {
+          "iteration": 10,
+          "closure_change": 3.6662418778643513e-07,
+          "intensity_change": 1.197841838607161e-06,
+          "angular_luminosity_max_error": 0.001642883805612838,
+          "formal_source_max_error": 0.000601578314103457
+        },
+        {
+          "iteration": 11,
+          "closure_change": 8.086511715799105e-08,
+          "intensity_change": 2.476479343815896e-07,
+          "angular_luminosity_max_error": 0.0016428837915418715,
+          "formal_source_max_error": 0.0006015782924756463
+        },
+        {
+          "iteration": 12,
+          "closure_change": 1.6916682166190355e-08,
+          "intensity_change": 6.522265316721843e-08,
+          "angular_luminosity_max_error": 0.0016428837848481148,
+          "formal_source_max_error": 0.0006015782849890794
+        }
+      ],
+      "photospheric_radius": 1.47792390073605,
+      "effective_temperature": 17.847339932309392,
+      "emergent_luminosity": 157.8204964817881,
+      "thermal_temperature_inferred": false
+    },
+    "seconds": 0.5883345420006663
+  },
+  {
+    "name": "grey_outer300",
+    "parameters": {
+      "outer": 300
+    },
+    "status": "completed_component",
+    "summary": {
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.9854901827201537,
+          "intensity_change": null,
+          "angular_luminosity_max_error": 0.5586849426577565,
+          "formal_source_max_error": 7.542169189534002
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.11221369506915069,
+          "intensity_change": 18.27131527767057,
+          "angular_luminosity_max_error": 0.13249793286672595,
+          "formal_source_max_error": 0.1065940398085985
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.011671396518816213,
+          "intensity_change": 0.12191655327026885,
+          "angular_luminosity_max_error": 0.011721680071923757,
+          "formal_source_max_error": 0.009656291428170594
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.003350666182066586,
+          "intensity_change": 0.01754107504718372,
+          "angular_luminosity_max_error": 0.0031354267853759277,
+          "formal_source_max_error": 0.0021001401009466125
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.0006984167348451642,
+          "intensity_change": 0.002278461545128674,
+          "angular_luminosity_max_error": 0.0017191114455097356,
+          "formal_source_max_error": 0.000781522694044634
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.00012699625275880422,
+          "intensity_change": 0.000525159461235436,
+          "angular_luminosity_max_error": 0.0017196836839912244,
+          "formal_source_max_error": 0.0007273403776041354
+        },
+        {
+          "iteration": 7,
+          "closure_change": 2.1885709629465566e-05,
+          "intensity_change": 0.0001287112037016147,
+          "angular_luminosity_max_error": 0.0017197456979141101,
+          "formal_source_max_error": 0.000701957595828695
+        },
+        {
+          "iteration": 8,
+          "closure_change": 6.025701581702236e-06,
+          "intensity_change": 2.831285651527793e-05,
+          "angular_luminosity_max_error": 0.0017197509459463411,
+          "formal_source_max_error": 0.0007019637879778218
+        },
+        {
+          "iteration": 9,
+          "closure_change": 1.497793491234134e-06,
+          "intensity_change": 5.744286641018448e-06,
+          "angular_luminosity_max_error": 0.0017197509829640634,
+          "formal_source_max_error": 0.0007019648180750515
+        },
+        {
+          "iteration": 10,
+          "closure_change": 3.4554104599848756e-07,
+          "intensity_change": 1.0851174536696817e-06,
+          "angular_luminosity_max_error": 0.0017197508434074749,
+          "formal_source_max_error": 0.000701964853650372
+        },
+        {
+          "iteration": 11,
+          "closure_change": 7.507501476045064e-08,
+          "intensity_change": 2.41796069055944e-07,
+          "angular_luminosity_max_error": 0.0017197507938155887,
+          "formal_source_max_error": 0.0007019648249585453
+        },
+        {
+          "iteration": 12,
+          "closure_change": 1.5486669391329144e-08,
+          "intensity_change": 6.268724250801938e-08,
+          "angular_luminosity_max_error": 0.001719750780664775,
+          "formal_source_max_error": 0.0007019648152726266
+        }
+      ],
+      "photospheric_radius": 1.4926540602330165,
+      "effective_temperature": 17.759058936912663,
+      "emergent_luminosity": 157.80506276301008,
+      "thermal_temperature_inferred": false
+    },
+    "seconds": 0.5763177089975215
+  },
+  {
+    "name": "grey_outer1000",
+    "parameters": {
+      "outer": 1000
+    },
+    "status": "completed_component",
+    "summary": {
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.996745893043911,
+          "intensity_change": null,
+          "angular_luminosity_max_error": 0.5628836304056606,
+          "formal_source_max_error": 17.601303582008928
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.11309502512420433,
+          "intensity_change": 41.49697473063662,
+          "angular_luminosity_max_error": 0.1368183009677726,
+          "formal_source_max_error": 0.10504541402622292
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.01223042207180347,
+          "intensity_change": 0.1265542478801317,
+          "angular_luminosity_max_error": 0.010997814982396825,
+          "formal_source_max_error": 0.008960445981440746
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.003342051146482339,
+          "intensity_change": 0.017066430844537517,
+          "angular_luminosity_max_error": 0.0032947582731822633,
+          "formal_source_max_error": 0.002142162741762932
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.0006841968425914668,
+          "intensity_change": 0.0021710975301472146,
+          "angular_luminosity_max_error": 0.0017576064676330105,
+          "formal_source_max_error": 0.0008783600108716039
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.00012299663026671404,
+          "intensity_change": 0.0005235160460843602,
+          "angular_luminosity_max_error": 0.0017580145670725855,
+          "formal_source_max_error": 0.0008447933711438482
+        },
+        {
+          "iteration": 7,
+          "closure_change": 2.1811625087742037e-05,
+          "intensity_change": 0.00012685016142111039,
+          "angular_luminosity_max_error": 0.0017580476139262835,
+          "formal_source_max_error": 0.000815874101782077
+        },
+        {
+          "iteration": 8,
+          "closure_change": 5.955717052863463e-06,
+          "intensity_change": 2.766984567403874e-05,
+          "angular_luminosity_max_error": 0.0017580478132370736,
+          "formal_source_max_error": 0.0008158816206023101
+        },
+        {
+          "iteration": 9,
+          "closure_change": 1.4709345309560362e-06,
+          "intensity_change": 5.574548939346613e-06,
+          "angular_luminosity_max_error": 0.0017580469764000295,
+          "formal_source_max_error": 0.000815882937305612
+        },
+        {
+          "iteration": 10,
+          "closure_change": 3.3753603467800986e-07,
+          "intensity_change": 1.0461454302834738e-06,
+          "angular_luminosity_max_error": 0.001758046686298087,
+          "formal_source_max_error": 0.0008158829961045777
+        },
+        {
+          "iteration": 11,
+          "closure_change": 7.299425563989104e-08,
+          "intensity_change": 2.3884452493572184e-07,
+          "angular_luminosity_max_error": 0.0017580466108502169,
+          "formal_source_max_error": 0.0008158829614206553
+        },
+        {
+          "iteration": 12,
+          "closure_change": 1.4992930563728635e-08,
+          "intensity_change": 6.162186239055956e-08,
+          "angular_luminosity_max_error": 0.0017580465932816036,
+          "formal_source_max_error": 0.0008158829486379915
+        }
+      ],
+      "photospheric_radius": 1.4978681054832756,
+      "effective_temperature": 17.728122548477106,
+      "emergent_luminosity": 157.7866000778449,
+      "thermal_temperature_inferred": false
+    },
+    "seconds": 0.579336124996189
+  },
+  {
+    "name": "grey_tol1e-05",
+    "parameters": {
+      "tolerance": 1e-05
+    },
+    "status": "completed_component",
+    "summary": {
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.6540379871406445,
+          "intensity_change": null,
+          "angular_luminosity_max_error": 0.4433994614640433,
+          "formal_source_max_error": 0.6766743672504795
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.07793565348868359,
+          "intensity_change": 1.4207534921212575,
+          "angular_luminosity_max_error": 0.052730802182312075,
+          "formal_source_max_error": 0.07461374137508225
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.01706825833937653,
+          "intensity_change": 0.08009111544783298,
+          "angular_luminosity_max_error": 0.013696130899696568,
+          "formal_source_max_error": 0.012815892187562294
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.002795865471738601,
+          "intensity_change": 0.014491307014603327,
+          "angular_luminosity_max_error": 0.0019806381237479354,
+          "formal_source_max_error": 0.0017891353425694145
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.0006564811479612409,
+          "intensity_change": 0.0033683487551511293,
+          "angular_luminosity_max_error": 0.0015832885262467844,
+          "formal_source_max_error": 0.0006889562183214348
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.00017304077878321777,
+          "intensity_change": 0.0006726111963083481,
+          "angular_luminosity_max_error": 0.0015841287220867972,
+          "formal_source_max_error": 0.0005505834758907646
+        },
+        {
+          "iteration": 7,
+          "closure_change": 3.9937792703392816e-05,
+          "intensity_change": 0.00012068321611791166,
+          "angular_luminosity_max_error": 0.0015842410203854573,
+          "formal_source_max_error": 0.0005505712667878138
+        },
+        {
+          "iteration": 8,
+          "closure_change": 8.391044724831431e-06,
+          "intensity_change": 3.0234566910536387e-05,
+          "angular_luminosity_max_error": 0.0015842555949310277,
+          "formal_source_max_error": 0.00055057233672684
+        },
+        {
+          "iteration": 9,
+          "closure_change": 1.6305317531717378e-06,
+          "intensity_change": 7.992670197465301e-06,
+          "angular_luminosity_max_error": 0.0015842573531554827,
+          "formal_source_max_error": 0.0005505730224739658
+        }
+      ],
+      "photospheric_radius": 1.3044014541013216,
+      "effective_temperature": 18.997388084338876,
+      "emergent_luminosity": 157.8302870614043,
+      "thermal_temperature_inferred": false
+    },
+    "seconds": 0.348290875001112
+  },
+  {
+    "name": "grey_tol1e-09",
+    "parameters": {
+      "tolerance": 1e-09
+    },
+    "status": "completed_component",
+    "summary": {
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.6540379871406445,
+          "intensity_change": null,
+          "angular_luminosity_max_error": 0.4433994614640433,
+          "formal_source_max_error": 0.6766743672504795
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.07793565348868192,
+          "intensity_change": 1.4207534921212082,
+          "angular_luminosity_max_error": 0.052730802182305414,
+          "formal_source_max_error": 0.0746137413750898
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.017068258339378084,
+          "intensity_change": 0.08009111544785585,
+          "angular_luminosity_max_error": 0.013696130899696346,
+          "formal_source_max_error": 0.012815892187562516
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.002795865471738712,
+          "intensity_change": 0.014491307014605992,
+          "angular_luminosity_max_error": 0.001980638123746159,
+          "formal_source_max_error": 0.0017891353425685264
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.0006564811479610189,
+          "intensity_change": 0.0033683487551515734,
+          "angular_luminosity_max_error": 0.0015832885262225815,
+          "formal_source_max_error": 0.0006889562183233222
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.00017304077878366186,
+          "intensity_change": 0.0006726111963095693,
+          "angular_luminosity_max_error": 0.0015841287220643707,
+          "formal_source_max_error": 0.0005505834758905426
+        },
+        {
+          "iteration": 7,
+          "closure_change": 3.9937792703392816e-05,
+          "intensity_change": 0.00012068321611780064,
+          "angular_luminosity_max_error": 0.001584241020354371,
+          "formal_source_max_error": 0.0005505712667878138
+        },
+        {
+          "iteration": 8,
+          "closure_change": 8.391044724609387e-06,
+          "intensity_change": 3.0234566911424565e-05,
+          "angular_luminosity_max_error": 0.0015842555949134862,
+          "formal_source_max_error": 0.00055057233672684
+        },
+        {
+          "iteration": 9,
+          "closure_change": 1.6305317531717378e-06,
+          "intensity_change": 7.992670197687346e-06,
+          "angular_luminosity_max_error": 0.0015842573531350546,
+          "formal_source_max_error": 0.0005505730224739658
+        },
+        {
+          "iteration": 10,
+          "closure_change": 4.1092101610296083e-07,
+          "intensity_change": 1.947135630508967e-06,
+          "angular_luminosity_max_error": 0.0015842575305760054,
+          "formal_source_max_error": 0.0005505731624625421
+        },
+        {
+          "iteration": 11,
+          "closure_change": 1.0842832576241079e-07,
+          "intensity_change": 4.440748406775441e-07,
+          "angular_luminosity_max_error": 0.001584257539305467,
+          "formal_source_max_error": 0.0005505731762049937
+        },
+        {
+          "iteration": 12,
+          "closure_change": 2.6961080812348825e-08,
+          "intensity_change": 9.559117541968476e-08,
+          "angular_luminosity_max_error": 0.001584257536886291,
+          "formal_source_max_error": 0.0005505731750382603
+        },
+        {
+          "iteration": 13,
+          "closure_change": 6.377161909654205e-09,
+          "intensity_change": 1.9486499303056348e-08,
+          "angular_luminosity_max_error": 0.001584257535746536,
+          "formal_source_max_error": 0.0005505731742092568
+        },
+        {
+          "iteration": 14,
+          "closure_change": 1.4434812234398464e-09,
+          "intensity_change": 4.617017324015649e-09,
+          "angular_luminosity_max_error": 0.0015842575354114707,
+          "formal_source_max_error": 0.0005505731740163
+        },
+        {
+          "iteration": 15,
+          "closure_change": 3.1382130227797234e-10,
+          "intensity_change": 1.2113834380045319e-09,
+          "angular_luminosity_max_error": 0.001584257535328648,
+          "formal_source_max_error": 0.0005505731739943176
+        },
+        {
+          "iteration": 16,
+          "closure_change": 6.564815357990028e-11,
+          "intensity_change": 3.0385527427512216e-10,
+          "angular_luminosity_max_error": 0.0015842575353164356,
+          "formal_source_max_error": 0.000550573173996094
+        }
+      ],
+      "photospheric_radius": 1.3044014541013216,
+      "effective_temperature": 18.997388084338876,
+      "emergent_luminosity": 157.8303681386587,
+      "thermal_temperature_inferred": false
+    },
+    "seconds": 0.5668573750008363
+  },
+  {
+    "name": "grey_power1.5",
+    "parameters": {
+      "power": 1.5
+    },
+    "status": "completed_component",
+    "summary": {
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.3162011292214943,
+          "intensity_change": null,
+          "angular_luminosity_max_error": 0.39149748596331513,
+          "formal_source_max_error": 0.5825661634962147
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.11473948931194289,
+          "intensity_change": 0.703663151138437,
+          "angular_luminosity_max_error": 0.04423569852941556,
+          "formal_source_max_error": 0.09493991343464414
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.01605025875710797,
+          "intensity_change": 0.08903652695225883,
+          "angular_luminosity_max_error": 0.01253510469772734,
+          "formal_source_max_error": 0.013201590402450503
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.0040372831289825495,
+          "intensity_change": 0.013266863316524269,
+          "angular_luminosity_max_error": 0.002844897076617059,
+          "formal_source_max_error": 0.0026401077102817805
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.0008391818570789855,
+          "intensity_change": 0.0037363066750636387,
+          "angular_luminosity_max_error": 0.0010520861628283695,
+          "formal_source_max_error": 0.0007561250323659952
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.00022588881851315357,
+          "intensity_change": 0.0009782376077956956,
+          "angular_luminosity_max_error": 0.001046341281028207,
+          "formal_source_max_error": 0.0004504303811164734
+        },
+        {
+          "iteration": 7,
+          "closure_change": 6.450126844836923e-05,
+          "intensity_change": 0.00022342066961678064,
+          "angular_luminosity_max_error": 0.001045843795320578,
+          "formal_source_max_error": 0.0004547533702303763
+        },
+        {
+          "iteration": 8,
+          "closure_change": 1.626365146356612e-05,
+          "intensity_change": 4.924392987959436e-05,
+          "angular_luminosity_max_error": 0.0010457573224812444,
+          "formal_source_max_error": 0.00046769033922255954
+        },
+        {
+          "iteration": 9,
+          "closure_change": 3.696255941987303e-06,
+          "intensity_change": 1.5047489238195766e-05,
+          "angular_luminosity_max_error": 0.0010457420785789928,
+          "formal_source_max_error": 0.00046879649715081406
+        },
+        {
+          "iteration": 10,
+          "closure_change": 9.622963018651731e-07,
+          "intensity_change": 4.1372030807895754e-06,
+          "angular_luminosity_max_error": 0.001045739361411946,
+          "formal_source_max_error": 0.0004685165097820798
+        },
+        {
+          "iteration": 11,
+          "closure_change": 2.803747071178364e-07,
+          "intensity_change": 1.0394075640185463e-06,
+          "angular_luminosity_max_error": 0.001045738872823887,
+          "formal_source_max_error": 0.00046833773975851756
+        },
+        {
+          "iteration": 12,
+          "closure_change": 7.540093105440349e-08,
+          "intensity_change": 2.4020344380204506e-07,
+          "angular_luminosity_max_error": 0.0010457387843630928,
+          "formal_source_max_error": 0.0004682792695250848
+        },
+        {
+          "iteration": 13,
+          "closure_change": 1.887913758658044e-08,
+          "intensity_change": 5.917905865349127e-08,
+          "angular_luminosity_max_error": 0.00104573876826064,
+          "formal_source_max_error": 0.0004682650723802917
+        }
+      ],
+      "photospheric_radius": 2.3701457594529525,
+      "effective_temperature": 14.093277529755436,
+      "emergent_luminosity": 157.83972518063612,
+      "thermal_temperature_inferred": false
+    },
+    "seconds": 0.7956332080066204
+  },
+  {
+    "name": "grey_power3",
+    "parameters": {
+      "power": 3
+    },
+    "status": "completed_component",
+    "summary": {
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.9337747572146466,
+          "intensity_change": null,
+          "angular_luminosity_max_error": 0.4658169368635734,
+          "formal_source_max_error": 1.4600823325651207
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.11404712903427905,
+          "intensity_change": 3.554429392943004,
+          "angular_luminosity_max_error": 0.07255164368899525,
+          "formal_source_max_error": 0.07773792900179965
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.013889307115973804,
+          "intensity_change": 0.061220101535338856,
+          "angular_luminosity_max_error": 0.01125798790317134,
+          "formal_source_max_error": 0.01021393883325894
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.0017384506943474154,
+          "intensity_change": 0.01232142697838734,
+          "angular_luminosity_max_error": 0.0014891531558185456,
+          "formal_source_max_error": 0.0013579283414257848
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.00043697586110313935,
+          "intensity_change": 0.0022953699787012782,
+          "angular_luminosity_max_error": 0.0009938308215264868,
+          "formal_source_max_error": 0.0003677496512226597
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.00010142200610663288,
+          "intensity_change": 0.00042601182182855357,
+          "angular_luminosity_max_error": 0.0009943517662964751,
+          "formal_source_max_error": 0.00025497988649447745
+        },
+        {
+          "iteration": 7,
+          "closure_change": 2.2292639808352277e-05,
+          "intensity_change": 7.850758951721826e-05,
+          "angular_luminosity_max_error": 0.0009944263737446946,
+          "formal_source_max_error": 0.00025490770170666366
+        },
+        {
+          "iteration": 8,
+          "closure_change": 4.738406665483197e-06,
+          "intensity_change": 1.4274549274717607e-05,
+          "angular_luminosity_max_error": 0.000994437097481038,
+          "formal_source_max_error": 0.00025489954478319365
+        },
+        {
+          "iteration": 9,
+          "closure_change": 9.830635083751815e-07,
+          "intensity_change": 3.0777660573466648e-06,
+          "angular_luminosity_max_error": 0.000994438624078997,
+          "formal_source_max_error": 0.0002548998409234171
+        },
+        {
+          "iteration": 10,
+          "closure_change": 2.000696046611239e-07,
+          "intensity_change": 7.62413108867932e-07,
+          "angular_luminosity_max_error": 0.0009944388358766876,
+          "formal_source_max_error": 0.0002549002780616316
+        },
+        {
+          "iteration": 11,
+          "closure_change": 4.007515119752725e-08,
+          "intensity_change": 1.827359210615498e-07,
+          "angular_luminosity_max_error": 0.0009944388637950219,
+          "formal_source_max_error": 0.00025490041654752105
+        },
+        {
+          "iteration": 12,
+          "closure_change": 7.921220124273987e-09,
+          "intensity_change": 4.27022468496574e-08,
+          "angular_luminosity_max_error": 0.000994438867115699,
+          "formal_source_max_error": 0.0002549004468401783
+        }
+      ],
+      "photospheric_radius": 0.8628071497064222,
+      "effective_temperature": 23.358377033839307,
+      "emergent_luminosity": 157.88035874607831,
+      "thermal_temperature_inferred": false
+    },
+    "seconds": 0.7443308749934658
+  },
+  {
+    "name": "grey_insufficient_iterations",
+    "parameters": {
+      "max_iterations": 1,
+      "expected": "failure"
+    },
+    "status": "numerical_or_domain_failure",
+    "error": "Variable Eddington factor did not converge",
+    "traceback": "Traceback (most recent call last):\n  File \"/Users/abraiymbek/Projects/QStarS/scripts/validate_escaping_radiation.py\", line 31, in save\n    data,summary=fn();np.savez_compressed(out/f'{name}.npz',**data)\n                 ^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/scripts/validate_escaping_radiation.py\", line 62, in <lambda>\n    save('grey_insufficient_iterations',dict(max_iterations=1,expected='failure'),lambda:static(n=201,max_iterations=1))\n                                                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/scripts/validate_escaping_radiation.py\", line 51, in static\n    q=solve_grey(r,r**-power,16*np.pi**2,tolerance=tolerance,moment_tolerance=moment_tolerance,core_rays=core_rays,max_iterations=max_iterations)\n      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/src/qstars/grey_transfer.py\", line 265, in solve_grey\n    raise TransferConvergenceError('Variable Eddington factor did not converge', history)\nqstars.grey_transfer.TransferConvergenceError: Variable Eddington factor did not converge\n",
+    "history": [
+      {
+        "iteration": 1,
+        "closure_change": 1.653415055028308,
+        "intensity_change": null,
+        "angular_luminosity_max_error": 0.4447140132747103,
+        "formal_source_max_error": 0.6772794317695305
+      }
+    ],
+    "physical_nonexistence_claimed": false,
+    "seconds": 0.016512166999746114
+  },
+  {
+    "name": "moving_n201",
+    "parameters": {
+      "n": 201,
+      "tau": 3,
+      "beta": 0.01
+    },
+    "status": "completed_component",
+    "summary": {
+      "core_intensity": 6.038116693295266,
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.8688042578990318,
+          "intensity_change": null,
+          "angular_flux_max_error": 0.521325828742596,
+          "formal_source_max_error": 1.3457789076894762
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.10503034557000868,
+          "intensity_change": 3.7574660334779146,
+          "angular_flux_max_error": 0.09174024979010631,
+          "formal_source_max_error": 0.0998986571498055
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.013883640175326173,
+          "intensity_change": 0.08885697926428349,
+          "angular_flux_max_error": 0.013053001758305038,
+          "formal_source_max_error": 0.011425881568292606
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.003115494129839913,
+          "intensity_change": 0.018727288190236502,
+          "angular_flux_max_error": 0.0036428349360916323,
+          "formal_source_max_error": 0.002732177888385867
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.0007665047410703174,
+          "intensity_change": 0.0030627508562175443,
+          "angular_flux_max_error": 0.0026736538394368514,
+          "formal_source_max_error": 0.0018811452188344235
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.00016207961789826975,
+          "intensity_change": 0.0005867244195536525,
+          "angular_flux_max_error": 0.0023200134219840685,
+          "formal_source_max_error": 0.0019664605979075045
+        },
+        {
+          "iteration": 7,
+          "closure_change": 3.0266534883471863e-05,
+          "intensity_change": 0.00014948481363741273,
+          "angular_flux_max_error": 0.0022246982858422637,
+          "formal_source_max_error": 0.0019501664724661527
+        },
+        {
+          "iteration": 8,
+          "closure_change": 6.243225717073031e-06,
+          "intensity_change": 3.452188059194228e-05,
+          "angular_flux_max_error": 0.0022016455999539497,
+          "formal_source_max_error": 0.0019418017011512134
+        },
+        {
+          "iteration": 9,
+          "closure_change": 1.6242831242241351e-06,
+          "intensity_change": 7.3825440847219426e-06,
+          "angular_flux_max_error": 0.002196966404708234,
+          "formal_source_max_error": 0.0019395375469017928
+        },
+        {
+          "iteration": 10,
+          "closure_change": 4.0244117649468336e-07,
+          "intensity_change": 1.4735327391601771e-06,
+          "angular_flux_max_error": 0.0021962077394845902,
+          "formal_source_max_error": 0.0019390629845141838
+        },
+        {
+          "iteration": 11,
+          "closure_change": 9.396611633238905e-08,
+          "intensity_change": 3.3086284489947104e-07,
+          "angular_flux_max_error": 0.0021961247840237563,
+          "formal_source_max_error": 0.0019389829437438388
+        }
+      ],
+      "emergent_to_net_base_luminosity": 0.9717220151666297,
+      "independent_work_defect": 1.908767630412478e-08,
+      "luminosity_span": 0.028277984833370295,
+      "angular_work_defect": 4.773561743720914e-05
+    },
+    "seconds": 0.18765070900553837
+  },
+  {
+    "name": "moving_n401",
+    "parameters": {
+      "n": 401,
+      "tau": 3,
+      "beta": 0.01
+    },
+    "status": "completed_component",
+    "summary": {
+      "core_intensity": 6.037999495137536,
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.8690415307355277,
+          "intensity_change": null,
+          "angular_flux_max_error": 0.5208218689777603,
+          "formal_source_max_error": 1.3481367555850445
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.10491096353292961,
+          "intensity_change": 3.758092394762903,
+          "angular_flux_max_error": 0.09307104956761791,
+          "formal_source_max_error": 0.10085185218062498
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.013843182021663125,
+          "intensity_change": 0.08886439996062567,
+          "angular_flux_max_error": 0.01432629349745107,
+          "formal_source_max_error": 0.012459413862942803
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.003104217319447322,
+          "intensity_change": 0.018675106229717797,
+          "angular_flux_max_error": 0.002592965119666335,
+          "formal_source_max_error": 0.002203688089728595
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.0007631789364235253,
+          "intensity_change": 0.003050041685400684,
+          "angular_flux_max_error": 0.001423660940361282,
+          "formal_source_max_error": 0.0008535029711231878
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.0001612881002477362,
+          "intensity_change": 0.0005848452158603301,
+          "angular_flux_max_error": 0.0010062317737128401,
+          "formal_source_max_error": 0.0007940323766983948
+        },
+        {
+          "iteration": 7,
+          "closure_change": 3.0104099404848483e-05,
+          "intensity_change": 0.0001489616360765833,
+          "angular_flux_max_error": 0.0009009287080332662,
+          "formal_source_max_error": 0.0007777386867012792
+        },
+        {
+          "iteration": 8,
+          "closure_change": 6.213408274557963e-06,
+          "intensity_change": 3.437129671501893e-05,
+          "angular_flux_max_error": 0.0008770926257264389,
+          "formal_source_max_error": 0.0007693974750222488
+        },
+        {
+          "iteration": 9,
+          "closure_change": 1.6159445855867816e-06,
+          "intensity_change": 7.34364055898773e-06,
+          "angular_flux_max_error": 0.0008724050981722131,
+          "formal_source_max_error": 0.0007671422337157674
+        },
+        {
+          "iteration": 10,
+          "closure_change": 4.0012592228411137e-07,
+          "intensity_change": 1.4649390931431583e-06,
+          "angular_flux_max_error": 0.0008716719444398224,
+          "formal_source_max_error": 0.0007666699804015353
+        },
+        {
+          "iteration": 11,
+          "closure_change": 9.345166440688502e-08,
+          "intensity_change": 3.305186331292731e-07,
+          "angular_flux_max_error": 0.0008715995225150319,
+          "formal_source_max_error": 0.0007665904152597269
+        }
+      ],
+      "emergent_to_net_base_luminosity": 0.9717222503425167,
+      "independent_work_defect": 2.5010027937533152e-09,
+      "luminosity_span": 0.02827774965748331,
+      "angular_work_defect": 1.9930914437277236e-05
+    },
+    "seconds": 0.3529781669785734
+  },
+  {
+    "name": "moving_n801",
+    "parameters": {
+      "n": 801,
+      "tau": 3,
+      "beta": 0.01
+    },
+    "status": "completed_component",
+    "summary": {
+      "core_intensity": 6.037957218231975,
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.8691212020696164,
+          "intensity_change": null,
+          "angular_flux_max_error": 0.5206137256054492,
+          "formal_source_max_error": 1.3491216554444612
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.10486479370414914,
+          "intensity_change": 3.7583412563232317,
+          "angular_flux_max_error": 0.09360598584531932,
+          "formal_source_max_error": 0.10124790458163724
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.013827085038826015,
+          "intensity_change": 0.08886550378882574,
+          "angular_flux_max_error": 0.01483537753616182,
+          "formal_source_max_error": 0.012881131491377706
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.003100001597994506,
+          "intensity_change": 0.01865599345523894,
+          "angular_flux_max_error": 0.002190725087240608,
+          "formal_source_max_error": 0.0019705422199591816
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.0007619016769595532,
+          "intensity_change": 0.0030450964385821955,
+          "angular_flux_max_error": 0.000939783109622061,
+          "formal_source_max_error": 0.0005977807544182978
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.0001609697207081151,
+          "intensity_change": 0.0005841469943030919,
+          "angular_flux_max_error": 0.000489504855048839,
+          "formal_source_max_error": 0.0003230709564466805
+        },
+        {
+          "iteration": 7,
+          "closure_change": 3.0035215292212314e-05,
+          "intensity_change": 0.00014876133362240473,
+          "angular_flux_max_error": 0.00037489982209570893,
+          "formal_source_max_error": 0.00030675749873720903
+        },
+        {
+          "iteration": 8,
+          "closure_change": 6.202173611469242e-06,
+          "intensity_change": 3.4309722889647176e-05,
+          "angular_flux_max_error": 0.0003499612810290431,
+          "formal_source_max_error": 0.00029842199313023787
+        },
+        {
+          "iteration": 9,
+          "closure_change": 1.6124982024079415e-06,
+          "intensity_change": 7.326967983889432e-06,
+          "angular_flux_max_error": 0.0003454705082032161,
+          "formal_source_max_error": 0.00029617005361903814
+        },
+        {
+          "iteration": 10,
+          "closure_change": 3.9919821892553387e-07,
+          "intensity_change": 1.4609078560212652e-06,
+          "angular_flux_max_error": 0.0003448991152000813,
+          "formal_source_max_error": 0.0002956988515392389
+        },
+        {
+          "iteration": 11,
+          "closure_change": 9.321253868765922e-08,
+          "intensity_change": 3.299044963878117e-07,
+          "angular_flux_max_error": 0.0003448833473884694,
+          "formal_source_max_error": 0.0002956195504958403
+        }
+      ],
+      "emergent_to_net_base_luminosity": 0.9717223284336214,
+      "independent_work_defect": 1.0589141889727482e-09,
+      "luminosity_span": 0.028277671566378615,
+      "angular_work_defect": 8.635789929999776e-06
+    },
+    "seconds": 0.7651267909968738
+  },
+  {
+    "name": "moving_tau30_b0",
+    "parameters": {
+      "n": 801,
+      "tau": 30,
+      "beta": 0
+    },
+    "status": "completed_component",
+    "summary": {
+      "core_intensity": 32.33067710044898,
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.3216893517702757,
+          "intensity_change": null,
+          "angular_flux_max_error": 0.319263007653491,
+          "formal_source_max_error": 0.5516359403866437
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.08958495589869364,
+          "intensity_change": 0.5236229290549501,
+          "angular_flux_max_error": 0.03795764166095372,
+          "formal_source_max_error": 0.0792638223915223
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.01282984629179662,
+          "intensity_change": 0.06909970436621715,
+          "angular_flux_max_error": 0.007905027604555581,
+          "formal_source_max_error": 0.008921120634937552
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.0030240836198616172,
+          "intensity_change": 0.010717693450004395,
+          "angular_flux_max_error": 0.0018775942665192336,
+          "formal_source_max_error": 0.0018123184499414524
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.0006317165891038812,
+          "intensity_change": 0.0020561789359393456,
+          "angular_flux_max_error": 0.0009315719642455367,
+          "formal_source_max_error": 0.00039693451856881445
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.00012304534349949492,
+          "intensity_change": 0.0005609047615553475,
+          "angular_flux_max_error": 0.0009272779762303784,
+          "formal_source_max_error": 0.00031331153856761773
+        },
+        {
+          "iteration": 7,
+          "closure_change": 3.0321734131311118e-05,
+          "intensity_change": 0.0001391037521807359,
+          "angular_flux_max_error": 0.0009261200387633561,
+          "formal_source_max_error": 0.0003133059303869201
+        },
+        {
+          "iteration": 8,
+          "closure_change": 8.226950671152977e-06,
+          "intensity_change": 3.229232634882617e-05,
+          "angular_flux_max_error": 0.0009258406962693311,
+          "formal_source_max_error": 0.0003133053144084297
+        },
+        {
+          "iteration": 9,
+          "closure_change": 2.0894412497973747e-06,
+          "intensity_change": 7.104510733380032e-06,
+          "angular_flux_max_error": 0.0009257766033685666,
+          "formal_source_max_error": 0.00031330531754636404
+        },
+        {
+          "iteration": 10,
+          "closure_change": 5.038690791270284e-07,
+          "intensity_change": 1.4886906914979292e-06,
+          "angular_flux_max_error": 0.0009257622829972334,
+          "formal_source_max_error": 0.0003133053322995627
+        },
+        {
+          "iteration": 11,
+          "closure_change": 1.1630058605049953e-07,
+          "intensity_change": 3.736210547611307e-07,
+          "angular_flux_max_error": 0.000925759131937598,
+          "formal_source_max_error": 0.0003133053355462989
+        }
+      ],
+      "emergent_to_net_base_luminosity": 1.0,
+      "independent_work_defect": 0.0,
+      "luminosity_span": 1.1102230246251565e-16,
+      "angular_work_defect": 0.0
+    },
+    "seconds": 0.7623371660010889
+  },
+  {
+    "name": "moving_tau30_b0.001",
+    "parameters": {
+      "n": 801,
+      "tau": 30,
+      "beta": 0.001
+    },
+    "status": "completed_component",
+    "summary": {
+      "core_intensity": 31.234986063334233,
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.3224001379770245,
+          "intensity_change": null,
+          "angular_flux_max_error": 0.31917756256173835,
+          "formal_source_max_error": 0.5517211149269718
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.0895308657961078,
+          "intensity_change": 0.5234035210767694,
+          "angular_flux_max_error": 0.03790171059649716,
+          "formal_source_max_error": 0.07922454406301149
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.012849792847558272,
+          "intensity_change": 0.06910487756611405,
+          "angular_flux_max_error": 0.007904537382873,
+          "formal_source_max_error": 0.008931782155309653
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.003024593171761847,
+          "intensity_change": 0.01071090876610703,
+          "angular_flux_max_error": 0.0018765484921325903,
+          "formal_source_max_error": 0.0018137798099560065
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.0006309749552050326,
+          "intensity_change": 0.0020580573674188196,
+          "angular_flux_max_error": 0.0008933641795025871,
+          "formal_source_max_error": 0.000397079176476578
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.0001227245242652053,
+          "intensity_change": 0.0005610109382785389,
+          "angular_flux_max_error": 0.0008890339578653261,
+          "formal_source_max_error": 0.00031271493612039514
+        },
+        {
+          "iteration": 7,
+          "closure_change": 3.0401132447455126e-05,
+          "intensity_change": 0.000139017634023908,
+          "angular_flux_max_error": 0.0008878682276018957,
+          "formal_source_max_error": 0.0003127092889003702
+        },
+        {
+          "iteration": 8,
+          "closure_change": 8.238940661264849e-06,
+          "intensity_change": 3.224182557537425e-05,
+          "angular_flux_max_error": 0.0008875871611107033,
+          "formal_source_max_error": 0.00031270868286437103
+        },
+        {
+          "iteration": 9,
+          "closure_change": 2.090081324901405e-06,
+          "intensity_change": 7.086156006308464e-06,
+          "angular_flux_max_error": 0.0008875226795825863,
+          "formal_source_max_error": 0.0003127086910291732
+        },
+        {
+          "iteration": 10,
+          "closure_change": 5.034140024839928e-07,
+          "intensity_change": 1.4829823397066733e-06,
+          "angular_flux_max_error": 0.0008875082707586746,
+          "formal_source_max_error": 0.00031270870700594866
+        },
+        {
+          "iteration": 11,
+          "closure_change": 1.1604166827439144e-07,
+          "intensity_change": 3.743613288254011e-07,
+          "angular_flux_max_error": 0.0008875050995134082,
+          "formal_source_max_error": 0.0003127087104515258
+        }
+      ],
+      "emergent_to_net_base_luminosity": 0.9713202869790248,
+      "independent_work_defect": 1.0851117053511938e-09,
+      "luminosity_span": 0.02867971302097516,
+      "angular_work_defect": 7.943488934417098e-06
+    },
+    "seconds": 0.7634056250099093
+  },
+  {
+    "name": "moving_tau30_b0.01",
+    "parameters": {
+      "n": 801,
+      "tau": 30,
+      "beta": 0.01
+    },
+    "status": "completed_component",
+    "summary": {
+      "core_intensity": 24.03116407579075,
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.3288308675150873,
+          "intensity_change": null,
+          "angular_flux_max_error": 0.3183827308302857,
+          "formal_source_max_error": 0.5524661174123287
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.08902228807484569,
+          "intensity_change": 0.523123247853712,
+          "angular_flux_max_error": 0.037395017309178935,
+          "formal_source_max_error": 0.07886017901341014
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.013027455229627005,
+          "intensity_change": 0.06908409709820096,
+          "angular_flux_max_error": 0.007904272904747378,
+          "formal_source_max_error": 0.009029672672653755
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.003028530748524827,
+          "intensity_change": 0.010640274891433599,
+          "angular_flux_max_error": 0.001867611560067095,
+          "formal_source_max_error": 0.0018273026310005047
+        },
+        {
+          "iteration": 5,
+          "closure_change": 0.000624020244140322,
+          "intensity_change": 0.0020758241853817694,
+          "angular_flux_max_error": 0.0006393141169818151,
+          "formal_source_max_error": 0.00039812747155920647
+        },
+        {
+          "iteration": 6,
+          "closure_change": 0.00011976624288490001,
+          "intensity_change": 0.0005618175555056615,
+          "angular_flux_max_error": 0.0006347208050327957,
+          "formal_source_max_error": 0.0003070288948546773
+        },
+        {
+          "iteration": 7,
+          "closure_change": 3.108852218480784e-05,
+          "intensity_change": 0.00013815492340762958,
+          "angular_flux_max_error": 0.0006334960631555475,
+          "formal_source_max_error": 0.0003070229440192973
+        },
+        {
+          "iteration": 8,
+          "closure_change": 8.338227331927683e-06,
+          "intensity_change": 3.176886867894968e-05,
+          "angular_flux_max_error": 0.0006332015984160666,
+          "formal_source_max_error": 0.00030702244321845207
+        },
+        {
+          "iteration": 9,
+          "closure_change": 2.0930965127785583e-06,
+          "intensity_change": 6.914191786999702e-06,
+          "angular_flux_max_error": 0.0006331340569956101,
+          "formal_source_max_error": 0.000307022499151266
+        },
+        {
+          "iteration": 10,
+          "closure_change": 4.985443009530854e-07,
+          "intensity_change": 1.4305504986156237e-06,
+          "angular_flux_max_error": 0.0006331189486892264,
+          "formal_source_max_error": 0.0003070225260752846
+        },
+        {
+          "iteration": 11,
+          "closure_change": 1.1353737150443521e-07,
+          "intensity_change": 3.805759698494171e-07,
+          "angular_flux_max_error": 0.0006331156179244513,
+          "formal_source_max_error": 0.0003070225311136987
+        }
+      ],
+      "emergent_to_net_base_luminosity": 0.7807265045420119,
+      "independent_work_defect": 8.284757074816795e-09,
+      "luminosity_span": 0.21927349545798813,
+      "angular_work_defect": 5.4395513302579745e-05
+    },
+    "seconds": 0.7691784999915399
+  },
+  {
+    "name": "moving_tau0.3_b0.01",
+    "parameters": {
+      "n": 801,
+      "tau": 0.3,
+      "beta": 0.01
+    },
+    "status": "completed_component",
+    "summary": {
+      "core_intensity": 4.16956818703684,
+      "history": [
+        {
+          "iteration": 1,
+          "closure_change": 1.9913026530414175,
+          "intensity_change": null,
+          "angular_flux_max_error": 0.24999815668553627,
+          "formal_source_max_error": 14.599759149304234
+        },
+        {
+          "iteration": 2,
+          "closure_change": 0.09235547632990482,
+          "intensity_change": 19.765770017873262,
+          "angular_flux_max_error": 0.014903959964742697,
+          "formal_source_max_error": 0.14834833309514384
+        },
+        {
+          "iteration": 3,
+          "closure_change": 0.006629489970331193,
+          "intensity_change": 0.1591611273137572,
+          "angular_flux_max_error": 0.00048323035389952196,
+          "formal_source_max_error": 0.004062401200028987
+        },
+        {
+          "iteration": 4,
+          "closure_change": 0.00029845506656211995,
+          "intensity_change": 0.003772919001500008,
+          "angular_flux_max_error": 8.527501504007606e-05,
+          "formal_source_max_error": 0.00033823061202875593
+        },
+        {
+          "iteration": 5,
+          "closure_change": 9.787426646479247e-06,
+          "intensity_change": 0.00030194377913628223,
+          "angular_flux_max_error": 9.243665266389645e-05,
+          "formal_source_max_error": 9.242788023222648e-05
+        },
+        {
+          "iteration": 6,
+          "closure_change": 6.86130299132337e-07,
+          "intensity_change": 1.499003105442931e-05,
+          "angular_flux_max_error": 9.17063389818118e-05,
+          "formal_source_max_error": 9.170748213471747e-05
+        },
+        {
+          "iteration": 7,
+          "closure_change": 4.8673825414624616e-08,
+          "intensity_change": 7.549368499226716e-07,
+          "angular_flux_max_error": 9.163377085708024e-05,
+          "formal_source_max_error": 9.163387834965064e-05
+        }
+      ],
+      "emergent_to_net_base_luminosity": 0.9970978622083455,
+      "independent_work_defect": 1.0495947080219059e-10,
+      "luminosity_span": 0.002902137791654491,
+      "angular_work_defect": 1.834318398992972e-07
+    },
+    "seconds": 0.5153173340077046
+  },
+  {
+    "name": "direct_source_coarse_failure",
+    "parameters": {
+      "tau": 30,
+      "beta": 0,
+      "n": 301,
+      "expected": "energy_accuracy_failure"
+    },
+    "status": "completed_component",
+    "summary": {
+      "source_relative_residual": 1.240554325931953e-09,
+      "history": [
+        0.12474639652522808,
+        0.053269699009952216,
+        0.028478016108603996,
+        0.018734661880881128,
+        0.014695523369791215,
+        0.012103376278126897,
+        0.010176221144436967,
+        0.008763860041833946,
+        0.007786078505983727,
+        0.007012798724457666,
+        0.006360063381513215,
+        0.005880100593950361,
+        0.005489918914332385,
+        0.005146901837743501,
+        0.004880677676332408,
+        0.004665226782754239,
+        0.00448183827567892,
+        0.004336577159800464,
+        0.0042216730248692816,
+        0.004130503272244149,
+        0.004053429294832982,
+        0.003971866785819158,
+        0.0038522475389623995,
+        0.003606597307188713,
+        0.003033079322817215,
+        0.0020541618578031376,
+        0.0011161582061366135,
+        0.0005205312123552219,
+        0.0002163181287233173,
+        8.437939803983319e-05,
+        3.17041314423556e-05,
+        1.1097670246186675e-05,
+        3.651945922827285e-06,
+        1.1773809141524096e-06,
+        3.541743834034437e-07,
+        9.760119707567829e-08,
+        2.7149615103756803e-08,
+        7.4970251519041e-09,
+        1.797996397333386e-09,
+        4.131178779494268e-10
+      ],
+      "emergent_to_net_base_luminosity": 0.6401512859257393,
+      "independent_work_defect": 0.3598487140742607,
+      "luminosity_span": 0.3598487140742607
+    },
+    "seconds": 0.47544262500014156
+  },
+  {
+    "name": "wind_n201",
+    "parameters": {
+      "n": 201
+    },
+    "status": "completed_component",
+    "summary": {
+      "parameters": {
+        "gamma": 2,
+        "tiring": 0.001,
+        "escape_speed_c": 0.0001,
+        "w_base": 0.0001,
+        "numerical_damping": 0.5
+      },
+      "history": [
+        {
+          "iteration": 1,
+          "momentum_fixed_point_error": 0.0029024114292262038,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.677282664100062e-08,
+            "intensity_change": 4.40462380568718e-07,
+            "angular_flux_max_error": 0.003439652918422631,
+            "formal_source_max_error": 0.0021854818414659416
+          }
+        },
+        {
+          "iteration": 2,
+          "momentum_fixed_point_error": 0.0014534310272196205,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.68061659722963e-08,
+            "intensity_change": 4.403976303635204e-07,
+            "angular_flux_max_error": 0.003440497709412016,
+            "formal_source_max_error": 0.002185419814073497
+          }
+        },
+        {
+          "iteration": 3,
+          "momentum_fixed_point_error": 0.0007273022299301157,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.682283641510026e-08,
+            "intensity_change": 4.403649966899792e-07,
+            "angular_flux_max_error": 0.0034409204443831554,
+            "formal_source_max_error": 0.0021853886322954486
+          }
+        },
+        {
+          "iteration": 4,
+          "momentum_fixed_point_error": 0.00036381251282646687,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.683117152547993e-08,
+            "intensity_change": 4.4034861446107243e-07,
+            "angular_flux_max_error": 0.0034411319365936777,
+            "formal_source_max_error": 0.0021853730024904428
+          }
+        },
+        {
+          "iteration": 5,
+          "momentum_fixed_point_error": 0.00018195389426833852,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.683533841453595e-08,
+            "intensity_change": 4.403404070263406e-07,
+            "angular_flux_max_error": 0.003441237733807112,
+            "formal_source_max_error": 0.0021853651794466744
+          }
+        },
+        {
+          "iteration": 6,
+          "momentum_fixed_point_error": 9.099248686905703e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.683742252519778e-08,
+            "intensity_change": 4.403363005334171e-07,
+            "angular_flux_max_error": 0.003441290655152418,
+            "formal_source_max_error": 0.0021853612666867805
+          }
+        },
+        {
+          "iteration": 7,
+          "momentum_fixed_point_error": 4.550193941044167e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.683846324826106e-08,
+            "intensity_change": 4.403342448444647e-07,
+            "angular_flux_max_error": 0.003441317126487542,
+            "formal_source_max_error": 0.0021853593103969837
+          }
+        },
+        {
+          "iteration": 8,
+          "momentum_fixed_point_error": 2.2753297575839326e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.683898416490422e-08,
+            "intensity_change": 4.4033321966452377e-07,
+            "angular_flux_max_error": 0.003441330367303763,
+            "formal_source_max_error": 0.002185358332473797
+          }
+        },
+        {
+          "iteration": 9,
+          "momentum_fixed_point_error": 1.1377681927049466e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.68392448452704e-08,
+            "intensity_change": 4.4033270429899574e-07,
+            "angular_flux_max_error": 0.0034413369902482893,
+            "formal_source_max_error": 0.002185357843667912
+          }
+        },
+        {
+          "iteration": 10,
+          "momentum_fixed_point_error": 5.689324465651957e-06,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.683937474136428e-08,
+            "intensity_change": 4.4033244694929863e-07,
+            "angular_flux_max_error": 0.00344134030297083,
+            "formal_source_max_error": 0.0021853575993535657
+          }
+        }
+      ],
+      "velocity_reference_error": 0.0014495357325459146,
+      "density_reference_error": 0.0014516399418558201,
+      "luminosity_reference_error": 2.119735554417801e-06,
+      "force_reference_error": 0.0016027846777528776,
+      "total_energy_defect": 1.3508283491781015e-08,
+      "independent_angular_momentum_defect": 0.004582803367585173,
+      "independent_angular_work_defect": 4.50346498545107e-06,
+      "optical_depth_base": 39.459935360160976,
+      "radiation_drag_max": 0.0016033213074845062,
+      "photospheric_radius_ratio": 23.35202292784763,
+      "analytic_photospheric_radius_ratio": 23.332937556527327,
+      "photosphere_reference_error": 0.0008179583592535788,
+      "velocity_to_local_escape_at_outer": 9.929829729862101,
+      "cg_scalars": {
+        "mass_loss_g_s": 6.544779242147335e+24,
+        "enclosed_mass_g": 1.9884699999999998e+35,
+        "grey_opacity_cgs": 0.34,
+        "photospheric_radius_cm": 6.89664489637411e+16,
+        "effective_temperature_K": 305.06158670065923,
+        "emergent_luminosity_erg_s": 2.935265769359687e+40,
+        "angular_emergent_luminosity_erg_s": 2.929401218882944e+40,
+        "gas_temperature_K": null,
+        "ionization": null,
+        "entropy": null,
+        "gas_enthalpy": null,
+        "sonic_radius_cm": null,
+        "temperature_is_spectral_prediction": false
+      },
+      "missing": [
+        "gas EOS and T",
+        "ionization/flux mean",
+        "gas sonic regularity",
+        "mass-loss eigenvalue",
+        "physical envelope match"
+      ]
+    },
+    "seconds": 2.2729313330200966
+  },
+  {
+    "name": "wind_n401",
+    "parameters": {
+      "n": 401
+    },
+    "status": "completed_component",
+    "summary": {
+      "parameters": {
+        "gamma": 2,
+        "tiring": 0.001,
+        "escape_speed_c": 0.0001,
+        "w_base": 0.0001,
+        "numerical_damping": 0.5
+      },
+      "history": [
+        {
+          "iteration": 1,
+          "momentum_fixed_point_error": 0.002901384239630267,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.60168646813031e-08,
+            "intensity_change": 4.3871038757359315e-07,
+            "angular_flux_max_error": 0.0019961406594172226,
+            "formal_source_max_error": 0.0008915829235013328
+          }
+        },
+        {
+          "iteration": 2,
+          "momentum_fixed_point_error": 0.0014529112589127813,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.60510206926557e-08,
+            "intensity_change": 4.38632483890089e-07,
+            "angular_flux_max_error": 0.0019969044274156245,
+            "formal_source_max_error": 0.0008915239180277146
+          }
+        },
+        {
+          "iteration": 3,
+          "momentum_fixed_point_error": 0.0007270396230311116,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.606810036366653e-08,
+            "intensity_change": 4.3860091136771473e-07,
+            "angular_flux_max_error": 0.0019972869369089263,
+            "formal_source_max_error": 0.0008914943427250632
+          }
+        },
+        {
+          "iteration": 4,
+          "momentum_fixed_point_error": 0.00036367994055175323,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.607663931099353e-08,
+            "intensity_change": 4.385850631560828e-07,
+            "angular_flux_max_error": 0.0019974783769307614,
+            "formal_source_max_error": 0.0008914795388462737
+          }
+        },
+        {
+          "iteration": 5,
+          "momentum_fixed_point_error": 0.00018188699724597246,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.608090945079084e-08,
+            "intensity_change": 4.385771195103416e-07,
+            "angular_flux_max_error": 0.001997574157615589,
+            "formal_source_max_error": 0.000891472133820681
+          }
+        },
+        {
+          "iteration": 6,
+          "momentum_fixed_point_error": 9.09587389165134e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.608304418762259e-08,
+            "intensity_change": 4.3857314890871635e-07,
+            "angular_flux_max_error": 0.001997622070285754,
+            "formal_source_max_error": 0.0008914684310249443
+          }
+        },
+        {
+          "iteration": 7,
+          "momentum_fixed_point_error": 4.548491726119597e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.608411133399386e-08,
+            "intensity_change": 4.3857116049927924e-07,
+            "angular_flux_max_error": 0.0019976460357780113,
+            "formal_source_max_error": 0.0008914665797999932
+          }
+        },
+        {
+          "iteration": 8,
+          "momentum_fixed_point_error": 2.2744712814493084e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.60846449071795e-08,
+            "intensity_change": 4.385701672937614e-07,
+            "angular_flux_max_error": 0.0019976580226040985,
+            "formal_source_max_error": 0.0008914656543529409
+          }
+        },
+        {
+          "iteration": 9,
+          "momentum_fixed_point_error": 1.1373382976520574e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.608491158275001e-08,
+            "intensity_change": 4.385696672493111e-07,
+            "angular_flux_max_error": 0.001997664017926448,
+            "formal_source_max_error": 0.0008914651917315553
+          }
+        },
+        {
+          "iteration": 10,
+          "momentum_fixed_point_error": 5.687174956414687e-06,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.608504547564678e-08,
+            "intensity_change": 4.3856941500663993e-07,
+            "angular_flux_max_error": 0.001997667016511384,
+            "formal_source_max_error": 0.0008914649604773173
+          }
+        }
+      ],
+      "velocity_reference_error": 0.0014490178051725922,
+      "density_reference_error": 0.0014511205100746771,
+      "luminosity_reference_error": 2.1264170113610703e-06,
+      "force_reference_error": 0.0016018361682349491,
+      "total_energy_defect": 6.312910194594679e-09,
+      "independent_angular_momentum_defect": 0.0018879324036602436,
+      "independent_angular_work_defect": 1.8710345005071294e-06,
+      "optical_depth_base": 39.45886528365169,
+      "radiation_drag_max": 0.001602379267140741,
+      "photospheric_radius_ratio": 23.350960008010173,
+      "analytic_photospheric_radius_ratio": 23.331655865529747,
+      "photosphere_reference_error": 0.0008273798735796145,
+      "velocity_to_local_escape_at_outer": 9.929832337110124,
+      "cg_scalars": {
+        "mass_loss_g_s": 6.544779242147335e+24,
+        "enclosed_mass_g": 1.9884699999999998e+35,
+        "grey_opacity_cgs": 0.34,
+        "photospheric_radius_cm": 6.896330980072515e+16,
+        "effective_temperature_K": 305.0685302293247,
+        "emergent_luminosity_erg_s": 2.9352657889714973e+40,
+        "angular_emergent_luminosity_erg_s": 2.9329588177344135e+40,
+        "gas_temperature_K": null,
+        "ionization": null,
+        "entropy": null,
+        "gas_enthalpy": null,
+        "sonic_radius_cm": null,
+        "temperature_is_spectral_prediction": false
+      },
+      "missing": [
+        "gas EOS and T",
+        "ionization/flux mean",
+        "gas sonic regularity",
+        "mass-loss eigenvalue",
+        "physical envelope match"
+      ]
+    },
+    "seconds": 3.948314749985002
+  },
+  {
+    "name": "wind_n801",
+    "parameters": {
+      "n": 801
+    },
+    "status": "completed_component",
+    "summary": {
+      "parameters": {
+        "gamma": 2,
+        "tiring": 0.001,
+        "escape_speed_c": 0.0001,
+        "w_base": 0.0001,
+        "numerical_damping": 0.5
+      },
+      "history": [
+        {
+          "iteration": 1,
+          "momentum_fixed_point_error": 0.0029010324255077657,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.561161262716666e-08,
+            "intensity_change": 4.3776743208212565e-07,
+            "angular_flux_max_error": 0.0012275307800677648,
+            "formal_source_max_error": 0.0003586253355041258
+          }
+        },
+        {
+          "iteration": 2,
+          "momentum_fixed_point_error": 0.001452737095497758,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.564516934013056e-08,
+            "intensity_change": 4.3769611313138057e-07,
+            "angular_flux_max_error": 0.0012277270995111333,
+            "formal_source_max_error": 0.00035856923709998156
+          }
+        },
+        {
+          "iteration": 3,
+          "momentum_fixed_point_error": 0.0007269535446542408,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.566194836274633e-08,
+            "intensity_change": 4.376601903111066e-07,
+            "angular_flux_max_error": 0.0012278254146674827,
+            "formal_source_max_error": 0.00035854114187650055
+          }
+        },
+        {
+          "iteration": 4,
+          "momentum_fixed_point_error": 0.0003636374355504568,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.567033809609882e-08,
+            "intensity_change": 4.376421665064356e-07,
+            "angular_flux_max_error": 0.0012278746259775097,
+            "formal_source_max_error": 0.0003585270839959742
+          }
+        },
+        {
+          "iteration": 5,
+          "momentum_fixed_point_error": 0.00018186601984571116,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.567453296277506e-08,
+            "intensity_change": 4.3763313684053173e-07,
+            "angular_flux_max_error": 0.0012278992524785703,
+            "formal_source_max_error": 0.0003585200531160959
+          }
+        },
+        {
+          "iteration": 6,
+          "momentum_fixed_point_error": 9.094838971213104e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.567663017406858e-08,
+            "intensity_change": 4.3762861934304453e-07,
+            "angular_flux_max_error": 0.0012279115746403058,
+            "formal_source_max_error": 0.0003585165375055155
+          }
+        },
+        {
+          "iteration": 7,
+          "momentum_fixed_point_error": 4.547981288038905e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.567767844664843e-08,
+            "intensity_change": 4.376263598171448e-07,
+            "angular_flux_max_error": 0.0012279177398045737,
+            "formal_source_max_error": 0.0003585147798162991
+          }
+        },
+        {
+          "iteration": 8,
+          "momentum_fixed_point_error": 2.274219583764392e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.567820269396066e-08,
+            "intensity_change": 4.376252316085072e-07,
+            "angular_flux_max_error": 0.0012279208243235473,
+            "formal_source_max_error": 0.000358513901079327
+          }
+        },
+        {
+          "iteration": 9,
+          "momentum_fixed_point_error": 1.1372111961893694e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.567846492863907e-08,
+            "intensity_change": 4.3762466650498766e-07,
+            "angular_flux_max_error": 0.0012279223675388806,
+            "formal_source_max_error": 0.0003585134617767327
+          }
+        },
+        {
+          "iteration": 10,
+          "momentum_fixed_point_error": 5.686529969572973e-06,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.567859637904519e-08,
+            "intensity_change": 4.376243840642502e-07,
+            "angular_flux_max_error": 0.0012279231396143953,
+            "formal_source_max_error": 0.0003585132421620729
+          }
+        }
+      ],
+      "velocity_reference_error": 0.0014488441998340429,
+      "density_reference_error": 0.0014509464005036943,
+      "luminosity_reference_error": 2.12923892983774e-06,
+      "force_reference_error": 0.0016014368187368122,
+      "total_energy_defect": 3.722913421988494e-09,
+      "independent_angular_momentum_defect": 0.0007875882950950734,
+      "independent_angular_work_defect": 7.761465296339878e-07,
+      "optical_depth_base": 39.45846669841557,
+      "radiation_drag_max": 0.00160198279427479,
+      "photospheric_radius_ratio": 23.350424750540956,
+      "analytic_photospheric_radius_ratio": 23.33100954983057,
+      "photosphere_reference_error": 0.0008321629061494029,
+      "velocity_to_local_escape_at_outer": 9.929833231482215,
+      "cg_scalars": {
+        "mass_loss_g_s": 6.544779242147335e+24,
+        "enclosed_mass_g": 1.9884699999999998e+35,
+        "grey_opacity_cgs": 0.34,
+        "photospheric_radius_cm": 6.896172900376178e+16,
+        "effective_temperature_K": 305.0720269392657,
+        "emergent_luminosity_erg_s": 2.9352657972545604e+40,
+        "angular_emergent_luminosity_erg_s": 2.934392149378747e+40,
+        "gas_temperature_K": null,
+        "ionization": null,
+        "entropy": null,
+        "gas_enthalpy": null,
+        "sonic_radius_cm": null,
+        "temperature_is_spectral_prediction": false
+      },
+      "missing": [
+        "gas EOS and T",
+        "ionization/flux mean",
+        "gas sonic regularity",
+        "mass-loss eigenvalue",
+        "physical envelope match"
+      ]
+    },
+    "seconds": 8.125410375010688
+  },
+  {
+    "name": "wind_tolerance",
+    "parameters": {
+      "n": 401,
+      "tolerance": 1e-07,
+      "transport_tolerance": 1e-08
+    },
+    "status": "completed_component",
+    "summary": {
+      "parameters": {
+        "gamma": 2,
+        "tiring": 0.001,
+        "escape_speed_c": 0.0001,
+        "w_base": 0.0001,
+        "numerical_damping": 0.5
+      },
+      "history": [
+        {
+          "iteration": 1,
+          "momentum_fixed_point_error": 0.0029013842389052913,
+          "radiation": {
+            "iteration": 14,
+            "closure_change": 1.5561685273723924e-09,
+            "intensity_change": 5.938874281241624e-09,
+            "angular_flux_max_error": 0.001996140667542501,
+            "formal_source_max_error": 0.0008915829249146467
+          }
+        },
+        {
+          "iteration": 2,
+          "momentum_fixed_point_error": 0.0014529112585495163,
+          "radiation": {
+            "iteration": 14,
+            "closure_change": 1.556008100145334e-09,
+            "intensity_change": 5.940102854040674e-09,
+            "angular_flux_max_error": 0.001996904435587865,
+            "formal_source_max_error": 0.0008915239194411395
+          }
+        },
+        {
+          "iteration": 3,
+          "momentum_fixed_point_error": 0.000727039622849035,
+          "radiation": {
+            "iteration": 14,
+            "closure_change": 1.5559263877307217e-09,
+            "intensity_change": 5.9407148089718476e-09,
+            "angular_flux_max_error": 0.0019972869450982644,
+            "formal_source_max_error": 0.0008914943441388212
+          }
+        },
+        {
+          "iteration": 4,
+          "momentum_fixed_point_error": 0.0003636799404613811,
+          "radiation": {
+            "iteration": 14,
+            "closure_change": 1.555885642545718e-09,
+            "intensity_change": 5.941019010080595e-09,
+            "angular_flux_max_error": 0.001997478385132534,
+            "formal_source_max_error": 0.0008914795402590325
+          }
+        },
+        {
+          "iteration": 5,
+          "momentum_fixed_point_error": 0.00018188699720123047,
+          "radiation": {
+            "iteration": 14,
+            "closure_change": 1.5558648813751574e-09,
+            "intensity_change": 5.941173109036413e-09,
+            "angular_flux_max_error": 0.001997574165823357,
+            "formal_source_max_error": 0.000891472135234328
+          }
+        },
+        {
+          "iteration": 6,
+          "momentum_fixed_point_error": 9.095873889330974e-05,
+          "radiation": {
+            "iteration": 14,
+            "closure_change": 1.5558548893679358e-09,
+            "intensity_change": 5.941250602603532e-09,
+            "angular_flux_max_error": 0.001997622078496075,
+            "formal_source_max_error": 0.0008914684324384803
+          }
+        },
+        {
+          "iteration": 7,
+          "momentum_fixed_point_error": 4.5484917249982715e-05,
+          "radiation": {
+            "iteration": 14,
+            "closure_change": 1.5558492272305102e-09,
+            "intensity_change": 5.941287017918739e-09,
+            "angular_flux_max_error": 0.0019976460439923294,
+            "formal_source_max_error": 0.0008914665812136402
+          }
+        },
+        {
+          "iteration": 8,
+          "momentum_fixed_point_error": 2.274471280894197e-05,
+          "radiation": {
+            "iteration": 14,
+            "closure_change": 1.555847228829066e-09,
+            "intensity_change": 5.941305447620948e-09,
+            "angular_flux_max_error": 0.001997658030815863,
+            "formal_source_max_error": 0.0008914656557665879
+          }
+        },
+        {
+          "iteration": 9,
+          "momentum_fixed_point_error": 1.1373382974189106e-05,
+          "radiation": {
+            "iteration": 14,
+            "closure_change": 1.5558456745168314e-09,
+            "intensity_change": 5.9413161057619845e-09,
+            "angular_flux_max_error": 0.0019976640261369916,
+            "formal_source_max_error": 0.0008914651931449802
+          }
+        },
+        {
+          "iteration": 10,
+          "momentum_fixed_point_error": 5.687174955637531e-06,
+          "radiation": {
+            "iteration": 14,
+            "closure_change": 1.5558451194053191e-09,
+            "intensity_change": 5.941319880520268e-09,
+            "angular_flux_max_error": 0.0019976670247231487,
+            "formal_source_max_error": 0.0008914649618909642
+          }
+        },
+        {
+          "iteration": 11,
+          "momentum_fixed_point_error": 2.843820765763283e-06,
+          "radiation": {
+            "iteration": 14,
+            "closure_change": 1.5558452304276216e-09,
+            "intensity_change": 5.941325431635391e-09,
+            "angular_flux_max_error": 0.0019976685244734727,
+            "formal_source_max_error": 0.0008914648462928776
+          }
+        },
+        {
+          "iteration": 12,
+          "momentum_fixed_point_error": 1.4220248253371537e-06,
+          "radiation": {
+            "iteration": 14,
+            "closure_change": 1.5558446753161093e-09,
+            "intensity_change": 5.9413223230109224e-09,
+            "angular_flux_max_error": 0.001997669274569791,
+            "formal_source_max_error": 0.0008914647885088778
+          }
+        },
+        {
+          "iteration": 13,
+          "momentum_fixed_point_error": 7.110690368739014e-07,
+          "radiation": {
+            "iteration": 14,
+            "closure_change": 1.5558444532715043e-09,
+            "intensity_change": 5.9413278741260456e-09,
+            "angular_flux_max_error": 0.00199766964973469,
+            "formal_source_max_error": 0.0008914647596243164
+          }
+        },
+        {
+          "iteration": 14,
+          "momentum_fixed_point_error": 3.555626608697793e-07,
+          "radiation": {
+            "iteration": 14,
+            "closure_change": 1.5558443422492019e-09,
+            "intensity_change": 5.9413249875461815e-09,
+            "angular_flux_max_error": 0.0019976698373679325,
+            "formal_source_max_error": 0.0008914647451857549
+          }
+        },
+        {
+          "iteration": 15,
+          "momentum_fixed_point_error": 1.777953454462633e-07,
+          "radiation": {
+            "iteration": 14,
+            "closure_change": 1.5558445642938068e-09,
+            "intensity_change": 5.941324765501577e-09,
+            "angular_flux_max_error": 0.0019976699312133084,
+            "formal_source_max_error": 0.000891464737968306
+          }
+        },
+        {
+          "iteration": 16,
+          "momentum_fixed_point_error": 8.890466340893965e-08,
+          "radiation": {
+            "iteration": 14,
+            "closure_change": 1.5558446753161093e-09,
+            "intensity_change": 5.941326541858416e-09,
+            "angular_flux_max_error": 0.0019976699781529828,
+            "formal_source_max_error": 0.0008914647343605253
+          }
+        }
+      ],
+      "velocity_reference_error": 0.0014518130846210564,
+      "density_reference_error": 0.0014539239158417594,
+      "luminosity_reference_error": 2.126416780434681e-06,
+      "force_reference_error": 0.0016018362370722183,
+      "total_energy_defect": 7.3397448119294495e-09,
+      "independent_angular_momentum_defect": 0.0018837850942329518,
+      "independent_angular_work_defect": 1.871029807248327e-06,
+      "optical_depth_base": 39.458952022506594,
+      "radiation_drag_max": 0.0016023793361771446,
+      "photospheric_radius_ratio": 23.350997195651374,
+      "analytic_photospheric_radius_ratio": 23.331655865529747,
+      "photosphere_reference_error": 0.0008289737442168654,
+      "velocity_to_local_escape_at_outer": 9.929811732126717,
+      "cg_scalars": {
+        "mass_loss_g_s": 6.544779242147335e+24,
+        "enclosed_mass_g": 1.9884699999999998e+35,
+        "grey_opacity_cgs": 0.34,
+        "photospheric_radius_cm": 6.896341962845044e+16,
+        "effective_temperature_K": 305.06828731069714,
+        "emergent_luminosity_erg_s": 2.9352657889708193e+40,
+        "angular_emergent_luminosity_erg_s": 2.9329588777571404e+40,
+        "gas_temperature_K": null,
+        "ionization": null,
+        "entropy": null,
+        "gas_enthalpy": null,
+        "sonic_radius_cm": null,
+        "temperature_is_spectral_prediction": false
+      },
+      "missing": [
+        "gas EOS and T",
+        "ionization/flux mean",
+        "gas sonic regularity",
+        "mass-loss eigenvalue",
+        "physical envelope match"
+      ]
+    },
+    "seconds": 7.9080262500210665
+  },
+  {
+    "name": "wind_core64",
+    "parameters": {
+      "n": 401,
+      "core_rays": 64
+    },
+    "status": "completed_component",
+    "summary": {
+      "parameters": {
+        "gamma": 2,
+        "tiring": 0.001,
+        "escape_speed_c": 0.0001,
+        "w_base": 0.0001,
+        "numerical_damping": 0.5
+      },
+      "history": [
+        {
+          "iteration": 1,
+          "momentum_fixed_point_error": 0.002901384262336104,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.601686534743692e-08,
+            "intensity_change": 4.3871038779563776e-07,
+            "angular_flux_max_error": 0.0019962494037814027,
+            "formal_source_max_error": 0.0008916177808140358
+          }
+        },
+        {
+          "iteration": 2,
+          "momentum_fixed_point_error": 0.0014529112702944547,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.605102113674491e-08,
+            "intensity_change": 4.386324834459998e-07,
+            "angular_flux_max_error": 0.0019970130357308546,
+            "formal_source_max_error": 0.0008915587258773172
+          }
+        },
+        {
+          "iteration": 3,
+          "momentum_fixed_point_error": 0.0007270396287309966,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.606810014162193e-08,
+            "intensity_change": 4.3860091292202696e-07,
+            "angular_flux_max_error": 0.0019973954771352886,
+            "formal_source_max_error": 0.0008915291258421165
+          }
+        },
+        {
+          "iteration": 4,
+          "momentum_fixed_point_error": 0.0003636799434065807,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.607663953303813e-08,
+            "intensity_change": 4.385850627119936e-07,
+            "angular_flux_max_error": 0.0019975868830829357,
+            "formal_source_max_error": 0.0008915143095962197
+          }
+        },
+        {
+          "iteration": 5,
+          "momentum_fixed_point_error": 0.00018188699867160985,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.608090900670163e-08,
+            "intensity_change": 4.3857712173078767e-07,
+            "angular_flux_max_error": 0.001997682646715293,
+            "formal_source_max_error": 0.0008915068983875729
+          }
+        },
+        {
+          "iteration": 6,
+          "momentum_fixed_point_error": 9.095873962960965e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.608304396557799e-08,
+            "intensity_change": 4.385731464662257e-07,
+            "angular_flux_max_error": 0.0019977305508571686,
+            "formal_source_max_error": 0.000891503192499199
+          }
+        },
+        {
+          "iteration": 7,
+          "momentum_fixed_point_error": 4.548491761802165e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.608411155603847e-08,
+            "intensity_change": 4.385711580567886e-07,
+            "angular_flux_max_error": 0.001997754512079397,
+            "formal_source_max_error": 0.0008915013397287064
+          }
+        },
+        {
+          "iteration": 8,
+          "momentum_fixed_point_error": 2.2744712990574456e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.608464468513489e-08,
+            "intensity_change": 4.3857016485127076e-07,
+            "angular_flux_max_error": 0.0019977664967658626,
+            "formal_source_max_error": 0.0008915004135087168
+          }
+        },
+        {
+          "iteration": 9,
+          "momentum_fixed_point_error": 1.1373383063673081e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.608491158275001e-08,
+            "intensity_change": 4.3856966813748954e-07,
+            "angular_flux_max_error": 0.001997772491020511,
+            "formal_source_max_error": 0.0008914999505004184
+          }
+        },
+        {
+          "iteration": 10,
+          "momentum_fixed_point_error": 5.687175003155076e-06,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.608504525360217e-08,
+            "intensity_change": 4.385694187813982e-07,
+            "angular_flux_max_error": 0.0019977754890707633,
+            "formal_source_max_error": 0.0008914997190526686
+          }
+        }
+      ],
+      "velocity_reference_error": 0.0014490178165179612,
+      "density_reference_error": 0.0014511205214531309,
+      "luminosity_reference_error": 2.1264170275703265e-06,
+      "force_reference_error": 0.0016018362009285747,
+      "total_energy_defect": 6.312910971750796e-09,
+      "independent_angular_momentum_defect": 0.0018872272235066574,
+      "independent_angular_work_defect": 1.870339597660059e-06,
+      "optical_depth_base": 39.458865283363494,
+      "radiation_drag_max": 0.0016023792998299835,
+      "photospheric_radius_ratio": 23.350960008156996,
+      "analytic_photospheric_radius_ratio": 23.331655865529747,
+      "photosphere_reference_error": 0.0008273798798725807,
+      "velocity_to_local_escape_at_outer": 9.929832337028897,
+      "cg_scalars": {
+        "mass_loss_g_s": 6.544779242147335e+24,
+        "enclosed_mass_g": 1.9884699999999998e+35,
+        "grey_opacity_cgs": 0.34,
+        "photospheric_radius_cm": 6.8963309801158776e+16,
+        "effective_temperature_K": 305.06853022836685,
+        "emergent_luminosity_erg_s": 2.9352657889715447e+40,
+        "angular_emergent_luminosity_erg_s": 2.9329588173694117e+40,
+        "gas_temperature_K": null,
+        "ionization": null,
+        "entropy": null,
+        "gas_enthalpy": null,
+        "sonic_radius_cm": null,
+        "temperature_is_spectral_prediction": false
+      },
+      "missing": [
+        "gas EOS and T",
+        "ionization/flux mean",
+        "gas sonic regularity",
+        "mass-loss eigenvalue",
+        "physical envelope match"
+      ]
+    },
+    "seconds": 4.054336959001375
+  },
+  {
+    "name": "wind_outer300",
+    "parameters": {
+      "n": 801,
+      "outer": 300
+    },
+    "status": "completed_component",
+    "summary": {
+      "parameters": {
+        "gamma": 2,
+        "tiring": 0.001,
+        "escape_speed_c": 0.0001,
+        "w_base": 0.0001,
+        "numerical_damping": 0.5
+      },
+      "history": [
+        {
+          "iteration": 1,
+          "momentum_fixed_point_error": 0.0029010972309763128,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 1.031051862776522e-07,
+            "intensity_change": 3.8288898096539015e-07,
+            "angular_flux_max_error": 0.0013415660194391332,
+            "formal_source_max_error": 0.00047453748406089957
+          }
+        },
+        {
+          "iteration": 2,
+          "momentum_fixed_point_error": 0.0014527678824539647,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 1.0310842213367977e-07,
+            "intensity_change": 3.829640944363888e-07,
+            "angular_flux_max_error": 0.0013419220935998455,
+            "formal_source_max_error": 0.00047446763322922525
+          }
+        },
+        {
+          "iteration": 3,
+          "momentum_fixed_point_error": 0.0007269681037143094,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 1.0311088283199155e-07,
+            "intensity_change": 3.83001784731718e-07,
+            "angular_flux_max_error": 0.0013421004519040824,
+            "formal_source_max_error": 0.00047443264914659444
+          }
+        },
+        {
+          "iteration": 4,
+          "momentum_fixed_point_error": 0.00036364429161106493,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 1.0311209752700279e-07,
+            "intensity_change": 3.8302059346406736e-07,
+            "angular_flux_max_error": 0.0013421897301386654,
+            "formal_source_max_error": 0.0004744151438790256
+          }
+        },
+        {
+          "iteration": 5,
+          "momentum_fixed_point_error": 0.0001818692346793327,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 1.0311270148832818e-07,
+            "intensity_change": 3.8302998861539095e-07,
+            "angular_flux_max_error": 0.0013422344033577893,
+            "formal_source_max_error": 0.0004744063886700234
+          }
+        },
+        {
+          "iteration": 6,
+          "momentum_fixed_point_error": 9.09499617545162e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 1.0311300202570095e-07,
+            "intensity_change": 3.830346841926513e-07,
+            "angular_flux_max_error": 0.0013422567531520269,
+            "formal_source_max_error": 0.0004744020107894098
+          }
+        },
+        {
+          "iteration": 7,
+          "momentum_fixed_point_error": 4.548063593245999e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 1.031131530160323e-07,
+            "intensity_change": 3.830370340907052e-07,
+            "angular_flux_max_error": 0.00134226793367076,
+            "formal_source_max_error": 0.0004743998219641776
+          }
+        },
+        {
+          "iteration": 8,
+          "momentum_fixed_point_error": 2.2742625862659516e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 1.0311322717893034e-07,
+            "intensity_change": 3.830382047098624e-07,
+            "angular_flux_max_error": 0.0013422735265006258,
+            "formal_source_max_error": 0.00047439872767252034
+          }
+        },
+        {
+          "iteration": 9,
+          "momentum_fixed_point_error": 1.1372336209514167e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 1.0311326470446858e-07,
+            "intensity_change": 3.83038792239887e-07,
+            "angular_flux_max_error": 0.0013422763241409674,
+            "formal_source_max_error": 0.0004743981806033526
+          }
+        },
+        {
+          "iteration": 10,
+          "momentum_fixed_point_error": 5.686646712410592e-06,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 1.0311328346723769e-07,
+            "intensity_change": 3.8303908711512236e-07,
+            "angular_flux_max_error": 0.0013422777235565508,
+            "formal_source_max_error": 0.00047439790711012453
+          }
+        }
+      ],
+      "velocity_reference_error": 0.0014488749082864905,
+      "density_reference_error": 0.001450977198173442,
+      "luminosity_reference_error": 2.1312470139811523e-06,
+      "force_reference_error": 0.0016015103050560642,
+      "total_energy_defect": 4.568359912582309e-09,
+      "independent_angular_momentum_defect": 0.0010372373652028195,
+      "independent_angular_work_defect": 1.026154812682964e-06,
+      "optical_depth_base": 39.59260262220851,
+      "radiation_drag_max": 0.0016020552950978303,
+      "photospheric_radius_ratio": 27.57072143442774,
+      "analytic_photospheric_radius_ratio": 27.543644365829657,
+      "photosphere_reference_error": 0.000983060492593113,
+      "velocity_to_local_escape_at_outer": 17.256764873177545,
+      "cg_scalars": {
+        "mass_loss_g_s": 6.544779242147335e+24,
+        "enclosed_mass_g": 1.9884699999999998e+35,
+        "grey_opacity_cgs": 0.34,
+        "photospheric_radius_cm": 8.142569740429086e+16,
+        "effective_temperature_K": 280.7529106682211,
+        "emergent_luminosity_erg_s": 2.9352266665323447e+40,
+        "angular_emergent_luminosity_erg_s": 2.934020251426842e+40,
+        "gas_temperature_K": null,
+        "ionization": null,
+        "entropy": null,
+        "gas_enthalpy": null,
+        "sonic_radius_cm": null,
+        "temperature_is_spectral_prediction": false
+      },
+      "missing": [
+        "gas EOS and T",
+        "ionization/flux mean",
+        "gas sonic regularity",
+        "mass-loss eigenvalue",
+        "physical envelope match"
+      ]
+    },
+    "seconds": 8.106611249997513
+  },
+  {
+    "name": "wind_crosscase",
+    "parameters": {
+      "n": 401,
+      "gamma": 4,
+      "tiring": 0.0005,
+      "escape_speed_c": 0.0002
+    },
+    "status": "completed_component",
+    "summary": {
+      "parameters": {
+        "gamma": 4,
+        "tiring": 0.0005,
+        "escape_speed_c": 0.0002,
+        "w_base": 0.0001,
+        "numerical_damping": 0.5
+      },
+      "history": [
+        {
+          "iteration": 1,
+          "momentum_fixed_point_error": 0.0020792118359038714,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.16884467239143e-08,
+            "intensity_change": 3.4752978606000795e-07,
+            "angular_flux_max_error": 0.0012450137591528687,
+            "formal_source_max_error": 0.0009404382521760457
+          }
+        },
+        {
+          "iteration": 2,
+          "momentum_fixed_point_error": 0.0010406263692184226,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.169619885618374e-08,
+            "intensity_change": 3.4758699363202084e-07,
+            "angular_flux_max_error": 0.0012449623833433732,
+            "formal_source_max_error": 0.0009405172651133498
+          }
+        },
+        {
+          "iteration": 3,
+          "momentum_fixed_point_error": 0.0005205533043241006,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.17000338995777e-08,
+            "intensity_change": 3.4761549194683994e-07,
+            "angular_flux_max_error": 0.001244936683561182,
+            "formal_source_max_error": 0.0009405567745344179
+          }
+        },
+        {
+          "iteration": 4,
+          "momentum_fixed_point_error": 0.00026032902529615765,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.17019405966002e-08,
+            "intensity_change": 3.476297110172055e-07,
+            "angular_flux_max_error": 0.0012449238385779937,
+            "formal_source_max_error": 0.0009405765344789874
+          }
+        },
+        {
+          "iteration": 5,
+          "momentum_fixed_point_error": 0.00013017375474511095,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.170289150262079e-08,
+            "intensity_change": 3.4763681688865233e-07,
+            "angular_flux_max_error": 0.0012449174212569858,
+            "formal_source_max_error": 0.0009405864180084267
+          }
+        },
+        {
+          "iteration": 6,
+          "momentum_fixed_point_error": 6.508725784715175e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.170336612296381e-08,
+            "intensity_change": 3.4764036205281457e-07,
+            "angular_flux_max_error": 0.0012449142158585946,
+            "formal_source_max_error": 0.0009405913617863693
+          }
+        },
+        {
+          "iteration": 7,
+          "momentum_fixed_point_error": 3.254275758990399e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.170360260046806e-08,
+            "intensity_change": 3.4764213707738634e-07,
+            "angular_flux_max_error": 0.0012449126149599588,
+            "formal_source_max_error": 0.0009405938347413212
+          }
+        },
+        {
+          "iteration": 8,
+          "momentum_fixed_point_error": 1.6270677113960907e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.170372128330939e-08,
+            "intensity_change": 3.4764302592193985e-07,
+            "angular_flux_max_error": 0.0012449118154536087,
+            "formal_source_max_error": 0.00094059507176536
+          }
+        },
+        {
+          "iteration": 9,
+          "momentum_fixed_point_error": 8.134920904012688e-06,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.170377934797358e-08,
+            "intensity_change": 3.476434646820792e-07,
+            "angular_flux_max_error": 0.001244911416181771,
+            "formal_source_max_error": 0.000940595690554602
+          }
+        }
+      ],
+      "velocity_reference_error": 0.0010360223724659168,
+      "density_reference_error": 0.0010370968815851533,
+      "luminosity_reference_error": 2.6023650152584565e-06,
+      "force_reference_error": 0.001716578276234837,
+      "total_energy_defect": 5.398372304732391e-09,
+      "independent_angular_momentum_defect": 0.0013044679837137488,
+      "independent_angular_work_defect": 1.927729530322095e-06,
+      "optical_depth_base": 11.43290735449979,
+      "radiation_drag_max": 0.0017172798762235008,
+      "photospheric_radius_ratio": 8.235227819758542,
+      "analytic_photospheric_radius_ratio": 8.228576742561774,
+      "photosphere_reference_error": 0.0008082901095600725,
+      "velocity_to_local_escape_at_outer": 17.20753712629269,
+      "cg_scalars": {
+        "mass_loss_g_s": 1.6361948105368337e+24,
+        "enclosed_mass_g": 1.9884699999999998e+35,
+        "grey_opacity_cgs": 0.34,
+        "photospheric_radius_cm": 6080355660096415.0,
+        "effective_temperature_K": 1221.7983012546947,
+        "emergent_luminosity_erg_s": 5.870534372004839e+40,
+        "angular_emergent_luminosity_erg_s": 5.865730798903184e+40,
+        "gas_temperature_K": null,
+        "ionization": null,
+        "entropy": null,
+        "gas_enthalpy": null,
+        "sonic_radius_cm": null,
+        "temperature_is_spectral_prediction": false
+      },
+      "missing": [
+        "gas EOS and T",
+        "ionization/flux mean",
+        "gas sonic regularity",
+        "mass-loss eigenvalue",
+        "physical envelope match"
+      ]
+    },
+    "seconds": 3.5599466249987017
+  },
+  {
+    "name": "wind_drag_negative_control",
+    "parameters": {
+      "n": 401,
+      "tiring": 0.01,
+      "escape_speed_c": 0.001
+    },
+    "status": "completed_component",
+    "summary": {
+      "parameters": {
+        "gamma": 2,
+        "tiring": 0.01,
+        "escape_speed_c": 0.001,
+        "w_base": 0.0001,
+        "numerical_damping": 0.5
+      },
+      "history": [
+        {
+          "iteration": 1,
+          "momentum_fixed_point_error": 0.02861849706596986,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.621594254660693e-08,
+            "intensity_change": 4.380195499642525e-07,
+            "angular_flux_max_error": 0.0019738863307144916,
+            "formal_source_max_error": 0.000889627945838245
+          }
+        },
+        {
+          "iteration": 2,
+          "momentum_fixed_point_error": 0.014528291567032281,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.655122945595451e-08,
+            "intensity_change": 4.372633992666408e-07,
+            "angular_flux_max_error": 0.0019813400469412823,
+            "formal_source_max_error": 0.0008890551149348669
+          }
+        },
+        {
+          "iteration": 3,
+          "momentum_fixed_point_error": 0.007323072561937316,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.671893375085006e-08,
+            "intensity_change": 4.368591808301403e-07,
+            "angular_flux_max_error": 0.001985127908199491,
+            "formal_source_max_error": 0.0008887716545710189
+          }
+        },
+        {
+          "iteration": 4,
+          "momentum_fixed_point_error": 0.0036779844734360356,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.680276513712727e-08,
+            "intensity_change": 4.3665043514273805e-07,
+            "angular_flux_max_error": 0.0019870402667642173,
+            "formal_source_max_error": 0.0008886283168515474
+          }
+        },
+        {
+          "iteration": 5,
+          "momentum_fixed_point_error": 0.0018438645866818426,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.684466051318452e-08,
+            "intensity_change": 4.365502950243183e-07,
+            "angular_flux_max_error": 0.0019880025486895825,
+            "formal_source_max_error": 0.0008885617072953433
+          }
+        },
+        {
+          "iteration": 6,
+          "momentum_fixed_point_error": 0.0009235162144910491,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.686559621080448e-08,
+            "intensity_change": 4.3650820624741016e-07,
+            "angular_flux_max_error": 0.001988485946418095,
+            "formal_source_max_error": 0.000888528566564295
+          }
+        },
+        {
+          "iteration": 7,
+          "momentum_fixed_point_error": 0.00046233279260432525,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.687605784236553e-08,
+            "intensity_change": 4.3648706582466446e-07,
+            "angular_flux_max_error": 0.0019887285709584424,
+            "formal_source_max_error": 0.0008885120137789304
+          }
+        },
+        {
+          "iteration": 8,
+          "momentum_fixed_point_error": 0.00023140316039693687,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.688128499441007e-08,
+            "intensity_change": 4.364764687458944e-07,
+            "angular_flux_max_error": 0.0019888502940262898,
+            "formal_source_max_error": 0.0008885037537859075
+          }
+        },
+        {
+          "iteration": 9,
+          "momentum_fixed_point_error": 0.00011580630499563593,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.688389646100859e-08,
+            "intensity_change": 4.3647116765299643e-07,
+            "angular_flux_max_error": 0.001988911347371447,
+            "formal_source_max_error": 0.0008884996338878182
+          }
+        },
+        {
+          "iteration": 10,
+          "momentum_fixed_point_error": 5.7951433864666946e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.688520186124094e-08,
+            "intensity_change": 4.3646850866885245e-07,
+            "angular_flux_max_error": 0.00198894196629551,
+            "formal_source_max_error": 0.0008884975794581917
+          }
+        },
+        {
+          "iteration": 11,
+          "momentum_fixed_point_error": 2.8998648200384558e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.68858535621564e-08,
+            "intensity_change": 4.364671855050517e-07,
+            "angular_flux_max_error": 0.0019889573208345945,
+            "formal_source_max_error": 0.0008884965551190227
+          }
+        },
+        {
+          "iteration": 12,
+          "momentum_fixed_point_error": 1.45105184372607e-05,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.688617863545801e-08,
+            "intensity_change": 4.3646652470030745e-07,
+            "angular_flux_max_error": 0.001988965020323752,
+            "formal_source_max_error": 0.0008884960444155432
+          }
+        },
+        {
+          "iteration": 13,
+          "momentum_fixed_point_error": 7.260893294058768e-06,
+          "radiation": {
+            "iteration": 11,
+            "closure_change": 9.688634183824263e-08,
+            "intensity_change": 4.364661974065598e-07,
+            "angular_flux_max_error": 0.0019889688810620365,
+            "formal_source_max_error": 0.0008884957898036561
+          }
+        }
+      ],
+      "velocity_reference_error": 0.01442085792940484,
+      "density_reference_error": 0.014631867357831618,
+      "luminosity_reference_error": 0.00021080042881904681,
+      "force_reference_error": 0.015749611881763825,
+      "total_energy_defect": 5.940703362572464e-08,
+      "independent_angular_momentum_defect": 0.0019151939005896217,
+      "independent_angular_work_defect": 1.8272904458868644e-05,
+      "optical_depth_base": 39.96833031300848,
+      "radiation_drag_max": 0.015803111782074716,
+      "photospheric_radius_ratio": 23.667061296937923,
+      "analytic_photospheric_radius_ratio": 23.471879820236673,
+      "photosphere_reference_error": 0.008315545162810967,
+      "velocity_to_local_escape_at_outer": 9.746578059201772,
+      "cg_scalars": {
+        "mass_loss_g_s": 6.544779242147336e+23,
+        "enclosed_mass_g": 1.9884699999999998e+35,
+        "grey_opacity_cgs": 0.34,
+        "photospheric_radius_cm": 698968641860375.9,
+        "effective_temperature_K": 3016.9317399553393,
+        "emergent_luminosity_erg_s": 2.884024341002063e+40,
+        "angular_emergent_luminosity_erg_s": 2.8817613040454046e+40,
+        "gas_temperature_K": null,
+        "ionization": null,
+        "entropy": null,
+        "gas_enthalpy": null,
+        "sonic_radius_cm": null,
+        "temperature_is_spectral_prediction": false
+      },
+      "missing": [
+        "gas EOS and T",
+        "ionization/flux mean",
+        "gas sonic regularity",
+        "mass-loss eigenvalue",
+        "physical envelope match"
+      ]
+    },
+    "seconds": 5.122698166000191
+  }
+]

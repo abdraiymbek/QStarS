@@ -409,3 +409,47 @@ This register distinguishes implemented laws, derived numerical identities, opti
 - Interpretation: Relative enthalpy advection plus P*A*face_speed work equals fixed flux minus swept conserved density. Tested against independently integrated swept volumes and an energy-gauge shift.
 - Implementation: `src/qstars/spherical_wind.py; tests/test_wind_moving_boundary.py; scripts/validate_outer_transport.py`
 
+## hummer1971 — Hummer & Rybicki (1971)
+
+[Hummer & Rybicki (1971)](https://doi.org/10.1093/mnras/152.1.1) · Equations 2.1-2.31, Table I final iteration; PDF SHA256 05fdb069368c1b2885358203a6b84dc85eb41eb6e0e4c6026ba17b16f936be20
+
+- Status: `implemented_angular_transfer_reference`
+- Assumptions: Static spherical conservative isotropic grey transfer with computed variable Eddington factor
+- Domain: Declared grey extinction only; no non-grey H/He flux mean, thermalization or non-LTE inference
+- Variables and units: J,H,K bolometric intensities; chi inverse length; net central luminosity
+- Interpretation: Independent published moment table, angular flux, diffusion and streaming limits plus boundary/grid refinement. Finite inner diffusion boundary is checked, never silently treated as the exact infinite-depth condition.
+- Implementation: `src/qstars/grey_transfer.py; scripts/validate_escaping_radiation.py`
+
+## fukue2018_transfer — Fukue (2018)
+
+[Fukue (2018)](https://doi.org/10.1093/mnras/sty358) · Equations 3-14 and grey scattering moment equations; public indexed primary article
+
+- Status: `implemented_restricted_moving_transfer`
+- Assumptions: Isotropic coherent scattering in the comoving frame; frequency-independent specified extinction, no true absorption or material energy equation
+- Domain: Outward v/c <= .01 in tested moment solver; no ionization or gas temperature prediction
+- Variables and units: D=[gamma(1-mu beta)]^-1; lab source D^4 J0; extinction chi0/D
+- Interpretation: Conservative moving moments closed by angular rays; incoming core light absorbed and isotropic emitted intensity determined by net luminosity. Published relativistic figure families are not claimed reproduced.
+- Implementation: `src/qstars/grey_transfer.py; docs/escaping_radiation.md`
+
+## owocki2017_analytic — Owocki, Townsend & Quataert (2017) flux-driven limit
+
+[Owocki, Townsend & Quataert (2017) flux-driven limit](https://arxiv.org/abs/1708.07790) · Equation 24 and 26; finite initial kinetic energy generalization independently derived
+
+- Status: `implemented_constructed_stationary_control`
+- Assumptions: Constant grey opacity, no gas pressure/enthalpy; analytic reference neglects radiation drag, numerical wind includes moving transfer
+- Domain: Mathematical continuum control, supplied mdot and vbase. Not a thermodynamic primordial quasi-star wind or an envelope match.
+- Variables and units: w=v^2/vesc^2, x=1-R/r, m=mdot GM/(R L0), Gamma=L0/Ledd
+- Interpretation: No coefficient fits. Compare velocity, density, luminosity, force and photospheric diagnostic, energy and momentum; high-drag negative control must not be interpreted through the small-drag analytic approximation.
+- Implementation: `src/qstars/continuum_wind.py; benchmarks/grey_continuum_wind.json`
+
+## outer_public_code_audit — Public stationary-wind and transfer candidate audit
+
+[Public stationary-wind and transfer candidate audit](https://github.com/sirocco-rt/sirocco) · Pinned SIROCCO, MPI-AMRVAC and DUSTY source paths, model inputs and hashes in candidate_source_files.json
+
+- Status: `audited_not_coupled`
+- Assumptions: Availability ranked separately from physical correspondence; prescribed flow, line driving and dust driving remain different families
+- Domain: No installed/coupled non-LTE or dust/line wind claim
+- Variables and units: Each candidate records equations, EOS, opacity, radiation, sonic and boundary conditions, composition, M/R/L and available outputs
+- Interpretation: Constructed analytic continuum control chosen for exact reproducibility; public transfer packages remain candidates for closing missing gas/radiation microphysics, not substitutes for a solved launch.
+- Implementation: `benchmarks/outer_candidates.json; scripts/register_outer_candidates.py`
+

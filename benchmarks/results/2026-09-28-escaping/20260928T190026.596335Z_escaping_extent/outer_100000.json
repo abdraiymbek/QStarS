@@ -1,0 +1,126 @@
+{
+  "history": [
+    {
+      "iteration": 1,
+      "momentum_fixed_point_error": 0.0029010338067909647,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 7.010429881049163e-08,
+        "intensity_change": 2.2475274796818212e-07,
+        "angular_flux_max_error": 0.001227603292053181,
+        "formal_source_max_error": 0.0003586257100441914
+      }
+    },
+    {
+      "iteration": 2,
+      "momentum_fixed_point_error": 0.001452737788428471,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 7.010371461113607e-08,
+        "intensity_change": 2.2475299232826984e-07,
+        "angular_flux_max_error": 0.0012277996142761038,
+        "formal_source_max_error": 0.00035856961159197454
+      }
+    },
+    {
+      "iteration": 3,
+      "momentum_fixed_point_error": 0.0007269538917655805,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 7.010337499391284e-08,
+        "intensity_change": 2.2475278671496568e-07,
+        "angular_flux_max_error": 0.0012278979308130156,
+        "formal_source_max_error": 0.0003585415163439576
+      }
+    },
+    {
+      "iteration": 4,
+      "momentum_fixed_point_error": 0.0003636376093076876,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 7.010319347244831e-08,
+        "intensity_change": 2.2475260508247885e-07,
+        "angular_flux_max_error": 0.0012279471428036093,
+        "formal_source_max_error": 0.0003585274584512188
+      }
+    },
+    {
+      "iteration": 5,
+      "momentum_fixed_point_error": 0.00018186610678549986,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 7.010310043575885e-08,
+        "intensity_change": 2.247524985010685e-07,
+        "angular_flux_max_error": 0.0012279717696497272,
+        "formal_source_max_error": 0.0003585204275647902
+      }
+    },
+    {
+      "iteration": 6,
+      "momentum_fixed_point_error": 9.094843321100221e-05,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 7.010305258514649e-08,
+        "intensity_change": 2.2475243421915536e-07,
+        "angular_flux_max_error": 0.0012279840919839913,
+        "formal_source_max_error": 0.0003585169119519893
+      }
+    },
+    {
+      "iteration": 7,
+      "momentum_fixed_point_error": 4.547983463787375e-05,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 7.010302838228455e-08,
+        "intensity_change": 2.2475240291086607e-07,
+        "angular_flux_max_error": 0.0012279902572286394,
+        "formal_source_max_error": 0.0003585151542612186
+      }
+    },
+    {
+      "iteration": 8,
+      "momentum_fixed_point_error": 2.2742206725823166e-05,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 7.01030170580097e-08,
+        "intensity_change": 2.2475238392605235e-07,
+        "angular_flux_max_error": 0.0012279933417987943,
+        "formal_source_max_error": 0.0003585142755231363
+      }
+    },
+    {
+      "iteration": 9,
+      "momentum_fixed_point_error": 1.1372117407981719e-05,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 7.010300961951543e-08,
+        "intensity_change": 2.247523822607178e-07,
+        "angular_flux_max_error": 0.001227994885031114,
+        "formal_source_max_error": 0.00035851383622020894
+      }
+    },
+    {
+      "iteration": 10,
+      "momentum_fixed_point_error": 5.686532692728008e-06,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 7.010300739906938e-08,
+        "intensity_change": 2.247523770426696e-07,
+        "angular_flux_max_error": 0.00122799565711873,
+        "formal_source_max_error": 0.0003585136166052161
+      }
+    }
+  ],
+  "photosphere": 30.300853110238318,
+  "effective_temperature": 267.80592619688906,
+  "emergent_luminosity_ratio": 0.9980041479458545,
+  "emergent_angular_ratio": 0.9976971708416484,
+  "flux_factor_at_outer": 0.9998999148085799,
+  "eddington_at_outer": 0.9998265097462365,
+  "photospheric_tau_tail_estimate": 0.00020040503944616678,
+  "total_energy_defect": 3.7228763405394716e-09,
+  "velocity_reference_error": 0.0014488448904048656,
+  "force_reference_error": 0.0016014375041166762,
+  "dimensional_wind_mass_over_central": 3249.1579249741244,
+  "dimensional_scaling_is_physical_star": false
+}

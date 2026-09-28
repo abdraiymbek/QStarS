@@ -1,0 +1,290 @@
+[
+  {
+    "name": "published_table:0.04:J",
+    "value": 3.8497738705567386e-05,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:0.04:f",
+    "value": 0.0004926334312800318,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:0.1:J",
+    "value": 0.00018797385251323462,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:0.1:f",
+    "value": 0.00031583334721174694,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:0.4:J",
+    "value": 0.0016449604769983583,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:0.4:f",
+    "value": 0.0007443140082592503,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:1.0:J",
+    "value": 0.002795059019969459,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:1.0:f",
+    "value": 0.0009174352689974574,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:2.0:J",
+    "value": 0.003682229234730716,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:2.0:f",
+    "value": 0.0009268431953727285,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:4.0:J",
+    "value": 0.0029818462920463418,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:4.0:f",
+    "value": 0.00012751600383575923,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:6.0:J",
+    "value": 0.0028471160355505454,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:6.0:f",
+    "value": 6.205317347895978e-05,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:8.0:J",
+    "value": 0.0029875402878905,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:8.0:f",
+    "value": 0.00010352269228852684,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:9.0:J",
+    "value": 0.002689711927351235,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:9.0:f",
+    "value": 0.00010302084643099008,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:9.5:J",
+    "value": 0.0027485177295742957,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:9.5:f",
+    "value": 5.868634700378905e-05,
+    "limit": 0.005,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:10.0:J",
+    "value": 0.003215157037397054,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "published_table:10.0:f",
+    "value": 6.8317787298433075e-06,
+    "limit": 0.01,
+    "passed": true,
+    "scope": "Hummer1971 Table I",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_mesh_201:J",
+    "value": 0.0025183071308974014,
+    "limit": 0.002,
+    "passed": false,
+    "scope": "grey_mesh_201",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_mesh_201:f",
+    "value": 0.0030099197336923567,
+    "limit": 0.002,
+    "passed": false,
+    "scope": "grey_mesh_201",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_mesh_401:J",
+    "value": 0.0034676388256597024,
+    "limit": 0.002,
+    "passed": false,
+    "scope": "grey_mesh_401",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_mesh_401:f",
+    "value": 0.0014154913602284491,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_mesh_401",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_mesh_801:J",
+    "value": 0.0007796493677507677,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_mesh_801",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_mesh_801:f",
+    "value": 0.0004572664191833109,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_mesh_801",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_inner_tau30:J",
+    "value": 0.0007903096806179954,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_inner_tau30",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_inner_tau30:f",
+    "value": 0.00040409368894578357,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_inner_tau30",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_inner_tau300:J",
+    "value": 0.0007647365620934155,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_inner_tau300",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_inner_tau300:f",
+    "value": 0.00029920658854210025,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_inner_tau300",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_outer_placement:J",
+    "value": 0.0002602507236832974,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_outer_placement",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_outer_placement:f",
+    "value": 0.0002714167384776367,
+    "limit": 0.002,
+    "passed": true,
+    "scope": "grey_outer_placement",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_closure_tol1e-05:J",
+    "value": 2.4591813406749097e-06,
+    "limit": 1e-05,
+    "passed": true,
+    "scope": "grey_closure_tol1e-05",
+    "expected_pass": true
+  },
+  {
+    "name": "grey_closure_tol1e-05:f",
+    "value": 5.388626804769814e-07,
+    "limit": 1e-05,
+    "passed": true,
+    "scope": "grey_closure_tol1e-05",
+    "expected_pass": true
+  }
+]

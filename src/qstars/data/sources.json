@@ -482,6 +482,58 @@
       "implementation_interpretation": "Relative enthalpy advection plus P*A*face_speed work equals fixed flux minus swept conserved density. Tested against independently integrated swept volumes and an energy-gauge shift.",
       "implementation": "src/qstars/spherical_wind.py; tests/test_wind_moving_boundary.py; scripts/validate_outer_transport.py",
       "inspected_utc": "2026-09-28"
+    },
+    {
+      "id": "hummer1971",
+      "title": "Hummer & Rybicki (1971)",
+      "url": "https://doi.org/10.1093/mnras/152.1.1",
+      "reference_location": "Equations 2.1-2.31, Table I final iteration; PDF SHA256 05fdb069368c1b2885358203a6b84dc85eb41eb6e0e4c6026ba17b16f936be20",
+      "status": "implemented_angular_transfer_reference",
+      "assumptions": "Static spherical conservative isotropic grey transfer with computed variable Eddington factor",
+      "validity": "Declared grey extinction only; no non-grey H/He flux mean, thermalization or non-LTE inference",
+      "variables_units": "J,H,K bolometric intensities; chi inverse length; net central luminosity",
+      "implementation_interpretation": "Independent published moment table, angular flux, diffusion and streaming limits plus boundary/grid refinement. Finite inner diffusion boundary is checked, never silently treated as the exact infinite-depth condition.",
+      "implementation": "src/qstars/grey_transfer.py; scripts/validate_escaping_radiation.py",
+      "inspected_utc": "2026-09-28"
+    },
+    {
+      "id": "fukue2018_transfer",
+      "title": "Fukue (2018)",
+      "url": "https://doi.org/10.1093/mnras/sty358",
+      "reference_location": "Equations 3-14 and grey scattering moment equations; public indexed primary article",
+      "status": "implemented_restricted_moving_transfer",
+      "assumptions": "Isotropic coherent scattering in the comoving frame; frequency-independent specified extinction, no true absorption or material energy equation",
+      "validity": "Outward v/c <= .01 in tested moment solver; no ionization or gas temperature prediction",
+      "variables_units": "D=[gamma(1-mu beta)]^-1; lab source D^4 J0; extinction chi0/D",
+      "implementation_interpretation": "Conservative moving moments closed by angular rays; incoming core light absorbed and isotropic emitted intensity determined by net luminosity. Published relativistic figure families are not claimed reproduced.",
+      "implementation": "src/qstars/grey_transfer.py; docs/escaping_radiation.md",
+      "inspected_utc": "2026-09-28"
+    },
+    {
+      "id": "owocki2017_analytic",
+      "title": "Owocki, Townsend & Quataert (2017) flux-driven limit",
+      "url": "https://arxiv.org/abs/1708.07790",
+      "reference_location": "Equation 24 and 26; finite initial kinetic energy generalization independently derived",
+      "status": "implemented_constructed_stationary_control",
+      "assumptions": "Constant grey opacity, no gas pressure/enthalpy; analytic reference neglects radiation drag, numerical wind includes moving transfer",
+      "validity": "Mathematical continuum control, supplied mdot and vbase. Not a thermodynamic primordial quasi-star wind or an envelope match.",
+      "variables_units": "w=v^2/vesc^2, x=1-R/r, m=mdot GM/(R L0), Gamma=L0/Ledd",
+      "implementation_interpretation": "No coefficient fits. Compare velocity, density, luminosity, force and photospheric diagnostic, energy and momentum; high-drag negative control must not be interpreted through the small-drag analytic approximation.",
+      "implementation": "src/qstars/continuum_wind.py; benchmarks/grey_continuum_wind.json",
+      "inspected_utc": "2026-09-28"
+    },
+    {
+      "id": "outer_public_code_audit",
+      "title": "Public stationary-wind and transfer candidate audit",
+      "url": "https://github.com/sirocco-rt/sirocco",
+      "reference_location": "Pinned SIROCCO, MPI-AMRVAC and DUSTY source paths, model inputs and hashes in candidate_source_files.json",
+      "status": "audited_not_coupled",
+      "assumptions": "Availability ranked separately from physical correspondence; prescribed flow, line driving and dust driving remain different families",
+      "validity": "No installed/coupled non-LTE or dust/line wind claim",
+      "variables_units": "Each candidate records equations, EOS, opacity, radiation, sonic and boundary conditions, composition, M/R/L and available outputs",
+      "implementation_interpretation": "Constructed analytic continuum control chosen for exact reproducibility; public transfer packages remain candidates for closing missing gas/radiation microphysics, not substitutes for a solved launch.",
+      "implementation": "benchmarks/outer_candidates.json; scripts/register_outer_candidates.py",
+      "inspected_utc": "2026-09-28"
     }
   ]
 }

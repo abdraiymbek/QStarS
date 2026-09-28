@@ -1,0 +1,74 @@
+[
+  {
+    "repo": "amrvac/amrvac",
+    "commit": "574fc6e3f76be669bcb066fd2ea10accfa06ab90",
+    "path": "tests/hd/CAKwind_spherical_1D/mod_usr.t",
+    "url": "https://raw.githubusercontent.com/amrvac/amrvac/574fc6e3f76be669bcb066fd2ea10accfa06ab90/tests/hd/CAKwind_spherical_1D/mod_usr.t",
+    "status": 200,
+    "local_path": "sources/cache/amrvac_mod_usr.t",
+    "sha256": "8b2e94b94da827d8be07504001647552355cc3db47e01db52793e77a0d680ed2"
+  },
+  {
+    "repo": "amrvac/amrvac",
+    "commit": "574fc6e3f76be669bcb066fd2ea10accfa06ab90",
+    "path": "tests/hd/CAKwind_spherical_1D/cak_1d.par",
+    "url": "https://raw.githubusercontent.com/amrvac/amrvac/574fc6e3f76be669bcb066fd2ea10accfa06ab90/tests/hd/CAKwind_spherical_1D/cak_1d.par",
+    "status": 200,
+    "local_path": "sources/cache/amrvac_cak_1d.par",
+    "sha256": "04500d136aa08f6f6fd6d0c6a921a2d638add6c1f6a38a31f6c7f1a38cf09b4d"
+  },
+  {
+    "repo": "sirocco-rt/sirocco",
+    "commit": "e3a8c4db3229fc90934d890f882c7edcea68f0f5",
+    "path": "examples/basic/star.pf",
+    "url": "https://raw.githubusercontent.com/sirocco-rt/sirocco/e3a8c4db3229fc90934d890f882c7edcea68f0f5/examples/basic/star.pf",
+    "status": 200,
+    "local_path": "sources/cache/sirocco_star.pf",
+    "sha256": "50bb2f7c25862f155aef7e370704eec2c0588e04ac7ceb93c7678b2130ff7f5c"
+  },
+  {
+    "repo": "sirocco-rt/sirocco",
+    "commit": "e3a8c4db3229fc90934d890f882c7edcea68f0f5",
+    "path": "docs/sphinx/source/examples/benchmarking/cmfgen.rst",
+    "url": "https://raw.githubusercontent.com/sirocco-rt/sirocco/e3a8c4db3229fc90934d890f882c7edcea68f0f5/docs/sphinx/source/examples/benchmarking/cmfgen.rst",
+    "status": 200,
+    "local_path": "sources/cache/sirocco_cmfgen.rst",
+    "sha256": "7bd8b9e554b637fc8d5fdb8071e68ae65a6f99a2332c1ec35936a217e5de02ab"
+  },
+  {
+    "repo": "sirocco-rt/sirocco",
+    "commit": "e3a8c4db3229fc90934d890f882c7edcea68f0f5",
+    "path": "source/stellar_wind.c",
+    "url": "https://raw.githubusercontent.com/sirocco-rt/sirocco/e3a8c4db3229fc90934d890f882c7edcea68f0f5/source/stellar_wind.c",
+    "status": 200,
+    "local_path": "sources/cache/sirocco_stellar_wind.c",
+    "sha256": "a6235202eceb25f291d86b378905d36eafd09bd2545d34d0b027c3848097a3f7"
+  },
+  {
+    "repo": "ivezic/dusty",
+    "commit": "89992eb4fd25290aa0bbc60730f977baac197f11",
+    "path": "dusty_web/distribution/sphere3.inp",
+    "url": "https://raw.githubusercontent.com/ivezic/dusty/89992eb4fd25290aa0bbc60730f977baac197f11/dusty_web/distribution/sphere3.inp",
+    "status": 200,
+    "local_path": "sources/cache/dusty_sphere3.inp",
+    "sha256": "9e7a69efddc65ce230a78101276abdb1baad14796640ab79842ffdde53e5c70c"
+  },
+  {
+    "repo": "ivezic/dusty",
+    "commit": "89992eb4fd25290aa0bbc60730f977baac197f11",
+    "path": "dusty_web/distribution/Sample_output/sphere3.out",
+    "url": "https://raw.githubusercontent.com/ivezic/dusty/89992eb4fd25290aa0bbc60730f977baac197f11/dusty_web/distribution/Sample_output/sphere3.out",
+    "status": 200,
+    "local_path": "sources/cache/dusty_sphere3.out",
+    "sha256": "0b144d50ede80d7af24c2a6f96bd49e1f36621dfb866bf3c1657a36e536a7e3b"
+  },
+  {
+    "repo": "ivezic/dusty",
+    "commit": "89992eb4fd25290aa0bbc60730f977baac197f11",
+    "path": "releaseV2/Manual/manual.tex",
+    "url": "https://raw.githubusercontent.com/ivezic/dusty/89992eb4fd25290aa0bbc60730f977baac197f11/releaseV2/Manual/manual.tex",
+    "status": 200,
+    "local_path": "sources/cache/dusty_manual.tex",
+    "sha256": "86cbf512044176c242ea08bab345089158e5ecf34eac20a857a4fe9658929d70"
+  }
+]

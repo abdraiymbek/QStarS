@@ -1,0 +1,212 @@
+[
+  {
+    "name": "outer_10000:energy",
+    "value": 3.7228816696099898e-09,
+    "limit": 0.001,
+    "passed": true
+  },
+  {
+    "name": "outer_10000:angular_flux",
+    "value": 0.0012279835666433314,
+    "limit": 0.005,
+    "passed": true
+  },
+  {
+    "name": "outer_10000:streaming",
+    "value": 0.0009942450484288212,
+    "limit": 0.01,
+    "passed": true
+  },
+  {
+    "name": "outer_10000:velocity_reference",
+    "value": 0.0014488448902837403,
+    "limit": 0.01,
+    "passed": true
+  },
+  {
+    "name": "outer_10000:force_reference",
+    "value": 0.0016014375035492412,
+    "limit": 0.01,
+    "passed": true
+  },
+  {
+    "name": "outer_30000:energy",
+    "value": 3.923032343422506e-09,
+    "limit": 0.001,
+    "passed": true
+  },
+  {
+    "name": "outer_30000:angular_flux",
+    "value": 0.0010777104457438957,
+    "limit": 0.005,
+    "passed": true
+  },
+  {
+    "name": "outer_30000:streaming",
+    "value": 0.0003329740250037627,
+    "limit": 0.01,
+    "passed": true
+  },
+  {
+    "name": "outer_30000:velocity_reference",
+    "value": 0.0014488439415815124,
+    "limit": 0.01,
+    "passed": true
+  },
+  {
+    "name": "outer_30000:force_reference",
+    "value": 0.0016013754785410006,
+    "limit": 0.01,
+    "passed": true
+  },
+  {
+    "name": "outer_100000:energy",
+    "value": 3.7228763405394716e-09,
+    "limit": 0.001,
+    "passed": true
+  },
+  {
+    "name": "outer_100000:angular_flux",
+    "value": 0.00122799565711873,
+    "limit": 0.005,
+    "passed": true
+  },
+  {
+    "name": "outer_100000:streaming",
+    "value": 0.0001000851914201295,
+    "limit": 0.01,
+    "passed": true
+  },
+  {
+    "name": "outer_100000:velocity_reference",
+    "value": 0.0014488448904048656,
+    "limit": 0.01,
+    "passed": true
+  },
+  {
+    "name": "outer_100000:force_reference",
+    "value": 0.0016014375041166762,
+    "limit": 0.01,
+    "passed": true
+  },
+  {
+    "name": "outer_10000:velocity",
+    "value": 1.1373115782475907e-09,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "outer_10000:density",
+    "value": 1.1340217653810214e-09,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "outer_10000:J",
+    "value": 5.930188202385445e-06,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "outer_10000:H",
+    "value": 3.375077994860476e-14,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "outer_10000:K",
+    "value": 1.6119654298041297e-06,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "outer_10000:force",
+    "value": 7.634461951511184e-10,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "outer_10000:photosphere",
+    "value": 0.0026792686649965702,
+    "limit": 0.002,
+    "passed": false
+  },
+  {
+    "name": "outer_10000:effective_temperature",
+    "value": 0.0013423773385816684,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "outer_10000:emergent_luminosity_ratio",
+    "value": 1.799640600985697e-07,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "outer_30000:velocity",
+    "value": 2.6795493945908078e-05,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "outer_30000:density",
+    "value": 2.676640466958702e-05,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "outer_30000:J",
+    "value": 0.0001393255050621267,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "outer_30000:H",
+    "value": 8.369758219828327e-10,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "outer_30000:K",
+    "value": 6.516033291381618e-06,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "outer_30000:force",
+    "value": 1.6071856390187378e-07,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "outer_30000:photosphere",
+    "value": 0.0006946497874295021,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "outer_30000:effective_temperature",
+    "value": 0.0003475175635334615,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "outer_30000:emergent_luminosity_ratio",
+    "value": 4.643639939239108e-08,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "deep_power1p5:J",
+    "value": 0.0008719238529024675,
+    "limit": 0.005,
+    "passed": true
+  },
+  {
+    "name": "deep_power1p5:f",
+    "value": 0.00035604725738141996,
+    "limit": 0.001,
+    "passed": true
+  }
+]

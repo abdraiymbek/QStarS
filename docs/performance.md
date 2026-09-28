@@ -1,5 +1,16 @@
 # Apple Silicon performance report
 
+Report 11's sequential grey radiation/stationary-control campaign took
+**55.42 s / 745.03 MiB**; its outer-extent follow-up took **68.63 s / 1213.56 MiB**.
+Individual 401/801-node stationary controls took **3.95/8.13 s**; the extended
+2001-node, 100,000R control took **25.95 s**. These are useful individual local
+CPU workloads on the same Apple M5 / 16 GiB MacBook. The full native-enabled
+85-test suite took **34.29 s**. No coupled stellar evolution or cloud scaling
+was measured. Angular-ray storage grows roughly quadratically with radial
+resolution; independent larger grids can benefit from cloud CPU/memory capacity.
+See [Report 11](../Reports/Report_11.md) for the narrow physical domain and failures.
+
+
 Report 10 measured **205.23 s / 676.58 MiB** for 42 stationary attribution
 runs and **31.74 s / 555.00 MiB** for the moving-face, MLT-exit and coverage
 audit on the Apple M5 MacBook. The full 76-test suite took 32.69 s. These

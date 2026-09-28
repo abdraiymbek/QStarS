@@ -12,11 +12,15 @@ photospheres, moving cavities, and coupled transonic winds remain open validatio
 Fiacconi–Rossi stationary wind solver now includes radiation enthalpy advection.
 These examples do not establish quasi-star lifetimes or QSRD recovery results.
 
-[Report 10](Reports/Report_10.md) records **OUTER FAIL** after 42 wind attribution
-runs. It adds historical OPAL/AF94 comparisons, conservative moving-surface
-fluxes and an explicit MLT validity exit. All 76 tests pass; the published
-escaping branch, escaping radiation and physical envelope match remain
-unvalidated. Stage B was not run.
+[Report 11](Reports/Report_11.md) records **OUTER CLOSURE FAIL**. Spherical grey
+angular transfer and a constructed stationary continuum control now pass scoped
+validation, including radiation work and outer-boundary refinement. **85 tests
+pass.** Recombining gas/radiation closure and physical envelope mass-loss matching
+remain unresolved; no coupled evolution or QSRD run was performed.
+
+[Report 10](Reports/Report_10.md) retains the earlier Nakauchi discrepancy,
+conservative moving-surface accounting and Mach-one MLT exit. Its attribution
+campaign was not repeated in Report 11.
 
 [Report 9](Reports/Report_9.md) adds a spherical gas-sonic wind component with
 FreeEOS/MESA recombination, full enthalpy/work fluxes and independent integral

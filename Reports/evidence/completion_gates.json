@@ -9,7 +9,7 @@
     "CONDITIONAL": "Bounded evidence exists; does not certify general use.",
     "FAIL": "Required capability or validation missing or failing."
   },
-  "automated_tests_passed": 76,
+  "automated_tests_passed": 85,
   "automated_tests_failed": 0,
   "optional_mesa_tests": 10,
   "cli_validation": {
@@ -22,7 +22,7 @@
       "CB24 printed BH/inner mass"
     ]
   },
-  "source_registry_entries": 37,
+  "source_registry_entries": 41,
   "published_full_evolution_replication": false,
   "published_full_evolution_replicas": 0,
   "published_structure_replication": "subset_passes_with_two_retained_printed_value_discrepancies",
@@ -80,14 +80,15 @@
       "priority": 4,
       "name": "Wind physics",
       "status": "FAIL",
-      "achieved": "Stationary gas-sonic component with historical opacity audit, profile convergence, independent conservation and moving-surface flux identity.",
-      "remaining": "Published escaping branch, justified exterior transfer and physical envelope match remain unvalidated; no coupled wind evolution.",
+      "achieved": "Gas-sonic diffusion component remains; new independent static/moving grey angular transfer and constructed pressure-free stationary control pass scoped checks.",
+      "remaining": "Thermodynamic recombining wind, envelope mass-loss eigenvalue, convection handoff and coupled evolution remain unvalidated.",
       "evidence": [
         "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json",
         "docs/equations.md",
         "Reports/evidence/development_20260928/final_tests/result.json",
         "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/validation.json",
-        "Reports/Report_10.md"
+        "Reports/Report_10.md",
+        "Reports/Report_11.md"
       ]
     },
     {
@@ -420,164 +421,75 @@
   "production_atmosphere": "OUTER_FAIL_historical_opacity_audit_moving_flux_and_MLT_exit_do_not_validate_exterior",
   "native_full_mlt": "reference_only_not_envelope_transport",
   "freeeos_reference": "153_state_gas_audit_passes_upstream_byte_tests_fail",
-  "latest_report": "Reports/Report_10.md",
-  "release_blocker": {
-    "id": "outer_closure_stage_a",
-    "status": "FAIL",
-    "finding": "Stationary red branch remains unresolved after 42 attribution cases; escaping radiation and physical base match still fail. MLT now exits and moving-surface accounting passes.",
-    "cool_max_convective_mach": 2.336716044874007,
-    "cool_tau_at_peak_mach": 19.78778393333309,
-    "warm_photosphere_to_base_depth_over_radius": 0.06675656145899557,
-    "physical_impossibility_of_1d_claimed": false,
-    "is_physical_disruption_diagnosis": false,
-    "resolution": "Attributable stationary benchmark, validated expanding radiative transfer, and physical envelope match required before Stage B.",
-    "evidence": [
-      "Reports/Report_10.md",
-      "Reports/evidence/outer_report10_20260928/analysis/analysis.json",
-      "benchmarks/results/2026-09-28-outer-audit/20260928T175917.423111Z_outer_transport/campaign.json"
-    ],
-    "report8_blocker_retained": true,
-    "report9_blocker_retained": {
-      "id": "spherical_outer_closure_validation",
-      "status": "FAIL",
-      "finding": "Spherical gas-sonic component and internal numerical checks pass; escaping published benchmark, physical envelope matching and complete outer radiation transfer do not pass.",
-      "cool_max_convective_mach": 2.336716044874007,
-      "cool_tau_at_peak_mach": 19.78778393333309,
-      "warm_photosphere_to_base_depth_over_radius": 0.06675656145899557,
-      "physical_impossibility_of_1d_claimed": false,
-      "is_physical_disruption_diagnosis": false,
-      "resolution": "Resolve published microphysics discrepancies, validate transport through recombination/photosphere and physical turbulent or outflow matching, then conservative moving-face coupling.",
-      "evidence": [
-        "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/validation.json",
-        "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/published_scalar_comparison.json",
-        "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/report8_base_attempts.json",
-        "docs/spherical_wind.md"
-      ],
-      "report8_blocker_retained": true
-    }
-  },
+  "latest_report": "Reports/Report_11.md",
+  "release_blocker": "Grey angular transfer and constructed stationary control validated in restricted domains; material energy/ionization/flux means and physical gas-sonic envelope match still absent. Mach-one MLT exclusion retained.",
   "active_request_gates": [
     {
-      "id": "A_numerics",
-      "name": "Stationary spherical convergence",
+      "name": "Reproducible stationary benchmark selection",
+      "status": "CONDITIONAL",
+      "scope": "Nine candidate records. Constructed exact-input continuum control passes, but does not supply thermodynamic gas/ionization or a mass-loss eigenvalue.",
+      "evidence": [
+        "benchmarks/outer_candidates.json",
+        "benchmarks/grey_continuum_wind.json"
+      ]
+    },
+    {
+      "name": "Independent grey escaping radiation",
       "status": "PASS",
-      "scope": "Reference equations only",
+      "scope": "Published J and f, angular flux, moving work, streaming/diffusion and refined domains. Fixed grey coherent isotropic scattering only.",
       "evidence": [
-        "benchmarks/results/2026-09-28-outer-audit/20260928T175246.266274Z_outer_discrepancy/comparisons.json",
-        "benchmarks/results/2026-09-28-outer-audit/20260928T175246.266274Z_outer_discrepancy/cases.json"
+        "Reports/Report_11.md",
+        "benchmarks/results/2026-09-28-escaping/20260928T185733.289889Z_escaping_radiation/checks.json",
+        "benchmarks/results/2026-09-28-escaping/20260928T190026.596335Z_escaping_extent/checks.json"
       ]
     },
     {
-      "id": "A1",
-      "name": "Published benchmark reproduced or explained",
+      "name": "Recombining-envelope escaping radiation",
       "status": "FAIL",
-      "finding": "Historical opacity radius 656.788 Rsun versus published vector band 1333.45\u20131399.20; tested differences do not explain it.",
+      "scope": "No material energy/population solution or justified non-grey flux means. Constant opacity is not substituted into the original stellar wind.",
       "evidence": [
-        "Reports/evidence/outer_report10_20260928/analysis/analysis.json",
-        "benchmarks/results/2026-09-28-outer-audit/20260928T175246.266274Z_outer_discrepancy/cases.json"
+        "docs/escaping_radiation.md"
       ]
     },
     {
-      "id": "A2",
-      "name": "Validated escaping radiation",
-      "status": "FAIL",
-      "finding": "Rosseland diffusion component only; no validated exterior flux mean, energy exchange or emergent observables.",
-      "evidence": [
-        "Reports/Report_10.md",
-        "docs/spherical_wind.md"
-      ]
-    },
-    {
-      "id": "A3",
-      "name": "Physical envelope-to-wind eigenvalue match",
-      "status": "FAIL",
-      "finding": "Moving-face interface is verified, but physical base match and evolving reconstruction remain unvalidated. Failed optimizers do not prove no roots.",
-      "evidence": [
-        "benchmarks/results/2026-09-28-outer-audit/20260928T175917.423111Z_outer_transport/moving_sphere.json",
-        "Reports/Report_9.md"
-      ]
-    },
-    {
-      "id": "A_conservation",
-      "name": "Conservative moving matching surface",
+      "name": "Stationary grey continuum control",
       "status": "PASS",
-      "scope": "Component flux identity, not stellar evolution",
+      "scope": "Velocity, density, luminosity, force, photosphere, independent work/momentum and mesh/extent checks; supplied mdot and base speed.",
       "evidence": [
-        "benchmarks/results/2026-09-28-outer-audit/20260928T175917.423111Z_outer_transport/moving_sphere.json",
-        "tests/test_wind_moving_boundary.py"
+        "Reports/Report_11.md"
       ]
     },
     {
-      "id": "A4",
-      "name": "Convection validity handled by explicit exit",
-      "status": "PASS",
-      "scope": "Local MLT Mach-one rejection policy; zero-convection wind base and turbulence not validated",
-      "evidence": [
-        "benchmarks/results/2026-09-28-outer-audit/20260928T175917.423111Z_outer_transport/mlt_exits.json"
-      ]
-    },
-    {
-      "id": "A_domain",
-      "name": "Explicit outer validity domain",
-      "status": "PASS",
-      "scope": "Documented restrictions and rejected production use",
-      "evidence": [
-        "docs/validity.md",
-        "Reports/Report_10.md"
-      ]
-    },
-    {
-      "id": "B1",
-      "name": "Coupled major fluxes",
+      "name": "Physical envelope-to-wind match",
       "status": "FAIL",
-      "disposition": "NOT_RUN_PREREQUISITE_A_FAILED",
+      "scope": "Required thermodynamic state and gas-sonic mass-loss eigencondition missing; no physical matching solve claimed.",
       "evidence": [
-        "Reports/Report_10.md"
+        "docs/escaping_radiation.md"
       ]
     },
     {
-      "id": "B2",
-      "name": "Conservative evolving quasi-star",
-      "status": "FAIL",
-      "disposition": "NOT_RUN_PREREQUISITE_A_FAILED",
+      "name": "Convection transition validity",
+      "status": "CONDITIONAL",
+      "scope": "Mach-one rejection retained and native regression passes; no physically validated accelerating handoff from the excluded MLT state.",
       "evidence": [
-        "Reports/Report_10.md"
+        "Reports/evidence/escaping_20260928/full_tests.log",
+        "docs/atmosphere.md"
       ]
     },
     {
-      "id": "B3",
-      "name": "Coupled profile convergence",
+      "name": "Conservative coupled evolving envelope",
       "status": "FAIL",
-      "disposition": "NOT_RUN_PREREQUISITE_A_FAILED",
+      "scope": "Not run because required physical prerequisites fail. No coupled restart/retry/remesh or time-convergence claim.",
       "evidence": [
-        "Reports/Report_10.md"
+        "Reports/Report_11.md"
       ]
     },
     {
-      "id": "B4",
-      "name": "Coupled restart retry remesh",
+      "name": "First complete published evolution",
       "status": "FAIL",
-      "disposition": "NOT_RUN_PREREQUISITE_A_FAILED",
+      "scope": "Not attempted; zero complete tracks, no QSRD or general v1 claim.",
       "evidence": [
-        "Reports/Report_10.md"
-      ]
-    },
-    {
-      "id": "B5",
-      "name": "Full published evolutionary track",
-      "status": "FAIL",
-      "disposition": "NOT_RUN_PREREQUISITE_A_FAILED",
-      "evidence": [
-        "Reports/Report_10.md"
-      ]
-    },
-    {
-      "id": "B6",
-      "name": "Coupled MacBook performance",
-      "status": "FAIL",
-      "disposition": "NOT_RUN_PREREQUISITE_A_FAILED",
-      "evidence": [
-        "Reports/Report_10.md"
+        "Reports/Report_11.md"
       ]
     }
   ],
@@ -653,14 +565,17 @@
     }
   ],
   "outer_campaign_completion": {
-    "outcome": "OUTER FAIL",
-    "stage_a_pass": false,
-    "stage_b_run": false,
-    "no_go_for_1d_demonstrated": false,
+    "outcome": "OUTER CLOSURE FAIL",
+    "static_grey_component_pass": true,
+    "moving_grey_component_pass": true,
+    "constructed_stationary_control_pass": true,
+    "thermodynamic_quasistar_wind_validated": false,
+    "physical_envelope_match": false,
     "conservative_coupled_evolution_attempted": false,
-    "stopping_reason": "User-authorized stop when Stage A conditions do not pass",
+    "published_full_evolution_replicas": 0,
+    "no_go_for_1d_demonstrated": false,
     "evidence": [
-      "Reports/Report_10.md"
+      "Reports/Report_11.md"
     ]
   },
   "previous_active_request_gates_report9": [
@@ -798,5 +713,150 @@
     "outcome_C": false,
     "no_go_for_1d_demonstrated": false,
     "conservative_coupled_evolution_attempted": false
+  },
+  "previous_active_request_gates_report10": [
+    {
+      "id": "A_numerics",
+      "name": "Stationary spherical convergence",
+      "status": "PASS",
+      "scope": "Reference equations only",
+      "evidence": [
+        "benchmarks/results/2026-09-28-outer-audit/20260928T175246.266274Z_outer_discrepancy/comparisons.json",
+        "benchmarks/results/2026-09-28-outer-audit/20260928T175246.266274Z_outer_discrepancy/cases.json"
+      ]
+    },
+    {
+      "id": "A1",
+      "name": "Published benchmark reproduced or explained",
+      "status": "FAIL",
+      "finding": "Historical opacity radius 656.788 Rsun versus published vector band 1333.45\u20131399.20; tested differences do not explain it.",
+      "evidence": [
+        "Reports/evidence/outer_report10_20260928/analysis/analysis.json",
+        "benchmarks/results/2026-09-28-outer-audit/20260928T175246.266274Z_outer_discrepancy/cases.json"
+      ]
+    },
+    {
+      "id": "A2",
+      "name": "Validated escaping radiation",
+      "status": "FAIL",
+      "finding": "Rosseland diffusion component only; no validated exterior flux mean, energy exchange or emergent observables.",
+      "evidence": [
+        "Reports/Report_10.md",
+        "docs/spherical_wind.md"
+      ]
+    },
+    {
+      "id": "A3",
+      "name": "Physical envelope-to-wind eigenvalue match",
+      "status": "FAIL",
+      "finding": "Moving-face interface is verified, but physical base match and evolving reconstruction remain unvalidated. Failed optimizers do not prove no roots.",
+      "evidence": [
+        "benchmarks/results/2026-09-28-outer-audit/20260928T175917.423111Z_outer_transport/moving_sphere.json",
+        "Reports/Report_9.md"
+      ]
+    },
+    {
+      "id": "A_conservation",
+      "name": "Conservative moving matching surface",
+      "status": "PASS",
+      "scope": "Component flux identity, not stellar evolution",
+      "evidence": [
+        "benchmarks/results/2026-09-28-outer-audit/20260928T175917.423111Z_outer_transport/moving_sphere.json",
+        "tests/test_wind_moving_boundary.py"
+      ]
+    },
+    {
+      "id": "A4",
+      "name": "Convection validity handled by explicit exit",
+      "status": "PASS",
+      "scope": "Local MLT Mach-one rejection policy; zero-convection wind base and turbulence not validated",
+      "evidence": [
+        "benchmarks/results/2026-09-28-outer-audit/20260928T175917.423111Z_outer_transport/mlt_exits.json"
+      ]
+    },
+    {
+      "id": "A_domain",
+      "name": "Explicit outer validity domain",
+      "status": "PASS",
+      "scope": "Documented restrictions and rejected production use",
+      "evidence": [
+        "docs/validity.md",
+        "Reports/Report_10.md"
+      ]
+    },
+    {
+      "id": "B1",
+      "name": "Coupled major fluxes",
+      "status": "FAIL",
+      "disposition": "NOT_RUN_PREREQUISITE_A_FAILED",
+      "evidence": [
+        "Reports/Report_10.md"
+      ]
+    },
+    {
+      "id": "B2",
+      "name": "Conservative evolving quasi-star",
+      "status": "FAIL",
+      "disposition": "NOT_RUN_PREREQUISITE_A_FAILED",
+      "evidence": [
+        "Reports/Report_10.md"
+      ]
+    },
+    {
+      "id": "B3",
+      "name": "Coupled profile convergence",
+      "status": "FAIL",
+      "disposition": "NOT_RUN_PREREQUISITE_A_FAILED",
+      "evidence": [
+        "Reports/Report_10.md"
+      ]
+    },
+    {
+      "id": "B4",
+      "name": "Coupled restart retry remesh",
+      "status": "FAIL",
+      "disposition": "NOT_RUN_PREREQUISITE_A_FAILED",
+      "evidence": [
+        "Reports/Report_10.md"
+      ]
+    },
+    {
+      "id": "B5",
+      "name": "Full published evolutionary track",
+      "status": "FAIL",
+      "disposition": "NOT_RUN_PREREQUISITE_A_FAILED",
+      "evidence": [
+        "Reports/Report_10.md"
+      ]
+    },
+    {
+      "id": "B6",
+      "name": "Coupled MacBook performance",
+      "status": "FAIL",
+      "disposition": "NOT_RUN_PREREQUISITE_A_FAILED",
+      "evidence": [
+        "Reports/Report_10.md"
+      ]
+    }
+  ],
+  "previous_outer_campaign_completion_report10": {
+    "outcome": "OUTER FAIL",
+    "stage_a_pass": false,
+    "stage_b_run": false,
+    "no_go_for_1d_demonstrated": false,
+    "conservative_coupled_evolution_attempted": false,
+    "stopping_reason": "User-authorized stop when Stage A conditions do not pass",
+    "evidence": [
+      "Reports/Report_10.md"
+    ]
+  },
+  "report11_numerical_checks": {
+    "total": 200,
+    "passed": 190,
+    "failed_retained": 10,
+    "regression_tests_passed": 85,
+    "full_suite_seconds": 34.29,
+    "archive_files": 132,
+    "source_snapshot_verified": true
   }
 }

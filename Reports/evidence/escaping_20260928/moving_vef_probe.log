@@ -1,0 +1,4 @@
+3 0.01 seconds 0.7889047499920707 last {'iteration': 11, 'closure_change': 8.989517497060007e-08, 'intensity_change': 3.4737964893505335e-07, 'angular_flux_max_error': 0.0008715964203060977, 'formal_source_max_error': 0.0007665891760540999} L/Lbase 0.971722250342629 work_balance 1.7746173625009243e-06
+30 0 seconds 0.8754287909832783 last {'iteration': 11, 'closure_change': 1.148564787722961e-07, 'intensity_change': 3.7811708608614936e-07, 'angular_flux_max_error': 0.0027723394674106228, 'formal_source_max_error': 0.0008158785407014202} L/Lbase 1.0 work_balance 0.0
+30 0.01 seconds 0.8593711660068948 last {'iteration': 11, 'closure_change': 1.1698340807164698e-07, 'intensity_change': 4.2433686675558135e-07, 'angular_flux_max_error': 0.0019322043077287798, 'formal_source_max_error': 0.0007993329552596906} L/Lbase 0.7807311729680108 work_balance 1.3283132131891584e-05
+0.03 0.1 FAIL Finite nonnegative source and outgoing core intensities required []

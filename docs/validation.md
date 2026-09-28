@@ -5,7 +5,7 @@ important numerical checks for a specified hot-envelope problem and adds direct
 MESA microphysics and a stationary advective-wind reference. It does not
 reproduce complete published quasi-star evolutionary tracks.
 
-The current automated suite has **76 passing tests with MESA and FreeEOS enabled**
+The current automated suite has **85 passing tests with MESA and FreeEOS enabled**
 (optional native-library tests require the pinned builds).
 The full `qstars validate --require-v1` campaign has **29 passing checks and two
 retained printed-value discrepancies** and correctly exits 2. Passing software
@@ -24,13 +24,26 @@ tests and resolution criteria](atmosphere.md). General v1 remains blocked.
 
 ## Current outer-closure gate
 
-[Report 10](../Reports/Report_10.md) classifies the campaign as **OUTER FAIL**.
-Historical OPAL/AF94 selection changes the red comparison photosphere from
-656.64 to 656.79 Rsun, still far below the published roughly 1400 Rsun.
-42 attribution runs isolate numerical and input-convention effects without
-retuning. Moving-surface mass/energy identities pass at 2.11e-10 relative;
-the atmosphere now exits at convective Mach one. These improvements do not
-validate escaping transfer or physical-base matching. Stage B remains unrun.
+[Report 11](../Reports/Report_11.md) classifies the current work as **OUTER CLOSURE FAIL**.
+The published spherical grey moment table, moving coherent-scattering radiation
+work, and constructed small-drag wind comparisons pass their stated component
+limits. The 801/1601-node grey profiles differ by at most 0.0329%; wind profiles
+at 401/801 nodes differ by at most 0.0471%. Extending the wind exterior from
+30,000 to 100,000 base radii changes the photosphere by 0.0695%, below the 0.2%
+limit. Shorter exterior failures remain archived. These are fixed-grey controls,
+with no material temperature/ionization or mass-loss eigenvalue; they do not
+validate a physical quasi-star outer boundary. No coupled evolution was run.
+
+The campaigns retain **190 passing and ten failing numerical checks**, including
+coarse-grid, insufficient-depth, finite-exterior and approximation counterexamples.
+The report separates resolved finer controls from these retained failures.
+See [the method and validity domain](escaping_radiation.md),
+[the candidate audit](../benchmarks/outer_candidates.json), and
+[the current gate matrix](../Reports/evidence/completion_gates.json).
+
+[Report 10](../Reports/Report_10.md) remains the evidence for the unreproduced
+Nakauchi branch, moving-surface identities and mandatory Mach-one MLT exit.
+Its attribution campaign was not repeated.
 
 ## Spherical outer component campaign
 

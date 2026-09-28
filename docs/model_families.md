@@ -18,6 +18,8 @@ source; it does not claim reproduction of the source's entire stellar model.
 | `off`, `prescribed`, `dotan2011` wind | Separate mass/enthalpy removal and an independent energy-to-escape debit; optional published launch/tiring formula | Porous atmosphere, resolved sonic transition and radiation-enthalpy wind coupling |
 | `fiacconi2016_wind` reference | Stationary constant-opacity wind ODEs with radiation advection, photosphere diagnostic and explicit base Mach closure | Coupling to the evolving envelope; gas-pressure sonic eigenvalue selection; full evolution replication |
 | `nakauchi2017_lte_diffusion` reference | Spherical gas-sonic regularity, FreeEOS/MESA recombination, radiation/gas enthalpy, component base matching and flux interface | Escaping radiation, validated envelope match, turbulent transport, published escaping branch and evolution coupling |
+| Spherical grey angular transfer (Python reference API) | Static VEF and moving coherent-scattering transfer; E, F, Prr, angular closure and radiation work | Non-grey absorption/flux means, material energy/populations and coupled stellar boundary |
+| Constructed continuum wind (Python reference API) | Pressure-free fixed-grey stationary momentum plus escaping radiation, supplied mdot/base velocity | Recombination, gas sonic eigenvalue, physical envelope matching; illustrative dimensional scaling is not a star |
 | Ball loaded-polytrope reference | Published n=2,3,4 dimensionless structure | Thermal evolution |
 | Corrected Bondi reference | Cavity-inclusive dimensionless equilibrium limits | Thermal evolution and moving cavity accounting |
 | Saturated-convection reference | CB24 inner/outer ODE matching, with both documented cutoff interpretations | Full evolutionary family |
@@ -61,3 +63,12 @@ Moving-face fluxes now include relative advection and explicit surface work;
 no evolving cavity or physical matching result follows from that interface.
 The grey/MLT atmosphere raises `AtmosphereDomainExit` at Mach one. No invalid
 supersonic profile is returned. See [Report 10](../Reports/Report_10.md).
+
+## Report 11 radiation scope
+
+[The new angular transfer](escaping_radiation.md) is a separate explicitly grey
+family. It does not replace FreeEOS/MESA recombination in the gas-sonic wind.
+Pure scattering returns no gas temperature, entropy, enthalpy or ionization;
+its effective temperature and tau=2/3 radius are radiation diagnostics. The
+constructed stationary model prescribes mass flow and base velocity. No new
+production evolution boundary is enabled by these component results.

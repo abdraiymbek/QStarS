@@ -1,0 +1,13 @@
+{
+  "source": "https://adsabs.harvard.edu/pdf/1971MNRAS.152....1H",
+  "pdf_sha256": "05fdb069368c1b2885358203a6b84dc85eb41eb6e0e4c6026ba17b16f936be20",
+  "pdf_page_one_based": 11,
+  "table": "I",
+  "column": "iteration 4",
+  "core_boundary_g": 0.9584,
+  "transcription": "Manually checked against rendered table; no fit or digitized curve",
+  "published_accuracy": "few tenths of a percent internally, as large as one percent at surface",
+  "csv_sha256": "68daaabc432acb4bf835a32e086b14b69dca7d0c3e1a4c651e7e8febcec27ee3",
+  "local_render": "sources/cache/hummer1971_table1_render.png",
+  "render_sha256": "8422cbf1074f6f4a8a39b179bef82f42ae84d7c8390218059fc3c2205111dff0"
+}

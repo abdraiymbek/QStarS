@@ -1,0 +1,33 @@
+results/20260928T185733.289889Z_escaping_radiation
+grey_n201 completed_component 0.104
+grey_n401 completed_component 0.2
+grey_n801 completed_component 0.442
+grey_n1601 completed_component 1.108
+grey_tau30 completed_component 0.449
+grey_tau300 completed_component 0.444
+grey_outer30 completed_component 0.592
+grey_outer100 completed_component 0.588
+grey_outer300 completed_component 0.576
+grey_outer1000 completed_component 0.579
+grey_tol1e-05 completed_component 0.348
+grey_tol1e-09 completed_component 0.567
+grey_power1.5 completed_component 0.796
+grey_power3 completed_component 0.744
+grey_insufficient_iterations numerical_or_domain_failure 0.017
+moving_n201 completed_component 0.188
+moving_n401 completed_component 0.353
+moving_n801 completed_component 0.765
+moving_tau30_b0 completed_component 0.762
+moving_tau30_b0.001 completed_component 0.763
+moving_tau30_b0.01 completed_component 0.769
+moving_tau0.3_b0.01 completed_component 0.515
+direct_source_coarse_failure completed_component 0.475
+wind_n201 completed_component 2.273
+wind_n401 completed_component 3.948
+wind_n801 completed_component 8.125
+wind_tolerance completed_component 7.908
+wind_core64 completed_component 4.054
+wind_outer300 completed_component 8.107
+wind_crosscase completed_component 3.56
+wind_drag_negative_control completed_component 5.123
+{"outcome": "OUTER CLOSURE FAIL", "cases": 31, "completed": 30, "failures": ["grey_insufficient_iterations"], "checks": 165, "failed_checks": [{"name": "grey_mesh_201:f", "value": 0.0030099197580752968, "limit": 0.002, "passed": false, "scope": "grey_mesh_201", "expected_pass": true}, {"name": "grey_power1.5:diffusion_J", "value": 0.008227165649309365, "limit": 0.005, "passed": false, "scope": "diffusion asymptotic", "expected_pass": true}, {"name": "grey_power1.5:diffusion_f", "value": 0.002920198532922469, "limit": 0.001, "passed": false, "scope": "diffusion asymptotic", "expected_pass": true}, {"name": "direct_source_coarse_conservation", "value": 0.3598487140742607, "limit": 0.005, "passed": false, "scope": "retained converged-but-inaccurate method", "expected_pass": false}, {"name": "wind_drag_negative_control:velocity_reference_error", "value": 0.01442085792940484, "limit": 0.01, "passed": false, "scope": "stationary small-drag reference", "expected_pass": false}, {"name": "wind_drag_negative_control:density_reference_error", "value": 0.014631867357831618, "limit": 0.01, "passed": false, "scope": "stationary small-drag reference", "expected_pass": false}, {"name": "wind_drag_negative_control:force_reference_error", "value": 0.015749611881763825, "limit": 0.01, "passed": false, "scope": "stationary small-drag reference", "expected_pass": false}, {"name": "wind_outer:J", "value": 0.09726687496633879, "limit": 0.002, "passed": false, "scope": "wind_outer", "expected_pass": true}, {"name": "wind_outer:K", "value": 0.02977015436837105, "limit": 0.002, "passed": false, "scope": "wind_outer", "expected_pass": true}], "elapsed_seconds": 55.424218624975765, "peak_rss_mib": 745.03125, "source_snapshot_verified": true, "coupled_evolution_run": false, "physical_envelope_match": false, "published_full_evolution_replicas": 0, "v1": false}

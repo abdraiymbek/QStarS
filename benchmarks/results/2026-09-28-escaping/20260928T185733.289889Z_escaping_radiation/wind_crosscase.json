@@ -1,0 +1,145 @@
+{
+  "parameters": {
+    "gamma": 4,
+    "tiring": 0.0005,
+    "escape_speed_c": 0.0002,
+    "w_base": 0.0001,
+    "numerical_damping": 0.5
+  },
+  "history": [
+    {
+      "iteration": 1,
+      "momentum_fixed_point_error": 0.0020792118359038714,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 9.16884467239143e-08,
+        "intensity_change": 3.4752978606000795e-07,
+        "angular_flux_max_error": 0.0012450137591528687,
+        "formal_source_max_error": 0.0009404382521760457
+      }
+    },
+    {
+      "iteration": 2,
+      "momentum_fixed_point_error": 0.0010406263692184226,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 9.169619885618374e-08,
+        "intensity_change": 3.4758699363202084e-07,
+        "angular_flux_max_error": 0.0012449623833433732,
+        "formal_source_max_error": 0.0009405172651133498
+      }
+    },
+    {
+      "iteration": 3,
+      "momentum_fixed_point_error": 0.0005205533043241006,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 9.17000338995777e-08,
+        "intensity_change": 3.4761549194683994e-07,
+        "angular_flux_max_error": 0.001244936683561182,
+        "formal_source_max_error": 0.0009405567745344179
+      }
+    },
+    {
+      "iteration": 4,
+      "momentum_fixed_point_error": 0.00026032902529615765,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 9.17019405966002e-08,
+        "intensity_change": 3.476297110172055e-07,
+        "angular_flux_max_error": 0.0012449238385779937,
+        "formal_source_max_error": 0.0009405765344789874
+      }
+    },
+    {
+      "iteration": 5,
+      "momentum_fixed_point_error": 0.00013017375474511095,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 9.170289150262079e-08,
+        "intensity_change": 3.4763681688865233e-07,
+        "angular_flux_max_error": 0.0012449174212569858,
+        "formal_source_max_error": 0.0009405864180084267
+      }
+    },
+    {
+      "iteration": 6,
+      "momentum_fixed_point_error": 6.508725784715175e-05,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 9.170336612296381e-08,
+        "intensity_change": 3.4764036205281457e-07,
+        "angular_flux_max_error": 0.0012449142158585946,
+        "formal_source_max_error": 0.0009405913617863693
+      }
+    },
+    {
+      "iteration": 7,
+      "momentum_fixed_point_error": 3.254275758990399e-05,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 9.170360260046806e-08,
+        "intensity_change": 3.4764213707738634e-07,
+        "angular_flux_max_error": 0.0012449126149599588,
+        "formal_source_max_error": 0.0009405938347413212
+      }
+    },
+    {
+      "iteration": 8,
+      "momentum_fixed_point_error": 1.6270677113960907e-05,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 9.170372128330939e-08,
+        "intensity_change": 3.4764302592193985e-07,
+        "angular_flux_max_error": 0.0012449118154536087,
+        "formal_source_max_error": 0.00094059507176536
+      }
+    },
+    {
+      "iteration": 9,
+      "momentum_fixed_point_error": 8.134920904012688e-06,
+      "radiation": {
+        "iteration": 11,
+        "closure_change": 9.170377934797358e-08,
+        "intensity_change": 3.476434646820792e-07,
+        "angular_flux_max_error": 0.001244911416181771,
+        "formal_source_max_error": 0.000940595690554602
+      }
+    }
+  ],
+  "velocity_reference_error": 0.0010360223724659168,
+  "density_reference_error": 0.0010370968815851533,
+  "luminosity_reference_error": 2.6023650152584565e-06,
+  "force_reference_error": 0.001716578276234837,
+  "total_energy_defect": 5.398372304732391e-09,
+  "independent_angular_momentum_defect": 0.0013044679837137488,
+  "independent_angular_work_defect": 1.927729530322095e-06,
+  "optical_depth_base": 11.43290735449979,
+  "radiation_drag_max": 0.0017172798762235008,
+  "photospheric_radius_ratio": 8.235227819758542,
+  "analytic_photospheric_radius_ratio": 8.228576742561774,
+  "photosphere_reference_error": 0.0008082901095600725,
+  "velocity_to_local_escape_at_outer": 17.20753712629269,
+  "cg_scalars": {
+    "mass_loss_g_s": 1.6361948105368337e+24,
+    "enclosed_mass_g": 1.9884699999999998e+35,
+    "grey_opacity_cgs": 0.34,
+    "photospheric_radius_cm": 6080355660096415.0,
+    "effective_temperature_K": 1221.7983012546947,
+    "emergent_luminosity_erg_s": 5.870534372004839e+40,
+    "angular_emergent_luminosity_erg_s": 5.865730798903184e+40,
+    "gas_temperature_K": null,
+    "ionization": null,
+    "entropy": null,
+    "gas_enthalpy": null,
+    "sonic_radius_cm": null,
+    "temperature_is_spectral_prediction": false
+  },
+  "missing": [
+    "gas EOS and T",
+    "ionization/flux mean",
+    "gas sonic regularity",
+    "mass-loss eigenvalue",
+    "physical envelope match"
+  ]
+}

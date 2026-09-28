@@ -99,3 +99,19 @@ only a Rosseland mean, not a flux mean for escaping radiation. The strict wind
 still stops at R_E=0.1. `paper_photosphere` is solely a comparison continuation;
 its R_E=0.75 endpoint must not be exported as a validated stellar photosphere.
 Overall outcome: **OUTER FAIL**; coupled Stage B and QSRD remain gated.
+
+## Escaping radiation component (Report 11)
+
+Grey angular transfer now has independent published-moment, diffusion, streaming,
+frame-transformation, conservation and refinement evidence. It is limited to a
+specified frequency-independent isotropic scattering law; moving VEF validation
+covers outward v/c<=0.01. This does not certify MESA Rosseland means as escaping
+flux means, LTE in a dilute gas, or a non-LTE population solution.
+
+The continuum wind control has no gas-pressure or material-energy equation and
+uses supplied mdot/base speed. It cannot match the envelope's entropy/enthalpy
+or supply a sonic eigenvalue. Its optional 100-Msun scaling fails a physical
+fully-ionized/self-gravity interpretation and is labeled only a mathematical
+scaling. The 100R exterior failed radiation-profile and photospheric convergence;
+only the extended control has the documented 0.2% placement evidence. The
+Mach-one MLT exit remains unchanged. See [Report 11](../Reports/Report_11.md).

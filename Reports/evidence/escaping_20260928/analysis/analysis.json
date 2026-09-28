@@ -1,0 +1,575 @@
+{
+  "main_directory": "results/20260928T185733.289889Z_escaping_radiation",
+  "extent_directory": "results/20260928T190026.596335Z_escaping_extent",
+  "main_campaign": {
+    "outcome": "OUTER CLOSURE FAIL",
+    "cases": 31,
+    "completed": 30,
+    "failures": [
+      "grey_insufficient_iterations"
+    ],
+    "checks": 165,
+    "failed_checks": [
+      {
+        "name": "grey_mesh_201:f",
+        "value": 0.0030099197580752968,
+        "limit": 0.002,
+        "passed": false,
+        "scope": "grey_mesh_201",
+        "expected_pass": true
+      },
+      {
+        "name": "grey_power1.5:diffusion_J",
+        "value": 0.008227165649309365,
+        "limit": 0.005,
+        "passed": false,
+        "scope": "diffusion asymptotic",
+        "expected_pass": true
+      },
+      {
+        "name": "grey_power1.5:diffusion_f",
+        "value": 0.002920198532922469,
+        "limit": 0.001,
+        "passed": false,
+        "scope": "diffusion asymptotic",
+        "expected_pass": true
+      },
+      {
+        "name": "direct_source_coarse_conservation",
+        "value": 0.3598487140742607,
+        "limit": 0.005,
+        "passed": false,
+        "scope": "retained converged-but-inaccurate method",
+        "expected_pass": false
+      },
+      {
+        "name": "wind_drag_negative_control:velocity_reference_error",
+        "value": 0.01442085792940484,
+        "limit": 0.01,
+        "passed": false,
+        "scope": "stationary small-drag reference",
+        "expected_pass": false
+      },
+      {
+        "name": "wind_drag_negative_control:density_reference_error",
+        "value": 0.014631867357831618,
+        "limit": 0.01,
+        "passed": false,
+        "scope": "stationary small-drag reference",
+        "expected_pass": false
+      },
+      {
+        "name": "wind_drag_negative_control:force_reference_error",
+        "value": 0.015749611881763825,
+        "limit": 0.01,
+        "passed": false,
+        "scope": "stationary small-drag reference",
+        "expected_pass": false
+      },
+      {
+        "name": "wind_outer:J",
+        "value": 0.09726687496633879,
+        "limit": 0.002,
+        "passed": false,
+        "scope": "wind_outer",
+        "expected_pass": true
+      },
+      {
+        "name": "wind_outer:K",
+        "value": 0.02977015436837105,
+        "limit": 0.002,
+        "passed": false,
+        "scope": "wind_outer",
+        "expected_pass": true
+      }
+    ],
+    "elapsed_seconds": 55.424218624975765,
+    "peak_rss_mib": 745.03125,
+    "source_snapshot_verified": true,
+    "coupled_evolution_run": false,
+    "physical_envelope_match": false,
+    "published_full_evolution_replicas": 0,
+    "v1": false
+  },
+  "extent_campaign": {
+    "outcome": "OUTER CLOSURE FAIL",
+    "checks": 35,
+    "failed_checks": [
+      {
+        "name": "outer_10000:photosphere",
+        "value": 0.0026792686649965702,
+        "limit": 0.002,
+        "passed": false
+      }
+    ],
+    "elapsed_seconds": 68.62920195801416,
+    "peak_rss_mib": 1213.5625,
+    "source_snapshot_verified": true,
+    "coupled_evolution_run": false
+  },
+  "checks": 200,
+  "passing_checks": 190,
+  "failing_checks": [
+    {
+      "name": "grey_mesh_201:f",
+      "value": 0.0030099197580752968,
+      "limit": 0.002,
+      "passed": false,
+      "scope": "grey_mesh_201",
+      "expected_pass": true
+    },
+    {
+      "name": "grey_power1.5:diffusion_J",
+      "value": 0.008227165649309365,
+      "limit": 0.005,
+      "passed": false,
+      "scope": "diffusion asymptotic",
+      "expected_pass": true
+    },
+    {
+      "name": "grey_power1.5:diffusion_f",
+      "value": 0.002920198532922469,
+      "limit": 0.001,
+      "passed": false,
+      "scope": "diffusion asymptotic",
+      "expected_pass": true
+    },
+    {
+      "name": "direct_source_coarse_conservation",
+      "value": 0.3598487140742607,
+      "limit": 0.005,
+      "passed": false,
+      "scope": "retained converged-but-inaccurate method",
+      "expected_pass": false
+    },
+    {
+      "name": "wind_drag_negative_control:velocity_reference_error",
+      "value": 0.01442085792940484,
+      "limit": 0.01,
+      "passed": false,
+      "scope": "stationary small-drag reference",
+      "expected_pass": false
+    },
+    {
+      "name": "wind_drag_negative_control:density_reference_error",
+      "value": 0.014631867357831618,
+      "limit": 0.01,
+      "passed": false,
+      "scope": "stationary small-drag reference",
+      "expected_pass": false
+    },
+    {
+      "name": "wind_drag_negative_control:force_reference_error",
+      "value": 0.015749611881763825,
+      "limit": 0.01,
+      "passed": false,
+      "scope": "stationary small-drag reference",
+      "expected_pass": false
+    },
+    {
+      "name": "wind_outer:J",
+      "value": 0.09726687496633879,
+      "limit": 0.002,
+      "passed": false,
+      "scope": "wind_outer",
+      "expected_pass": true
+    },
+    {
+      "name": "wind_outer:K",
+      "value": 0.02977015436837105,
+      "limit": 0.002,
+      "passed": false,
+      "scope": "wind_outer",
+      "expected_pass": true
+    },
+    {
+      "name": "outer_10000:photosphere",
+      "value": 0.0026792686649965702,
+      "limit": 0.002,
+      "passed": false
+    }
+  ],
+  "published_table": [
+    {
+      "r": 0.04,
+      "reference_J": 15730.0,
+      "reference_f": 0.3345,
+      "J": 15730.605568592771,
+      "f": 0.33466478588256965,
+      "J_relative_error": 3.849768549080146e-05,
+      "f_relative_error": 0.0004926334307013835
+    },
+    {
+      "r": 0.1,
+      "reference_J": 1035.0,
+      "reference_f": 0.3408,
+      "J": 1035.194552506452,
+      "f": 0.3409076360063535,
+      "J_relative_error": 0.0001879734361855956,
+      "f_relative_error": 0.00031583335197615803
+    },
+    {
+      "r": 0.4,
+      "reference_J": 20.12,
+      "reference_f": 0.4094,
+      "J": 20.153096339020337,
+      "f": 0.4090952788967532,
+      "J_relative_error": 0.0016449472674122667,
+      "f_relative_error": 0.0007443114392936545
+    },
+    {
+      "r": 1.0,
+      "reference_J": 1.884,
+      "reference_f": 0.5427,
+      "J": 1.8892657520827538,
+      "f": 0.5422021106957708,
+      "J_relative_error": 0.0027949851819288885,
+      "f_relative_error": 0.0009174300796556123
+    },
+    {
+      "r": 2.0,
+      "reference_J": 0.3614,
+      "reference_f": 0.6732,
+      "J": 0.3627307131851921,
+      "f": 0.6725760818333016,
+      "J_relative_error": 0.0036821062124852144,
+      "f_relative_error": 0.000926794662356456
+    },
+    {
+      "r": 4.0,
+      "reference_J": 0.07637,
+      "reference_f": 0.7928,
+      "J": 0.07659771847389547,
+      "f": 0.7926989251276474,
+      "J_relative_error": 0.002981779152749553,
+      "f_relative_error": 0.0001274910095264703
+    },
+    {
+      "r": 6.0,
+      "reference_J": 0.03165,
+      "reference_f": 0.8517,
+      "J": 0.03174010816453263,
+      "f": 0.8517529260874834,
+      "J_relative_error": 0.002847019416512664,
+      "f_relative_error": 6.214170187091028e-05
+    },
+    {
+      "r": 8.0,
+      "reference_J": 0.01701,
+      "reference_f": 0.891,
+      "J": 0.017060816942340302,
+      "f": 0.8910923088941572,
+      "J_relative_error": 0.0029874745643916345,
+      "f_relative_error": 0.00010360145247734209
+    },
+    {
+      "r": 9.0,
+      "reference_J": 0.01317,
+      "reference_f": 0.9085,
+      "J": 0.013205422822206957,
+      "f": 0.9085936463930171,
+      "J_relative_error": 0.0026896600005281712,
+      "f_relative_error": 0.0001030780330402159
+    },
+    {
+      "r": 9.5,
+      "reference_J": 0.01169,
+      "reference_f": 0.9178,
+      "J": 0.011722129402532198,
+      "f": 0.9178539575253476,
+      "J_relative_error": 0.002748451884704739,
+      "f_relative_error": 5.8790069021208424e-05
+    },
+    {
+      "r": 10.0,
+      "reference_J": 0.0104,
+      "reference_f": 0.9296,
+      "J": 0.010433437107024338,
+      "f": 0.9296064279806204,
+      "J_relative_error": 0.0032151064446479527,
+      "f_relative_error": 6.914781218281263e-06
+    }
+  ],
+  "fine_wind": {
+    "parameters": {
+      "gamma": 2,
+      "tiring": 0.001,
+      "escape_speed_c": 0.0001,
+      "w_base": 0.0001,
+      "numerical_damping": 0.5
+    },
+    "history": [
+      {
+        "iteration": 1,
+        "momentum_fixed_point_error": 0.0029010324255077657,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 9.561161262716666e-08,
+          "intensity_change": 4.3776743208212565e-07,
+          "angular_flux_max_error": 0.0012275307800677648,
+          "formal_source_max_error": 0.0003586253355041258
+        }
+      },
+      {
+        "iteration": 2,
+        "momentum_fixed_point_error": 0.001452737095497758,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 9.564516934013056e-08,
+          "intensity_change": 4.3769611313138057e-07,
+          "angular_flux_max_error": 0.0012277270995111333,
+          "formal_source_max_error": 0.00035856923709998156
+        }
+      },
+      {
+        "iteration": 3,
+        "momentum_fixed_point_error": 0.0007269535446542408,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 9.566194836274633e-08,
+          "intensity_change": 4.376601903111066e-07,
+          "angular_flux_max_error": 0.0012278254146674827,
+          "formal_source_max_error": 0.00035854114187650055
+        }
+      },
+      {
+        "iteration": 4,
+        "momentum_fixed_point_error": 0.0003636374355504568,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 9.567033809609882e-08,
+          "intensity_change": 4.376421665064356e-07,
+          "angular_flux_max_error": 0.0012278746259775097,
+          "formal_source_max_error": 0.0003585270839959742
+        }
+      },
+      {
+        "iteration": 5,
+        "momentum_fixed_point_error": 0.00018186601984571116,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 9.567453296277506e-08,
+          "intensity_change": 4.3763313684053173e-07,
+          "angular_flux_max_error": 0.0012278992524785703,
+          "formal_source_max_error": 0.0003585200531160959
+        }
+      },
+      {
+        "iteration": 6,
+        "momentum_fixed_point_error": 9.094838971213104e-05,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 9.567663017406858e-08,
+          "intensity_change": 4.3762861934304453e-07,
+          "angular_flux_max_error": 0.0012279115746403058,
+          "formal_source_max_error": 0.0003585165375055155
+        }
+      },
+      {
+        "iteration": 7,
+        "momentum_fixed_point_error": 4.547981288038905e-05,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 9.567767844664843e-08,
+          "intensity_change": 4.376263598171448e-07,
+          "angular_flux_max_error": 0.0012279177398045737,
+          "formal_source_max_error": 0.0003585147798162991
+        }
+      },
+      {
+        "iteration": 8,
+        "momentum_fixed_point_error": 2.274219583764392e-05,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 9.567820269396066e-08,
+          "intensity_change": 4.376252316085072e-07,
+          "angular_flux_max_error": 0.0012279208243235473,
+          "formal_source_max_error": 0.000358513901079327
+        }
+      },
+      {
+        "iteration": 9,
+        "momentum_fixed_point_error": 1.1372111961893694e-05,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 9.567846492863907e-08,
+          "intensity_change": 4.3762466650498766e-07,
+          "angular_flux_max_error": 0.0012279223675388806,
+          "formal_source_max_error": 0.0003585134617767327
+        }
+      },
+      {
+        "iteration": 10,
+        "momentum_fixed_point_error": 5.686529969572973e-06,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 9.567859637904519e-08,
+          "intensity_change": 4.376243840642502e-07,
+          "angular_flux_max_error": 0.0012279231396143953,
+          "formal_source_max_error": 0.0003585132421620729
+        }
+      }
+    ],
+    "velocity_reference_error": 0.0014488441998340429,
+    "density_reference_error": 0.0014509464005036943,
+    "luminosity_reference_error": 2.12923892983774e-06,
+    "force_reference_error": 0.0016014368187368122,
+    "total_energy_defect": 3.722913421988494e-09,
+    "independent_angular_momentum_defect": 0.0007875882950950734,
+    "independent_angular_work_defect": 7.761465296339878e-07,
+    "optical_depth_base": 39.45846669841557,
+    "radiation_drag_max": 0.00160198279427479,
+    "photospheric_radius_ratio": 23.350424750540956,
+    "analytic_photospheric_radius_ratio": 23.33100954983057,
+    "photosphere_reference_error": 0.0008321629061494029,
+    "velocity_to_local_escape_at_outer": 9.929833231482215,
+    "cg_scalars": {
+      "mass_loss_g_s": 6.544779242147335e+24,
+      "enclosed_mass_g": 1.9884699999999998e+35,
+      "grey_opacity_cgs": 0.34,
+      "photospheric_radius_cm": 6.896172900376178e+16,
+      "effective_temperature_K": 305.0720269392657,
+      "emergent_luminosity_erg_s": 2.9352657972545604e+40,
+      "angular_emergent_luminosity_erg_s": 2.934392149378747e+40,
+      "gas_temperature_K": null,
+      "ionization": null,
+      "entropy": null,
+      "gas_enthalpy": null,
+      "sonic_radius_cm": null,
+      "temperature_is_spectral_prediction": false
+    },
+    "missing": [
+      "gas EOS and T",
+      "ionization/flux mean",
+      "gas sonic regularity",
+      "mass-loss eigenvalue",
+      "physical envelope match"
+    ]
+  },
+  "extended_wind": {
+    "history": [
+      {
+        "iteration": 1,
+        "momentum_fixed_point_error": 0.0029010338067909647,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 7.010429881049163e-08,
+          "intensity_change": 2.2475274796818212e-07,
+          "angular_flux_max_error": 0.001227603292053181,
+          "formal_source_max_error": 0.0003586257100441914
+        }
+      },
+      {
+        "iteration": 2,
+        "momentum_fixed_point_error": 0.001452737788428471,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 7.010371461113607e-08,
+          "intensity_change": 2.2475299232826984e-07,
+          "angular_flux_max_error": 0.0012277996142761038,
+          "formal_source_max_error": 0.00035856961159197454
+        }
+      },
+      {
+        "iteration": 3,
+        "momentum_fixed_point_error": 0.0007269538917655805,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 7.010337499391284e-08,
+          "intensity_change": 2.2475278671496568e-07,
+          "angular_flux_max_error": 0.0012278979308130156,
+          "formal_source_max_error": 0.0003585415163439576
+        }
+      },
+      {
+        "iteration": 4,
+        "momentum_fixed_point_error": 0.0003636376093076876,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 7.010319347244831e-08,
+          "intensity_change": 2.2475260508247885e-07,
+          "angular_flux_max_error": 0.0012279471428036093,
+          "formal_source_max_error": 0.0003585274584512188
+        }
+      },
+      {
+        "iteration": 5,
+        "momentum_fixed_point_error": 0.00018186610678549986,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 7.010310043575885e-08,
+          "intensity_change": 2.247524985010685e-07,
+          "angular_flux_max_error": 0.0012279717696497272,
+          "formal_source_max_error": 0.0003585204275647902
+        }
+      },
+      {
+        "iteration": 6,
+        "momentum_fixed_point_error": 9.094843321100221e-05,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 7.010305258514649e-08,
+          "intensity_change": 2.2475243421915536e-07,
+          "angular_flux_max_error": 0.0012279840919839913,
+          "formal_source_max_error": 0.0003585169119519893
+        }
+      },
+      {
+        "iteration": 7,
+        "momentum_fixed_point_error": 4.547983463787375e-05,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 7.010302838228455e-08,
+          "intensity_change": 2.2475240291086607e-07,
+          "angular_flux_max_error": 0.0012279902572286394,
+          "formal_source_max_error": 0.0003585151542612186
+        }
+      },
+      {
+        "iteration": 8,
+        "momentum_fixed_point_error": 2.2742206725823166e-05,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 7.01030170580097e-08,
+          "intensity_change": 2.2475238392605235e-07,
+          "angular_flux_max_error": 0.0012279933417987943,
+          "formal_source_max_error": 0.0003585142755231363
+        }
+      },
+      {
+        "iteration": 9,
+        "momentum_fixed_point_error": 1.1372117407981719e-05,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 7.010300961951543e-08,
+          "intensity_change": 2.247523822607178e-07,
+          "angular_flux_max_error": 0.001227994885031114,
+          "formal_source_max_error": 0.00035851383622020894
+        }
+      },
+      {
+        "iteration": 10,
+        "momentum_fixed_point_error": 5.686532692728008e-06,
+        "radiation": {
+          "iteration": 11,
+          "closure_change": 7.010300739906938e-08,
+          "intensity_change": 2.247523770426696e-07,
+          "angular_flux_max_error": 0.00122799565711873,
+          "formal_source_max_error": 0.0003585136166052161
+        }
+      }
+    ],
+    "photosphere": 30.300853110238318,
+    "effective_temperature": 267.80592619688906,
+    "emergent_luminosity_ratio": 0.9980041479458545,
+    "emergent_angular_ratio": 0.9976971708416484,
+    "flux_factor_at_outer": 0.9998999148085799,
+    "eddington_at_outer": 0.9998265097462365,
+    "photospheric_tau_tail_estimate": 0.00020040503944616678,
+    "total_energy_defect": 3.7228763405394716e-09,
+    "velocity_reference_error": 0.0014488448904048656,
+    "force_reference_error": 0.0016014375041166762,
+    "dimensional_wind_mass_over_central": 3249.1579249741244,
+    "dimensional_scaling_is_physical_star": false
+  }
+}

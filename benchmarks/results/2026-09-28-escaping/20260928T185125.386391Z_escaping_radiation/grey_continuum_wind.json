@@ -1,0 +1,19 @@
+{
+  "family": "constructed pressure-free constant-opacity continuum scattering control",
+  "reference": "Owocki, Townsend & Quataert 2017 equation 24, finite w_base generalization explicitly derived in docs/escaping_radiation.md",
+  "gamma": 2.0,
+  "tiring": 0.001,
+  "escape_speed_c": 0.0001,
+  "w_base": 0.0001,
+  "outer_radius_ratio": 100.0,
+  "core_boundary": "uniform emitted lab intensity, returning photons absorbed; normalize net luminosity at inner radius to L0",
+  "outer_boundary": "zero incident intensity",
+  "density": "mass conservation rho0=mdot/(4 pi r^2 gamma_Lorentz v)",
+  "opacity": "constant comoving grey isotropic coherent scattering, fixed external input",
+  "eos": "gas pressure and enthalpy absent as in the published limiting family",
+  "sonic_condition": "none; w_base and mdot supplied, cannot establish an envelope mass-loss eigenvalue",
+  "composition": "not specified by this mathematical family; no H/He ionization claim",
+  "mass_radius_luminosity": "dimensionless GM/(R c^2)=escape_speed_c^2/2, L0/L_Edd=gamma; CGS example uses 100 Msun and kappa=0.34 solely to illustrate scaling",
+  "microphysics_production_validation": false,
+  "no_retuning": true
+}

@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "git_commit": "46e01ea22be5321bdfbc36bdb3f091d47a452ba2",
+  "git_status": "M docs/sources.md\n M scripts/build_registry.py\n M sources/acquisition.json\n M src/qstars/data/sources.json\n?? Reports/evidence/escaping_20260928/\n?? benchmarks/escaping_followup_plan.json\n?? benchmarks/escaping_transport_tolerances.json\n?? benchmarks/grey_continuum_wind.json\n?? benchmarks/hummer1971_table1.csv\n?? benchmarks/outer_candidates.json\n?? docs/escaping_radiation.md\n?? scripts/register_outer_candidates.py\n?? scripts/validate_escaping_extent.py\n?? scripts/validate_escaping_radiation.py\n?? src/qstars/continuum_wind.py\n?? src/qstars/grey_transfer.py\n?? tests/test_grey_transfer.py",
+  "source_sha256": "9d58e9f7b064209489ed40e53539e9e7926b2b78cd12b07898b56193b67d0a90",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "created_utc": "2026-09-28T19:00:26.633645+00:00",
+  "process_package_sha256": "19e02024be34f3e373b9c9071a1637730d67dfe62cfc7f5712ba04bc96b81d5d",
+  "source_tree_matches_import": true,
+  "dependencies": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.11.2"
+  },
+  "source_tree_matches_at_end": true,
+  "source_snapshot_verified": true
+}

@@ -1,0 +1,5 @@
+results/20260928T190026.596335Z_escaping_extent
+outer_10000 completed_component 19.094
+outer_30000 completed_component 22.418
+outer_100000 completed_component 25.951
+{"outcome": "OUTER CLOSURE FAIL", "checks": 35, "failed_checks": [{"name": "outer_10000:photosphere", "value": 0.0026792686649965702, "limit": 0.002, "passed": false}], "elapsed_seconds": 68.62920195801416, "peak_rss_mib": 1213.5625, "source_snapshot_verified": true, "coupled_evolution_run": false}

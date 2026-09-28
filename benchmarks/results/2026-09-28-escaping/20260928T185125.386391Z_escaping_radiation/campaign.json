@@ -1,0 +1,11 @@
+{
+  "status": "driver_failed_on_missing_failed_case",
+  "outcome": "OUTER CLOSURE FAIL",
+  "source_snapshot_verified": true,
+  "cases": 15,
+  "failed_cases": [
+    "grey_tol1e-09",
+    "grey_insufficient_iterations"
+  ],
+  "coupled_evolution_run": false
+}

@@ -227,3 +227,12 @@ first convective Mach-one event. This implements the explicit validity-exit
 option; it is not a turbulence model or evidence that the wind's zero
 convective flux assumption is valid at a physical base. Escaping radiation
 and physical matching remain unresolved; Stage B was not run.
+
+## Relation to Report 11 angular transport
+
+The new [grey transfer component](escaping_radiation.md) supplies independently
+validated escaping angular radiation for a specified grey scattering medium.
+It is not attached to this FreeEOS/MESA diffusion wind: its fixed scattering law
+has no recombining gas energy/population closure. The constructed pressure-free
+control also has a supplied mass rate and cannot establish this component's
+physical envelope match. Nakauchi attribution results remain unchanged.

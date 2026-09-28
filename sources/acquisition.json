@@ -132,5 +132,19 @@
     "sha256": "67de158907324717a408686de3f6979e89380ec9b470fb682e5d91c067c032c2",
     "pages": 20,
     "status": "downloaded"
+  },
+  {
+    "id": "hummer1971",
+    "url": "https://adsabs.harvard.edu/pdf/1971MNRAS.152....1H",
+    "sha256": "05fdb069368c1b2885358203a6b84dc85eb41eb6e0e4c6026ba17b16f936be20",
+    "pages": 20,
+    "status": "downloaded",
+    "audited": "Equations and Table I visually inspected; Table I transcribed without fitting"
+  },
+  {
+    "id": "fukue2018_transfer",
+    "url": "https://academic.oup.com/mnras/article/476/2/1840/4862479",
+    "status": "primary_indexed_text_audited_direct_download_403",
+    "audited": "Equations 3-14 and radiation moment equations via primary indexed article; no local full-paper PDF, no figure replication claim"
   }
 ]
