@@ -1,0 +1,24 @@
+{
+  "status": "numerical_failure",
+  "reason": "Stored cell volumes disagree with radial geometry",
+  "accepted_steps_this_run": 200,
+  "retries": 69,
+  "runtime_seconds": 105.08588050000253,
+  "process_peak_rss_MiB": 157.109375,
+  "final_time_years": 0.17418932309061136,
+  "v1_validated": false,
+  "last_domain_rejection": "Boundary cell replacement exceeds 10%; reduce timestep",
+  "conservation": {
+    "mass_residual_g": -9.44473296573929e+21,
+    "mass_residual_relative": -4.702721568923701e-16,
+    "energy_residual_erg": -4.183540159814851e+38,
+    "energy_residual_relative": -1.394086601203798e-15,
+    "energy_residual_relative_to_binding": -4.387549565578337e-14,
+    "energy_residual_relative_to_throughput": -3.471243232701679e-11,
+    "engine_conversion_residual_erg": 0.0,
+    "internal": 3.001201830374348e+53,
+    "gravity": -3.09654806449198e+53,
+    "kinetic": 1.8184259316574969e+43,
+    "total": -9.534623393578969e+51
+  }
+}

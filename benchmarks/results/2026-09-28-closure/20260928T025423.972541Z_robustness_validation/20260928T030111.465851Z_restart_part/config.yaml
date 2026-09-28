@@ -1,0 +1,74 @@
+schema_version: 1
+name: restart_part
+fidelity: exploratory
+initial:
+  envelope_mass_msun: 10000.0
+  bh_mass_msun: 100.0
+  radius_cm: 100000000000000.0
+  inner_radius_cm: 1000000000000.0
+  temperature_perturbation: 0.0
+  perturbation_mass_center: 0.5
+  perturbation_mass_width: 0.1
+composition:
+  X: 0.75
+  Y: 0.25
+  Z: 0.0
+eos: mesa
+mesa:
+  library_path: /Users/abraiymbek/Projects/QStarS/backends/mesa/build_verified/libqstars_mesa.dylib
+  mesa_dir: /Users/abraiymbek/qsrd-runtime/mesa
+opacity:
+  model: mesa
+  table_path: ''
+engine:
+  model: prescribed
+  efficiency: 0.1
+  coupling: 0.1
+  rest_mass_rate_msun_per_year: 0.0002
+feeding:
+  rate_msun_per_year: 0.01
+  thermodynamics: surface
+  density_cgs: 1.0e-07
+  temperature_K: 1000000.0
+wind:
+  model: prescribed
+  rate_msun_per_year: 0.008
+  W: 10.0
+  terminal_speed_cm_s: 0.0
+transport:
+  convection: mlt_lossless
+  mixing_length_alpha: 2.0
+boundary:
+  inner: fixed_excision
+  pressure_cgs: 100000000.0
+  thermal: luminosity
+  external_optical_depth: 0.0
+  bath_temperature_K: 0.0
+  luminosity_erg_s: 1.0e+42
+evolution:
+  end_time_years: 10.0
+  max_steps: 10000
+  max_wall_seconds: 300.0
+numerics:
+  zones: 128
+  mesh: log_radius_surface
+  initial_dt_years: 0.02
+  max_dt_years: 0.02
+  min_dt_years: 1.0e-10
+  nonlinear_solver: newton_flux
+  boundary_remesh_fraction: 0.2
+  solver_tolerance: 1.0e-10
+  max_fractional_change: 0.02
+  max_retries: 12
+  conservation_tolerance: 1.0e-07
+  refine_every_steps: 0
+  max_zones: 256
+validity:
+  min_temperature_K: 100000.0
+  max_temperature_K: 100000000.0
+  max_mach: 0.2
+  max_compactness: 0.001
+  require_optically_thick: true
+output:
+  profile_every_steps: 500
+  checkpoint_every_steps: 10

@@ -79,11 +79,26 @@ into the output. A provenance string alone is not scientific validation.
 ## Validation campaigns
 
 ```sh
-python scripts/validate_spatial.py --mesh log_radius_surface --zones 256 512 1024 2048 --end-time 10 --max-dt .02
-python scripts/validate_robustness.py --zones 256 --mesh log_radius_surface
+python scripts/validate_spatial.py --mesh log_radius_surface --mechanics backward_euler --zones 256 512 1024 2048 --end-time 10 --max-dt .02 --max-wall-seconds 900
+python scripts/validate_robustness.py --zones 512 --mesh log_radius_surface --mechanics backward_euler
+python scripts/validate_time_methods.py
 python scripts/digitize_wind_reference.py
 python scripts/validate_wind.py
 ```
+
+These commands reproduce the main hot-envelope accuracy campaigns. Omitting
+`--mechanics backward_euler` selects the historical midpoint method, which does
+not pass the same large-step, high-resolution campaign. The time-method script
+compares both methods over one year at decreasing timesteps. The separately
+archived ten-year refined midpoint run includes its complete resolved YAML.
+These controlled experiments are not published evolutionary tracks.
+
+Run `python scripts/benchmark_current.py` on macOS after other jobs finish for
+fresh-process timings. It includes the optional MESA case only when
+`backends/mesa/build_verified/ten_year.yaml` exists. Build a local MESA example
+using the instructions below, then use the archived ten-year configuration as
+the numerical template with your own library and installation paths; an
+absolute path from another machine is not a portable dependency.
 
 Wind digitization requires the audited cached primary PDF and the `audit`
 extra. Its CSV and calibration/hash metadata are retained in `benchmarks/`.

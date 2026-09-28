@@ -1,0 +1,24 @@
+{
+  "status": "model_domain_exit",
+  "reason": "radial Mach number approached configured limit within 0.01%; last accepted state preserved",
+  "accepted_steps_this_run": 10,
+  "retries": 14,
+  "runtime_seconds": 3.568180874979589,
+  "process_peak_rss_MiB": 1053.265625,
+  "final_time_years": 0.002260904486523941,
+  "v1_validated": false,
+  "last_domain_rejection": "Quasi-hydrostatic domain exceeded: radial Mach number",
+  "conservation": {
+    "mass_residual_g": 0.0,
+    "mass_residual_relative": 0.0,
+    "energy_residual_erg": 5.672956655588898e+37,
+    "energy_residual_relative": 1.5218357914754825e-15,
+    "energy_residual_relative_to_binding": 5.647762258522117e-14,
+    "energy_residual_relative_to_throughput": 3.724969372144287e-10,
+    "engine_conversion_residual_erg": 2.028240960365167e+31,
+    "internal": 3.7277069689087345e+52,
+    "gravity": -3.828152136004185e+52,
+    "kinetic": 4.860589718440703e+43,
+    "total": -1.0044516223486054e+51
+  }
+}

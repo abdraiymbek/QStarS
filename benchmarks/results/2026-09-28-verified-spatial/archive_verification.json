@@ -1,0 +1,7 @@
+{
+  "manifest_file_sha256": "e7bc8e39e8f2d33502e1aac5be847e103b99581109cf606256b97490dc0b43cf",
+  "files_checked": 52,
+  "hash_and_length_mismatches": 0,
+  "method": "Read every archived file, decompress where marked and compare length and SHA-256 against the original-byte manifest.",
+  "scope": "Archive integrity; executed-source verification is in each run termination.json."
+}

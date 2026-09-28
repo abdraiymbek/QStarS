@@ -1,0 +1,1099 @@
+diff --git a/README.md b/README.md
+index e0b66b6..bfe3ed3 100644
+--- a/README.md
++++ b/README.md
+@@ -5,10 +5,11 @@ evolution, self-gravity, gas and radiation pressure, radiation and convection,
+ BH growth, separate feeding/wind streams, and conservative energy accounting.
+ 
+ **Status: 0.1 development software. The requested scientifically validated
+-general-purpose QStarS v1 is NOT complete.** The executable evolves hot,
+-fully ionized envelopes. Published static structure benchmarks and numerical
++general-purpose QStarS v1 is NOT complete.** The executable evolves restricted envelopes with either an analytic hot EOS
++or direct, audited MESA EOS and opacity calls. Published static structure benchmarks and numerical
+ conservation tests are implemented. Full published stellar evolution, cool
+-photospheres, moving cavities, and transonic winds remain open validation gates.
++photospheres, moving cavities, and coupled transonic winds remain open validation gates. A separate
++Fiacconi–Rossi stationary wind solver now includes radiation enthalpy advection.
+ These examples do not establish quasi-star lifetimes or QSRD recovery results.
+ 
+ ## Install and run
+@@ -29,12 +30,14 @@ python -m pytest -q
+ qstars validate
+ qstars validate --require-v1
+ qstars reference benchmarks/coughlin2024_saturated.yaml
++qstars reference benchmarks/fiacconi2016_advective_wind.yaml
+ ```
+ 
+ Each run prints its unique result directory. `requirements-lock.txt` records
+ the measured environment, including optional audit/testing packages.
+ `validate` produces Markdown/JSON evidence and currently exits **2** for two
+-published cutoff discrepancies and a concentrated-mesh solver failure. `--require-v1` also exits 2
++retained published cutoff discrepancies. The previously failing concentrated
++128-zone case now completes; full v1 gates remain open. `--require-v1` also exits 2
+ while the full scientific gates remain open. A completed example is not v1 validation.
+ 
+ ## Examples
+@@ -69,6 +72,8 @@ defaults in one engine. Their names do not certify scientific validity.
+ - [MESA backend decision](docs/mesa.md)
+ - [Validation and v1 gates](docs/validation.md)
+ - [Measured performance](docs/performance.md)
++- [Supported model families](docs/model_families.md)
++- [Validity domain and limitations](docs/validity.md)
+ 
+ ## Reproducibility
+ 
+diff --git a/benchmarks/manifest.yaml b/benchmarks/manifest.yaml
+index 04fa989..330f440 100644
+--- a/benchmarks/manifest.yaml
++++ b/benchmarks/manifest.yaml
+@@ -26,10 +26,30 @@ benchmarks:
+     uncertainties: Published table rounding; no figure digitization performed.
+   - id: quest_stellar_tracks
+     source: quest2025
+-    status: pending_version_pinned_mesa_execution
++    status: pinned_execution_attempted_no_complete_track
++    command: python scripts/run_mesa_reference.py --family quest_saturated --saved-seed --mesa-dir PATH --sdk-dir PATH
++    discrepancy: Both upstream and explicitly documented startup CGS conversion experiments stalled during inner relaxation within the wall budget.
+   - id: fiacconi_wind
+     source: fiacconi2016
+-    status: pending_advective_transonic_wind_solver
++    status: stationary_equations_implemented_full_evolution_pending
++    command: python scripts/validate_wind.py
++    configurations: [fiacconi2016_diffusion_wind.yaml, fiacconi2016_advective_wind.yaml]
++    reference_file: fiacconi2016_figure4.csv
++    uncertainties: Explicit vector-path calibration and stroke uncertainty in fiacconi2016_figure4.json; base Mach 0.8 +/- 0.05 from the paper, never fitted.
++    discrepancy: Not all printed Figure 4 diagnostics match; LTE versus variable-Eddington-factor sound speed and percent-level energy-curve differences retained.
++  - id: fiacconi_evolution
++    source: fiacconi2016
++    location: Section 3, Figure 8
++    status: pending_conservative_envelope_wind_atmosphere_coupling
++    required_observables: [BH_growth, envelope_mass, wind_rate, luminosity, radius, effective_temperature]
++  - id: dotan_evolution
++    source: dotan2011
++    location: Sections 4-5
++    status: pending_porous_atmosphere_and_full_evolution
++    required_observables: [BH_growth, envelope_mass, wind_rate, lifetime, photosphere]
++  - id: hassan_stellar_tracks
++    source: hassan2025
++    status: pending_moving_corrected_bondi_cavity_evolution
+   - id: cantiello_stability
+     source: cantiello2025
+     status: pending_gyre_and_ionization_opacity
+diff --git a/docs/equations.md b/docs/equations.md
+index 2778ff3..576258d 100644
+--- a/docs/equations.md
++++ b/docs/equations.md
+@@ -90,7 +90,8 @@ by midpoint displacement and summing cancels interior pressure work, giving
+ `Δ(U+K+Omega)=dt(Linner-Louter)-Pext ΔVouter`.
+ 
+ Heat flux uses backward Euler; mechanics uses implicit midpoint. A coupled
+-MINPACK hybrid solve advances T and velocity. Residuals are recomputed after
++Newton solve advances T, velocity and face luminosities (the legacy MINPACK
++method remains selectable). Residuals are recomputed after
+ the solve; the optimizer success flag alone is insufficient. Accepted time
+ steps have no energy-residual compensation. Rejected candidates never mutate
+ the accepted state or ledger.
+@@ -184,3 +185,70 @@ historical experiments. This represents mesh motion, without a new mass or
+ energy source. Remapping remains first order, records its entropy change, and
+ must be included in spatial and timestep convergence studies. It is not a
+ moving physical cavity.
++
++## Fine-mesh arithmetic and hydrostatic initialization
++
++For large meshes, hydrostatic initialization uses face radii and one
++polytropic constant as unknowns. The same discrete pressure-support equations
++then have a tridiagonal block plus one column, rather than the dense Jacobian
++of cumulative volumes. The independent continuum solution supplies an initial
++guess only. A comparison against the dense discrete solve is a regression.
++
++Radius updates use compensated summation. Restart schema 5 retains the
++compensation so interrupted runs follow identical arithmetic. Conservative
++remapping computes overlap endpoints with 60-digit decimal arithmetic to avoid
++subtracting enormous cumulative CGS masses when a boundary cell is tiny. It
++then applies double-precision cell-integral weights in a linear-time sweep.
++This changes numerical arithmetic, not the piecewise-constant remap physics.
++Repeated 2048-cell remaps test mass, volume, energy and radial geometry.
++
++The `log_radius_surface` mesh uses `z=sin(pi*q/2)` in log radius to refine the
++outer boundary without overconcentrating the first accreting cell. It is a
++numerical mesh choice, not a change of physical equations. The symmetric
++cosine and uniform log-radius meshes remain available for comparisons.
++
++## Stationary advective wind reference
++
++Fiacconi & Rossi equations 12–22 are integrated inward. Write
++`t=ln(r/Rbase)`, `w=v²/vesc²`, and `y=u exp(2t)` where their dimensionless
++radiation energy density is `u`. With `tau=alpha beta exp(-t)/sqrt(w)`,
++`f=1+1.5 tau` and `g=f/(1+4.5 tau)`, the equations are
++
++`dw/dt = exp(-t)(Gamma-1)` and `dy/dt = 2y-2 Gamma f`,
++
++`Gamma = E-alpha(w-exp(-t))-(1+g)y sqrt(w)/beta`.
++
++The last equation retains the constant total energy flux. Independent
++quadratures check momentum and radiation-gradient equations; a small
++algebraic energy residual alone would not validate the ODE integrator.
++The asymptotic boundary uses the published optically thin expansion. Its
++location, integration tolerance, and Radau/DOP853 solver choice are tested.
++The photospheric condition is `y=4 Gamma`, as in the paper, not an atmosphere
++transfer solution. Base Mach is an explicit imposed closure. The LTE
++sound-speed proxy with `p=U/3` and the diagnostic using `p=gU` are both saved;
++only the optically thick sound speed has the stated thermodynamic meaning.
++This reference solver is not yet a wind boundary for envelope evolution.
++
++## Conservative backward-Euler mechanical option
++
++`numerics.mechanics: midpoint` retains the original nondissipative mechanical
++time centering. `backward_euler` uses the new velocity and pressure, while
++retaining secant area and gravity for the discrete work identity. In that
++case multiplying momentum by the displacement gives
++
++`Delta K = work - (1/2) sum_j w_j (vnew_j-vold_j)^2`.
++
++The positive difference is deposited locally as
++`Q_i = dm_i [(Delta v_i)^2 + (Delta v_{i+1})^2]/4` in the first-law equation.
++Thus total energy remains conserved; kinetic energy is converted to internal
++energy by the numerical time discretization. This is derived in advance from
++the method, not computed from a global conservation residual.
++
++The accumulated `numerical_kinetic_heating` is a diagnostic of internal
++conversion and is deliberately absent from the external energy ledger balance.
++It must decrease under timestep refinement and remain acceptably small.
++Backward Euler damps unresolved acoustic oscillations that midpoint can retain
++in a stiff stellar calculation. It is first order and is not a pulsation
++solver. The choice is explicit in saved configuration and the historical
++midpoint results are preserved. Schema 6 adds its cumulative diagnostic;
++older checkpoints load it as zero.
+diff --git a/docs/literature.md b/docs/literature.md
+index 3fc6c34..b784eda 100644
+--- a/docs/literature.md
++++ b/docs/literature.md
+@@ -47,7 +47,10 @@ radius and log radius agree, and tighter tolerances preserve the discrepancy.
+ 
+ Dotan's launch/tiring prescription is an explicit optional boundary closure.
+ Fiacconi & Rossi's radiation-enthalpy advection cannot be reproduced by a
+-tiring cap alone. Their transonic solution remains an unimplemented benchmark.
++tiring cap alone. Their stationary wind equations are now implemented separately and checked
++against digitized Figure 4 profiles. The full evolving-envelope coupling
++remains unimplemented. Discrepancies and diagnostic conventions are retained
++in the wind validation report; no coefficients were fitted.
+ Cantiello's modes require nonadiabatic GYRE analysis: QStarS domain exits are
+ not evidence of these instabilities. Roman-Garza uses cold net mass gain,
+ nuclear evolution, GR, and late analytic extrapolation; this does not validate
+diff --git a/docs/sources.md b/docs/sources.md
+index 34f6cfc..962b427 100644
+--- a/docs/sources.md
++++ b/docs/sources.md
+@@ -48,14 +48,14 @@ This register distinguishes implemented laws, derived numerical identities, opti
+ 
+ ## fiacconi2016 — Fiacconi & Rossi (2016)
+ 
+-[Fiacconi & Rossi (2016)](https://arxiv.org/abs/1509.07511) · Section 2.1; Eqs 1-3; wind coupling in Section 3
++[Fiacconi & Rossi (2016)](https://arxiv.org/abs/1509.07511) · Sections 2.1-2.2; Eqs 12-22,25; Figures 2 and 4
+ 
+-- Status: `audited_not_implemented_wind_ode`
++- Status: `implemented_stationary_wind_reference`
+ - Assumptions: Stationary spherical radiation-dominated wind; radiation enthalpy advection
+ - Domain: Gas pressure negligible and wind base optically thick
+ - Variables and units: mdot g/s, L erg/s, specific Bernoulli energy erg/g
+-- Interpretation: Radiation enthalpy matters. A photon-tiring cap alone cannot reproduce these solutions; full transonic replication remains pending.
+-- Implementation: `docs/literature.md; src/qstars/mass_transport.py (energy accounting only)`
++- Interpretation: Inward integration retains radiative, advected, kinetic and gravitational energy. Base Mach is explicitly 0.8 +/- 0.05, as in the paper; no gas sonic critical-point selection is claimed. Figure 4 vector paths retain calibration uncertainty and discrepancies; evolving-envelope coupling remains open.
++- Implementation: `src/qstars/wind_reference.py; scripts/validate_wind.py; benchmarks/fiacconi2016_figure4.csv`
+ 
+ ## coughlin2024 — Coughlin & Begelman (2024)
+ 
+@@ -195,7 +195,7 @@ This register distinguishes implemented laws, derived numerical identities, opti
+ 
+ - Status: `derived`
+ - Assumptions: Optically thick LTE; F=-ac/(3 kappa rho) grad(T^4)
+-- Domain: Cell optical depth >=1; no resolved optically thin transfer
++- Domain: Radiation gradient Knudsen number <=0.1; LTE assumed; no resolved optically thin transfer
+ - Variables and units: Flux erg/cm^2/s; luminosity erg/s
+ - Interpretation: Backward-Euler diffusion shares exactly one flux per face; grey extrapolation is an optional outer closure.
+ - Implementation: `src/qstars/transport.py`
+@@ -206,7 +206,7 @@ This register distinguishes implemented laws, derived numerical identities, opti
+ 
+ - Status: `optional_approximation`
+ - Assumptions: Local buoyant blobs, no radiative heat leakage; l=alpha Hp
+-- Domain: Efficient optically thick convection; not full ML1 or time-dependent convection
++- Domain: Pe>=100 where convection carries more than 1 percent of transported flux; subsonic blobs; not full ML1 or time-dependent convection
+ - Variables and units: cp erg/g/K; velocity cm/s; l cm
+ - Interpretation: Use v^2=g delta l^2 (nabla-nabla_ad)/(8Hp), F=rho cp T v l (nabla-nabla_ad)/(2Hp), capped by P cs. Entropy contrast discretized consistently.
+ - Implementation: `src/qstars/transport.py`
+@@ -241,7 +241,7 @@ This register distinguishes implemented laws, derived numerical identities, opti
+ - Assumptions: Piecewise constant volume and total specific energy in mass coordinates
+ - Domain: Smooth resolved states; remap changes entropy and hydrostatic residual
+ - Variables and units: Mass g, volume cm^3, energy erg
+-- Interpretation: New internal energy is remapped total energy minus new discrete gravity and kinetic energies. Reject negative internal energy; log entropy changes.
++- Interpretation: New internal energy is remapped total energy minus new discrete gravity and kinetic energies. Decimal overlap endpoints avoid cancellation of large cumulative CGS masses; the sweep is linear in zone count. Reject negative internal energy; log entropy changes.
+ - Implementation: `src/qstars/mesh.py`
+ 
+ ## mesa_microphysics — MESA 24.08.1 EOS and opacity public APIs
+@@ -252,7 +252,7 @@ This register distinguishes implemented laws, derived numerical identities, opti
+ - Assumptions: Fixed H1/He4 composition Z=0; default EOS blends and Type2 opacity with Zbase=0; matched electron state
+ - Domain: Query rectangle rho=1e-14..1e3 g/cm3 and T=3000..1e8 K is only a bounding box. Reject neutral ideal backstop and first-law defect above 1 percent; no production atmosphere claim.
+ - Variables and units: P erg/cm3, u erg/g, s erg/g/K, kappa cm2/g; derivatives with respect to natural logarithms
+-- Interpretation: Versioned C ABI and Python interface cross-checked against separate Fortran process. Wide audit preserves failing blend states. Existing binary/build/table provenance must accompany each run.
++- Interpretation: Versioned C ABI and Python interface cross-checked against separate Fortran process. Wide audit preserves failing blend states. Radiative opacity disables conduction; a separate combined-opacity call measures omitted conduction. Existing binary/build/table provenance must accompany each run.
+ - Implementation: `backends/mesa/microphysics.f90; src/qstars/mesa_microphysics.py`
+ 
+ ## inverse_transport — Inverse radiative/convective flux solve
+@@ -266,3 +266,14 @@ This register distinguishes implemented laws, derived numerical identities, opti
+ - Interpretation: Solving thermal contrast from luminosity avoids ill conditioning near adiabatic stratification; no transport coefficient changed. Numerical reference is QStarS derivation, not copied MESA implementation.
+ - Implementation: `src/qstars/transport.py; src/qstars/nonlinear.py`
+ 
++## diffusion_domain — Levermore & Pomraning (1981)
++
++[Levermore & Pomraning (1981)](https://adsabs.harvard.edu/pdf/1981ApJ...248..321L) · Section II, Eqs 7 and 18-31; pp321-324
++
++- Status: `implemented_validity_screen`
++- Assumptions: Near LTE and slowly varying radiation energy over a mean free path; no flux-limiter implementation added
++- Domain: R=|grad E|/(kappa rho E)<=0.1, using E=aT^4. Cell optical depth remains a diagnostic, not a mesh-dependent validity restriction.
++- Variables and units: R dimensionless, photon mean free path cm
++- Interpretation: Corrects prior tau_cell>=1 rejection, which incorrectly rejected increasingly fine representations of a smooth diffusive field. R<=0.1 is a conservative screening threshold, not a proof of full atmosphere validity.
++- Implementation: `src/qstars/validity.py`
++
+diff --git a/docs/usage.md b/docs/usage.md
+index 93173ce..d640f4a 100644
+--- a/docs/usage.md
++++ b/docs/usage.md
+@@ -75,3 +75,35 @@ Opacity NPZ format: increasing `logrho`, increasing `logT`, rectangular
+ All logs are base 10 in CGS/K. Log-space bilinear interpolation forbids
+ extrapolation. Table paths resolve relative to the input YAML and are copied
+ into the output. A provenance string alone is not scientific validation.
++
++## Validation campaigns
++
++```sh
++python scripts/validate_spatial.py --mesh log_radius_surface --zones 256 512 1024 2048 --end-time 10 --max-dt .02
++python scripts/validate_robustness.py --zones 256 --mesh log_radius_surface
++python scripts/digitize_wind_reference.py
++python scripts/validate_wind.py
++```
++
++Wind digitization requires the audited cached primary PDF and the `audit`
++extra. Its CSV and calibration/hash metadata are retained in `benchmarks/`.
++The two `fiacconi2016_*_wind.yaml` files run through `qstars reference`; they
++do not select an evolutionary wind rate. `docs/mesa.md` gives pinned build,
++ionization audit and optional MESA regression commands.
++
++Checkpoint schemas 1–6 remain readable. Current checkpoints include cell
++volumes, solved face luminosities, reference mass fractions and compensated
++radius updates. A successful restart is tested against an uninterrupted run,
++including remaps. Process peak RSS is cumulative within one Python process;
++compare memory across fresh processes when making performance claims.
++
++The explicit `mechanics` choice is `midpoint` or `backward_euler`. The latter
++records numerical kinetic heating; it is not an unaccounted energy sink.
++`configs/hot_resolved_validation.yaml` is the controlled pressure-confined
++benchmark, with the accuracy boundary given in the validation report.
++
++Source snapshots freeze the package files seen when a process imports QStarS.
++Run metadata reports whether the package remained unchanged through completion.
++Editing package files during a campaign invalidates that provenance check;
++rerun affected validation cases from a fresh process before claiming exact
++reproducibility. This guard also covers lazy imports.
+diff --git a/scripts/build_registry.py b/scripts/build_registry.py
+index 7ab19e1..41ffa22 100644
+--- a/scripts/build_registry.py
++++ b/scripts/build_registry.py
+@@ -8,7 +8,7 @@ add('bra2008','Begelman, Rossi & Armitage (2008)','https://arxiv.org/abs/0711.40
+ add('ball2011','Ball et al. (2011)','https://arxiv.org/abs/1102.5098','Sections 2.1-2.3, 4.1; Eqs 2,5,9-15,24-33; Table 1','implemented_reference_and_printed_law','BH-only Bondi radius; rho~r^-3/2 cavity; loaded polytrope','Reference n=2,3,4 polytropes; complete stellar tracks require different microphysics','xi and phi dimensionless; accretion g/s; radius cm','Eq 15 prints 4pi despite Eq 12 plus rB=2GM/cs^2 implying 16pi. Preserve printed mode; do not blend with QUEST. Table 1 stored as unreplicated target.','src/qstars/reference.py; src/qstars/engine.py')
+ add('dotan2011','Dotan, Rossi & Shaviv (2011)','https://arxiv.org/abs/1107.3562','Sections 3.2-3.4; Eqs 19-23,31-32','implemented_optional_launch_closure','Porous radiation-driven sonic boundary; empirical wind function W; photon-tiring cap','Only effective launch prescription, not a solved porous atmosphere/wind','mdot g/s, L erg/s, gas sound speed cm/s, W dimensionless','Use gas isothermal sound speed; gamma<=1 gives zero. Wind enthalpy and energy to escape are separately charged.','src/qstars/winds.py')
+ add('ball_thesis','Ball (2012) thesis','https://arxiv.org/abs/1207.5972','Chapters 2-5; Bondi and CDAF/ADAF boundaries','audited_not_full_evolution','Boundary choice changes the evolutionary sequence and its mass limit','No single universal quasi-star BH mass limit','M g, r cm, thermodynamic quantities CGS','Inspected boundary discussion and contents; thesis has 145 pages and was not audited line by line. Alternatives must remain explicit.','docs/literature.md')
+-add('fiacconi2016','Fiacconi & Rossi (2016)','https://arxiv.org/abs/1509.07511','Section 2.1; Eqs 1-3; wind coupling in Section 3','audited_not_implemented_wind_ode','Stationary spherical radiation-dominated wind; radiation enthalpy advection','Gas pressure negligible and wind base optically thick','mdot g/s, L erg/s, specific Bernoulli energy erg/g','Radiation enthalpy matters. A photon-tiring cap alone cannot reproduce these solutions; full transonic replication remains pending.','docs/literature.md; src/qstars/mass_transport.py (energy accounting only)')
++add('fiacconi2016','Fiacconi & Rossi (2016)','https://arxiv.org/abs/1509.07511','Sections 2.1-2.2; Eqs 12-22,25; Figures 2 and 4','implemented_stationary_wind_reference','Stationary spherical radiation-dominated wind; radiation enthalpy advection','Gas pressure negligible and wind base optically thick','mdot g/s, L erg/s, specific Bernoulli energy erg/g','Inward integration retains radiative, advected, kinetic and gravitational energy. Base Mach is explicitly 0.8 +/- 0.05, as in the paper; no gas sonic critical-point selection is claimed. Figure 4 vector paths retain calibration uncertainty and discrepancies; evolving-envelope coupling remains open.','src/qstars/wind_reference.py; scripts/validate_wind.py; benchmarks/fiacconi2016_figure4.csv')
+ add('coughlin2024','Coughlin & Begelman (2024)','https://arxiv.org/abs/2405.00084','Sections 2-3; Eqs 2-7,11-21; Figs 1,3,4','implemented_reference_odes','Radiation-dominated saturated inner convection matched to n=3 outer envelope','Dimensionless static structure; thin radiative layer approximation','xi, m, Ki dimensionless','Direct ODE integration distinguishes corrected Bondi and saturated families. Printed Ki=.46554 and mBH/Mi=.6321 correspond to x_tilde=1, not the stated entropy minimum near 1.015. Retain both and document discrepancy.','src/qstars/reference.py')
+ add('quest2025','Campbell, Santarelli & Caplan (2025)','https://arxiv.org/abs/2507.12651','Eqs 1-5; Fig 1; public code','audited','MESA EOS/opacity, ML1 convection, cavity, TOV correction','Full published run depends on MESA r24.03.1','CGS; epsilon, eta dimensionless','Early note Eq 3 lacks (1-epsilon) while using a BH growth convention. Later article and source code have it. No silent normalization correction.','docs/literature.md')
+ add('santarelli2025','Santarelli et al. (2025/2026)','https://arxiv.org/abs/2510.11772','Sections V-VI; Eqs 8,11-13; upstream implementation','implemented_eq11_law_only','Convection-limited accretion with explicit radiative efficiency; MESA full tracks','Luminosity law does not reproduce its moving cavity or saturated-convection boundary','mdot_BH=(1-epsilon)mdot_rest g/s','Named quest2025_eq11 uses 16pi and distinct rest/BH rates; upstream HEAD inspected at 671eb9b898b28c0d02a6a2455dacc0f5b269e280.','src/qstars/engine.py')
+@@ -21,13 +21,14 @@ add('mesa_energy','MESA technical documentation, energy equation','https://docs.
+ add('mesa_install','MESA installation and upstream QUEST','https://docs.mesastar.org/en/latest/installation.html','Prerequisites, SDK, release pinning','audited_backend_decision','Validated microphysics requires versioned EOS/opacity/atmosphere infrastructure','Existing MESA 24.08.1 and ARM SDK 24.7.1 recovered from earlier runtime; local build changes recorded','Not applicable','Direct EOS and opacity calls are implemented for fixed H/He composition. Stellar evolution, atmosphere, and moving cavity production gates remain open. Report 5 corrects the earlier absence claim.','docs/mesa.md')
+ add('ideal_eos','Classical ideal-gas plus radiation thermodynamics','https://arxiv.org/abs/1107.3562','Dotan Eqs 21-23; first-law derivation in docs/equations.md','derived_and_tested','Nondegenerate fully ionized monatomic mixture in LTE; fixed composition','1e5 <= T <= 1e8 K, electron occupation < 0.1, Newtonian low compactness','P dyn/cm^2, u erg/g, s erg/g/K','Heat capacities, adiabatic exponents, and entropy derived consistently from the same EOS; arbitrary entropy zero explicitly fixed.','src/qstars/eos.py')
+ add('thomson','Electron-scattering opacity','https://arxiv.org/abs/0711.4078','Section 2.3; Thomson cross section times electrons per gram','derived_approximation','Fully ionized H/He mixture; scattering dominates; LTE/thermalization separately assumed','Hot diffuse envelope; no bound-free/free-free/negative hydrogen/line opacity','kappa=0.2(1+X) cm^2/g','No cool extrapolation admitted as validated physics. Optional external opacity tables strictly reject out-of-bounds values and require provenance.','src/qstars/opacity.py')
+-add('diffusion','Rosseland radiative diffusion','https://docs.mesastar.org/en/latest/reference/controls.html','Temperature-gradient controls; diffusion derivation in docs/equations.md','derived','Optically thick LTE; F=-ac/(3 kappa rho) grad(T^4)','Cell optical depth >=1; no resolved optically thin transfer','Flux erg/cm^2/s; luminosity erg/s','Backward-Euler diffusion shares exactly one flux per face; grey extrapolation is an optional outer closure.','src/qstars/transport.py')
+-add('mlt_lossless','Optically thick lossless mixing-length limit','https://arxiv.org/abs/2507.12651','ML1 reference in Section II; explicit derivation in docs/equations.md','optional_approximation','Local buoyant blobs, no radiative heat leakage; l=alpha Hp','Efficient optically thick convection; not full ML1 or time-dependent convection','cp erg/g/K; velocity cm/s; l cm','Use v^2=g delta l^2 (nabla-nabla_ad)/(8Hp), F=rho cp T v l (nabla-nabla_ad)/(2Hp), capped by P cs. Entropy contrast discretized consistently.','src/qstars/transport.py')
++add('diffusion','Rosseland radiative diffusion','https://docs.mesastar.org/en/latest/reference/controls.html','Temperature-gradient controls; diffusion derivation in docs/equations.md','derived','Optically thick LTE; F=-ac/(3 kappa rho) grad(T^4)','Radiation gradient Knudsen number <=0.1; LTE assumed; no resolved optically thin transfer','Flux erg/cm^2/s; luminosity erg/s','Backward-Euler diffusion shares exactly one flux per face; grey extrapolation is an optional outer closure.','src/qstars/transport.py')
++add('mlt_lossless','Optically thick lossless mixing-length limit','https://arxiv.org/abs/2507.12651','ML1 reference in Section II; explicit derivation in docs/equations.md','optional_approximation','Local buoyant blobs, no radiative heat leakage; l=alpha Hp','Pe>=100 where convection carries more than 1 percent of transported flux; subsonic blobs; not full ML1 or time-dependent convection','cp erg/g/K; velocity cm/s; l cm','Use v^2=g delta l^2 (nabla-nabla_ad)/(8Hp), F=rho cp T v l (nabla-nabla_ad)/(2Hp), capped by P cs. Entropy contrast discretized consistently.','src/qstars/transport.py')
+ add('compatible_work','Compatible spherical mechanical work','https://cnls.lanl.gov/~shashkov/papers/comp.pdf','Compatible differencing principle; QStarS derivation in docs/equations.md','derived','Fixed shell masses during mechanical substep; midpoint pressure and velocity; spherical gravity quadrature','Smooth subsonic flow; no shock validation','Total energy erg; nodal velocity cm/s','Secant area and 1/(r_new r_old) gravity produce exact work cancellation; no energy residual compensation. Article discovered as methodological background; full PDF not audited.','src/qstars/numerics.py')
+ add('two_stream','Conservative boundary source-cell closure','https://arxiv.org/abs/1509.07511','First-law open-system derivation; compare wind Eq 3','derived_optional_approximation','Separate mass sources/sinks at first/last cell; comoving mixing; supplied enthalpy and entropy specified','Effective 1D boundary mixing; unresolved geometry, shocks, inflow momentum','Mass g, enthalpy erg/g, entropy erg/g/K','Differentiate discrete gravitational energy for boundary potential flux; central-potential work is separately recorded. Wind escape cost debits outward light once.','src/qstars/mass_transport.py')
+-add('remapping','Conservative overlap remapping','https://cnls.lanl.gov/~shashkov/papers/comp.pdf','QStarS finite-volume derivation in docs/equations.md','derived','Piecewise constant volume and total specific energy in mass coordinates','Smooth resolved states; remap changes entropy and hydrostatic residual','Mass g, volume cm^3, energy erg','New internal energy is remapped total energy minus new discrete gravity and kinetic energies. Reject negative internal energy; log entropy changes.','src/qstars/mesh.py')
+-add('mesa_microphysics','MESA 24.08.1 EOS and opacity public APIs','https://docs.mesastar.org/en/24.08.1/eos/overview.html','eosDT_get, kap_get; eos_def quantity definitions; source commit 5c166bf174b477823a2ca0031c4f57210c8e67a8','implemented_direct_library_interface','Fixed H1/He4 composition Z=0; default EOS blends and Type2 opacity with Zbase=0; matched electron state','Query rectangle rho=1e-14..1e3 g/cm3 and T=3000..1e8 K is only a bounding box. Reject neutral ideal backstop and first-law defect above 1 percent; no production atmosphere claim.','P erg/cm3, u erg/g, s erg/g/K, kappa cm2/g; derivatives with respect to natural logarithms','Versioned C ABI and Python interface cross-checked against separate Fortran process. Wide audit preserves failing blend states. Existing binary/build/table provenance must accompany each run.','backends/mesa/microphysics.f90; src/qstars/mesa_microphysics.py')
++add('remapping','Conservative overlap remapping','https://cnls.lanl.gov/~shashkov/papers/comp.pdf','QStarS finite-volume derivation in docs/equations.md','derived','Piecewise constant volume and total specific energy in mass coordinates','Smooth resolved states; remap changes entropy and hydrostatic residual','Mass g, volume cm^3, energy erg','New internal energy is remapped total energy minus new discrete gravity and kinetic energies. Decimal overlap endpoints avoid cancellation of large cumulative CGS masses; the sweep is linear in zone count. Reject negative internal energy; log entropy changes.','src/qstars/mesh.py')
++add('mesa_microphysics','MESA 24.08.1 EOS and opacity public APIs','https://docs.mesastar.org/en/24.08.1/eos/overview.html','eosDT_get, kap_get; eos_def quantity definitions; source commit 5c166bf174b477823a2ca0031c4f57210c8e67a8','implemented_direct_library_interface','Fixed H1/He4 composition Z=0; default EOS blends and Type2 opacity with Zbase=0; matched electron state','Query rectangle rho=1e-14..1e3 g/cm3 and T=3000..1e8 K is only a bounding box. Reject neutral ideal backstop and first-law defect above 1 percent; no production atmosphere claim.','P erg/cm3, u erg/g, s erg/g/K, kappa cm2/g; derivatives with respect to natural logarithms','Versioned C ABI and Python interface cross-checked against separate Fortran process. Wide audit preserves failing blend states. Radiative opacity disables conduction; a separate combined-opacity call measures omitted conduction. Existing binary/build/table provenance must accompany each run.','backends/mesa/microphysics.f90; src/qstars/mesa_microphysics.py')
+ add('inverse_transport','Inverse radiative/convective flux solve','https://docs.mesastar.org/en/24.08.1/','Algebraic derivation in docs/equations.md, using existing diffusion and lossless MLT equations','derived_and_tested','Same physical closure as forward flux; luminosities retained as nonlinear unknowns; active-piece complex-step derivatives','Smooth subsonic hot envelopes; transport validity unchanged by nonlinear method','L erg/s, logarithmic thermal contrast dimensionless','Solving thermal contrast from luminosity avoids ill conditioning near adiabatic stratification; no transport coefficient changed. Numerical reference is QStarS derivation, not copied MESA implementation.','src/qstars/transport.py; src/qstars/nonlinear.py')
++add('diffusion_domain','Levermore & Pomraning (1981)','https://adsabs.harvard.edu/pdf/1981ApJ...248..321L','Section II, Eqs 7 and 18-31; pp321-324','implemented_validity_screen','Near LTE and slowly varying radiation energy over a mean free path; no flux-limiter implementation added','R=|grad E|/(kappa rho E)<=0.1, using E=aT^4. Cell optical depth remains a diagnostic, not a mesh-dependent validity restriction.','R dimensionless, photon mean free path cm','Corrects prior tau_cell>=1 rejection, which incorrectly rejected increasingly fine representations of a smooth diffusive field. R<=0.1 is a conservative screening threshold, not a proof of full atmosphere validity.','src/qstars/validity.py')
+ p=Path('src/qstars/data');p.mkdir(parents=True,exist_ok=True)
+ registry={'schema_version':1,'audit_date':'2026-09-28','prescriptions':entries}
+ (p/'sources.json').write_text(json.dumps(registry,indent=2)+'\n')
+diff --git a/scripts/validate_robustness.py b/scripts/validate_robustness.py
+index af85c60..20832d6 100644
+--- a/scripts/validate_robustness.py
++++ b/scripts/validate_robustness.py
+@@ -8,9 +8,11 @@ from qstars.config import resolve
+ from qstars.evolution import physics,run
+ from validate_spatial import profile_difference
+ p=argparse.ArgumentParser();p.add_argument('--zones',type=int,default=256);p.add_argument('--end-time',type=float,default=10.)
+-p.add_argument('--parent',default='results');p.add_argument('--mesa-library');p.add_argument('--mesa-dir');a=p.parse_args()
++p.add_argument('--parent',default='results');p.add_argument('--mesa-library');p.add_argument('--mesa-dir')
++p.add_argument('--mechanics',choices=['midpoint','backward_euler'],default='midpoint')
++p.add_argument('--mesh',choices=['log_radius','log_radius_cosine','log_radius_surface'],default='log_radius_cosine');a=p.parse_args()
+ out=io.create_directory(a.parent,'robustness_validation')
+-base=resolve({'name':'robustness','numerics':{'zones':a.zones,'mesh':'log_radius_cosine','solver_tolerance':1e-10,'initial_dt_years':.02,'max_dt_years':.02},
++base=resolve({'name':'robustness','numerics':{'zones':a.zones,'mesh':a.mesh,'mechanics':a.mechanics,'solver_tolerance':1e-10,'initial_dt_years':.02,'max_dt_years':.02},
+  'engine':{'model':'prescribed','rest_mass_rate_msun_per_year':2e-4},'feeding':{'rate_msun_per_year':.01,'thermodynamics':'surface'},
+  'wind':{'model':'prescribed','rate_msun_per_year':.008},'boundary':{'pressure_cgs':1e8,'thermal':'luminosity','luminosity_erg_s':1e42},
+  'evolution':{'end_time_years':a.end_time,'max_wall_seconds':300.},'output':{'profile_every_steps':500}})
+@@ -36,7 +38,7 @@ c=copy.deepcopy(base);c['name']='restart_part'
+ part,rp=run(c,out,stop_after_steps=100);s,cc=io.load_checkpoint(part/'checkpoint.npz')
+ continued,rc=run(cc,out,restart=s);s,_=io.load_checkpoint(continued/'checkpoint.npz')
+ ref=states[0]
+-restart_equal=all(np.array_equal(getattr(s,k),getattr(ref,k)) for k in ('r','T','dm','v','cell_volume')) and s.ledger==ref.ledger
++restart_equal=all(np.array_equal(getattr(s,k),getattr(ref,k)) for k in ('r','T','dm','v','cell_volume','radius_compensation','face_luminosity')) and s.ledger==ref.ledger
+ summary={'complete':True,'rows':rows,'restart':{'part':str(part),'continued':str(continued),'report':rc,'bitwise_equal':restart_equal},
+          'scope':'Fixed-excision hot pressure-confined two-stream model','v1_validated':False}
+ io.json_write(out/'campaign.json',summary);print(out)
+diff --git a/scripts/validate_spatial.py b/scripts/validate_spatial.py
+index 5f9271f..ebdbd9a 100644
+--- a/scripts/validate_spatial.py
++++ b/scripts/validate_spatial.py
+@@ -13,6 +13,7 @@ from qstars.config import resolve
+ from qstars.evolution import run,physics
+ from qstars.structure import initialize,continuum_polytrope
+ from qstars.constants import PI
++from qstars.validation_metrics import interpolant_norms
+ 
+ def profile_difference(a,b,eos):
+     """Whole-mass overlap L2 plus smooth interpolation on the common center domain."""
+@@ -28,10 +29,10 @@ def profile_difference(a,b,eos):
+     out={'interpolation_excluded_mass_fraction':float(lo+1-hi),'fields':{}}
+     for name,(x,y) in fields.items():
+         lx,ly=np.log(x),np.log(y)
+-        delta=PchipInterpolator(ca,lx)(sample)-PchipInterpolator(cb,ly)(sample)
++        linf,l2=interpolant_norms(ca,lx,cb,ly)
+         out['fields'][name]={'mass_overlap_log_L2':float(np.sqrt(np.sum(overlap*(lx[:,None]-ly[None,:])**2))),
+-                            'interpolated_log_Linf':float(max(abs(delta))),
+-                            'interpolated_mass_log_L2':float(np.sqrt(np.trapezoid(delta**2,sample)/(hi-lo)))}
++                            'interpolated_log_Linf':linf,
++                            'interpolated_mass_log_L2':l2}
+     # Entropy has an arbitrary zero; normalize differences by local heat capacity.
+     sa=PchipInterpolator(ca,ea['s'])(sample);sb=PchipInterpolator(cb,eb['s'])(sample)
+     cv=PchipInterpolator(cb,eb['cv'])(sample)
+@@ -43,10 +44,11 @@ def main():
+     ap=argparse.ArgumentParser();ap.add_argument('--end-time',type=float,default=.1)
+     ap.add_argument('--zones',type=int,nargs='+',default=[64,128,256,512]);ap.add_argument('--parent',default='results')
+     ap.add_argument('--max-dt',type=float,default=.001)
+-    ap.add_argument('--mesh',choices=['log_radius','log_radius_cosine'],default='log_radius_cosine')
++    ap.add_argument('--mechanics',choices=['midpoint','backward_euler'],default='midpoint')
++    ap.add_argument('--mesh',choices=['log_radius','log_radius_cosine','log_radius_surface'],default='log_radius_cosine')
+     ap.add_argument('--max-wall-seconds',type=float,default=600.)
+     a=ap.parse_args();out=io.create_directory(a.parent,'spatial_validation')
+-    base=resolve({'name':'spatial','numerics':{'mesh':a.mesh,'nonlinear_solver':'newton_flux','solver_tolerance':1e-10,'initial_dt_years':a.max_dt,'max_dt_years':a.max_dt},
++    base=resolve({'name':'spatial','numerics':{'mesh':a.mesh,'mechanics':a.mechanics,'nonlinear_solver':'newton_flux','solver_tolerance':1e-10,'initial_dt_years':a.max_dt,'max_dt_years':a.max_dt},
+           'engine':{'model':'prescribed','rest_mass_rate_msun_per_year':2e-4},
+           'feeding':{'rate_msun_per_year':.01,'thermodynamics':'surface'},'wind':{'model':'prescribed','rate_msun_per_year':.008},
+           'boundary':{'pressure_cgs':1e8,'thermal':'luminosity','luminosity_erg_s':1e42},
+@@ -66,7 +68,8 @@ def main():
+         density_error=np.log(s.rho/(s.dm/vv))
+         p,r=run(c,out);final,_=io.load_checkpoint(p/'checkpoint.npz');states.append(final)
+         row={'zones':n,'path':str(p),'initial_density_log_Linf':float(max(abs(density_error))),
+-             'initial_density_mass_log_L2':float(np.sqrt(np.dot(s.dm,density_error**2)/s.dm.sum())),**r}
++             'initial_density_mass_log_L2':float(np.sqrt(np.dot(s.dm,density_error**2)/s.dm.sum())),
++             'numerical_kinetic_heating_erg':final.ledger.get('numerical_kinetic_heating',0.),**r}
+         rows.append(row);io.json_write(out/'campaign.json',{'rows':rows,'complete':False})
+         print(n,r['status'],r['runtime_seconds'],flush=True)
+     for i,row in enumerate(rows[:-1]):
+diff --git a/src/qstars/config.py b/src/qstars/config.py
+index 41362d3..2f7edef 100644
+--- a/src/qstars/config.py
++++ b/src/qstars/config.py
+@@ -32,7 +32,7 @@ DEFAULT = dict(
+                   bath_temperature_K=0.,luminosity_erg_s=1e41),
+     evolution=dict(end_time_years=.1,max_steps=10000,max_wall_seconds=0.),
+     numerics=dict(zones=32,mesh="cosine",initial_dt_years=.001,max_dt_years=.005,min_dt_years=1e-10,
+-                  nonlinear_solver="newton_flux",boundary_remesh_fraction=.2,
++                  nonlinear_solver="newton_flux",mechanics="midpoint",boundary_remesh_fraction=.2,
+                   solver_tolerance=1e-9,max_fractional_change=.02,max_retries=12,
+                   conservation_tolerance=1e-7,refine_every_steps=0,max_zones=256),
+     validity=dict(min_temperature_K=1e5,max_temperature_K=1e8,max_mach=.2,max_compactness=.001,
+@@ -87,8 +87,9 @@ def resolve(raw):
+         raise ValueError('name must use 1-100 letters, digits, hyphens, or underscores')
+     if c["schema_version"] != 1: raise ValueError("Unsupported schema version")
+     choices = [(c["eos"],["ideal_gas_radiation","mesa"]),
+-        (c['numerics']['mesh'],['cosine','core_refined','log_radius','log_radius_cosine']),
++        (c['numerics']['mesh'],['cosine','core_refined','log_radius','log_radius_cosine','log_radius_surface']),
+         (c['numerics']['nonlinear_solver'],['newton','newton_flux','hybr']),
++        (c['numerics']['mechanics'],['midpoint','backward_euler']),
+         (c["opacity"]["model"],["electron_scattering","table","mesa"]),
+         (c["boundary"]["inner"],["fixed_excision"]),
+         (c["boundary"]["thermal"],["grey","luminosity","insulated"]),
+diff --git a/src/qstars/data/sources.json b/src/qstars/data/sources.json
+index 598820c..242984f 100644
+--- a/src/qstars/data/sources.json
++++ b/src/qstars/data/sources.json
+@@ -58,13 +58,13 @@
+       "id": "fiacconi2016",
+       "title": "Fiacconi & Rossi (2016)",
+       "url": "https://arxiv.org/abs/1509.07511",
+-      "reference_location": "Section 2.1; Eqs 1-3; wind coupling in Section 3",
+-      "status": "audited_not_implemented_wind_ode",
++      "reference_location": "Sections 2.1-2.2; Eqs 12-22,25; Figures 2 and 4",
++      "status": "implemented_stationary_wind_reference",
+       "assumptions": "Stationary spherical radiation-dominated wind; radiation enthalpy advection",
+       "validity": "Gas pressure negligible and wind base optically thick",
+       "variables_units": "mdot g/s, L erg/s, specific Bernoulli energy erg/g",
+-      "implementation_interpretation": "Radiation enthalpy matters. A photon-tiring cap alone cannot reproduce these solutions; full transonic replication remains pending.",
+-      "implementation": "docs/literature.md; src/qstars/mass_transport.py (energy accounting only)",
++      "implementation_interpretation": "Inward integration retains radiative, advected, kinetic and gravitational energy. Base Mach is explicitly 0.8 +/- 0.05, as in the paper; no gas sonic critical-point selection is claimed. Figure 4 vector paths retain calibration uncertainty and discrepancies; evolving-envelope coupling remains open.",
++      "implementation": "src/qstars/wind_reference.py; scripts/validate_wind.py; benchmarks/fiacconi2016_figure4.csv",
+       "inspected_utc": "2026-09-28"
+     },
+     {
+@@ -230,7 +230,7 @@
+       "reference_location": "Temperature-gradient controls; diffusion derivation in docs/equations.md",
+       "status": "derived",
+       "assumptions": "Optically thick LTE; F=-ac/(3 kappa rho) grad(T^4)",
+-      "validity": "Cell optical depth >=1; no resolved optically thin transfer",
++      "validity": "Radiation gradient Knudsen number <=0.1; LTE assumed; no resolved optically thin transfer",
+       "variables_units": "Flux erg/cm^2/s; luminosity erg/s",
+       "implementation_interpretation": "Backward-Euler diffusion shares exactly one flux per face; grey extrapolation is an optional outer closure.",
+       "implementation": "src/qstars/transport.py",
+@@ -243,7 +243,7 @@
+       "reference_location": "ML1 reference in Section II; explicit derivation in docs/equations.md",
+       "status": "optional_approximation",
+       "assumptions": "Local buoyant blobs, no radiative heat leakage; l=alpha Hp",
+-      "validity": "Efficient optically thick convection; not full ML1 or time-dependent convection",
++      "validity": "Pe>=100 where convection carries more than 1 percent of transported flux; subsonic blobs; not full ML1 or time-dependent convection",
+       "variables_units": "cp erg/g/K; velocity cm/s; l cm",
+       "implementation_interpretation": "Use v^2=g delta l^2 (nabla-nabla_ad)/(8Hp), F=rho cp T v l (nabla-nabla_ad)/(2Hp), capped by P cs. Entropy contrast discretized consistently.",
+       "implementation": "src/qstars/transport.py",
+@@ -284,7 +284,7 @@
+       "assumptions": "Piecewise constant volume and total specific energy in mass coordinates",
+       "validity": "Smooth resolved states; remap changes entropy and hydrostatic residual",
+       "variables_units": "Mass g, volume cm^3, energy erg",
+-      "implementation_interpretation": "New internal energy is remapped total energy minus new discrete gravity and kinetic energies. Reject negative internal energy; log entropy changes.",
++      "implementation_interpretation": "New internal energy is remapped total energy minus new discrete gravity and kinetic energies. Decimal overlap endpoints avoid cancellation of large cumulative CGS masses; the sweep is linear in zone count. Reject negative internal energy; log entropy changes.",
+       "implementation": "src/qstars/mesh.py",
+       "inspected_utc": "2026-09-28"
+     },
+@@ -297,7 +297,7 @@
+       "assumptions": "Fixed H1/He4 composition Z=0; default EOS blends and Type2 opacity with Zbase=0; matched electron state",
+       "validity": "Query rectangle rho=1e-14..1e3 g/cm3 and T=3000..1e8 K is only a bounding box. Reject neutral ideal backstop and first-law defect above 1 percent; no production atmosphere claim.",
+       "variables_units": "P erg/cm3, u erg/g, s erg/g/K, kappa cm2/g; derivatives with respect to natural logarithms",
+-      "implementation_interpretation": "Versioned C ABI and Python interface cross-checked against separate Fortran process. Wide audit preserves failing blend states. Existing binary/build/table provenance must accompany each run.",
++      "implementation_interpretation": "Versioned C ABI and Python interface cross-checked against separate Fortran process. Wide audit preserves failing blend states. Radiative opacity disables conduction; a separate combined-opacity call measures omitted conduction. Existing binary/build/table provenance must accompany each run.",
+       "implementation": "backends/mesa/microphysics.f90; src/qstars/mesa_microphysics.py",
+       "inspected_utc": "2026-09-28"
+     },
+@@ -313,6 +313,19 @@
+       "implementation_interpretation": "Solving thermal contrast from luminosity avoids ill conditioning near adiabatic stratification; no transport coefficient changed. Numerical reference is QStarS derivation, not copied MESA implementation.",
+       "implementation": "src/qstars/transport.py; src/qstars/nonlinear.py",
+       "inspected_utc": "2026-09-28"
++    },
++    {
++      "id": "diffusion_domain",
++      "title": "Levermore & Pomraning (1981)",
++      "url": "https://adsabs.harvard.edu/pdf/1981ApJ...248..321L",
++      "reference_location": "Section II, Eqs 7 and 18-31; pp321-324",
++      "status": "implemented_validity_screen",
++      "assumptions": "Near LTE and slowly varying radiation energy over a mean free path; no flux-limiter implementation added",
++      "validity": "R=|grad E|/(kappa rho E)<=0.1, using E=aT^4. Cell optical depth remains a diagnostic, not a mesh-dependent validity restriction.",
++      "variables_units": "R dimensionless, photon mean free path cm",
++      "implementation_interpretation": "Corrects prior tau_cell>=1 rejection, which incorrectly rejected increasingly fine representations of a smooth diffusive field. R<=0.1 is a conservative screening threshold, not a proof of full atmosphere validity.",
++      "implementation": "src/qstars/validity.py",
++      "inspected_utc": "2026-09-28"
+     }
+   ]
+ }
+diff --git a/src/qstars/evolution.py b/src/qstars/evolution.py
+index 1065db6..7c7e1e9 100644
+--- a/src/qstars/evolution.py
++++ b/src/qstars/evolution.py
+@@ -51,7 +51,7 @@ def run(config,output_parent="results",restart=None,stop_after_steps=None):
+                       'opacity_sha256':hashlib.sha256(data).hexdigest()})
+     io.provenance(path,config)
+     io.json_write(path/"validity_warnings.json",assumptions(config))
+-    start=time.perf_counter(); accepted=0; retries=0; state=None
++    start=time.perf_counter(); accepted=0; retries=0; state=None;last_domain_rejection=None
+     status="numerical_failure"; reason="initialization did not complete"
+     def log(event,**data):
+         with (path/"events.jsonl").open("a") as f:
+@@ -91,6 +91,7 @@ def run(config,output_parent="results",restart=None,stop_after_steps=None):
+                     break
+                 except (StepRejected,DomainError,ValueError,FloatingPointError) as exc:
+                     retries+=1; last_exception=exc
++                    if isinstance(exc,DomainError):last_domain_rejection=str(exc)
+                     log("rejected",time_seconds=state.time,dt_seconds=dt,error=str(exc))
+                     dt*=.5
+                     if dt<c["min_dt_years"]*YEAR: raise exc
+@@ -127,6 +128,12 @@ def run(config,output_parent="results",restart=None,stop_after_steps=None):
+                 io.save_profile(path/f"profile_{state.steps:07d}.npz",state,eos,opacity,config)
+             if state.steps%config["output"]["checkpoint_every_steps"]==0:
+                 io.save_checkpoint(path/"checkpoint.npz",state,config)
++            # Locate a physical domain boundary to a finite margin; repeated
++            # bisection down to floating-point time would hide it behind a
++            # later nonlinear roundoff failure. This is not a disruption claim.
++            if diag['max_mach']>=config['validity']['max_mach']*(1-1e-4):
++                status,reason='model_domain_exit','radial Mach number approached configured limit within 0.01%; last accepted state preserved'
++                log(status,reason=reason);break
+         else: status,reason="completed_requested_interval","requested end time reached within configured domain"
+     except DomainError as exc:
+         status,reason="model_domain_exit",str(exc); log(status,error=reason)
+@@ -147,6 +154,8 @@ def run(config,output_parent="results",restart=None,stop_after_steps=None):
+         report=dict(status=status,reason=reason,accepted_steps_this_run=accepted,retries=retries,
+                     runtime_seconds=time.perf_counter()-start,process_peak_rss_MiB=memory,
+                     final_time_years=state.time/YEAR if state is not None else 0.,v1_validated=False)
++        if last_domain_rejection is not None:report['last_domain_rejection']=last_domain_rejection
+         if state is not None and state.ledger: report["conservation"]=ledger.residuals(state,eos)
++        report['source_snapshot_verified']=io.finish_provenance(path)
+         io.json_write(path/"termination.json",report)
+     return path,report
+diff --git a/src/qstars/io.py b/src/qstars/io.py
+index 4953dd5..4348b4f 100644
+--- a/src/qstars/io.py
++++ b/src/qstars/io.py
+@@ -14,6 +14,30 @@ from .winds import rate as wind_rate
+ from .ledger import residuals
+ from .structure import hydrostatic_residual
+ 
++def _package_sources():
++    root=Path(__file__).parent
++    return {str(p.relative_to(root.parent)):p.read_bytes() for p in sorted(root.rglob('*'))
++            if p.is_file() and '__pycache__' not in p.parts}
++
++def _source_digest(sources):
++    digest=hashlib.sha256()
++    for name,data in sources.items():digest.update(name.encode()+b'\0'+data+b'\0')
++    return digest.hexdigest()
++
++# A long-running campaign imports Python modules once. Reading current disk
++# files for each later run could otherwise archive code it never executed.
++_PROCESS_SOURCES=_package_sources()
++_PROCESS_SOURCE_DIGEST=_source_digest(_PROCESS_SOURCES)
++
++def finish_provenance(path):
++    file=Path(path)/'metadata.json';meta=json.loads(file.read_text())
++    unchanged=_source_digest(_package_sources())==_PROCESS_SOURCE_DIGEST
++    verified=bool(unchanged and meta.get('source_tree_matches_import',False))
++    meta.update(source_tree_matches_at_end=unchanged,source_snapshot_verified=verified)
++    if not verified:meta['source_warning']='Package files changed during this process. Dynamic imports may differ from the frozen source snapshot; rerun in a fresh process with unchanged source.'
++    json_write(file,meta)
++    return verified
++
+ def json_write(path,data):
+     Path(path).write_text(json.dumps(data,indent=2,allow_nan=False,default=lambda x:float(x))+"\n")
+ 
+@@ -29,11 +53,12 @@ def provenance(path,config):
+         return subprocess.run(["git","-C",str(root),*args],capture_output=True,text=True).stdout.strip()
+     snapshot=path/"source_snapshot.zip"
+     with zipfile.ZipFile(snapshot,"w",compression=zipfile.ZIP_DEFLATED) as z:
+-        for p in sorted(Path(__file__).parent.rglob("*")):
+-            if p.is_file() and "__pycache__" not in p.parts: z.write(p,p.relative_to(Path(__file__).parent.parent))
++        for name,data in _PROCESS_SOURCES.items():z.writestr(name,data)
+     meta=dict(version=__version__,git_commit=git("rev-parse","HEAD"),git_status=git("status","--porcelain"),
+               source_sha256=hashlib.sha256(snapshot.read_bytes()).hexdigest(),python=sys.version,
+               platform=platform.platform(),created_utc=datetime.now(timezone.utc).isoformat())
++    meta['process_package_sha256']=_PROCESS_SOURCE_DIGEST
++    meta['source_tree_matches_import']=_source_digest(_package_sources())==_PROCESS_SOURCE_DIGEST
+     (path/"config.yaml").write_text(yaml.safe_dump(config,sort_keys=False))
+     (path/"working_tree.diff").write_text(git("diff","HEAD"))
+     import importlib.metadata
+@@ -47,8 +72,9 @@ def save_checkpoint(path,state,config):
+     # NPZ contains JSON strings, never pickled Python objects.
+     temporary=path.with_suffix(".tmp")
+     with temporary.open("wb") as f:
+-        np.savez_compressed(f,schema_version=4,time=state.time,bh_mass=state.bh_mass,dm=state.dm,r=state.r,v=state.v,T=state.T,
++        np.savez_compressed(f,schema_version=6,time=state.time,bh_mass=state.bh_mass,dm=state.dm,r=state.r,v=state.v,T=state.T,
+             cell_volume=state.volume,
++            radius_compensation=state.radius_compensation if state.radius_compensation is not None else np.zeros_like(state.r),
+             face_luminosity=state.face_luminosity if state.face_luminosity is not None else np.array([]),
+             reference_mass_fractions=state.reference_mass_fractions if state.reference_mass_fractions is not None else state.dm/state.dm.sum(),
+             ledger=json.dumps(state.ledger),steps=state.steps,next_dt=state.next_dt,config=json.dumps(config))
+@@ -58,15 +84,27 @@ def save_checkpoint(path,state,config):
+ def load_checkpoint(path):
+     from .config import resolve
+     with np.load(path,allow_pickle=False) as f:
+-        if int(f["schema_version"]) not in (1,2,3,4): raise ValueError("Unsupported checkpoint schema")
++        if int(f["schema_version"]) not in (1,2,3,4,5,6): raise ValueError("Unsupported checkpoint schema")
+         state=State(float(f["time"]),float(f["bh_mass"]),f["dm"].copy(),f["r"].copy(),f["v"].copy(),f["T"].copy(),
+                     json.loads(str(f["ledger"])),int(f["steps"]),float(f["next_dt"]))
+         config=resolve(json.loads(str(f["config"])))
+         if int(f['schema_version']) >= 2: state.cell_volume=f['cell_volume'].copy()
+         if int(f['schema_version']) >= 3 and len(f['face_luminosity']):state.face_luminosity=f['face_luminosity'].copy()
+         state.reference_mass_fractions=f['reference_mass_fractions'].copy() if int(f['schema_version'])>=4 else state.dm/state.dm.sum()
++        state.radius_compensation=f['radius_compensation'].copy() if int(f['schema_version'])>=5 else np.zeros_like(state.r)
++        if int(f['schema_version'])<6:state.ledger.setdefault('numerical_kinetic_heating',0.)
+     if not (len(state.r)==len(state.dm)+1==len(state.v) and len(state.T)==len(state.dm)):
+         raise ValueError("Malformed checkpoint dimensions")
++    if any(not np.all(np.isfinite(x)) for x in (state.r,state.dm,state.v,state.T)):
++        raise ValueError('Checkpoint contains nonfinite state arrays')
++    if not (np.isfinite(state.time) and state.time>=0 and np.isfinite(state.bh_mass) and state.bh_mass>0
++            and np.isfinite(state.next_dt) and state.next_dt>0 and state.steps>=0):
++        raise ValueError('Checkpoint contains invalid time, central mass, or step controls')
++    from .ledger import FIELDS
++    if not set(FIELDS+['initial_mass','initial_energy','initial_energy_scale'])<=state.ledger.keys():
++        raise ValueError('Checkpoint ledger is incomplete')
++    if any(isinstance(x,bool) or not isinstance(x,(int,float)) or not np.isfinite(x) for x in state.ledger.values()):
++        raise ValueError('Checkpoint contains invalid ledger values')
+     if np.any(np.diff(state.r)<=0) or np.any(state.dm<=0) or np.any(state.T<=0):
+         raise ValueError("Invalid checkpoint physical state")
+     geometric_volume=4*PI/3*np.diff(state.r)*(state.r[1:]**2+state.r[1:]*state.r[:-1]+state.r[:-1]**2)
+@@ -74,6 +112,8 @@ def load_checkpoint(path):
+         raise ValueError('Checkpoint volume and geometry disagree')
+     if state.face_luminosity is not None and (state.face_luminosity.shape!=state.r.shape or not np.all(np.isfinite(state.face_luminosity))):
+         raise ValueError('Malformed checkpoint face luminosities')
++    if state.radius_compensation.shape!=state.r.shape or not np.all(np.isfinite(state.radius_compensation)):
++        raise ValueError('Malformed checkpoint radius compensation')
+     f=state.reference_mass_fractions
+     if f.shape!=state.dm.shape or np.any(f<=0) or not np.isclose(f.sum(),1.,rtol=1e-12,atol=0):
+         raise ValueError('Malformed checkpoint reference mass fractions')
+diff --git a/src/qstars/ledger.py b/src/qstars/ledger.py
+index 501c799..7543aa3 100644
+--- a/src/qstars/ledger.py
++++ b/src/qstars/ledger.py
+@@ -5,7 +5,7 @@ FIELDS = ["supplied_mass","accreted_rest_mass","wind_mass","mass_defect",
+           "supplied_energy","wind_energy","advected_energy","central_generated",
+           "radiated_energy","boundary_work","central_potential_work",
+           "supplied_entropy","wind_entropy","advected_entropy",
+-          "mixing_entropy_change","remap_entropy_change","wind_mechanical_energy"]
++          "mixing_entropy_change","remap_entropy_change","wind_mechanical_energy","numerical_kinetic_heating"]
+ 
+ def initialize(state,eos):
+     state.ledger = {k:0. for k in FIELDS}
+diff --git a/src/qstars/mesh.py b/src/qstars/mesh.py
+index b649358..f45ebf4 100644
+--- a/src/qstars/mesh.py
++++ b/src/qstars/mesh.py
+@@ -2,18 +2,46 @@
+ import numpy as np
+ from .constants import PI,G
+ 
++def overlap_integrals(old_dm,new_dm,cell_integrals):
++    """Conservative overlap without subtracting large binary mass coordinates.
++
++    Very small boundary cells lose relative precision in cumulative CGS mass
++    coordinates. Decimal endpoints are used only to calculate overlap weights;
++    thermodynamics and evolution remain double precision. The sweep is O(N),
++    including when old and new zone counts differ.
++    """
++    import decimal,math
++    with decimal.localcontext() as context:
++        context.prec=60
++        D=decimal.Decimal.from_float
++        a=[decimal.Decimal(0)];b=[decimal.Decimal(0)]
++        for mass in old_dm:a.append(a[-1]+D(float(mass)))
++        for mass in new_dm:b.append(b[-1]+D(float(mass)))
++        b[-1]=a[-1]
++        out=np.zeros((len(new_dm),cell_integrals.shape[1]))
++        i=0
++        for j in range(len(new_dm)):
++            contributions=[]
++            while i<len(old_dm) and a[i]<b[j+1]:
++                overlap=min(a[i+1],b[j+1])-max(a[i],b[j])
++                if overlap>0:
++                    contributions.append(cell_integrals[i]*float(overlap/(a[i+1]-a[i])))
++                if a[i+1]<=b[j+1]:i+=1
++                else:break
++            for k in range(out.shape[1]):out[j,k]=math.fsum(x[k] for x in contributions)
++    return out
++
+ def remap(state,new_dm,eos):
+     new_dm = np.asarray(new_dm,dtype=float)
+     if np.any(new_dm <= 0) or not np.isclose(new_dm.sum(),state.dm.sum(),rtol=1e-13):
+         raise ValueError("Remap must preserve total mass with positive cells")
+     a,b = np.r_[0.,np.cumsum(state.dm)],np.r_[0.,np.cumsum(new_dm)]
+     b[-1] = a[-1]  # Identical physical domain; suppress cumulative-roundoff sliver.
+-    overlap = np.maximum(0.,np.minimum(b[1:,None],a[None,1:])-np.maximum(b[:-1,None],a[None,:-1]))
+     gravity = -G*.5*(state.enclosed[:-1]/state.r[:-1]+state.enclosed[1:]/state.r[1:])
+     kinetic = .25*(state.v[:-1]**2+state.v[1:]**2)
+     specific = eos.evaluate(state.rho,state.T)["u"]+gravity+kinetic
+-    E = overlap@specific
+-    V = overlap@(state.volume/state.dm)
++    integrals=overlap_integrals(state.dm,new_dm,np.column_stack([state.dm*specific,state.volume]))
++    E,V=integrals.T
+     out = state.copy()
+     out.dm = new_dm.copy()
+     out.face_luminosity=None
+@@ -21,6 +49,7 @@ def remap(state,new_dm,eos):
+     out.cell_volume = V.copy()
+     out.r = np.r_[state.r[0],np.cbrt(state.r[0]**3+3*np.cumsum(V)/(4*PI))]
+     out.r[-1] = state.r[-1]
++    out.radius_compensation=np.zeros_like(out.r)
+     out.v = np.interp(b,a,state.v)
+     new_gravity = -G*.5*(out.enclosed[:-1]/out.r[:-1]+out.enclosed[1:]/out.r[1:])
+     new_kinetic = .25*(out.v[:-1]**2+out.v[1:]**2)
+diff --git a/src/qstars/numerics.py b/src/qstars/numerics.py
+index 1b5aeda..33e7005 100644
+--- a/src/qstars/numerics.py
++++ b/src/qstars/numerics.py
+@@ -21,15 +21,28 @@ def thermal_mechanical_step(old,dt,eos,opacity,config,luminosity):
+     g = G*old.enclosed/old.r**2
+     pext = config["boundary"]["pressure_cgs"]
+     last = {}
++    midpoint=config['numerics']['mechanics']=='midpoint'
++    velocity_factor=2 if midpoint else 1
+     solve_flux=config['numerics']['nonlinear_solver']=='newton_flux'
+     L0,_=luminosities(old,eos,opacity,config,luminosity)
++    if solve_flux and old.face_luminosity is not None:
++        predictor=L0.copy();predictor[1:-1]=old.face_luminosity[1:-1]
++        try:
++            inverse_transport_residual(old,eos,opacity,config,predictor)
++        except (ValueError,FloatingPointError):pass
++        else:L0=predictor
+     Lscale=max(np.max(abs(L0)),1.)
+     contrast_scale=np.maximum(abs(np.diff(np.log(q0['p'])))*.25,1e-3)
+     def residual(x):
+         vm = np.r_[0.,x[:n]*cs[1:]]
+         state = old.copy()
+-        state.r = old.r+dt*vm
+-        state.v = 2*vm-old.v
++        # Compensated face motion prevents repeated sub-ULP rounding from
++        # drifting away from the independently integrated cell volumes.
++        carry=old.radius_compensation if old.radius_compensation is not None else 0.
++        increment=dt*vm-carry
++        state.r = old.r+increment
++        state.radius_compensation=(state.r-old.r)-increment
++        state.v = velocity_factor*vm-(velocity_factor-1)*old.v
+         state.time = old.time+dt
+         state.T = old.T*np.exp(np.clip(x[n:2*n],-100,100))
+         if np.any(np.diff(state.r) <= 0):
+@@ -38,16 +51,21 @@ def thermal_mechanical_step(old,dt,eos,opacity,config,luminosity):
+         state.cell_volume = old.volume+np.diff(area*(dt*vm))
+         if np.any(state.cell_volume.real<=0):raise ValueError('Trial cell volume is nonpositive')
+         q = eos.evaluate(state.rho,state.T)
+-        p = .5*(q["p"]+q0["p"])
++        p = .5*(q["p"]+q0["p"]) if midpoint else q['p']
+         pressure_force = area[1:]*(p-np.r_[p[1:],pext])/old.weights[1:]
+         gravity = G*old.enclosed[1:]/(state.r[1:]*old.r[1:])
+-        momentum = (2*(vm[1:]-old.v[1:])/dt-pressure_force+gravity)/g[1:]
++        momentum = (velocity_factor*(vm[1:]-old.v[1:])/dt-pressure_force+gravity)/g[1:]
+         L,details = luminosities(state,eos,opacity,config,luminosity)
+         if solve_flux:L[1:-1]=x[2*n:]*Lscale
+         # Volume differences computed from secant area to avoid r^3 cancellation.
+         deltaV = np.diff(area*(dt*vm))
+-        energy = (old.dm*(q["u"]-q0["u"])+p*deltaV+dt*np.diff(L))/(old.dm*q0["u"])
+-        last.update(state=state,L=L,details=details)
++        # BE momentum loses 1/2 sum(w_j Delta-v_j^2) of resolved kinetic
++        # energy. Deposit exactly that positive amount in neighboring cells;
++        # this is derived from the discrete work identity, not a residual fix.
++        dv=state.v-old.v
++        heating=np.zeros(n) if midpoint else .25*old.dm*(dv[:-1]**2+dv[1:]**2)
++        energy = (old.dm*(q["u"]-q0["u"])+p*deltaV+dt*np.diff(L)-heating)/(old.dm*q0["u"])
++        last.update(state=state,L=L,details=details,heating=heating)
+         if solve_flux:
+             closure=inverse_transport_residual(state,eos,opacity,config,L)/contrast_scale
+             return np.r_[momentum,energy,closure]
+@@ -58,7 +76,8 @@ def thermal_mechanical_step(old,dt,eos,opacity,config,luminosity):
+     initial = np.r_[predictor_scale*old.v[1:]/cs[1:],np.zeros(n)]
+     if solve_flux:
+         initial=np.r_[initial,L0[1:-1]/Lscale]
+-        sol = newton(residual,initial,config['numerics']['solver_tolerance'],jacobian=flux_jacobian)
++        sol = newton(residual,initial,config['numerics']['solver_tolerance'],
++                     max_iterations=max(80,n//8),jacobian=flux_jacobian)
+     elif config['numerics']['nonlinear_solver']=='newton':
+         sol = newton(residual,initial,config['numerics']['solver_tolerance'])
+     else:
+@@ -74,6 +93,7 @@ def thermal_mechanical_step(old,dt,eos,opacity,config,luminosity):
+     state.ledger["central_generated"] += dt*luminosity
+     state.ledger["radiated_energy"] += dt*last["L"][-1]
+     state.ledger["boundary_work"] -= pext*4*PI/3*(state.r[-1]**3-old.r[-1]**3)
++    state.ledger['numerical_kinetic_heating']+=float(np.sum(last['heating']))
+     state.steps = old.steps+1
+     return state,dict(nonlinear_residual=error,nfev=int(sol.nfev),fractional_change=change,
+-                      luminosity=float(last["L"][-1]))
++                      luminosity=float(last["L"][-1]),numerical_kinetic_heating_erg=float(np.sum(last['heating'])))
+diff --git a/src/qstars/reference.py b/src/qstars/reference.py
+index bfae194..ff2b8e7 100644
+--- a/src/qstars/reference.py
++++ b/src/qstars/reference.py
+@@ -104,6 +104,9 @@ def run_reference(config,output='results'):
+     """Configurable published STATIC families; no thermal-evolution claim."""
+     import csv
+     from . import io
++    if config.get('family')=='fiacconi2016_wind':
++        from .wind_reference import run_wind_reference
++        return run_wind_reference(config,output)
+     allowed={'family','n','N','minimum','maximum','samples'}
+     if set(config)-allowed:raise ValueError('Unknown reference configuration key')
+     family=config['family'];samples=config.get('samples',80)
+@@ -128,5 +131,6 @@ def run_reference(config,output='results'):
+         w=csv.DictWriter(f,fieldnames=list(rows[0]));w.writeheader();w.writerows(rows)
+     report=dict(status='completed_reference',family=family,samples=samples,v1_validated=False,
+                 scope='Dimensionless published structure equations only; no time evolution or photosphere.')
++    report['source_snapshot_verified']=io.finish_provenance(path)
+     io.json_write(path/'termination.json',report)
+     return path,report
+diff --git a/src/qstars/state.py b/src/qstars/state.py
+index 4ef8d81..0625336 100644
+--- a/src/qstars/state.py
++++ b/src/qstars/state.py
+@@ -17,6 +17,7 @@ class State:
+     cell_volume: np.ndarray | None = None
+     face_luminosity: np.ndarray | None = None
+     reference_mass_fractions: np.ndarray | None = None
++    radius_compensation: np.ndarray | None = None
+ 
+     def copy(self):
+         return copy.deepcopy(self)
+diff --git a/src/qstars/structure.py b/src/qstars/structure.py
+index 78355f6..7a7d78a 100644
+--- a/src/qstars/structure.py
++++ b/src/qstars/structure.py
+@@ -4,16 +4,63 @@ from scipy.optimize import least_squares
+ from .constants import PI,G,MSUN
+ from .state import State
+ 
++def sparse_polytrope(dm,bh_mass,r0,R,pext,continuum):
++    """Same discrete hydrostatic equations, with local face-radius unknowns.
++
++    The previous cumulative-volume parameterization has a dense Jacobian.
++    Radius variables instead give a tridiagonal block plus one K column.
++    A continuum solution is only a starting guess; the discrete equations
++    determine the returned volumes and pressure independently.
++    """
++    from scipy.interpolate import PchipInterpolator
++    from scipy.sparse import csc_matrix
++    from .nonlinear import newton
++    n=len(dm);mass=np.r_[0,np.cumsum(dm)/dm.sum()];mass[-1]=1.
++    z=np.linspace(np.log(r0/R),0,30001)
++    qm=continuum.sol(z)[0];qm[0]=0.;qm[-1]=1.
++    seed=PchipInterpolator(qm,np.exp(z)*R)(mass);seed[0]=r0;seed[-1]=R
++    enclosed=bh_mass+np.cumsum(dm)
++    weights=.5*np.r_[dm[:-1]+dm[1:],dm[-1]]
++    def unpack(x):
++        r=np.r_[r0,seed[1:]*np.exp(x[:n])]
++        V=4*PI/3*np.diff(r)*(r[1:]**2+r[1:]*r[:-1]+r[:-1]**2)
++        if np.any(V<=0):raise ValueError('Hydrostatic trial has crossing faces')
++        rho=dm/V;p=continuum.K*np.exp(x[-1])*rho**(4/3)
++        support=G*enclosed*weights/(4*PI*r[1:]**4)
++        return r,V,rho,p,support
++    def residual(x):
++        r,V,rho,p,support=unpack(x)
++        return np.r_[np.log(p/(np.r_[p[1:],pext]+support)),np.log(r[-1]/R)]
++    def jacobian(fun,x):
++        r,V,rho,p,support=unpack(x)
++        den=np.r_[p[1:],pext]+support
++        next_fraction=np.r_[p[1:]/den[:-1],0.]
++        left=(4/3)*4*PI*r[:-1]**3/V
++        right=-(4/3)*4*PI*r[1:]**3/V
++        diag=right+4*support/den
++        diag[:-1]-=next_fraction[:-1]*left[1:]
++        rows=np.r_[np.arange(n),np.arange(1,n),np.arange(n-1),np.arange(n),n]
++        cols=np.r_[np.arange(n),np.arange(n-1),np.arange(1,n),np.full(n,n),n-1]
++        values=np.r_[diag,left[1:],-next_fraction[:-1]*right[1:],1-next_fraction,1.]
++        return csc_matrix((values,(rows,cols)),shape=(n+1,n+1))
++    sol=newton(residual,np.zeros(n+1),2e-10,jacobian=jacobian)
++    err=float(max(abs(residual(sol.x))))
++    if err>1e-8:raise RuntimeError(f'Sparse hydrostatic initialization failed: residual {err:g}')
++    r,V,rho,p,_=unpack(sol.x)
++    return r,V,rho,p,err
++
+ def initialize(config,eos):
+     c,n = config["initial"],config["numerics"]["zones"]
+     # Cosine mass mesh resolves both boundaries more finely than the bulk.
+     q = .5*(1-np.cos(np.linspace(0,np.pi,n+1)))
+     if config['numerics']['mesh']=='core_refined': q=q*q
+     dm = c["envelope_mass_msun"]*MSUN*np.diff(q)
+-    if config['numerics']['mesh'] in ('log_radius','log_radius_cosine'):
++    continuum=None
++    if config['numerics']['mesh'] in ('log_radius','log_radius_cosine','log_radius_surface'):
+         continuum=continuum_polytrope(config,eos)
+         z=np.linspace(0,1,n+1)
+         if config['numerics']['mesh']=='log_radius_cosine':z=.5*(1-np.cos(np.pi*z))
++        if config['numerics']['mesh']=='log_radius_surface':z=np.sin(.5*np.pi*z)
+         q=continuum.sol(np.log(c['inner_radius_cm']/c['radius_cm'])*(1-z))[0]
+         q[0],q[-1]=0.,1.
+         dm=c['envelope_mass_msun']*MSUN*np.diff(q)
+@@ -38,12 +85,16 @@ def initialize(config,eos):
+         hydro = np.log(p/(np.r_[p[1:],pext]+support))
+         return np.r_[hydro,np.log(rr[-1]/R)]
+     x0 = np.r_[np.log(np.diff(q)),0.]
+-    sol = least_squares(residual,x0,xtol=1e-12,ftol=1e-12,gtol=1e-12,max_nfev=1500)
+-    err = float(max(abs(residual(sol.x))))
+-    if not sol.success or err > 1e-8:
+-        raise RuntimeError(f"Hydrostatic initialization failed: residual {err:g}")
+-    state.r,rho,p = unpack(sol.x)
+-    state.cell_volume = dm/rho
++    if n>128:
++        if continuum is None:continuum=continuum_polytrope(config,eos)
++        state.r,state.cell_volume,rho,p,err=sparse_polytrope(dm,state.bh_mass,r0,R,pext,continuum)
++    else:
++        sol = least_squares(residual,x0,xtol=1e-12,ftol=1e-12,gtol=1e-12,max_nfev=1500)
++        err = float(max(abs(residual(sol.x))))
++        if not sol.success or err > 1e-8:
++            raise RuntimeError(f"Hydrostatic initialization failed: residual {err:g}")
++        state.r,rho,p = unpack(sol.x)
++        state.cell_volume = dm/rho
+     state.reference_mass_fractions=dm/dm.sum()
+     state.T = eos.temperature(rho,p,"p")
+     perturb = c["temperature_perturbation"]
+diff --git a/src/qstars/transport.py b/src/qstars/transport.py
+index 7cd5626..9b9b5ec 100644
+--- a/src/qstars/transport.py
++++ b/src/qstars/transport.py
+@@ -19,6 +19,8 @@ def luminosities(state,eos,opacity,config,inner_luminosity):
+     dr = np.diff(state.rc)
+     rad[1:-1] = -4*PI*radius**2*A*C/(3*k*rho)*np.diff(state.T**4)/dr
+     saturation = np.zeros(n-1)
++    peclet=np.zeros(n-1)
++    convective_mach=np.zeros(n-1)
+     if config["transport"]["convection"] == "mlt_lossless":
+         p = .5*(q["p"][1:]+q["p"][:-1])
+         T = .5*(state.T[1:]+state.T[:-1])
+@@ -34,6 +36,8 @@ def luminosities(state,eos,opacity,config,inner_luminosity):
+         contrast=eos.thermal_contrast(state.rho,state.T,q)
+         excess = np.maximum(-hp*contrast/dr,0)
+         velocity = np.sqrt(g*delta/(8*hp))*length*np.sqrt(excess)
++        peclet=3*k*rho**2*cp*velocity*length/(4*A*C*T**3)
++        convective_mach=velocity/cs
+         flux = rho*cp*T*velocity*length/(2*hp)*excess
+         saturation = flux/(p*cs)
+         conv[1:-1] = 4*PI*radius**2*np.minimum(flux,p*cs)
+@@ -49,7 +53,8 @@ def luminosities(state,eos,opacity,config,inner_luminosity):
+     else: raise ValueError("Unknown outer thermal boundary")
+     total = rad+conv
+     total[0] = inner_luminosity
+-    return total,dict(radiative=rad,convective=conv,opacity=kap,saturation=saturation)
++    return total,dict(radiative=rad,convective=conv,opacity=kap,saturation=saturation,
++                      peclet=peclet,convective_mach=convective_mach)
+ 
+ 
+ def inverse_transport_residual(state,eos,opacity,config,L):
+diff --git a/src/qstars/validation.py b/src/qstars/validation.py
+index 04da939..de8728a 100644
+--- a/src/qstars/validation.py
++++ b/src/qstars/validation.py
+@@ -80,8 +80,8 @@ def campaign(parent='results',convergence=True):
+                     for k in ('radius_cm','luminosity_erg_s','internal')} if comparable else {})
+     summary=dict(checks=checks,convergence=convergence_rows,v1_validated=False,
+         pending=['Full Ball 2011 Table 1 evolutionary replication','MESA-QUEST thermal tracks',
+-                 'Fiacconi & Rossi transonic advective wind solutions','Cantiello nonadiabatic stability',
+-                 'Validated ionization EOS and Rosseland opacity','Moving cavity/Bondi/saturated inner evolution',
++                 'Coupling stationary Fiacconi & Rossi winds to a conserved evolving envelope','Cantiello nonadiabatic stability',
++                 'Production atmosphere and stellar evolution with audited MESA microphysics','Moving cavity/Bondi/saturated inner evolution',
+                  'Long-duration quasi-static sequences and QSRD demonstration'])
+     io.json_write(out/'validation.json',summary)
+     lines=['# QStarS validation evidence','', '**QStarS v1 is not validated.** This campaign separates numerical identities from publication replication.','',
+diff --git a/src/qstars/validity.py b/src/qstars/validity.py
+index 750560c..48075a4 100644
+--- a/src/qstars/validity.py
++++ b/src/qstars/validity.py
+@@ -33,11 +33,26 @@ def check(state,eos,opacity,config):
+     geometric=4*PI/3*np.diff(state.r)*(state.r[1:]**2+state.r[1:]*state.r[:-1]+state.r[:-1]**2)
+     volume_error=float(max(abs(geometric/state.volume-1)))
+     if volume_error>1e-8:raise StepRejected('Stored cell volumes disagree with radial geometry')
+-    tau=opacity(state.rho,state.T)*state.rho*np.diff(state.r)
+-    if v["require_optically_thick"] and min(tau)<1: errors.append("Diffusion cell is optically thin")
++    kap=opacity(state.rho,state.T)
++    tau=kap*state.rho*np.diff(state.r)
++    # Diffusion concerns the physical gradient scale, not the numerical cell
++    # width. Requiring tau_cell>1 incorrectly rejects convergent refinement.
++    rho_face=.5*(state.rho[:-1]+state.rho[1:]);kap_face=.5*(kap[:-1]+kap[1:])
++    kn=4*abs(np.diff(np.log(state.T)))/(np.diff(state.rc)*rho_face*kap_face)
++    if v["require_optically_thick"] and max(kn)>.1:
++        errors.append('Radiation gradient scale is outside the diffusion limit (Kn>0.1)')
+     from .transport import luminosities
+-    _,transport=luminosities(state,eos,opacity,config,0.)
++    total_luminosity,transport=luminosities(state,eos,opacity,config,0.)
++    significant=abs(transport['convective'][1:-1])>.01*(abs(transport['radiative'][1:-1])+abs(transport['convective'][1:-1]))
++    min_pe=float(min(transport['peclet'][significant])) if np.any(significant) else None
++    if min_pe is not None and min_pe<100:
++        errors.append('Lossless MLT outside efficient-convection domain (significant flux with Pe<100)')
++    if max(transport['convective_mach'],default=0)>1:
++        errors.append('Lossless MLT predicts supersonic convection')
+     from .constants import A
++    outer_kn=3*abs(total_luminosity[-1])/(4*PI*state.r[-1]**2*C*A*state.T[-1]**4)
++    if v['require_optically_thick'] and outer_kn>.1:
++        errors.append('Outer radiation flux is outside the LTE diffusion limit')
+     free_stream=4*PI*state.r[1:-1]**2*C*A*.5*(state.T[:-1]**4+state.T[1:]**4)
+     if np.any(abs(transport['radiative'][1:-1])>free_stream):
+         errors.append('Radiative diffusion exceeds free-streaming flux')
+@@ -48,6 +63,9 @@ def check(state,eos,opacity,config):
+     return errors,dict(max_mach=mach,max_compactness=compactness,min_zone_optical_depth=float(min(tau)),
+                        max_eos_first_law_defect=eos_defect,
+                        max_omitted_conductive_fraction=conduction,
++                       max_radiation_knudsen=float(max(kn)),
++                       outer_radiation_knudsen=float(outer_kn),
++                       minimum_significant_convective_peclet=min_pe,
+                        ideal_eos_helium_screen=float(min(helium_ratio/(1+helium_ratio))),
+                        max_volume_geometry_error=volume_error,
+                        max_temperature_jump=float(max(abs(np.diff(np.log(state.T)))))),conservation
+diff --git a/tests/test_convergence.py b/tests/test_convergence.py
+index 09bf4c5..8018645 100644
+--- a/tests/test_convergence.py
++++ b/tests/test_convergence.py
+@@ -31,8 +31,10 @@ def test_inverse_transport_matches_forward_law():
+ 
+ 
+ @pytest.mark.parametrize('mode',['newton','newton_flux'])
+-def test_colored_jacobian_against_full_complex_step(monkeypatch,mode):
++@pytest.mark.parametrize('mechanics',['midpoint','backward_euler'])
++def test_colored_jacobian_against_full_complex_step(monkeypatch,mode,mechanics):
+     s,e,op,c=confined(8);c['numerics']['nonlinear_solver']=mode
++    c['numerics']['mechanics']=mechanics
+     original=numerics.newton
+     checked=[]
+     def audit(fun,x,tolerance,**kwargs):
+@@ -92,3 +94,62 @@ def test_boundary_remap_restart_equivalence(tmp_path):
+     assert 'boundary_remapped' in (full/'events.jsonl').read_text()
+     np.testing.assert_array_equal(a.T,b.T);np.testing.assert_array_equal(a.cell_volume,b.cell_volume)
+     assert a.ledger==b.ledger
++    np.testing.assert_array_equal(a.radius_compensation,b.radius_compensation)
++
++def test_sparse_initializer_matches_dense_equations():
++    from qstars.structure import sparse_polytrope
++    s,e,op,c=confined(64);continuum=continuum_polytrope(c,e)
++    r,V,rho,p,err=sparse_polytrope(s.dm,s.bh_mass,s.r[0],s.r[-1],1e8,continuum)
++    np.testing.assert_allclose(r,s.r,rtol=1e-8)
++    np.testing.assert_allclose(rho,s.rho,rtol=1e-8)
++    np.testing.assert_allclose(p,e.evaluate(s.rho,s.T)['p'],rtol=1e-8)
++
++def test_repeated_high_resolution_remap_geometry_and_conservation():
++    from qstars.mesh import remap
++    c=resolve({'numerics':{'zones':2048,'mesh':'log_radius_cosine'},'boundary':{'pressure_cgs':1e8}})
++    e,_=physics(c);s,_=initialize(c,e)
++    mass=s.dm.copy();initial=s.energies(e);volume=s.volume.sum()
++    for j in range(40):
++        dm=mass*(1+.01*np.sin(np.arange(len(mass))+j));dm*=mass.sum()/dm.sum()
++        s=remap(s,dm,e)
++        geometric=4*PI/3*np.diff(s.r)*(s.r[1:]**2+s.r[1:]*s.r[:-1]+s.r[:-1]**2)
++        assert max(abs(geometric/s.volume-1))<1e-8
++    assert abs(s.volume.sum()/volume-1)<1e-13
++    assert abs(s.energies(e)['total']-initial['total'])/abs(initial['total'])<1e-12
++
++def test_profile_norms_capture_narrow_boundary_structure():
++    from qstars.validation_metrics import interpolant_norms
++    x=np.array([0.,.5,.999,.999999,1.])
++    y=np.array([0.,0.,0.,.1,0.])
++    linf,l2=interpolant_norms(x,y,np.array([0.,1.]),np.array([0.,0.]))
++    assert abs(linf-.1)<1e-14
++    assert 0<l2<.1*np.sqrt(.001)
++
++def test_checkpoint_rejects_nonfinite_thermal_state(tmp_path):
++    from qstars.io import save_checkpoint,load_checkpoint
++    s,e,op,c=confined(8);s.T[0]=np.nan
++    file=tmp_path/'bad.npz';save_checkpoint(file,s,c)
++    with pytest.raises(ValueError,match='nonfinite state'):
++        load_checkpoint(file)
++
++def test_backward_euler_conserves_energy_and_dissipation_decreases_with_dt():
++    c=resolve({'numerics':{'zones':24,'mechanics':'backward_euler','solver_tolerance':1e-10},
++               'engine':{'model':'off'},'boundary':{'thermal':'insulated'},
++               'transport':{'convection':'off'},'initial':{'temperature_perturbation':.001}})
++    e,op=physics(c);initial,_=initialize(c,e);ledger.initialize(initial,e)
++    heat=[]
++    for steps in (10,20):
++        s=initial.copy()
++        for _ in range(steps):s,d=attempt_step(s,.001*YEAR/steps,e,op,c)
++        assert abs(ledger.residuals(s,e)['energy_residual_relative'])<1e-10
++        heat.append(s.ledger['numerical_kinetic_heating'])
++    assert 0<heat[1]<.7*heat[0]
++
++def test_provenance_flags_source_change_after_import(tmp_path,monkeypatch):
++    import json
++    from qstars import io
++    c=resolve({});io.provenance(tmp_path,c)
++    assert io.finish_provenance(tmp_path)
++    monkeypatch.setattr(io,'_package_sources',lambda:{'changed.py':b'changed'})
++    assert not io.finish_provenance(tmp_path)
++    assert json.loads((tmp_path/'metadata.json').read_text())['source_snapshot_verified'] is False

@@ -1,0 +1,15 @@
+{
+  "version": "0.1.0",
+  "git_commit": "ef3a2dbbe6ca0b2c34aedca309c1eed876a218f3",
+  "git_status": "M .gitignore\n M src/qstars/config.py\n M src/qstars/eos.py\n M src/qstars/evolution.py\n M src/qstars/io.py\n M src/qstars/mass_transport.py\n M src/qstars/mesh.py\n M src/qstars/numerics.py\n M src/qstars/opacity.py\n M src/qstars/state.py\n M src/qstars/structure.py\n M src/qstars/transport.py\n M src/qstars/validity.py\n?? Reports/Report_5.md\n?? Reports/evidence/development_20260928/\n?? backends/\n?? scripts/build_mesa_microphysics.py\n?? scripts/validate_mesa_microphysics.py\n?? scripts/validate_spatial.py\n?? src/qstars/mesa_microphysics.py\n?? src/qstars/nonlinear.py\n?? tests/test_convergence.py\n?? tests/test_mesa.py",
+  "source_sha256": "47920ed5d4e346f9f4b267ce8fd8f2cfaac7a93458b35574af05575bf720859e",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "created_utc": "2026-09-28T02:11:59.203882+00:00",
+  "dependencies": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.11.2"
+  }
+}

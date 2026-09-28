@@ -1,0 +1,24 @@
+{
+  "status": "completed_requested_interval",
+  "reason": "requested end time reached within configured domain",
+  "accepted_steps_this_run": 2372,
+  "retries": 765,
+  "runtime_seconds": 513.0814720839844,
+  "process_peak_rss_MiB": 100.359375,
+  "final_time_years": 10.0,
+  "v1_validated": false,
+  "last_domain_rejection": "Boundary cell replacement exceeds 10%; reduce timestep",
+  "conservation": {
+    "mass_residual_g": -1.6528282690043758e+22,
+    "mass_residual_relative": -8.229762745616479e-16,
+    "energy_residual_erg": 9.150544579183604e+38,
+    "energy_residual_relative": 3.0492479373574635e-15,
+    "energy_residual_relative_to_binding": 9.596768911076417e-14,
+    "energy_residual_relative_to_throughput": 1.3222434527301613e-12,
+    "engine_conversion_residual_erg": -6.64613997892458e+35,
+    "internal": 3.010596877049339e+53,
+    "gravity": -3.105718175583505e+53,
+    "kinetic": 2.457531201968909e+42,
+    "total": -9.512129850959071e+51
+  }
+}

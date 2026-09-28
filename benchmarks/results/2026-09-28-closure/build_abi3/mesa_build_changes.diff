@@ -1,0 +1,38 @@
+diff --git a/data/version_number b/data/version_number
+index e1e780d..092ddd7 100644
+--- a/data/version_number
++++ b/data/version_number
+@@ -1 +1 @@
+-r24.08.1
++5c166bf
+\ No newline at end of file
+diff --git a/utils/makefile_header b/utils/makefile_header
+index 6b964fe..246cec5 100644
+--- a/utils/makefile_header
++++ b/utils/makefile_header
+@@ -83,7 +83,7 @@ LOAD_BLAS = `mesasdk_blas_link`
+ 
+ # step 4) do you want to use PGPLOT with mesa/star?                                                                                     
+ 
+-USE_PGSTAR = YES
++USE_PGSTAR = NO
+ LOAD_PGPLOT = `mesasdk_pgplot_link` -lz
+ 
+ 
+@@ -101,14 +101,14 @@ LOAD_HDF5 = `mesasdk_hdf5_link`
+ # if you don't plan to use GYRE and want to skip building it, then
+ # USE_GYRE = NO
+ # if you want to have GYRE built along with the rest of mesa, then
+-USE_GYRE = YES
++USE_GYRE = NO
+ 
+ # step 7b) do you want to use ADIPLS?
+ 
+ # if you don't plan to use ADIPLS and want to skip building it, then
+ # USE_ADIPLS = NO
+ # if you want to have ADIPLS built along with the rest of mesa, then
+-USE_ADIPLS = YES
++USE_ADIPLS = NO
+ 
+ 
+ # step 8) now do the mesa install

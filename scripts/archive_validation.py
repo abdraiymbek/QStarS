@@ -19,7 +19,7 @@ for source in a.sources:
         relative=file.relative_to(source)
         upstream='work' in relative.parts
         allowed_upstream=(file.name in ('history.data','inlist_project','inlist_project.original','history_columns.list','profile_columns.list'))
-        if ((upstream and not allowed_upstream) or file.suffix in ('.dylib','.o','.mod','.a','.so')
+        if ((upstream and not allowed_upstream) or file.suffix in ('.dylib','.o','.mod','.smod','.a','.so')
             or file.name=='check_microphysics' or (file.name.startswith('profile_') and file.suffix=='.npz' and file not in keep)):
             omitted.append(str(file));continue
         target=a.destination/source.name/relative;target.parent.mkdir(parents=True,exist_ok=True)

@@ -1,0 +1,3 @@
+scope: Final regression run
+command: QSTARS_MESA_LIBRARY=$PWD/backends/mesa/build_verified/libqstars_mesa.dylib
+  MESA_DIR=/Users/abraiymbek/qsrd-runtime/mesa .venv/bin/pytest -q

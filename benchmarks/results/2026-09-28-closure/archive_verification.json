@@ -1,0 +1,9 @@
+{
+  "verified_date_utc": "2026-09-28",
+  "manifest_file_sha256": "9aa6df26f2cf5a8ad6440a84dc329424177caf2882c306d9d21c0de1b6538e4a",
+  "files_checked": 1165,
+  "derived_artifacts_checked": 1,
+  "hash_and_length_mismatches": 0,
+  "method": "Read every archived file, decompress gzip where marked, compare length and SHA-256 against the original-byte manifest; check derived artifact SHA-256 separately.",
+  "scope": "Archive integrity, not scientific validation or executed-source provenance."
+}

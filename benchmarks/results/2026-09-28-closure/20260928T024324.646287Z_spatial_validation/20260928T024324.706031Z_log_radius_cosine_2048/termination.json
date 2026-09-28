@@ -1,0 +1,24 @@
+{
+  "status": "control_stop",
+  "reason": "execution interrupted; last accepted state preserved",
+  "accepted_steps_this_run": 1749,
+  "retries": 568,
+  "runtime_seconds": 767.0364880840061,
+  "process_peak_rss_MiB": 102.234375,
+  "final_time_years": 1.5206891447218287,
+  "v1_validated": false,
+  "last_domain_rejection": "Boundary cell replacement exceeds 10%; reduce timestep",
+  "conservation": {
+    "mass_residual_g": -2.1250649172913403e+22,
+    "mass_residual_relative": -1.0581123530078327e-15,
+    "energy_residual_erg": -9.75716026622406e+38,
+    "energy_residual_relative": -3.251391375084358e-15,
+    "energy_residual_relative_to_binding": -1.02329660172891e-13,
+    "energy_residual_relative_to_throughput": -9.263610557432503e-12,
+    "engine_conversion_residual_erg": 2.076918743413931e+34,
+    "internal": 3.0026892895025796e+53,
+    "gravity": -3.098005487846554e+53,
+    "kinetic": 1.7947038996788752e+43,
+    "total": -9.531619816450395e+51
+  }
+}

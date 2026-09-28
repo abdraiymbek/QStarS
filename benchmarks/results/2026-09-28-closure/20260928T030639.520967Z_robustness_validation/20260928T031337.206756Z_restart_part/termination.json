@@ -1,0 +1,24 @@
+{
+  "status": "control_stop",
+  "reason": "requested checkpoint stop",
+  "accepted_steps_this_run": 100,
+  "retries": 0,
+  "runtime_seconds": 7.394006334012374,
+  "process_peak_rss_MiB": 89.609375,
+  "final_time_years": 2.0,
+  "v1_validated": false,
+  "conservation": {
+    "mass_residual_g": 0.0,
+    "mass_residual_relative": 0.0,
+    "energy_residual_erg": -1.0128279836305908e+37,
+    "energy_residual_relative": -3.375062334587262e-17,
+    "energy_residual_relative_to_binding": -1.0622153476850474e-15,
+    "energy_residual_relative_to_throughput": -7.298005771443508e-14,
+    "engine_conversion_residual_erg": 1.7653809319018414e+35,
+    "internal": 3.002310211326913e+53,
+    "gravity": -3.0976186697716155e+53,
+    "kinetic": 2.9342518818800374e+42,
+    "total": -9.530845841535995e+51
+  },
+  "source_snapshot_verified": true
+}

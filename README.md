@@ -25,6 +25,7 @@ qstars run configs/hot_accreting.yaml
 qstars plot results/<run-directory>
 qstars restart results/<run-directory>/checkpoint.npz --until-years 20
 qstars run configs/two_stream_pulse.yaml
+qstars run configs/hot_resolved_validation.yaml
 qstars sweep configs/hot_accreting.yaml configs/sweep.yaml --workers 2
 python -m pytest -q
 qstars validate
@@ -50,6 +51,7 @@ while the full scientific gates remain open. A completed example is not v1 valid
 | `bra_luminosity.yaml` | BRA08 luminosity law at a fixed excision |
 | `dotan_launch.yaml` | Dotan launch/tiring closure at an assumed sonic boundary |
 | `pressure_confined.yaml` | Truncated hot envelope for controlled spatial convergence |
+| `hot_resolved_validation.yaml` | 512-zone, ten-year controlled hot-envelope problem with documented internal-profile convergence |
 
 These are labeled experiments, **not replicas of complete published stellar
 models**. `benchmarks/manifest.yaml` separates executed structure benchmarks
@@ -87,6 +89,11 @@ validity assumptions, and termination reason. No checkpoint uses Python pickle.
 photospheric radius is `NaN`; effective temperature is a grey flux diagnostic.
 Sequential [Reports](Reports/Report_1.md) and compact evidence are tracked in Git;
 complete local runs remain under ignored `results/`.
+
+The latest [development validation report](Reports/Report_7.md) records the
+resolved hot-envelope evidence and the remaining failed v1 gates. The
+[machine-readable gate matrix](Reports/evidence/completion_gates.json) includes
+the original twelve completion criteria and the nine current priorities.
 
 `src/qstars/` separates thermodynamics, opacity, structure, transport, engine,
 winds, mass transport, ledger, mesh, integration, validity, I/O, reference models,

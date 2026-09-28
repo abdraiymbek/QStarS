@@ -1,0 +1,813 @@
+diff --git a/Reports/Report_6.md b/Reports/Report_6.md
+index 519c634..50ad6cc 100644
+--- a/Reports/Report_6.md
++++ b/Reports/Report_6.md
+@@ -55,3 +55,9 @@ These repairs do not supply a moving physical cavity, a production atmosphere,
+ a coupled stellar wind, full published evolution replication or cross-paper
+ predictive validation. Those remain scientifically meaningful requirements in
+ 1D and cannot be waived as implementation inconveniences. QSRD is deferred.
++
++A final classification audit separates exhausted numerical boundary-cell
++timestep limits from physical domain exits. Such retries are now numerical
++rejections; an explicit regression verifies that exhausting the minimum
++timestep does not report physical disruption or mutate the accepted ledger.
++This changes failure labeling, not accepted-step equations or histories.
+diff --git a/Reports/evidence/completion_gates.json b/Reports/evidence/completion_gates.json
+index e380181..1473518 100644
+--- a/Reports/evidence/completion_gates.json
++++ b/Reports/evidence/completion_gates.json
+@@ -1,13 +1,348 @@
+ {
++  "schema_version": 2,
++  "assessment_date_utc": "2026-09-28",
++  "software_version": "0.1.0",
+   "v1_complete": false,
+-  "automated_tests_passed": 29,
++  "release_status": "DEVELOPMENT_NOT_V1",
++  "status_meanings": {
++    "PASS": "Evidence supports the stated scope only.",
++    "CONDITIONAL": "Bounded evidence exists; does not certify general use.",
++    "FAIL": "Required capability or validation missing or failing."
++  },
++  "automated_tests_passed": 52,
++  "automated_tests_failed": 0,
++  "optional_mesa_tests": 4,
++  "cli_validation": {
++    "checks": 31,
++    "passed": 29,
++    "failed": 2,
++    "require_v1_exit_code": 2,
++    "failures": [
++      "CB24 printed Ki_max",
++      "CB24 printed BH/inner mass"
++    ]
++  },
++  "source_registry_entries": 26,
+   "published_full_evolution_replication": false,
+-  "published_structure_replication": true,
+-  "scientific_spatial_convergence": false,
++  "published_full_evolution_replicas": 0,
++  "published_structure_replication": "subset_passes_with_two_retained_printed_value_discrepancies",
++  "scientific_spatial_convergence": "controlled_hot_problem_only",
+   "moving_inner_boundaries": false,
+-  "ionization_microphysics": false,
++  "ionization_microphysics": "direct_MESA_with_excluded_states",
+   "two_stream_effective_boundary": true,
+   "finite_hot_envelope_thermal_evolution": true,
+   "restart_retry_remap_controlled_tests": true,
+-  "qsrd_demonstration": "deferred_until_framework_validated"
++  "qsrd_demonstration": "deferred_until_framework_validated",
++  "prioritized_gates": [
++    {
++      "priority": 1,
++      "name": "Spatial and nonlinear convergence",
++      "status": "CONDITIONAL",
++      "achieved": "Hot-envelope runs through 2048 zones complete. 1024/2048 profile error below 0.081%; 512/2048 below 0.251%; refined independent time methods agree below 0.81%.",
++      "remaining": "Production atmosphere/cavity/wind models untested. The 256-zone case fails 1% local energy-profile accuracy. Accepted timesteps vary across meshes.",
++      "evidence": [
++        "benchmarks/results/2026-09-28-closure/20260928T030330.332506Z_spatial_validation/campaign.json",
++        "benchmarks/results/2026-09-28-closure/20260928T030639.520967Z_robustness_validation/campaign.json",
++        "benchmarks/results/2026-09-28-closure/20260928T031651.519611Z_midpoint_512_refined_time/method_comparison.json",
++        "benchmarks/results/2026-09-28-closure/20260928T031253.242612Z_time_method_validation/campaign.json"
++      ]
++    },
++    {
++      "priority": 2,
++      "name": "Production microphysics",
++      "status": "FAIL",
++      "achieved": "Direct MESA 24.08.1 EOS, ionization and radiative opacity; separate conduction diagnostic; exact standalone Fortran agreement at 153 states; conserved ten-year envelope run.",
++      "remaining": "Five audited states fail the 1% first-law screen. Atmosphere, full convection and composition/stellar-evolution coupling remain unvalidated or absent.",
++      "evidence": [
++        "benchmarks/results/2026-09-28-closure/20260928T021532.646459Z_mesa_microphysics_validation/validation.json",
++        "benchmarks/results/2026-09-28-closure/20260928T030928.629959Z_mesa_hot_current_verification/termination.json",
++        "benchmarks/results/2026-09-28-closure/20260928T025423.972541Z_robustness_validation/campaign.json",
++        "benchmarks/results/2026-09-28-closure/20260928T030927.417120Z_mesa_data_inventory/inventory.json"
++      ]
++    },
++    {
++      "priority": 3,
++      "name": "Inner boundary and cavity",
++      "status": "FAIL",
++      "achieved": "Fixed-excision mass/entropy/enthalpy/potential-work/rest-mass accounting; sourced selectable engine luminosities; static Bondi and saturated families.",
++      "remaining": "No conservative moving physical cavity reservoir or alternative evolving published inner-flow families.",
++      "evidence": [
++        "docs/equations.md",
++        "docs/model_families.md",
++        "Reports/evidence/development_20260928/final_tests/result.json"
++      ]
++    },
++    {
++      "priority": 4,
++      "name": "Wind physics",
++      "status": "FAIL",
++      "achieved": "Independent feed/removal channels and launch/tiring energy debit; stationary advective wind ODE component and digitized profiles.",
++      "remaining": "Wind is not coupled to evolving atmosphere/envelope. Only 349/461 Figure 4 vertices satisfy the stated uncertainty band; full replication is not achieved.",
++      "evidence": [
++        "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json",
++        "docs/equations.md",
++        "Reports/evidence/development_20260928/final_tests/result.json"
++      ]
++    },
++    {
++      "priority": 5,
++      "name": "Multiple full published evolutions",
++      "status": "FAIL",
++      "achieved": "Several static limits and partial wind-profile comparison; target tables and pinned QUEST execution attempts preserved.",
++      "remaining": "Zero complete published quasi-star evolutionary tracks reproduced. Radius, luminosity, temperature, BH/envelope growth, winds, lifetimes and profiles remain to be tested together.",
++      "evidence": [
++        "benchmarks/manifest.yaml",
++        "benchmarks/results/2026-09-28-closure/20260928T031903.825105Z_validation/validation.json",
++        "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json"
++      ]
++    },
++    {
++      "priority": 6,
++      "name": "Cross-validation without retuning",
++      "status": "FAIL",
++      "achieved": "Implemented alternatives, coefficients and disagreements are explicit.",
++      "remaining": "No cross-paper evolutionary prediction without retuning has passed.",
++      "evidence": [
++        "src/qstars/data/sources.json",
++        "benchmarks/manifest.yaml",
++        "docs/model_families.md"
++      ]
++    },
++    {
++      "priority": 7,
++      "name": "Numerical robustness",
++      "status": "CONDITIONAL",
++      "achieved": "52 passing tests with MESA; hot timestep/tolerance/remap campaigns and bitwise restarts; transactional retry, fine-mesh remap and provenance regressions.",
++      "remaining": "Full production-family campaigns absent. MESA remap-threshold cases do not actually remap. Early campaigns predate unchanged-source guards.",
++      "evidence": [
++        "benchmarks/results/2026-09-28-closure/20260928T030639.520967Z_robustness_validation/campaign.json",
++        "benchmarks/results/2026-09-28-closure/20260928T025423.972541Z_robustness_validation/campaign.json",
++        "Reports/evidence/development_20260928/final_tests/result.json",
++        "docs/validity.md"
++      ]
++    },
++    {
++      "priority": 8,
++      "name": "Apple Silicon MacBook",
++      "status": "CONDITIONAL",
++      "achieved": "Fresh sequential CPU benchmarks: ten years, 512 analytic zones: 24.215 s / 88.9 MiB; 128 MESA zones: 31.293 s / 1045.4 MiB.",
++      "remaining": "Full published-track cost unknown; Linux MESA bridge unvalidated; development high-resolution timings include concurrent workloads.",
++      "evidence": [
++        "benchmarks/results/2026-09-28-closure/20260928T031938.396825Z_performance_validation/performance.json"
++      ]
++    },
++    {
++      "priority": 9,
++      "name": "QSRD readiness after independent v1",
++      "status": "FAIL",
++      "achieved": "Configuration-driven evolution and separate stream controls exist.",
++      "remaining": "Deferred until independent framework gates pass; no QSRD science campaign performed.",
++      "evidence": [
++        "docs/model_families.md",
++        "docs/validity.md"
++      ]
++    }
++  ],
++  "original_completion_criteria": [
++    {
++      "number": 1,
++      "name": "Equations and boundary conditions sourced or derived",
++      "status": "PASS",
++      "scope": "Implemented closures have derivations and references; this does not supply missing production closures.",
++      "priority_gate_links": [
++        1,
++        2,
++        3,
++        4
++      ]
++    },
++    {
++      "number": 2,
++      "name": "Mass and energy conserved to quantified tolerance",
++      "status": "CONDITIONAL",
++      "scope": "Tested resolved-domain equations pass; missing cavity/atmosphere prevent whole quasi-star certification.",
++      "priority_gate_links": [
++        3,
++        4,
++        7
++      ]
++    },
++    {
++      "number": 3,
++      "name": "Conservative retries, remeshing, restart and timesteps",
++      "status": "CONDITIONAL",
++      "scope": "Controlled hot regressions/campaigns pass; broader physical-model coverage remains.",
++      "priority_gate_links": [
++        7
++      ]
++    },
++    {
++      "number": 4,
++      "name": "Representative timestep and mesh convergence",
++      "status": "CONDITIONAL",
++      "scope": "Controlled hot internal profiles pass; general structures untested.",
++      "priority_gate_links": [
++        1,
++        7
++      ]
++    },
++    {
++      "number": 5,
++      "name": "Several independent published results reproduced",
++      "status": "FAIL",
++      "scope": "Static subsets pass; the clarified complete-evolution requirement fails.",
++      "priority_gate_links": [
++        5,
++        6
++      ]
++    },
++    {
++      "number": 6,
++      "name": "Prescriptions explicit and traceable",
++      "status": "PASS",
++      "scope": "Implemented families and disagreements are documented; missing evolving families remain failures under priority 3.",
++      "priority_gate_links": [
++        3,
++        6
++      ]
++    },
++    {
++      "number": 7,
++      "name": "Thermal quasi-star evolution through time",
++      "status": "CONDITIONAL",
++      "scope": "Finite thermal evolution with BH growth works in restricted envelopes; full lifecycle unverified.",
++      "priority_gate_links": [
++        2,
++        5
++      ]
++    },
++    {
++      "number": 8,
++      "name": "Independent effective feeding and wind",
++      "status": "CONDITIONAL",
++      "scope": "Separate stream accounting works; self-consistent wind/atmosphere coupling is missing.",
++      "priority_gate_links": [
++        4
++      ]
++    },
++    {
++      "number": 9,
++      "name": "Identify breakdown of assumptions",
++      "status": "CONDITIONAL",
++      "scope": "Domain exits and numerical failures are distinct; current screens do not prove all production-model validity.",
++      "priority_gate_links": [
++        2,
++        7
++      ]
++    },
++    {
++      "number": 10,
++      "name": "Reproducibility from inputs and version",
++      "status": "CONDITIONAL",
++      "scope": "Fresh runs freeze/verify source and hash MESA dependencies; older campaigns need chronology and fresh confirmation.",
++      "priority_gate_links": [
++        7
++      ]
++    },
++    {
++      "number": 11,
++      "name": "Useful individual MacBook runs",
++      "status": "CONDITIONAL",
++      "scope": "Controlled runs fit; full published-track costs unknown.",
++      "priority_gate_links": [
++        8
++      ]
++    },
++    {
++      "number": 12,
++      "name": "External QSRD configuration",
++      "status": "FAIL",
++      "scope": "Deferred by the independent-v1 prerequisite.",
++      "priority_gate_links": [
++        9
++      ]
++    }
++  ],
++  "quantitative_thresholds": [
++    {
++      "quantity": "interior profile convergence",
++      "threshold": 0.01,
++      "units": "relative",
++      "reason": "Explicit controlled-model numerical accuracy target, not observational or evolutionary validation. Include internal fields, covered mass, whole-mass norms and time refinement."
++    },
++    {
++      "quantity": "controlled ledger validation",
++      "threshold": 1e-08,
++      "units": "mass / initial total mass; energy / initial internal energy",
++      "reason": "Well below 1% profile target. Also publish binding and throughput normalization; this is execution accuracy, not closure validation."
++    },
++    {
++      "quantity": "MESA first-law defect",
++      "threshold": 0.01,
++      "units": "normalized identity residual",
++      "reason": "Independent thermodynamic consistency screen; not a percent-level accuracy claim."
++    },
++    {
++      "quantity": "radiation gradient Knudsen number",
++      "threshold": 0.1,
++      "units": "dimensionless",
++      "reason": "Diffusion needs mean free path small relative to radiation-gradient scale; cell optical depth alone is not a convergence test."
++    },
++    {
++      "quantity": "lossless convective Peclet number",
++      "threshold": 100,
++      "units": "dimensionless",
++      "reason": "Small radiative losses required when convection exceeds 1% of flux."
++    },
++    {
++      "quantity": "volume / radius geometry consistency",
++      "threshold": 1e-08,
++      "units": "relative",
++      "reason": "Independent roundoff-control invariant; failure is numerical, not physical."
++    }
++  ],
++  "validity_boundary": {
++    "inappropriate_in_1d": [
++      "Resolving simultaneous multidimensional inflow/outflow geometry; use explicit effective averaged streams."
++    ],
++    "not_waived": [
++      "Moving cavity conservation",
++      "Production atmosphere and wind coupling",
++      "Multiple published evolutionary replicas",
++      "Cross-paper prediction"
++    ],
++    "remaining_failures_not_declared_physically_impossible": true
++  },
++  "evidence": {
++    "spatial": "benchmarks/results/2026-09-28-closure/20260928T030330.332506Z_spatial_validation/campaign.json",
++    "robustness": "benchmarks/results/2026-09-28-closure/20260928T030639.520967Z_robustness_validation/campaign.json",
++    "methods": "benchmarks/results/2026-09-28-closure/20260928T031651.519611Z_midpoint_512_refined_time/method_comparison.json",
++    "method_campaign": "benchmarks/results/2026-09-28-closure/20260928T031253.242612Z_time_method_validation/campaign.json",
++    "mesa_audit": "benchmarks/results/2026-09-28-closure/20260928T021532.646459Z_mesa_microphysics_validation/validation.json",
++    "mesa_current": "benchmarks/results/2026-09-28-closure/20260928T030928.629959Z_mesa_hot_current_verification/termination.json",
++    "mesa_robustness": "benchmarks/results/2026-09-28-closure/20260928T025423.972541Z_robustness_validation/campaign.json",
++    "mesa_data": "benchmarks/results/2026-09-28-closure/20260928T030927.417120Z_mesa_data_inventory/inventory.json",
++    "wind": "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json",
++    "cli": "benchmarks/results/2026-09-28-closure/20260928T031903.825105Z_validation/validation.json",
++    "performance": "benchmarks/results/2026-09-28-closure/20260928T031938.396825Z_performance_validation/performance.json",
++    "tests": "Reports/evidence/development_20260928/final_tests/result.json",
++    "sources": "src/qstars/data/sources.json",
++    "published_suite": "benchmarks/manifest.yaml",
++    "validity": "docs/validity.md",
++    "families": "docs/model_families.md",
++    "equations": "docs/equations.md"
++  },
++  "provenance_caveat": "Early exploratory campaigns require first snapshots and development chronology. Fresh final tests, robustness, method comparison, MESA confirmation and performance verify unchanged sources. All original local runs remain intact.",
++  "deliverables": {
++    "working_general_purpose_v1": "NOT_DELIVERED",
++    "working_development_software": "DELIVERED",
++    "validation_report": "docs/validation.md",
++    "published_benchmark_suite": "PARTIAL; missing full tracks explicit in manifest",
++    "regression_suite": "52 passing with MESA",
++    "model_families": "docs/model_families.md",
++    "performance_report": "docs/performance.md",
++    "source_registry": "src/qstars/data/sources.json",
++    "validity_domain": "docs/validity.md",
++    "gate_matrix": "Reports/evidence/completion_gates.json"
++  }
+ }
+diff --git a/docs/performance.md b/docs/performance.md
+index f278c16..916aac2 100644
+--- a/docs/performance.md
++++ b/docs/performance.md
+@@ -1,24 +1,34 @@
+-# Performance on the available MacBook
++# Apple Silicon performance report
+ 
+-Measured on Apple M5, 16 GiB RAM, macOS 27 arm64, Python 3.12.14. Each example used a fresh CPU process. No GPU, remote compute, or MESA run was used. Solver timing includes initialization and output I/O but excludes the separate plotting process. Peak RSS is measured per fresh process.
++Measured on **Apple M5, 16 GiB RAM, macOS 27 arm64**, Python 3.12.14. Final cases ran sequentially in fresh CPU processes after the other QStarS campaigns finished. No GPU, cloud resources or compiled MESA redistribution is required for the analytic-EOS solver. MESA is a separate optional installation.
+ 
+-| Case | Simulated yr | Zones | Accepted / retries | Runtime s | Peak MiB | Final energy residual / U0 |
+-|---|---:|---:|---:|---:|---:|---:|
+-| closed_relaxation | 1 | 32 | 107 / 0 | 0.696 | 73.7 | -4.41e-15 |
+-| hot_accreting | 10 | 32 | 214 / 0 | 5.064 | 73.4 | 2.86e-15 |
+-| two_stream_pulse | 10 | 32 | 219 / 0 | 5.374 | 73.4 | 4.3e-15 |
+-| bra_luminosity | 0.1 | 32 | 52 / 0 | 0.576 | 73.2 | -1.2e-13 |
+-| dotan_launch | 0.1 | 32 | 25 / 0 | 0.253 | 73.1 | -5.29e-17 |
+-| pressure_confined | 0.01 | 64 | 279 / 81 | 20.052 | 73.9 | 1.99e-11 |
++Model runtime includes initialization, evolution and model-output I/O. Fresh-process wall time additionally includes interpreter startup and provenance setup. Plotting is excluded. Peak RSS is per fresh process.
+ 
+-All six completed the configured interval. The ten-year two-stream case transported 0.16 solar masses in, 0.08 out, and 0.002 into the BH engine. BH gravitational mass increased by 0.0018 solar masses. Its energy residual was 4.30e-15 of initial internal energy, 1.16e-13 of initial binding energy, and 1.93e-12 of boundary/engine energy throughput.
++| Case | Zones | Simulated years | Accepted / retries | Model s | Process wall s | Peak MiB | Energy residual / throughput |
++|---|---:|---:|---:|---:|---:|---:|---:|
++| closed_relaxation | 32 | 1 | 107 / 0 | 0.585 | 0.823 | 73.8 | 0 |
++| hot_accreting | 32 | 10 | 214 / 0 | 1.642 | 1.879 | 73.8 | -8.74e-11 |
++| two_stream_pulse | 32 | 10 | 219 / 0 | 1.709 | 1.949 | 74.2 | -1.11e-10 |
++| bra_luminosity_transient | 32 | 0.1 | 52 / 0 | 0.643 | 0.900 | 74.0 | 6.74e-10 |
++| dotan_launch_closure | 32 | 0.1 | 25 / 0 | 0.162 | 0.410 | 73.7 | 8.09e-08 |
++| pressure_confined_hot_envelope | 64 | 0.01 | 100 / 0 | 0.786 | 1.031 | 74.2 | -2.26e-10 |
++| hot_resolved_validation | 512 | 10 | 500 / 0 | 24.215 | 24.463 | 88.9 | 3.15e-13 |
++| mesa_hot_ten_year | 128 | 10 | 500 / 0 | 31.293 | 31.556 | 1045.4 | -3.45e-11 |
+ 
+-The 64-zone concentrated, pressure-confined case required 81 retries and had an energy residual about 8.5e-6 of the transported energy, despite only 2.0e-11 relative to the much larger initial internal energy. This is why both normalizations are reported.
++All eight complete their requested interval and pass unchanged-source provenance verification. Coarse exploratory examples are not evidence of research spatial convergence. The 512-zone `hot_resolved_validation` row has the bounded convergence evidence described in the validation report. The MESA row uses 128 zones and direct EOS/opacity calls; it is not a complete MESA stellar track.
+ 
+-## High-resolution exception
++## High-resolution and native stellar workloads
+ 
+-A 128-zone core-concentrated thermal case failed with the default nonlinear method. An experimental trust-region fallback was rejected after 275 seconds: it advanced only 2.68e-5 years, with 504 accepted steps and 171 retries. Its checkpoint, source snapshot, and interruption context are preserved. The fallback was not retained in the release. This is an unresolved conditioning/timestep problem, not a physical instability.
++The ten-year backward-Euler surface-refined campaign took 12.5, 22.3, 51.0 and 513.1 seconds at 256, 512, 1024 and 2048 zones. Those were development measurements with other campaigns active, so they are not isolated scaling benchmarks. The 2048-zone run needed 2,372 accepted steps because boundary replacement limited the timestep; it is not a fixed-step factor-of-two scaling experiment. All reached the common ten-year endpoint.
+ 
+-Useful restricted individual runs are practical locally. These measurements do not establish the cost or correctness of million-year stellar evolution or a MESA backend. Independent sweeps can use `--workers`; retain one process per modest CPU allocation, then measure throughput rather than assuming linear scaling. Cloud/HPC is optional for independent ensembles, not a cure for unconverged physics or solver failures.
++The symmetric cosine mesh overconcentrates both boundaries and can impose very small source-cell timesteps. The repaired 2048-zone version was deliberately stopped after verifying the earlier geometry failure was gone. The surface-refined alternative and conservative implicit mechanics are substantially more useful for the tested secular hot-envelope problem. Midpoint with a 0.005-year maximum step required about 121 seconds at 512 zones; its interior profiles agree within one percent with backward Euler at the matched timestep.
+ 
+-[Raw per-process measurements](../Reports/evidence/performance_20260927T201211.json) · [Rejected fallback](../Reports/evidence/rejected_trust_region.json) · [Saved runs](../benchmarks/results/2026-09-28/)
++The ordinary native MESA smoke test used about 85 seconds and 1.86 GiB peak child RSS to reach model 100, including pre-main-sequence construction. QUEST attempts stopped during initialization/inner relaxation; their wall budgets do not establish the cost of a successful quasi-star track. The installed microphysics dataset inventory occupies 15.54 GB on disk; the measured direct-library envelope run peaks near 1.05 GiB RSS.
++
++## Local and cloud use
++
++Useful individual controlled 1D runs fit this MacBook. Prefer local exploratory models and individual resolved hot-envelope runs; inspect their validity exits and convergence evidence before interpreting the science. Independent mesh/timestep/physics grids, many pinned stellar families and large parameter ensembles are reasonable CPU-cloud workloads. Use isolated processes and allocate memory per worker; the MESA interface is not thread-safe across multiple installations. Measure aggregate throughput instead of assuming linear scaling.
++
++The Python solver has no GPU dependency. The MESA shared-library build has only been validated on Apple Silicon; a Linux build must be verified before calling a cloud MESA workflow supported. Cloud CPUs cannot fix an invalid closure, missing cavity accounting, unconverged stellar initialization or unavailable published reference data. Million-year production-track performance remains unknown.
++
++[Validation scope](validation.md) · [Machine-readable measurements](../benchmarks/results/2026-09-28-closure/20260928T031938.396825Z_performance_validation/performance.json) · [Historical baseline](../Reports/evidence/performance_20260927T201211.json)
+diff --git a/docs/validation.md b/docs/validation.md
+index 14e20ca..7898ff2 100644
+--- a/docs/validation.md
++++ b/docs/validation.md
+@@ -1,122 +1,200 @@
+-# Validation status — development build, not QStarS v1
+-
+-**The user's v1 completion criteria are not satisfied.** This repository contains
+-working simulation software and auditable evidence, including negative results.
+-It must not be described as a generally validated quasi-star evolution code.
+-
+-## Analytical and software checks
+-
+-The automated suite currently has **29 passing tests**. It covers EOS first-law
+-derivatives and inversions, initial hydrostatic residuals, zero spurious convection
+-in an n=3 polytrope, an exact linear-T⁴ diffusion-flux case, strict opacity-table
+-bounds, wind energy limits, separate equal feeding/wind, BH rest-energy conversion,
+-immutable retries, mass/volume/total-energy remap, restart equality, refinement
+-followed by restart, control-breakpoint mass integration, input rejection,
+-EOS-domain exits, configurable static reference runs, and bounded-run checkpoints.
+-
+-Restart continuation is array-exact in the tested environment. This does not
+-establish bitwise reproducibility across BLAS, platforms, or future versions.
+-
+-## Evolution and conservation
+-
+-Six configured examples completed. In the ten-year two-stream pulse example:
+-
+-- Delivered mass: 0.16 solar masses.
+-- Escaping wind: 0.08 solar masses.
+-- BH-consumed rest mass: 0.002 solar masses.
+-- BH gravitational growth: 0.0018 solar masses.
+-- Final envelope: 10000.078 solar masses.
+-- Final mass residual: zero at reported floating-point precision.
+-- Final energy residual: 4.30e-15 of initial internal energy, 1.16e-13 of
+-  initial binding energy, and 1.93e-12 of transported energy throughput.
+-
+-The finite-pressure, concentrated 64-zone example has a larger energy error:
+-about 8.5e-6 of throughput. A small internal-energy-normalized residual must
+-not hide this distinction. These budgets are for the defined Newtonian domain
+-and unresolved engine exchange; they are not a relativistic whole-system mass.
+-
+-## Resolution and tolerance
+-
+-The retained final campaign uses mesh counts 16/32/64/128, timesteps from
+-4e-4 down to 5e-5 years, and nonlinear tolerances 1e-7/1e-9/1e-11.
+-Zero-pressure models all reach the common 0.01-year comparison time.
+-
+-- Relative luminosity differences to the smallest timestep decrease from
+-  3.48e-8 to 1.25e-8 to 3.82e-9.
+-- Tightening the nonlinear tolerance reduces the energy residual from
+-  about 8.6e-9 to the few-e-15 floor in this test.
+-- Mesh internal-energy differences to 128 zones are about **11.1%, 6.50%,
+-  and 2.80%**. This is monotone improvement, not adequate research convergence.
+-  Fixed outer radius and a nearly Eddington luminosity can appear converged
+-  while the internal structure remains inaccurate.
+-- Concentrating zones at the core and applying finite external pressure improves
+-  initial structural convergence, but the 128-zone time-dependent case fails
+-  the nonlinear solve. Its unequal final time is excluded from comparisons.
+-
+-The trust-region fallback investigation is preserved as a rejected approach.
+-It made slow progress with repeated timestep reductions, and was interrupted
+-after 275 seconds at only 2.68e-5 years. Its original interruption reason was
+-stale; `stop_context.json` records the actual stop without overwriting the
+-failed artifact. The release retains the earlier solver, and now handles future
+-interruptions and explicit wall budgets correctly.
+-
+-## Published results
+-
+-| Published result | Computed | Reference | Interpretation |
+-|---|---:|---:|---|
+-| Ball n=2 maximum BH fraction | 0.126753 | 0.127 | Within printed rounding |
+-| Ball n=3 maximum BH fraction | 0.101515 | 0.102 | Within printed rounding |
+-| Ball n=4 maximum BH fraction | 0.088521 | 0.089 | Within printed rounding |
+-| Corrected Bondi, N=1 | 0.017040 | ~0.017 | Reproduced |
+-| Corrected Bondi, N=2 | 0.005756 | ~0.0058 | Reproduced |
+-| Saturated composite, printed cutoff | 0.617828 | ~0.618 | Reproduced static structure |
+-| Saturated entropy-minimum location | 1.014835 | ~1.015 | Reproduced |
+-| Ki at entropy minimum | 0.468357 | 0.46554 | Discrepancy retained |
+-| BH/inner mass at entropy minimum | 0.625102 | 0.6321 | Discrepancy retained |
+-
+-The last two printed numbers instead match evaluation at scaled radius one.
+-See [the source interpretation](literature.md). The code preserves both
+-interpretations; it does not tune a parameter to conceal the mismatch.
+-
+-These are independent structure/equation benchmarks. **No complete published
+-quasi-star evolutionary track, radius/temperature history, or advective wind
+-solution has been reproduced.** Ball's tabulated stellar targets are stored,
+-explicitly pending. No figure digitization or fitted coefficients were used.
+-
+-## v1 gate matrix
+-
+-| Required gate | Status |
+-|---|---|
+-| Sourced equations and boundaries | Restricted model documented; production closures incomplete |
+-| Mass and energy conservation | Demonstrated for tested Newtonian cases, not relativistic total mass |
+-| Retry/remesh/restart/timestep | Controlled regressions pass; adaptive research mesh incomplete |
+-| Representative convergence | **Open:** coarse spatial error and concentrated-mesh solve failure |
+-| Several published quasi-star models | Static results pass; **full evolution/winds open** |
+-| Explicit selectable prescriptions | Implemented laws and static families are named and traceable |
+-| Finite thermal evolution | Implemented for restricted hot envelopes |
+-| Separate feeding and winds | Implemented effective boundary closure; geometry unresolved |
+-| Validity detection | Temperature, ionization, degeneracy, optical depth, flux, compactness, Mach, conservation and solver checks; not all convection domains covered |
+-| Reproducible runs | Configurations, snapshots, dependencies, ledger and restart data saved |
+-| Local performance | Useful restricted examples measured; high-resolution exception documented |
+-| QSRD as external experiment | **Deferred by the requested prerequisite:** framework not yet fully validated |
+-
+-The QSRD recovery demonstration and a science campaign have deliberately not
+-been run. Completing v1 requires resolving spatial/nonlinear convergence,
+-validated ionization/opacity/atmosphere microphysics, conservative moving
+-cavities and alternative inner flows, transonic wind integration, and multiple
+-full published evolution comparisons. MESA integration is the preferred path
+-for the microphysics/stellar-evolution portion, not an implemented feature.
+-
+-## Evidence
+-
+-The final campaign, complete saved example runs, source snapshots, checkpoints,
+-and selected failed attempts are tracked under `benchmarks/results/2026-09-28/`.
+-All original local runs are also retained under `results/`. Sequential reports
+-describe repairs and rejected approaches. The archived campaign JSON includes
+-every configuration's termination status; incomplete runs are never treated as
+-common-time convergence data.
+-
+-- [Final campaign](../Reports/evidence/final_validation.md)
+-- [Machine-readable evidence](../Reports/evidence/final_validation.json)
+-- [Measured performance](performance.md)
+-- [Source register](sources.md)
++# Validation report — development release, not QStarS v1
++
++**The general-purpose v1 criteria are not satisfied.** This campaign closes
++important numerical checks for a specified hot-envelope problem and adds direct
++MESA microphysics and a stationary advective-wind reference. It does not
++reproduce complete published quasi-star evolutionary tracks.
++
++The current automated suite has **52 passing tests with MESA enabled**
++(48 passing and four optional MESA tests skipped without the installed library).
++The full `qstars validate --require-v1` campaign has **29 passing checks and two
++retained printed-value discrepancies** and correctly exits 2. Passing software
++tests is distinct from passing the scientific release gates below.
++
++## Controlled spatial and nonlinear convergence
++
++The benchmark has a 10,000-solar-mass envelope, 100-solar-mass BH, initial radii
++1e12–1e14 cm, external pressure 1e8 dyn/cm², prescribed boundary luminosity
++1e42 erg/s, rest accretion 2e-4 solar masses/year, feeding 0.01 and wind removal
++0.008 solar masses/year. It evolves for ten years. These are transparent
++controlled boundary conditions, not a full published stellar model.
++
++`configs/hot_resolved_validation.yaml` selects the sparse flux solve,
++surface-refined log-radius mesh and conservative backward-Euler mechanics.
++The latter's kinetic dissipation is deposited as internal heat, separately
++recorded, and excluded from the external energy balance. The historical
++midpoint method remains selectable. Its high-resolution acoustic ringing and
++convection-domain failure are preserved, not relabeled as physical destruction.
++
++The 256/512/1024/2048-zone backward-Euler runs all complete. Initial density
++mass-weighted logarithmic RMS errors against a separate continuum boundary-value
++solution are 1.553e-4, 3.881e-5, 9.703e-6 and 2.426e-6: successive factors of
++approximately four. The continuum reference is not the evolution solver.
++
++Final interior comparisons use extrema of piecewise cubic interpolants on a
++common enclosed-mass domain. Their squared differences are integrated by exact
++polynomial quadrature. A separate whole-mass, piecewise-constant overlap norm
++is also retained. Interpolation does not turn either representation into an
++exact physical solution.
++
++| Relative error bound from logarithmic maximum | 512 vs 2048 | 1024 vs 2048 |
++|---|---:|---:|
++| Density | 0.248% | 0.0597% |
++| Temperature | 0.0221% | 0.0201% |
++| Pressure | 0.0880% | 0.0803% |
++| Specific internal energy | 0.250% | 0.0207% |
++| Radius within the envelope | 0.0220% | 0.0200% |
++
++The common-center comparisons exclude 2.13e-6 and 8.40e-7 of envelope mass,
++respectively. Whole-mass overlap log-RMS errors at 1024 vs 2048 are 0.290% in
++density, 0.0962% in temperature, 0.385% in pressure, 0.0984% in specific energy
++and 0.112% in radius. Entropy difference divided by local Cv is 4.34e-5.
++The 256-zone model still has about 1.24% local specific-energy error; it does
++not pass the one-percent local-profile target.
++
++All cases use the same maximum timestep, but boundary replacement and state
++change limits cause smaller accepted steps at 2048 zones. This is therefore a
++combined spatial/adaptive-time campaign. The separate timestep campaign below
++bounds its time-discretization contribution. Small global radius or luminosity
++differences are not used as substitutes for these interior measurements.
++
++## Time integration, retries, remapping and restart
++
++For the 512-zone backward-Euler benchmark, reducing maximum timestep from
++0.02 to 0.005 years changes the largest measured profile quantity, pressure,
++by 0.0757%; density changes by 0.0563%. The 0.01-to-0.005 comparison is smaller
++(pressure 0.0252%), consistent with the method's first-order time accuracy.
++Solver tolerances 1e-8/1e-10/1e-12 agree to approximately 2e-13 in these profile
++norms. Changing boundary-remap thresholds 0.4/0.2/0.1 changes density/specific
++energy by at most 0.00370%. Restart continuation is bitwise identical, including
++volumes, velocities, solved fluxes, radius compensation and the whole ledger.
++
++A deliberately independent time-method comparison matters: at ten years,
++midpoint and backward Euler with maximum dt=0.02 years differ by about 13% in
++local density/specific energy. Reducing midpoint's maximum step to 0.005 years
++reduces the matched-method density discrepancy below **0.801%** and specific
++energy below **0.768%**, with pressure below 0.041%. A one-year campaign at
++0.02/0.005/0.00125 years also keeps inter-method profile discrepancies below
++0.44%, but density differences are not strictly monotone. Large-step midpoint
++is not certified by small ledger residuals. These checks do not validate a
++pulsation or shock calculation.
++
++The 2048-zone final energy residual is 1.32e-12 of energy throughput; the
++512-zone residual is 3.15e-13. Numerical kinetic heating in the 512-zone run
++is 2.82e41 erg, about 4.07e-10 of throughput. Its small size alone is not an
++accuracy argument: density can be sensitive even when an energy diagnostic is
++tiny. Analytical regressions establish that this heating is positive, conserves
++total energy and decreases with timestep.
++
++Earlier high-resolution failures exposed dense initialization cost, a Newton
++iteration ceiling, an invalid-geometry penalty root, cancellation in cell
++volumes and cumulative mass coordinates, depleted boundary cells, and
++unresolved acoustic oscillations. Each repair has an independent diagnostic or
++regression. Forty 2048-cell remaps preserve mass, volume, energy and geometry.
++The old failed and stopped runs remain in the evidence archive.
++
++## MESA microphysics and stellar infrastructure
++
++The optional interface directly calls the public MESA 24.08.1 EOS and radiative
++opacity APIs for fixed H1/He4 composition. It includes ionization. It does not
++replace these libraries with fitted tables or an invented ionization EOS.
++Radiative and conductive opacities are distinguished; omitted conduction is
++screened independently. The build records the MESA commit, local changes,
++bridge source and library hashes. An additional inventory records 8,135
++microphysics data files totaling 15.54 GB.
++
++The 153-state audit exactly matches a separate Fortran process. **Five states
++fail the one-percent first-law screen**; the maximum normalized defect is 0.315
++near rho=1e-4 g/cm³ and T=6812 K in an OPAL/SCVH–FreeEOS blend. These states
++remain excluded. A matching library call is not proof of thermodynamic
++consistency or of the correctness of a whole stellar model.
++
++A direct-MESA 128-zone, ten-year run completes with independent energy residual
++3.45e-11 of throughput. A timestep/tolerance/restart campaign also completes:
++density changes by at most 0.431% for dt=0.02 vs 0.005, and restarts are bitwise
++identical. Its 0.1–0.4 remap thresholds do not trigger remapping, so those
++identical cases are **not** evidence of MESA remap robustness. General production
++microphysics remains conditional on domain checks and missing atmosphere,
++convection and composition/stellar-evolution coupling.
++
++Cool-envelope trials terminate at the radial Mach boundary. Their polytropic
++initialization is not a relaxed cool quasi-star. These exits are not physical
++disruptions or published-track replicas. An ordinary MESA smoke run reaches
++100 models; two pinned upstream QUEST seed experiments, including an explicitly
++logged startup CGS-conversion experiment, stall during inner relaxation within
++the wall budget. Neither constitutes a completed quasi-star track.
++
++## Published results and disagreements
++
++The existing static benchmarks retain Ball n=2/3/4 maximum BH fractions
++0.126753/0.101515/0.088521, corrected Bondi N=1/2 limits 0.017040/0.005756,
++and the saturated composite printed-cutoff limit 0.617828. They are independent
++structure comparisons, not evolutionary validation. CB24's printed Ki and
++BH/inner-mass values correspond to scaled radius one rather than the stated
++entropy minimum near 1.015; both interpretations remain explicit.
++
++The new Fiacconi–Rossi solver integrates stationary radiation-dominated wind
++ODEs with radiative, advected, kinetic and gravitational fluxes. Base Mach
++0.8 and the paper's range 0.75–0.85 are explicit; no parameter is fitted.
++Changing integrator (Radau/DOP853), tolerance and outer boundary changes the
++sampled profiles by less than 5e-6 in log magnitude in the tested cases.
++Independent momentum/radiation integrals supplement algebraic energy closure.
++
++Of 461 digitized Figure 4 vertices, 349 fall within the propagated base-Mach
++band plus the stated line-width uncertainty under the literal diagnostics.
++This is **not a full passing replication**. Thin-region sound speed differs
++between continuation of p=U/3 and p=g(tau)U; both proxies are saved, with no
++thermodynamic claim in the thin limit. Digitized luminosity sums are roughly
++4.82–4.87 versus caption total 5, at a precision comparable to the plotted
++line widths. Caption rounding, plotting conventions or unavailable original
++data may explain part of the discrepancy; the code does not choose a fitted
++energy to force agreement. The evolving envelope is not yet coupled to this wind.
++
++**No complete published quasi-star evolutionary track has been reproduced.**
++Ball's tabulated targets, QUEST attempts and the pending independent wind/evolution
++families are listed in `benchmarks/manifest.yaml`. No cross-paper evolutionary
++prediction without retuning has passed.
++
++## Release gate matrix
++
++PASS means the stated scope has evidence. CONDITIONAL does not certify general
++quasi-star use. FAIL marks a required capability or validation result that is
++missing; none of the failures below is waived as impossible in spherical 1D.
++
++| User's priority gate | Status | Evidence and remaining boundary |
++|---|---|---|
++| Spatial/nonlinear convergence | CONDITIONAL | Hot 512–2048-zone profiles, timestep and inter-method comparisons pass the one-percent target; production atmosphere/cavity/wind models untested |
++| Production microphysics | FAIL | Direct MESA EOS/opacity interface and ionization audit work; excluded blend states, atmosphere, full convection and stellar evolution remain |
++| Inner cavity and model families | FAIL | Fixed-excision ledger works; conservative moving physical cavity and alternative evolving inner flows absent |
++| Wind physics | FAIL | Stationary advective wind component exists; envelope/atmosphere coupling and complete validation absent |
++| Multiple full published evolutions | FAIL | Static results and wind-component comparisons are insufficient; zero complete evolutionary replicas |
++| Cross-validation without retuning | FAIL | No multi-paper evolutionary predictive validation |
++| Numerical robustness | CONDITIONAL | Hot-model campaigns and 52 tests pass; full production-model campaigns remain |
++| Apple Silicon performance | CONDITIONAL | Useful local runs measured; full stellar-track costs unestablished |
++| QSRD readiness after independent v1 | FAIL | Deliberately deferred until the preceding framework gates pass |
++
++[Machine-readable gates](../Reports/evidence/completion_gates.json) map these
++priorities to the original twelve completion criteria. Source traceability,
++finite thermal evolution, separate stream accounting and execution safeguards
++have working implementations; they do not cancel the failed general-use gates.
++
++## Reproducibility and evidence
++
++New runs freeze source bytes at import and verify that package files remain
++unchanged through completion. Fresh final validation and benchmark runs pass
++that check. Earlier exploratory campaigns predate it and require their first
++source snapshot and development chronology; later files in a long-running
++edited process must not be assumed to be its executed source. A fresh MESA
++verification agrees with the earlier ten-year density within 4e-11.
++
++The new evidence archive is `benchmarks/results/2026-09-28-closure/`. It retains
++full histories, ledgers, checkpoints, source snapshots, first/final profiles,
++figure calibration, comparison reports and selected failures, with hashes in
++its manifest. Intermediate profiles and upstream binaries/source are excluded
++from that compact archive; all original local result directories remain intact.
++Historical evidence remains under `benchmarks/results/2026-09-28/`.
++
++See [model families](model_families.md), [validity limits](validity.md),
++[equations](equations.md), [MESA](mesa.md), [source registry](sources.md) and
++[MacBook performance](performance.md). These remaining requirements cannot be
++narrowed away while still calling this a general-purpose validated v1.
+diff --git a/src/qstars/mass_transport.py b/src/qstars/mass_transport.py
+index 902c7a5..f634b69 100644
+--- a/src/qstars/mass_transport.py
++++ b/src/qstars/mass_transport.py
+@@ -17,7 +17,8 @@ def exchange(old,dt,eos,config,engine,wind_rate):
+     if feed < 0 or wind_rate < 0: raise DomainError("A one-way stream has negative mass flux")
+     added,removed,swallowed = dt*feed,dt*wind_rate,dt*engine["rest_mass_rate"]
+     if swallowed > .1*old.dm[0] or removed+added > .1*old.dm[-1]:
+-        raise DomainError("Boundary cell replacement exceeds 10%; reduce timestep")
++        from .numerics import StepRejected
++        raise StepRejected("Boundary cell replacement exceeds 10%; reduce timestep")
+     state.dm[0] -= swallowed
+     state.dm[-1] += added-removed
+     state.bh_mass += dt*engine["bh_growth_rate"]
+@@ -42,7 +43,9 @@ def exchange(old,dt,eos,config,engine,wind_rate):
+     U = old.dm*q["u"]
+     U[0] -= swallowed*q["h"][0]
+     U[-1] += added*incoming_h-removed*q["h"][-1]
+-    if np.any(U <= 0): raise DomainError("Boundary enthalpy flux exhausts internal energy")
++    if np.any(U <= 0):
++        from .numerics import StepRejected
++        raise StepRejected("Boundary enthalpy flux exhausts internal energy; reduce timestep")
+     state.T = eos.temperature(state.rho,U/state.dm)
+     # Exact midpoint gradient of the quadratic discrete gravitational energy.
+     mid = old.copy()
+diff --git a/tests/test_convergence.py b/tests/test_convergence.py
+index 8018645..655e2cc 100644
+--- a/tests/test_convergence.py
++++ b/tests/test_convergence.py
+@@ -153,3 +153,13 @@ def test_provenance_flags_source_change_after_import(tmp_path,monkeypatch):
+     monkeypatch.setattr(io,'_package_sources',lambda:{'changed.py':b'changed'})
+     assert not io.finish_provenance(tmp_path)
+     assert json.loads((tmp_path/'metadata.json').read_text())['source_snapshot_verified'] is False
++
++def test_boundary_timestep_limit_is_numerical_not_physical_exit(tmp_path):
++    c=resolve({'numerics':{'zones':8,'initial_dt_years':.1,'max_dt_years':.1,'min_dt_years':.05},
++               'feeding':{'rate_msun_per_year':1e9,'thermodynamics':'surface'},
++               'boundary':{'thermal':'insulated'},'engine':{'model':'off'}})
++    path,result=run(c,tmp_path)
++    assert result['status']=='numerical_failure'
++    assert 'replacement' in result['reason']
++    s,_=load_checkpoint(path/'checkpoint.npz')
++    assert s.ledger['supplied_mass']==0
+diff --git a/tests/test_physics.py b/tests/test_physics.py
+index 35540a0..c1bd95a 100644
+--- a/tests/test_physics.py
++++ b/tests/test_physics.py
+@@ -112,9 +112,10 @@ def test_accretion_mass_defect_and_energy(model):
+     assert np.isclose(out.ledger['central_generated'],out.ledger['mass_defect']*C**2,rtol=1e-13)
+ 
+ def test_retry_is_transactional(model):
++    from qstars.numerics import StepRejected
+     s,e,op,c=model;before=s.copy()
+     c['feeding']['rate_msun_per_year']=1e9
+-    with pytest.raises(DomainError): attempt_step(s,YEAR,e,op,c)
++    with pytest.raises(StepRejected): attempt_step(s,YEAR,e,op,c)
+     np.testing.assert_array_equal(s.dm,before.dm);np.testing.assert_array_equal(s.T,before.T)
+     assert s.ledger==before.ledger
+     c['feeding']['rate_msun_per_year']=0.

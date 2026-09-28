@@ -1,0 +1,261 @@
+{
+  "complete": true,
+  "rows": [
+    {
+      "method": "midpoint",
+      "dt_years": 0.02,
+      "path": "results/20260928T031253.242612Z_time_method_validation/20260928T031253.244523Z_midpoint_0p02",
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 50,
+      "retries": 0,
+      "runtime_seconds": 6.599181750003481,
+      "process_peak_rss_MiB": 87.5625,
+      "final_time_years": 1.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": 2.3611832414348226e+21,
+        "mass_residual_relative": 1.1756803922309254e-16,
+        "energy_residual_erg": -5.460089569013761e+37,
+        "energy_residual_relative": -1.8194740810570303e-16,
+        "energy_residual_relative_to_binding": -5.726333625924789e-15,
+        "energy_residual_relative_to_throughput": -7.877837985062101e-13,
+        "engine_conversion_residual_erg": -1.5576890575604483e+34,
+        "internal": 3.001995820368761e+53,
+        "gravity": -3.0973245028252005e+53,
+        "kinetic": 6.4677654415023754e+41,
+        "total": -9.532868244997187e+51
+      },
+      "source_snapshot_verified": true
+    },
+    {
+      "method": "backward_euler",
+      "dt_years": 0.02,
+      "path": "results/20260928T031253.242612Z_time_method_validation/20260928T031259.929745Z_backward_euler_0p02",
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 50,
+      "retries": 0,
+      "runtime_seconds": 6.313909374992363,
+      "process_peak_rss_MiB": 88.75,
+      "final_time_years": 1.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": 2.3611832414348226e+21,
+        "mass_residual_relative": 1.1756803922309254e-16,
+        "energy_residual_erg": 6.518142762518335e+37,
+        "energy_residual_relative": 2.1720507810595752e-16,
+        "energy_residual_relative_to_binding": 6.835979448287502e-15,
+        "energy_residual_relative_to_throughput": 9.380382568580098e-13,
+        "engine_conversion_residual_erg": -1.5576890575604483e+34,
+        "internal": 3.0014229086955666e+53,
+        "gravity": -3.0967533658567894e+53,
+        "kinetic": 2.2756626671448304e+42,
+        "total": -9.533045713846619e+51
+      },
+      "source_snapshot_verified": true,
+      "method_difference": {
+        "interpolation_excluded_mass_fraction": 2.1649198376216816e-06,
+        "fields": {
+          "density": {
+            "mass_overlap_log_L2": 0.0005475954303662608,
+            "interpolated_log_Linf": 0.004016342401421014,
+            "interpolated_mass_log_L2": 0.0005476075636495405
+          },
+          "temperature": {
+            "mass_overlap_log_L2": 0.0001841769517059008,
+            "interpolated_log_Linf": 0.0001885123636906627,
+            "interpolated_mass_log_L2": 0.00018417685466584093
+          },
+          "pressure": {
+            "mass_overlap_log_L2": 0.0007363592122060558,
+            "interpolated_log_Linf": 0.000753692032454012,
+            "interpolated_mass_log_L2": 0.0007363588380966245
+          },
+          "specific_internal_energy": {
+            "mass_overlap_log_L2": 0.00018934500208272242,
+            "interpolated_log_Linf": 0.0039776972943244004,
+            "interpolated_mass_log_L2": 0.00018937905295027057
+          },
+          "radius": {
+            "mass_overlap_log_L2": 0.00018405033988874896,
+            "interpolated_log_Linf": 0.00018626099149798847,
+            "interpolated_mass_log_L2": 0.00018405039714140497
+          }
+        },
+        "entropy_difference_over_cv_Linf": 0.0010379414046073072
+      }
+    },
+    {
+      "method": "midpoint",
+      "dt_years": 0.005,
+      "path": "results/20260928T031253.242612Z_time_method_validation/20260928T031306.325663Z_midpoint_0p005",
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 200,
+      "retries": 0,
+      "runtime_seconds": 23.850508917006664,
+      "process_peak_rss_MiB": 91.5,
+      "final_time_years": 1.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": 7.083549724304468e+21,
+        "mass_residual_relative": 3.527041176692776e-16,
+        "energy_residual_erg": 8.955384090203779e+37,
+        "energy_residual_relative": 2.9842164733900914e-16,
+        "energy_residual_relative_to_binding": 9.392065166811647e-15,
+        "energy_residual_relative_to_throughput": 1.2919503964082184e-12,
+        "engine_conversion_residual_erg": -4.673067172681345e+34,
+        "internal": 3.0019823675513004e+53,
+        "gravity": -3.097311122902859e+53,
+        "kinetic": 7.198871156455417e+41,
+        "total": -9.532875534435969e+51
+      },
+      "source_snapshot_verified": true
+    },
+    {
+      "method": "backward_euler",
+      "dt_years": 0.005,
+      "path": "results/20260928T031253.242612Z_time_method_validation/20260928T031330.263130Z_backward_euler_0p005",
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 200,
+      "retries": 0,
+      "runtime_seconds": 12.926775667001493,
+      "process_peak_rss_MiB": 91.65625,
+      "final_time_years": 1.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": 7.083549724304468e+21,
+        "mass_residual_relative": 3.527041176692776e-16,
+        "energy_residual_erg": 9.370731330549278e+37,
+        "energy_residual_relative": 3.122623275860129e-16,
+        "energy_residual_relative_to_binding": 9.827665506103354e-15,
+        "energy_residual_relative_to_throughput": 1.351080896805563e-12,
+        "engine_conversion_residual_erg": -4.673067172681345e+34,
+        "internal": 3.001839682537403e+53,
+        "gravity": -3.0971688430536146e+53,
+        "kinetic": 3.5635262588333753e+42,
+        "total": -9.532916048057651e+51
+      },
+      "source_snapshot_verified": true,
+      "method_difference": {
+        "interpolation_excluded_mass_fraction": 2.1649198376216816e-06,
+        "fields": {
+          "density": {
+            "mass_overlap_log_L2": 0.00013566894113041,
+            "interpolated_log_Linf": 0.004335560475563938,
+            "interpolated_mass_log_L2": 0.00013559794841006852
+          },
+          "temperature": {
+            "mass_overlap_log_L2": 4.559305771188773e-05,
+            "interpolated_log_Linf": 4.748421794964486e-05,
+            "interpolated_mass_log_L2": 4.559301939622951e-05
+          },
+          "pressure": {
+            "mass_overlap_log_L2": 0.0001822858093987976,
+            "interpolated_log_Linf": 0.00018984675562805364,
+            "interpolated_mass_log_L2": 0.00018228565657522585
+          },
+          "specific_internal_energy": {
+            "mass_overlap_log_L2": 4.7201656509900206e-05,
+            "interpolated_log_Linf": 0.004352702400602482,
+            "interpolated_mass_log_L2": 4.6998054033158894e-05
+          },
+          "radius": {
+            "mass_overlap_log_L2": 4.591479839775104e-05,
+            "interpolated_log_Linf": 4.661494232394148e-05,
+            "interpolated_mass_log_L2": 4.591480738557143e-05
+          }
+        },
+        "entropy_difference_over_cv_Linf": 0.001487788455817648
+      }
+    },
+    {
+      "method": "midpoint",
+      "dt_years": 0.00125,
+      "path": "results/20260928T031253.242612Z_time_method_validation/20260928T031343.251520Z_midpoint_0p00125",
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 800,
+      "retries": 0,
+      "runtime_seconds": 53.14989012500155,
+      "process_peak_rss_MiB": 91.65625,
+      "final_time_years": 1.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": -2.3611832414348226e+21,
+        "mass_residual_relative": -1.1756803922309254e-16,
+        "energy_residual_erg": 1.9134182591760102e+38,
+        "energy_residual_relative": 6.376113220832842e-16,
+        "energy_residual_relative_to_binding": 2.0067200692381982e-14,
+        "energy_residual_relative_to_throughput": 2.7605943629774433e-12,
+        "engine_conversion_residual_erg": -8.515366847997117e+35,
+        "internal": 3.001980319233439e+53,
+        "gravity": -3.0973090250173355e+53,
+        "kinetic": 6.5609296514150875e+41,
+        "total": -9.532870577733536e+51
+      },
+      "source_snapshot_verified": true
+    },
+    {
+      "method": "backward_euler",
+      "dt_years": 0.00125,
+      "path": "results/20260928T031253.242612Z_time_method_validation/20260928T031436.458060Z_backward_euler_0p00125",
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 800,
+      "retries": 0,
+      "runtime_seconds": 37.35517479199916,
+      "process_peak_rss_MiB": 91.671875,
+      "final_time_years": 1.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": -2.3611832414348226e+21,
+        "mass_residual_relative": -1.1756803922309254e-16,
+        "energy_residual_erg": 2.336726370643955e+38,
+        "energy_residual_relative": 7.786709379342829e-16,
+        "energy_residual_relative_to_binding": 2.4506694664389206e-14,
+        "energy_residual_relative_to_throughput": 3.3715826296565688e-12,
+        "engine_conversion_residual_erg": -8.515366847997117e+35,
+        "internal": 3.0020044423317396e+53,
+        "gravity": -3.0973330950578918e+53,
+        "kinetic": 3.525827275546983e+42,
+        "total": -9.532865269089386e+51
+      },
+      "source_snapshot_verified": true,
+      "method_difference": {
+        "interpolation_excluded_mass_fraction": 2.1649198376216816e-06,
+        "fields": {
+          "density": {
+            "mass_overlap_log_L2": 2.3474462359208363e-05,
+            "interpolated_log_Linf": 0.0029131774698853974,
+            "interpolated_mass_log_L2": 2.3328824034156873e-05
+          },
+          "temperature": {
+            "mass_overlap_log_L2": 7.78723469712513e-06,
+            "interpolated_log_Linf": 1.8606214194250015e-05,
+            "interpolated_mass_log_L2": 7.786794676273082e-06
+          },
+          "pressure": {
+            "mass_overlap_log_L2": 3.113536691362082e-05,
+            "interpolated_log_Linf": 0.0002071532371878959,
+            "interpolated_mass_log_L2": 3.113312641910826e-05
+          },
+          "specific_internal_energy": {
+            "mass_overlap_log_L2": 8.807297535385207e-06,
+            "interpolated_log_Linf": 0.002770810416080849,
+            "interpolated_mass_log_L2": 8.450812149475818e-06
+          },
+          "radius": {
+            "mass_overlap_log_L2": 7.734896801126452e-06,
+            "interpolated_log_Linf": 7.925608016989827e-06,
+            "interpolated_mass_log_L2": 7.734898271603594e-06
+          }
+        },
+        "entropy_difference_over_cv_Linf": 0.0009596923501923528
+      }
+    }
+  ],
+  "v1_validated": false
+}

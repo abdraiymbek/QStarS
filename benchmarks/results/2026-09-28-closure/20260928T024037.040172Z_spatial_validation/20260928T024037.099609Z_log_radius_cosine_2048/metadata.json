@@ -1,0 +1,15 @@
+{
+  "version": "0.1.0",
+  "git_commit": "704d390925371cbd15bc555dea7aa4077abd0c22",
+  "git_status": "M docs/sources.md\n M scripts/build_registry.py\n M src/qstars/data/sources.json\n M src/qstars/evolution.py\n M src/qstars/io.py\n M src/qstars/mesh.py\n M src/qstars/numerics.py\n M src/qstars/state.py\n M src/qstars/structure.py\n M src/qstars/transport.py\n M src/qstars/validity.py\n?? Reports/evidence/development_20260928/current_validity_audit.json\n?? scripts/plot_spatial_validation.py",
+  "source_sha256": "617f6586a869903932af929dca778709976d8280b9f481e9a297fbd316775084",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "created_utc": "2026-09-28T02:40:37.129041+00:00",
+  "dependencies": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.11.2"
+  }
+}

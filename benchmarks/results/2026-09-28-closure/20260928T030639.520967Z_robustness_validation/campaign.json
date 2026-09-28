@@ -1,0 +1,465 @@
+{
+  "complete": true,
+  "rows": [
+    {
+      "axis": "timestep",
+      "value": 0.02,
+      "path": "results/20260928T030639.520967Z_robustness_validation/20260928T030639.521212Z_timestep_0p02",
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 500,
+      "retries": 0,
+      "runtime_seconds": 26.41648020799039,
+      "process_peak_rss_MiB": 88.390625,
+      "final_time_years": 10.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": -7.083549724304468e+21,
+        "mass_residual_relative": -3.527041176692776e-16,
+        "energy_residual_erg": 2.1830089292072717e+38,
+        "energy_residual_relative": 7.274474374833615e-16,
+        "energy_residual_relative_to_binding": 2.289456478508212e-14,
+        "energy_residual_relative_to_throughput": 3.1535858885686436e-13,
+        "engine_conversion_residual_erg": -1.2876896209166373e+36,
+        "internal": 3.0099917604883004e+53,
+        "gravity": -3.1051151642200603e+53,
+        "kinetic": 2.622702347865435e+42,
+        "total": -9.51234037055329e+51
+      },
+      "source_snapshot_verified": true,
+      "comparison_to_strictest": {
+        "interpolation_excluded_mass_fraction": 2.141519855891616e-06,
+        "fields": {
+          "density": {
+            "mass_overlap_log_L2": 0.0005551680103439362,
+            "interpolated_log_Linf": 0.0005619056764576413,
+            "interpolated_mass_log_L2": 0.0005515843966172645
+          },
+          "temperature": {
+            "mass_overlap_log_L2": 0.0001862708059946362,
+            "interpolated_log_Linf": 0.0001890729331517349,
+            "interpolated_mass_log_L2": 0.00018553436043591584
+          },
+          "pressure": {
+            "mass_overlap_log_L2": 0.0007447515393779513,
+            "interpolated_log_Linf": 0.0007559240003871537,
+            "interpolated_mass_log_L2": 0.0007417872426081011
+          },
+          "specific_internal_energy": {
+            "mass_overlap_log_L2": 0.00019372535482742607,
+            "interpolated_log_Linf": 0.0005617225761085365,
+            "interpolated_mass_log_L2": 0.0001905337803948125
+          },
+          "radius": {
+            "mass_overlap_log_L2": 0.0001863395401980484,
+            "interpolated_log_Linf": 0.00018711441911278826,
+            "interpolated_mass_log_L2": 0.0001857893290942792
+          }
+        },
+        "entropy_difference_over_cv_Linf": 0.00018836977325702408
+      }
+    },
+    {
+      "axis": "timestep",
+      "value": 0.01,
+      "path": "results/20260928T030639.520967Z_robustness_validation/20260928T030705.995716Z_timestep_0p01",
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 1000,
+      "retries": 0,
+      "runtime_seconds": 53.128429790987866,
+      "process_peak_rss_MiB": 89.296875,
+      "final_time_years": 10.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": -4.722366482869645e+21,
+        "mass_residual_relative": -2.351360784461851e-16,
+        "energy_residual_erg": -2.5425525675379563e+38,
+        "energy_residual_relative": -8.47258719456486e-16,
+        "energy_residual_relative_to_binding": -2.6665321290331586e-14,
+        "energy_residual_relative_to_throughput": -3.673602450498086e-13,
+        "engine_conversion_residual_erg": -5.026143359061713e+36,
+        "internal": 3.0103779932427912e+53,
+        "gravity": -3.1055002324267377e+53,
+        "kinetic": 2.6155661429918763e+42,
+        "total": -9.51222391577908e+51
+      },
+      "source_snapshot_verified": true,
+      "comparison_to_strictest": {
+        "interpolation_excluded_mass_fraction": 2.1409198429633847e-06,
+        "fields": {
+          "density": {
+            "mass_overlap_log_L2": 0.00018714236426977643,
+            "interpolated_log_Linf": 0.0001870088253337343,
+            "interpolated_mass_log_L2": 0.00018357543578781838
+          },
+          "temperature": {
+            "mass_overlap_log_L2": 6.248350083166782e-05,
+            "interpolated_log_Linf": 6.292635829829862e-05,
+            "interpolated_mass_log_L2": 6.174880099381166e-05
+          },
+          "pressure": {
+            "mass_overlap_log_L2": 0.0002498357910390418,
+            "interpolated_log_Linf": 0.0002515829104758893,
+            "interpolated_mass_log_L2": 0.0002468785928780215
+          },
+          "specific_internal_energy": {
+            "mass_overlap_log_L2": 6.656059226098906e-05,
+            "interpolated_log_Linf": 0.00018781982735305291,
+            "interpolated_mass_log_L2": 6.341406913085668e-05
+          },
+          "radius": {
+            "mass_overlap_log_L2": 6.238410947100507e-05,
+            "interpolated_log_Linf": 6.227475191522558e-05,
+            "interpolated_mass_log_L2": 6.183460948281363e-05
+          }
+        },
+        "entropy_difference_over_cv_Linf": 6.299579834561478e-05
+      }
+    },
+    {
+      "axis": "timestep",
+      "value": 0.005,
+      "path": "results/20260928T030639.520967Z_robustness_validation/20260928T030759.174500Z_timestep_0p005",
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 2000,
+      "retries": 0,
+      "runtime_seconds": 128.68620191700757,
+      "process_peak_rss_MiB": 89.484375,
+      "final_time_years": 10.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": 3.541774862152234e+22,
+        "mass_residual_relative": 1.7635205883463882e-15,
+        "energy_residual_erg": 1.3413960420608442e+39,
+        "energy_residual_relative": 4.469954750949326e-15,
+        "energy_residual_relative_to_binding": 1.4068049917948287e-13,
+        "energy_residual_relative_to_throughput": 1.938276209271327e-12,
+        "engine_conversion_residual_erg": 1.9938419936773738e+36,
+        "internal": 3.0105706798590277e+53,
+        "gravity": -3.1056923384739454e+53,
+        "kinetic": 2.612652822298937e+42,
+        "total": -9.512165858879122e+51
+      },
+      "source_snapshot_verified": true
+    },
+    {
+      "axis": "solver",
+      "value": 1e-08,
+      "path": "results/20260928T030639.520967Z_robustness_validation/20260928T031007.920960Z_solver_1e-08",
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 500,
+      "retries": 0,
+      "runtime_seconds": 33.30907554199803,
+      "process_peak_rss_MiB": 89.484375,
+      "final_time_years": 10.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": -7.083549724304468e+21,
+        "mass_residual_relative": -3.527041176692776e-16,
+        "energy_residual_erg": 2.1830089292072717e+38,
+        "energy_residual_relative": 7.274474374833615e-16,
+        "energy_residual_relative_to_binding": 2.289456478508212e-14,
+        "energy_residual_relative_to_throughput": 3.1535858885686436e-13,
+        "engine_conversion_residual_erg": -1.2876896209166373e+36,
+        "internal": 3.0099917604883004e+53,
+        "gravity": -3.1051151642200603e+53,
+        "kinetic": 2.622702347865435e+42,
+        "total": -9.51234037055329e+51
+      },
+      "source_snapshot_verified": true,
+      "comparison_to_strictest": {
+        "interpolation_excluded_mass_fraction": 2.1325198840127513e-06,
+        "fields": {
+          "density": {
+            "mass_overlap_log_L2": 1.18606930248573e-13,
+            "interpolated_log_Linf": 1.474376176702208e-13,
+            "interpolated_mass_log_L2": 1.185994670582121e-13
+          },
+          "temperature": {
+            "mass_overlap_log_L2": 3.931917156162637e-14,
+            "interpolated_log_Linf": 4.263256414560601e-14,
+            "interpolated_mass_log_L2": 3.938261426407483e-14
+          },
+          "pressure": {
+            "mass_overlap_log_L2": 1.571187959420676e-13,
+            "interpolated_log_Linf": 1.6697754290362354e-13,
+            "interpolated_mass_log_L2": 1.5716361182614696e-13
+          },
+          "specific_internal_energy": {
+            "mass_overlap_log_L2": 3.99020589533142e-14,
+            "interpolated_log_Linf": 9.237055564881302e-14,
+            "interpolated_mass_log_L2": 3.99455617276084e-14
+          },
+          "radius": {
+            "mass_overlap_log_L2": 3.994117665362579e-14,
+            "interpolated_log_Linf": 4.618527782440651e-14,
+            "interpolated_mass_log_L2": 3.998495841482605e-14
+          }
+        },
+        "entropy_difference_over_cv_Linf": 3.0160089890468604e-14
+      }
+    },
+    {
+      "axis": "solver",
+      "value": 1e-10,
+      "path": "results/20260928T030639.520967Z_robustness_validation/20260928T031041.308969Z_solver_1e-10",
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 500,
+      "retries": 0,
+      "runtime_seconds": 30.667497749993345,
+      "process_peak_rss_MiB": 89.484375,
+      "final_time_years": 10.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": -7.083549724304468e+21,
+        "mass_residual_relative": -3.527041176692776e-16,
+        "energy_residual_erg": 2.1830089292072717e+38,
+        "energy_residual_relative": 7.274474374833615e-16,
+        "energy_residual_relative_to_binding": 2.289456478508212e-14,
+        "energy_residual_relative_to_throughput": 3.1535858885686436e-13,
+        "engine_conversion_residual_erg": -1.2876896209166373e+36,
+        "internal": 3.0099917604883004e+53,
+        "gravity": -3.1051151642200603e+53,
+        "kinetic": 2.622702347865435e+42,
+        "total": -9.51234037055329e+51
+      },
+      "source_snapshot_verified": true,
+      "comparison_to_strictest": {
+        "interpolation_excluded_mass_fraction": 2.1325198840127513e-06,
+        "fields": {
+          "density": {
+            "mass_overlap_log_L2": 1.18606930248573e-13,
+            "interpolated_log_Linf": 1.474376176702208e-13,
+            "interpolated_mass_log_L2": 1.185994670582121e-13
+          },
+          "temperature": {
+            "mass_overlap_log_L2": 3.931917156162637e-14,
+            "interpolated_log_Linf": 4.263256414560601e-14,
+            "interpolated_mass_log_L2": 3.938261426407483e-14
+          },
+          "pressure": {
+            "mass_overlap_log_L2": 1.571187959420676e-13,
+            "interpolated_log_Linf": 1.6697754290362354e-13,
+            "interpolated_mass_log_L2": 1.5716361182614696e-13
+          },
+          "specific_internal_energy": {
+            "mass_overlap_log_L2": 3.99020589533142e-14,
+            "interpolated_log_Linf": 9.237055564881302e-14,
+            "interpolated_mass_log_L2": 3.99455617276084e-14
+          },
+          "radius": {
+            "mass_overlap_log_L2": 3.994117665362579e-14,
+            "interpolated_log_Linf": 4.618527782440651e-14,
+            "interpolated_mass_log_L2": 3.998495841482605e-14
+          }
+        },
+        "entropy_difference_over_cv_Linf": 3.0160089890468604e-14
+      }
+    },
+    {
+      "axis": "solver",
+      "value": 1e-12,
+      "path": "results/20260928T030639.520967Z_robustness_validation/20260928T031112.032479Z_solver_1e-12",
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 500,
+      "retries": 0,
+      "runtime_seconds": 42.46161383300205,
+      "process_peak_rss_MiB": 89.484375,
+      "final_time_years": 10.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": -7.083549724304468e+21,
+        "mass_residual_relative": -3.527041176692776e-16,
+        "energy_residual_erg": -4.563325747511155e+38,
+        "energy_residual_relative": -1.5206440876237242e-15,
+        "energy_residual_relative_to_binding": -4.785841943384361e-14,
+        "energy_residual_relative_to_throughput": -6.592203765066469e-13,
+        "engine_conversion_residual_erg": -1.2876896209166373e+36,
+        "internal": 3.0099917604884187e+53,
+        "gravity": -3.105115164220185e+53,
+        "kinetic": 2.6227023478817227e+42,
+        "total": -9.512340370553929e+51
+      },
+      "source_snapshot_verified": true
+    },
+    {
+      "axis": "remesh",
+      "value": 0.4,
+      "path": "results/20260928T030639.520967Z_robustness_validation/20260928T031154.551429Z_remesh_0p4",
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 500,
+      "retries": 0,
+      "runtime_seconds": 30.57643516699318,
+      "process_peak_rss_MiB": 89.484375,
+      "final_time_years": 10.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": -1.4167099448608936e+22,
+        "mass_residual_relative": -7.054082353385552e-16,
+        "energy_residual_erg": -2.850195953582049e+38,
+        "energy_residual_relative": -9.49775200191976e-16,
+        "energy_residual_relative_to_binding": -2.989176775065193e-14,
+        "energy_residual_relative_to_throughput": -4.117407471588767e-13,
+        "engine_conversion_residual_erg": -1.2876896209166373e+36,
+        "internal": 3.0099917590393806e+53,
+        "gravity": -3.1051151631302776e+53,
+        "kinetic": 2.6226271638938595e+42,
+        "total": -9.512340406467065e+51
+      },
+      "source_snapshot_verified": true,
+      "comparison_to_strictest": {
+        "interpolation_excluded_mass_fraction": 2.138519864858246e-06,
+        "fields": {
+          "density": {
+            "mass_overlap_log_L2": 5.14159469085274e-05,
+            "interpolated_log_Linf": 3.6686638633653956e-05,
+            "interpolated_mass_log_L2": 3.642516476522519e-07
+          },
+          "temperature": {
+            "mass_overlap_log_L2": 1.3509816430343372e-05,
+            "interpolated_log_Linf": 1.552126107640106e-07,
+            "interpolated_mass_log_L2": 2.992698177479221e-09
+          },
+          "pressure": {
+            "mass_overlap_log_L2": 5.4196396825330924e-05,
+            "interpolated_log_Linf": 1.0404916750417215e-07,
+            "interpolated_mass_log_L2": 9.525937956671244e-09
+          },
+          "specific_internal_energy": {
+            "mass_overlap_log_L2": 2.858970028908064e-05,
+            "interpolated_log_Linf": 3.6994450915983634e-05,
+            "interpolated_mass_log_L2": 3.6747667506595905e-07
+          },
+          "radius": {
+            "mass_overlap_log_L2": 1.1684338493098021e-05,
+            "interpolated_log_Linf": 1.5203214331904746e-07,
+            "interpolated_mass_log_L2": 3.7456653641266585e-09
+          }
+        },
+        "entropy_difference_over_cv_Linf": 1.2412051875481637e-05
+      }
+    },
+    {
+      "axis": "remesh",
+      "value": 0.2,
+      "path": "results/20260928T030639.520967Z_robustness_validation/20260928T031225.187271Z_remesh_0p2",
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 500,
+      "retries": 0,
+      "runtime_seconds": 31.534618624980794,
+      "process_peak_rss_MiB": 89.484375,
+      "final_time_years": 10.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": -7.083549724304468e+21,
+        "mass_residual_relative": -3.527041176692776e-16,
+        "energy_residual_erg": 2.1830089292072717e+38,
+        "energy_residual_relative": 7.274474374833615e-16,
+        "energy_residual_relative_to_binding": 2.289456478508212e-14,
+        "energy_residual_relative_to_throughput": 3.1535858885686436e-13,
+        "engine_conversion_residual_erg": -1.2876896209166373e+36,
+        "internal": 3.0099917604883004e+53,
+        "gravity": -3.1051151642200603e+53,
+        "kinetic": 2.622702347865435e+42,
+        "total": -9.51234037055329e+51
+      },
+      "source_snapshot_verified": true,
+      "comparison_to_strictest": {
+        "interpolation_excluded_mass_fraction": 2.1325198840127513e-06,
+        "fields": {
+          "density": {
+            "mass_overlap_log_L2": 1.2557531500113242e-07,
+            "interpolated_log_Linf": 1.291032792849478e-05,
+            "interpolated_mass_log_L2": 1.250051403964915e-07
+          },
+          "temperature": {
+            "mass_overlap_log_L2": 2.0929884958017906e-09,
+            "interpolated_log_Linf": 5.4622427470008006e-08,
+            "interpolated_mass_log_L2": 1.0871128801147411e-09
+          },
+          "pressure": {
+            "mass_overlap_log_L2": 8.049768213156385e-09,
+            "interpolated_log_Linf": 2.8825063225212944e-08,
+            "interpolated_mass_log_L2": 3.649524983324625e-09
+          },
+          "specific_internal_energy": {
+            "mass_overlap_log_L2": 1.265139941828877e-07,
+            "interpolated_log_Linf": 1.3018647571527708e-05,
+            "interpolated_mass_log_L2": 1.260706796316266e-07
+          },
+          "radius": {
+            "mass_overlap_log_L2": 1.794253396106107e-09,
+            "interpolated_log_Linf": 5.2069481171201915e-08,
+            "interpolated_mass_log_L2": 1.3299315316070214e-09
+          }
+        },
+        "entropy_difference_over_cv_Linf": 4.367160013881718e-06
+      }
+    },
+    {
+      "axis": "remesh",
+      "value": 0.1,
+      "path": "results/20260928T030639.520967Z_robustness_validation/20260928T031256.777134Z_remesh_0p1",
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 500,
+      "retries": 0,
+      "runtime_seconds": 40.330294750019675,
+      "process_peak_rss_MiB": 89.484375,
+      "final_time_years": 10.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": -4.722366482869645e+21,
+        "mass_residual_relative": -2.351360784461851e-16,
+        "energy_residual_erg": -2.4811242476918567e+38,
+        "energy_residual_relative": -8.267888655483847e-16,
+        "energy_residual_relative_to_binding": -2.602108450799924e-14,
+        "energy_residual_relative_to_throughput": -3.584244887010025e-13,
+        "engine_conversion_residual_erg": -1.2876896209166373e+36,
+        "internal": 3.0099917620029806e+53,
+        "gravity": -3.1051151655764803e+53,
+        "kinetic": 2.6227415951467456e+42,
+        "total": -9.51234035472723e+51
+      },
+      "source_snapshot_verified": true
+    }
+  ],
+  "restart": {
+    "part": "results/20260928T030639.520967Z_robustness_validation/20260928T031337.206756Z_restart_part",
+    "continued": "results/20260928T030639.520967Z_robustness_validation/20260928T031344.661134Z_restart_part",
+    "report": {
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 400,
+      "retries": 0,
+      "runtime_seconds": 24.490026790997945,
+      "process_peak_rss_MiB": 89.609375,
+      "final_time_years": 10.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": -7.083549724304468e+21,
+        "mass_residual_relative": -3.527041176692776e-16,
+        "energy_residual_erg": 2.1830089292072717e+38,
+        "energy_residual_relative": 7.274474374833615e-16,
+        "energy_residual_relative_to_binding": 2.289456478508212e-14,
+        "energy_residual_relative_to_throughput": 3.1535858885686436e-13,
+        "engine_conversion_residual_erg": -1.2876896209166373e+36,
+        "internal": 3.0099917604883004e+53,
+        "gravity": -3.1051151642200603e+53,
+        "kinetic": 2.622702347865435e+42,
+        "total": -9.51234037055329e+51
+      },
+      "source_snapshot_verified": true
+    },
+    "bitwise_equal": true
+  },
+  "scope": "Fixed-excision hot pressure-confined two-stream model",
+  "v1_validated": false
+}

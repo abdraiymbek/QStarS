@@ -1,0 +1,24 @@
+{
+  "status": "model_domain_exit",
+  "reason": "Lossless MLT predicts supersonic convection",
+  "accepted_steps_this_run": 56,
+  "retries": 46,
+  "runtime_seconds": 79.45714641700033,
+  "process_peak_rss_MiB": 95.75,
+  "final_time_years": 0.21378793788767447,
+  "v1_validated": false,
+  "last_domain_rejection": "Lossless MLT predicts supersonic convection",
+  "conservation": {
+    "mass_residual_g": -2.3611832414348226e+21,
+    "mass_residual_relative": -1.1756803922309257e-16,
+    "energy_residual_erg": 2.463519788010705e+37,
+    "energy_residual_relative": 8.209219207914221e-17,
+    "energy_residual_relative_to_binding": 2.58365279889298e-15,
+    "energy_residual_relative_to_throughput": 1.6661875457148403e-12,
+    "engine_conversion_residual_erg": 0.0,
+    "internal": 3.001292670264412e+53,
+    "gravity": -3.0966379424424033e+53,
+    "kinetic": 1.7754707566702398e+43,
+    "total": -9.534527200044406e+51
+  }
+}

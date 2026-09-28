@@ -1,0 +1,23 @@
+{
+  "status": "control_stop",
+  "reason": "configured wall time budget reached",
+  "accepted_steps_this_run": 490,
+  "retries": 165,
+  "runtime_seconds": 90.24458645901177,
+  "process_peak_rss_MiB": 83.46875,
+  "final_time_years": 0.0008626374966378001,
+  "v1_validated": false,
+  "conservation": {
+    "mass_residual_g": 0.0,
+    "mass_residual_relative": 0.0,
+    "energy_residual_erg": 5.747579552572189e+38,
+    "energy_residual_relative": 1.915362604613622e-15,
+    "energy_residual_relative_to_binding": 6.028037396029742e-14,
+    "energy_residual_relative_to_throughput": 9.539104846174711e-09,
+    "engine_conversion_residual_erg": -1.0141204801825835e+31,
+    "internal": 3.000778787664821e+53,
+    "gravity": -3.09612621699208e+53,
+    "kinetic": 1.7898148302380497e+41,
+    "total": -9.534742932546939e+51
+  }
+}

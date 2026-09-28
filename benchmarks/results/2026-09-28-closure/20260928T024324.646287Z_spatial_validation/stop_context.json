@@ -1,0 +1,5 @@
+{
+  "action": "SIGINT after preserving accepted-state checkpoint",
+  "reason": "Conservative remap geometry repair verified beyond the previous failure. Continuing the fixed 2048-zone doubly-clustered mesh has excessive boundary replacement cost; an independent surface-clustered mesh campaign tests equivalent physical equations at useful cost.",
+  "not_a_physical_termination": true
+}

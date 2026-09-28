@@ -1,0 +1,10 @@
+{
+  "passed": 52,
+  "failed": 0,
+  "skipped": 0,
+  "runtime_seconds": 6.95,
+  "command": "QSTARS_MESA_LIBRARY=$PWD/backends/mesa/build_verified/libqstars_mesa.dylib MESA_DIR=/Users/abraiymbek/qsrd-runtime/mesa .venv/bin/pytest -q",
+  "observed_output": "52 passed in 6.95s",
+  "mesa_optional_tests": 4,
+  "source_snapshot_verified": true
+}

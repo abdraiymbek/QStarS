@@ -1,0 +1,102 @@
+{
+  "scope": "Fresh unchanged-source repeat of the ten-year hot-envelope spatial campaign; does not certify unimplemented production physics.",
+  "rows": [
+    {
+      "zones": 256,
+      "previous_path": "results/20260928T030330.332506Z_spatial_validation/20260928T030330.393439Z_log_radius_surface_256",
+      "fresh_path": "results/20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256",
+      "arrays_bitwise_equal": {
+        "r": true,
+        "T": true,
+        "dm": true,
+        "v": true,
+        "cell_volume": true,
+        "radius_compensation": true,
+        "face_luminosity": true,
+        "reference_mass_fractions": true
+      },
+      "scalars_equal": {
+        "time": true,
+        "bh_mass": true,
+        "steps": true,
+        "next_dt": true
+      },
+      "ledger_equal": true,
+      "source_snapshot_verified": true,
+      "all_equal": true
+    },
+    {
+      "zones": 512,
+      "previous_path": "results/20260928T030330.332506Z_spatial_validation/20260928T030342.998401Z_log_radius_surface_512",
+      "fresh_path": "results/20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512",
+      "arrays_bitwise_equal": {
+        "r": true,
+        "T": true,
+        "dm": true,
+        "v": true,
+        "cell_volume": true,
+        "radius_compensation": true,
+        "face_luminosity": true,
+        "reference_mass_fractions": true
+      },
+      "scalars_equal": {
+        "time": true,
+        "bh_mass": true,
+        "steps": true,
+        "next_dt": true
+      },
+      "ledger_equal": true,
+      "source_snapshot_verified": true,
+      "all_equal": true
+    },
+    {
+      "zones": 1024,
+      "previous_path": "results/20260928T030330.332506Z_spatial_validation/20260928T030405.344018Z_log_radius_surface_1024",
+      "fresh_path": "results/20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024",
+      "arrays_bitwise_equal": {
+        "r": true,
+        "T": true,
+        "dm": true,
+        "v": true,
+        "cell_volume": true,
+        "radius_compensation": true,
+        "face_luminosity": true,
+        "reference_mass_fractions": true
+      },
+      "scalars_equal": {
+        "time": true,
+        "bh_mass": true,
+        "steps": true,
+        "next_dt": true
+      },
+      "ledger_equal": true,
+      "source_snapshot_verified": true,
+      "all_equal": true
+    },
+    {
+      "zones": 2048,
+      "previous_path": "results/20260928T030330.332506Z_spatial_validation/20260928T030456.446999Z_log_radius_surface_2048",
+      "fresh_path": "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048",
+      "arrays_bitwise_equal": {
+        "r": true,
+        "T": true,
+        "dm": true,
+        "v": true,
+        "cell_volume": true,
+        "radius_compensation": true,
+        "face_luminosity": true,
+        "reference_mass_fractions": true
+      },
+      "scalars_equal": {
+        "time": true,
+        "bh_mass": true,
+        "steps": true,
+        "next_dt": true
+      },
+      "ledger_equal": true,
+      "source_snapshot_verified": true,
+      "all_equal": true
+    }
+  ],
+  "all_states_and_ledgers_bitwise_equal": true
+}

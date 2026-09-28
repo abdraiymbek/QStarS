@@ -1,0 +1,24 @@
+{
+  "status": "completed_requested_interval",
+  "reason": "requested end time reached within configured domain",
+  "accepted_steps_this_run": 500,
+  "retries": 0,
+  "runtime_seconds": 40.330294750019675,
+  "process_peak_rss_MiB": 89.484375,
+  "final_time_years": 10.0,
+  "v1_validated": false,
+  "conservation": {
+    "mass_residual_g": -4.722366482869645e+21,
+    "mass_residual_relative": -2.351360784461851e-16,
+    "energy_residual_erg": -2.4811242476918567e+38,
+    "energy_residual_relative": -8.267888655483847e-16,
+    "energy_residual_relative_to_binding": -2.602108450799924e-14,
+    "energy_residual_relative_to_throughput": -3.584244887010025e-13,
+    "engine_conversion_residual_erg": -1.2876896209166373e+36,
+    "internal": 3.0099917620029806e+53,
+    "gravity": -3.1051151655764803e+53,
+    "kinetic": 2.6227415951467456e+42,
+    "total": -9.51234035472723e+51
+  },
+  "source_snapshot_verified": true
+}

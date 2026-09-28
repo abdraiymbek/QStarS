@@ -1,0 +1,17 @@
+{
+  "mesa_data_path": "/Users/abraiymbek/qsrd-runtime/mesa/data",
+  "directories": [
+    "chem_data",
+    "eosDT_data",
+    "eosFreeEOS_data",
+    "eosCMS_data",
+    "ionization_data",
+    "kap_data"
+  ],
+  "files": 8135,
+  "bytes": 15541148301,
+  "manifest_sha256": "e8c7c3180adc0150238116aa978ce99816641296f9a22b91c9e4c137c7a1db7d",
+  "runtime_seconds": 13.701687834021868,
+  "script_sha256": "23c33aca5a767fd672a353c48e3e007874c49de8101c45aa09f17447af25d0a2",
+  "scope": "Installed microphysics datasets including files present in these directories; not an assertion that every file is used by one model"
+}

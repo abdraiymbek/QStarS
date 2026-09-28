@@ -1,0 +1,45 @@
+{
+  "scope": "H1=0.75, He4=0.25; direct MESA 24.08.1 EOS/opacity API",
+  "standalone_relative_difference": 0.0,
+  "interface_pass": true,
+  "grid_points": 153,
+  "first_law_defect_max": 0.31486629682041484,
+  "first_law_defect_p95": 0.005992850079351335,
+  "points_exceeding_one_percent": 5,
+  "worst_point": {
+    "rho": 0.0001,
+    "T": 6811.544788207988,
+    "EOS_fractions": [
+      0.0,
+      0.9646076113552333,
+      0.03539238864476668,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ]
+  },
+  "eos_fraction_order": [
+    "HELM",
+    "OPAL_SCVH",
+    "FreeEOS",
+    "PC",
+    "Skye",
+    "CMS",
+    "ideal"
+  ],
+  "production_gate": "CONDITIONAL for sampled supported states; full atmosphere/evolution gate FAIL",
+  "build": {
+    "mesa_dir": "/Users/abraiymbek/qsrd-runtime/mesa",
+    "sdk_dir": "/Users/abraiymbek/qsrd-runtime/mesasdk",
+    "mesa_tag": "24.08.1",
+    "mesa_commit": "5c166bf174b477823a2ca0031c4f57210c8e67a8",
+    "mesa_status": "M data/version_number\n M utils/makefile_header\n?? adipls/test/build_skip_test",
+    "source_sha256": "35ac907062896201728e8606083b21d8d4a5f3a227e9b37aacdcd36c972c345f",
+    "platform": "macOS-27.0-arm64-arm-64bit",
+    "deployment_target": "14.0",
+    "runtime_seconds": 1.1071936249791179,
+    "returncode": 0,
+    "library_sha256": "7e53e03106c8dd11f19d34d84635ca5f0e2c281948f2c8ace4a165ce7f76abee"
+  }
+}

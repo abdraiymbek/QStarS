@@ -1,0 +1,180 @@
+diff --git a/src/qstars/config.py b/src/qstars/config.py
+index 415b693..26ebb56 100644
+--- a/src/qstars/config.py
++++ b/src/qstars/config.py
+@@ -31,6 +31,7 @@ DEFAULT = dict(
+                   bath_temperature_K=0.,luminosity_erg_s=1e41),
+     evolution=dict(end_time_years=.1,max_steps=10000,max_wall_seconds=0.),
+     numerics=dict(zones=32,mesh="cosine",initial_dt_years=.001,max_dt_years=.005,min_dt_years=1e-10,
++                  nonlinear_solver="newton",
+                   solver_tolerance=1e-9,max_fractional_change=.02,max_retries=12,
+                   conservation_tolerance=1e-7,refine_every_steps=0,max_zones=256),
+     validity=dict(min_temperature_K=1e5,max_temperature_K=1e8,max_mach=.2,max_compactness=.001,
+@@ -86,6 +87,7 @@ def resolve(raw):
+     if c["schema_version"] != 1: raise ValueError("Unsupported schema version")
+     choices = [(c["eos"],["ideal_gas_radiation"]),
+         (c['numerics']['mesh'],['cosine','core_refined']),
++        (c['numerics']['nonlinear_solver'],['newton','hybr']),
+         (c["opacity"]["model"],["electron_scattering","table"]),
+         (c["boundary"]["inner"],["fixed_excision"]),
+         (c["boundary"]["thermal"],["grey","luminosity","insulated"]),
+diff --git a/src/qstars/eos.py b/src/qstars/eos.py
+index 9e029ea..b30c291 100644
+--- a/src/qstars/eos.py
++++ b/src/qstars/eos.py
+@@ -27,6 +27,16 @@ class IdealGasRadiation:
+         self.composition = composition
+         self.R = KB / (composition.mu * MU)
+ 
++    def thermal_contrast(self,rho,T,q):
++        """Stable adjacent dlnT - mean(nabla_ad)*dlnP near radiation dominance."""
++        lt=np.log1p(np.diff(T)/T[:-1])
++        lr=np.log1p(np.diff(rho)/rho[:-1])
++        beta=q['pg']/q['p']
++        one_minus_four_grad=-3*beta**2/(32-24*beta-3*beta**2)
++        grad=.5*(q['grad_ad'][:-1]+q['grad_ad'][1:])
++        gas_correction=np.log1p(beta[:-1]*np.expm1(lr-3*lt))
++        return .5*(one_minus_four_grad[:-1]+one_minus_four_grad[1:])*lt-grad*gas_correction
++
+     def evaluate(self, rho, T):
+         rho, T = np.asarray(rho), np.asarray(T)
+         if np.any(rho <= 0) or np.any(T <= 0):
+diff --git a/src/qstars/io.py b/src/qstars/io.py
+index d644dc3..d6e7f9b 100644
+--- a/src/qstars/io.py
++++ b/src/qstars/io.py
+@@ -47,7 +47,8 @@ def save_checkpoint(path,state,config):
+     # NPZ contains JSON strings, never pickled Python objects.
+     temporary=path.with_suffix(".tmp")
+     with temporary.open("wb") as f:
+-        np.savez_compressed(f,schema_version=1,time=state.time,bh_mass=state.bh_mass,dm=state.dm,r=state.r,v=state.v,T=state.T,
++        np.savez_compressed(f,schema_version=2,time=state.time,bh_mass=state.bh_mass,dm=state.dm,r=state.r,v=state.v,T=state.T,
++            cell_volume=state.volume,
+             ledger=json.dumps(state.ledger),steps=state.steps,next_dt=state.next_dt,config=json.dumps(config))
+         f.flush(); os.fsync(f.fileno())
+     temporary.replace(path)
+@@ -55,14 +56,18 @@ def save_checkpoint(path,state,config):
+ def load_checkpoint(path):
+     from .config import resolve
+     with np.load(path,allow_pickle=False) as f:
+-        if int(f["schema_version"])!=1: raise ValueError("Unsupported checkpoint schema")
++        if int(f["schema_version"]) not in (1,2): raise ValueError("Unsupported checkpoint schema")
+         state=State(float(f["time"]),float(f["bh_mass"]),f["dm"].copy(),f["r"].copy(),f["v"].copy(),f["T"].copy(),
+                     json.loads(str(f["ledger"])),int(f["steps"]),float(f["next_dt"]))
+         config=resolve(json.loads(str(f["config"])))
++        if int(f['schema_version']) == 2: state.cell_volume=f['cell_volume'].copy()
+     if not (len(state.r)==len(state.dm)+1==len(state.v) and len(state.T)==len(state.dm)):
+         raise ValueError("Malformed checkpoint dimensions")
+     if np.any(np.diff(state.r)<=0) or np.any(state.dm<=0) or np.any(state.T<=0):
+         raise ValueError("Invalid checkpoint physical state")
++    geometric_volume=4*PI/3*np.diff(state.r)*(state.r[1:]**2+state.r[1:]*state.r[:-1]+state.r[:-1]**2)
++    if state.volume.shape != state.dm.shape or np.any(state.volume<=0) or not np.allclose(state.volume,geometric_volume,rtol=1e-8,atol=0):
++        raise ValueError('Checkpoint volume and geometry disagree')
+     return state,config
+ 
+ def history_row(state,eos,opacity,config):
+diff --git a/src/qstars/mesh.py b/src/qstars/mesh.py
+index 58087d9..3edd4b4 100644
+--- a/src/qstars/mesh.py
++++ b/src/qstars/mesh.py
+@@ -16,6 +16,7 @@ def remap(state,new_dm,eos):
+     V = overlap@(state.volume/state.dm)
+     out = state.copy()
+     out.dm = new_dm.copy()
++    out.cell_volume = V.copy()
+     out.r = np.r_[state.r[0],np.cbrt(state.r[0]**3+3*np.cumsum(V)/(4*PI))]
+     out.r[-1] = state.r[-1]
+     out.v = np.interp(b,a,state.v)
+diff --git a/src/qstars/numerics.py b/src/qstars/numerics.py
+index bad1f40..4898561 100644
+--- a/src/qstars/numerics.py
++++ b/src/qstars/numerics.py
+@@ -9,6 +9,7 @@ from scipy.optimize import root
+ from .constants import G,PI
+ from .transport import luminosities
+ from .mass_transport import DomainError
++from .nonlinear import newton
+ 
+ class StepRejected(RuntimeError):
+     pass
+@@ -29,9 +30,10 @@ def thermal_mechanical_step(old,dt,eos,opacity,config,luminosity):
+         state.T = old.T*np.exp(np.clip(x[n:],-100,100))
+         if np.any(np.diff(state.r) <= 0):
+             return np.full(2*n,1e10)+x
++        area = 4*PI/3*(state.r**2+state.r*old.r+old.r**2)
++        state.cell_volume = old.volume+np.diff(area*(dt*vm))
+         q = eos.evaluate(state.rho,state.T)
+         p = .5*(q["p"]+q0["p"])
+-        area = 4*PI/3*(state.r**2+state.r*old.r+old.r**2)
+         pressure_force = area[1:]*(p-np.r_[p[1:],pext])/old.weights[1:]
+         gravity = G*old.enclosed[1:]/(state.r[1:]*old.r[1:])
+         momentum = (2*(vm[1:]-old.v[1:])/dt-pressure_force+gravity)/g[1:]
+@@ -42,7 +44,10 @@ def thermal_mechanical_step(old,dt,eos,opacity,config,luminosity):
+         last.update(state=state,L=L,details=details)
+         return np.r_[momentum,energy]
+     initial = np.r_[old.v[1:]/cs[1:],np.zeros(n)]
+-    sol = root(residual,initial,method="hybr",options={"xtol":config["numerics"]["solver_tolerance"],"maxfev":30*(2*n+1)})
++    if config['numerics']['nonlinear_solver']=='newton':
++        sol = newton(residual,initial,config['numerics']['solver_tolerance'])
++    else:
++        sol = root(residual,initial,method="hybr",options={"xtol":config["numerics"]["solver_tolerance"],"maxfev":30*(2*n+1)})
+     error = float(max(abs(residual(sol.x))))
+     if not np.isfinite(error) or error > config["numerics"]["solver_tolerance"]*10:
+         raise StepRejected(f"Coupled solve residual={error:g}; {sol.message}")
+diff --git a/src/qstars/state.py b/src/qstars/state.py
+index 2f405ee..09a45c8 100644
+--- a/src/qstars/state.py
++++ b/src/qstars/state.py
+@@ -14,13 +14,15 @@ class State:
+     ledger: dict = field(default_factory=dict)
+     steps: int = 0
+     next_dt: float = 0.
++    cell_volume: np.ndarray | None = None
+ 
+     def copy(self):
+         return copy.deepcopy(self)
+ 
+     @property
+     def volume(self):
+-        return 4*PI/3*np.diff(self.r**3)
++        if self.cell_volume is not None: return self.cell_volume
++        return 4*PI/3*np.diff(self.r)*(self.r[1:]**2+self.r[1:]*self.r[:-1]+self.r[:-1]**2)
+ 
+     @property
+     def rho(self):
+diff --git a/src/qstars/structure.py b/src/qstars/structure.py
+index 2c6206b..cb04aba 100644
+--- a/src/qstars/structure.py
++++ b/src/qstars/structure.py
+@@ -36,6 +36,7 @@ def initialize(config,eos):
+     if not sol.success or err > 1e-8:
+         raise RuntimeError(f"Hydrostatic initialization failed: residual {err:g}")
+     state.r,rho,p = unpack(sol.x)
++    state.cell_volume = dm/rho
+     state.T = eos.temperature(rho,p,"p")
+     perturb = c["temperature_perturbation"]
+     state.T *= 1+perturb*np.exp(-((q[:-1]+q[1:])/2-c["perturbation_mass_center"])**2/
+diff --git a/src/qstars/transport.py b/src/qstars/transport.py
+index 5de813b..e7a2f1c 100644
+--- a/src/qstars/transport.py
++++ b/src/qstars/transport.py
+@@ -11,7 +11,8 @@ def luminosities(state,eos,opacity,config,inner_luminosity):
+     n = len(state.dm)
+     q = eos.evaluate(state.rho,state.T)
+     kap = opacity(state.rho,state.T)
+-    rad,conv = np.zeros(n+1),np.zeros(n+1)
++    dtype = np.result_type(state.T, state.r)
++    rad,conv = np.zeros(n+1,dtype=dtype),np.zeros(n+1,dtype=dtype)
+     rho = .5*(state.rho[1:]+state.rho[:-1])
+     k = .5*(kap[1:]+kap[:-1])
+     radius = state.r[1:-1]
+@@ -30,7 +31,8 @@ def luminosities(state,eos,opacity,config,inner_luminosity):
+         length = config["transport"]["mixing_length_alpha"]*hp
+         # Discrete entropy contrast: using an independently differenced Hp here
+         # spuriously destabilizes an exact P~T^4 polytrope on a coarse mesh.
+-        excess = np.maximum(-hp*(np.diff(np.log(state.T))-grad_ad*np.diff(np.log(q["p"])))/dr,0)
++        contrast=eos.thermal_contrast(state.rho,state.T,q)
++        excess = np.maximum(-hp*contrast/dr,0)
+         velocity = np.sqrt(g*delta/(8*hp))*length*np.sqrt(excess)
+         flux = rho*cp*T*velocity*length/(2*hp)*excess
+         saturation = flux/(p*cs)

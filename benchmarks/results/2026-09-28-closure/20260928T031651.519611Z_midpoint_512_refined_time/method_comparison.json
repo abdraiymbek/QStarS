@@ -1,0 +1,36 @@
+{
+  "compared_to": "results/20260928T030639.520967Z_robustness_validation/20260928T030759.174500Z_timestep_0p005",
+  "comparison": {
+    "interpolation_excluded_mass_fraction": 2.140737023426098e-06,
+    "fields": {
+      "density": {
+        "mass_overlap_log_L2": 0.00010148493419561624,
+        "interpolated_log_Linf": 0.007975787909369814,
+        "interpolated_mass_log_L2": 0.00010128781814987507
+      },
+      "temperature": {
+        "mass_overlap_log_L2": 3.367624019856104e-05,
+        "interpolated_log_Linf": 6.939605228595269e-05,
+        "interpolated_mass_log_L2": 3.3623184814808625e-05
+      },
+      "pressure": {
+        "mass_overlap_log_L2": 0.00013464357707552787,
+        "interpolated_log_Linf": 0.00040549069836615104,
+        "interpolated_mass_log_L2": 0.00013443012007181317
+      },
+      "specific_internal_energy": {
+        "mass_overlap_log_L2": 3.7957405007154214e-05,
+        "interpolated_log_Linf": 0.007642204425735599,
+        "interpolated_mass_log_L2": 3.787922274187866e-05
+      },
+      "radius": {
+        "mass_overlap_log_L2": 3.401547724892129e-05,
+        "interpolated_log_Linf": 3.4566447094874775e-05,
+        "interpolated_mass_log_L2": 3.397626926423578e-05
+      }
+    },
+    "entropy_difference_over_cv_Linf": 0.0024086603188708746
+  },
+  "common_end_time_years": 10.0,
+  "maximum_dt_years": 0.005
+}

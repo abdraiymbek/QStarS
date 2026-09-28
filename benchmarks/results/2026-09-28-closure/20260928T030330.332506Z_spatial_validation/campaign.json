@@ -1,0 +1,215 @@
+{
+  "scope": "Hot pressure-confined n=3 initialized envelope, finite thermal evolution and two streams",
+  "end_time_years": 10.0,
+  "max_dt_years": 0.02,
+  "rows": [
+    {
+      "zones": 256,
+      "path": "results/20260928T030330.332506Z_spatial_validation/20260928T030330.393439Z_log_radius_surface_256",
+      "initial_density_log_Linf": 0.0010734778129327107,
+      "initial_density_mass_log_L2": 0.00015529478270881375,
+      "numerical_kinetic_heating_erg": 2.8296564567703674e+41,
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 500,
+      "retries": 0,
+      "runtime_seconds": 12.53730149997864,
+      "process_peak_rss_MiB": 89.1875,
+      "final_time_years": 10.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": -9.44473296573929e+21,
+        "mass_residual_relative": -4.702721568923702e-16,
+        "energy_residual_erg": 7.33687569214558e+37,
+        "energy_residual_relative": 2.444883942655006e-16,
+        "energy_residual_relative_to_binding": 7.69456621891083e-15,
+        "energy_residual_relative_to_throughput": 1.0598812247487131e-13,
+        "engine_conversion_residual_erg": -1.2876896209166373e+36,
+        "internal": 3.009990515403549e+53,
+        "gravity": -3.105114825180702e+53,
+        "kinetic": 2.6265248824353467e+42,
+        "total": -9.512430975088763e+51
+      },
+      "final_comparison_to_finest": {
+        "interpolation_excluded_mass_fraction": 6.075688049445027e-06,
+        "fields": {
+          "density": {
+            "mass_overlap_log_L2": 0.013022005626746498,
+            "interpolated_log_Linf": 0.012213157477074077,
+            "interpolated_mass_log_L2": 0.0006763923771081228
+          },
+          "temperature": {
+            "mass_overlap_log_L2": 0.004322725991411702,
+            "interpolated_log_Linf": 0.0003045142630924147,
+            "interpolated_mass_log_L2": 0.00022758735033055446
+          },
+          "pressure": {
+            "mass_overlap_log_L2": 0.01729157838402015,
+            "interpolated_log_Linf": 0.0012172238999710316,
+            "interpolated_mass_log_L2": 0.0009095140098556646
+          },
+          "specific_internal_energy": {
+            "mass_overlap_log_L2": 0.004421489543464618,
+            "interpolated_log_Linf": 0.012315561895604787,
+            "interpolated_mass_log_L2": 0.00025487698516353535
+          },
+          "radius": {
+            "mass_overlap_log_L2": 0.0050425724553506066,
+            "interpolated_log_Linf": 0.00029752419496986704,
+            "interpolated_mass_log_L2": 0.00023669064823042971
+          }
+        },
+        "entropy_difference_over_cv_Linf": 0.004157127995513565
+      }
+    },
+    {
+      "zones": 512,
+      "path": "results/20260928T030330.332506Z_spatial_validation/20260928T030342.998401Z_log_radius_surface_512",
+      "initial_density_log_Linf": 0.0002683190190465543,
+      "initial_density_mass_log_L2": 3.8814843796953436e-05,
+      "numerical_kinetic_heating_erg": 2.8184133343634346e+41,
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 500,
+      "retries": 0,
+      "runtime_seconds": 22.283698165992973,
+      "process_peak_rss_MiB": 90.8125,
+      "final_time_years": 10.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": -7.083549724304468e+21,
+        "mass_residual_relative": -3.527041176692776e-16,
+        "energy_residual_erg": 2.1830089292072717e+38,
+        "energy_residual_relative": 7.274474374833615e-16,
+        "energy_residual_relative_to_binding": 2.289456478508212e-14,
+        "energy_residual_relative_to_throughput": 3.1535858885686436e-13,
+        "engine_conversion_residual_erg": -1.2876896209166373e+36,
+        "internal": 3.0099917604883004e+53,
+        "gravity": -3.1051151642200603e+53,
+        "kinetic": 2.622702347865435e+42,
+        "total": -9.51234037055329e+51
+      },
+      "final_comparison_to_finest": {
+        "interpolation_excluded_mass_fraction": 2.1325198840127513e-06,
+        "fields": {
+          "density": {
+            "mass_overlap_log_L2": 0.006373428947383196,
+            "interpolated_log_Linf": 0.0024747646149521074,
+            "interpolated_mass_log_L2": 0.0005921631249545399
+          },
+          "temperature": {
+            "mass_overlap_log_L2": 0.0021159025595015486,
+            "interpolated_log_Linf": 0.00022001775579916227,
+            "interpolated_mass_log_L2": 0.00019962653889076443
+          },
+          "pressure": {
+            "mass_overlap_log_L2": 0.00846391225455875,
+            "interpolated_log_Linf": 0.0008795891554527202,
+            "interpolated_mass_log_L2": 0.0007980245495596869
+          },
+          "specific_internal_energy": {
+            "mass_overlap_log_L2": 0.002164045793924134,
+            "interpolated_log_Linf": 0.0024954549801776693,
+            "interpolated_mass_log_L2": 0.00020701325207933584
+          },
+          "radius": {
+            "mass_overlap_log_L2": 0.0024662459451795537,
+            "interpolated_log_Linf": 0.00021905977694203216,
+            "interpolated_mass_log_L2": 0.0002025267105565494
+          }
+        },
+        "entropy_difference_over_cv_Linf": 0.00083817340565974
+      }
+    },
+    {
+      "zones": 1024,
+      "path": "results/20260928T030330.332506Z_spatial_validation/20260928T030405.344018Z_log_radius_surface_1024",
+      "initial_density_log_Linf": 6.707602450703379e-05,
+      "initial_density_mass_log_L2": 9.703134951852087e-06,
+      "numerical_kinetic_heating_erg": 2.8156026013241114e+41,
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 500,
+      "retries": 0,
+      "runtime_seconds": 51.04313054200611,
+      "process_peak_rss_MiB": 93.6875,
+      "final_time_years": 10.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": -2.3611832414348226e+21,
+        "mass_residual_relative": -1.1756803922309257e-16,
+        "energy_residual_erg": 8.855387247315615e+37,
+        "energy_residual_relative": 2.9508926937146937e-16,
+        "energy_residual_relative_to_binding": 9.287213094518935e-15,
+        "energy_residual_relative_to_throughput": 1.27925589495933e-13,
+        "engine_conversion_residual_erg": -1.2876896209166373e+36,
+        "internal": 3.009992169991384e+53,
+        "gravity": -3.1051153486655575e+53,
+        "kinetic": 2.6216874001851598e+42,
+        "total": -9.51231786479566e+51
+      },
+      "final_comparison_to_finest": {
+        "interpolation_excluded_mass_fraction": 8.398813331478294e-07,
+        "fields": {
+          "density": {
+            "mass_overlap_log_L2": 0.0028963400015766887,
+            "interpolated_log_Linf": 0.0005960358183703107,
+            "interpolated_mass_log_L2": 0.0005788672990294356
+          },
+          "temperature": {
+            "mass_overlap_log_L2": 0.0009619698178594441,
+            "interpolated_log_Linf": 0.00020062228531081416,
+            "interpolated_mass_log_L2": 0.00019482368671198705
+          },
+          "pressure": {
+            "mass_overlap_log_L2": 0.0038479524691542306,
+            "interpolated_log_Linf": 0.0008020854293775415,
+            "interpolated_mass_log_L2": 0.0007789057992777485
+          },
+          "specific_internal_energy": {
+            "mass_overlap_log_L2": 0.0009839038212898742,
+            "interpolated_log_Linf": 0.0002062442288774946,
+            "interpolated_mass_log_L2": 0.00020028365947742392
+          },
+          "radius": {
+            "mass_overlap_log_L2": 0.0011164863468810864,
+            "interpolated_log_Linf": 0.00019973449225929585,
+            "interpolated_mass_log_L2": 0.00019562829733171526
+          }
+        },
+        "entropy_difference_over_cv_Linf": 4.3348986348065065e-05
+      }
+    },
+    {
+      "zones": 2048,
+      "path": "results/20260928T030330.332506Z_spatial_validation/20260928T030456.446999Z_log_radius_surface_2048",
+      "initial_density_log_Linf": 1.6768714459737516e-05,
+      "initial_density_mass_log_L2": 2.425758203313078e-06,
+      "numerical_kinetic_heating_erg": 1.1677578195706788e+43,
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 2372,
+      "retries": 765,
+      "runtime_seconds": 513.0814720839844,
+      "process_peak_rss_MiB": 100.359375,
+      "final_time_years": 10.0,
+      "v1_validated": false,
+      "last_domain_rejection": "Boundary cell replacement exceeds 10%; reduce timestep",
+      "conservation": {
+        "mass_residual_g": -1.6528282690043758e+22,
+        "mass_residual_relative": -8.229762745616479e-16,
+        "energy_residual_erg": 9.150544579183604e+38,
+        "energy_residual_relative": 3.0492479373574635e-15,
+        "energy_residual_relative_to_binding": 9.596768911076417e-14,
+        "energy_residual_relative_to_throughput": 1.3222434527301613e-12,
+        "engine_conversion_residual_erg": -6.64613997892458e+35,
+        "internal": 3.010596877049339e+53,
+        "gravity": -3.105718175583505e+53,
+        "kinetic": 2.457531201968909e+42,
+        "total": -9.512129850959071e+51
+      }
+    }
+  ],
+  "complete": true,
+  "v1_validated": false
+}

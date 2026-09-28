@@ -1,0 +1,15 @@
+{
+  "version": "0.1.0",
+  "git_commit": "704d390925371cbd15bc555dea7aa4077abd0c22",
+  "git_status": "M README.md\n M benchmarks/manifest.yaml\n M docs/equations.md\n M docs/literature.md\n M docs/sources.md\n M docs/usage.md\n M scripts/build_registry.py\n M scripts/validate_robustness.py\n M scripts/validate_spatial.py\n M src/qstars/config.py\n M src/qstars/data/sources.json\n M src/qstars/evolution.py\n M src/qstars/io.py\n M src/qstars/mesh.py\n M src/qstars/numerics.py\n M src/qstars/reference.py\n M src/qstars/state.py\n M src/qstars/structure.py\n M src/qstars/transport.py\n M src/qstars/validation.py\n M src/qstars/validity.py\n M tests/test_convergence.py\n?? Reports/evidence/development_20260928/current_validity_audit.json\n?? benchmarks/fiacconi2016_advective_wind.yaml\n?? benchmarks/fiacconi2016_diffusion_wind.yaml\n?? benchmarks/fiacconi2016_figure4.csv\n?? benchmarks/fiacconi2016_figure4.json\n?? docs/model_families.md\n?? docs/validity.md\n?? scripts/digitize_wind_reference.py\n?? scripts/plot_spatial_validation.py\n?? scripts/validate_wind.py\n?? src/qstars/validation_metrics.py\n?? src/qstars/wind_reference.py\n?? tests/test_wind_reference.py",
+  "source_sha256": "24ad21364bd00fa90e66e3db40f591724bd9c0641daa3c13957561e934428764",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "created_utc": "2026-09-28T03:01:06.059374+00:00",
+  "dependencies": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.11.2"
+  }
+}

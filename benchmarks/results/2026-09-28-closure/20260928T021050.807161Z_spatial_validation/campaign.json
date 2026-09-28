@@ -1,0 +1,90 @@
+{
+  "scope": "Hot pressure-confined n=3 initialized envelope, finite thermal evolution and two streams",
+  "end_time_years": 10.0,
+  "max_dt_years": 0.02,
+  "rows": [
+    {
+      "zones": 256,
+      "path": "results/20260928T021050.807161Z_spatial_validation/20260928T021050.943261Z_log_radius_cosine_256",
+      "initial_density_log_Linf": 0.0013074389195482099,
+      "initial_density_mass_log_L2": 0.00027125306232302104,
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 504,
+      "retries": 2,
+      "runtime_seconds": 17.274078000016743,
+      "process_peak_rss_MiB": 94.109375,
+      "final_time_years": 10.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": -4.722366482869645e+21,
+        "mass_residual_relative": -2.351360784461851e-16,
+        "energy_residual_erg": 6.081073061487324e+38,
+        "energy_residual_relative": 2.0264138007889653e-15,
+        "energy_residual_relative_to_binding": 6.377537301096914e-14,
+        "energy_residual_relative_to_throughput": 8.787742216549909e-13,
+        "engine_conversion_residual_erg": -1.2876896209166373e+36,
+        "internal": 3.010801348139105e+53,
+        "gravity": -3.105923302617997e+53,
+        "kinetic": 7.716632516997819e+41,
+        "total": -9.512195447117508e+51
+      }
+    },
+    {
+      "zones": 512,
+      "path": "results/20260928T021050.807161Z_spatial_validation/20260928T021108.570307Z_log_radius_cosine_512",
+      "initial_density_log_Linf": 0.0003267523466987857,
+      "initial_density_mass_log_L2": 6.778585142289944e-05,
+      "status": "completed_requested_interval",
+      "reason": "requested end time reached within configured domain",
+      "accepted_steps_this_run": 643,
+      "retries": 120,
+      "runtime_seconds": 49.36144229199272,
+      "process_peak_rss_MiB": 128.953125,
+      "final_time_years": 10.0,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": 2.3611832414348226e+21,
+        "mass_residual_relative": 1.1756803922309254e-16,
+        "energy_residual_erg": 3.586110328546992e+38,
+        "energy_residual_relative": 1.1950056628564697e-15,
+        "energy_residual_relative_to_binding": 3.7609753105630587e-14,
+        "energy_residual_relative_to_throughput": 5.181923684762174e-13,
+        "engine_conversion_residual_erg": 5.399988732876221e+35,
+        "internal": 3.010736381322728e+53,
+        "gravity": -3.1058570512777897e+53,
+        "kinetic": 1.4932967319191458e+42,
+        "total": -9.512066994012888e+51
+      }
+    },
+    {
+      "zones": 1024,
+      "path": "results/20260928T021050.807161Z_spatial_validation/20260928T021159.175199Z_log_radius_cosine_1024",
+      "initial_density_log_Linf": 8.168318930903703e-05,
+      "initial_density_mass_log_L2": 1.6944751742557732e-05,
+      "status": "control_stop",
+      "reason": "configured wall time budget reached",
+      "accepted_steps_this_run": 2452,
+      "retries": 792,
+      "runtime_seconds": 600.6023537500005,
+      "process_peak_rss_MiB": 238.65625,
+      "final_time_years": 8.51303006267162,
+      "v1_validated": false,
+      "conservation": {
+        "mass_residual_g": -2.833419889721787e+22,
+        "mass_residual_relative": -1.4108164706771104e-15,
+        "energy_residual_erg": -1.9218799638387985e+39,
+        "energy_residual_relative": -6.404307428675525e-15,
+        "energy_residual_relative_to_binding": -2.015598847153104e-13,
+        "energy_residual_relative_to_throughput": -3.2619887811187774e-12,
+        "engine_conversion_residual_erg": 0.0,
+        "internal": 3.0094390172852314e+53,
+        "gravity": -3.104593986502949e+53,
+        "kinetic": 1.3178566352861865e+43,
+        "total": -9.515496908593177e+51
+      }
+    }
+  ],
+  "complete": true,
+  "v1_validated": false
+}

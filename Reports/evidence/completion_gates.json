@@ -1,13 +1,350 @@
 {
+  "schema_version": 2,
+  "assessment_date_utc": "2026-09-28",
+  "software_version": "0.1.0",
   "v1_complete": false,
-  "automated_tests_passed": 29,
+  "release_status": "DEVELOPMENT_NOT_V1",
+  "status_meanings": {
+    "PASS": "Evidence supports the stated scope only.",
+    "CONDITIONAL": "Bounded evidence exists; does not certify general use.",
+    "FAIL": "Required capability or validation missing or failing."
+  },
+  "automated_tests_passed": 52,
+  "automated_tests_failed": 0,
+  "optional_mesa_tests": 4,
+  "cli_validation": {
+    "checks": 31,
+    "passed": 29,
+    "failed": 2,
+    "require_v1_exit_code": 2,
+    "failures": [
+      "CB24 printed Ki_max",
+      "CB24 printed BH/inner mass"
+    ]
+  },
+  "source_registry_entries": 26,
   "published_full_evolution_replication": false,
-  "published_structure_replication": true,
-  "scientific_spatial_convergence": false,
+  "published_full_evolution_replicas": 0,
+  "published_structure_replication": "subset_passes_with_two_retained_printed_value_discrepancies",
+  "scientific_spatial_convergence": "controlled_hot_problem_only",
   "moving_inner_boundaries": false,
-  "ionization_microphysics": false,
+  "ionization_microphysics": "direct_MESA_with_excluded_states",
   "two_stream_effective_boundary": true,
   "finite_hot_envelope_thermal_evolution": true,
   "restart_retry_remap_controlled_tests": true,
-  "qsrd_demonstration": "deferred_until_framework_validated"
+  "qsrd_demonstration": "deferred_until_framework_validated",
+  "prioritized_gates": [
+    {
+      "priority": 1,
+      "name": "Spatial and nonlinear convergence",
+      "status": "CONDITIONAL",
+      "achieved": "Hot-envelope runs through 2048 zones complete. 1024/2048 profile error below 0.081%; 512/2048 below 0.251%; refined independent time methods agree below 0.81%.",
+      "remaining": "Production atmosphere/cavity/wind models untested. The 256-zone case fails 1% local energy-profile accuracy. Accepted timesteps vary across meshes.",
+      "evidence": [
+        "benchmarks/results/2026-09-28-verified-spatial/20260928T033503.024409Z_spatial_validation/campaign.json",
+        "benchmarks/results/2026-09-28-closure/20260928T030639.520967Z_robustness_validation/campaign.json",
+        "benchmarks/results/2026-09-28-closure/20260928T031651.519611Z_midpoint_512_refined_time/method_comparison.json",
+        "benchmarks/results/2026-09-28-closure/20260928T031253.242612Z_time_method_validation/campaign.json",
+        "benchmarks/results/2026-09-28-verified-spatial/20260928T033503.024409Z_spatial_validation/previous_campaign_comparison.json"
+      ]
+    },
+    {
+      "priority": 2,
+      "name": "Production microphysics",
+      "status": "FAIL",
+      "achieved": "Direct MESA 24.08.1 EOS, ionization and radiative opacity; separate conduction diagnostic; exact standalone Fortran agreement at 153 states; conserved ten-year envelope run.",
+      "remaining": "Five audited states fail the 1% first-law screen. Atmosphere, full convection and composition/stellar-evolution coupling remain unvalidated or absent.",
+      "evidence": [
+        "benchmarks/results/2026-09-28-closure/20260928T021532.646459Z_mesa_microphysics_validation/validation.json",
+        "benchmarks/results/2026-09-28-closure/20260928T030928.629959Z_mesa_hot_current_verification/termination.json",
+        "benchmarks/results/2026-09-28-closure/20260928T025423.972541Z_robustness_validation/campaign.json",
+        "benchmarks/results/2026-09-28-closure/20260928T030927.417120Z_mesa_data_inventory/inventory.json"
+      ]
+    },
+    {
+      "priority": 3,
+      "name": "Inner boundary and cavity",
+      "status": "FAIL",
+      "achieved": "Fixed-excision mass/entropy/enthalpy/potential-work/rest-mass accounting; sourced selectable engine luminosities; static Bondi and saturated families.",
+      "remaining": "No conservative moving physical cavity reservoir or alternative evolving published inner-flow families.",
+      "evidence": [
+        "docs/equations.md",
+        "docs/model_families.md",
+        "Reports/evidence/development_20260928/final_tests/result.json"
+      ]
+    },
+    {
+      "priority": 4,
+      "name": "Wind physics",
+      "status": "FAIL",
+      "achieved": "Independent feed/removal channels and launch/tiring energy debit; stationary advective wind ODE component and digitized profiles.",
+      "remaining": "Wind is not coupled to evolving atmosphere/envelope. Only 349/461 Figure 4 vertices satisfy the stated uncertainty band; full replication is not achieved.",
+      "evidence": [
+        "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json",
+        "docs/equations.md",
+        "Reports/evidence/development_20260928/final_tests/result.json"
+      ]
+    },
+    {
+      "priority": 5,
+      "name": "Multiple full published evolutions",
+      "status": "FAIL",
+      "achieved": "Several static limits and partial wind-profile comparison; target tables and pinned QUEST execution attempts preserved.",
+      "remaining": "Zero complete published quasi-star evolutionary tracks reproduced. Radius, luminosity, temperature, BH/envelope growth, winds, lifetimes and profiles remain to be tested together.",
+      "evidence": [
+        "benchmarks/manifest.yaml",
+        "benchmarks/results/2026-09-28-closure/20260928T031903.825105Z_validation/validation.json",
+        "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json"
+      ]
+    },
+    {
+      "priority": 6,
+      "name": "Cross-validation without retuning",
+      "status": "FAIL",
+      "achieved": "Implemented alternatives, coefficients and disagreements are explicit.",
+      "remaining": "No cross-paper evolutionary prediction without retuning has passed.",
+      "evidence": [
+        "src/qstars/data/sources.json",
+        "benchmarks/manifest.yaml",
+        "docs/model_families.md"
+      ]
+    },
+    {
+      "priority": 7,
+      "name": "Numerical robustness",
+      "status": "CONDITIONAL",
+      "achieved": "52 passing tests with MESA; hot timestep/tolerance/remap campaigns and bitwise restarts; transactional retry, fine-mesh remap and provenance regressions.",
+      "remaining": "Full production-family campaigns absent. MESA remap-threshold cases do not actually remap. Early campaigns predate unchanged-source guards.",
+      "evidence": [
+        "benchmarks/results/2026-09-28-closure/20260928T030639.520967Z_robustness_validation/campaign.json",
+        "benchmarks/results/2026-09-28-closure/20260928T025423.972541Z_robustness_validation/campaign.json",
+        "Reports/evidence/development_20260928/final_tests/result.json",
+        "docs/validity.md"
+      ]
+    },
+    {
+      "priority": 8,
+      "name": "Apple Silicon MacBook",
+      "status": "CONDITIONAL",
+      "achieved": "Fresh sequential CPU benchmarks: ten years, 512 analytic zones: 24.215 s / 88.9 MiB; 128 MESA zones: 31.293 s / 1045.4 MiB.",
+      "remaining": "Full published-track cost unknown; Linux MESA bridge unvalidated; development high-resolution timings include concurrent workloads.",
+      "evidence": [
+        "benchmarks/results/2026-09-28-closure/20260928T031938.396825Z_performance_validation/performance.json"
+      ]
+    },
+    {
+      "priority": 9,
+      "name": "QSRD readiness after independent v1",
+      "status": "FAIL",
+      "achieved": "Configuration-driven evolution and separate stream controls exist.",
+      "remaining": "Deferred until independent framework gates pass; no QSRD science campaign performed.",
+      "evidence": [
+        "docs/model_families.md",
+        "docs/validity.md"
+      ]
+    }
+  ],
+  "original_completion_criteria": [
+    {
+      "number": 1,
+      "name": "Equations and boundary conditions sourced or derived",
+      "status": "PASS",
+      "scope": "Implemented closures have derivations and references; this does not supply missing production closures.",
+      "priority_gate_links": [
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    {
+      "number": 2,
+      "name": "Mass and energy conserved to quantified tolerance",
+      "status": "CONDITIONAL",
+      "scope": "Tested resolved-domain equations pass; missing cavity/atmosphere prevent whole quasi-star certification.",
+      "priority_gate_links": [
+        3,
+        4,
+        7
+      ]
+    },
+    {
+      "number": 3,
+      "name": "Conservative retries, remeshing, restart and timesteps",
+      "status": "CONDITIONAL",
+      "scope": "Controlled hot regressions/campaigns pass; broader physical-model coverage remains.",
+      "priority_gate_links": [
+        7
+      ]
+    },
+    {
+      "number": 4,
+      "name": "Representative timestep and mesh convergence",
+      "status": "CONDITIONAL",
+      "scope": "Controlled hot internal profiles pass; general structures untested.",
+      "priority_gate_links": [
+        1,
+        7
+      ]
+    },
+    {
+      "number": 5,
+      "name": "Several independent published results reproduced",
+      "status": "FAIL",
+      "scope": "Static subsets pass; the clarified complete-evolution requirement fails.",
+      "priority_gate_links": [
+        5,
+        6
+      ]
+    },
+    {
+      "number": 6,
+      "name": "Prescriptions explicit and traceable",
+      "status": "PASS",
+      "scope": "Implemented families and disagreements are documented; missing evolving families remain failures under priority 3.",
+      "priority_gate_links": [
+        3,
+        6
+      ]
+    },
+    {
+      "number": 7,
+      "name": "Thermal quasi-star evolution through time",
+      "status": "CONDITIONAL",
+      "scope": "Finite thermal evolution with BH growth works in restricted envelopes; full lifecycle unverified.",
+      "priority_gate_links": [
+        2,
+        5
+      ]
+    },
+    {
+      "number": 8,
+      "name": "Independent effective feeding and wind",
+      "status": "CONDITIONAL",
+      "scope": "Separate stream accounting works; self-consistent wind/atmosphere coupling is missing.",
+      "priority_gate_links": [
+        4
+      ]
+    },
+    {
+      "number": 9,
+      "name": "Identify breakdown of assumptions",
+      "status": "CONDITIONAL",
+      "scope": "Domain exits and numerical failures are distinct; current screens do not prove all production-model validity.",
+      "priority_gate_links": [
+        2,
+        7
+      ]
+    },
+    {
+      "number": 10,
+      "name": "Reproducibility from inputs and version",
+      "status": "CONDITIONAL",
+      "scope": "Fresh runs freeze/verify source and hash MESA dependencies; older campaigns need chronology and fresh confirmation.",
+      "priority_gate_links": [
+        7
+      ]
+    },
+    {
+      "number": 11,
+      "name": "Useful individual MacBook runs",
+      "status": "CONDITIONAL",
+      "scope": "Controlled runs fit; full published-track costs unknown.",
+      "priority_gate_links": [
+        8
+      ]
+    },
+    {
+      "number": 12,
+      "name": "External QSRD configuration",
+      "status": "FAIL",
+      "scope": "Deferred by the independent-v1 prerequisite.",
+      "priority_gate_links": [
+        9
+      ]
+    }
+  ],
+  "quantitative_thresholds": [
+    {
+      "quantity": "interior profile convergence",
+      "threshold": 0.01,
+      "units": "relative",
+      "reason": "Explicit controlled-model numerical accuracy target, not observational or evolutionary validation. Include internal fields, covered mass, whole-mass norms and time refinement."
+    },
+    {
+      "quantity": "controlled ledger validation",
+      "threshold": 1e-08,
+      "units": "mass / initial total mass; energy / initial internal energy",
+      "reason": "Well below 1% profile target. Also publish binding and throughput normalization; this is execution accuracy, not closure validation."
+    },
+    {
+      "quantity": "MESA first-law defect",
+      "threshold": 0.01,
+      "units": "normalized identity residual",
+      "reason": "Independent thermodynamic consistency screen; not a percent-level accuracy claim."
+    },
+    {
+      "quantity": "radiation gradient Knudsen number",
+      "threshold": 0.1,
+      "units": "dimensionless",
+      "reason": "Diffusion needs mean free path small relative to radiation-gradient scale; cell optical depth alone is not a convergence test."
+    },
+    {
+      "quantity": "lossless convective Peclet number",
+      "threshold": 100,
+      "units": "dimensionless",
+      "reason": "Small radiative losses required when convection exceeds 1% of flux."
+    },
+    {
+      "quantity": "volume / radius geometry consistency",
+      "threshold": 1e-08,
+      "units": "relative",
+      "reason": "Independent roundoff-control invariant; failure is numerical, not physical."
+    }
+  ],
+  "validity_boundary": {
+    "inappropriate_in_1d": [
+      "Resolving simultaneous multidimensional inflow/outflow geometry; use explicit effective averaged streams."
+    ],
+    "not_waived": [
+      "Moving cavity conservation",
+      "Production atmosphere and wind coupling",
+      "Multiple published evolutionary replicas",
+      "Cross-paper prediction"
+    ],
+    "remaining_failures_not_declared_physically_impossible": true
+  },
+  "evidence": {
+    "spatial": "benchmarks/results/2026-09-28-verified-spatial/20260928T033503.024409Z_spatial_validation/campaign.json",
+    "robustness": "benchmarks/results/2026-09-28-closure/20260928T030639.520967Z_robustness_validation/campaign.json",
+    "methods": "benchmarks/results/2026-09-28-closure/20260928T031651.519611Z_midpoint_512_refined_time/method_comparison.json",
+    "method_campaign": "benchmarks/results/2026-09-28-closure/20260928T031253.242612Z_time_method_validation/campaign.json",
+    "mesa_audit": "benchmarks/results/2026-09-28-closure/20260928T021532.646459Z_mesa_microphysics_validation/validation.json",
+    "mesa_current": "benchmarks/results/2026-09-28-closure/20260928T030928.629959Z_mesa_hot_current_verification/termination.json",
+    "mesa_robustness": "benchmarks/results/2026-09-28-closure/20260928T025423.972541Z_robustness_validation/campaign.json",
+    "mesa_data": "benchmarks/results/2026-09-28-closure/20260928T030927.417120Z_mesa_data_inventory/inventory.json",
+    "wind": "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json",
+    "cli": "benchmarks/results/2026-09-28-closure/20260928T031903.825105Z_validation/validation.json",
+    "performance": "benchmarks/results/2026-09-28-closure/20260928T031938.396825Z_performance_validation/performance.json",
+    "tests": "Reports/evidence/development_20260928/final_tests/result.json",
+    "sources": "src/qstars/data/sources.json",
+    "published_suite": "benchmarks/manifest.yaml",
+    "validity": "docs/validity.md",
+    "families": "docs/model_families.md",
+    "equations": "docs/equations.md",
+    "spatial_repeat_comparison": "benchmarks/results/2026-09-28-verified-spatial/20260928T033503.024409Z_spatial_validation/previous_campaign_comparison.json"
+  },
+  "provenance_caveat": "Earlier exploratory campaigns need first snapshots and chronology. All four fresh spatial cases verify unchanged sources and exactly reproduce previous states and ledgers bitwise. Fresh final tests, robustness, independent-method, MESA confirmation and performance also verify unchanged sources. All original local runs remain intact.",
+  "deliverables": {
+    "working_general_purpose_v1": "NOT_DELIVERED",
+    "working_development_software": "DELIVERED",
+    "validation_report": "docs/validation.md",
+    "published_benchmark_suite": "PARTIAL; missing full tracks explicit in manifest",
+    "regression_suite": "52 passing with MESA",
+    "model_families": "docs/model_families.md",
+    "performance_report": "docs/performance.md",
+    "source_registry": "src/qstars/data/sources.json",
+    "validity_domain": "docs/validity.md",
+    "gate_matrix": "Reports/evidence/completion_gates.json"
+  }
 }

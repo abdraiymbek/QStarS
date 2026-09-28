@@ -1,0 +1,407 @@
+{
+  "files": [
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/checkpoint.npz",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/checkpoint.npz",
+      "original_sha256": "f43dae940a2458ef9e6116464498c7f7d0be75811a9a59ec09c285524f9d37ae",
+      "bytes": 19609,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/config.yaml",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/config.yaml",
+      "original_sha256": "f6ec5495a4d3151ee8f72c2458d0d2527f93b394b1f4c9f1409651738179734a",
+      "bytes": 1642,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/events.jsonl",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/events.jsonl.gz",
+      "original_sha256": "3942504f0c8a84a5c3fc38dbf940ed8a3a945eb8225a3da0061abf5cd516ca36",
+      "bytes": 699668,
+      "compressed": true
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/history.csv",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/history.csv",
+      "original_sha256": "3ab61087fed6da9731280e283b8c32056a86eb70d9d167e695faf621b43383b8",
+      "bytes": 485634,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/metadata.json",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/metadata.json",
+      "original_sha256": "2e69e3a31d4ad5f952f1c5a463c2ece314cc38ee36a210c3e4c7e9cd67bf276f",
+      "bytes": 1137,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/profile_0000000.npz",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/profile_0000000.npz",
+      "original_sha256": "88d46391a673b909b9d9cbe11705c8a99c95dc95fc7fa6ac9b921c3155da93aa",
+      "bytes": 26771,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/profile_0000500.npz",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/profile_0000500.npz",
+      "original_sha256": "06ca31228765aa2d0bead61a9e90461fc9dac505c0d23ecded9573de2a115991",
+      "bytes": 31401,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/source_prescriptions.json",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/source_prescriptions.json",
+      "original_sha256": "e6df284c2a5782707d327674a41bbdb8dc949df3238a683e7163c5cbb04b69fe",
+      "bytes": 22248,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/source_snapshot.zip",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/source_snapshot.zip",
+      "original_sha256": "ddab3f6ca57126e8ee4694fcde5ac0022a6f471b529ad6118ad850e55de2390c",
+      "bytes": 53222,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/termination.json",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/termination.json",
+      "original_sha256": "a39569a5e9f74f51e1ef7679865284ab25f5958caaf663b2021de6d98e31f03e",
+      "bytes": 910,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/validity_warnings.json",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/validity_warnings.json",
+      "original_sha256": "a0d9ab2c0e35ce74b4a54bf20b894899b6225dc3f7545507fee064bc13e67894",
+      "bytes": 735,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/working_tree.diff",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/working_tree.diff",
+      "original_sha256": "575e3dbe013d885eeadead306468a4643ae3bd8103ec8f597186fe4fa7ea5e60",
+      "bytes": 47314,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/checkpoint.npz",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/checkpoint.npz",
+      "original_sha256": "e20a7d009c95fe8e9e1b7f07022f1c5c8a6e533c05fd08c79541849a6712d3bb",
+      "bytes": 33964,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/config.yaml",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/config.yaml",
+      "original_sha256": "8da67e77a480cc54446c8e2909f68606a680df21a2b0bf76914ebc2235db6700",
+      "bytes": 1642,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/events.jsonl",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/events.jsonl.gz",
+      "original_sha256": "a6dc5cffd2b06146a553816a7bc333ea92a12af84849ef54a3fbe670b0380b85",
+      "bytes": 699780,
+      "compressed": true
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/history.csv",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/history.csv",
+      "original_sha256": "3cc304e507f71c76f87fd7906d3f2ca7d8f0854e99ab030f5d18162b0ab83adc",
+      "bytes": 490230,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/metadata.json",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/metadata.json",
+      "original_sha256": "070ec8e0983a654e4d6f6d4ee56866c16fbe2fd42702d7350328e29e48561a32",
+      "bytes": 1137,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/profile_0000000.npz",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/profile_0000000.npz",
+      "original_sha256": "c77e83eb16f034ce5562467fe09c0ea868b4ce22b78d477fd83157f7b8070fb7",
+      "bytes": 49142,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/profile_0000500.npz",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/profile_0000500.npz",
+      "original_sha256": "a0d997f0a6a075ab934a287f4a83c27c816c923102bdb958bbc0e82df23d958f",
+      "bytes": 58281,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/source_prescriptions.json",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/source_prescriptions.json",
+      "original_sha256": "e6df284c2a5782707d327674a41bbdb8dc949df3238a683e7163c5cbb04b69fe",
+      "bytes": 22248,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/source_snapshot.zip",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/source_snapshot.zip",
+      "original_sha256": "4b6ae33c46d5bf77eb6aa2b3314157ccc4a755a8e4ca93c10097cf1d29dfe09f",
+      "bytes": 53222,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/termination.json",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/termination.json",
+      "original_sha256": "a99a90e46a4aca91776f9c990e2527244ffadd141491789d36ced1b3aa8cd82c",
+      "bytes": 915,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/validity_warnings.json",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/validity_warnings.json",
+      "original_sha256": "a0d9ab2c0e35ce74b4a54bf20b894899b6225dc3f7545507fee064bc13e67894",
+      "bytes": 735,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/working_tree.diff",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/working_tree.diff",
+      "original_sha256": "575e3dbe013d885eeadead306468a4643ae3bd8103ec8f597186fe4fa7ea5e60",
+      "bytes": 47314,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/checkpoint.npz",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/checkpoint.npz",
+      "original_sha256": "26a3b5606ea30521150aa85ac61280f70dc3b11674f9a5bb7a49408fb62ff3ec",
+      "bytes": 51299,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/config.yaml",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/config.yaml",
+      "original_sha256": "f86968ad05a0bd79131dad89573a28e6ba1d0bc92e38f34a41d958c6624b4f98",
+      "bytes": 1644,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/events.jsonl",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/events.jsonl.gz",
+      "original_sha256": "1e5cc122f7531f2a66d1e2b2476ca43fc60ca95c49c99db2427e547bfbbc6cc7",
+      "bytes": 700166,
+      "compressed": true
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/history.csv",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/history.csv",
+      "original_sha256": "539d23ec30ce1396ab09d19330dee2192ba077f474cdec5dea742b2afe2c35ca",
+      "bytes": 493853,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/metadata.json",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/metadata.json",
+      "original_sha256": "566f2dae971676ff94c261494f0058aab3341cf41331e12295509eba707aa1d3",
+      "bytes": 1137,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/profile_0000000.npz",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/profile_0000000.npz",
+      "original_sha256": "78200264485da6d67cb3bbaf8d7402b9b1cb9d957ebcecb62f4eff8b4681cef4",
+      "bytes": 92789,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/profile_0000500.npz",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/profile_0000500.npz",
+      "original_sha256": "13a61f0920d57342d339f78dede408871094c0132351cce97b991424dea76d01",
+      "bytes": 110081,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/source_prescriptions.json",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/source_prescriptions.json",
+      "original_sha256": "e6df284c2a5782707d327674a41bbdb8dc949df3238a683e7163c5cbb04b69fe",
+      "bytes": 22248,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/source_snapshot.zip",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/source_snapshot.zip",
+      "original_sha256": "d8413c156be1320cf1c88824763604f05b276963c6c589b6a03a4dcaf46b6c6e",
+      "bytes": 53222,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/termination.json",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/termination.json",
+      "original_sha256": "c9f0674ee04e58f723e653feac837dd5cd2e9bafb3059a76055b9d4c897bba6c",
+      "bytes": 915,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/validity_warnings.json",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/validity_warnings.json",
+      "original_sha256": "a0d9ab2c0e35ce74b4a54bf20b894899b6225dc3f7545507fee064bc13e67894",
+      "bytes": 735,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/working_tree.diff",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/working_tree.diff",
+      "original_sha256": "575e3dbe013d885eeadead306468a4643ae3bd8103ec8f597186fe4fa7ea5e60",
+      "bytes": 47314,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/checkpoint.npz",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/checkpoint.npz",
+      "original_sha256": "58572fe22a1a1df6fcb83bfd34e13c90f7b6b9b554aa2a3dd72a41124ea2a5dc",
+      "bytes": 120256,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/config.yaml",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/config.yaml",
+      "original_sha256": "64eb4a3004d18b25be7eabeed0679d6b9c35e91dbef7c6f9a9561c009c78430c",
+      "bytes": 1644,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/events.jsonl",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/events.jsonl.gz",
+      "original_sha256": "4a3e77eefa42071516521e372a567eec4776fdc534b92179c513ee557b54703c",
+      "bytes": 3472689,
+      "compressed": true
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/history.csv",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/history.csv",
+      "original_sha256": "61cf54eb108b369870f63a51af9d7f516b5413fa578b8dc3597428694423aa4a",
+      "bytes": 2389540,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/metadata.json",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/metadata.json",
+      "original_sha256": "77c5c82c761c343c7149dae5a4b41582ba59efe92e0ca4a84e139801ba21530d",
+      "bytes": 1137,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0000000.npz",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0000000.npz",
+      "original_sha256": "c58e78d8992e172e21cb71e89e61189138a2939991bfee4d3555c60037317a09",
+      "bytes": 180315,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0002372.npz",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0002372.npz",
+      "original_sha256": "ff47c2952b1c2f2211f1e6db17eb9d88721f9c6e1884b40aa891e2bd92f976b7",
+      "bytes": 217734,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/source_prescriptions.json",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/source_prescriptions.json",
+      "original_sha256": "e6df284c2a5782707d327674a41bbdb8dc949df3238a683e7163c5cbb04b69fe",
+      "bytes": 22248,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/source_snapshot.zip",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/source_snapshot.zip",
+      "original_sha256": "a6e3e57f8959f6fe4e25db990fb26d6188d09f5e99d047830d6b91b99328ebe9",
+      "bytes": 53222,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/termination.json",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/termination.json",
+      "original_sha256": "f49a8f6c78b6d2930d06b8af64a3c1128b0a24e4aa078aae2abb50bc4d691baa",
+      "bytes": 917,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/validity_warnings.json",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/validity_warnings.json",
+      "original_sha256": "a0d9ab2c0e35ce74b4a54bf20b894899b6225dc3f7545507fee064bc13e67894",
+      "bytes": 735,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/working_tree.diff",
+      "archived": "20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/working_tree.diff",
+      "original_sha256": "575e3dbe013d885eeadead306468a4643ae3bd8103ec8f597186fe4fa7ea5e60",
+      "bytes": 47314,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/campaign.json",
+      "archived": "20260928T033503.024409Z_spatial_validation/campaign.json",
+      "original_sha256": "68d9367c546c0e79968d4d4bd825a533b61977a3ea4887ce1745bd2f7229498e",
+      "bytes": 9472,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/continuum.npz",
+      "archived": "20260928T033503.024409Z_spatial_validation/continuum.npz",
+      "original_sha256": "b82123685c00952e64c7b2a23854b27f13524de807830cde2ce92cbda9bde311",
+      "bytes": 627791,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/previous_campaign_comparison.json",
+      "archived": "20260928T033503.024409Z_spatial_validation/previous_campaign_comparison.json",
+      "original_sha256": "96b13d18ae5801bae499cc4b9ef92da05bd89bb7b6f1a2601aabdd4e800e0c70",
+      "bytes": 3239,
+      "compressed": false
+    },
+    {
+      "original": "results/20260928T033503.024409Z_spatial_validation/spatial_validation.png",
+      "archived": "20260928T033503.024409Z_spatial_validation/spatial_validation.png",
+      "original_sha256": "daba968870877873ac24f646d134faaa72333bc6799b076d1c3fcd52f4898bcb",
+      "bytes": 241763,
+      "compressed": false
+    }
+  ],
+  "omitted": [
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/profile_0000100.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/profile_0000200.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/profile_0000300.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033503.083504Z_log_radius_surface_256/profile_0000400.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/profile_0000100.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/profile_0000200.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/profile_0000300.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033515.776724Z_log_radius_surface_512/profile_0000400.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/profile_0000100.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/profile_0000200.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/profile_0000300.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033538.589451Z_log_radius_surface_1024/profile_0000400.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0000100.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0000200.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0000300.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0000400.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0000500.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0000600.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0000700.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0000800.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0000900.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0001000.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0001100.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0001200.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0001300.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0001400.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0001500.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0001600.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0001700.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0001800.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0001900.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0002000.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0002100.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0002200.npz",
+    "results/20260928T033503.024409Z_spatial_validation/20260928T033631.566900Z_log_radius_surface_2048/profile_0002300.npz"
+  ],
+  "scope": "Selected complete histories, ledgers, checkpoints and source snapshots; first/final profiles. Original results remain intact.",
+  "omitted_upstream_assets": "Source commit/input hashes identify separately installed MESA and cached QUEST; no upstream binaries or full stellar source redistributed."
+}

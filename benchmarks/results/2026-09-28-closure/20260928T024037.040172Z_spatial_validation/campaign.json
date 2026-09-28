@@ -1,0 +1,37 @@
+{
+  "scope": "Hot pressure-confined n=3 initialized envelope, finite thermal evolution and two streams",
+  "end_time_years": 10.0,
+  "max_dt_years": 0.02,
+  "rows": [
+    {
+      "zones": 2048,
+      "path": "results/20260928T024037.040172Z_spatial_validation/20260928T024037.099609Z_log_radius_cosine_2048",
+      "initial_density_log_Linf": 2.045895269676672e-05,
+      "initial_density_mass_log_L2": 4.236078114203739e-06,
+      "status": "numerical_failure",
+      "reason": "Stored cell volumes disagree with radial geometry",
+      "accepted_steps_this_run": 206,
+      "retries": 71,
+      "runtime_seconds": 77.3009036250005,
+      "process_peak_rss_MiB": 166.671875,
+      "final_time_years": 0.17971932219337933,
+      "v1_validated": false,
+      "last_domain_rejection": "Boundary cell replacement exceeds 10%; reduce timestep",
+      "conservation": {
+        "mass_residual_g": -1.1805916207174113e+22,
+        "mass_residual_relative": -5.878401961154626e-16,
+        "energy_residual_erg": -2.8454434744375162e+38,
+        "energy_residual_relative": -9.481908791743687e-16,
+        "energy_residual_relative_to_binding": -2.9842008928387005e-14,
+        "energy_residual_relative_to_throughput": -2.2886799804167525e-11,
+        "engine_conversion_residual_erg": 1.298074214633707e+33,
+        "internal": 3.0012162892564208e+53,
+        "gravity": -3.096562376023701e+53,
+        "kinetic": 1.6791105368352123e+43,
+        "total": -9.534608659936911e+51
+      }
+    }
+  ],
+  "complete": true,
+  "v1_validated": false
+}

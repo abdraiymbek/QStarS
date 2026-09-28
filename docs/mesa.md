@@ -67,6 +67,21 @@ counterexamples. MESA documents the difficulty of combining inconsistent
 sources in its [EOS overview](https://docs.mesastar.org/en/24.08.1/eos/overview.html).
 No coefficients or table entries were adjusted to make the test pass.
 
+The saved dependency inventory hashes 8,135 files totaling 15,541,148,301 bytes
+in the installed composition, EOS, ionization and opacity data directories.
+This identifies files present in those directories, not a claim that every
+file was used by a particular model. Its compressed file manifest and directory
+scope are retained in the
+[inventory evidence](../benchmarks/results/2026-09-28-closure/20260928T030927.417120Z_mesa_data_inventory/inventory.json).
+MESA may use its existing table caches. The inventory and source audit do not
+assert that a library execution can never update a cache.
+
+A fresh final-source 128-zone, ten-year QStarS envelope run completes with
+energy residual 3.45e-11 of throughput. The separate MacBook benchmark records
+31.293 seconds and 1045.4 MiB peak RSS. This is a direct-microphysics envelope
+run, not a native MESA stellar-evolution track; see the
+[validation scope](validation.md) and [performance report](performance.md).
+
 ## Upstream stellar benchmarks
 
 `scripts/run_mesa_reference.py` builds isolated ordinary MESA or upstream

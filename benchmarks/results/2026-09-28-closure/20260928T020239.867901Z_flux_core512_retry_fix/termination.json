@@ -1,0 +1,23 @@
+{
+  "status": "model_domain_exit",
+  "reason": "Stored cell volumes disagree with radial geometry",
+  "accepted_steps_this_run": 420,
+  "retries": 149,
+  "runtime_seconds": 44.245156666991534,
+  "process_peak_rss_MiB": 111.09375,
+  "final_time_years": 0.004339343760367062,
+  "v1_validated": false,
+  "conservation": {
+    "mass_residual_g": 0.0,
+    "mass_residual_relative": 0.0,
+    "energy_residual_erg": -1.1682080949063983e+38,
+    "energy_residual_relative": -3.892880361443021e-16,
+    "energy_residual_relative_to_binding": -1.2251847838965046e-14,
+    "energy_residual_relative_to_throughput": -3.8445260815386884e-10,
+    "engine_conversion_residual_erg": -1.419768672255617e+32,
+    "internal": 3.0008832374280074e+53,
+    "gravity": -3.0962327166325364e+53,
+    "kinetic": 2.554084947808186e+41,
+    "total": -9.53494792019749e+51
+  }
+}

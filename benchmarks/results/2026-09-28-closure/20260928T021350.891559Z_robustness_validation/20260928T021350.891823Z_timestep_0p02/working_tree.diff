@@ -1,0 +1,713 @@
+diff --git a/.gitignore b/.gitignore
+index 9dc8d27..8b3a6c5 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -8,3 +8,5 @@ sources/cache/
+ .DS_Store
+ /dist/
+ /build/
++
++/backends/mesa/build*/
+diff --git a/docs/equations.md b/docs/equations.md
+index d55d627..2778ff3 100644
+--- a/docs/equations.md
++++ b/docs/equations.md
+@@ -149,3 +149,38 @@ New internal energy equals remapped total energy minus new gravity and kinetic
+ energy. Negative internal energy is rejected. Entropy and hydrostatic balance
+ can change and must be assessed. Refinement is optional, disabled by default,
+ and doubles zones on a cadence; it is not feature-sensitive research AMR.
++
++## Numerically equivalent inverse transport solve
++
++The default `newton_flux` method solves for face luminosities in addition to
++midpoint velocities and log temperatures. The energy equation therefore sees
++the same luminosity unknown from both adjoining cells. The closure is an
++algebraic inverse of the previously documented diffusion plus capped MLT law.
++Write `d = delta ln T - mean(nabla_ad) delta ln P`, and `D = -Hp*d/dr`.
++For a trial luminosity, solve the monotone radiative-plus-convective relation
++for D, then require `d + D*dr/Hp = 0`. Radiation uses the exact exponential
++T^4 contrast; convection retains its existing D^(3/2) coefficient and cap.
++Stable faces invert the pure radiative relation. No coefficients are fitted.
++This avoids amplifying temperature roundoff into large heat-flow residuals
++when convection is extremely efficient. Saved face luminosities are the
++converged unknowns. They are also saved in restart files.
++
++The block-local Jacobian uses complex-step differentiation in seven colors,
++checked against a full column-by-column Jacobian. This differentiates the
++active piece of a closure, so changes of convective branch still require a
++line search. Invalid geometry is rejected and cannot be a root of a penalty.
++`newton` (forward flux) and `hybr` remain explicit legacy solver choices.
++
++Cell volumes advance by the difference of exact secant face sweeps. Keeping
++these volumes avoids subtracting nearly equal cubed radii at every residual
++evaluation. The radial geometry remains an independently checked constraint:
++relative disagreement above 1e-8 is a numerical rejection. Checkpoints contain
++both representations. The mechanical work identity remains unchanged.
++
++Boundary-cell depletion triggers conservative overlap redistribution to the
++stored reference mass fractions. The default threshold is a 20% change in
++boundary-cell mass relative to its target; zero disables the trigger for
++historical experiments. This represents mesh motion, without a new mass or
++energy source. Remapping remains first order, records its entropy change, and
++must be included in spatial and timestep convergence studies. It is not a
++moving physical cavity.
+diff --git a/docs/sources.md b/docs/sources.md
+index 7a0fb5f..34f6cfc 100644
+--- a/docs/sources.md
++++ b/docs/sources.md
+@@ -162,9 +162,9 @@ This register distinguishes implemented laws, derived numerical identities, opti
+ 
+ - Status: `audited_backend_decision`
+ - Assumptions: Validated microphysics requires versioned EOS/opacity/atmosphere infrastructure
+-- Domain: MESA absent on available Mac; documented 20 GB installation and SDK dependencies
++- Domain: Existing MESA 24.08.1 and ARM SDK 24.7.1 recovered from earlier runtime; local build changes recorded
+ - Variables and units: Not applicable
+-- Interpretation: MESA is preferred for future full-envelope production fidelity. This development solver cannot replace MESA ionization microphysics. No production backend is claimed.
++- Interpretation: Direct EOS and opacity calls are implemented for fixed H/He composition. Stellar evolution, atmosphere, and moving cavity production gates remain open. Report 5 corrects the earlier absence claim.
+ - Implementation: `docs/mesa.md`
+ 
+ ## ideal_eos — Classical ideal-gas plus radiation thermodynamics
+@@ -244,3 +244,25 @@ This register distinguishes implemented laws, derived numerical identities, opti
+ - Interpretation: New internal energy is remapped total energy minus new discrete gravity and kinetic energies. Reject negative internal energy; log entropy changes.
+ - Implementation: `src/qstars/mesh.py`
+ 
++## mesa_microphysics — MESA 24.08.1 EOS and opacity public APIs
++
++[MESA 24.08.1 EOS and opacity public APIs](https://docs.mesastar.org/en/24.08.1/eos/overview.html) · eosDT_get, kap_get; eos_def quantity definitions; source commit 5c166bf174b477823a2ca0031c4f57210c8e67a8
++
++- Status: `implemented_direct_library_interface`
++- Assumptions: Fixed H1/He4 composition Z=0; default EOS blends and Type2 opacity with Zbase=0; matched electron state
++- Domain: Query rectangle rho=1e-14..1e3 g/cm3 and T=3000..1e8 K is only a bounding box. Reject neutral ideal backstop and first-law defect above 1 percent; no production atmosphere claim.
++- Variables and units: P erg/cm3, u erg/g, s erg/g/K, kappa cm2/g; derivatives with respect to natural logarithms
++- Interpretation: Versioned C ABI and Python interface cross-checked against separate Fortran process. Wide audit preserves failing blend states. Existing binary/build/table provenance must accompany each run.
++- Implementation: `backends/mesa/microphysics.f90; src/qstars/mesa_microphysics.py`
++
++## inverse_transport — Inverse radiative/convective flux solve
++
++[Inverse radiative/convective flux solve](https://docs.mesastar.org/en/24.08.1/) · Algebraic derivation in docs/equations.md, using existing diffusion and lossless MLT equations
++
++- Status: `derived_and_tested`
++- Assumptions: Same physical closure as forward flux; luminosities retained as nonlinear unknowns; active-piece complex-step derivatives
++- Domain: Smooth subsonic hot envelopes; transport validity unchanged by nonlinear method
++- Variables and units: L erg/s, logarithmic thermal contrast dimensionless
++- Interpretation: Solving thermal contrast from luminosity avoids ill conditioning near adiabatic stratification; no transport coefficient changed. Numerical reference is QStarS derivation, not copied MESA implementation.
++- Implementation: `src/qstars/transport.py; src/qstars/nonlinear.py`
++
+diff --git a/scripts/build_registry.py b/scripts/build_registry.py
+index f9f9543..7ab19e1 100644
+--- a/scripts/build_registry.py
++++ b/scripts/build_registry.py
+@@ -18,7 +18,7 @@ add('roman2026','Roman-Garza et al. (2026)','https://arxiv.org/abs/2603.21714','
+ add('begelman2026','Begelman & Dexter (2026)','https://arxiv.org/abs/2507.09085','Late-stage quasi-star structural and spectral discussion','audited_context','Saturated envelope assumptions and late BH-dominated evolution','Qualitative context; not a QStarS spectral prediction','CGS, solar mass where stated','Spectral interpretation requires atmosphere microphysics absent from this solver.','docs/literature.md')
+ add('atmosphere2026','Martins, Schaerer & Marques-Chaves (2026)','https://arxiv.org/abs/2605.12141','Abstract and atmosphere-model assumptions','audited_context','Expanding spherical non-LTE CMFGEN atmospheres','5000-12000 K atmosphere models; not interior LTE closure','T K, L solar luminosities','Grey flux temperature is not a synthetic spectrum or a validated wind photosphere.','docs/literature.md')
+ add('mesa_energy','MESA technical documentation, energy equation','https://docs.mesastar.org/en/latest/reference/controls.html#energy-eqn-option','dedt and eps_grav descriptions; MESA V section 3 Eq 8 cited there','audited_numerical_reference','Total-energy conservation and thermodynamic consistency are distinct from resolution convergence','Stellar evolution numerical practice','e erg/g, P dyn/cm^2, V_rho cm^3/g','Use independent energy residuals plus mesh/time convergence. The implementation derives its own spherical discrete work identity, not a transcription of MESA.','src/qstars/numerics.py; docs/equations.md')
+-add('mesa_install','MESA installation and upstream QUEST','https://docs.mesastar.org/en/latest/installation.html','Prerequisites, SDK, release pinning','audited_backend_decision','Validated microphysics requires versioned EOS/opacity/atmosphere infrastructure','MESA absent on available Mac; documented 20 GB installation and SDK dependencies','Not applicable','MESA is preferred for future full-envelope production fidelity. This development solver cannot replace MESA ionization microphysics. No production backend is claimed.','docs/mesa.md')
++add('mesa_install','MESA installation and upstream QUEST','https://docs.mesastar.org/en/latest/installation.html','Prerequisites, SDK, release pinning','audited_backend_decision','Validated microphysics requires versioned EOS/opacity/atmosphere infrastructure','Existing MESA 24.08.1 and ARM SDK 24.7.1 recovered from earlier runtime; local build changes recorded','Not applicable','Direct EOS and opacity calls are implemented for fixed H/He composition. Stellar evolution, atmosphere, and moving cavity production gates remain open. Report 5 corrects the earlier absence claim.','docs/mesa.md')
+ add('ideal_eos','Classical ideal-gas plus radiation thermodynamics','https://arxiv.org/abs/1107.3562','Dotan Eqs 21-23; first-law derivation in docs/equations.md','derived_and_tested','Nondegenerate fully ionized monatomic mixture in LTE; fixed composition','1e5 <= T <= 1e8 K, electron occupation < 0.1, Newtonian low compactness','P dyn/cm^2, u erg/g, s erg/g/K','Heat capacities, adiabatic exponents, and entropy derived consistently from the same EOS; arbitrary entropy zero explicitly fixed.','src/qstars/eos.py')
+ add('thomson','Electron-scattering opacity','https://arxiv.org/abs/0711.4078','Section 2.3; Thomson cross section times electrons per gram','derived_approximation','Fully ionized H/He mixture; scattering dominates; LTE/thermalization separately assumed','Hot diffuse envelope; no bound-free/free-free/negative hydrogen/line opacity','kappa=0.2(1+X) cm^2/g','No cool extrapolation admitted as validated physics. Optional external opacity tables strictly reject out-of-bounds values and require provenance.','src/qstars/opacity.py')
+ add('diffusion','Rosseland radiative diffusion','https://docs.mesastar.org/en/latest/reference/controls.html','Temperature-gradient controls; diffusion derivation in docs/equations.md','derived','Optically thick LTE; F=-ac/(3 kappa rho) grad(T^4)','Cell optical depth >=1; no resolved optically thin transfer','Flux erg/cm^2/s; luminosity erg/s','Backward-Euler diffusion shares exactly one flux per face; grey extrapolation is an optional outer closure.','src/qstars/transport.py')
+@@ -26,6 +26,8 @@ add('mlt_lossless','Optically thick lossless mixing-length limit','https://arxiv
+ add('compatible_work','Compatible spherical mechanical work','https://cnls.lanl.gov/~shashkov/papers/comp.pdf','Compatible differencing principle; QStarS derivation in docs/equations.md','derived','Fixed shell masses during mechanical substep; midpoint pressure and velocity; spherical gravity quadrature','Smooth subsonic flow; no shock validation','Total energy erg; nodal velocity cm/s','Secant area and 1/(r_new r_old) gravity produce exact work cancellation; no energy residual compensation. Article discovered as methodological background; full PDF not audited.','src/qstars/numerics.py')
+ add('two_stream','Conservative boundary source-cell closure','https://arxiv.org/abs/1509.07511','First-law open-system derivation; compare wind Eq 3','derived_optional_approximation','Separate mass sources/sinks at first/last cell; comoving mixing; supplied enthalpy and entropy specified','Effective 1D boundary mixing; unresolved geometry, shocks, inflow momentum','Mass g, enthalpy erg/g, entropy erg/g/K','Differentiate discrete gravitational energy for boundary potential flux; central-potential work is separately recorded. Wind escape cost debits outward light once.','src/qstars/mass_transport.py')
+ add('remapping','Conservative overlap remapping','https://cnls.lanl.gov/~shashkov/papers/comp.pdf','QStarS finite-volume derivation in docs/equations.md','derived','Piecewise constant volume and total specific energy in mass coordinates','Smooth resolved states; remap changes entropy and hydrostatic residual','Mass g, volume cm^3, energy erg','New internal energy is remapped total energy minus new discrete gravity and kinetic energies. Reject negative internal energy; log entropy changes.','src/qstars/mesh.py')
++add('mesa_microphysics','MESA 24.08.1 EOS and opacity public APIs','https://docs.mesastar.org/en/24.08.1/eos/overview.html','eosDT_get, kap_get; eos_def quantity definitions; source commit 5c166bf174b477823a2ca0031c4f57210c8e67a8','implemented_direct_library_interface','Fixed H1/He4 composition Z=0; default EOS blends and Type2 opacity with Zbase=0; matched electron state','Query rectangle rho=1e-14..1e3 g/cm3 and T=3000..1e8 K is only a bounding box. Reject neutral ideal backstop and first-law defect above 1 percent; no production atmosphere claim.','P erg/cm3, u erg/g, s erg/g/K, kappa cm2/g; derivatives with respect to natural logarithms','Versioned C ABI and Python interface cross-checked against separate Fortran process. Wide audit preserves failing blend states. Existing binary/build/table provenance must accompany each run.','backends/mesa/microphysics.f90; src/qstars/mesa_microphysics.py')
++add('inverse_transport','Inverse radiative/convective flux solve','https://docs.mesastar.org/en/24.08.1/','Algebraic derivation in docs/equations.md, using existing diffusion and lossless MLT equations','derived_and_tested','Same physical closure as forward flux; luminosities retained as nonlinear unknowns; active-piece complex-step derivatives','Smooth subsonic hot envelopes; transport validity unchanged by nonlinear method','L erg/s, logarithmic thermal contrast dimensionless','Solving thermal contrast from luminosity avoids ill conditioning near adiabatic stratification; no transport coefficient changed. Numerical reference is QStarS derivation, not copied MESA implementation.','src/qstars/transport.py; src/qstars/nonlinear.py')
+ p=Path('src/qstars/data');p.mkdir(parents=True,exist_ok=True)
+ registry={'schema_version':1,'audit_date':'2026-09-28','prescriptions':entries}
+ (p/'sources.json').write_text(json.dumps(registry,indent=2)+'\n')
+diff --git a/src/qstars/config.py b/src/qstars/config.py
+index 415b693..41362d3 100644
+--- a/src/qstars/config.py
++++ b/src/qstars/config.py
+@@ -22,6 +22,7 @@ DEFAULT = dict(
+                  temperature_perturbation=0.,perturbation_mass_center=.5,perturbation_mass_width=.1),
+     composition=dict(X=.75,Y=.25,Z=0.),
+     eos="ideal_gas_radiation",
++    mesa=dict(library_path="",mesa_dir=""),
+     opacity=dict(model="electron_scattering",table_path=""),
+     engine=dict(model="bra2008",efficiency=.1,coupling=.1,rest_mass_rate_msun_per_year=1e-5),
+     feeding=dict(rate_msun_per_year=0.,thermodynamics="specified",density_cgs=1e-7,temperature_K=1e6),
+@@ -31,6 +32,7 @@ DEFAULT = dict(
+                   bath_temperature_K=0.,luminosity_erg_s=1e41),
+     evolution=dict(end_time_years=.1,max_steps=10000,max_wall_seconds=0.),
+     numerics=dict(zones=32,mesh="cosine",initial_dt_years=.001,max_dt_years=.005,min_dt_years=1e-10,
++                  nonlinear_solver="newton_flux",boundary_remesh_fraction=.2,
+                   solver_tolerance=1e-9,max_fractional_change=.02,max_retries=12,
+                   conservation_tolerance=1e-7,refine_every_steps=0,max_zones=256),
+     validity=dict(min_temperature_K=1e5,max_temperature_K=1e8,max_mach=.2,max_compactness=.001,
+@@ -84,9 +86,10 @@ def resolve(raw):
+     if not isinstance(c['name'],str) or not re.fullmatch(r'[a-zA-Z0-9_-]{1,100}',c['name']):
+         raise ValueError('name must use 1-100 letters, digits, hyphens, or underscores')
+     if c["schema_version"] != 1: raise ValueError("Unsupported schema version")
+-    choices = [(c["eos"],["ideal_gas_radiation"]),
+-        (c['numerics']['mesh'],['cosine','core_refined']),
+-        (c["opacity"]["model"],["electron_scattering","table"]),
++    choices = [(c["eos"],["ideal_gas_radiation","mesa"]),
++        (c['numerics']['mesh'],['cosine','core_refined','log_radius','log_radius_cosine']),
++        (c['numerics']['nonlinear_solver'],['newton','newton_flux','hybr']),
++        (c["opacity"]["model"],["electron_scattering","table","mesa"]),
+         (c["boundary"]["inner"],["fixed_excision"]),
+         (c["boundary"]["thermal"],["grey","luminosity","insulated"]),
+         (c["engine"]["model"],["off","bra2008","ball2011_printed","quest2025_eq11","prescribed"]),
+@@ -113,11 +116,18 @@ def resolve(raw):
+     for key in ["zones","max_retries","max_zones","refine_every_steps"]:
+         if not isinstance(c["numerics"][key],int): raise ValueError(f"{key} must be an integer")
+     if c['numerics']['refine_every_steps']<0:raise ValueError('refine_every_steps must be nonnegative')
++    if not 0<=c['numerics']['boundary_remesh_fraction']<=.5:
++        raise ValueError('boundary_remesh_fraction must lie between 0 (disabled) and 0.5')
+     for key in ('profile_every_steps','checkpoint_every_steps'):
+         if not isinstance(c['output'][key],int):raise ValueError(f'{key} must be an integer')
+     if c["numerics"]["zones"]<4: raise ValueError("At least four zones required")
+-    if c['validity']['min_temperature_K']<1e5 or c['validity']['max_temperature_K']>1e8:
+-        raise ValueError('Configured EOS limits must stay within the supported 1e5-1e8 K interval')
++    floor=3000. if c['eos']=='mesa' else 1e5
++    if c['validity']['min_temperature_K']<floor or c['validity']['max_temperature_K']>1e8:
++        raise ValueError(f'Configured EOS limits must stay within the supported {floor:g}-1e8 K interval')
++    if (c['eos']=='mesa') != (c['opacity']['model']=='mesa'):
++        raise ValueError('MESA EOS and opacity must be selected together for this audited interface')
++    if c['eos']=='mesa' and (not c['mesa']['library_path'] or not c['mesa']['mesa_dir']):
++        raise ValueError('MESA requires explicit library_path and mesa_dir')
+     if c["numerics"]["min_dt_years"]>c["numerics"]["max_dt_years"]: raise ValueError("Invalid timestep bounds")
+     if not 0<c["engine"]["efficiency"]<1: raise ValueError("Efficiency must lie strictly between zero and one")
+     if c["initial"]["radius_cm"]<=c["initial"]["inner_radius_cm"]: raise ValueError("Outer radius must exceed inner radius")
+@@ -136,4 +146,9 @@ def load(path):
+         p=Path(config['opacity']['table_path'])
+         if not p.is_absolute():p=Path(path).resolve().parent/p
+         config['opacity']['table_path']=str(p.resolve())
++    if config['eos']=='mesa':
++        for key in ('library_path','mesa_dir'):
++            p=Path(config['mesa'][key])
++            if not p.is_absolute():p=Path(path).resolve().parent/p
++            config['mesa'][key]=str(p.resolve())
+     return config
+diff --git a/src/qstars/data/sources.json b/src/qstars/data/sources.json
+index 5530c82..598820c 100644
+--- a/src/qstars/data/sources.json
++++ b/src/qstars/data/sources.json
+@@ -191,9 +191,9 @@
+       "reference_location": "Prerequisites, SDK, release pinning",
+       "status": "audited_backend_decision",
+       "assumptions": "Validated microphysics requires versioned EOS/opacity/atmosphere infrastructure",
+-      "validity": "MESA absent on available Mac; documented 20 GB installation and SDK dependencies",
++      "validity": "Existing MESA 24.08.1 and ARM SDK 24.7.1 recovered from earlier runtime; local build changes recorded",
+       "variables_units": "Not applicable",
+-      "implementation_interpretation": "MESA is preferred for future full-envelope production fidelity. This development solver cannot replace MESA ionization microphysics. No production backend is claimed.",
++      "implementation_interpretation": "Direct EOS and opacity calls are implemented for fixed H/He composition. Stellar evolution, atmosphere, and moving cavity production gates remain open. Report 5 corrects the earlier absence claim.",
+       "implementation": "docs/mesa.md",
+       "inspected_utc": "2026-09-28"
+     },
+@@ -287,6 +287,32 @@
+       "implementation_interpretation": "New internal energy is remapped total energy minus new discrete gravity and kinetic energies. Reject negative internal energy; log entropy changes.",
+       "implementation": "src/qstars/mesh.py",
+       "inspected_utc": "2026-09-28"
++    },
++    {
++      "id": "mesa_microphysics",
++      "title": "MESA 24.08.1 EOS and opacity public APIs",
++      "url": "https://docs.mesastar.org/en/24.08.1/eos/overview.html",
++      "reference_location": "eosDT_get, kap_get; eos_def quantity definitions; source commit 5c166bf174b477823a2ca0031c4f57210c8e67a8",
++      "status": "implemented_direct_library_interface",
++      "assumptions": "Fixed H1/He4 composition Z=0; default EOS blends and Type2 opacity with Zbase=0; matched electron state",
++      "validity": "Query rectangle rho=1e-14..1e3 g/cm3 and T=3000..1e8 K is only a bounding box. Reject neutral ideal backstop and first-law defect above 1 percent; no production atmosphere claim.",
++      "variables_units": "P erg/cm3, u erg/g, s erg/g/K, kappa cm2/g; derivatives with respect to natural logarithms",
++      "implementation_interpretation": "Versioned C ABI and Python interface cross-checked against separate Fortran process. Wide audit preserves failing blend states. Existing binary/build/table provenance must accompany each run.",
++      "implementation": "backends/mesa/microphysics.f90; src/qstars/mesa_microphysics.py",
++      "inspected_utc": "2026-09-28"
++    },
++    {
++      "id": "inverse_transport",
++      "title": "Inverse radiative/convective flux solve",
++      "url": "https://docs.mesastar.org/en/24.08.1/",
++      "reference_location": "Algebraic derivation in docs/equations.md, using existing diffusion and lossless MLT equations",
++      "status": "derived_and_tested",
++      "assumptions": "Same physical closure as forward flux; luminosities retained as nonlinear unknowns; active-piece complex-step derivatives",
++      "validity": "Smooth subsonic hot envelopes; transport validity unchanged by nonlinear method",
++      "variables_units": "L erg/s, logarithmic thermal contrast dimensionless",
++      "implementation_interpretation": "Solving thermal contrast from luminosity avoids ill conditioning near adiabatic stratification; no transport coefficient changed. Numerical reference is QStarS derivation, not copied MESA implementation.",
++      "implementation": "src/qstars/transport.py; src/qstars/nonlinear.py",
++      "inspected_utc": "2026-09-28"
+     }
+   ]
+ }
+diff --git a/src/qstars/eos.py b/src/qstars/eos.py
+index 9e029ea..b30c291 100644
+--- a/src/qstars/eos.py
++++ b/src/qstars/eos.py
+@@ -27,6 +27,16 @@ class IdealGasRadiation:
+         self.composition = composition
+         self.R = KB / (composition.mu * MU)
+ 
++    def thermal_contrast(self,rho,T,q):
++        """Stable adjacent dlnT - mean(nabla_ad)*dlnP near radiation dominance."""
++        lt=np.log1p(np.diff(T)/T[:-1])
++        lr=np.log1p(np.diff(rho)/rho[:-1])
++        beta=q['pg']/q['p']
++        one_minus_four_grad=-3*beta**2/(32-24*beta-3*beta**2)
++        grad=.5*(q['grad_ad'][:-1]+q['grad_ad'][1:])
++        gas_correction=np.log1p(beta[:-1]*np.expm1(lr-3*lt))
++        return .5*(one_minus_four_grad[:-1]+one_minus_four_grad[1:])*lt-grad*gas_correction
++
+     def evaluate(self, rho, T):
+         rho, T = np.asarray(rho), np.asarray(T)
+         if np.any(rho <= 0) or np.any(T <= 0):
+diff --git a/src/qstars/evolution.py b/src/qstars/evolution.py
+index f2bb6ae..f5680d2 100644
+--- a/src/qstars/evolution.py
++++ b/src/qstars/evolution.py
+@@ -15,6 +15,10 @@ from .controls import next_event
+ from . import io
+ 
+ def physics(config):
++    if config['eos']=='mesa':
++        from .mesa_microphysics import MesaMicrophysics
++        eos=MesaMicrophysics(Composition(**config['composition']),**config['mesa'])
++        return eos,eos.opacity
+     eos=IdealGasRadiation(Composition(**config["composition"]))
+     op=ElectronScattering(eos.composition) if config["opacity"]["model"]=="electron_scattering" else OpacityTable(config["opacity"]["table_path"])
+     return eos,op
+@@ -54,6 +58,7 @@ def run(config,output_parent="results",restart=None,stop_after_steps=None):
+             f.write(json.dumps(dict(event=event,**data),default=float,allow_nan=False)+"\n")
+     try:
+         eos,opacity=physics(config)
++        if hasattr(eos,'manifest'):io.json_write(path/'microphysics_build.json',eos.manifest)
+         if restart is not None: state=restart.copy()
+         else:
+             state,error=initialize(config,eos); ledger.initialize(state,eos)
+@@ -88,6 +93,20 @@ def run(config,output_parent="results",restart=None,stop_after_steps=None):
+             else: raise last_exception
+             state=candidate; accepted+=1
+             state.next_dt=min(dt*1.25,c["max_dt_years"]*YEAR)
++            if c['boundary_remesh_fraction'] and state.reference_mass_fractions is not None:
++                import numpy as np
++                from .mesh import remap
++                target_dm=state.reference_mass_fractions*state.dm.sum()
++                boundary_change=float(max(abs(state.dm[[0,-1]]/target_dm[[0,-1]]-1)))
++                if boundary_change>=c['boundary_remesh_fraction']:
++                    before=state.energies(eos)['total']
++                    remapped=remap(state,target_dm,eos)
++                    errors,_,_=check(remapped,eos,opacity,config)
++                    if errors:log('boundary_remap_rejected',errors=errors)
++                    else:
++                        state=remapped
++                        log('boundary_remapped',zones=len(state.dm),boundary_fraction=boundary_change,
++                            energy_change=state.energies(eos)['total']-before)
+             if c["refine_every_steps"] and state.steps % c["refine_every_steps"]==0 and len(state.dm)*2<=c["max_zones"]:
+                 import numpy as np
+                 from .mesh import remap
+diff --git a/src/qstars/io.py b/src/qstars/io.py
+index d644dc3..32ad866 100644
+--- a/src/qstars/io.py
++++ b/src/qstars/io.py
+@@ -47,7 +47,10 @@ def save_checkpoint(path,state,config):
+     # NPZ contains JSON strings, never pickled Python objects.
+     temporary=path.with_suffix(".tmp")
+     with temporary.open("wb") as f:
+-        np.savez_compressed(f,schema_version=1,time=state.time,bh_mass=state.bh_mass,dm=state.dm,r=state.r,v=state.v,T=state.T,
++        np.savez_compressed(f,schema_version=4,time=state.time,bh_mass=state.bh_mass,dm=state.dm,r=state.r,v=state.v,T=state.T,
++            cell_volume=state.volume,
++            face_luminosity=state.face_luminosity if state.face_luminosity is not None else np.array([]),
++            reference_mass_fractions=state.reference_mass_fractions if state.reference_mass_fractions is not None else state.dm/state.dm.sum(),
+             ledger=json.dumps(state.ledger),steps=state.steps,next_dt=state.next_dt,config=json.dumps(config))
+         f.flush(); os.fsync(f.fileno())
+     temporary.replace(path)
+@@ -55,14 +58,20 @@ def save_checkpoint(path,state,config):
+ def load_checkpoint(path):
+     from .config import resolve
+     with np.load(path,allow_pickle=False) as f:
+-        if int(f["schema_version"])!=1: raise ValueError("Unsupported checkpoint schema")
++        if int(f["schema_version"]) not in (1,2,3,4): raise ValueError("Unsupported checkpoint schema")
+         state=State(float(f["time"]),float(f["bh_mass"]),f["dm"].copy(),f["r"].copy(),f["v"].copy(),f["T"].copy(),
+                     json.loads(str(f["ledger"])),int(f["steps"]),float(f["next_dt"]))
+         config=resolve(json.loads(str(f["config"])))
++        if int(f['schema_version']) >= 2: state.cell_volume=f['cell_volume'].copy()
++        if int(f['schema_version']) >= 3 and len(f['face_luminosity']):state.face_luminosity=f['face_luminosity'].copy()
++        state.reference_mass_fractions=f['reference_mass_fractions'].copy() if int(f['schema_version'])>=4 else state.dm/state.dm.sum()
+     if not (len(state.r)==len(state.dm)+1==len(state.v) and len(state.T)==len(state.dm)):
+         raise ValueError("Malformed checkpoint dimensions")
+     if np.any(np.diff(state.r)<=0) or np.any(state.dm<=0) or np.any(state.T<=0):
+         raise ValueError("Invalid checkpoint physical state")
++    geometric_volume=4*PI/3*np.diff(state.r)*(state.r[1:]**2+state.r[1:]*state.r[:-1]+state.r[:-1]**2)
++    if state.volume.shape != state.dm.shape or np.any(state.volume<=0) or not np.allclose(state.volume,geometric_volume,rtol=1e-8,atol=0):
++        raise ValueError('Checkpoint volume and geometry disagree')
+     return state,config
+ 
+ def history_row(state,eos,opacity,config):
+@@ -103,6 +112,9 @@ def save_profile(path,state,eos,opacity,config):
+     q=eos.evaluate(state.rho,state.T)
+     e=rates(state,eos,config["engine"])
+     L,d=luminosities(state,eos,opacity,config,e["luminosity"])
++    if state.face_luminosity is not None:
++        L=state.face_luminosity
++        d['convective']=L-d['radiative'];d['convective'][0]=0.;d['convective'][-1]=0.
+     np.savez_compressed(path,time_seconds=state.time,dm_g=state.dm,r_edges_cm=state.r,r_cm=state.rc,
+         enclosed_mass_g=.5*(state.enclosed[:-1]+state.enclosed[1:]),density_cgs=state.rho,
+         pressure_cgs=q["p"],temperature_K=state.T,entropy_cgs=q["s"],internal_energy_erg_g=q["u"],
+diff --git a/src/qstars/mass_transport.py b/src/qstars/mass_transport.py
+index 0ef72d0..902c7a5 100644
+--- a/src/qstars/mass_transport.py
++++ b/src/qstars/mass_transport.py
+@@ -32,10 +32,10 @@ def exchange(old,dt,eos,config,engine,wind_rate):
+                 raise DomainError('Supplied material lies outside the EOS temperature domain')
+             ne=f['density_cgs']/MU*(eos.composition.X+eos.composition.Y/2+eos.composition.Z/2)
+             phase=(2*PI*ME*KB*incoming_T/H**2)**1.5
+-            if ne/phase>.1:raise DomainError('Supplied material is outside the nondegenerate EOS domain')
++            if config['eos']=='ideal_gas_radiation' and ne/phase>.1:raise DomainError('Supplied material is outside the nondegenerate EOS domain')
+             for fraction,chi in ((eos.composition.X,13.5984),(eos.composition.Y,54.4178)):
+                 ratio=phase/ne*np.exp(-chi*1.602176634e-12/(KB*incoming_T))
+-                if fraction>0 and ratio/(1+ratio)<.99:
++                if config['eos']=='ideal_gas_radiation' and fraction>0 and ratio/(1+ratio)<.99:
+                     raise DomainError('Supplied material fails fully ionized EOS screening')
+         incoming = eos.evaluate(f["density_cgs"],incoming_T)
+         incoming_h,incoming_s = incoming["h"],incoming["s"]
+diff --git a/src/qstars/mesh.py b/src/qstars/mesh.py
+index 58087d9..b649358 100644
+--- a/src/qstars/mesh.py
++++ b/src/qstars/mesh.py
+@@ -16,6 +16,9 @@ def remap(state,new_dm,eos):
+     V = overlap@(state.volume/state.dm)
+     out = state.copy()
+     out.dm = new_dm.copy()
++    out.face_luminosity=None
++    out.reference_mass_fractions=new_dm/new_dm.sum()
++    out.cell_volume = V.copy()
+     out.r = np.r_[state.r[0],np.cbrt(state.r[0]**3+3*np.cumsum(V)/(4*PI))]
+     out.r[-1] = state.r[-1]
+     out.v = np.interp(b,a,state.v)
+diff --git a/src/qstars/numerics.py b/src/qstars/numerics.py
+index bad1f40..1b5aeda 100644
+--- a/src/qstars/numerics.py
++++ b/src/qstars/numerics.py
+@@ -7,8 +7,9 @@ implicit midpoint. No artificial damping, gravity correction, or energy reset.
+ import numpy as np
+ from scipy.optimize import root
+ from .constants import G,PI
+-from .transport import luminosities
++from .transport import luminosities,inverse_transport_residual
+ from .mass_transport import DomainError
++from .nonlinear import newton,flux_jacobian
+ 
+ class StepRejected(RuntimeError):
+     pass
+@@ -20,33 +21,53 @@ def thermal_mechanical_step(old,dt,eos,opacity,config,luminosity):
+     g = G*old.enclosed/old.r**2
+     pext = config["boundary"]["pressure_cgs"]
+     last = {}
++    solve_flux=config['numerics']['nonlinear_solver']=='newton_flux'
++    L0,_=luminosities(old,eos,opacity,config,luminosity)
++    Lscale=max(np.max(abs(L0)),1.)
++    contrast_scale=np.maximum(abs(np.diff(np.log(q0['p'])))*.25,1e-3)
+     def residual(x):
+         vm = np.r_[0.,x[:n]*cs[1:]]
+         state = old.copy()
+         state.r = old.r+dt*vm
+         state.v = 2*vm-old.v
+         state.time = old.time+dt
+-        state.T = old.T*np.exp(np.clip(x[n:],-100,100))
++        state.T = old.T*np.exp(np.clip(x[n:2*n],-100,100))
+         if np.any(np.diff(state.r) <= 0):
+-            return np.full(2*n,1e10)+x
++            raise ValueError('Trial geometry has crossing radial faces')
++        area = 4*PI/3*(state.r**2+state.r*old.r+old.r**2)
++        state.cell_volume = old.volume+np.diff(area*(dt*vm))
++        if np.any(state.cell_volume.real<=0):raise ValueError('Trial cell volume is nonpositive')
+         q = eos.evaluate(state.rho,state.T)
+         p = .5*(q["p"]+q0["p"])
+-        area = 4*PI/3*(state.r**2+state.r*old.r+old.r**2)
+         pressure_force = area[1:]*(p-np.r_[p[1:],pext])/old.weights[1:]
+         gravity = G*old.enclosed[1:]/(state.r[1:]*old.r[1:])
+         momentum = (2*(vm[1:]-old.v[1:])/dt-pressure_force+gravity)/g[1:]
+         L,details = luminosities(state,eos,opacity,config,luminosity)
++        if solve_flux:L[1:-1]=x[2*n:]*Lscale
+         # Volume differences computed from secant area to avoid r^3 cancellation.
+         deltaV = np.diff(area*(dt*vm))
+         energy = (old.dm*(q["u"]-q0["u"])+p*deltaV+dt*np.diff(L))/(old.dm*q0["u"])
+         last.update(state=state,L=L,details=details)
++        if solve_flux:
++            closure=inverse_transport_residual(state,eos,opacity,config,L)/contrast_scale
++            return np.r_[momentum,energy,closure]
+         return np.r_[momentum,energy]
+-    initial = np.r_[old.v[1:]/cs[1:],np.zeros(n)]
+-    sol = root(residual,initial,method="hybr",options={"xtol":config["numerics"]["solver_tolerance"],"maxfev":30*(2*n+1)})
++    contraction=-dt*np.diff(old.v)
++    shrinking=contraction>0
++    predictor_scale=min(1.,float(np.min(.25*np.diff(old.r)[shrinking]/contraction[shrinking]))) if np.any(shrinking) else 1.
++    initial = np.r_[predictor_scale*old.v[1:]/cs[1:],np.zeros(n)]
++    if solve_flux:
++        initial=np.r_[initial,L0[1:-1]/Lscale]
++        sol = newton(residual,initial,config['numerics']['solver_tolerance'],jacobian=flux_jacobian)
++    elif config['numerics']['nonlinear_solver']=='newton':
++        sol = newton(residual,initial,config['numerics']['solver_tolerance'])
++    else:
++        sol = root(residual,initial,method="hybr",options={"xtol":config["numerics"]["solver_tolerance"],"maxfev":30*(2*n+1)})
+     error = float(max(abs(residual(sol.x))))
+     if not np.isfinite(error) or error > config["numerics"]["solver_tolerance"]*10:
+         raise StepRejected(f"Coupled solve residual={error:g}; {sol.message}")
+     state = last["state"]
++    state.face_luminosity=last['L'].copy()
+     change = float(max(np.max(abs(np.log(state.T/old.T))),np.max(abs(np.log(state.r/old.r)))))
+     if change > config["numerics"]["max_fractional_change"]:
+         raise StepRejected(f"Fractional state change {change:g} exceeds limit")
+diff --git a/src/qstars/opacity.py b/src/qstars/opacity.py
+index a479c84..6e99241 100644
+--- a/src/qstars/opacity.py
++++ b/src/qstars/opacity.py
+@@ -14,14 +14,22 @@ class OpacityTable:
+     User supplies provenance. Out-of-domain queries raise, never extrapolate.
+     """
+     def __init__(self, path):
+-        from scipy.interpolate import RegularGridInterpolator
+         with np.load(path, allow_pickle=False) as data:
+             if "source" not in data or not str(data["source"]):
+                 raise ValueError("Opacity table must contain source provenance")
+             self.source = str(data["source"])
+-            self.interp = RegularGridInterpolator((data["logrho"],data["logT"]),
+-                          data["logkappa"],bounds_error=True)
++            self.x,self.y,self.z=data['logrho'].copy(),data['logT'].copy(),data['logkappa'].copy()
++        if self.z.shape!=(len(self.x),len(self.y)) or min(len(self.x),len(self.y))<2 or np.any(np.diff(self.x)<=0) or np.any(np.diff(self.y)<=0):
++            raise ValueError('Opacity table needs strictly increasing rectangular axes')
++        if not all(np.all(np.isfinite(a)) for a in (self.x,self.y,self.z)):
++            raise ValueError('Opacity table contains nonfinite data')
+     def __call__(self, rho, T):
+         rho,T = np.broadcast_arrays(rho,T)
+-        values = self.interp(np.stack([np.log10(rho),np.log10(T)],axis=-1))
++        x,y=np.log10(rho),np.log10(T)
++        if np.any(x.real<self.x[0]) or np.any(x.real>self.x[-1]) or np.any(y.real<self.y[0]) or np.any(y.real>self.y[-1]):
++            raise ValueError('Opacity query outside table domain')
++        i=np.clip(np.searchsorted(self.x,x.real)-1,0,len(self.x)-2)
++        j=np.clip(np.searchsorted(self.y,y.real)-1,0,len(self.y)-2)
++        u=(x-self.x[i])/(self.x[i+1]-self.x[i]);v=(y-self.y[j])/(self.y[j+1]-self.y[j])
++        values=(1-u)*(1-v)*self.z[i,j]+u*(1-v)*self.z[i+1,j]+(1-u)*v*self.z[i,j+1]+u*v*self.z[i+1,j+1]
+         return (10**values).reshape(rho.shape)
+diff --git a/src/qstars/state.py b/src/qstars/state.py
+index 2f405ee..4ef8d81 100644
+--- a/src/qstars/state.py
++++ b/src/qstars/state.py
+@@ -14,13 +14,17 @@ class State:
+     ledger: dict = field(default_factory=dict)
+     steps: int = 0
+     next_dt: float = 0.
++    cell_volume: np.ndarray | None = None
++    face_luminosity: np.ndarray | None = None
++    reference_mass_fractions: np.ndarray | None = None
+ 
+     def copy(self):
+         return copy.deepcopy(self)
+ 
+     @property
+     def volume(self):
+-        return 4*PI/3*np.diff(self.r**3)
++        if self.cell_volume is not None: return self.cell_volume
++        return 4*PI/3*np.diff(self.r)*(self.r[1:]**2+self.r[1:]*self.r[:-1]+self.r[:-1]**2)
+ 
+     @property
+     def rho(self):
+diff --git a/src/qstars/structure.py b/src/qstars/structure.py
+index 2c6206b..78355f6 100644
+--- a/src/qstars/structure.py
++++ b/src/qstars/structure.py
+@@ -10,6 +10,13 @@ def initialize(config,eos):
+     q = .5*(1-np.cos(np.linspace(0,np.pi,n+1)))
+     if config['numerics']['mesh']=='core_refined': q=q*q
+     dm = c["envelope_mass_msun"]*MSUN*np.diff(q)
++    if config['numerics']['mesh'] in ('log_radius','log_radius_cosine'):
++        continuum=continuum_polytrope(config,eos)
++        z=np.linspace(0,1,n+1)
++        if config['numerics']['mesh']=='log_radius_cosine':z=.5*(1-np.cos(np.pi*z))
++        q=continuum.sol(np.log(c['inner_radius_cm']/c['radius_cm'])*(1-z))[0]
++        q[0],q[-1]=0.,1.
++        dm=c['envelope_mass_msun']*MSUN*np.diff(q)
+     r0,R = c["inner_radius_cm"],c["radius_cm"]
+     r = (r0**3+(R**3-r0**3)*q)**(1/3)
+     r[0] = r0
+@@ -36,6 +43,8 @@ def initialize(config,eos):
+     if not sol.success or err > 1e-8:
+         raise RuntimeError(f"Hydrostatic initialization failed: residual {err:g}")
+     state.r,rho,p = unpack(sol.x)
++    state.cell_volume = dm/rho
++    state.reference_mass_fractions=dm/dm.sum()
+     state.T = eos.temperature(rho,p,"p")
+     perturb = c["temperature_perturbation"]
+     state.T *= 1+perturb*np.exp(-((q[:-1]+q[1:])/2-c["perturbation_mass_center"])**2/
+@@ -43,6 +52,39 @@ def initialize(config,eos):
+     state.next_dt = config["numerics"]["initial_dt_years"]*365.25*86400
+     return state,err
+ 
++
++def continuum_polytrope(config,eos,tolerance=1e-9):
++    """Independent continuum n=3 boundary-value solution in log radius.
++
++    y=(m/Menv, h/(G Menv/R)), h=4 K rho^(1/3). Unknown ln K is
++    determined by m(rin)=0, m(R)=Menv, P(R)=Pext. This is an independent
++    spatial reference and generates a radially resolved Lagrangian mesh.
++    """
++    import copy
++    from scipy.integrate import solve_bvp
++    seed=copy.deepcopy(config)
++    seed['numerics'].update(zones=64,mesh='core_refined')
++    seed['initial']['temperature_perturbation']=0.
++    s,_=initialize(seed,eos)
++    R=config['initial']['radius_cm'];r0=config['initial']['inner_radius_cm']
++    M=s.dm.sum(); b=s.bh_mass/M; vscale=G*M/R; rhoscale=M/(4*PI*R**3)
++    K=np.mean(eos.evaluate(s.rho,s.T)['p']/s.rho**(4/3))
++    k0=K*rhoscale**(1/3)/vscale
++    z=np.linspace(np.log(r0/R),0.,150)
++    m=np.interp(np.exp(z)*R,s.r,np.r_[0,np.cumsum(s.dm)])/M
++    h=np.interp(np.exp(z)*R,s.rc,4*K*s.rho**(1/3))/vscale
++    def fun(z,y,k):
++        density=(y[1]/(4*np.exp(k[0])))**3
++        return np.array([np.exp(3*z)*density,-(b+y[0])/np.exp(z)])
++    def boundary(a,bb,k):
++        hsurf=(256*np.exp(k[0])**3*config['boundary']['pressure_cgs']/(rhoscale*vscale))**.25
++        return np.array([a[0],bb[0]-1.,bb[1]-hsurf])
++    sol=solve_bvp(fun,boundary,z,np.array([m,h]),p=[np.log(k0)],tol=tolerance,max_nodes=10000)
++    if not sol.success: raise RuntimeError('Continuum polytrope failed: '+sol.message)
++    sol.K=float(np.exp(sol.p[0])*vscale/rhoscale**(1/3))
++    sol.rho_scale=rhoscale;sol.velocity_squared_scale=vscale
++    return sol
++
+ def hydrostatic_residual(state,eos,pext):
+     p = eos.evaluate(state.rho,state.T)["p"]
+     acceleration = 4*PI*state.r[1:]**2*(p-np.r_[p[1:],pext])/state.weights[1:]
+diff --git a/src/qstars/transport.py b/src/qstars/transport.py
+index 5de813b..7cd5626 100644
+--- a/src/qstars/transport.py
++++ b/src/qstars/transport.py
+@@ -11,7 +11,8 @@ def luminosities(state,eos,opacity,config,inner_luminosity):
+     n = len(state.dm)
+     q = eos.evaluate(state.rho,state.T)
+     kap = opacity(state.rho,state.T)
+-    rad,conv = np.zeros(n+1),np.zeros(n+1)
++    dtype = np.result_type(state.T, state.r)
++    rad,conv = np.zeros(n+1,dtype=dtype),np.zeros(n+1,dtype=dtype)
+     rho = .5*(state.rho[1:]+state.rho[:-1])
+     k = .5*(kap[1:]+kap[:-1])
+     radius = state.r[1:-1]
+@@ -30,7 +31,8 @@ def luminosities(state,eos,opacity,config,inner_luminosity):
+         length = config["transport"]["mixing_length_alpha"]*hp
+         # Discrete entropy contrast: using an independently differenced Hp here
+         # spuriously destabilizes an exact P~T^4 polytrope on a coarse mesh.
+-        excess = np.maximum(-hp*(np.diff(np.log(state.T))-grad_ad*np.diff(np.log(q["p"])))/dr,0)
++        contrast=eos.thermal_contrast(state.rho,state.T,q)
++        excess = np.maximum(-hp*contrast/dr,0)
+         velocity = np.sqrt(g*delta/(8*hp))*length*np.sqrt(excess)
+         flux = rho*cp*T*velocity*length/(2*hp)*excess
+         saturation = flux/(p*cs)
+@@ -48,3 +50,51 @@ def luminosities(state,eos,opacity,config,inner_luminosity):
+     total = rad+conv
+     total[0] = inner_luminosity
+     return total,dict(radiative=rad,convective=conv,opacity=kap,saturation=saturation)
++
++
++def inverse_transport_residual(state,eos,opacity,config,L):
++    """Temperature contrast needed by a specified face luminosity.
++
++    Algebraic inverse of the same diffusion + capped lossless MLT law.
++    Solving for flux avoids multiplying roundoff in nearly adiabatic
++    gradients by an enormous convective conductance.
++    """
++    q=eos.evaluate(state.rho,state.T);kap=opacity(state.rho,state.T)
++    rho=.5*(state.rho[1:]+state.rho[:-1]);k=.5*(kap[1:]+kap[:-1])
++    radius=state.r[1:-1];dr=np.diff(state.rc)
++    p=.5*(q['p'][1:]+q['p'][:-1]);T=.5*(state.T[1:]+state.T[:-1])
++    g=G*state.enclosed[1:-1]/radius**2;hp=p/(rho*g)
++    contrast=eos.thermal_contrast(state.rho,state.T,q)
++    pref=4*PI*radius**2*A*C/(3*k*rho*dr)*state.T[:-1]**4
++    dlnT=np.log1p(np.diff(state.T)/state.T[:-1])
++    rad=-pref*np.expm1(4*dlnT)
++    pref_ad=pref*np.exp(4*(dlnT-contrast))
++    Lad=rad-pref*np.exp(4*dlnT)*np.expm1(-4*contrast)
++    deltaL=L[1:-1]-Lad
++    ratio=dr/hp
++    # Pure radiative inversion on stable faces.
++    argument=1-deltaL/pref_ad
++    if config['transport']['convection']=='off':
++        if np.any(argument.real<=0):raise ValueError('Radiative inverse has no positive temperature')
++        return contrast+.25*(-np.log1p(-deltaL/pref_ad))
++    unstable=deltaL.real>0
++    D=np.zeros_like(deltaL)
++    if np.any(argument[~unstable].real<=0):raise ValueError('Radiative inverse outside temperature domain')
++    D[~unstable]=-.25*np.log1p(-deltaL[~unstable]/pref_ad[~unstable])/ratio[~unstable]
++    if np.any(unstable):
++        cp=.5*(q['cp'][1:]+q['cp'][:-1]);delta=.5*(q['delta'][1:]+q['delta'][:-1])
++        cs=.5*(q['cs'][1:]+q['cs'][:-1]);length=config['transport']['mixing_length_alpha']*hp
++        coefficient=4*PI*radius**2*rho*cp*T*np.sqrt(g*delta/(8*hp))*length**2/(2*hp)
++        cap=4*PI*radius**2*p*cs
++        m=unstable;target=deltaL[m];cc=coefficient[m];rr=ratio[m];pp=pref_ad[m];lim=cap[m]
++        d=np.minimum((target/cc)**(2/3),target/(4*pp*rr))
++        for _ in range(30):
++            conv=cc*d**1.5;free=conv.real<lim.real
++            flux=-pp*np.expm1(-4*d*rr)+np.minimum(conv,lim)
++            derivative=4*pp*rr*np.exp(-4*d*rr)+np.where(free,1.5*cc*np.sqrt(d),0)
++            correction=(flux-target)/derivative
++            if np.max(abs(correction)/(abs(d)+1e-300))<2e-14:break
++            d=np.maximum(d-correction,d*.1)
++        else:raise ValueError('Inverse MLT solve failed')
++        D[m]=d
++    return contrast+D*ratio
+diff --git a/src/qstars/validity.py b/src/qstars/validity.py
+index ae2a67d..eacf1b8 100644
+--- a/src/qstars/validity.py
++++ b/src/qstars/validity.py
+@@ -2,12 +2,15 @@
+ import numpy as np
+ from .constants import G,C,H,ME,KB,MU,PI
+ from .ledger import residuals
++from .numerics import StepRejected
+ 
+ def check(state,eos,opacity,config):
+     errors=[]
+     q=eos.evaluate(state.rho,state.T)
++    eos_defect=float(max(eos.consistency(state.rho,state.T))) if hasattr(eos,'consistency') else 0.
++    if eos_defect>.01:errors.append('MESA first-law defect exceeds 1% audit limit')
+     v=config["validity"]
+-    if min(state.T)<v["min_temperature_K"]: errors.append("EOS temperature below ionized-domain floor")
++    if min(state.T)<v["min_temperature_K"]: errors.append("EOS temperature below configured domain")
+     if max(state.T)>v["max_temperature_K"]: errors.append("EOS temperature above configured domain")
+     mach=float(max(abs(.5*(state.v[:-1]+state.v[1:]))/q["cs"]))
+     if mach>v["max_mach"]: errors.append("Quasi-hydrostatic domain exceeded: radial Mach number")
+@@ -18,12 +21,16 @@ def check(state,eos,opacity,config):
+     eV=1.602176634e-12
+     hydrogen_ratio=phase/ne*np.exp(-13.5984*eV/(KB*state.T))
+     helium_ratio=phase/ne*np.exp(-54.4178*eV/(KB*state.T))
+-    if eos.composition.X>0 and min(hydrogen_ratio/(1+hydrogen_ratio))<.99:
++    ideal=config['eos']=='ideal_gas_radiation'
++    if ideal and eos.composition.X>0 and min(hydrogen_ratio/(1+hydrogen_ratio))<.99:
+         errors.append('Fully ionized EOS fails hydrogen Saha screening')
+-    if eos.composition.Y>0 and min(helium_ratio/(1+helium_ratio))<.99:
++    if ideal and eos.composition.Y>0 and min(helium_ratio/(1+helium_ratio))<.99:
+         errors.append('Fully ionized EOS fails He II/III Saha screening')
+     degeneracy=ne*(H/np.sqrt(2*PI*ME*KB*state.T))**3
+-    if max(degeneracy)>.1: errors.append("Classical EOS fails electron nondegeneracy check")
++    if ideal and max(degeneracy)>.1: errors.append("Classical EOS fails electron nondegeneracy check")
++    geometric=4*PI/3*np.diff(state.r)*(state.r[1:]**2+state.r[1:]*state.r[:-1]+state.r[:-1]**2)
++    volume_error=float(max(abs(geometric/state.volume-1)))
++    if volume_error>1e-8:raise StepRejected('Stored cell volumes disagree with radial geometry')
+     tau=opacity(state.rho,state.T)*state.rho*np.diff(state.r)
+     if v["require_optically_thick"] and min(tau)<1: errors.append("Diffusion cell is optically thin")
+     from .transport import luminosities
+@@ -35,17 +42,22 @@ def check(state,eos,opacity,config):
+     conservation=residuals(state,eos)
+     tol=config["numerics"]["conservation_tolerance"]
+     if max(abs(conservation["mass_residual_relative"]),abs(conservation["energy_residual_relative"]))>tol:
+-        errors.append("Conservation tolerance exceeded")
++        raise StepRejected("Conservation tolerance exceeded")
+     return errors,dict(max_mach=mach,max_compactness=compactness,min_zone_optical_depth=float(min(tau)),
+-                       minimum_helium_ionized_fraction=float(min(helium_ratio/(1+helium_ratio))),
++                       max_eos_first_law_defect=eos_defect,
++                       ideal_eos_helium_screen=float(min(helium_ratio/(1+helium_ratio))),
++                       max_volume_geometry_error=volume_error,
+                        max_temperature_jump=float(max(abs(np.diff(np.log(state.T)))))),conservation
+ 
+ def assumptions(config):
+     out=["Development solver: complete QStarS v1 validation gates are not satisfied.",
+          "Fixed excision boundary; accretion luminosity laws do not imply replication of a full published boundary model.",
+-         "Newtonian, fixed-composition, fully ionized EOS; no recombination, nuclear evolution, rotation, magnetic fields, or GR.",
++         "Newtonian, fixed composition; no nuclear evolution, rotation, magnetic fields, or GR.",
+          "Inflow and outflow are separate, co-moving boundary source cells; multidimensional stream geometry is unresolved.",
+          "Radial inertia is retained; no nonlinear pulsation or shock validation has been established."]
++    if config['eos']=='mesa':
++        out.append('Direct MESA 24.08.1 EOS and opacity, fixed H/He composition; this does not supply MESA stellar evolution, convection, or atmosphere.')
++    else:out.append('Fully ionized ideal gas plus radiation EOS; recombination and degeneracy excluded.')
+     if config["boundary"]["thermal"]=="grey":
+         out.append("Grey boundary is a constant-opacity extrapolation; reported effective temperature is a flux diagnostic, not a validated cool photosphere.")
+     if config["transport"]["convection"]=="mlt_lossless":

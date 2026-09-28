@@ -1,24 +1,43 @@
-# Performance on the available MacBook
+# Apple Silicon performance report
 
-Measured on Apple M5, 16 GiB RAM, macOS 27 arm64, Python 3.12.14. Each example used a fresh CPU process. No GPU, remote compute, or MESA run was used. Solver timing includes initialization and output I/O but excludes the separate plotting process. Peak RSS is measured per fresh process.
+Measured on **Apple M5, 16 GiB RAM, macOS 27 arm64**, Python 3.12.14. Final cases ran sequentially in fresh CPU processes after the other QStarS campaigns finished. No GPU, cloud resources or compiled MESA redistribution is required for the analytic-EOS solver. MESA is a separate optional installation.
 
-| Case | Simulated yr | Zones | Accepted / retries | Runtime s | Peak MiB | Final energy residual / U0 |
-|---|---:|---:|---:|---:|---:|---:|
-| closed_relaxation | 1 | 32 | 107 / 0 | 0.696 | 73.7 | -4.41e-15 |
-| hot_accreting | 10 | 32 | 214 / 0 | 5.064 | 73.4 | 2.86e-15 |
-| two_stream_pulse | 10 | 32 | 219 / 0 | 5.374 | 73.4 | 4.3e-15 |
-| bra_luminosity | 0.1 | 32 | 52 / 0 | 0.576 | 73.2 | -1.2e-13 |
-| dotan_launch | 0.1 | 32 | 25 / 0 | 0.253 | 73.1 | -5.29e-17 |
-| pressure_confined | 0.01 | 64 | 279 / 81 | 20.052 | 73.9 | 1.99e-11 |
+Model runtime includes initialization, evolution and model-output I/O. Fresh-process wall time additionally includes interpreter startup and provenance setup. Plotting is excluded. Peak RSS is per fresh process.
 
-All six completed the configured interval. The ten-year two-stream case transported 0.16 solar masses in, 0.08 out, and 0.002 into the BH engine. BH gravitational mass increased by 0.0018 solar masses. Its energy residual was 4.30e-15 of initial internal energy, 1.16e-13 of initial binding energy, and 1.93e-12 of boundary/engine energy throughput.
+| Case | Zones | Simulated years | Accepted / retries | Model s | Process wall s | Peak MiB | Energy residual / throughput |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| closed_relaxation | 32 | 1 | 107 / 0 | 0.585 | 0.823 | 73.8 | 0 |
+| hot_accreting | 32 | 10 | 214 / 0 | 1.642 | 1.879 | 73.8 | -8.74e-11 |
+| two_stream_pulse | 32 | 10 | 219 / 0 | 1.709 | 1.949 | 74.2 | -1.11e-10 |
+| bra_luminosity_transient | 32 | 0.1 | 52 / 0 | 0.643 | 0.900 | 74.0 | 6.74e-10 |
+| dotan_launch_closure | 32 | 0.1 | 25 / 0 | 0.162 | 0.410 | 73.7 | 8.09e-08 |
+| pressure_confined_hot_envelope | 64 | 0.01 | 100 / 0 | 0.786 | 1.031 | 74.2 | -2.26e-10 |
+| hot_resolved_validation | 512 | 10 | 500 / 0 | 24.215 | 24.463 | 88.9 | 3.15e-13 |
+| mesa_hot_ten_year | 128 | 10 | 500 / 0 | 31.293 | 31.556 | 1045.4 | -3.45e-11 |
 
-The 64-zone concentrated, pressure-confined case required 81 retries and had an energy residual about 8.5e-6 of the transported energy, despite only 2.0e-11 relative to the much larger initial internal energy. This is why both normalizations are reported.
+All eight complete their requested interval and pass unchanged-source provenance verification. Coarse exploratory examples are not evidence of research spatial convergence. The 512-zone `hot_resolved_validation` row has the bounded convergence evidence described in the validation report. The MESA row uses 128 zones and direct EOS/opacity calls; it is not a complete MESA stellar track.
 
-## High-resolution exception
+## High-resolution and native stellar workloads
 
-A 128-zone core-concentrated thermal case failed with the default nonlinear method. An experimental trust-region fallback was rejected after 275 seconds: it advanced only 2.68e-5 years, with 504 accepted steps and 171 retries. Its checkpoint, source snapshot, and interruption context are preserved. The fallback was not retained in the release. This is an unresolved conditioning/timestep problem, not a physical instability.
+The ten-year backward-Euler surface-refined campaign took 12.5, 22.3, 51.0 and 513.1 seconds at 256, 512, 1024 and 2048 zones. Those were development measurements with other campaigns active, so they are not isolated scaling benchmarks. The 2048-zone run needed 2,372 accepted steps because boundary replacement limited the timestep; it is not a fixed-step factor-of-two scaling experiment. All reached the common ten-year endpoint.
 
-Useful restricted individual runs are practical locally. These measurements do not establish the cost or correctness of million-year stellar evolution or a MESA backend. Independent sweeps can use `--workers`; retain one process per modest CPU allocation, then measure throughput rather than assuming linear scaling. Cloud/HPC is optional for independent ensembles, not a cure for unconverged physics or solver failures.
+A subsequent sequential repeat, with no other QStarS campaigns active, took
+12.627, 22.752, 52.916 and 408.516 seconds at those four resolutions. All states
+and ledgers reproduce the earlier results bitwise, and every run passes the
+unchanged-source guard. These cases share one Python process, so its peak RSS
+is cumulative rather than an independent per-case memory measurement. The
+adaptive-step difference still prevents interpreting the timings as pure mesh
+scaling. The roughly 6.8-minute 2048-zone case is a useful local workload for
+this controlled ten-year problem.
 
-[Raw per-process measurements](../Reports/evidence/performance_20260927T201211.json) · [Rejected fallback](../Reports/evidence/rejected_trust_region.json) · [Saved runs](../benchmarks/results/2026-09-28/)
+The symmetric cosine mesh overconcentrates both boundaries and can impose very small source-cell timesteps. The repaired 2048-zone version was deliberately stopped after verifying the earlier geometry failure was gone. The surface-refined alternative and conservative implicit mechanics are substantially more useful for the tested secular hot-envelope problem. Midpoint with a 0.005-year maximum step required about 121 seconds at 512 zones; its interior profiles agree within one percent with backward Euler at the matched timestep.
+
+The ordinary native MESA smoke test used about 85 seconds and 1.86 GiB peak child RSS to reach model 100, including pre-main-sequence construction. QUEST attempts stopped during initialization/inner relaxation; their wall budgets do not establish the cost of a successful quasi-star track. The installed microphysics dataset inventory occupies 15.54 GB on disk; the measured direct-library envelope run peaks near 1.05 GiB RSS.
+
+## Local and cloud use
+
+Useful individual controlled 1D runs fit this MacBook. Prefer local exploratory models and individual resolved hot-envelope runs; inspect their validity exits and convergence evidence before interpreting the science. Independent mesh/timestep/physics grids, many pinned stellar families and large parameter ensembles are reasonable CPU-cloud workloads. Use isolated processes and allocate memory per worker; the MESA interface is not thread-safe across multiple installations. Measure aggregate throughput instead of assuming linear scaling.
+
+The Python solver has no GPU dependency. The MESA shared-library build has only been validated on Apple Silicon; a Linux build must be verified before calling a cloud MESA workflow supported. Cloud CPUs cannot fix an invalid closure, missing cavity accounting, unconverged stellar initialization or unavailable published reference data. Million-year production-track performance remains unknown.
+
+[Validation scope](validation.md) · [Machine-readable measurements](../benchmarks/results/2026-09-28-closure/20260928T031938.396825Z_performance_validation/performance.json) · [Historical baseline](../Reports/evidence/performance_20260927T201211.json)

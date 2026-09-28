@@ -1,0 +1,24 @@
+{
+  "status": "numerical_failure",
+  "reason": "Coupled solve residual=0.000377258; Newton line search or iteration limit",
+  "accepted_steps_this_run": 0,
+  "retries": 13,
+  "runtime_seconds": 12.417876249994151,
+  "process_peak_rss_MiB": 97.78125,
+  "final_time_years": 0.0,
+  "v1_validated": false,
+  "last_domain_rejection": "Boundary cell replacement exceeds 10%; reduce timestep",
+  "conservation": {
+    "mass_residual_g": 0.0,
+    "mass_residual_relative": 0.0,
+    "energy_residual_erg": 0.0,
+    "energy_residual_relative": 0.0,
+    "energy_residual_relative_to_binding": 0.0,
+    "energy_residual_relative_to_throughput": 0.0,
+    "engine_conversion_residual_erg": 0.0,
+    "internal": 3.0009184194169515e+53,
+    "gravity": -3.096268684919044e+53,
+    "kinetic": 0.0,
+    "total": -9.535026550209252e+51
+  }
+}
