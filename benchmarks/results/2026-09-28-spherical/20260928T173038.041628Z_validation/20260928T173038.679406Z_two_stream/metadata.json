@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "git_commit": "b74a52b504c17ad3ebfe98f7058d8000eb5996b7",
+  "git_status": "M README.md\n M benchmarks/manifest.yaml\n M docs/model_families.md\n M docs/sources.md\n M docs/validation.md\n M docs/validity.md\n M scripts/audit_sources.py\n M scripts/build_registry.py\n M sources/acquisition.json\n M src/qstars/data/sources.json\n M src/qstars/reference.py\n?? Reports/evidence/spherical_20260928/\n?? benchmarks/nakauchi2017_figure2.csv\n?? benchmarks/nakauchi2017_figure2.json\n?? benchmarks/spherical_recombining_wind.yaml\n?? docs/spherical_wind.md\n?? scripts/digitize_nakauchi_reference.py\n?? scripts/plot_spherical_validation.py\n?? scripts/validate_spherical_wind.py\n?? src/qstars/spherical_wind.py\n?? tests/test_spherical_wind.py",
+  "source_sha256": "1d17c3ba8386ea30eab82f31e2110121fbaeb2a4e54d1abf3959ba58c87a8355",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "created_utc": "2026-09-28T17:30:38.713852+00:00",
+  "process_package_sha256": "a4b7472b2875115676c69dccf82371f48a13c5a9bbf96a6b2bddc3d318da412a",
+  "source_tree_matches_import": true,
+  "dependencies": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.11.2"
+  },
+  "source_tree_matches_at_end": true,
+  "source_snapshot_verified": true
+}

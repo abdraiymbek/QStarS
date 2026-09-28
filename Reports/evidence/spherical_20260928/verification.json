@@ -1,0 +1,16 @@
+{
+  "tests_passed": 70,
+  "tests_failed": 0,
+  "native_libraries_enabled": true,
+  "package_sha256": "a4b7472b2875115676c69dccf82371f48a13c5a9bbf96a6b2bddc3d318da412a",
+  "tests_output_sha256": "914b074752ab2894f9c31ce2255379241227afc13b614e32e91871119c642cb0",
+  "cli_reference_path": "results/20260928T173036.856560Z_spherical_diffusion_wind",
+  "cli_reference_status": "completed_reference",
+  "cli_v1_exit_code": 2,
+  "remaining_quick_cli_failures": [
+    "CB24 printed Ki_max",
+    "CB24 printed BH/inner mass"
+  ],
+  "v1_complete": false,
+  "driver_sha256": "5d5b6e843d63b57e2648121bbe90096b94a7fa9dd6ec1f2f4da901d35c75802d"
+}

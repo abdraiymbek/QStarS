@@ -1,0 +1,5 @@
+family: spherical_wind_components
+report8_profiles: results/20260928T044002.683023Z_atmosphere_reference
+numerical_profile_log_tolerance: 0.001
+independent_integral_tolerance: 1.0e-06
+paper_comparison: unaltered printed sonic inputs; vector stroke uncertainties

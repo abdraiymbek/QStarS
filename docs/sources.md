@@ -332,3 +332,58 @@ This register distinguishes implemented laws, derived numerical identities, opti
 - Interpretation: Radiation-dominated total first-law agreement can conceal significant gas-pressure error. The historical MESA table discrepancy is retained and rejected in evolution when the dilute limit applies; its radiation-scaled origin is an inference, not a proven table-generation bug.
 - Implementation: `src/qstars/mesa_microphysics.py; src/qstars/validity.py`
 
+## nakauchi2017 — Nakauchi et al. (2017)
+
+[Nakauchi et al. (2017)](https://arxiv.org/abs/1611.09601) · Section 2 equations 1-9, Section 3 Figure 2
+
+- Status: `implemented_diffusion_wind_component`
+- Assumptions: Smooth stationary spherical LTE gas plus radiation, negligible wind self-gravity, no wind convection; direct FreeEOS and MESA opacity differ from original microphysics
+- Domain: Stop strict calculations at radiation-gradient Knudsen 0.1 or a second sonic approach. Paper photosphere extension is diagnostic only. No terminal escape or coupled evolution certification.
+- Variables and units: r cm, rho g/cm3, T K, v cm/s, mdot g/s, L erg/s
+- Interpretation: Gas sonic regularity fixes critical luminosity and local accelerating slope. Base matching solves for sonic r,rho,T without supplied mdot. Independent momentum, diffusion and first-law quadratures supplement exact flux algebra. Published profile discrepancies retained without fitting.
+- Implementation: `src/qstars/spherical_wind.py; scripts/validate_spherical_wind.py`
+
+## quataert2016 — Quataert et al. (2016)
+
+[Quataert et al. (2016)](https://arxiv.org/abs/1509.06370) · Sections 2-3; steady equations and trapped-radiation wind regime
+
+- Status: `audited_method_alternative`
+- Assumptions: Near-surface energy deposition; nearly adiabatic trapped radiation; convection not automatically the dominant transport
+- Domain: Not a generic recombining photosphere or microscopic opacity replacement
+- Variables and units: Heating erg/s, mass g, speed cm/s
+- Interpretation: Provides a physically motivated outflow alternative when hydrostatic convection cannot carry energy; adiabatic approximation needs a photon trapping check. No new heating law added.
+- Implementation: `docs/spherical_wind.md`
+
+## owocki2017 — Owocki, Townsend & Quataert (2017)
+
+[Owocki, Townsend & Quataert (2017)](https://arxiv.org/abs/1708.07790) · Equations 5-10; Appendices B-C
+
+- Status: `audited_energy_accounting`
+- Assumptions: Steady spherical continuum winds; gas and radiation enthalpy separated from comoving diffusion luminosity
+- Domain: Constant opacity limits and simplified sonic sound speed do not solve recombination transfer
+- Variables and units: Luminosity erg/s, enthalpy erg/g
+- Interpretation: Confirms energy partition and the distinction between observer luminosity and diffusive luminosity. Do not charge wind energy from emergent radiation alone.
+- Implementation: `docs/spherical_wind.md; src/qstars/spherical_wind.py`
+
+## owocki2004 — Owocki, Gayley & Shaviv (2004)
+
+[Owocki, Gayley & Shaviv (2004)](https://arxiv.org/abs/astro-ph/0409573) · Porosity-length and power-law porosity models
+
+- Status: `audited_not_implemented`
+- Assumptions: Effective opacity from unresolved inhomogeneities; porosity length and distribution are physical closure inputs
+- Domain: No unique first-principles porosity parameter for these quasi-star boundaries
+- Variables and units: Porosity length cm, optical depths dimensionless
+- Interpretation: A defensible alternative family with explicit parameters, not permission to fit an opacity reduction to a failing smooth-wind benchmark. Kept separate from Dotan launch and Fiacconi radiation wind.
+- Implementation: `docs/spherical_wind.md`
+
+## jiang2015 — Jiang et al. (2015)
+
+[Jiang et al. (2015)](https://arxiv.org/abs/1509.05417) · 3D radiation hydrodynamics; optically efficient and inefficient convection regimes
+
+- Status: `audited_validity_context`
+- Assumptions: Massive-star radiation-dominated iron-opacity layers, multidimensional density and flux correlations
+- Domain: Different composition and opacity peak from primordial quasi-stars; cannot transplant a calibrated coefficient without testing
+- Variables and units: Optical depth and convective Mach dimensionless
+- Interpretation: Supports checking diffusion time versus dynamical time and forbids assuming supersonic local MLT remains valid. Does not prove a universal no-go for 1D quasi-stars.
+- Implementation: `docs/spherical_wind.md`
+

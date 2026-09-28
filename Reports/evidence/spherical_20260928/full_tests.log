@@ -1,0 +1,54 @@
+..................................F...............................F...   [100%]
+=================================== FAILURES ===================================
+______________________ test_example_configuration_loading ______________________
+
+    def test_example_configuration_loading():
+        from pathlib import Path
+        from qstars.config import load
+        for p in Path('configs').glob('*.yaml'):
+>           if p.name!='sweep.yaml':physics(load(p))
+                                            ^^^^^^^
+
+tests/test_physics.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/qstars/config.py:145: in load
+    with open(path) as f: config=resolve(yaml.load(f,Loader=ScientificLoader))
+                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/qstars/config.py:85: in resolve
+    c["numerics"].update(PRESETS[mode]); merge(c,raw)
+                                         ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+base = {'schema_version': 1, 'name': 'hot_envelope', 'fidelity': 'exploratory', 'initial': {'envelope_mass_msun': 10000.0, 'bh_mass_msun': 100.0, 'radius_cm': 100000000000000.0, 'inner_radius_cm': 1000000000000.0, ...}, ...}
+updates = {'family': 'nakauchi2017_lte_diffusion', 'microphysics': 'freeeos_mesa', 'hydrogen': 0.7, 'mass_msun': 10000, ...}
+path = ''
+
+    def merge(base,updates,path=""):
+        for k,v in updates.items():
+>           if k not in base: raise ValueError(f"Unknown configuration key {path+k}")
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           ValueError: Unknown configuration key family
+
+src/qstars/config.py:48: ValueError
+______________ test_stage_domain_retry_preserves_published_inputs ______________
+
+real_micro = <qstars.spherical_wind.FreeEOSOpacity object at 0x10c7a61e0>
+
+    def test_stage_domain_retry_preserves_published_inputs(real_micro):
+        # A DOP853 trial at the original maximum step oversteps rho; halving the
+        # step reaches the same reference branch without clipping EOS inputs.
+        args=(real_micro,100*MSUN,50*RSUN,9.85e-9,2.5e5)
+        w=DiffusionWind(*args)
+        opts=dict(inner_ratio=.1,outer_ratio=100,endpoint='paper_photosphere',rtol=1e-9,sonic_offset=1e-7,samples=251)
+        f,a=w.integrate(**opts)
+        g,b=w.integrate(**opts,max_log_step=.005)
+        assert a['solver_success'] and b['solver_success']
+>       assert len(a['integration_retries'])>=1
+E       assert 0 >= 1
+E        +  where 0 = len([])
+
+tests/test_spherical_wind.py:115: AssertionError
+=========================== short test summary info ============================
+FAILED tests/test_physics.py::test_example_configuration_loading - ValueError...
+FAILED tests/test_spherical_wind.py::test_stage_domain_retry_preserves_published_inputs
+2 failed, 68 passed in 21.30s

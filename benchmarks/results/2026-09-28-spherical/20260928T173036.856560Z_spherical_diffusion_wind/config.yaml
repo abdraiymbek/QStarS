@@ -1,0 +1,14 @@
+family: nakauchi2017_lte_diffusion
+microphysics: freeeos_mesa
+hydrogen: 0.7
+mass_msun: 10000
+sonic_radius_cm: 1152000000000000.0
+sonic_density: 3.0e-11
+sonic_temperature: 10000
+inner_ratio: 0.995
+outer_ratio: 2.0
+endpoint: diffusion_limit
+rtol: 1.0e-09
+sonic_offset: 1.0e-07
+max_log_step: 0.002
+samples: 1001

@@ -17,6 +17,7 @@ source; it does not claim reproduction of the source's entire stellar model.
 | `prescribed` engine | Explicit rest-accretion control and efficiency | A self-consistent inner-flow solution |
 | `off`, `prescribed`, `dotan2011` wind | Separate mass/enthalpy removal and an independent energy-to-escape debit; optional published launch/tiring formula | Porous atmosphere, resolved sonic transition and radiation-enthalpy wind coupling |
 | `fiacconi2016_wind` reference | Stationary constant-opacity wind ODEs with radiation advection, photosphere diagnostic and explicit base Mach closure | Coupling to the evolving envelope; gas-pressure sonic eigenvalue selection; full evolution replication |
+| `nakauchi2017_lte_diffusion` reference | Spherical gas-sonic regularity, FreeEOS/MESA recombination, radiation/gas enthalpy, component base matching and flux interface | Escaping radiation, validated envelope match, turbulent transport, published escaping branch and evolution coupling |
 | Ball loaded-polytrope reference | Published n=2,3,4 dimensionless structure | Thermal evolution |
 | Corrected Bondi reference | Cavity-inclusive dimensionless equilibrium limits | Thermal evolution and moving cavity accounting |
 | Saturated-convection reference | CB24 inner/outer ODE matching, with both documented cutoff interpretations | Full evolutionary family |
@@ -40,3 +41,10 @@ kernel. Combining those streams into one net rate would lose energy and
 entropy information, so that reduction is not performed. Their simultaneous
 multidimensional geometry cannot be resolved in spherical 1D. This is a
 physical validity boundary, not a software defect that a finer grid fixes.
+
+The spherical gas-sonic component is selected with
+`qstars reference benchmarks/spherical_recombining_wind.yaml`; it is kept
+separate from Fiacconi and Dotan. See [its domain and equations](spherical_wind.md).
+A completed reference integration is never converted automatically into
+stellar mass removal. A local critical point, a resolved decelerating branch,
+a photosphere comparison endpoint and a validated terminal wind are distinct.

@@ -1,0 +1,17 @@
+{
+  "paper": "Nakauchi2017 Figure2 and Section3; different EOS/opacity realization",
+  "mass_loss_msun_year": {
+    "published_approximate": 0.14,
+    "computed": 0.1357132559347119
+  },
+  "photosphere_rsun": {
+    "published_approximate": 1400,
+    "computed": 656.6424610884593
+  },
+  "velocity_at_photosphere_cm_s": {
+    "published_approximate": 20000000.0,
+    "computed": 20170342.507983994
+  },
+  "exact_replication_passed": false,
+  "no_retuning": true
+}

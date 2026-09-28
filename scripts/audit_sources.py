@@ -7,7 +7,9 @@ PAPERS = {'bra2008':'0711.4078','ball2011':'1102.5098','dotan2011':'1107.3562',
 'ball_thesis':'1207.5972','fiacconi2016':'1509.07511','coughlin2024':'2405.00084',
 'quest2025':'2507.12651','santarelli2025':'2510.11772','hassan2025':'2510.18301',
 'cantiello2025':'2512.17997','roman2026':'2603.21714','begelman2026':'2507.09085',
-'atmosphere2026':'2605.12141'}
+'atmosphere2026':'2605.12141','nakauchi2017':'1611.09601',
+'quataert2016':'1509.06370','owocki2017':'1708.07790',
+'owocki2004':'astro-ph/0409573','jiang2015':'1509.05417'}
 def fetch(item):
     key, aid = item
     p = Path('sources/cache') / f'{key}.pdf'

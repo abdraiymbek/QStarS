@@ -1,0 +1,8 @@
+results/20260928T173038.041628Z_validation/validation.md
+{
+  "v1_validated": false,
+  "failed_checks": [
+    "CB24 printed Ki_max",
+    "CB24 printed BH/inner mass"
+  ]
+}

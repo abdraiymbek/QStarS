@@ -1,5 +1,14 @@
 # Apple Silicon performance report
 
+Report 9 adds a spherical wind component campaign: **170.41 s**, **569.16 MiB**
+peak RSS on the same Apple M5 / 16 GiB machine. The two baseline low-gravity
+controls take 0.77 and 0.64 s including diagnostics; base root searches dominate
+total cost. These timings do not imply a validated stellar atmosphere or an
+escaping wind. Cloud CPUs can parallelize future independent benchmark and
+coupled-refinement cases, but cannot resolve the physical closure uncertainty.
+See [Report 9](../Reports/Report_9.md) for the scope and evidence.
+
+
 The Report 8 sequential verification with the new dilute-gas validity screen
 completes the same 128-zone MESA ten-year envelope in **30.830 s**, at
 **1045.0 MiB** peak RSS, with 500 accepted steps and no retries. The 14-case

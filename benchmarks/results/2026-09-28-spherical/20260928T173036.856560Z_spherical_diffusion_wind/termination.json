@@ -1,0 +1,63 @@
+{
+  "family": "nakauchi2017_lte_diffusion",
+  "mass": 1.98847e+37,
+  "sonic_radius": 1152000000000000.0,
+  "sonic_density": 3e-11,
+  "sonic_temperature": 10000,
+  "sonic_velocity": 1085555.4859314368,
+  "sonic_luminosity": 2.1424793353154863e+41,
+  "mass_flux": 5.431103802172447e+26,
+  "total_energy_flux": -4.020785563533002e+41,
+  "sonic_slope": 432.2129431349675,
+  "critical_slopes": [
+    {
+      "real": -1139.4549605302454,
+      "imag": 0.0
+    },
+    {
+      "real": 432.2129431349675,
+      "imag": 0.0
+    }
+  ],
+  "sonic_regularity_residual": 1.5910990601812143e-13,
+  "mass_flux_relative_defect": 7.771561172376096e-16,
+  "energy_algebra_relative_defect": 5.772845969981397e-16,
+  "momentum_integral_relative_defect": 1.0226951477526203e-11,
+  "diffusion_integral_relative_defect": 1.893006515559978e-08,
+  "first_law_integral_relative_defect": 5.313726087878773e-10,
+  "shell_mass_fraction": 0.0004148088796005492,
+  "point_mass_screen_passed": true,
+  "diffusion_screen_passed": true,
+  "spherical_gravity_change": 0.012676805603277441,
+  "max_knudsen": 0.0637367324479651,
+  "max_velocity_over_escape": 0.02823400054745987,
+  "max_velocity_over_c": 4.519084172422129e-05,
+  "nonrelativistic_screen_passed": true,
+  "endpoint_velocity_over_escape": 0.014751774819844436,
+  "endpoint_temperature": 7228.776115396539,
+  "endpoint_radius": 1153575144622895.5,
+  "terminations": {
+    "inward": "radial_bound",
+    "outward": "approaching_second_sonic_point"
+  },
+  "escaping_wind_validated": false,
+  "convection_assumption": "Zero convective flux in wind; requires separate matching validity",
+  "physical_impossibility_claimed": false,
+  "v1_validated": false,
+  "rtol": 1e-09,
+  "sonic_offset": 1e-07,
+  "derivative_step": 0.0001,
+  "max_log_step": 0.002,
+  "samples": 1001,
+  "endpoint": "diffusion_limit",
+  "method": "DOP853",
+  "solver_success": true,
+  "solver_messages": [
+    "The solver successfully reached the end of the integration interval.",
+    "A termination event occurred."
+  ],
+  "nfev": 2170,
+  "integration_retries": [],
+  "status": "completed_reference",
+  "source_snapshot_verified": true
+}

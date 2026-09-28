@@ -5,8 +5,8 @@ important numerical checks for a specified hot-envelope problem and adds direct
 MESA microphysics and a stationary advective-wind reference. It does not
 reproduce complete published quasi-star evolutionary tracks.
 
-The current automated suite has **62 passing tests with MESA and FreeEOS enabled**
-(48 passing and fourteen optional tests skipped without those libraries).
+The current automated suite has **70 passing tests with MESA and FreeEOS enabled**
+(optional native-library tests require the pinned builds).
 The full `qstars validate --require-v1` campaign has **29 passing checks and two
 retained printed-value discrepancies** and correctly exits 2. Passing software
 tests is distinct from passing the scientific release gates below.
@@ -21,6 +21,18 @@ the photosphere of 6.68% of radius, incompatible with one-percent
 plane-parallel accuracy. These are converged component-model validity failures,
 not physical destruction or completed evolution. See [the equations, sensitivity
 tests and resolution criteria](atmosphere.md). General v1 remains blocked.
+
+## Spherical outer component campaign
+
+[Report 9](../Reports/Report_9.md) and [the spherical method documentation](spherical_wind.md)
+record the new gas-sonic wind, realistic recombination, separate pressure-work
+fluxes, independent first-law/diffusion/momentum checks, analytical spherical
+limits, known-solution matching recovery and a digitized published profile
+comparison. Numerical component convergence passes. The published escaping
+branch, complete escaping-radiation transport and a validated Report 8 base
+match remain unresolved. No coupled evolution is enabled on that evidence.
+This is further component development, not completion of the requested outer
+campaign or a general 1D no-go result.
 
 ## Controlled spatial and nonlinear convergence
 

@@ -1,0 +1,17 @@
+{
+  "radius": 1140537408479041.8,
+  "density": 6.317691407481335e-11,
+  "temperature": 22203.845158979915,
+  "velocity": 691862.1395890563,
+  "mass": 7.145076891205536e+26,
+  "momentum": 1.3448367387930545e+34,
+  "radiative_energy": 8.556753812816077e+41,
+  "gas_internal_energy": 1.189832865430742e+40,
+  "gas_pressure_work": 2.0298821737349067e+39,
+  "radiation_internal_energy": 2.0797555094555205e+40,
+  "radiation_pressure_work": 6.932518364851735e+39,
+  "kinetic_energy": 1.710078482033357e+38,
+  "potential_energy": -8.314232009085015e+41,
+  "entropy": 3.8273730119631406e+36,
+  "total_energy": 6.608147250875886e+40
+}

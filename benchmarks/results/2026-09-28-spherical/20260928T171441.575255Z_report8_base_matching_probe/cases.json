@@ -1,0 +1,74 @@
+[
+  {
+    "status": "numerical_or_domain_failure",
+    "reason": "Base match not converged: `ftol` termination condition is satisfied.; defect=0.12462170527341451",
+    "traceback": "Traceback (most recent call last):\n  File \"/tmp/qstars_report8_match.py\", line 11, in <module>\n    w,s=match_base(micro,**inputs,sonic_guess=guess,rtol=1e-8,max_nfev=60)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/src/qstars/spherical_wind.py\", line 301, in match_base\n    raise RuntimeError(f'Base match not converged: {fit.message}; defect={defect}')\nRuntimeError: Base match not converged: `ftol` termination condition is satisfied.; defect=0.12462170527341451\n",
+    "inputs": {
+      "mass": 1.98847e+37,
+      "radius": 1150213313722276.0,
+      "density": 3.26729231160017e-11,
+      "temperature": 16539.203774264035,
+      "luminosity": 1.2256073846033753e+42
+    },
+    "guess": [
+      1151363527035998.2,
+      3.26729231160017e-11,
+      10000
+    ],
+    "seconds": 0.6071677500149235
+  },
+  {
+    "status": "numerical_or_domain_failure",
+    "reason": "No unique accelerating subsonic-to-supersonic local branch; slopes=[-244.92424052+349.73688554j -244.92424052-349.73688554j]",
+    "traceback": "Traceback (most recent call last):\n  File \"/tmp/qstars_report8_match.py\", line 11, in <module>\n    w,s=match_base(micro,**inputs,sonic_guess=guess,rtol=1e-8,max_nfev=60)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/src/qstars/spherical_wind.py\", line 296, in match_base\n    fit=least_squares(residual,np.log(np.asarray(sonic_guess)/scale),\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/.venv/lib/python3.12/site-packages/scipy/_lib/_util.py\", line 662, in inner\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/.venv/lib/python3.12/site-packages/scipy/optimize/_lsq/least_squares.py\", line 1019, in least_squares\n    result = trf(vector_fun.fun, vector_fun.jac, x0, f0, J0, lb, ub, ftol, xtol,\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/.venv/lib/python3.12/site-packages/scipy/optimize/_lsq/trf.py\", line 124, in trf\n    return trf_bounds(\n           ^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/.venv/lib/python3.12/site-packages/scipy/optimize/_lsq/trf.py\", line 340, in trf_bounds\n    f_new = fun(x_new)\n            ^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/.venv/lib/python3.12/site-packages/scipy/optimize/_differentiable_functions.py\", line 743, in fun\n    self._update_fun()\n  File \"/Users/abraiymbek/Projects/QStarS/.venv/lib/python3.12/site-packages/scipy/optimize/_differentiable_functions.py\", line 707, in _update_fun\n    self.f = self.fun_wrapped(xp_copy(self.x))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/.venv/lib/python3.12/site-packages/scipy/optimize/_differentiable_functions.py\", line 424, in __call__\n    return np.atleast_1d(self.fun(x))\n                         ^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/.venv/lib/python3.12/site-packages/scipy/optimize/_lsq/least_squares.py\", line 263, in __call__\n    return self.f(x, *self.args, **self.kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/src/qstars/spherical_wind.py\", line 284, in residual\n    wind=DiffusionWind(microphysics,mass,rs,ds,ts)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/src/qstars/spherical_wind.py\", line 112, in __init__\n    self.slope, self.slopes, self.sonic_temperature_slope = self._critical_slope()\n                                                            ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/src/qstars/spherical_wind.py\", line 128, in _critical_slope\n    slope,roots=regular_sonic_slope(coefficients,g,self.derivative_step)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/src/qstars/spherical_wind.py\", line 89, in regular_sonic_slope\n    raise WindBranchError(f'No unique accelerating subsonic-to-supersonic local branch; slopes={roots}')\nqstars.spherical_wind.WindBranchError: No unique accelerating subsonic-to-supersonic local branch; slopes=[-244.92424052+349.73688554j -244.92424052-349.73688554j]\n",
+    "inputs": {
+      "mass": 1.98847e+37,
+      "radius": 1150213313722276.0,
+      "density": 3.26729231160017e-11,
+      "temperature": 16539.203774264035,
+      "luminosity": 1.2256073846033753e+42
+    },
+    "guess": [
+      1153663953663442.8,
+      3.26729231160017e-12,
+      12000
+    ],
+    "seconds": 0.10489779198542237
+  },
+  {
+    "status": "numerical_or_domain_failure",
+    "reason": "Base match not converged: The maximum number of function evaluations is exceeded.; defect=0.0019595234665589684",
+    "traceback": "Traceback (most recent call last):\n  File \"/tmp/qstars_report8_match.py\", line 11, in <module>\n    w,s=match_base(micro,**inputs,sonic_guess=guess,rtol=1e-8,max_nfev=60)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/src/qstars/spherical_wind.py\", line 301, in match_base\n    raise RuntimeError(f'Base match not converged: {fit.message}; defect={defect}')\nRuntimeError: Base match not converged: The maximum number of function evaluations is exceeded.; defect=0.0019595234665589684\n",
+    "inputs": {
+      "mass": 1.98847e+37,
+      "radius": 620721375472962.0,
+      "density": 1.2325949793968518e-11,
+      "temperature": 23580.305148517138,
+      "luminosity": 1.2911748578537618e+42
+    },
+    "guess": [
+      621342096848434.9,
+      1.2325949793968518e-11,
+      10000
+    ],
+    "seconds": 11.403076208021957
+  },
+  {
+    "status": "numerical_or_domain_failure",
+    "reason": "No unique accelerating subsonic-to-supersonic local branch; slopes=[-283.75405088+8660.79985492j -283.75405088-8660.79985492j]",
+    "traceback": "Traceback (most recent call last):\n  File \"/tmp/qstars_report8_match.py\", line 11, in <module>\n    w,s=match_base(micro,**inputs,sonic_guess=guess,rtol=1e-8,max_nfev=60)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/src/qstars/spherical_wind.py\", line 296, in match_base\n    fit=least_squares(residual,np.log(np.asarray(sonic_guess)/scale),\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/.venv/lib/python3.12/site-packages/scipy/_lib/_util.py\", line 662, in inner\n    return func(*args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/.venv/lib/python3.12/site-packages/scipy/optimize/_lsq/least_squares.py\", line 1019, in least_squares\n    result = trf(vector_fun.fun, vector_fun.jac, x0, f0, J0, lb, ub, ftol, xtol,\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/.venv/lib/python3.12/site-packages/scipy/optimize/_lsq/trf.py\", line 124, in trf\n    return trf_bounds(\n           ^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/.venv/lib/python3.12/site-packages/scipy/optimize/_lsq/trf.py\", line 340, in trf_bounds\n    f_new = fun(x_new)\n            ^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/.venv/lib/python3.12/site-packages/scipy/optimize/_differentiable_functions.py\", line 743, in fun\n    self._update_fun()\n  File \"/Users/abraiymbek/Projects/QStarS/.venv/lib/python3.12/site-packages/scipy/optimize/_differentiable_functions.py\", line 707, in _update_fun\n    self.f = self.fun_wrapped(xp_copy(self.x))\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/.venv/lib/python3.12/site-packages/scipy/optimize/_differentiable_functions.py\", line 424, in __call__\n    return np.atleast_1d(self.fun(x))\n                         ^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/.venv/lib/python3.12/site-packages/scipy/optimize/_lsq/least_squares.py\", line 263, in __call__\n    return self.f(x, *self.args, **self.kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/src/qstars/spherical_wind.py\", line 284, in residual\n    wind=DiffusionWind(microphysics,mass,rs,ds,ts)\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/src/qstars/spherical_wind.py\", line 112, in __init__\n    self.slope, self.slopes, self.sonic_temperature_slope = self._critical_slope()\n                                                            ^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/src/qstars/spherical_wind.py\", line 128, in _critical_slope\n    slope,roots=regular_sonic_slope(coefficients,g,self.derivative_step)\n                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/src/qstars/spherical_wind.py\", line 89, in regular_sonic_slope\n    raise WindBranchError(f'No unique accelerating subsonic-to-supersonic local branch; slopes={roots}')\nqstars.spherical_wind.WindBranchError: No unique accelerating subsonic-to-supersonic local branch; slopes=[-283.75405088+8660.79985492j -283.75405088-8660.79985492j]\n",
+    "inputs": {
+      "mass": 1.98847e+37,
+      "radius": 620721375472962.0,
+      "density": 1.2325949793968518e-11,
+      "temperature": 23580.305148517138,
+      "luminosity": 1.2911748578537618e+42
+    },
+    "guess": [
+      622583539599380.9,
+      1.2325949793968518e-12,
+      12000
+    ],
+    "seconds": 0.16483758398680948
+  }
+]

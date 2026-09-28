@@ -101,6 +101,9 @@ def hassan_radius(mbh,rho,cs,N=1):
     return turning*x
 
 def run_reference(config,output='results'):
+    if config.get('family')=='nakauchi2017_lte_diffusion':
+        from .spherical_wind import run_spherical_wind_reference
+        return run_spherical_wind_reference(config,output)
     """Configurable published STATIC families; no thermal-evolution claim."""
     import csv
     from . import io

@@ -1,0 +1,20 @@
+{
+  "cases": 22,
+  "failures": 0,
+  "published_profile_counts": {
+    "compared": 2194,
+    "outside_model_coverage": 240,
+    "no_model": 0,
+    "passed": 2120
+  },
+  "published_replication_passed": false,
+  "convergence_all_passed": true,
+  "matched_component_slices": 3,
+  "report8_base_matches": 0,
+  "runtime_seconds": 170.40957891597645,
+  "peak_rss_mib": 569.15625,
+  "source_snapshot_verified": true,
+  "outer_closure_pass": false,
+  "campaign_complete": false,
+  "v1_validated": false
+}

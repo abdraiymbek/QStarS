@@ -66,3 +66,20 @@ outside the documented Newtonian convention.
 `completed_requested_interval` have distinct meanings. None establishes
 physical destruction, instability or a quasi-star lifetime. QSRD remains
 blocked by the independent framework-validation prerequisite.
+
+## Spherical diffusion wind component (Report 9)
+
+The new component retains gas pressure and ionization through the gas sonic
+point, and stops at a diffusion validity boundary or a second sonic approach.
+Its no-convection assumption is not validated at every subsonic matching point.
+The component can have decreasing entropy there; no stability claim follows.
+A paper-photosphere diagnostic extends past the strict diffusion screen and
+must not be attached as a production boundary. Rosseland mean opacity does
+not supply a non-LTE flux mean or gas/radiation thermalization rate.
+
+The point-mass wind is screened at shell mass / central mass < 1%; its spherical
+hydrostatic reference can include self-gravity. Numerical root failures and
+local inadmissible critical states are not global proofs of nonexistence.
+FreeEOS and supplied base energy must use one energy zero. The fixed-sphere
+flux interface still needs a conservative moving-face evolution update.
+See [the full validity boundary](spherical_wind.md) and [Report 9](../Reports/Report_9.md).

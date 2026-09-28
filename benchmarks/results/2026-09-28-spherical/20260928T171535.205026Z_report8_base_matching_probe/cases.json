@@ -1,0 +1,74 @@
+[
+  {
+    "status": "numerical_or_domain_failure",
+    "reason": "Base match not converged: `ftol` termination condition is satisfied.; defect=0.12383255608155588",
+    "traceback": "Traceback (most recent call last):\n  File \"/tmp/qstars_report8_match.py\", line 11, in <module>\n    w,s=match_base(micro,**inputs,sonic_guess=guess,rtol=1e-8,max_nfev=60)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/src/qstars/spherical_wind.py\", line 317, in match_base\n    raise WindMatchError(f'Base match not converged: {fit.message}; defect={defect}',trace)\nqstars.spherical_wind.WindMatchError: Base match not converged: `ftol` termination condition is satisfied.; defect=0.12383255608155588\n",
+    "inputs": {
+      "mass": 1.98847e+37,
+      "radius": 1150213313722276.0,
+      "density": 3.26729231160017e-11,
+      "temperature": 16539.203774264035,
+      "luminosity": 1.2256073846033753e+42
+    },
+    "guess": [
+      1151363527035998.2,
+      3.26729231160017e-11,
+      10000
+    ],
+    "seconds": 1.1021673750074115
+  },
+  {
+    "status": "numerical_or_domain_failure",
+    "reason": "Base match not converged: `ftol` termination condition is satisfied.; defect=0.1238317677407026",
+    "traceback": "Traceback (most recent call last):\n  File \"/tmp/qstars_report8_match.py\", line 11, in <module>\n    w,s=match_base(micro,**inputs,sonic_guess=guess,rtol=1e-8,max_nfev=60)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/src/qstars/spherical_wind.py\", line 317, in match_base\n    raise WindMatchError(f'Base match not converged: {fit.message}; defect={defect}',trace)\nqstars.spherical_wind.WindMatchError: Base match not converged: `ftol` termination condition is satisfied.; defect=0.1238317677407026\n",
+    "inputs": {
+      "mass": 1.98847e+37,
+      "radius": 1150213313722276.0,
+      "density": 3.26729231160017e-11,
+      "temperature": 16539.203774264035,
+      "luminosity": 1.2256073846033753e+42
+    },
+    "guess": [
+      1153663953663442.8,
+      3.26729231160017e-12,
+      12000
+    ],
+    "seconds": 1.693728749989532
+  },
+  {
+    "status": "numerical_or_domain_failure",
+    "reason": "Base match not converged: The maximum number of function evaluations is exceeded.; defect=0.0019059741952001088",
+    "traceback": "Traceback (most recent call last):\n  File \"/tmp/qstars_report8_match.py\", line 11, in <module>\n    w,s=match_base(micro,**inputs,sonic_guess=guess,rtol=1e-8,max_nfev=60)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/src/qstars/spherical_wind.py\", line 317, in match_base\n    raise WindMatchError(f'Base match not converged: {fit.message}; defect={defect}',trace)\nqstars.spherical_wind.WindMatchError: Base match not converged: The maximum number of function evaluations is exceeded.; defect=0.0019059741952001088\n",
+    "inputs": {
+      "mass": 1.98847e+37,
+      "radius": 620721375472962.0,
+      "density": 1.2325949793968518e-11,
+      "temperature": 23580.305148517138,
+      "luminosity": 1.2911748578537618e+42
+    },
+    "guess": [
+      621342096848434.9,
+      1.2325949793968518e-11,
+      10000
+    ],
+    "seconds": 20.90789866700652
+  },
+  {
+    "status": "numerical_or_domain_failure",
+    "reason": "Base match not converged: The maximum number of function evaluations is exceeded.; defect=0.0014793315801821078",
+    "traceback": "Traceback (most recent call last):\n  File \"/tmp/qstars_report8_match.py\", line 11, in <module>\n    w,s=match_base(micro,**inputs,sonic_guess=guess,rtol=1e-8,max_nfev=60)\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/Users/abraiymbek/Projects/QStarS/src/qstars/spherical_wind.py\", line 317, in match_base\n    raise WindMatchError(f'Base match not converged: {fit.message}; defect={defect}',trace)\nqstars.spherical_wind.WindMatchError: Base match not converged: The maximum number of function evaluations is exceeded.; defect=0.0014793315801821078\n",
+    "inputs": {
+      "mass": 1.98847e+37,
+      "radius": 620721375472962.0,
+      "density": 1.2325949793968518e-11,
+      "temperature": 23580.305148517138,
+      "luminosity": 1.2911748578537618e+42
+    },
+    "guess": [
+      622583539599380.9,
+      1.2325949793968518e-12,
+      12000
+    ],
+    "seconds": 22.78800191701157
+  }
+]

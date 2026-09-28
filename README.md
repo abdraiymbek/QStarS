@@ -12,8 +12,11 @@ photospheres, moving cavities, and coupled transonic winds remain open validatio
 Fiacconi–Rossi stationary wind solver now includes radiation enthalpy advection.
 These examples do not establish quasi-star lifetimes or QSRD recovery results.
 
-[Report 8](Reports/Report_8.md) establishes a concrete outer-boundary release
-blocker: the converged recombining candidate requires supersonic convection,
+[Report 9](Reports/Report_9.md) adds a spherical gas-sonic wind component with
+FreeEOS/MESA recombination, full enthalpy/work fluxes and independent integral
+checks. It does not yet pass published escaping-wind replication or supply a
+validated coupled outer boundary. [Report 8](Reports/Report_8.md) established
+the original release blocker: the converged recombining candidate requires supersonic convection,
 and the warmer candidate violates thin-atmosphere geometry. Direct FreeEOS,
 native MESA atmosphere/MLT references and new gas-pressure validity checks
 are available; they are not certified production atmosphere coupling.
@@ -97,7 +100,7 @@ photospheric radius is `NaN`; effective temperature is a grey flux diagnostic.
 Sequential [Reports](Reports/Report_1.md) and compact evidence are tracked in Git;
 complete local runs remain under ignored `results/`.
 
-The latest [development validation report](Reports/Report_7.md) records the
+The earlier [hot-envelope validation report](Reports/Report_7.md) records the
 resolved hot-envelope evidence and the remaining failed v1 gates. The
 [machine-readable gate matrix](Reports/evidence/completion_gates.json) includes
 the original twelve completion criteria and the nine current priorities.

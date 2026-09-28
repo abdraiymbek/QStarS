@@ -97,5 +97,40 @@
     "bytes": 4562264,
     "status": "downloaded_source_tarball",
     "license": "GPL-2.0-or-later; cached source and compiled binaries not redistributed"
+  },
+  {
+    "id": "nakauchi2017",
+    "url": "https://arxiv.org/abs/1611.09601",
+    "sha256": "05cba5d4373c94269d13a37245aad00996e05c97ef3711ad56e6b0e19682537a",
+    "pages": 11,
+    "status": "downloaded"
+  },
+  {
+    "id": "quataert2016",
+    "url": "https://arxiv.org/abs/1509.06370",
+    "sha256": "75bcf6ffb5caf06ec46641b3d6f84ecd72627b6d4ae69619b65976f6ed6fe9ff",
+    "pages": 19,
+    "status": "downloaded"
+  },
+  {
+    "id": "owocki2017",
+    "url": "https://arxiv.org/abs/1708.07790",
+    "sha256": "fa9dfc39b4ce241fbf48540e8ee1b32d77f52d98e84fe6a39fde1415bb1e1321",
+    "pages": 13,
+    "status": "downloaded"
+  },
+  {
+    "id": "owocki2004",
+    "url": "https://arxiv.org/abs/astro-ph/0409573",
+    "sha256": "3ee5433a08a5a3a0313b5568ad8991bc9a4ee12d9786a141c24404baeab909a7",
+    "pages": 17,
+    "status": "downloaded"
+  },
+  {
+    "id": "jiang2015",
+    "url": "https://arxiv.org/abs/1509.05417",
+    "sha256": "67de158907324717a408686de3f6979e89380ec9b470fb682e5d91c067c032c2",
+    "pages": 20,
+    "status": "downloaded"
   }
 ]

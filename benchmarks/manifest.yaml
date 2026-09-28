@@ -68,3 +68,19 @@ benchmarks:
     status: converged_candidate_fails_physical_validity
     command: python scripts/validate_atmosphere_reference.py --freeeos-library PATH --mesa-library PATH --mesa-dir PATH
     discrepancy: Teff=6000 K and g=1 requires Mach 2.3367 convection for Henyey and ML1; Teff=8000 K and g=3 has a photosphere-to-base depth 6.68 percent of radius at 10000 solar masses. No physical disruption or full stellar evolution inferred.
+  - id: spherical_gas_sonic_wind
+    source: nakauchi2017
+    location: equations 1-9; Figure 2
+    status: implemented_component_published_replication_fails
+    command: python scripts/validate_spherical_wind.py
+    configurations: [spherical_recombining_wind.yaml]
+    reference_file: nakauchi2017_figure2.csv
+    uncertainties: Both radial and ordinate vector stroke widths; calibration and PDF hash in nakauchi2017_figure2.json.
+    discrepancy: FreeEOS/MESA microphysics realization differs from original; no input retuning. Published escaping red branch is not reproduced.
+    required_observables: [mass_flux, sonic_radius, photosphere, velocity, density, temperature, energy_partition]
+  - id: spherical_outer_component_numerics
+    source: nakauchi2017
+    status: implemented_independent_component_campaign
+    command: python scripts/validate_spherical_wind.py
+    required_checks: [Parker_critical_point, spherical_radiative_zero, enclosed_mass, independent_momentum_integral, independent_diffusion_integral, independent_first_law_integral, sonic_offset, tolerance, radial_step, output_sampling, matching_radius_recovery, outer_radius, independent_integrator, stage_retries]
+    limitation: Known-solution base recovery verifies numerical matching; it does not validate evolving-envelope matching, turbulence, photospheric transfer or escape.

@@ -1,0 +1,105 @@
+{
+  "source": "https://arxiv.org/abs/1611.09601",
+  "sha256": "05cba5d4373c94269d13a37245aad00996e05c97ef3711ad56e6b0e19682537a",
+  "page": 4,
+  "figure": 2,
+  "calibration": {
+    "temperature": [
+      5071.69,
+      246.94,
+      4.0
+    ],
+    "velocity": [
+      6617.51,
+      370.41,
+      6.0
+    ],
+    "gas_sound_speed": [
+      6617.51,
+      370.41,
+      6.0
+    ],
+    "density": [
+      5738.52,
+      105.835,
+      -12.0
+    ]
+  },
+  "blocks": {
+    "temperature": [
+      [
+        0,
+        34
+      ],
+      [
+        34,
+        69
+      ],
+      [
+        69,
+        96
+      ],
+      [
+        96,
+        120
+      ]
+    ],
+    "velocity": [
+      [
+        120,
+        154
+      ],
+      [
+        189,
+        229
+      ],
+      [
+        263,
+        291
+      ],
+      [
+        318,
+        343
+      ]
+    ],
+    "gas_sound_speed": [
+      [
+        154,
+        189
+      ],
+      [
+        229,
+        263
+      ],
+      [
+        291,
+        318
+      ],
+      [
+        343,
+        367
+      ]
+    ],
+    "density": [
+      [
+        367,
+        397
+      ],
+      [
+        397,
+        431
+      ],
+      [
+        431,
+        454
+      ],
+      [
+        454,
+        473
+      ]
+    ]
+  },
+  "rows": 2434,
+  "uncertainty": "Half line width plus one stream unit in both log coordinates; not original model data",
+  "no_coefficients_fitted": true
+}
