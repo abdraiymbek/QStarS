@@ -153,3 +153,13 @@ def test_provenance_flags_source_change_after_import(tmp_path,monkeypatch):
     monkeypatch.setattr(io,'_package_sources',lambda:{'changed.py':b'changed'})
     assert not io.finish_provenance(tmp_path)
     assert json.loads((tmp_path/'metadata.json').read_text())['source_snapshot_verified'] is False
+
+def test_boundary_timestep_limit_is_numerical_not_physical_exit(tmp_path):
+    c=resolve({'numerics':{'zones':8,'initial_dt_years':.1,'max_dt_years':.1,'min_dt_years':.05},
+               'feeding':{'rate_msun_per_year':1e9,'thermodynamics':'surface'},
+               'boundary':{'thermal':'insulated'},'engine':{'model':'off'}})
+    path,result=run(c,tmp_path)
+    assert result['status']=='numerical_failure'
+    assert 'replacement' in result['reason']
+    s,_=load_checkpoint(path/'checkpoint.npz')
+    assert s.ledger['supplied_mass']==0

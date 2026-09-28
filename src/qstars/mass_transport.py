@@ -17,7 +17,8 @@ def exchange(old,dt,eos,config,engine,wind_rate):
     if feed < 0 or wind_rate < 0: raise DomainError("A one-way stream has negative mass flux")
     added,removed,swallowed = dt*feed,dt*wind_rate,dt*engine["rest_mass_rate"]
     if swallowed > .1*old.dm[0] or removed+added > .1*old.dm[-1]:
-        raise DomainError("Boundary cell replacement exceeds 10%; reduce timestep")
+        from .numerics import StepRejected
+        raise StepRejected("Boundary cell replacement exceeds 10%; reduce timestep")
     state.dm[0] -= swallowed
     state.dm[-1] += added-removed
     state.bh_mass += dt*engine["bh_growth_rate"]
@@ -42,7 +43,9 @@ def exchange(old,dt,eos,config,engine,wind_rate):
     U = old.dm*q["u"]
     U[0] -= swallowed*q["h"][0]
     U[-1] += added*incoming_h-removed*q["h"][-1]
-    if np.any(U <= 0): raise DomainError("Boundary enthalpy flux exhausts internal energy")
+    if np.any(U <= 0):
+        from .numerics import StepRejected
+        raise StepRejected("Boundary enthalpy flux exhausts internal energy; reduce timestep")
     state.T = eos.temperature(state.rho,U/state.dm)
     # Exact midpoint gradient of the quadratic discrete gravitational energy.
     mid = old.copy()

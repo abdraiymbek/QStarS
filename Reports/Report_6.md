@@ -55,3 +55,9 @@ These repairs do not supply a moving physical cavity, a production atmosphere,
 a coupled stellar wind, full published evolution replication or cross-paper
 predictive validation. Those remain scientifically meaningful requirements in
 1D and cannot be waived as implementation inconveniences. QSRD is deferred.
+
+A final classification audit separates exhausted numerical boundary-cell
+timestep limits from physical domain exits. Such retries are now numerical
+rejections; an explicit regression verifies that exhausting the minimum
+timestep does not report physical disruption or mutate the accepted ledger.
+This changes failure labeling, not accepted-step equations or histories.

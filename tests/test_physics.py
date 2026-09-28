@@ -112,9 +112,10 @@ def test_accretion_mass_defect_and_energy(model):
     assert np.isclose(out.ledger['central_generated'],out.ledger['mass_defect']*C**2,rtol=1e-13)
 
 def test_retry_is_transactional(model):
+    from qstars.numerics import StepRejected
     s,e,op,c=model;before=s.copy()
     c['feeding']['rate_msun_per_year']=1e9
-    with pytest.raises(DomainError): attempt_step(s,YEAR,e,op,c)
+    with pytest.raises(StepRejected): attempt_step(s,YEAR,e,op,c)
     np.testing.assert_array_equal(s.dm,before.dm);np.testing.assert_array_equal(s.T,before.T)
     assert s.ledger==before.ledger
     c['feeding']['rate_msun_per_year']=0.
