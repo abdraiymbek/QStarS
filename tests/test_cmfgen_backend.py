@@ -1,0 +1,119 @@
+import struct
+from pathlib import Path
+import numpy as np
+import pytest
+from qstars.cmfgen_backend import read_spectral,vector_section,hhe_material,production_outer
+from qstars.constants import C
+
+
+def snapshot(path,truncate=False):
+    n=3;nf=2;r=np.array([3.,2.,1.]);v=np.array([1e6,2e6,3e6]);T=np.ones(n)*1e4
+    rho=np.array([2.,3.,4.]);fill=np.array([.1,.5,1.])
+    J=np.array([[2.,4.,6.],[3.,5.,7.]])
+    H=J*.1;K=J/3;chi=np.ones_like(J)*.3;scat=chi*.6
+    eta=(chi-scat)*J # coherent scattering contributes no heat
+    data=np.stack([chi,scat,eta,J,H,K],axis=1).reshape(nf,6*n)
+    data=np.column_stack(([2e15,1e15],[3.,5.],data))
+    content=b'QSCMF001'+struct.pack('<ii',n,nf)+np.array([r,v,T,rho,fill],dtype='<f8').tobytes()+data.astype('<f8').tobytes()
+    path.write_bytes(content[:-8] if truncate else content)
+    return J,H,K,rho,fill
+
+
+def test_spectral_units_quadrature_and_scattering_exchange(tmp_path):
+    p=tmp_path/'spectral';J,H,K,rho,fill=snapshot(p)
+    s=read_spectral(p);q=s.moments(coherent_scattering=True)
+    integrated=np.array([3.,5.])@J[:,::-1]
+    np.testing.assert_allclose(q['E_comoving'],4*np.pi*integrated/C)
+    np.testing.assert_allclose(q['heating_comoving'],0,atol=1e-15)
+    np.testing.assert_allclose(q['radiative_acceleration'],.3/rho[::-1]*q['F_comoving']/C)
+    # Lab-frame radiation work remains present despite zero comoving heating.
+    np.testing.assert_allclose(q['energy_to_matter_lab'],q['velocity']*q['radiative_force_density']/np.sqrt(1-(q['velocity']/C)**2))
+    np.testing.assert_allclose(q['density'],(rho*fill)[::-1])
+    assert not q['wind_eigenvalue_solved']
+
+
+def test_truncated_native_snapshot_rejected(tmp_path):
+    p=tmp_path/'bad';snapshot(p,truncate=True)
+    with pytest.raises(ValueError,match='Incomplete'):read_spectral(p)
+    p.write_bytes(b'QSCMF001'+struct.pack('<ii',-1,2))
+    with pytest.raises(ValueError,match='dimensions'):read_spectral(p)
+
+
+def test_labeled_vector_cannot_consume_next_section():
+    with pytest.raises(ValueError,match='Malformed'):vector_section(['foo','1.0','bar','2.0'],'foo',2)
+    with pytest.raises(ValueError):vector_section(['foo','nan'],'foo',1)
+
+
+def test_population_atomic_energy_keeps_ionization_separate():
+    p={'HI':np.array([[2.],[3.]]),'HII':np.array([5.]),'HeI':np.array([[7.]]),
+       'HeII':np.array([[11.]]),'HeIII':np.array([13.])}
+    s={'temperature':np.array([1e4]),'density_clump':np.array([1e-10]),'hydrogen_density':np.array([10.]),
+       'helium_density':np.array([31.]),'electron_density':np.array([42.])}
+    l={'HI':{'wavenumber':np.array([0.,10.]),'ionization_wavenumber':20.},
+       'HeI':{'wavenumber':np.array([0.]),'ionization_wavenumber':30.},
+       'HeII':{'wavenumber':np.array([0.]),'ionization_wavenumber':40.}}
+    q=hhe_material(s,p,l)
+    expected=6.62607015e-27*C*(3*10+5*20+11*30+13*70)
+    np.testing.assert_allclose(q['atomic_energy_density_clump'],expected)
+    assert max(q['conservation_relative'].values())==0
+    assert q['energy_gauge']=='neutral_H_He_ground'
+    assert not q['equilibrium_derivatives_available']
+
+
+def test_production_wind_remains_gated():
+    with pytest.raises(RuntimeError,match='production wind remains gated'):production_outer()
+
+
+def test_inelastic_scattering_is_not_silently_coherent(tmp_path):
+    p=tmp_path/'spectral';snapshot(p)
+    with pytest.raises(NotImplementedError,match='Inelastic'):read_spectral(p).moments(coherent_scattering=False)
+
+def test_fortran_exponent_without_e_is_supported():
+    np.testing.assert_allclose(vector_section(['foo','1.25-100 2.0D+02'],'foo',2),[1.25e-100,200],atol=0)
+
+
+def runner_module():
+    import importlib.util
+    path=Path(__file__).resolve().parents[1]/'backends/cmfgen/run_component.py'
+    spec=importlib.util.spec_from_file_location('cmfgen_runner',path)
+    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    return module
+
+
+def test_native_zero_exit_is_not_success(tmp_path):
+    executable=tmp_path/'stop';executable.write_text('#!/bin/sh\nprintf "Major Error - cant read BA File\\n" > OUTGEN\nexit 0\n')
+    executable.chmod(0o755);run=tmp_path/'run';run.mkdir()
+    result=runner_module().run(run,executable,timeout=5)
+    assert result['exit_code']==0
+    assert result['status']=='numerical_failure'
+    assert 'fatal error' in result['error']
+    assert (run/'run_result.json').is_file()
+
+
+def test_stale_native_output_rejected(tmp_path):
+    import time
+    (tmp_path/'RVTJ').write_text('stale')
+    with pytest.raises(RuntimeError,match='fresh RVTJ'):
+        runner_module().check_completion(tmp_path,time.time_ns(),False)
+
+
+def test_nonphysical_frequency_rejected(tmp_path):
+    p=tmp_path/'spectral';snapshot(p)
+    a=bytearray(p.read_bytes());struct.pack_into('<d',a,16+8*(5*3+2+6*3),-1.)
+    p.write_bytes(a)
+    with pytest.raises(ValueError,match='grid'):read_spectral(p)
+
+
+def test_unverified_native_ray_capacity_cannot_overrun(tmp_path):
+    directory=tmp_path/'run';directory.mkdir()
+    (directory/'MODEL_SPEC').write_text('680 [NP]\n')
+    executable=tmp_path/'native';executable.write_text('dummy')
+    with pytest.raises(RuntimeError,match='verified capacity 500'):
+        runner_module().check_grid_capacity(directory,executable)
+    import json
+    from qstars.cmfgen_backend import sha256
+    executable.with_suffix('.capabilities.json').write_text(json.dumps(dict(executable_sha256=sha256(executable),explicit_native_capacity_guard=True,max_rays=2048)))
+    assert runner_module().check_grid_capacity(directory,executable)==2048
+    executable.write_text('changed')
+    with pytest.raises(RuntimeError,match='does not match'):
+        runner_module().check_grid_capacity(directory,executable)

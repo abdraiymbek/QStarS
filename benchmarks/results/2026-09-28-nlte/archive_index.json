@@ -1,0 +1,19 @@
+{
+  "scope": "Selected native evidence; large matrices/spectra and external atomic files explicitly hashed but not bundled. All raw local runs remain intact.",
+  "parts": [
+    {
+      "manifest": "archive_manifest.json",
+      "sha256": "dbf08e50e017a7c7b9f91b0eb778d10e77a41c095d8dbb0f4bb542277e98240c",
+      "verification": "verification.json",
+      "files_verified": 1835
+    },
+    {
+      "manifest": "continuation/archive_manifest.json",
+      "sha256": "9ae2073b8e85bb5c4b1e617df3fe347bdfaa73044ef45a9486c650717f1f4be1",
+      "verification": "continuation/verification.json",
+      "files_verified": 95
+    }
+  ],
+  "total_files_verified": 1930,
+  "failures": 0
+}

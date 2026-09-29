@@ -1,0 +1,16 @@
+{
+  "files": {
+    "plane/mod_space_grid_v2.f": {
+      "original_sha256": "dd0779ebe2af4e7fd345567a9e7b8c2ba03ea512cf46ddbec76ffd94644c7511",
+      "patched_sha256": "b9c11f8a90629555e8b964b8f4596de50e44a0c7beb8f2a9500afda4abe4c4ce"
+    },
+    "plane/define_grid_v2.f": {
+      "original_sha256": "6f80505317addc29bf13e741a0dfe33ef046182564ea0654dc5d3109c103455f",
+      "patched_sha256": "51bae5f93bac3073c3050f284f6ccce7745cb25c928806d6455810d92cc015f8"
+    }
+  },
+  "max_rays": 2048,
+  "reason": "665 radii + 15 core rays overran upstream RAY(500), corrupting the adjacent DTAU allocation descriptor",
+  "equations_changed": false,
+  "dust_capacity_changed": false
+}

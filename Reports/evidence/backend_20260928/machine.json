@@ -1,0 +1,9 @@
+{
+  "hardware": "hw.memsize: 17179869184\nhw.model: Mac17,3\nhw.ncpu: 10\nmachdep.cpu.brand_string: Apple M5\n",
+  "os": "ProductName:\t\tmacOS\nProductVersion:\t\t27.0\nBuildVersion:\t\t26A428\n",
+  "executable": "backends/cmfgen/build_2/cur_cmf/exe/cmfgen_dev.exe: Mach-O 64-bit executable arm64\n",
+  "linked_libraries": "backends/cmfgen/build_2/cur_cmf/exe/cmfgen_dev.exe:\n\t@rpath/lib/libgfortran.5.dylib (compatibility version 6.0.0, current version 6.0.0)\n\t/System/Library/Frameworks/Accelerate.framework/Versions/A/Accelerate (compatibility version 1.0.0, current version 4.0.0)\n\t@rpath/lib/libgomp.1.dylib (compatibility version 2.0.0, current version 2.0.0)\n\t@rpath/lib/libquadmath.0.dylib (compatibility version 1.0.0, current version 1.0.0)\n\t/usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1359.0.0)\n",
+  "compiler": "GNU Fortran (GCC) 13.3.0\nCopyright (C) 2023 Free Software Foundation, Inc.\nThis is free software; see the source for copying conditions.  There is NO\nwarranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.\n\n",
+  "python": "3.12.14",
+  "compiler_environment": "MESASDK_ROOT=/Users/abraiymbek/qsrd-runtime/mesasdk; source mesasdk_init.sh"
+}

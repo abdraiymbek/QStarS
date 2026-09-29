@@ -1,0 +1,9 @@
+[
+  "Development solver: complete QStarS v1 validation gates are not satisfied.",
+  "Fixed excision boundary; accretion luminosity laws do not imply replication of a full published boundary model.",
+  "Newtonian, fixed composition; no nuclear evolution, rotation, magnetic fields, or GR.",
+  "Inflow and outflow are separate, co-moving boundary source cells; multidimensional stream geometry is unresolved.",
+  "Radial inertia is retained; no nonlinear pulsation or shock validation has been established.",
+  "Fully ionized ideal gas plus radiation EOS; recombination and degeneracy excluded.",
+  "Convection uses the optically thick lossless-blob approximation; radiative losses of blobs and time-dependent convection are omitted."
+]

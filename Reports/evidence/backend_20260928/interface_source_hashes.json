@@ -1,0 +1,54 @@
+[
+  {
+    "path": "src/qstars/cmfgen_backend.py",
+    "sha256": "7397f13616826535c1893d42338e18a111c169a3c69a830219154b5bfaeb6a14"
+  },
+  {
+    "path": "scripts/validate_cmfgen_component.py",
+    "sha256": "f8593511a2475ce1fd1d1302d13eb684c7da3f0242f39edb2d7dfda62024f36e"
+  },
+  {
+    "path": "benchmarks/cmfgen_validation_plan.json",
+    "sha256": "be3ca7f9adc105668f6e357a0b6b9c276e9578ea3c77838e4ba02896d11dc310"
+  },
+  {
+    "path": "backends/cmfgen/prepare_reference.py",
+    "sha256": "343bc05266906a152b71c630ebe8f99821a752e16e09c9a0c90ef086d351c152"
+  },
+  {
+    "path": "backends/cmfgen/acquire.py",
+    "sha256": "829160b34b1700b1993bef3d1c14e5ebc287bc8b1db49204a57f441c812a7326"
+  },
+  {
+    "path": "backends/cmfgen/continue_component.py",
+    "sha256": "4d76fd0364a08b9316ce101c07ccde1642bcf7555bb940e20f0486b1faf4e603"
+  },
+  {
+    "path": "backends/cmfgen/prepare_hhe.py",
+    "sha256": "7bea30108b7f228985f281da9bcab88ee775fd46a5d1afe081a0c562a96d2d0b"
+  },
+  {
+    "path": "backends/cmfgen/apply_export.py",
+    "sha256": "cdbc03628f7cbf571258b714314e1898e4d42f6f24f8217a743eff304729b5d8"
+  },
+  {
+    "path": "backends/cmfgen/run_component.py",
+    "sha256": "12b507afb7bc2ebb866f7d1728c418e702f52bf033761d9f3eae6cae6d41c80d"
+  },
+  {
+    "path": "backends/cmfgen/build_2/cur_cmf/new_main/cmfgen_sub.f",
+    "sha256": "b6706fa7c93f957898dd099f4259d1495a7e195f37c1cd3d318775e2ae432913"
+  },
+  {
+    "path": "backends/cmfgen/build_2/cur_cmf/new_main/mod_subs/comp_opac.f",
+    "sha256": "46aa68419d3bd6ef359d43ac95e8de6ee19ab0e33f52f1a61dca17431d21ea41"
+  },
+  {
+    "path": "backends/cmfgen/build_2/cur_cmf/new_main/mod_subs/comp_j_blank.f",
+    "sha256": "3e2370668508592df67356861d1988ba8bb60299f4767e2103da87e94fe28a81"
+  },
+  {
+    "path": "backends/cmfgen/build_2/cur_cmf/subs/wrcoolgen_v3.f",
+    "sha256": "ae788941add2f33d928111d6b69f36cc1efd0a7b706381bf16e9eeab8cc67c61"
+  }
+]

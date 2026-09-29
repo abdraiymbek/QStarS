@@ -1,0 +1,29 @@
+{
+  "scope": "Frequency refinement of frozen-state relativistic/advection transport only; not nonlinear thermal or spatial convergence",
+  "baseline": "cmfgen_transport_rel",
+  "initial_state": "cmfgen_hhe_2",
+  "settings": {
+    "V_CROSS": 375.0,
+    "FRAC_DOP": 0.5,
+    "dV_CMF_PROF": 50.0,
+    "dV_CMF_WING": 100.0,
+    "FRAC_SP": 1.0488088481701516,
+    "AMP_FAC": 1.02469507659596,
+    "MAX_BF": 0.05,
+    "dV_LEV": 100.0,
+    "AMP_DIS": 1.1832159566199232
+  },
+  "physical_coefficients_unchanged": [
+    "photoionization smoothing width",
+    "turbulent/Doppler widths",
+    "atomic tables",
+    "density/velocity/temperature/populations",
+    "inner luminosity",
+    "frequency endpoints"
+  ],
+  "limits": {
+    "radiation_profile_relative": 0.01,
+    "global_radiation_energy_relative": 0.001
+  },
+  "provenance": "Existing component thresholds; declaration written before refined run"
+}

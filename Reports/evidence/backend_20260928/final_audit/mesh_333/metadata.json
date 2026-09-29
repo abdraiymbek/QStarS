@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "git_commit": "df0181d49d5374b419ce40773c499429f5ae47ea",
+  "git_status": "M .gitignore\n M docs/model_families.md\n M docs/sources.md\n M docs/usage.md\n M docs/validity.md\n M scripts/build_registry.py\n M src/qstars/data/sources.json\n?? Reports/evidence/backend_20260928/\n?? backends/cmfgen/\n?? benchmarks/cmfgen_frequency_plan.json\n?? benchmarks/cmfgen_mesh_followup_plan.json\n?? benchmarks/cmfgen_mesh_plan.json\n?? benchmarks/cmfgen_thermal_followup_plan.json\n?? benchmarks/cmfgen_transport_plan.json\n?? benchmarks/cmfgen_validation_plan.json\n?? docs/nlte_backend.md\n?? scripts/analyze_cmfgen_campaign.py\n?? scripts/archive_cmfgen_components.py\n?? scripts/compare_cmfgen_export.py\n?? scripts/compare_cmfgen_resolution.py\n?? scripts/validate_cmfgen_component.py\n?? src/qstars/cmfgen_backend.py\n?? tests/test_cmfgen_backend.py",
+  "source_sha256": "8b4883d915a09d9581ee25ef630de0b5a4d28353b1eb35eaa477617694cb68b7",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "created_utc": "2026-09-29T01:54:26.206884+00:00",
+  "process_package_sha256": "28260734af60d182d42c829bd6bd84288221f55295f0380d77388ce30127d3e0",
+  "source_tree_matches_import": true,
+  "dependencies": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.11.2"
+  },
+  "source_tree_matches_at_end": true,
+  "source_snapshot_verified": true
+}

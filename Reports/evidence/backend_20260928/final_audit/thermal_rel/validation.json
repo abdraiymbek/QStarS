@@ -1,0 +1,129 @@
+{
+  "scope": "component only; prescribed flow, no wind eigenvalue",
+  "backend": "CMFGEN 18-Jun-2025",
+  "checks": [
+    {
+      "name": "spectral_J",
+      "value": 4.321931606845358e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "native printed vs independently integrated spectral moment"
+    },
+    {
+      "name": "spectral_H",
+      "value": 4.2818224411551616e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "native printed vs independently integrated spectral moment"
+    },
+    {
+      "name": "spectral_K",
+      "value": 4.26987117922668e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "native printed vs independently integrated spectral moment"
+    },
+    {
+      "name": "spectral_flux_mean",
+      "value": 4.2659690821985104e-08,
+      "limit": 2e-06,
+      "status": "PASS",
+      "scope": "independent extinction-force quadrature"
+    },
+    {
+      "name": "spectral_material_temperature",
+      "value": 4.830116250703485e-07,
+      "limit": 0.001,
+      "status": "PASS",
+      "scope": "state synchronization"
+    },
+    {
+      "name": "mass_flux_uniformity",
+      "value": 8.245936656155312e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "prescribed-flow input consistency only"
+    },
+    {
+      "name": "electron_balance",
+      "value": 0.07198500000000001,
+      "limit": 0.01,
+      "status": "FAIL",
+      "scope": "electron heating/cooling; not total material energy"
+    },
+    {
+      "name": "global_radiation_energy",
+      "value": 0.00020831746318857193,
+      "limit": 0.001,
+      "status": "PASS",
+      "scope": "independent trapezoid volume four-force vs lab luminosity; mesh error and transfer approximations included"
+    },
+    {
+      "name": "last_nonlinear_correction",
+      "value": 2.4261817123121936e-05,
+      "limit": 0.001,
+      "status": "PASS",
+      "scope": "all native variables; full convergence needed"
+    },
+    {
+      "name": "population_hydrogen",
+      "value": 7.414366787195092e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "atomic conservation on native output"
+    },
+    {
+      "name": "population_helium",
+      "value": 6.562797283393706e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "atomic conservation on native output"
+    },
+    {
+      "name": "population_charge",
+      "value": 5.601510655317554e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "atomic conservation on native output"
+    }
+  ],
+  "metrics": {
+    "radii": 84,
+    "frequencies": 43381,
+    "temperature_min": 32420.641,
+    "temperature_max": 119420.07,
+    "luminosity_lab_inner": 3.12585127976692e+39,
+    "luminosity_lab_outer": 3.124906266129222e+39,
+    "volume_energy_to_matter": 2.938442287922082e+35,
+    "prescribed_mdot": 1.1984794619540262e+20,
+    "heating_max_abs": 0.6455892790741985,
+    "warnings": "\n Reading in atomic data\n\n Warning -- FORMAT Date not found in oscilator file:HI_F_OSCDAT\n Warning -- FORMAT Date not found in oscilator file:He2_F_OSCDAT\n\n\n Checking whether some low ionization stages may be omitted from the model.\n Checking whether some high ionization stages may be omitted from the model.\n \n Checking whether lower ionization stages need to be included in model\n \n                   Temperature (10^4 K) is  1.194E+01\n           Atom/ion density (per cm^3)) is  5.340E+15\n                 Electrons per atom/ion is  1.097E+00\n Total thermal kinetic energy (ev/atom) is  3.237E+01\n  Approximate internal energy (ev/atom) is  1.993E+01\n App. missing internal energy (ev/atom) is  0.000E+00\n             Radiation energy (ev/atom) is  5.651E+02\n\n\n  Equation selection in generate_full_matrix_v3.f\n\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  41 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  41 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  41 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  41 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  41 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  41 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  41 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  41 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  41 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  41 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  41 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  41 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  41 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  41 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  41 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  41 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  41 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  41 depths.\n \n ST_IREC, IREC+2, NCF, ND, NU in OUT_JH\n           6           6       43381          84   1000.0000000000000     \n\n Begin COMP_GREY_V4    84    15    99\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  41 depths.\n \n\n\n Checking whether some low ionization stages may be omitted from the model.\n Checking whether some high ionization stages may be omitted from the model.\n \n Checking whether lower ionization stages need to be included in model\n \n                   Temperature (10^4 K) is  1.194E+01\n           Atom/ion density (per cm^3)) is  5.340E+15\n                 Electrons per atom/ion is  1.097E+00\n Total thermal kinetic energy (ev/atom) is  3.237E+01\n  Approximate internal energy (ev/atom) is  1.993E+01\n App. missing internal energy (ev/atom) is  0.000E+00\n             Radiation energy (ev/atom) is  5.651E+02\n",
+    "energy_gauge": "neutral_H_He_ground",
+    "material_derivatives_available": false,
+    "neutral_hydrogen_fraction_range": [
+      3.263252167286136e-10,
+      1.564171223040206e-05
+    ]
+  },
+  "all_requested_component_gates_pass": false,
+  "production_certified": false,
+  "wind_eigenvalue_solved": false,
+  "unperformed_in_this_run": [
+    "radial/frequency convergence",
+    "export invariance",
+    "cool recombination regime",
+    "full coupled energy/population response"
+  ],
+  "this_run_checks_pass": false,
+  "passed": 11,
+  "failed": 1,
+  "input_hashes": {
+    "RVTJ": "4c3eca1b184205538e14278e9becb2013aea151738feeea3fec77a2413d479ef",
+    "MODEL": "afa39f2e09d9ce6031bee17a09c6d20ae912fd228f3fe7e9d953242160561932",
+    "GENCOOL": "58c200427e0aeaa16cfdd21c6529692bb1157602d3ebacbb2edd6b5d1f133857",
+    "OUTGEN": "36b0eb1e3523a5576745974ae90f57ac5ea704acdc2567514a4752e147608a3e",
+    "QSTARS_SPECTRAL.bin": "8284e0b761c445becfee6abe9183dded477de92219ec391f74944b5b019e1ac1"
+  },
+  "plan_sha256": "be3ca7f9adc105668f6e357a0b6b9c276e9578ea3c77838e4ba02896d11dc310",
+  "source_snapshot_verified": true
+}

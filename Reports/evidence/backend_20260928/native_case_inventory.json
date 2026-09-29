@@ -1,0 +1,156 @@
+[
+  {
+    "case": "cmfgen_capacity_control",
+    "wrapper_status": "completed_component_not_certified",
+    "raw_result_directory": "results/cmfgen_capacity_control",
+    "failure_attribution": null,
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_export_off",
+    "wrapper_status": "completed_component_not_certified",
+    "raw_result_directory": "results/cmfgen_export_off",
+    "failure_attribution": null,
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_export_on",
+    "wrapper_status": "completed_component_not_certified",
+    "raw_result_directory": "results/cmfgen_export_on",
+    "failure_attribution": null,
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_hhe_2",
+    "wrapper_status": "early_exploration_without_final_wrapper_record",
+    "raw_result_directory": "results/cmfgen_hhe_2",
+    "failure_attribution": null,
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_hhe_3",
+    "wrapper_status": "completed_component_not_certified",
+    "raw_result_directory": "results/cmfgen_hhe_3",
+    "failure_attribution": null,
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_mesh_167",
+    "wrapper_status": "completed_component_not_certified",
+    "raw_result_directory": "results/cmfgen_mesh_167",
+    "failure_attribution": null,
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_mesh_333",
+    "wrapper_status": "completed_component_not_certified",
+    "raw_result_directory": "results/cmfgen_mesh_333",
+    "failure_attribution": null,
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_mesh_665",
+    "wrapper_status": "numerical_failure",
+    "raw_result_directory": "results/cmfgen_mesh_665",
+    "failure_attribution": null,
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_mesh_665_fixed",
+    "wrapper_status": "completed_component_not_certified",
+    "raw_result_directory": "results/cmfgen_mesh_665_fixed",
+    "failure_attribution": null,
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_mesh_84",
+    "wrapper_status": "completed_component_not_certified",
+    "raw_result_directory": "results/cmfgen_mesh_84",
+    "failure_attribution": null,
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_probe_hhe_1",
+    "wrapper_status": "early_exploration_without_final_wrapper_record",
+    "raw_result_directory": "results/cmfgen_probe_hhe_1",
+    "failure_attribution": null,
+    "termination_reason": "Exploratory run stopped: inherited X-ray source was detected. Retained raw iterations; excluded from validation. New explicit H/He input disables that external source.\n"
+  },
+  {
+    "case": "cmfgen_probe_wn5_1",
+    "wrapper_status": "early_exploration_without_final_wrapper_record",
+    "raw_result_directory": "results/cmfgen_probe_wn5_1",
+    "failure_attribution": null,
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_probe_zpup_1",
+    "wrapper_status": "early_exploration_without_final_wrapper_record",
+    "raw_result_directory": "results/cmfgen_probe_zpup_1",
+    "failure_attribution": null,
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_probe_zpup_2",
+    "wrapper_status": "early_exploration_without_final_wrapper_record",
+    "raw_result_directory": "results/cmfgen_probe_zpup_2",
+    "failure_attribution": null,
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_transport_frequency",
+    "wrapper_status": "completed_component_not_certified",
+    "raw_result_directory": "results/cmfgen_transport_frequency",
+    "failure_attribution": null,
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_transport_rel",
+    "wrapper_status": "completed_component_not_certified",
+    "raw_result_directory": "results/cmfgen_transport_rel",
+    "failure_attribution": null,
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_transport_standard",
+    "wrapper_status": "completed_component_not_certified",
+    "raw_result_directory": "results/cmfgen_transport_standard",
+    "failure_attribution": null,
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_zpup_3",
+    "wrapper_status": "early_exploration_without_final_wrapper_record",
+    "raw_result_directory": "results/cmfgen_zpup_3",
+    "failure_attribution": "results/cmfgen_zpup_3/failure_attribution.json",
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_zpup_4",
+    "wrapper_status": "completed_component_not_certified",
+    "raw_result_directory": "results/cmfgen_zpup_4",
+    "failure_attribution": null,
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_thermal_tight",
+    "wrapper_status": "completed_component_not_certified",
+    "raw_result_directory": "results/cmfgen_thermal_tight",
+    "failure_attribution": null,
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_thermal_rel",
+    "wrapper_status": "completed_component_not_certified",
+    "raw_result_directory": "results/cmfgen_thermal_rel",
+    "failure_attribution": null,
+    "termination_reason": null
+  },
+  {
+    "case": "cmfgen_thermal_equilibrium",
+    "wrapper_status": "completed_component_not_certified",
+    "raw_result_directory": "results/cmfgen_thermal_equilibrium",
+    "failure_attribution": null,
+    "termination_reason": null
+  }
+]

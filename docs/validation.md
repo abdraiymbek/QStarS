@@ -5,7 +5,7 @@ important numerical checks for a specified hot-envelope problem and adds direct
 MESA microphysics and a stationary advective-wind reference. It does not
 reproduce complete published quasi-star evolutionary tracks.
 
-The current automated suite has **85 passing tests with MESA and FreeEOS enabled**
+The current automated suite has **108 passing tests with MESA and FreeEOS enabled**
 (optional native-library tests require the pinned builds).
 The full `qstars validate --require-v1` campaign has **29 passing checks and two
 retained printed-value discrepancies** and correctly exits 2. Passing software
@@ -24,7 +24,28 @@ tests and resolution criteria](atmosphere.md). General v1 remains blocked.
 
 ## Current outer-closure gate
 
-[Report 11](../Reports/Report_11.md) classifies the current work as **OUTER CLOSURE FAIL**.
+[Report 13](../Reports/Report_13.md) has outcome **BACKEND/PHYSICS BLOCKER**.
+CMFGEN supplies a native spherical non-LTE component with explicit atomic data,
+spectral moments, force and energy exchange. Its adapter normalization and
+read-only export pass independent checks. Fresh 84/167/333/665-point transfer
+controls reduce the radiation-energy defect from 6.312% to 1.532%, 0.3921% and
+0.09140%; the last meets the predeclared 0.1% target. The finest common-radius
+radiation/force differences are 0.2019%, below 1%. These are fixed incoming-state
+operator tests, with populations still out of equilibrium, not converged
+quasi-star structure or selected mass loss. The final hot advective continuation
+passes 12 per-run checks, with 0.296% electron imbalance and 0.0208% global
+radiation-energy defect. Maximum cumulative interior defects are 0.148% in that
+case and 0.230% in the finest frozen-state control; these are explicitly
+separate from the passing endpoint targets. No cellwise energy or thermal-mesh
+certificate is claimed. Cool-gas atomic sufficiency,
+consistent material derivatives, the global CMF response and envelope handoff
+remain unvalidated; evolution and QSRD were not attempted.
+
+The [backend contract](nlte_backend.md) defines units, energy reference, frames,
+signs, source provenance and the boundary between diagnostics and production.
+All prior v1 failures remain in the [gate matrix](../Reports/evidence/completion_gates.json).
+
+[Report 11](../Reports/Report_11.md) classified its campaign as **OUTER CLOSURE FAIL**.
 The published spherical grey moment table, moving coherent-scattering radiation
 work, and constructed small-drag wind comparisons pass their stated component
 limits. The 801/1601-node grey profiles differ by at most 0.0329%; wind profiles
@@ -222,7 +243,7 @@ missing; none of the failures below is waived as impossible in spherical 1D.
 | Wind physics | FAIL | Stationary advective wind component exists; envelope/atmosphere coupling and complete validation absent |
 | Multiple full published evolutions | FAIL | Static results and wind-component comparisons are insufficient; zero complete evolutionary replicas |
 | Cross-validation without retuning | FAIL | No multi-paper evolutionary predictive validation |
-| Numerical robustness | CONDITIONAL | Hot-model campaigns and 62 tests pass; full production-model campaigns remain |
+| Numerical robustness | CONDITIONAL | Hot-model campaigns and 108 tests pass; full production-model campaigns remain |
 | Apple Silicon performance | CONDITIONAL | Useful local runs measured; full stellar-track costs unestablished |
 | QSRD readiness after independent v1 | FAIL | Deliberately deferred until the preceding framework gates pass |
 

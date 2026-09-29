@@ -1,0 +1,62 @@
+[
+  {
+    "case": "hhe_2",
+    "source_snapshot_verified": true,
+    "snapshot_sha256": "0543cb1ce37331335c4157a7fdf9aa38d3858425670ccb97b1fcbd865d36c98b"
+  },
+  {
+    "case": "hhe_3",
+    "source_snapshot_verified": true,
+    "snapshot_sha256": "c03512fbe0044bbe0dd6d3b4695cb337f62029e784cf3662a5d78fb67969ab12"
+  },
+  {
+    "case": "mesh_167",
+    "source_snapshot_verified": true,
+    "snapshot_sha256": "3b6f7d319dcb71f117049e5888ec57b2550e9caeeaada4993c98eb34ce107532"
+  },
+  {
+    "case": "mesh_333",
+    "source_snapshot_verified": true,
+    "snapshot_sha256": "8b4883d915a09d9581ee25ef630de0b5a4d28353b1eb35eaa477617694cb68b7"
+  },
+  {
+    "case": "mesh_665_fixed",
+    "source_snapshot_verified": true,
+    "snapshot_sha256": "3cf826cd1adf0c252093428e09eb18047bc3d7a865805bb4cd2795a95e0fac32"
+  },
+  {
+    "case": "mesh_84",
+    "source_snapshot_verified": true,
+    "snapshot_sha256": "3b6f7d319dcb71f117049e5888ec57b2550e9caeeaada4993c98eb34ce107532"
+  },
+  {
+    "case": "thermal_rel",
+    "source_snapshot_verified": true,
+    "snapshot_sha256": "48b743ad3b3c63a651f1c96249d41fe2ac4b030e15f3c0f3b3f2b0409af7c0e7"
+  },
+  {
+    "case": "thermal_tight",
+    "source_snapshot_verified": true,
+    "snapshot_sha256": "271687707c109a317ea03caad9cf1edd1cb704eb7df214eb2918ea2ba97701d4"
+  },
+  {
+    "case": "transport_frequency",
+    "source_snapshot_verified": true,
+    "snapshot_sha256": "61199fbbb29564c71de4371a06a559219238c92231e18539f293b29348440eff"
+  },
+  {
+    "case": "transport_rel",
+    "source_snapshot_verified": true,
+    "snapshot_sha256": "0866de88b40d0cd4d2f0787984e0e71103da3fb7bf0292106ac012633e6368c2"
+  },
+  {
+    "case": "transport_standard",
+    "source_snapshot_verified": true,
+    "snapshot_sha256": "0866de88b40d0cd4d2f0787984e0e71103da3fb7bf0292106ac012633e6368c2"
+  },
+  {
+    "case": "zpup_4",
+    "source_snapshot_verified": true,
+    "snapshot_sha256": "8ba5b587587797e33a404dbbbee30b13c73b727413edb566e72c9b35bd8be5c9"
+  }
+]

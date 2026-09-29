@@ -1,0 +1,135 @@
+{
+  "scope": "component only; prescribed flow, no wind eigenvalue",
+  "backend": "CMFGEN 18-Jun-2025",
+  "checks": [
+    {
+      "name": "spectral_J",
+      "value": 4.496675095543041e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "native printed vs independently integrated spectral moment"
+    },
+    {
+      "name": "spectral_H",
+      "value": 4.0233731954087766e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "native printed vs independently integrated spectral moment"
+    },
+    {
+      "name": "spectral_K",
+      "value": 4.682866570808718e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "native printed vs independently integrated spectral moment"
+    },
+    {
+      "name": "spectral_flux_mean",
+      "value": 4.2325768353920663e-08,
+      "limit": 2e-06,
+      "status": "PASS",
+      "scope": "independent extinction-force quadrature"
+    },
+    {
+      "name": "spectral_material_temperature",
+      "value": 2.9078649970987243e-12,
+      "limit": 0.001,
+      "status": "PASS",
+      "scope": "state synchronization"
+    },
+    {
+      "name": "mass_flux_uniformity",
+      "value": 7.748300275306246e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "prescribed-flow input consistency only"
+    },
+    {
+      "name": "electron_balance",
+      "value": 0.27896,
+      "limit": 0.01,
+      "status": "FAIL",
+      "scope": "electron heating/cooling; not total material energy"
+    },
+    {
+      "name": "global_radiation_energy",
+      "value": 0.07624441778484956,
+      "limit": 0.001,
+      "status": "FAIL",
+      "scope": "independent trapezoid volume four-force vs lab luminosity; mesh error and transfer approximations included"
+    },
+    {
+      "name": "last_nonlinear_correction",
+      "value": 0.03136436979178636,
+      "limit": 0.001,
+      "status": "FAIL",
+      "scope": "all native variables; full convergence needed"
+    },
+    {
+      "name": "reference_temperature",
+      "value": 0.0013876793510893208,
+      "limit": 0.01,
+      "status": "PASS",
+      "scope": "supplied reference across release versions; not quasi-star validation"
+    },
+    {
+      "name": "reference_electron_density",
+      "value": 3.7967204635384786e-05,
+      "limit": 0.02,
+      "status": "PASS",
+      "scope": "supplied reference across release versions; not quasi-star validation"
+    },
+    {
+      "name": "reference_H",
+      "value": 0.00022250428537886986,
+      "limit": 0.02,
+      "status": "PASS",
+      "scope": "supplied reference across release versions; not quasi-star validation"
+    },
+    {
+      "name": "reference_kappa_flux",
+      "value": 0.003300226852836111,
+      "limit": 0.05,
+      "status": "PASS",
+      "scope": "supplied reference across release versions; not quasi-star validation"
+    },
+    {
+      "name": "reference_grid",
+      "value": 0.0,
+      "limit": 1e-07,
+      "status": "PASS",
+      "scope": "unchanged supplied radial grid"
+    }
+  ],
+  "metrics": {
+    "radii": 84,
+    "frequencies": 136075,
+    "temperature_min": 14981.71,
+    "temperature_max": 123316.07,
+    "luminosity_lab_inner": 3.125854219163739e+39,
+    "luminosity_lab_outer": 3.1322697112841085e+39,
+    "volume_energy_to_matter": -2.452335726023453e+38,
+    "prescribed_mdot": 1.1984794626582757e+20,
+    "heating_max_abs": 120778.17407093915,
+    "warnings": "\n Reading in atomic data\n\n Warning -- FORMAT Date not found in oscilator file:HI_F_OSCDAT\n Warning -- FORMAT Date not found in oscilator file:He2_F_OSCDAT\n ***Warning**** ---   256 weak transitions cut in GENOSC_V9 --- NeV_F_OSCDAT\n ***Warning**** ---    18 weak transitions cut in GENOSC_V9 --- NeIV_F_OSCDAT\n ***Warning**** ---     9 weak transitions cut in GENOSC_V9 --- NeIII_F_OSCDAT\n ***Warning**** ---  1428 weak transitions cut in GENOSC_V9 --- MgIV_F_OSCDAT\n ***Warning**** ---   394 weak transitions cut in GENOSC_V9 --- MgIII_F_OSCDAT\n ***Warning**** ---     4 weak transitions cut in GENOSC_V9 --- Mg2_F_OSCDAT\n ***Warning**** ---     2 weak transitions cut in GENOSC_V9 --- SkIV_F_OSCDAT\n ***Warning**** ---    22 weak transitions cut in GENOSC_V9 --- SkIII_F_OSCDAT\n ***Warning**** ---    13 weak transitions cut in GENOSC_V9 --- PV_F_OSCDAT\n ***Warning**** ---    36 weak transitions cut in GENOSC_V9 --- PIV_F_OSCDAT\n ***Warning**** ---    71 weak transitions cut in GENOSC_V9 --- SV_F_OSCDAT\n ***Warning**** ---   165 weak transitions cut in GENOSC_V9 --- SIV_F_OSCDAT\n ***Warning**** ---   226 weak transitions cut in GENOSC_V9 --- ClSIX_F_OSCDAT\n ***Warning**** ---   321 weak transitions cut in GENOSC_V9 --- ClV_F_OSCDAT\n ***Warning**** ---    55 weak transitions cut in GENOSC_V9 --- ClIV_F_OSCDAT\n ***Warning**** ---     5 weak transitions cut in GENOSC_V9 --- ArVIII_F_OSCDAT\n ***Warning**** ---    17 weak transitions cut in GENOSC_V9 --- ArSEV_F_OSCDAT\n ***Warning**** ---    48 weak transitions cut in GENOSC_V9 --- ArSIX_F_OSCDAT\n ***Warning**** ---    64 weak transitions cut in GENOSC_V9 --- ArV_F_OSCDAT\n Warning -- FORMAT Date not found in oscilator file:ArIV_F_OSCDAT\n ***Warning**** ---    66 weak transitions cut in GENOSC_V9 --- ArIV_F_OSCDAT\n Warning -- FORMAT Date not found in oscilator file:CaSEV_F_OSCDAT\n ***Warning**** ---   733 weak transitions cut in GENOSC_V9 --- CaSEV_F_OSCDAT\n Warning -- FORMAT Date not found in oscilator file:CaSIX_F_OSCDAT\n ***Warning**** ---    71 weak transitions cut in GENOSC_V9 --- CaSIX_F_OSCDAT\n Warning -- FORMAT Date not found in oscilator file:CaV_F_OSCDAT\n ***Warning**** ---  5194 weak transitions cut in GENOSC_V9 --- CaV_F_OSCDAT\n ***Warning**** ---  1876 weak transitions cut in GENOSC_V9 --- CaIV_F_OSCDAT\n Warning -- FORMAT Date not found in oscilator file:CaIII_F_OSCDAT\n ***Warning**** ---    41 weak transitions cut in GENOSC_V9 --- CaIII_F_OSCDAT\n ***Warning**** ---  1138 weak transitions cut in GENOSC_V9 --- CrSIX_F_OSCDAT\n ***Warning**** ---   917 weak transitions cut in GENOSC_V9 --- CrV_F_OSCDAT\n ***Warning**** ---  1888 weak transitions cut in GENOSC_V9 --- CrIV_F_OSCDAT\n ***Warning**** ---  1278 weak transitions cut in GENOSC_V9 --- MnSEV_F_OSCDAT\n ***Warning**** ---   398 weak transitions cut in GENOSC_V9 --- MnSIX_F_OSCDAT\n ***Warning**** ---   191 weak transitions cut in GENOSC_V9 --- MnV_F_OSCDAT\n ***Warning**** ---  8073 weak transitions cut in GENOSC_V9 --- MnIV_F_OSCDAT\n ***Warning**** ---   506 weak transitions cut in GENOSC_V9 --- FeSEV_F_OSCDAT\n ***Warning**** --- 31078 weak transitions cut in GENOSC_V9 --- FeSIX_F_OSCDAT\n ***Warning**** --- 34241 weak transitions cut in GENOSC_V9 --- FeV_F_OSCDAT\n ***Warning**** --- 34324 weak transitions cut in GENOSC_V9 --- FeIV_F_OSCDAT\n ***Warning**** ---  3112 weak transitions cut in GENOSC_V9 --- NkSEV_F_OSCDAT\n ***Warning**** --- 35113 weak transitions cut in GENOSC_V9 --- NkSIX_F_OSCDAT\n ***Warning**** --- 35146 weak transitions cut in GENOSC_V9 --- NkV_F_OSCDAT\n ***Warning**** --- 34780 weak transitions cut in GENOSC_V9 --- NkIV_F_OSCDAT\n  \n *************** Warning -- Warning -- Warning ****************\n Max. cont. freq may be too small in in SET_X_FREQ_V2\n Max. cont. should generally be set to 1000 when X-rays present\n Need to allow for ionization from inner shells. Generally can\n ignore ionization from n=1 (=PQN) state of iron group elements\n since these can also ionize from n=2 sate. A list of effected\n ionization routes follows:\n\n  IZ=24    NE=21   PQN= 1   ANG= 0      Edge Freq(10^15 Hz)=  1.45E+03\n  IZ=24    NE=20   PQN= 1   ANG= 0      Edge Freq(10^15 Hz)=  1.46E+03\n  IZ=25    NE=22   PQN= 1   ANG= 0      Edge Freq(10^15 Hz)=  1.59E+03\n  IZ=25    NE=21   PQN= 1   ANG= 0      Edge Freq(10^15 Hz)=  1.59E+03\n  IZ=25    NE=20   PQN= 1   ANG= 0      Edge Freq(10^15 Hz)=  1.60E+03\n  IZ=26    NE=23   PQN= 1   ANG= 0      Edge Freq(10^15 Hz)=  1.72E+03\n  IZ=26    NE=22   PQN= 1   ANG= 0      Edge Freq(10^15 Hz)=  1.73E+03\n  IZ=26    NE=21   PQN= 1   ANG= 0      Edge Freq(10^15 Hz)=  1.74E+03\n  IZ=28    NE=25   PQN= 1   ANG= 0      Edge Freq(10^15 Hz)=  2.02E+03\n  IZ=28    NE=24   PQN= 1   ANG= 0      Edge Freq(10^15 Hz)=  2.03E+03\n  IZ=28    NE=23   PQN= 1   ANG= 0      Edge Freq(10^15 Hz)=  2.03E+03\n\n\n Checking whether some low ionization stages may be omitted from the model.\n Checking whether some high ionization stages may be omitted from the model.\n \n Checking whether lower ionization stages need to be included in model\n \n Checking whether additional higher ionization stages  need to be included in the model.\n NB: If XzV needs to be included it will also be necessary to include XzIV, as this was\n      only included as the ground state.\n Parameters at check depth: Depth= 84   T=1.2332E+01   ED=5.5045E+15\n   NeSIX  may need to be included in the model (IF ~ 1.3E-01)\n   NeSEV  may need to be included in the model (IF ~ 8.2E-04)\n   MgV    may need to be included in the model (IF ~ 8.8E-01)\n   MgSIX  may need to be included in the model (IF ~ 2.1E-02)\n   SkV    may need to be included in the model (IF ~ 1.6E-01)\n   SkSIX  may need to be included in the model (IF ~ 5.0E-04)\n   PSIX   may need to be included in the model (IF ~ 6.4E-04)\n   SSIX   may need to be included in the model (IF ~ 1.3E-04)\n   CaVIII may need to be included in the model (IF ~ 7.5E-01)\n   CaIX   may need to be included in the model (IF ~ 6.6E-02)\n   CrSEV  may need to be included in the model (IF ~ 1.1E+00)\n   CrVIII may need to be included in the model (IF ~ 1.1E-01)\n   CrIX   may need to be included in the model (IF ~ 4.2E-04)\n   MnVIII may need to be included in the model (IF ~ 3.3E-02)\n   FeVIII may need to be included in the model (IF ~ 1.1E-02)\n   NkVIII may need to be included in the model (IF ~ 5.0E-01)\n   NkIX   may need to be included in the model (IF ~ 1.3E-02)\n \n                   Temperature (10^4 K) is  1.233E+01\n           Atom/ion density (per cm^3)) is  4.822E+15\n                 Electrons per atom/ion is  1.142E+00\n Total thermal kinetic energy (ev/atom) is  3.414E+01\n  Approximate internal energy (ev/atom) is  2.287E+01\n App. missing internal energy (ev/atom) is  1.091E-02\n             Radiation energy (ev/atom) is  7.115E+02\n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  63 depths.\n CIII    g.s. eq. replaced by ionization eq. at  73 depths.\n CIV     g.s. eq. replaced by ionization eq. at  79 depths.\n NIII    g.s. eq. replaced by ionization eq. at  70 depths.\n NIV     g.s. eq. replaced by ionization eq. at  84 depths.\n NV      g.s. eq. replaced by ionization eq. at  84 depths.\n OIII    g.s. eq. replaced by ionization eq. at  70 depths.\n OIV     g.s. eq. replaced by ionization eq. at  79 depths.\n OV      g.s. eq. replaced by ionization eq. at  84 depths.\n OSIX    g.s. eq. replaced by ionization eq. at  84 depths.\n NeIII   g.s. eq. replaced by ionization eq. at  69 depths.\n NeIV    g.s. eq. replaced by ionization eq. at  79 depths.\n NeV     g.s. eq. replaced by ionization eq. at  84 depths.\n Mg2     g.s. eq. replaced by ionization eq. at  64 depths.\n MgIII   g.s. eq. replaced by ionization eq. at  66 depths.\n MgIV    g.s. eq. replaced by ionization eq. at  77 depths.\n SkIII   g.s. eq. replaced by ionization eq. at  75 depths.\n SkIV    g.s. eq. replaced by ionization eq. at  78 depths.\n PIV     g.s. eq. replaced by ionization eq. at  80 depths.\n PV      g.s. eq. replaced by ionization eq. at  84 depths.\n SIII    g.s. eq. replaced by ionization eq. at  76 depths.\n SIV     g.s. eq. replaced by ionization eq. at  79 depths.\n SV      g.s. eq. replaced by ionization eq. at  84 depths.\n ClIV    g.s. eq. replaced by ionization eq. at  84 depths.\n ClV     g.s. eq. replaced by ionization eq. at  84 depths.\n ClSIX   g.s. eq. replaced by ionization eq. at  84 depths.\n ClSEV   g.s. eq. replaced by ionization eq. at  84 depths.\n ArIII   g.s. eq. replaced by ionization eq. at  71 depths.\n ArIV    g.s. eq. replaced by ionization eq. at  84 depths.\n ArV     g.s. eq. replaced by ionization eq. at  84 depths.\n ArSIX   g.s. eq. replaced by ionization eq. at  84 depths.\n ArSEV   g.s. eq. replaced by ionization eq. at  84 depths.\n ArVIII  g.s. eq. replaced by ionization eq. at  84 depths.\n CaIII   g.s. eq. replaced by ionization eq. at  72 depths.\n CaIV    g.s. eq. replaced by ionization eq. at  84 depths.\n CaV     g.s. eq. replaced by ionization eq. at  84 depths.\n CaSIX   g.s. eq. replaced by ionization eq. at  84 depths.\n CaSEV   g.s. eq. replaced by ionization eq. at  84 depths.\n CrIV    g.s. eq. replaced by ionization eq. at  71 depths.\n CrV     g.s. eq. replaced by ionization eq. at  77 depths.\n CrSIX   g.s. eq. replaced by ionization eq. at  84 depths.\n MnIV    g.s. eq. replaced by ionization eq. at  73 depths.\n MnV     g.s. eq. replaced by ionization eq. at  77 depths.\n MnSIX   g.s. eq. replaced by ionization eq. at  84 depths.\n MnSEV   g.s. eq. replaced by ionization eq. at  84 depths.\n FeIV    g.s. eq. replaced by ionization eq. at  67 depths.\n FeV     g.s. eq. replaced by ionization eq. at  72 depths.\n FeSIX   g.s. eq. replaced by ionization eq. at  78 depths.\n FeSEV   g.s. eq. replaced by ionization eq. at  80 depths.\n NkIV    g.s. eq. replaced by ionization eq. at  76 depths.\n NkV     g.s. eq. replaced by ionization eq. at  82 depths.\n NkSIX   g.s. eq. replaced by ionization eq. at  84 depths.\n NkSEV   g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n Begin COMP_GREY_V4    84    15    99\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at  63 depths.\n CIII    g.s. eq. replaced by ionization eq. at  73 depths.\n CIV     g.s. eq. replaced by ionization eq. at  79 depths.\n NIII    g.s. eq. replaced by ionization eq. at  70 depths.\n NIV     g.s. eq. replaced by ionization eq. at  84 depths.\n NV      g.s. eq. replaced by ionization eq. at  84 depths.\n OIII    g.s. eq. replaced by ionization eq. at  70 depths.\n OIV     g.s. eq. replaced by ionization eq. at  79 depths.\n OV      g.s. eq. replaced by ionization eq. at  84 depths.\n OSIX    g.s. eq. replaced by ionization eq. at  84 depths.\n NeIII   g.s. eq. replaced by ionization eq. at  69 depths.\n NeIV    g.s. eq. replaced by ionization eq. at  79 depths.\n NeV     g.s. eq. replaced by ionization eq. at  84 depths.\n Mg2     g.s. eq. replaced by ionization eq. at  64 depths.\n MgIII   g.s. eq. replaced by ionization eq. at  66 depths.\n MgIV    g.s. eq. replaced by ionization eq. at  77 depths.\n SkIII   g.s. eq. replaced by ionization eq. at  75 depths.\n SkIV    g.s. eq. replaced by ionization eq. at  78 depths.\n PIV     g.s. eq. replaced by ionization eq. at  80 depths.\n PV      g.s. eq. replaced by ionization eq. at  84 depths.\n SIII    g.s. eq. replaced by ionization eq. at  76 depths.\n SIV     g.s. eq. replaced by ionization eq. at  79 depths.\n SV      g.s. eq. replaced by ionization eq. at  84 depths.\n ClIV    g.s. eq. replaced by ionization eq. at  84 depths.\n ClV     g.s. eq. replaced by ionization eq. at  84 depths.\n ClSIX   g.s. eq. replaced by ionization eq. at  84 depths.\n ClSEV   g.s. eq. replaced by ionization eq. at  84 depths.\n ArIII   g.s. eq. replaced by ionization eq. at  71 depths.\n ArIV    g.s. eq. replaced by ionization eq. at  84 depths.\n ArV     g.s. eq. replaced by ionization eq. at  84 depths.\n ArSIX   g.s. eq. replaced by ionization eq. at  84 depths.\n ArSEV   g.s. eq. replaced by ionization eq. at  84 depths.\n ArVIII  g.s. eq. replaced by ionization eq. at  84 depths.\n CaIII   g.s. eq. replaced by ionization eq. at  72 depths.\n CaIV    g.s. eq. replaced by ionization eq. at  84 depths.\n CaV     g.s. eq. replaced by ionization eq. at  84 depths.\n CaSIX   g.s. eq. replaced by ionization eq. at  84 depths.\n CaSEV   g.s. eq. replaced by ionization eq. at  84 depths.\n CrIV    g.s. eq. replaced by ionization eq. at  71 depths.\n CrV     g.s. eq. replaced by ionization eq. at  77 depths.\n CrSIX   g.s. eq. replaced by ionization eq. at  84 depths.\n MnIV    g.s. eq. replaced by ionization eq. at  73 depths.\n MnV     g.s. eq. replaced by ionization eq. at  77 depths.\n MnSIX   g.s. eq. replaced by ionization eq. at  84 depths.\n MnSEV   g.s. eq. replaced by ionization eq. at  84 depths.\n FeIV    g.s. eq. replaced by ionization eq. at  67 depths.\n FeV     g.s. eq. replaced by ionization eq. at  72 depths.\n FeSIX   g.s. eq. replaced by ionization eq. at  78 depths.\n FeSEV   g.s. eq. replaced by ionization eq. at  80 depths.\n NkIV    g.s. eq. replaced by ionization eq. at  76 depths.\n NkV     g.s. eq. replaced by ionization eq. at  82 depths.\n NkSIX   g.s. eq. replaced by ionization eq. at  84 depths.\n NkSEV   g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n Checking whether some low ionization stages may be omitted from the model.\n Checking whether some high ionization stages may be omitted from the model.\n \n Checking whether lower ionization stages need to be included in model\n \n Checking whether additional higher ionization stages  need to be included in the model.\n NB: If XzV needs to be included it will also be necessary to include XzIV, as this was\n      only included as the ground state.\n Parameters at check depth: Depth= 84   T=1.2332E+01   ED=5.5045E+15\n   NeSIX  may need to be included in the model (IF ~ 1.3E-01)\n   NeSEV  may need to be included in the model (IF ~ 8.2E-04)\n   MgV    may need to be included in the model (IF ~ 8.8E-01)\n   MgSIX  may need to be included in the model (IF ~ 2.1E-02)\n   SkV    may need to be included in the model (IF ~ 1.6E-01)\n   SkSIX  may need to be included in the model (IF ~ 5.0E-04)\n   PSIX   may need to be included in the model (IF ~ 6.4E-04)\n   SSIX   may need to be included in the model (IF ~ 1.3E-04)\n   CaVIII may need to be included in the model (IF ~ 7.5E-01)\n   CaIX   may need to be included in the model (IF ~ 6.6E-02)\n   CrSEV  may need to be included in the model (IF ~ 1.1E+00)\n   CrVIII may need to be included in the model (IF ~ 1.1E-01)\n   CrIX   may need to be included in the model (IF ~ 4.2E-04)\n   MnVIII may need to be included in the model (IF ~ 3.3E-02)\n   FeVIII may need to be included in the model (IF ~ 1.1E-02)\n   NkVIII may need to be included in the model (IF ~ 5.0E-01)\n   NkIX   may need to be included in the model (IF ~ 1.3E-02)\n \n                   Temperature (10^4 K) is  1.233E+01\n           Atom/ion density (per cm^3)) is  4.822E+15\n                 Electrons per atom/ion is  1.142E+00\n Total thermal kinetic energy (ev/atom) is  3.414E+01\n  Approximate internal energy (ev/atom) is  2.287E+01\n App. missing internal energy (ev/atom) is  1.091E-02\n             Radiation energy (ev/atom) is  7.115E+02\n"
+  },
+  "all_requested_component_gates_pass": false,
+  "production_certified": false,
+  "wind_eigenvalue_solved": false,
+  "unperformed": [
+    "radial/frequency convergence",
+    "export invariance",
+    "cool recombination regime",
+    "full coupled energy/population response"
+  ],
+  "passed": 11,
+  "failed": 3,
+  "input_hashes": {
+    "RVTJ": "e895df48084084117c3bc464996909f19434e9869644db52da57ce13e42fb33f",
+    "MODEL": "535c65760341bc039dc4f6a402f59a697fd251919fbd03eb037063604bc3b132",
+    "GENCOOL": "bb5075921e6ab6e46f29efbbc8a9f2d91b4337168a0c53e80d37a8530fa0bd9a",
+    "OUTGEN": "e6edebc9ed8fb13585f1f290642b07928fce96c25165b7023d7c6203b9371135",
+    "QSTARS_SPECTRAL.bin": "801896b49f2fbad568dfdbba04b410c61e8b241c70ef461bc491def98019ce2f"
+  },
+  "plan_sha256": "be3ca7f9adc105668f6e357a0b6b9c276e9578ea3c77838e4ba02896d11dc310"
+}

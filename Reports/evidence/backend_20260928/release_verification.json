@@ -1,0 +1,23 @@
+{
+  "regression": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "108",
+    "time": "135.286",
+    "timestamp": "2026-09-28T21:01:09.408702-05:00",
+    "hostname": "Raiymbeks-MacBook-Air.local"
+  },
+  "regression_xml_sha256": "6c2ffa1bc6d5b4449ecbad7ffc2c1ca74bd1fbd4fe2174aa1aa7543ddcc71453",
+  "cli": {
+    "checks": 31,
+    "passed": 29,
+    "require_v1_exit_code": 2,
+    "v1_validated": false
+  },
+  "frozen_analysis_snapshots_verified": 13,
+  "interface_files_verified": 35,
+  "native_archive_files_verified": 1930,
+  "v1_complete": false
+}

@@ -119,3 +119,22 @@ Mach-one MLT exit remains unchanged. See [Report 11](../Reports/Report_11.md).
 ## Report 12 self-selection boundary
 
 The production self-selected outer gate remains **FAIL**. Frequency-band thermal transfer, a base-selected adiabatic wind and conservative arbitrary-moment interface are separately verified components. They have not been joined into a population-consistent, recombining, convectively matched, escaping quasi-star solution. The static transfer solves different gas/radiation temperatures with frozen synthetic absorption/scattering; it is not a non-LTE atom. The adiabatic wind has no radiation. Its analytically justified hydrostatic/no-wind outcome applies only to that declared reference family. No numerical matching failure is promoted to physical nonexistence. [Report 12 equations and restrictions](self_selected_outer.md) state the conditions needed before a physical envelope test or coupled evolution.
+
+## Non-LTE interface boundary (Report 13)
+
+A native CMFGEN calculation and QStarS adapter now execute on Apple Silicon.
+This does not expand the certified physical envelope/wind domain. A successful
+process, close reference spectrum, conserved nuclei, or a small population
+correction alone cannot certify the thermal or global radiation-energy budget.
+Read-only export invariance and radiation quadrature tests apply only to their
+stated component cases.
+
+The exercised H/He material is hot and almost ionized, with prescribed velocity
+and mass loss. Cold quasi-star recombination, H−/molecules where important,
+level-dissolution energy consistency, population advection, non-LTE derivatives
+and the FreeEOS energy-gauge/composition bridge remain unvalidated. Inelastic
+scattering exchange is not supported by the diagnostic ABI. The current local
+wind critical formula does not include the full nonlocal CMF force response.
+The production entry point refuses coupling. Supersonic MLT, physical wind
+selection, coupled evolution and QSRD gates are unchanged. See
+[the exact interface contract](nlte_backend.md).

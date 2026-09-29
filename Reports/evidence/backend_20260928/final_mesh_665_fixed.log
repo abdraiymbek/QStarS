@@ -1,0 +1,129 @@
+{
+  "scope": "component only; prescribed flow, no wind eigenvalue",
+  "backend": "CMFGEN 18-Jun-2025",
+  "checks": [
+    {
+      "name": "spectral_J",
+      "value": 4.4177220906523906e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "native printed vs independently integrated spectral moment"
+    },
+    {
+      "name": "spectral_H",
+      "value": 4.763396890861823e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "native printed vs independently integrated spectral moment"
+    },
+    {
+      "name": "spectral_K",
+      "value": 4.8211558949516377e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "native printed vs independently integrated spectral moment"
+    },
+    {
+      "name": "spectral_flux_mean",
+      "value": 6.13089319233472e-08,
+      "limit": 2e-06,
+      "status": "PASS",
+      "scope": "independent extinction-force quadrature"
+    },
+    {
+      "name": "spectral_material_temperature",
+      "value": 4.37667088491782e-08,
+      "limit": 0.001,
+      "status": "PASS",
+      "scope": "state synchronization"
+    },
+    {
+      "name": "mass_flux_uniformity",
+      "value": 9.481143783023493e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "prescribed-flow input consistency only"
+    },
+    {
+      "name": "electron_balance",
+      "value": 1.9993,
+      "limit": 0.01,
+      "status": "FAIL",
+      "scope": "electron heating/cooling; not total material energy"
+    },
+    {
+      "name": "global_radiation_energy",
+      "value": 0.0009139725661765852,
+      "limit": 0.001,
+      "status": "PASS",
+      "scope": "independent trapezoid volume four-force vs lab luminosity; mesh error and transfer approximations included"
+    },
+    {
+      "name": "last_nonlinear_correction",
+      "value": 0.08432681394607724,
+      "limit": 0.001,
+      "status": "FAIL",
+      "scope": "all native variables; full convergence needed"
+    },
+    {
+      "name": "population_hydrogen",
+      "value": 8.583521005078865e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "atomic conservation on native output"
+    },
+    {
+      "name": "population_helium",
+      "value": 7.637198307097748e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "atomic conservation on native output"
+    },
+    {
+      "name": "population_charge",
+      "value": 6.194516677382467e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "atomic conservation on native output"
+    }
+  ],
+  "metrics": {
+    "radii": 665,
+    "frequencies": 43381,
+    "temperature_min": 33495.029,
+    "temperature_max": 119885.12,
+    "luminosity_lab_inner": 3.178264029975281e+39,
+    "luminosity_lab_outer": 3.6312251700035004e+39,
+    "volume_energy_to_matter": -4.496422998412266e+38,
+    "prescribed_mdot": 1.198479461932641e+20,
+    "heating_max_abs": 20437.109195666675,
+    "warnings": "\n Reading in atomic data\n\n Warning -- FORMAT Date not found in oscilator file:HI_F_OSCDAT\n Warning -- FORMAT Date not found in oscilator file:He2_F_OSCDAT\n\n\n Checking whether some low ionization stages may be omitted from the model.\n Checking whether some high ionization stages may be omitted from the model.\n \n Checking whether lower ionization stages need to be included in model\n \n                   Temperature (10^4 K) is  1.199E+01\n           Atom/ion density (per cm^3)) is  5.340E+15\n                 Electrons per atom/ion is  1.097E+00\n Total thermal kinetic energy (ev/atom) is  3.249E+01\n  Approximate internal energy (ev/atom) is  1.993E+01\n App. missing internal energy (ev/atom) is  0.000E+00\n             Radiation energy (ev/atom) is  5.739E+02\n ST_IREC, IREC+2, NCF, ND, NU in OUT_JH\n           6           6       43381         665   1000.0000000000000     \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n He2     g.s. eq. replaced by ionization eq. at 506 depths.\n \n\n\n Checking whether some low ionization stages may be omitted from the model.\n Checking whether some high ionization stages may be omitted from the model.\n \n Checking whether lower ionization stages need to be included in model\n \n                   Temperature (10^4 K) is  1.199E+01\n           Atom/ion density (per cm^3)) is  5.340E+15\n                 Electrons per atom/ion is  1.097E+00\n Total thermal kinetic energy (ev/atom) is  3.249E+01\n  Approximate internal energy (ev/atom) is  1.993E+01\n App. missing internal energy (ev/atom) is  0.000E+00\n             Radiation energy (ev/atom) is  5.739E+02\n",
+    "energy_gauge": "neutral_H_He_ground",
+    "material_derivatives_available": false,
+    "neutral_hydrogen_fraction_range": [
+      2.662440393207878e-10,
+      1.5545655671398443e-05
+    ]
+  },
+  "all_requested_component_gates_pass": false,
+  "production_certified": false,
+  "wind_eigenvalue_solved": false,
+  "unperformed_in_this_run": [
+    "radial/frequency convergence",
+    "export invariance",
+    "cool recombination regime",
+    "full coupled energy/population response"
+  ],
+  "this_run_checks_pass": false,
+  "passed": 10,
+  "failed": 2,
+  "input_hashes": {
+    "RVTJ": "d345932d31f1008246b22e34a45f275ed8a55b0c941e3a42500a8cfff5d2ac00",
+    "MODEL": "26658c77b82a981d03e20e36b8f0f0d7cef0453ce208c27343cc26f05021ae93",
+    "GENCOOL": "4cc43291fc020e07fb098c3725026fdf4126b3287a7fcd2013ab589321a2d1cf",
+    "OUTGEN": "1922d30325a38c91cf87afb006bc1259feccafeba600045942af53aa4c985280",
+    "QSTARS_SPECTRAL.bin": "23a1c5354d006f1f7c5b5608d909b878754ebbdf98843dd8970383635849ca2e"
+  },
+  "plan_sha256": "be3ca7f9adc105668f6e357a0b6b9c276e9578ea3c77838e4ba02896d11dc310",
+  "source_snapshot_verified": true
+}

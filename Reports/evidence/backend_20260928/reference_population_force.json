@@ -1,0 +1,11 @@
+{
+  "reference_acceleration_relative": 0.003163818430823917,
+  "limit": 0.05,
+  "hhe_population_difference_per_nucleus": {
+    "HI": 3.0003572557068286e-11,
+    "HeI": 2.0815041134679976e-11,
+    "HeII": 0.00029270002114183856
+  },
+  "scope": "Supplied reference profile compatibility, not independent kinetic-rate validation",
+  "force_status": "PASS"
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "path": "sources/cache/rh_formal.txt",
+    "sha256": "df2c30877eb27d87359c40307e461db3ef8feee67c42d70c8be38faeb1d83c6f"
+  },
+  {
+    "path": "sources/cache/rh_readatmos.txt",
+    "sha256": "5eaf5630f67753ac76a3d7313adbe9a7f135897b781cbfcd91d761e1d8a95058"
+  },
+  {
+    "path": "sources/cache/powr_README.txt",
+    "sha256": "45d31e790998de63d9cf3dc3910b64f2473db73c08e2ac02c7b936aa410d5616"
+  },
+  {
+    "path": "sources/cache/powr_Makefile.txt",
+    "sha256": "9e7ff08b04fab329da70cef7d93908ad10e163458480c5ae651e8d767ce30f04"
+  },
+  {
+    "path": "sources/cache/cmfgen_page.html",
+    "sha256": "aecd797445bf301f7312e3de9bb747583871656c9c16a9e57af5cd88f6524279"
+  },
+  {
+    "path": "sources/cache/sirocco_transfer.html",
+    "sha256": "6323f2d8434c2039d45b25104a8349f71dff423e18b66c39328e105cc68f675c"
+  },
+  {
+    "path": "sources/cache/lightweaver_docs.html",
+    "sha256": "77faeffae3ec3f4bdda9a924ad98abeabc4c46d170d65c09bfdef63769007555"
+  }
+]

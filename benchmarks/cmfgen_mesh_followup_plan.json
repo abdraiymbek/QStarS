@@ -1,0 +1,10 @@
+{
+  "scope": "Extend failed 84/167 fresh-state operator resolution test to 333 and 665 radii; all original thresholds and physical parameters unchanged",
+  "reason": "1.53% radiation energy defect and 1.18% force-profile difference at 167; follow observed convergence rather than accepting one small residual",
+  "factors": [
+    4,
+    8
+  ],
+  "source": "cmfgen_hhe_2",
+  "converged_thermal_model_claim": false
+}

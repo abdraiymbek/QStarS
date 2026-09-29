@@ -81,3 +81,14 @@ production evolution boundary is enabled by these component results.
 - More robust diffusion matching that retains rejected trials and still does not certify a physical envelope or escaping branch.
 
 All are separate Python reference APIs. No new production stellar wind family is enabled. See [the equations and validity boundary](self_selected_outer.md).
+
+## CMFGEN diagnostic component (Report 13)
+
+The optional external CMFGEN interface supplies imported H/He populations,
+spectral coefficients, moments, heating and force for a **prescribed trial
+flow**. The supplied metal/clumped reference, reduced H/He thermal iterations,
+and frozen-state relativistic transfer tests are separate configurations.
+They are not selectable production mass-loss families. No opacity/force
+coefficient was fitted to a quasi-star target. Standard and advective transfer
+options remain explicitly distinct; their different energy residuals are
+retained. [Selection, units and validity](nlte_backend.md).

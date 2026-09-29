@@ -1,0 +1,7 @@
+0          [N_ITS]
+2          [STRT_ITS]
+10         [FREQ_ITS]
+1.0D+06    [ATOM_DEN]
+F          [OLD_V]
+100.0      [MAX_R]
+0            [ITS_DONE]

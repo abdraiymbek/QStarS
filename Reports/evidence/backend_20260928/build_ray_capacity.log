@@ -1,0 +1,861 @@
+(cd tools; make )
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+rm -f *.o
+(cd blas; make)
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  chpr2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a chpr2.o
+r - chpr2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dcabs1.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dcabs1.o
+r - dcabs1.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dsymm.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dsymm.o
+r - dsymm.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  izamax.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a izamax.o
+r - izamax.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  sscal.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a sscal.o
+r - sscal.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  xerbla.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a xerbla.o
+r - xerbla.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zhpmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zhpmv.o
+r - zhpmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  caxpy.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a caxpy.o
+r - caxpy.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  crotg.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a crotg.o
+r - crotg.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dcopy.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dcopy.o
+r - dcopy.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dsymv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dsymv.o
+r - dsymv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  lsame.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a lsame.o
+r - lsame.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  sspmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a sspmv.o
+r - sspmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zaxpy.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zaxpy.o
+r - zaxpy.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zhpr.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zhpr.o
+r - zhpr.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ccopy.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ccopy.o
+r - ccopy.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  cscal.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a cscal.o
+r - cscal.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ddot.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ddot.o
+r - ddot.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dsyr.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dsyr.o
+r - dsyr.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  sasum.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a sasum.o
+r - sasum.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  sspr.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a sspr.o
+r - sspr.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zcopy.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zcopy.o
+r - zcopy.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zhpr2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zhpr2.o
+r - zhpr2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  cdotc.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a cdotc.o
+r - cdotc.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dgbmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dgbmv.o
+r - dgbmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dsyr2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dsyr2.o
+r - dsyr2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  saxpy.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a saxpy.o
+r - saxpy.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  sspr2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a sspr2.o
+r - sspr2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zdotc.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zdotc.o
+r - zdotc.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zrotg.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zrotg.o
+r - zrotg.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  cdotu.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a cdotu.o
+r - cdotu.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  csscal.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a csscal.o
+r - csscal.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dgemm.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dgemm.o
+r - dgemm.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dsyr2k.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dsyr2k.o
+r - dsyr2k.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  scasum.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a scasum.o
+r - scasum.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  sswap.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a sswap.o
+r - sswap.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zdotu.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zdotu.o
+r - zdotu.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zscal.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zscal.o
+r - zscal.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  cgbmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a cgbmv.o
+r - cgbmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  cswap.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a cswap.o
+r - cswap.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dgemv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dgemv.o
+r - dgemv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dsyrk.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dsyrk.o
+r - dsyrk.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  scnrm2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a scnrm2.o
+r - scnrm2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ssymm.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ssymm.o
+r - ssymm.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zswap.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zswap.o
+r - zswap.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  cgemm.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a cgemm.o
+r - cgemm.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  csymm.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a csymm.o
+r - csymm.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dger.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dger.o
+r - dger.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dtbmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dtbmv.o
+r - dtbmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  scopy.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a scopy.o
+r - scopy.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ssymv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ssymv.o
+r - ssymv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zdscal.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zdscal.o
+r - zdscal.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zsymm.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zsymm.o
+r - zsymm.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  cgemv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a cgemv.o
+r - cgemv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  csyr2k.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a csyr2k.o
+r - csyr2k.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dnrm2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dnrm2.o
+r - dnrm2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dtbsv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dtbsv.o
+r - dtbsv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  sdot.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a sdot.o
+r - sdot.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ssyr.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ssyr.o
+r - ssyr.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zgbmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zgbmv.o
+r - zgbmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zsyr2k.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zsyr2k.o
+r - zsyr2k.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  cgerc.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a cgerc.o
+r - cgerc.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  csyrk.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a csyrk.o
+r - csyrk.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  drot.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a drot.o
+r - drot.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dtpmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dtpmv.o
+r - dtpmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ssyr2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ssyr2.o
+r - ssyr2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zgemm.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zgemm.o
+r - zgemm.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zsyrk.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zsyrk.o
+r - zsyrk.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  cgeru.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a cgeru.o
+r - cgeru.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ctbmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ctbmv.o
+r - ctbmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  drotg.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a drotg.o
+r - drotg.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dtpsv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dtpsv.o
+r - dtpsv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  sgbmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a sgbmv.o
+r - sgbmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ssyr2k.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ssyr2k.o
+r - ssyr2k.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zgemv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zgemv.o
+r - zgemv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ztbmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ztbmv.o
+r - ztbmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  chbmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a chbmv.o
+r - chbmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ctbsv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ctbsv.o
+r - ctbsv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dtrmm.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dtrmm.o
+r - dtrmm.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  sgemm.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a sgemm.o
+r - sgemm.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ssyrk.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ssyrk.o
+r - ssyrk.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zgerc.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zgerc.o
+r - zgerc.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ztbsv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ztbsv.o
+r - ztbsv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  chemm.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a chemm.o
+r - chemm.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ctpmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ctpmv.o
+r - ctpmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dtrmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dtrmv.o
+r - dtrmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  sgemv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a sgemv.o
+r - sgemv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  stbmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a stbmv.o
+r - stbmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zgeru.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zgeru.o
+r - zgeru.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ztpmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ztpmv.o
+r - ztpmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  chemv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a chemv.o
+r - chemv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ctpsv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ctpsv.o
+r - ctpsv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dsbmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dsbmv.o
+r - dsbmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dtrsm.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dtrsm.o
+r - dtrsm.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  sger.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a sger.o
+r - sger.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  stbsv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a stbsv.o
+r - stbsv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zhbmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zhbmv.o
+r - zhbmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ztpsv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ztpsv.o
+r - ztpsv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  cher.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a cher.o
+r - cher.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ctrmm.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ctrmm.o
+r - ctrmm.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dscal.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dscal.o
+r - dscal.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dtrsv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dtrsv.o
+r - dtrsv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  snrm2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a snrm2.o
+r - snrm2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  stpmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a stpmv.o
+r - stpmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zhemm.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zhemm.o
+r - zhemm.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ztrmm.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ztrmm.o
+r - ztrmm.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  cher2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a cher2.o
+r - cher2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ctrmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ctrmv.o
+r - ctrmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dzasum.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dzasum.o
+r - dzasum.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  srot.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a srot.o
+r - srot.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  stpsv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a stpsv.o
+r - stpsv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zhemv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zhemv.o
+r - zhemv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ztrmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ztrmv.o
+r - ztrmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  cher2k.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a cher2k.o
+r - cher2k.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ctrsm.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ctrsm.o
+r - ctrsm.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dspmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dspmv.o
+r - dspmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dznrm2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dznrm2.o
+r - dznrm2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  srotg.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a srotg.o
+r - srotg.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  strmm.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a strmm.o
+r - strmm.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zher.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zher.o
+r - zher.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ztrsm.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ztrsm.o
+r - ztrsm.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  cherk.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a cherk.o
+r - cherk.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ctrsv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ctrsv.o
+r - ctrsv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dspr.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dspr.o
+r - dspr.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  icamax.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a icamax.o
+r - icamax.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  strmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a strmv.o
+r - strmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zher2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zher2.o
+r - zher2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ztrsv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ztrsv.o
+r - ztrsv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  chpmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a chpmv.o
+r - chpmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dasum.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dasum.o
+r - dasum.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dspr2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dspr2.o
+r - dspr2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  idamax.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a idamax.o
+r - idamax.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  strsm.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a strsm.o
+r - strsm.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zher2k.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zher2k.o
+r - zher2k.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  chpr.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a chpr.o
+r - chpr.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  daxpy.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a daxpy.o
+r - daxpy.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dswap.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a dswap.o
+r - dswap.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  isamax.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a isamax.o
+r - isamax.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ssbmv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a ssbmv.o
+r - ssbmv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  strsv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a strsv.o
+r - strsv.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  zherk.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_blas.a zherk.o
+r - zherk.o
+rm -f *.o
+(cd dust; make)
+gfortran -fopenmp -c  -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ dust_mod.f 
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmod.a dust_mod.o
+r - dust_mod.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+gfortran -fopenmp -c  -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ comp_dust_opac.f 
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a comp_dust_opac.o
+r - comp_dust_opac.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+gfortran -fopenmp -c  -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ rd_dust_cntrl_file.f 
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a rd_dust_cntrl_file.o
+r - rd_dust_cntrl_file.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+gfortran -fopenmp -c  -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ rd_dust_file.f 
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a rd_dust_file.o
+r - rd_dust_file.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+gfortran -fopenmp -c  -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ set_ejecta_dust_properties.f 
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a set_ejecta_dust_properties.o
+r - set_ejecta_dust_properties.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+rm -f *.o
+(cd lpack; make)
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dgeequ.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_lapack.a dgeequ.o
+r - dgeequ.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dgetrf.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_lapack.a dgetrf.o
+r - dgetrf.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dlamch.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_lapack.a dlamch.o
+r - dlamch.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ieeeck.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_lapack.a ieeeck.o
+r - ieeeck.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  lsame.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_lapack.a lsame.o
+r - lsame.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dgetf2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_lapack.a dgetf2.o
+r - dgetf2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dgetrs.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_lapack.a dgetrs.o
+r - dgetrs.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  dlaswp.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_lapack.a dlaswp.o
+r - dlaswp.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  ilaenv.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmy_lapack.a ilaenv.o
+r - ilaenv.o
+rm -f *.o
+(cd new_main/subs; make )
+Makefile:195: warning: overriding commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmod.a(mod_cmfgen.o)'
+Makefile:183: warning: ignoring old commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmod.a(mod_cmfgen.o)'
+Makefile:195: warning: overriding commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmod.a(control_variable_mod.o)'
+Makefile:186: warning: ignoring old commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmod.a(control_variable_mod.o)'
+Makefile:195: warning: overriding commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmod.a(steq_data_mod.o)'
+Makefile:180: warning: ignoring old commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmod.a(steq_data_mod.o)'
+(cd ../mod_subs ; make)
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+rm -f *.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  update_ba_for_line.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a update_ba_for_line.o
+r - update_ba_for_line.o
+(make -f Make_nuc)
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+rm -f *.o
+(cd auto; make)
+rm -f *.o
+(cd chg; make)
+rm -f *.o
+(cd two; make)
+rm -f *.o
+(cd non_therm; make)
+rm -f *.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+rm -f *.o
+(cd stark; make )
+(cd ../obs;  make mod_freq)
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ mod_freq_obs.f
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ 
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  set_prof_v6.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a set_prof_v6.o
+r - set_prof_v6.o
+rm -f *.o
+cp /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file  jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+(cd unix; make )
+rm -f *.o
+(cd subs; make )
+(cd ../unix; make)
+rm -f *.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+rm -f *.o
+(cd plane; make )
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ mod_ray_mom_store.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a mod_ray_mom_store.o
+r - mod_ray_mom_store.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ mod_var_mom_j_cmf.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a mod_var_mom_j_cmf.o
+r - mod_var_mom_j_cmf.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ mod_var_jrel_v2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a mod_var_jrel_v2.o
+r - mod_var_jrel_v2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ mod_space_grid_v2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a mod_space_grid_v2.o
+r - mod_space_grid_v2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ mod_space_grid_v2_gam.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a mod_space_grid_v2_gam.o
+r - mod_space_grid_v2_gam.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ add_dust_eta.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a add_dust_eta.o
+r - add_dust_eta.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ comp_add_edd_facs.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a comp_add_edd_facs.o
+r - comp_add_edd_facs.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ characteristics_v2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a characteristics_v2.o
+r - characteristics_v2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ characteristics_v2_gam.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a characteristics_v2_gam.o
+r - characteristics_v2_gam.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ cmf_formal_rel_v4.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a cmf_formal_rel_v4.o
+r - cmf_formal_rel_v4.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ cmf_formal_rel_v5.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a cmf_formal_rel_v5.o
+r - cmf_formal_rel_v5.o
+ar rv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmod.a mod_ray_mom_store.o
+r - mod_ray_mom_store.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ cmf_formal_rel_v4_gam.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a cmf_formal_rel_v4_gam.o
+r - cmf_formal_rel_v4_gam.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ cmf_rel_dust_qw.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a cmf_rel_dust_qw.o
+r - cmf_rel_dust_qw.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ derivr.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a derivr.o
+r - derivr.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ derivs.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a derivs.o
+r - derivs.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ drhsdchi_pp.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a drhsdchi_pp.o
+r - drhsdchi_pp.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ define_grid_v2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a define_grid_v2.o
+r - define_grid_v2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ define_grid_v2_gam.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a define_grid_v2_gam.o
+r - define_grid_v2_gam.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ expn.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a expn.o
+r - expn.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ edd_j_hub_var_v3.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a edd_j_hub_var_v3.o
+r - edd_j_hub_var_v3.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ edd_jrel_var_v3.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a edd_jrel_var_v3.o
+r - edd_jrel_var_v3.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ fcomp_pp_v2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a fcomp_pp_v2.o
+r - fcomp_pp_v2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ fgrey_norel_v1.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a fgrey_norel_v1.o
+r - fgrey_norel_v1.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ fg_j_cmf_v12.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a fg_j_cmf_v12.o
+r - fg_j_cmf_v12.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ fg_j_cmf_v13.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a fg_j_cmf_v13.o
+r - fg_j_cmf_v13.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ gauleg.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a gauleg.o
+r - gauleg.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ get_hg_fun.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a get_hg_fun.o
+r - get_hg_fun.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ get_ibound.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a get_ibound.o
+r - get_ibound.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ get_jh_at_prev_time_step.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a get_jh_at_prev_time_step.o
+r - get_jh_at_prev_time_step.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ get_rsqj_from_j.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a get_rsqj_from_j.o
+r - get_rsqj_from_j.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ get_moms_non_rel.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a get_moms_non_rel.o
+r - get_moms_non_rel.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ get_moms_rel.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a get_moms_rel.o
+r - get_moms_rel.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ get_rsqh_rel.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a get_rsqh_rel.o
+r - get_rsqh_rel.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ jgrey_hub_ddt_v2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a jgrey_hub_ddt_v2.o
+r - jgrey_hub_ddt_v2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ jgrey_hub_ddt_v5.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a jgrey_hub_ddt_v5.o
+r - jgrey_hub_ddt_v5.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ j_weight.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a j_weight.o
+r - j_weight.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ h_weight.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a h_weight.o
+r - h_weight.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ k_weight.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a k_weight.o
+r - k_weight.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ n_weight.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a n_weight.o
+r - n_weight.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ mom_j_cmf_v8.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a mom_j_cmf_v8.o
+r - mom_j_cmf_v8.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ mom_j_cmf_v11.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a mom_j_cmf_v11.o
+r - mom_j_cmf_v11.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ mom_j_ddt_v6.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a mom_j_ddt_v6.o
+r - mom_j_ddt_v6.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ mom_j_pp_v1.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a mom_j_pp_v1.o
+r - mom_j_pp_v1.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ mom_jrel_v8.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a mom_jrel_v8.o
+r - mom_jrel_v8.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ mom_jrel_v9.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a mom_jrel_v9.o
+r - mom_jrel_v9.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ mom_jrel_grey_v1.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a mom_jrel_grey_v1.o
+r - mom_jrel_grey_v1.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ mom_jrel_grey_v2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a mom_jrel_grey_v2.o
+r - mom_jrel_grey_v2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ optdepth_v4.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a optdepth_v4.o
+r - optdepth_v4.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ optdepth_v4_gam.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a optdepth_v4_gam.o
+r - optdepth_v4_gam.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ out_jh.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a out_jh.o
+r - out_jh.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ pp_form_cmf_v2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a pp_form_cmf_v2.o
+r - pp_form_cmf_v2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ pp_var_mom_cmf_v1.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a pp_var_mom_cmf_v1.o
+r - pp_var_mom_cmf_v1.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ pp_edd_var_cmf_v1.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a pp_edd_var_cmf_v1.o
+r - pp_edd_var_cmf_v1.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ pp_mom_cmf_v1.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a pp_mom_cmf_v1.o
+r - pp_mom_cmf_v1.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ rel_variables.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a rel_variables.o
+r - rel_variables.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ runge_kutta.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a runge_kutta.o
+r - runge_kutta.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ solve_cmf_formal_v2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a solve_cmf_formal_v2.o
+r - solve_cmf_formal_v2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ solve_cmf_formal_v3.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a solve_cmf_formal_v3.o
+r - solve_cmf_formal_v3.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ solve_cmf_formal_v3_gam.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a solve_cmf_formal_v3_gam.o
+r - solve_cmf_formal_v3_gam.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ var_jrel_v5.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a var_jrel_v5.o
+r - var_jrel_v5.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ var_mom_j_ddt_v6.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a var_mom_j_ddt_v6.o
+r - var_mom_j_ddt_v6.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ var_mom_pp_v1.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a var_mom_pp_v1.o
+r - var_mom_pp_v1.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ var_mom_j_cmf_v9.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a var_mom_j_cmf_v9.o
+r - var_mom_j_cmf_v9.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ var_mom_j_cmf_v12.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a var_mom_j_cmf_v12.o
+r - var_mom_j_cmf_v12.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ var_mom_jext_cmf_v3.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a var_mom_jext_cmf_v3.o
+r - var_mom_jext_cmf_v3.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ velocity_law.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a velocity_law.o
+r - velocity_law.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+rm -f *.o
+(cd newsubs; make ) 
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+rm -f *.o
+(cd pgplt; make ) 
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+rm -f *.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  det_r_grid_v1.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a det_r_grid_v1.o
+r - det_r_grid_v1.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  det_r_grid_v2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a det_r_grid_v2.o
+r - det_r_grid_v2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  get_lte_ross_v3.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a get_lte_ross_v3.o
+r - get_lte_ross_v3.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  get_lte_ross_v2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a get_lte_ross_v2.o
+r - get_lte_ross_v2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  wind_vel_law_v1.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a wind_vel_law_v1.o
+r - wind_vel_law_v1.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  wind_vel_law_v2.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a wind_vel_law_v2.o
+r - wind_vel_law_v2.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  wind_vel_law_v3.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a wind_vel_law_v3.o
+r - wind_vel_law_v3.o
+(cd new_main; make )
+(cd mod_subs ; make )
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+rm -f *.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ cmfgen.f 
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ cmfgen_sub.f 
+(cd ../tools; make )
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+rm -f *.o
+(cd ../subs; make )
+(cd ../unix; make)
+rm -f *.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+rm -f *.o
+(cd ../newsubs; make )
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+rm -f *.o
+(cd ../stark; make )
+(cd ../obs;  make mod_freq)
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ mod_freq_obs.f
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ 
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  set_prof_v6.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a set_prof_v6.o
+r - set_prof_v6.o
+rm -f *.o
+cp /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file  jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+(cd subs; make )
+Makefile:195: warning: overriding commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmod.a(mod_cmfgen.o)'
+Makefile:183: warning: ignoring old commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmod.a(mod_cmfgen.o)'
+Makefile:195: warning: overriding commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmod.a(control_variable_mod.o)'
+Makefile:186: warning: ignoring old commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmod.a(control_variable_mod.o)'
+Makefile:195: warning: overriding commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmod.a(steq_data_mod.o)'
+Makefile:180: warning: ignoring old commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libmod.a(steq_data_mod.o)'
+(cd ../mod_subs ; make)
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+rm -f *.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/  update_ba_for_line.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/libsubs.a update_ba_for_line.o
+r - update_ba_for_line.o
+(make -f Make_nuc)
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+rm -f *.o
+(cd auto; make)
+rm -f *.o
+(cd chg; make)
+rm -f *.o
+(cd two; make)
+rm -f *.o
+(cd non_therm; make)
+rm -f *.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+rm -f *.o
+(cd gam_transport; make )
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+rm -f *.o
+(cd ../pgplt; make )
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+rm -f *.o
+(cd  mod_subs; make)
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/mod/
+rm -f *.o
+gfortran -fopenmp cmfgen.o cmfgen_sub.o \
+              -L/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/lib/ -lsubs -lpgplt -lmod \
+               -framework Accelerate   \
+              -o /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_3/cur_cmf/exe/cmfgen_dev.exe
+       35.87 real        26.69 user         6.72 sys
+           481148928  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+             2904501  page reclaims
+               48644  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                1267  signals received
+                6726  voluntary context switches
+               36429  involuntary context switches
+            19128514  instructions retired
+             9739538  cycles elapsed
+             1556912  peak memory footprint

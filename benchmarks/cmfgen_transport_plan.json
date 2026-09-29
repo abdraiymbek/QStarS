@@ -1,0 +1,27 @@
+{
+  "scope": "Frozen incoming atomic/material state transport audit, not converged thermal or hydrodynamic models",
+  "source": "results/cmfgen_hhe_2",
+  "controls": {
+    "iterations": 1,
+    "Lambda": true,
+    "fixed_temperature": true,
+    "recompute_eddington_factors": true
+  },
+  "alternatives": [
+    "standard supplied transfer",
+    "documented relativistic/advection moment and formal solvers"
+  ],
+  "unchanged": [
+    "atomic data",
+    "flow",
+    "composition",
+    "temperature",
+    "incoming populations",
+    "luminosity"
+  ],
+  "acceptance": {
+    "global_radiation_energy_relative": 0.001,
+    "origin": "existing predeclared component tolerance"
+  },
+  "purpose": "Determine whether including native transport advection reduces the independent lab radiation-energy defect; never retune source/force coefficients"
+}

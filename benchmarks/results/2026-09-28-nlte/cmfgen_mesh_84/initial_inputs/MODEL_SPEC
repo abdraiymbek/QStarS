@@ -1,0 +1,12 @@
+84                     [ND]
+15          [NC]                !Number of core rays
+99                     [NP]
+3           [NUM_BNDS]          !Use 3 for tridiagonal matrix (should be odd)
+500000      [NCF_MAX]           !Total number of frequencies
+300         [MAX_SIM]           !Maximum # of lines whose Doppler profile overlpas.
+120000      [NLINE_MAX]         !Maximum # of bound-bound transitions
+21          [NLF]               !For CMF option only
+ 
+30,30,30       [HI_ISF]
+69,69,69       [HeI_ISF]
+30,30,30       [He2_ISF]

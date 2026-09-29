@@ -1,0 +1,39 @@
+--- new_main/cmfgen_sub.f
++++ new_main/cmfgen_sub.f
+@@ -113,6 +113,8 @@
+ 	REAL(KIND=LDP) SUM_BA
+ 	REAL(KIND=LDP) RLUMST_BND
+ 	REAL(KIND=LDP) LUM_FOR_TEFF
++	INTEGER QSTAR_LU
++	LOGICAL QSTAR_EXPORT
+ 	REAL(KIND=LDP) LUM_SCL_FAC
+ !
+ 	LOGICAL LST_DEPTH_ONLY
+@@ -2719,6 +2721,27 @@
+ 	  H_MOM(1:ND)=SOB(1:ND)/R(1:ND)/R(1:ND)
+ 	END IF
+ !
++! QStarS diagnostic ABI 1: comoving spectral data; cgs, outer to inner.
++! An empty QSTARS_EXPORT file enables this read-only snapshot.
++	IF(LST_ITERATION)THEN
++	  IF(ML .EQ. 1)THEN
++	    INQUIRE(FILE='QSTARS_EXPORT',EXIST=QSTAR_EXPORT)
++	    IF(QSTAR_EXPORT)THEN
++	      OPEN(NEWUNIT=QSTAR_LU,FILE='QSTARS_SPECTRAL.bin',
++	1      STATUS='REPLACE',ACCESS='STREAM',FORM='UNFORMATTED')
++	      WRITE(QSTAR_LU)'QSCMF001',ND,NCF
++	      WRITE(QSTAR_LU)R*1.0E10_LDP,V*1.0E5_LDP,
++	1       T*1.0E4_LDP,DENSITY,CLUMP_FAC
++	    END IF
++	  END IF
++	  IF(QSTAR_EXPORT)THEN
++	    WRITE(QSTAR_LU)NU(ML)*1.0E15_LDP,FQW(ML),
++	1      CHI*1.0E-10_LDP,CHI_SCAT*1.0E-10_LDP,
++	1      ETA*1.0E-10_LDP,RJ,H_MOM,K_MOM
++	    IF(ML .EQ. NCF)CLOSE(QSTAR_LU)
++	  END IF
++	END IF
++!
+ ! Evaluate (CMF) observd X-ray luminosities.
+ !
+ 	  IF(ML .EQ. 1)THEN

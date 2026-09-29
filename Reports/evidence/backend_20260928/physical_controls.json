@@ -1,0 +1,99 @@
+{
+  "native_controls": {
+    "zpup_4": {
+      "INC_TWO": "F",
+      "INC_XRAYS": "T",
+      "COH_ES": "T",
+      "DO_DIS": "T",
+      "DO_CL": "T",
+      "INC_AD": "F",
+      "INC_ADV": "F",
+      "FIX_T": "F",
+      "SIG_GAU_KMS": "3.00000E+03",
+      "VTURB": "2.00000E+01",
+      "USE_J_REL": null,
+      "INCL_REL": null,
+      "INCL_ADV_TRANS": null
+    },
+    "hhe_3": {
+      "INC_TWO": "F",
+      "INC_XRAYS": "F",
+      "COH_ES": "T",
+      "DO_DIS": "T",
+      "DO_CL": "F",
+      "INC_AD": "F",
+      "INC_ADV": "F",
+      "FIX_T": "F",
+      "SIG_GAU_KMS": "3.00000E+03",
+      "VTURB": "2.00000E+01",
+      "USE_J_REL": null,
+      "INCL_REL": null,
+      "INCL_ADV_TRANS": null
+    },
+    "thermal_tight": {
+      "INC_TWO": "F",
+      "INC_XRAYS": "F",
+      "COH_ES": "T",
+      "DO_DIS": "T",
+      "DO_CL": "F",
+      "INC_AD": "F",
+      "INC_ADV": "F",
+      "FIX_T": "F",
+      "SIG_GAU_KMS": "3.00000E+03",
+      "VTURB": "2.00000E+01",
+      "USE_J_REL": "F",
+      "INCL_REL": "F",
+      "INCL_ADV_TRANS": "F"
+    },
+    "thermal_rel": {
+      "INC_TWO": "F",
+      "INC_XRAYS": "F",
+      "COH_ES": "T",
+      "DO_DIS": "T",
+      "DO_CL": "F",
+      "INC_AD": "F",
+      "INC_ADV": "F",
+      "FIX_T": "F",
+      "SIG_GAU_KMS": "3.00000E+03",
+      "VTURB": "2.00000E+01",
+      "USE_J_REL": "T",
+      "INCL_REL": "T",
+      "INCL_ADV_TRANS": "T"
+    },
+    "mesh_665_fixed": {
+      "INC_TWO": "F",
+      "INC_XRAYS": "F",
+      "COH_ES": "T",
+      "DO_DIS": "T",
+      "DO_CL": "F",
+      "INC_AD": "F",
+      "INC_ADV": "F",
+      "FIX_T": "T",
+      "SIG_GAU_KMS": "3.00000E+03",
+      "VTURB": "2.00000E+01",
+      "USE_J_REL": "T",
+      "INCL_REL": "T",
+      "INCL_ADV_TRANS": "T"
+    }
+  },
+  "two_photon_scope": "INC_TWO=F inherited from supplied model; current H/He tests omit these transitions. Their importance must be checked for cool recombination before production.",
+  "minimum_temperature_default": {
+    "native_T_MIN": 0,
+    "units": "1e4 K",
+    "source": "backends/cmfgen/build_2/cur_cmf/new_main/mod_subs/rd_control_variables.f",
+    "sha256": "1f065997994a61681abc8e34426aa4f4cb95f5aaaaa8ec4518f27a9bbedc8e88"
+  },
+  "scope": "configuration audit; no physical coefficients changed",
+  "native_controls_interpretation": "MODEL records input flags, not every temporary native control. Missing keys are implicit defaults, not inferred false.",
+  "reference_temperature_control": {
+    "case": "zpup_4",
+    "input_FIX_T": "F",
+    "actual_iteration_behavior": "Temperature held fixed at all depths in both Lambda iterations (OUTGEN). Native cmfgen_sub.f forces FIXED_T for Lambda iteration.",
+    "evidence": "results/cmfgen_zpup_4/OUTGEN"
+  },
+  "two_photon_source": {
+    "file": "new_main/mod_subs/two_phot_mod.f",
+    "routine": "RD_TWO_PHOT",
+    "behavior": "INC_TWO false sets N_TWO=0 and returns; no two-photon transitions included."
+  }
+}

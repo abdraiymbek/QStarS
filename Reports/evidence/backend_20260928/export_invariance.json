@@ -1,0 +1,42 @@
+{
+  "status": "PASS",
+  "limit": 1e-10,
+  "comparisons": {
+    "material_radius": 0.0,
+    "material_velocity": 0.0,
+    "material_temperature": 0.0,
+    "material_electron_density": 0.0,
+    "material_density_clump": 0.0,
+    "material_filling_factor": 0.0,
+    "material_hydrogen_density": 0.0,
+    "material_helium_density": 0.0,
+    "material_chi_rosseland": 0.0,
+    "material_chi_flux": 0.0,
+    "material_J": 0.0,
+    "material_H": 0.0,
+    "material_K": 0.0,
+    "material_density": 0.0,
+    "material_mass_flux": 0.0,
+    "material_kappa_flux": 0.0,
+    "material_kappa_rosseland": 0.0,
+    "populations_HI": 0.0,
+    "populations_HeI": 0.0,
+    "populations_HeII": 0.0,
+    "populations_HII": 0.0,
+    "populations_HeIII": 0.0,
+    "cooling_net_cooling": 0.0,
+    "cooling_net_percent": 0.0
+  },
+  "shared_native_inputs_match": true,
+  "both_runs_completed": true,
+  "scope": "one Lambda iteration, identical completed H/He restart, patched/export enabled vs unmodified executable",
+  "timings_seconds": {
+    "patched_export_on": 44.97724104201188,
+    "unmodified_export_off": 44.5775617500185
+  },
+  "executable_sha256": {
+    "patched": "58dbfe4f471bc5d982e92b841bbf393a462bc2d5527903cf90a7c63882baa5ba",
+    "unmodified": "75e7e42d9e8e9024704fadd0dd21a6e38f42bf244cecfc99ecc0565554100c38"
+  },
+  "physical_convergence_claim": false
+}

@@ -1,5 +1,25 @@
 # Apple Silicon performance report
 
+Report 13 adds native CMFGEN on the same Apple M5 / 16 GiB MacBook, using
+GNU Fortran 13.3.0, Accelerate and one OpenMP thread per process. The full
+metal/clumped reference takes **883.66 s** for two initialization iterations
+and reaches **9.78 GB peak footprint**. Reduced H/He single-transfer cases at
+84/167/333/665 radial points take about **26.3/53.6/148.9/727.9 s**;
+the initial 25-iteration thermal run takes **919.57 s / 0.57 GB**. These are
+measured component costs with concurrent work, not isolated scaling or the
+cost of a physical wind. The full native-enabled regression suite has
+**108 passes in 135.30 s**. Exact per-case wall, resident and peak-footprint
+measurements are retained in
+[the campaign summary](../Reports/evidence/backend_20260928/final_audit/campaign_summary.json)
+and [Report 13](../Reports/Report_13.md).
+
+The reduced component is useful locally. Repeated full-metal models and global
+wind-response campaigns should be evaluated on CPU machines with at least
+32 GiB, preferably 64 GiB RAM; independent cases can use separate workers.
+This is a resource recommendation based on measured memory, not a demonstrated
+cloud speedup. Linux numerical agreement and within-model OpenMP scaling remain
+unmeasured. No coupled non-LTE quasi-star evolution cost is established.
+
 Report 12's main component campaign took **105.08 s / 762.42 MiB** and its
 refinement **156.50 s / 936.75 MiB**. The 1601-point two-band thermal solve took
 **51.39 s**; distant native diffusion matching with rejected-trial recovery took

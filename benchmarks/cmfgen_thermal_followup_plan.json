@@ -1,0 +1,8 @@
+{
+  "scope": "Converged hot H/He follow-up: tighten native percent correction tolerance from .02 to .0001; compare standard and advective transfer as distinct documented equations",
+  "source": "cmfgen_hhe_3",
+  "EPS_TERM_percent": 0.0001,
+  "maximum_iterations": 20,
+  "thresholds_unchanged": true,
+  "purpose": "Test residual sensitivity to nonlinear tolerance, then solve populations/temperature with advective transfer; no physical coefficient adjustment"
+}

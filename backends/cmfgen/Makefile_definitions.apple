@@ -1,0 +1,21 @@
+# QStarS platform configuration; no changes to physical equations.
+# Set QSTARS_CMFGEN_ROOT to an absolute extracted cur_cmf directory.
+INSTALL_DIR=$(QSTARS_CMFGEN_ROOT)/
+LIB_DIR=$(INSTALL_DIR)lib/
+MOD_DIR=$(INSTALL_DIR)mod/
+EXE_DIR=$(INSTALL_DIR)exe/
+HOST=apple-silicon
+COMPILE_OPT=gfortran-accelerate
+AR_OPTION=ruv
+F90=gfortran -fopenmp
+F90nomp=gfortran
+FG=-O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I$(MOD_DIR) -J$(MOD_DIR)
+FH=$(FG)
+FD=-g -O0 -fcheck=bounds $(FG)
+FFREE=-O2 -fno-backslash -I$(MOD_DIR) -J$(MOD_DIR)
+FFRED=-g -O0 -fno-backslash -I$(MOD_DIR) -J$(MOD_DIR)
+BLAS=
+LAPACK=-framework Accelerate
+LOCLIB=
+PGLIB=-L$(MESASDK_ROOT)/lib -lpgplot
+X11LIB=

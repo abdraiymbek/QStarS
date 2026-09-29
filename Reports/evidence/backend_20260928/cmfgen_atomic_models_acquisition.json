@@ -1,0 +1,18 @@
+[
+  {
+    "label": "atomic",
+    "url": "https://sites.pitt.edu/~hillier/cmfgen_files/atomic_data_21jun23.tar.gz",
+    "path": "sources/cache/atomic_data_21jun23.tar.gz",
+    "bytes": 1038599306,
+    "sha256": "0dcb7d7284a1696493f9e1fcf7734eabdee3fa36ee29562d3763b9057658d16f",
+    "seconds": 122.17532474998734
+  },
+  {
+    "label": "models",
+    "url": "https://sites.pitt.edu/~hillier/cmfgen_files/three_recent_models.tar.gz",
+    "path": "sources/cache/three_recent_models.tar.gz",
+    "bytes": 748304324,
+    "sha256": "86a83075490924358b796d72a375a509226f2adeb42a146ab30c19cb648491fb",
+    "seconds": 81.35795291699469
+  }
+]

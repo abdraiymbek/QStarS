@@ -1,0 +1,18 @@
+
+
+ Model started on:               28-Sep-2026 19:58:38
+  
+ Opacity/excitaion parameters adopted in CMFGEN are:
+                                   CHIBF=  2.81500000E-06
+                                   CHIFF=  3.69000000E-29
+                                    HDKT=  4.79924307E+00
+                               TWOHONCSQ=  1.47449946E-02
+                                   OPLIN=  2.65400837E+08
+                                   EMLIN=  5.27285909E-03
+  
+                    The KIND of the selected floating point format is:    8
+  The number of storage bits in the selected floating point format is:   64
+                      The number of significant digits (precision) is:   15
+                                        The maximum exponent range is:  307
+  
+ Unable to open MODEL_SPEC in cmfgen.f

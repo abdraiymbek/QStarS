@@ -1,0 +1,23 @@
+(cd lte_hydro; make)
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_1/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_1/cur_cmf/mod/  det_r_grid_v1.f
+clang: error: invalid version number in '-mmacosx-version-min=18.0'
+make[1]: *** [/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_1/cur_cmf/lib/libsubs.a(det_r_grid_v1.o)] Error 1
+make: *** [d_lte] Error 2
+        0.42 real         0.05 user         0.15 sys
+            29917184  maximum resident set size
+                   0  average shared memory size
+                   0  average unshared data size
+                   0  average unshared stack size
+                6995  page reclaims
+                3587  page faults
+                   0  swaps
+                   0  block input operations
+                   0  block output operations
+                   0  messages sent
+                   0  messages received
+                   4  signals received
+                1328  voluntary context switches
+                1950  involuntary context switches
+            77719958  instructions retired
+            32434355  cycles elapsed
+             1589560  peak memory footprint

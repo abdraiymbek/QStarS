@@ -1,0 +1,7 @@
+CMFGEN is separate external software by D. John Hillier and contributors.
+Its source archive includes the GNU GPL version 3 (COPYING.CMFGEN).
+The diagnostic patch applies to that GPL source; the patched executable remains
+subject to its upstream license. The QStarS root MIT license does not relicense
+CMFGEN, its modified source, its binary, or separately authored atomic data.
+Archives/binaries are not vendored. Atomic files keep their original attribution.
+The Python file interface does not bundle the external executable.

@@ -11,3 +11,4 @@ sources/cache/
 
 /backends/mesa/build*/
 /backends/freeeos/build*/
+/backends/cmfgen/build*/

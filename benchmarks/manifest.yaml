@@ -1,5 +1,19 @@
 schema_version: 1
 benchmarks:
+  - id: cmfgen_native_reference
+    source: cmfgen_native_2025
+    status: reference_profile_compatibility_pass_thermal_certification_fail
+    command: python scripts/validate_cmfgen_component.py NATIVE_RUN AUDIT_OUTPUT --reference PINNED_REFERENCE
+    required_observables: [temperature, electron_density, radiation_moments, flux_opacity, radiative_acceleration]
+    limitation: Supplied hot metal/clumped Zeta Pup-like model with fixed temperature and prescribed flow; no mass-loss eigenvalue or quasi-star evolution.
+    evidence: Reports/evidence/backend_20260928/final_audit/zpup_4/validation.json
+  - id: cmfgen_reduced_hhe
+    source: nlte_material_contract
+    status: scoped_transfer_refinement_pass_joint_thermal_and_wind_closure_fail
+    command: python scripts/validate_cmfgen_component.py NATIVE_RUN AUDIT_OUTPUT --hhe
+    required_checks: [spectral_moments, scattering_work, population_nuclei, charge, electron_balance, radiation_energy, nonlinear_convergence, radius_frequency_refinement, export_invariance]
+    limitation: Hot H/He prescribed-flow component; cool atom sufficiency, kinetic derivatives, global CMF response and convective handoff are not validated.
+    evidence: Reports/evidence/backend_20260928/final_audit/campaign_summary.json
   - id: ball_loaded_polytropes
     source: ball2011
     location: section 4.1

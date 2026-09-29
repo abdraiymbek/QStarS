@@ -9,7 +9,7 @@
     "CONDITIONAL": "Bounded evidence exists; does not certify general use.",
     "FAIL": "Required capability or validation missing or failing."
   },
-  "automated_tests_passed": 97,
+  "automated_tests_passed": 108,
   "automated_tests_failed": 0,
   "optional_mesa_tests": 10,
   "cli_validation": {
@@ -22,7 +22,7 @@
       "CB24 printed BH/inner mass"
     ]
   },
-  "source_registry_entries": 47,
+  "source_registry_entries": 54,
   "published_full_evolution_replication": false,
   "published_full_evolution_replicas": 0,
   "published_structure_replication": "subset_passes_with_two_retained_printed_value_discrepancies",
@@ -45,15 +45,16 @@
         "benchmarks/results/2026-09-28-closure/20260928T030639.520967Z_robustness_validation/campaign.json",
         "benchmarks/results/2026-09-28-closure/20260928T031651.519611Z_midpoint_512_refined_time/method_comparison.json",
         "benchmarks/results/2026-09-28-closure/20260928T031253.242612Z_time_method_validation/campaign.json",
-        "benchmarks/results/2026-09-28-verified-spatial/20260928T033503.024409Z_spatial_validation/previous_campaign_comparison.json"
+        "benchmarks/results/2026-09-28-verified-spatial/20260928T033503.024409Z_spatial_validation/previous_campaign_comparison.json",
+        "Reports/Report_13.md"
       ]
     },
     {
       "priority": 2,
       "name": "Production microphysics",
       "status": "FAIL",
-      "achieved": "Native EOS/opacity, atmosphere and full MLT references; direct FreeEOS gas audit; explicit-pressure layer integration and new dilute-gas validity guard. Gas-only FreeEOS energy derivatives independently reproduce its gas critical sound speed.",
-      "remaining": "Candidate fails geometry and subsonic-convection validity; no validated conservative atmosphere/envelope/wind coupling. Historical table counterexamples retained. Rosseland opacity does not supply exposed-spectrum absorption/emission or force means.",
+      "achieved": "Native EOS/opacity, atmosphere and full MLT references; direct FreeEOS gas audit; explicit-pressure layer integration and new dilute-gas validity guard. Gas-only FreeEOS energy derivatives independently reproduce its gas critical sound speed. Native CMFGEN spectral/population component and hot transfer controls now execute with explicit energy/frame conventions.",
+      "remaining": "Candidate fails geometry and subsonic-convection validity; no validated conservative atmosphere/envelope/wind coupling. Historical table counterexamples retained. Rosseland opacity does not supply exposed-spectrum absorption/emission or force means. Consistent cool non-LTE material derivatives and global CMF force/source response are not validated.",
       "evidence": [
         "benchmarks/results/2026-09-28-closure/20260928T021532.646459Z_mesa_microphysics_validation/validation.json",
         "benchmarks/results/2026-09-28-closure/20260928T030928.629959Z_mesa_hot_current_verification/termination.json",
@@ -62,7 +63,8 @@
         "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.865567Z_atmosphere_reference/validation.json",
         "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.119787Z_freeeos_audit/audit.json",
         "docs/atmosphere.md",
-        "docs/self_selected_outer.md"
+        "docs/self_selected_outer.md",
+        "Reports/Report_13.md"
       ]
     },
     {
@@ -90,7 +92,8 @@
         "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/validation.json",
         "Reports/Report_10.md",
         "Reports/Report_11.md",
-        "Reports/Report_12.md"
+        "Reports/Report_12.md",
+        "Reports/Report_13.md"
       ]
     },
     {
@@ -121,7 +124,7 @@
       "priority": 7,
       "name": "Numerical robustness",
       "status": "CONDITIONAL",
-      "achieved": "70 regression tests pass with real libraries; prior hot campaigns retained; fresh ABI 5 ten-year MESA state and ledger repeat bitwise.",
+      "achieved": "70 regression tests pass with real libraries; prior hot campaigns retained; fresh ABI 5 ten-year MESA state and ledger repeat bitwise. Report 13: 108 full native-enabled regressions pass; zero-status failures, stale outputs and native ray-capacity limits are guarded.",
       "remaining": "Full production-family campaigns absent. MESA remap-threshold cases do not actually remap. Early campaigns predate unchanged-source guards.",
       "evidence": [
         "benchmarks/results/2026-09-28-closure/20260928T030639.520967Z_robustness_validation/campaign.json",
@@ -130,20 +133,22 @@
         "docs/validity.md",
         "benchmarks/results/2026-09-28-outer-boundary/20260928T042828.972984Z_outer_final_verification/verification.json",
         "Reports/evidence/outer_report10_20260928/hot_mesa_previous_comparison.json",
-        "Reports/evidence/spherical_20260928/final_tests.log"
+        "Reports/evidence/spherical_20260928/final_tests.log",
+        "Reports/Report_13.md"
       ]
     },
     {
       "priority": 8,
       "name": "Apple Silicon MacBook",
       "status": "CONDITIONAL",
-      "achieved": "Fresh sequential CPU benchmarks: ten years, 512 analytic zones: 24.215 s / 88.9 MiB; 128 MESA zones: 31.293 s / 1045.4 MiB. Fresh ABI 5 verification: 30.830 s / 1045.0 MiB. Fourteen reference atmospheres: 7.159 s / 527.4 MiB, with physical validity failures. Spherical component campaign: 170.41 seconds / 569.16 MiB; scientific closure gates remain open.",
+      "achieved": "Fresh sequential CPU benchmarks: ten years, 512 analytic zones: 24.215 s / 88.9 MiB; 128 MESA zones: 31.293 s / 1045.4 MiB. Fresh ABI 5 verification: 30.830 s / 1045.0 MiB. Fourteen reference atmospheres: 7.159 s / 527.4 MiB, with physical validity failures. Spherical component campaign: 170.41 seconds / 569.16 MiB; scientific closure gates remain open. Native reduced H/He transfer is measured through 665 radii; full metal reference reaches 9.78 GB footprint.",
       "remaining": "Full published-track cost unknown; Linux MESA bridge unvalidated; development high-resolution timings include concurrent workloads.",
       "evidence": [
         "benchmarks/results/2026-09-28-closure/20260928T031938.396825Z_performance_validation/performance.json",
         "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/validation.json",
         "benchmarks/results/2026-09-28-outer-audit/20260928T175917.423111Z_outer_transport/campaign.json",
-        "benchmarks/results/2026-09-28-outer-audit/20260928T175246.266274Z_outer_discrepancy/campaign.json"
+        "benchmarks/results/2026-09-28-outer-audit/20260928T175246.266274Z_outer_discrepancy/campaign.json",
+        "Reports/Report_13.md"
       ]
     },
     {
@@ -351,6 +356,11 @@
       "measured_max": 2.1028395784573352e-10,
       "reason": "Independent quadrature and midpoint-time comparison; numerical identity only",
       "evidence": "benchmarks/results/2026-09-28-outer-audit/20260928T175917.423111Z_outer_transport/moving_sphere.json"
+    },
+    {
+      "quantity": "CMFGEN component thresholds",
+      "thresholds_file": "benchmarks/cmfgen_validation_plan.json",
+      "reason": "Predeclared independent operator/atomic accounting targets; no general wind accuracy claim."
     }
   ],
   "validity_boundary": {
@@ -375,9 +385,9 @@
     "mesa_robustness": "benchmarks/results/2026-09-28-closure/20260928T025423.972541Z_robustness_validation/campaign.json",
     "mesa_data": "benchmarks/results/2026-09-28-closure/20260928T030927.417120Z_mesa_data_inventory/inventory.json",
     "wind": "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json",
-    "cli": "benchmarks/results/2026-09-28-closure/20260928T031903.825105Z_validation/validation.json",
+    "cli": "Reports/evidence/backend_20260928/cli_validation/validation.json",
     "performance": "benchmarks/results/2026-09-28-closure/20260928T031938.396825Z_performance_validation/performance.json",
-    "tests": "Reports/evidence/outer_report10_20260928/final_tests_guard.log",
+    "tests": "Reports/evidence/backend_20260928/regression_release.xml",
     "sources": "src/qstars/data/sources.json",
     "published_suite": "benchmarks/manifest.yaml",
     "validity": "docs/validity.md",
@@ -403,7 +413,9 @@
     "outer_discrepancy": "benchmarks/results/2026-09-28-outer-audit/20260928T175246.266274Z_outer_discrepancy/",
     "outer_transport": "benchmarks/results/2026-09-28-outer-audit/20260928T175917.423111Z_outer_transport/",
     "outer_analysis": "Reports/evidence/outer_report10_20260928/analysis/analysis.json",
-    "outer_tests": "Reports/evidence/outer_report10_20260928/final_tests_guard.log"
+    "outer_tests": "Reports/evidence/outer_report10_20260928/final_tests_guard.log",
+    "nlte_backend": "Reports/evidence/backend_20260928/final_audit/campaign_summary.json",
+    "nlte_contract": "docs/nlte_backend.md"
   },
   "provenance_caveat": "Earlier exploratory campaigns need first snapshots and chronology. All four fresh spatial cases verify unchanged sources and exactly reproduce previous states and ledgers bitwise. Fresh final tests, robustness, independent-method, MESA confirmation and performance also verify unchanged sources. All original local runs remain intact.",
   "deliverables": {
@@ -411,149 +423,117 @@
     "working_development_software": "DELIVERED",
     "validation_report": "docs/validation.md",
     "published_benchmark_suite": "PARTIAL; missing full tracks explicit in manifest",
-    "regression_suite": "97 passing with pinned MESA and FreeEOS; zero skips",
+    "regression_suite": "108 passing with pinned MESA and FreeEOS; zero skips",
     "model_families": "docs/model_families.md",
     "performance_report": "docs/performance.md",
     "source_registry": "src/qstars/data/sources.json",
     "validity_domain": "docs/validity.md",
     "gate_matrix": "Reports/evidence/completion_gates.json",
-    "latest_release_report": "Reports/Report_12.md"
+    "latest_release_report": "Reports/Report_13.md"
   },
   "optional_freeeos_tests": 11,
-  "production_atmosphere": "OUTER_FAIL_historical_opacity_audit_moving_flux_and_MLT_exit_do_not_validate_exterior",
+  "production_atmosphere": "BACKEND_PHYSICS_BLOCKER_native_CMFGEN_component_only",
   "native_full_mlt": "reference_only_not_envelope_transport",
   "freeeos_reference": "153_state_gas_audit_passes_upstream_byte_tests_fail",
-  "latest_report": "Reports/Report_12.md",
-  "release_blocker": "H/He population/thermal/force coupling, convective handoff and the combined escaping envelope mass-loss eigenvalue remain unresolved. Separate thermal-transfer and adiabatic eigenvalue controls are not a physical outer closure.",
+  "latest_report": "Reports/Report_13.md",
+  "release_blocker": "Selected native CMFGEN has scoped reference/transfer validation, but no validated cool non-LTE material energy/derivatives, global force/source response or conservative envelope wind eigenvalue and convective handoff.",
   "active_request_gates": [
     {
-      "name": "Static two-temperature absorption/emission control",
+      "name": "Backend selection, native integration and contract",
       "status": "PASS",
-      "scope": "Frozen frequency-band coefficients only; independent analytic spectra/chords, energy and refined profiles.",
+      "scope": "CMFGEN chosen after inspecting alternatives; pinned source/data, native arm64 executable, read-only spectral interface. Diagnostic scope only.",
       "evidence": [
-        "Reports/Report_12.md",
-        "docs/self_selected_outer.md",
-        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+        "docs/nlte_backend.md",
+        "backends/cmfgen/README.md",
+        "Reports/evidence/backend_20260928/cmfgen_acquisition.json"
       ]
     },
     {
-      "name": "Production matter/radiation thermodynamics",
-      "status": "FAIL",
-      "scope": "No jointly consistent H/He absorption/emission, populations, force and advecting gas energy.",
-      "evidence": [
-        "Reports/Report_12.md",
-        "docs/self_selected_outer.md",
-        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
-      ]
-    },
-    {
-      "name": "Opacity means and frequency treatment",
+      "name": "Supplied reference profiles",
       "status": "CONDITIONAL",
-      "scope": "Four distinct means and smooth spectral refinement pass; no minimum group count or non-LTE method validated for primordial matter.",
+      "scope": "Fixed-temperature prescribed hot reference matches T/ne/H/force tolerances; independent thermal prediction and full nonlinear/energy certification fail.",
       "evidence": [
-        "Reports/Report_12.md",
-        "docs/self_selected_outer.md",
-        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+        "Reports/evidence/backend_20260928/final_audit/zpup_4/validation.json"
       ]
     },
     {
-      "name": "No-prescribed-mdot eigenvalue mechanism",
-      "status": "CONDITIONAL",
-      "scope": "Adiabatic base-selected wind and local FreeEOS/MESA diffusion matches; no radiating physical envelope eigenvalue.",
-      "evidence": [
-        "Reports/Report_12.md",
-        "docs/self_selected_outer.md",
-        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
-      ]
-    },
-    {
-      "name": "Convective-envelope handoff",
-      "status": "FAIL",
-      "scope": "Existing Mach-one MLT exclusion passes; no independently validated stress/transport transition.",
-      "evidence": [
-        "Reports/Report_12.md",
-        "docs/self_selected_outer.md",
-        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
-      ]
-    },
-    {
-      "name": "General moving-interface flux ledger",
+      "name": "Spectral moments, force normalization and H/He nuclei/charge",
       "status": "PASS",
-      "scope": "Newtonian material, arbitrary realizable lab E/F/Prr, common static potential and energy gauge. Independent Reynolds and shock tests; zero-thickness interface only.",
+      "scope": "Native output checked by independent quadrature and population sums; not independent validation of every atomic rate.",
       "evidence": [
-        "Reports/Report_12.md",
-        "docs/self_selected_outer.md",
-        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+        "Reports/evidence/backend_20260928/final_audit/mesh_665_fixed/validation.json"
       ]
     },
     {
-      "name": "Global solution existence and branch classification",
+      "name": "Read-only export and capacity-patch invariance",
+      "status": "PASS",
+      "scope": "Matched input controls produce identical printed arrays; original small-grid result unchanged.",
+      "evidence": [
+        "Reports/evidence/backend_20260928/export_invariance.json",
+        "Reports/evidence/backend_20260928/capacity_invariance.json"
+      ]
+    },
+    {
+      "name": "Hot transfer radius/frequency refinement",
+      "status": "PASS",
+      "scope": "Frozen incoming-state operator: frequency force change 0.6026%; 333/665 profile change 0.2019%; 665 integrated energy defect 0.09140%. Coarse failures retained; atomic/thermal equilibria and wind not certified.",
+      "evidence": [
+        "Reports/evidence/backend_20260928/final_audit/resolution.json",
+        "Reports/evidence/backend_20260928/final_audit/mesh_665_fixed/validation.json"
+      ]
+    },
+    {
+      "name": "Hot H/He declared per-run residuals",
+      "status": "PASS",
+      "scope": "12 numerical/accounting targets pass: electron 0.29559%, endpoint radiation energy 0.020802%, correction 0.000075416%. Maximum cumulative interior energy defect is 0.1478%; thermal-mesh, atom-size and cool-domain validation remain open.",
+      "evidence": [
+        "Reports/evidence/backend_20260928/final_audit/thermal_equilibrium/validation.json",
+        "Reports/evidence/backend_20260928/final_audit/thermal_profiles.json",
+        "Reports/evidence/backend_20260928/final_audit/campaign_summary.json"
+      ]
+    },
+    {
+      "name": "Joint population, material and radiation-energy closure",
+      "status": "FAIL",
+      "scope": "Hot thermal iterations do not establish converged cool atomic/rate/energy behavior; kinetic derivatives and consistent dissolution/FreeEOS bridge remain missing.",
+      "evidence": [
+        "Reports/evidence/backend_20260928/final_audit/campaign_summary.json",
+        "docs/nlte_backend.md"
+      ]
+    },
+    {
+      "name": "Global wind eigenvalue and convective-envelope handoff",
+      "status": "FAIL",
+      "scope": "No coupled nonlocal CMF response, selected physical mdot or conservative escape. Supersonic MLT remains excluded.",
+      "evidence": [
+        "docs/nlte_backend.md",
+        "docs/validity.md"
+      ]
+    },
+    {
+      "name": "Coupled evolution and complete published tracks",
+      "status": "FAIL",
+      "scope": "Prerequisite closure has not passed; zero new physical envelope/evolution/complete-track runs. No assertion of physical impossibility in 1D.",
+      "evidence": [
+        "Reports/Report_13.md",
+        "benchmarks/manifest.yaml"
+      ]
+    },
+    {
+      "name": "Apple Silicon workload validation",
       "status": "CONDITIONAL",
-      "scope": "Analytic hydrostatic/no-wind proof only in the restricted adiabatic family. Coupled branch enumeration absent; solver failures never imply nonexistence.",
+      "scope": "Useful reduced native cases and full-reference memory/time measured; Linux/cloud scaling and coupled-wind/evolution cost unmeasured.",
       "evidence": [
-        "Reports/Report_12.md",
-        "docs/self_selected_outer.md",
-        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+        "docs/performance.md",
+        "Reports/evidence/backend_20260928/final_audit/campaign_summary.json"
       ]
     },
     {
-      "name": "Independent complete thermodynamic radiative wind benchmark",
+      "name": "QStarS v1 / QSRD",
       "status": "FAIL",
-      "scope": "Controlled limits verified; zero full published population-consistent escaping wind reproductions added.",
+      "scope": "Independent v1 prerequisites remain unsatisfied; no QSRD campaign.",
       "evidence": [
-        "Reports/Report_12.md",
-        "docs/self_selected_outer.md",
-        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
-      ]
-    },
-    {
-      "name": "Numerical convergence and failure retention",
-      "status": "CONDITIONAL",
-      "scope": "139 component checks, 116 pass and 23 retained failures. Fine thermal/adiabatic/reference matching pass scoped targets. No coupled timestep/restart/remesh campaign.",
-      "evidence": [
-        "Reports/Report_12.md",
-        "docs/self_selected_outer.md",
-        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
-      ]
-    },
-    {
-      "name": "First physical quasi-star envelope selection",
-      "status": "FAIL",
-      "scope": "Not attempted: joint physical prerequisites remain unmet.",
-      "evidence": [
-        "Reports/Report_12.md",
-        "docs/self_selected_outer.md",
-        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
-      ]
-    },
-    {
-      "name": "First coupled self-selected evolution",
-      "status": "FAIL",
-      "scope": "Not attempted: physical envelope selection gate not passed.",
-      "evidence": [
-        "Reports/Report_12.md",
-        "docs/self_selected_outer.md",
-        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
-      ]
-    },
-    {
-      "name": "First complete published evolutionary track",
-      "status": "FAIL",
-      "scope": "Not attempted; zero complete replicas.",
-      "evidence": [
-        "Reports/Report_12.md",
-        "docs/self_selected_outer.md",
-        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
-      ]
-    },
-    {
-      "name": "v1 and QSRD readiness",
-      "status": "FAIL",
-      "scope": "Development release; general independent validation gates remain open; QSRD deferred.",
-      "evidence": [
-        "Reports/Report_12.md",
-        "docs/self_selected_outer.md",
-        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+        "Reports/evidence/completion_gates.json"
       ]
     }
   ],
@@ -629,20 +609,22 @@
     }
   ],
   "outer_campaign_completion": {
-    "outcome": "FAIL",
-    "static_thermal_control_pass": true,
-    "adiabatic_eigenvalue_control_pass": true,
-    "general_interface_component_pass": true,
-    "diffusion_rejected_trial_recovery_pass": true,
+    "outcome": "BACKEND/PHYSICS BLOCKER",
+    "selected_backend": "CMFGEN",
+    "native_integration": true,
+    "scoped_radiation_operator_pass": true,
     "production_self_selected_closure": false,
     "thermodynamic_quasistar_wind_validated": false,
     "physical_envelope_match": false,
     "conservative_coupled_evolution_attempted": false,
     "published_full_evolution_replicas": 0,
     "no_go_for_1d_demonstrated": false,
+    "qsrd_run": false,
     "evidence": [
-      "Reports/Report_12.md"
-    ]
+      "Reports/Report_13.md",
+      "Reports/evidence/backend_20260928/final_audit/campaign_summary.json"
+    ],
+    "hot_hhe_per_run_checks_pass": true
   },
   "previous_active_request_gates_report9": [
     {
@@ -1009,7 +991,7 @@
       "Reports/Report_11.md"
     ]
   },
-  "legacy_optional_backend_counts_scope": "Historical counts retained from earlier report; Report 12 executed the full suite with both libraries enabled: 97 passes, zero skips.",
+  "legacy_optional_backend_counts_scope": "Historical optional counts retained; Report 13 runs all 108 tests with both libraries enabled, zero skips.",
   "report12_numerical_checks": {
     "checks": 139,
     "passed": 116,
@@ -1020,5 +1002,166 @@
       "benchmarks/results/2026-09-28-self-selected/archive_manifest.json",
       "Reports/evidence/self_selected_20260928/archive_verification.json"
     ]
+  },
+  "previous_active_request_gates_report12": [
+    {
+      "name": "Static two-temperature absorption/emission control",
+      "status": "PASS",
+      "scope": "Frozen frequency-band coefficients only; independent analytic spectra/chords, energy and refined profiles.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "Production matter/radiation thermodynamics",
+      "status": "FAIL",
+      "scope": "No jointly consistent H/He absorption/emission, populations, force and advecting gas energy.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "Opacity means and frequency treatment",
+      "status": "CONDITIONAL",
+      "scope": "Four distinct means and smooth spectral refinement pass; no minimum group count or non-LTE method validated for primordial matter.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "No-prescribed-mdot eigenvalue mechanism",
+      "status": "CONDITIONAL",
+      "scope": "Adiabatic base-selected wind and local FreeEOS/MESA diffusion matches; no radiating physical envelope eigenvalue.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "Convective-envelope handoff",
+      "status": "FAIL",
+      "scope": "Existing Mach-one MLT exclusion passes; no independently validated stress/transport transition.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "General moving-interface flux ledger",
+      "status": "PASS",
+      "scope": "Newtonian material, arbitrary realizable lab E/F/Prr, common static potential and energy gauge. Independent Reynolds and shock tests; zero-thickness interface only.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "Global solution existence and branch classification",
+      "status": "CONDITIONAL",
+      "scope": "Analytic hydrostatic/no-wind proof only in the restricted adiabatic family. Coupled branch enumeration absent; solver failures never imply nonexistence.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "Independent complete thermodynamic radiative wind benchmark",
+      "status": "FAIL",
+      "scope": "Controlled limits verified; zero full published population-consistent escaping wind reproductions added.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "Numerical convergence and failure retention",
+      "status": "CONDITIONAL",
+      "scope": "139 component checks, 116 pass and 23 retained failures. Fine thermal/adiabatic/reference matching pass scoped targets. No coupled timestep/restart/remesh campaign.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "First physical quasi-star envelope selection",
+      "status": "FAIL",
+      "scope": "Not attempted: joint physical prerequisites remain unmet.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "First coupled self-selected evolution",
+      "status": "FAIL",
+      "scope": "Not attempted: physical envelope selection gate not passed.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "First complete published evolutionary track",
+      "status": "FAIL",
+      "scope": "Not attempted; zero complete replicas.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "v1 and QSRD readiness",
+      "status": "FAIL",
+      "scope": "Development release; general independent validation gates remain open; QSRD deferred.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    }
+  ],
+  "previous_outer_campaign_completion_report12": {
+    "outcome": "FAIL",
+    "static_thermal_control_pass": true,
+    "adiabatic_eigenvalue_control_pass": true,
+    "general_interface_component_pass": true,
+    "diffusion_rejected_trial_recovery_pass": true,
+    "production_self_selected_closure": false,
+    "thermodynamic_quasistar_wind_validated": false,
+    "physical_envelope_match": false,
+    "conservative_coupled_evolution_attempted": false,
+    "published_full_evolution_replicas": 0,
+    "no_go_for_1d_demonstrated": false,
+    "evidence": [
+      "Reports/Report_12.md"
+    ]
+  },
+  "report13_numerical_checks": {
+    "checks": 159,
+    "passed": 130,
+    "failed_retained": 29,
+    "cases": 13,
+    "regression_tests": 108,
+    "native_archive_files_verified": 1930,
+    "evidence": [
+      "Reports/evidence/backend_20260928/final_audit/campaign_summary.json",
+      "benchmarks/results/2026-09-28-nlte/archive_index.json"
+    ],
+    "scope": "Per-run component checks only; resolution, export/capacity invariance and thermal-profile comparisons are reported separately."
   }
 }

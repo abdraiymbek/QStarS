@@ -12,6 +12,15 @@ photospheres, moving cavities, and coupled transonic winds remain open validatio
 Fiacconi–Rossi stationary wind solver now includes radiation enthalpy advection.
 These examples do not establish quasi-star lifetimes or QSRD recovery results.
 
+[Report 13](Reports/Report_13.md) records **BACKEND/PHYSICS BLOCKER**. CMFGEN was
+selected after comparing existing methods, built natively on Apple Silicon,
+and integrated through an audited spectral/population interface. The 665-point
+fixed-state transfer control meets its global radiation-energy target, and a
+hot H/He continuation passes 12 component checks. Cool material-energy
+derivatives and a global wind eigenvalue remain open.
+**108 tests pass** with MESA and FreeEOS enabled. This is component validation,
+not a physical quasi-star wind. [Backend contract](docs/nlte_backend.md).
+
 [Report 12](Reports/Report_12.md) records **FAIL** for the self-selected outer
 boundary. New thermal-band transfer, conservative lab-radiation interface,
 material-energy critical equations and base-selected wind controls are verified;

@@ -1,0 +1,8 @@
+results/report13_cli/20260929T021037.135826Z_validation/validation.md
+{
+  "v1_validated": false,
+  "failed_checks": [
+    "CB24 printed Ki_max",
+    "CB24 printed BH/inner mass"
+  ]
+}

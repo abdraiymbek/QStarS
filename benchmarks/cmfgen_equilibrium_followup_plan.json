@@ -1,0 +1,10 @@
+{
+  "scope": "Complete the requested nonlinear tolerance for the advective hot H/He component",
+  "source": "cmfgen_thermal_rel",
+  "EPS_TERM_percent": 0.0001,
+  "maximum_additional_iterations": 30,
+  "physical_changes": [],
+  "thresholds_unchanged": true,
+  "reason": "The 20-iteration advective run passed global radiation energy but stopped above its requested EPS_TERM and retained a 7.1985 percent electron residual. Continue identical equations before attributing this to a persistent thermal defect.",
+  "production_certification": false
+}

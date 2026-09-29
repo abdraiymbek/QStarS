@@ -519,3 +519,80 @@ This register distinguishes implemented laws, derived numerical identities, opti
 - Interpretation: Subtract swept gas and radiation energy/momentum. Radiation enthalpy is already in lab flux. Independent normal-shock and energy-gauge controls.
 - Implementation: `src/qstars/outer_interface.py; tests/test_outer_thermal.py`
 
+## cmfgen_native_2025 — Hillier CMFGEN public distribution and supplied models
+
+[Hillier CMFGEN public distribution and supplied models](https://sites.pitt.edu/~hillier/web/CMFGEN.htm) · 18-Jun-2025 source, 21-Jun-2023 atomic data, 22-Jun-2023 reference models; native source and documentation inspected
+
+- Status: `native_component_integrated_not_production`
+- Assumptions: Spherical comoving NLTE transfer, statistical atoms, specified flow; option-dependent advection, thermal and scattering physics
+- Domain: H/He hot test is not a cool quasi-star, eigenvalue or complete evolution. Executable exit zero is not proof of completion or convergence.
+- Variables and units: Native R in 1e10cm, T in 1e4K, V km/s, nu in 1e15Hz; FQW already Hz; spectral adapter cgs
+- Interpretation: Archive/per-file hashes, GPLv3 source, native arm64 build, opt-in read-only spectrum export; reference, moment, atomic-accounting and energy gates remain separate.
+- Implementation: `src/qstars/cmfgen_backend.py; backends/cmfgen; docs/nlte_backend.md`
+
+## powr_public_source — PoWR public source availability
+
+[PoWR public source availability](https://github.com/powr-code/PoWR) · Commit b7cb9d27e4970e67de83f9e166476f46b4af7f45; README, Makefile and tree inventory
+
+- Status: `audited_source_not_installed`
+- Assumptions: Spherical NLTE stellar atmosphere; Intel Fortran/MKL build; GPLv3
+- Domain: Retrieved repository lacks the atomic/reference input package needed for this reproduction; no assertion that those inputs are nowhere available
+- Variables and units: Native conventions require independent interface audit
+- Interpretation: Resolves earlier public-source uncertainty. Strong physical alternative; published hydroconsistent method not assumed identical to every public code revision.
+- Implementation: `docs/nlte_backend.md; Reports/evidence/backend_20260928`
+
+## sirocco_nlte_scope — SIROCCO radiative transfer modes and macro-atoms
+
+[SIROCCO radiative transfer modes and macro-atoms](https://sirocco-rt.readthedocs.io/en/latest/physics/radiative_transfer.html) · Sobolev approximation, hybrid macro-atom, scattering and comoving energy sections; repository pin in audit
+
+- Status: `audited_not_installed`
+- Assumptions: Moving Monte Carlo flow, all line transfer Sobolev, option-dependent atomic and energy treatments
+- Domain: Weak-gradient launch and optically thick thermalization require their own validation; exterior transfer does not supply a sonic eigenvalue
+- Variables and units: Photon energy and frequency frames; force estimators require uncertainty/seed accounting
+- Interpretation: Not selected merely because previously mentioned; physical launch coverage and variance favored a deterministic comoving operator.
+- Implementation: `docs/nlte_backend.md`
+
+## lightweaver_nlte — Osborne and Milic (2021), Lightweaver
+
+[Osborne and Milic (2021), Lightweaver](https://arxiv.org/abs/2107.00475) · Formal solver geometry and extensible atomic/atmosphere interfaces; public MIT source
+
+- Status: `audited_not_installed`
+- Assumptions: Multilevel NLTE in plane-parallel 1D or Cartesian 2D public solvers
+- Domain: Spherical moving wind and material-energy coupling require additional implementation
+- Variables and units: Level populations, intensities and rate coefficients require explicit atom configuration
+- Interpretation: Useful independent atomic/static comparison; not a ready spherical launch backend.
+- Implementation: `docs/nlte_backend.md`
+
+## rh_spherical_flow — RH spherical source implementation restriction
+
+[RH spherical source implementation restriction](https://github.com/han-uitenbroek/RH) · Commit c95bdf66ff6bc1c6cea0ed04dc688100170e8ee6: rhsphere/readatmos.c and formal.c
+
+- Status: `audited_not_installed`
+- Assumptions: Static spherical non-LTE transfer implementation
+- Domain: Source explicitly rejects macroscopic spherical flows and angle-dependent moving opacity
+- Variables and units: Velocity and opacity checks in native source
+- Interpretation: Restriction established from source, not assumed from project age or popularity. License unresolved in this audit.
+- Implementation: `docs/nlte_backend.md`
+
+## cloudy_reference_role — Ferland et al. (2017), Cloudy
+
+[Ferland et al. (2017), Cloudy](https://arxiv.org/abs/1705.10877) · Photoionization, atomic and thermal calculations; candidate audit
+
+- Status: `audited_not_installed`
+- Assumptions: Photoionized plasma, extensive atomic data and escape-probability line methods
+- Domain: Not a complete comoving hydrodynamic launch operator
+- Variables and units: Ionization fractions, temperature, heating/cooling
+- Interpretation: Potential independent atomic/thermal reference. No local Cloudy run, timing, or license verification claimed.
+- Implementation: `docs/nlte_backend.md`
+
+## nlte_material_contract — CMFGEN spectral four-force and resolved H/He material energy interface
+
+[CMFGEN spectral four-force and resolved H/He material energy interface](https://sites.pitt.edu/~hillier/web/CMFGEN.htm) · Audited cmfgen_sub, comp_opac, comp_j_blank, set_frequency_grid_v2, atomic oscillator level tables; diagnostic derivation
+
+- Status: `derived_and_tested_adapter_not_physical_closure`
+- Assumptions: Coherent scattering, isotropic comoving material emission; ideal translational and resolved atomic energy
+- Domain: Inelastic scattering rejected; no molecules, nonideal corrections, kinetic material derivatives or validated envelope/eigenvalue response
+- Variables and units: Q0 erg/cm3/s positive material heating; f0 dyn/cm3; neutral H/He ground energy gauge; mean/clump densities distinct
+- Interpretation: Independent spectral quadrature is a conversion check, not independent atomic-physics certification. LTE FreeEOS derivatives cannot be reused without a population-response and energy-gauge bridge.
+- Implementation: `src/qstars/cmfgen_backend.py; scripts/validate_cmfgen_component.py; docs/nlte_backend.md`
+

@@ -1,0 +1,57 @@
+{
+  "comparisons": [
+    {
+      "left": "hhe_3",
+      "right": "thermal_tight",
+      "relative_profile_differences": {
+        "material_temperature": 4.48730100536449e-06,
+        "material_electron_density": 2.212053853070428e-06,
+        "gas_internal_energy": 5.833277144677499e-06,
+        "E_comoving": 2.924592783130175e-05,
+        "F_comoving": 2.8517106259324634e-05,
+        "P_comoving": 2.844299948638931e-05,
+        "radiative_acceleration": 2.7963314119561064e-05,
+        "kappa_flux": 8.571285026741961e-06
+      },
+      "population_absolute_change_per_nucleus": {
+        "HI": 5.53106806773302e-12,
+        "HII": 0.0,
+        "HeI": 6.7235603082299235e-12,
+        "HeII": 2.4467778646441294e-05,
+        "HeIII": 2.4467778646441294e-05
+      },
+      "profile_limit": 0.01,
+      "profile_status": "PASS",
+      "population_limit": 0.01,
+      "population_status": "PASS",
+      "scope": "same prescribed flow and transfer equations; iteration tolerance only. Per-nucleus population norm does not bound relative errors in trace levels."
+    },
+    {
+      "left": "thermal_rel",
+      "right": "thermal_equilibrium",
+      "relative_profile_differences": {
+        "material_temperature": 2.7806958293609973e-06,
+        "material_electron_density": 9.73442971330246e-07,
+        "gas_internal_energy": 2.923610041060673e-06,
+        "E_comoving": 1.528125696220906e-05,
+        "F_comoving": 1.5122993923409739e-05,
+        "P_comoving": 1.5105066455051984e-05,
+        "radiative_acceleration": 1.488403575581081e-05,
+        "kappa_flux": 4.061890124249548e-06
+      },
+      "population_absolute_change_per_nucleus": {
+        "HI": 3.58584003238562e-12,
+        "HII": 0.0,
+        "HeI": 3.8205069121302e-12,
+        "HeII": 1.0655002632967333e-05,
+        "HeIII": 1.066493273793748e-05
+      },
+      "profile_limit": 0.01,
+      "profile_status": "PASS",
+      "population_limit": 0.01,
+      "population_status": "PASS",
+      "scope": "same prescribed flow and transfer equations; iteration tolerance only. Per-nucleus population norm does not bound relative errors in trace levels."
+    }
+  ],
+  "production_certified": false
+}

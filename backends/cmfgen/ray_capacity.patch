@@ -1,0 +1,26 @@
+--- plane/mod_space_grid_v2.f
++++ plane/mod_space_grid_v2.f
+@@ -58,7 +58,7 @@
+ 	  INTEGER  NZ	 	                    	!number of grid points along a p-ray
+ !
+ 	END TYPE RAY_DATA
+-	TYPE (RAY_DATA) RAY(500)
++	TYPE (RAY_DATA) RAY(2048)
+ !
+         TYPE DUST_WGHTS
+           REAL(KIND=LDP), ALLOCATABLE :: WGT_P_TO_P(:,:)
+--- plane/define_grid_v2.f
++++ plane/define_grid_v2.f
+@@ -52,6 +52,12 @@
+ !------------------------------------------------------------------------
+ !
+       LUER=ERROR_LU()
++! QStarS: reject unsupported grids before any characteristic-ray indexing.
++      IF(NP .GT. SIZE(RAY))THEN
++        WRITE(LUER,*)'QStarS ray capacity exceeded:',NP,SIZE(RAY)
++        STOP 1
++      END IF
++
+       IF(ALLOCATED(R_EXT_SAV) .AND. ND_EXT .EQ. ND_EXT_SAV)THEN
+ 	NEW_GRID=.FALSE.
+ 	DO I=1,ND_EXT

@@ -1,0 +1,11 @@
+{
+  "tests": "106",
+  "failures": "0",
+  "errors": "0",
+  "skipped": "0",
+  "time": "121.853",
+  "native_mesa": true,
+  "native_freeeos": true,
+  "concurrent_cmfgen_runs": 2,
+  "scope": "regressions do not establish scientific gates"
+}

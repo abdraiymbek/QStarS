@@ -122,3 +122,13 @@ Run metadata reports whether the package remained unchanged through completion.
 Editing package files during a campaign invalidates that provenance check;
 rerun affected validation cases from a fresh process before claiming exact
 reproducibility. This guard also covers lazy imports.
+
+## External non-LTE component experiments
+
+Follow [the CMFGEN build/replay instructions](../backends/cmfgen/README.md) and
+[the physical contract](nlte_backend.md). Native models run in new isolated
+result directories; preparation must finish before execution. The wrapper
+records input and executable hashes and checks fresh complete outputs because
+Fortran can return zero after a fatal error. `validate_cmfgen_component.py`
+creates a fresh audit with a verified QStarS source snapshot and preserved
+failures. These commands do not enable a production wind model.
