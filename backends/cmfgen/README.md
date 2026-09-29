@@ -32,6 +32,8 @@ tar -xzf sources/cache/three_recent_models.tar.gz -C sources/cache/models_local
 cp backends/cmfgen/Makefile_definitions.apple backends/cmfgen/build_local/cur_cmf/Makefile_definitions
 .venv/bin/python backends/cmfgen/apply_export.py backends/cmfgen/build_local/cur_cmf
 .venv/bin/python backends/cmfgen/apply_ray_capacity.py backends/cmfgen/build_local/cur_cmf
+.venv/bin/python backends/cmfgen/apply_population_export.py backends/cmfgen/build_local/cur_cmf
+.venv/bin/python backends/cmfgen/apply_hminus_rayleigh.py backends/cmfgen/build_local/cur_cmf
 ```
 
 Initialize the installed SDK as documented in `docs/mesa.md`; then set the
@@ -82,3 +84,38 @@ requests before indexing. The wrapper caps unrecognized builds at 500 rays;
 the build record must match the executable hash to permit the guarded capacity.
 This extension was tested on the stated non-dust H/He controls; gamma-ray and
 dust capacities are unchanged and are outside the extended domain.
+
+## Cool H/He campaign (Report 14)
+
+Use all four patches above before building. The population patch repairs fixed
+ion indices in RVTJ when H0 is enabled. The Rayleigh patch corrects stale HMI
+naming, the HI array stride and the derivative equation index. Unlike the
+read-only export repair, it corrects the affected physical opacity/linearization.
+`record_build.py` records those source hashes and sets `hminus_rayleigh_fixed`
+only for the repaired source and a newer executable. The runner rejects
+H0 plus `INC_RAY=T` without a matching capability record.
+
+```sh
+.venv/bin/python scripts/check_cmfgen_rayleigh.py "$QSTARS_CMFGEN_ROOT" results/new_rayleigh_probe
+.venv/bin/python backends/cmfgen/prepare_cool.py \
+  sources/cache/models_local/sample_grid/zpup_like_model results/new_cool \
+  --atomic sources/cache/atomic_local/atomic --case T9 --iterations 60
+.venv/bin/python backends/cmfgen/run_component.py results/new_cool \
+  --executable "$QSTARS_CMFGEN_ROOT/exe/cmfgen_dev.exe" --timeout 2400
+# Only after native completion; this records failed checks without certification:
+.venv/bin/python scripts/audit_cmfgen_cool.py results/new_cool results/new_cool_audit
+```
+
+`--case T6` selects the other declared control; `--factor 2` geometrically bisects
+every original radial interval with the same analytic velocity law. The fresh
+`--initialization full` research trial encountered a missing native BA matrix;
+its failed inputs are preserved, and it is not a recommended restart recipe.
+Completed bootstrap controls can use `continue_component.py`; inspect the
+actual native iteration history because native safeguards can still choose
+Lambda iterations. These commands reproduce experiments, not a proven cool
+convergence path.
+
+The [cool closure contract](../../docs/nlte_cool_closure.md) states the material
+energy/derivative constraint and why none of these prescribed-flow controls
+selects mdot or validates a convective handoff. See [Report 14](../../Reports/Report_14.md)
+for results and retained failures.

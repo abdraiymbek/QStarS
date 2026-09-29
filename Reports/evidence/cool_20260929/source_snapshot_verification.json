@@ -1,0 +1,106 @@
+[
+  {
+    "directory": "Reports/evidence/cool_20260929/T6_coarse_audit",
+    "snapshot_sha256": "7506b1ae30384cd0b13036346c20ee9950a53c61fe6a970d3cf5e5a58035fd3e",
+    "source_snapshot_verified": true,
+    "cool_driver_sha256_verified": "be9434cae0bd308733bb50ecd05bcd8a8a880b9f38f98fb2497a2af47e41dfc5"
+  },
+  {
+    "directory": "Reports/evidence/cool_20260929/T6_refined_audit",
+    "snapshot_sha256": "38db9246a71894e7f4ddbb587d0467684243f4a11109120500e2a0fd9d1be659",
+    "source_snapshot_verified": true,
+    "cool_driver_sha256_verified": "be9434cae0bd308733bb50ecd05bcd8a8a880b9f38f98fb2497a2af47e41dfc5"
+  },
+  {
+    "directory": "Reports/evidence/cool_20260929/bootstrap_audit",
+    "snapshot_sha256": "f4f4b24817bca0f309d054fd71d84e0f9ca869e711c9c7fe35506261de923a84",
+    "source_snapshot_verified": true,
+    "cool_driver_sha256_verified": "d21bc89ef9ed4091aa0933cf265e324b66bc58150f90137c02258fc42c481e86"
+  },
+  {
+    "directory": "Reports/evidence/cool_20260929/cli_validation/20260929T032613.302284Z_validation/20260929T032613.992877Z_two_stream",
+    "snapshot_sha256": "9420c8dd74b2a6249c26f21b0b357522abc002f67f126eaabee4047793ff787a",
+    "source_snapshot_verified": true
+  },
+  {
+    "directory": "Reports/evidence/cool_20260929/cli_validation/20260929T032613.302284Z_validation/20260929T032614.462687Z_mesh_16_0.0001_1e-10",
+    "snapshot_sha256": "8df5d9d351179b5fab3471792aa12cec306896e72b76113b82a2fb7c34380f94",
+    "source_snapshot_verified": true
+  },
+  {
+    "directory": "Reports/evidence/cool_20260929/cli_validation/20260929T032613.302284Z_validation/20260929T032614.938750Z_mesh_32_0.0001_1e-10",
+    "snapshot_sha256": "8df5d9d351179b5fab3471792aa12cec306896e72b76113b82a2fb7c34380f94",
+    "source_snapshot_verified": true
+  },
+  {
+    "directory": "Reports/evidence/cool_20260929/cli_validation/20260929T032613.302284Z_validation/20260929T032615.382033Z_mesh_64_0.0001_1e-10",
+    "snapshot_sha256": "8df5d9d351179b5fab3471792aa12cec306896e72b76113b82a2fb7c34380f94",
+    "source_snapshot_verified": true
+  },
+  {
+    "directory": "Reports/evidence/cool_20260929/cli_validation/20260929T032613.302284Z_validation/20260929T032616.205336Z_mesh_128_0.0001_1e-10",
+    "snapshot_sha256": "b69fafc09d642eba4e54e46f4d4b598959629869a2162ed5eb83903495a70bf9",
+    "source_snapshot_verified": true
+  },
+  {
+    "directory": "Reports/evidence/cool_20260929/cli_validation/20260929T032613.302284Z_validation/20260929T032617.390293Z_timestep_32_0.0004_1e-10",
+    "snapshot_sha256": "b69fafc09d642eba4e54e46f4d4b598959629869a2162ed5eb83903495a70bf9",
+    "source_snapshot_verified": true
+  },
+  {
+    "directory": "Reports/evidence/cool_20260929/cli_validation/20260929T032613.302284Z_validation/20260929T032617.664888Z_timestep_32_0.0002_1e-10",
+    "snapshot_sha256": "b69fafc09d642eba4e54e46f4d4b598959629869a2162ed5eb83903495a70bf9",
+    "source_snapshot_verified": true
+  },
+  {
+    "directory": "Reports/evidence/cool_20260929/cli_validation/20260929T032613.302284Z_validation/20260929T032617.981861Z_timestep_32_0.0001_1e-10",
+    "snapshot_sha256": "b69fafc09d642eba4e54e46f4d4b598959629869a2162ed5eb83903495a70bf9",
+    "source_snapshot_verified": true
+  },
+  {
+    "directory": "Reports/evidence/cool_20260929/cli_validation/20260929T032613.302284Z_validation/20260929T032618.496167Z_timestep_32_5e-05_1e-10",
+    "snapshot_sha256": "70894f3aa1917a09d5ad272305ebd5f8c802b9d056a3f024242aaf9d1788881f",
+    "source_snapshot_verified": true
+  },
+  {
+    "directory": "Reports/evidence/cool_20260929/cli_validation/20260929T032613.302284Z_validation/20260929T032619.470220Z_solver_32_0.0001_1e-07",
+    "snapshot_sha256": "70894f3aa1917a09d5ad272305ebd5f8c802b9d056a3f024242aaf9d1788881f",
+    "source_snapshot_verified": true
+  },
+  {
+    "directory": "Reports/evidence/cool_20260929/cli_validation/20260929T032613.302284Z_validation/20260929T032620.001613Z_solver_32_0.0001_1e-09",
+    "snapshot_sha256": "e48c67884e0ae6d558af9ef4ecbb3053d495ba35c380b196135fdf7d297ed1ff",
+    "source_snapshot_verified": true
+  },
+  {
+    "directory": "Reports/evidence/cool_20260929/cli_validation/20260929T032613.302284Z_validation/20260929T032620.489571Z_solver_32_0.0001_1e-11",
+    "snapshot_sha256": "e48c67884e0ae6d558af9ef4ecbb3053d495ba35c380b196135fdf7d297ed1ff",
+    "source_snapshot_verified": true
+  },
+  {
+    "directory": "Reports/evidence/cool_20260929/cli_validation/20260929T032613.302284Z_validation/20260929T032621.352932Z_confined_mesh_16_0.0001_1e-10",
+    "snapshot_sha256": "e48c67884e0ae6d558af9ef4ecbb3053d495ba35c380b196135fdf7d297ed1ff",
+    "source_snapshot_verified": true
+  },
+  {
+    "directory": "Reports/evidence/cool_20260929/cli_validation/20260929T032613.302284Z_validation/20260929T032622.033606Z_confined_mesh_32_0.0001_1e-10",
+    "snapshot_sha256": "05c09a43a6819b830f68581b500c6bc8209c96f57c1901c91f8c8a351fd9841b",
+    "source_snapshot_verified": true
+  },
+  {
+    "directory": "Reports/evidence/cool_20260929/cli_validation/20260929T032613.302284Z_validation/20260929T032622.914364Z_confined_mesh_64_0.0001_1e-10",
+    "snapshot_sha256": "05c09a43a6819b830f68581b500c6bc8209c96f57c1901c91f8c8a351fd9841b",
+    "source_snapshot_verified": true
+  },
+  {
+    "directory": "Reports/evidence/cool_20260929/cli_validation/20260929T032613.302284Z_validation/20260929T032623.964521Z_confined_mesh_128_0.0001_1e-10",
+    "snapshot_sha256": "05c09a43a6819b830f68581b500c6bc8209c96f57c1901c91f8c8a351fd9841b",
+    "source_snapshot_verified": true
+  },
+  {
+    "directory": "Reports/evidence/cool_20260929/export_control_audit",
+    "snapshot_sha256": "7fd095446d51f98198e01fffcc7e6d3d3e88aea7c7edc87fc4e517342c9a6b15",
+    "source_snapshot_verified": true,
+    "cool_driver_sha256_verified": "d21bc89ef9ed4091aa0933cf265e324b66bc58150f90137c02258fc42c481e86"
+  }
+]

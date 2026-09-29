@@ -1,0 +1,27 @@
+{
+  "scope": "Report 14 numerical recovery, physical inputs and thresholds unchanged",
+  "observations": [
+    "Upstream wrong-ion Rayleigh selection repaired and independently tested.",
+    "T6 original trial terminates with native mean-intensity blow-up; native diagnostic recommends finer exterior mesh.",
+    "Corrected coarse T6 and T9 still have large nonlinear corrections during initialization."
+  ],
+  "cases": [
+    {
+      "case": "T6",
+      "factor": 2,
+      "iterations": 60,
+      "initialization": "auto",
+      "reason": "Bisection of every radial interval, same analytic flow, atomic model and boundary parameters"
+    },
+    {
+      "case": "T9",
+      "factor": 1,
+      "iterations": 60,
+      "initialization": "full",
+      "reason": "Fresh LTE initial guess with explicit FULL 1 cycles; same equations, rate data and tolerance"
+    }
+  ],
+  "stop": "If nonlinear/energy/coverage gates still fail, do not compute a noisy global response or attach an envelope. Preserve all coarse and recovery trials.",
+  "physical_coefficients_changed": false,
+  "tolerances_relaxed": false
+}

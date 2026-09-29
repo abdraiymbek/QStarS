@@ -5,7 +5,7 @@ important numerical checks for a specified hot-envelope problem and adds direct
 MESA microphysics and a stationary advective-wind reference. It does not
 reproduce complete published quasi-star evolutionary tracks.
 
-The current automated suite has **108 passing tests with MESA and FreeEOS enabled**
+The current automated suite has **117 passing tests with MESA and FreeEOS enabled**
 (optional native-library tests require the pinned builds).
 The full `qstars validate --require-v1` campaign has **29 passing checks and two
 retained printed-value discrepancies** and correctly exits 2. Passing software
@@ -24,7 +24,20 @@ tests and resolution criteria](atmosphere.md). General v1 remains blocked.
 
 ## Current outer-closure gate
 
-[Report 13](../Reports/Report_13.md) has outcome **BACKEND/PHYSICS BLOCKER**.
+[Report 14](../Reports/Report_14.md) has outcome **BACKEND/PHYSICS BLOCKER**.
+Cool H−/H/He controls expose native population-output and Rayleigh-indexing
+defects, now repaired and tested. The ideal material differential explicitly
+includes level energy and population changes. The corrected 84-zone T6 control
+contains nine cool partially recombined cells but fails nonlinear convergence,
+electron balance (150.59%), global radiation energy (8.6847%) and cumulative
+interior radiation energy (14.8590%). T9 develops nonfinite luminosities; the
+requested Newton continuation develops a radiation-moment instability. No
+nonlocal response from those failed states is fed to a wind solver. Refinement,
+all failed inputs and complete evidence are documented in the report. No
+physical envelope, evolving wind or published full evolutionary track is
+validated; the Mach-one MLT guard remains active.
+
+The preceding [Report 13](../Reports/Report_13.md) records the hot component.
 CMFGEN supplies a native spherical non-LTE component with explicit atomic data,
 spectral moments, force and energy exchange. Its adapter normalization and
 read-only export pass independent checks. Fresh 84/167/333/665-point transfer

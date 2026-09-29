@@ -1,0 +1,116 @@
+{
+  "latest_report": "Reports/Report_14.md",
+  "outcome": "BACKEND/PHYSICS BLOCKER",
+  "gates": [
+    {
+      "name": "Cool H/He recombination coverage",
+      "status": "PASS",
+      "scope": "Nine / nineteen 3000-12000 K, 10-90% neutral-H cells in the 84 / 167-radius T6 controls. Coverage only, not equilibrium or a physical envelope.",
+      "evidence": [
+        "Reports/evidence/cool_20260929/T6_coarse_audit/cool_validation.json",
+        "Reports/evidence/cool_20260929/T6_refined_audit/cool_validation.json"
+      ]
+    },
+    {
+      "name": "Cool non-LTE nonlinear, thermal and energy validation",
+      "status": "FAIL",
+      "scope": "T9 NaN/zero-correction crash and runaway-J Newton continuation. T6 coarse/refined electron residuals 150.59/150.57%, global radiation defects 8.6847/1.9309%, cumulative interior defects 14.8590/6.4093%. Fixed-temperature Lambda sequences remain severely unconverged. No converged cool reference reproduction.",
+      "evidence": [
+        "Reports/evidence/cool_20260929/campaign_summary.json",
+        "Reports/evidence/cool_20260929/T6_coarse_audit/cool_validation.json",
+        "Reports/evidence/cool_20260929/T6_refined_audit/cool_validation.json"
+      ]
+    },
+    {
+      "name": "H-minus native output and Rayleigh implementation repairs",
+      "status": "PASS",
+      "scope": "Name-based output invariant under matched inputs; actual native Rayleigh call/HI population derivative passes analytic fixture. Original failures retained; no claim of full atmosphere certification.",
+      "evidence": [
+        "Reports/evidence/cool_20260929/population_export_invariance.json",
+        "Reports/evidence/cool_20260929/rayleigh_fixed_v2/validation.json"
+      ]
+    },
+    {
+      "name": "Thermodynamically consistent material/radiation response",
+      "status": "CONDITIONAL",
+      "scope": "Exact ideal resolved-atom frozen-population and population-energy partials pass. Relaxed non-LTE response, consistent dissolution/nonideal terms and shared envelope mass/energy conventions are not validated; insufficient for production wind.",
+      "evidence": [
+        "src/qstars/nlte_material.py",
+        "Reports/evidence/cool_20260929/pytest_final.txt",
+        "docs/nlte_cool_closure.md"
+      ]
+    },
+    {
+      "name": "Global nonlocal force/heating and mass-loss eigenvalue",
+      "status": "FAIL",
+      "scope": "No reliable derivatives can be constructed from the failed cool states. No production mdot or sonic solution selected.",
+      "evidence": [
+        "docs/nlte_cool_closure.md",
+        "Reports/Report_14.md"
+      ]
+    },
+    {
+      "name": "Conservative convective-envelope handoff",
+      "status": "FAIL",
+      "scope": "No validated overlap or stress/transport/dissipation closure. Mach-one MLT guard remains enabled and tested.",
+      "evidence": [
+        "docs/nlte_cool_closure.md",
+        "Reports/evidence/cool_20260929/pytest_final.txt"
+      ]
+    },
+    {
+      "name": "One physical envelope selecting a conservative escaping wind",
+      "status": "FAIL",
+      "scope": "Not attempted because prerequisite cool/material/nonlocal/handoff gates fail. No physical no-wind theorem claimed.",
+      "evidence": [
+        "Reports/Report_14.md"
+      ]
+    },
+    {
+      "name": "Coupled evolution and complete published evolutionary benchmark",
+      "status": "FAIL",
+      "scope": "Downstream prerequisites failed; zero new physical evolution or published full-track replicas.",
+      "evidence": [
+        "benchmarks/manifest.yaml",
+        "Reports/Report_14.md"
+      ]
+    },
+    {
+      "name": "Cool mesh/frequency and response convergence",
+      "status": "FAIL",
+      "scope": "84/167-radius cool controls both fail nonlinear and thermal convergence. Smaller radiation error does not establish mesh convergence; frequency/response-step convergence not certified.",
+      "evidence": [
+        "Reports/evidence/cool_20260929/campaign_summary.json",
+        "Reports/evidence/cool_20260929/T6_refined_audit/cool_validation.json"
+      ]
+    },
+    {
+      "name": "Nonfinite rejection and retained failure/restart evidence",
+      "status": "PASS",
+      "scope": "NaN diagnostics cannot masquerade as zero-correction convergence. Setup failures, native instabilities and original inputs retained. This is software failure handling, not physical restart validation.",
+      "evidence": [
+        "tests/test_cmfgen_backend.py",
+        "Reports/evidence/cool_20260929/pytest_final.txt",
+        "benchmarks/results/2026-09-29-cool/archive_index.json"
+      ]
+    },
+    {
+      "name": "Apple Silicon and cloud readiness",
+      "status": "CONDITIONAL",
+      "scope": "84/167-radius cool components take 1041.17/2008.61 s with 121.75/181.69 MiB peak footprint locally. Failures occur without resource exhaustion; no cloud run needed to establish failure. Global wind and Linux/cloud numerical/scaling validation remain unmeasured.",
+      "evidence": [
+        "docs/performance.md",
+        "Reports/evidence/cool_20260929/campaign_summary.json"
+      ]
+    },
+    {
+      "name": "QStarS v1 / QSRD",
+      "status": "FAIL",
+      "scope": "General-purpose independent v1 prerequisites remain unsatisfied. QSRD deferred.",
+      "evidence": [
+        "Reports/evidence/completion_gates.json"
+      ]
+    }
+  ],
+  "v1_complete": false
+}

@@ -115,3 +115,11 @@ run has a 0.09140% integrated radiation-energy defect and differs from the
 operator targets; the incoming populations remain out of equilibrium, so this
 does not close thermal, atom-size or wind convergence. Failures and exact
 timings remain in [Report 13](../Reports/Report_13.md).
+# Report 14 continuation
+
+The selected backend now has cool H−/H/He control inputs and a tested ideal
+material differential. Two H−-dependent native indexing defects are repaired;
+the cool nonlinear/energy gate still fails. See the
+[cool closure contract](nlte_cool_closure.md) and [Report 14](../Reports/Report_14.md)
+for the updated scope. The Report 13 results below retain their original hot
+component meaning.

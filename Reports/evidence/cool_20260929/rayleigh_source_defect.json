@@ -1,0 +1,12 @@
+{
+  "classification": "native_implementation_error",
+  "evidence": {
+    "new_main/mod_subs/comp_opac.f": "46aa68419d3bd6ef359d43ac95e8de6ee19ab0e33f52f1a61dca17431d21ea41",
+    "new_main/mod_subs/do_var_cont.f": "553f5c44b8df9c527e39a39b7b2d75d7c422d604cf2ac8aae8c77f50d9a89f8f",
+    "newsubs/rayleigh_scat.f": "19a913be7535b3c9084fe188db296ba7b05fb27d07a348e839c2a307edcb2c01"
+  },
+  "condition": "H0 present and INC_RAY true",
+  "defect": "comp_opac/do_var_cont test HMI, but active negative ion is named H0. Wrong ion, threshold and level-array stride enter Rayleigh opacity; derivative points to wrong population.",
+  "correction": "Select HI after H0; pass its full-level count and use its equation index; no cross-section coefficient changes.",
+  "physical_nonexistence_claim": false
+}

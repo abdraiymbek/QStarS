@@ -69,10 +69,16 @@ def read_hhe_populations(path):
     lines=Path(path).read_text().splitlines()
     n=int(next(s.split(':',1)[1] for s in lines if s.strip().startswith('ND:')))
     q={}
-    for ion,label in [('HI','Number of Hydrogen levels:'),('HeI','Number of Helium I levels:'),('HeII','Number of Helium II levels:')]:
+    ions=[('HI','Number of Hydrogen levels:'),('HeI','Number of Helium I levels:'),('HeII','Number of Helium II levels:')]
+    if any(s.strip().startswith('Number of Hminus levels:') for s in lines):
+        ions.insert(0,('Hminus','Number of Hminus levels:'))
+    for ion,label in ions:
         ii=[i for i,s in enumerate(lines) if s.strip().startswith(label)]
         if len(ii)!=1:raise ValueError(f'Missing {ion} populations')
         i=ii[0];nl=int(lines[i].split(':',1)[1]);vals=[]
+        expected={'HI':'HI','HeI':'HeI','HeII':'He2','Hminus':'H0'}[ion]+' populations'
+        if i<1 or lines[i-1].strip()!=expected:
+            raise ValueError('RVTJ ion label mismatch; unpatched native H- output uses incorrect fixed ion indices')
         if nl<1:raise ValueError(f'Empty {ion} atom')
         for line in lines[i+2:]:
             row=_numbers(line)
@@ -208,18 +214,18 @@ def hhe_material(state,populations,levels):
     Coulomb terms, radiation energy or turbulence are included. This is not an
     LTE FreeEOS call and supplies no equilibrium derivatives for a sonic solve.
     """
-    p=populations;s=state;h=6.62607015e-27;k=1.380649e-16
-    nh=p['HI'].sum(axis=0)+p['HII'];nhe=p['HeI'].sum(axis=0)+p['HeII'].sum(axis=0)+p['HeIII']
-    ne=p['HII']+p['HeII'].sum(axis=0)+2*p['HeIII']
-    ih=levels['HI']['ionization_wavenumber']
-    ihe=levels['HeI']['ionization_wavenumber'];ihe2=levels['HeII']['ionization_wavenumber']
-    excitation=sum(np.einsum('l,lr->r',levels[ion]['wavenumber'],p[ion]) for ion in ['HI','HeI','HeII'])
-    atomic=h*C*(excitation+ih*p['HII']+ihe*p['HeII'].sum(axis=0)+(ihe+ihe2)*p['HeIII'])
-    pressure=(nh+nhe+ne)*k*s['temperature'];thermal=1.5*pressure
+    from .nlte_material import hhe_resolved_material
+    p=populations;s=state
+    hm=p['Hminus'].sum(axis=0) if 'Hminus' in p else 0.
+    nh=p['HI'].sum(axis=0)+p['HII']+hm;nhe=p['HeI'].sum(axis=0)+p['HeII'].sum(axis=0)+p['HeIII']
+    ne=p['HII']+p['HeII'].sum(axis=0)+2*p['HeIII']-hm
+    resolved=hhe_resolved_material(s,p,levels).values()
+    pressure=resolved['pressure'];thermal=1.5*pressure
+    atomic=resolved['atomic_energy']*s['density_clump']
     residuals={'hydrogen':np.max(abs(nh/s['hydrogen_density']-1)),
                'helium':np.max(abs(nhe/s['helium_density']-1)),
                'charge':np.max(abs(ne/s['electron_density']-1))}
     return dict(gas_pressure=pressure,gas_internal_energy=(thermal+atomic)/s['density_clump'],
         translational_energy_density_clump=thermal,atomic_energy_density_clump=atomic,
         energy_gauge='neutral_H_He_ground',conservation_relative={k:float(v) for k,v in residuals.items()},
-        equilibrium_derivatives_available=False,production_certified=False)
+        equilibrium_derivatives_available=False,frozen_population_derivatives_available=True,production_certified=False)

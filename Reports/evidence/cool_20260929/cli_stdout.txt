@@ -1,0 +1,8 @@
+Reports/evidence/cool_20260929/cli_validation/20260929T032613.302284Z_validation/validation.md
+{
+  "v1_validated": false,
+  "failed_checks": [
+    "CB24 printed Ki_max",
+    "CB24 printed BH/inner mass"
+  ]
+}

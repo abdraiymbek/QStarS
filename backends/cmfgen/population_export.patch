@@ -1,0 +1,72 @@
+--- new_main/cmfgen_sub.f
++++ new_main/cmfgen_sub.f
+@@ -4559,35 +4559,40 @@
+ 	    WRITE(LU_POP,'(A)')' Helium Density'
+ 	    WRITE(LU_POP,'(1X,1P8E16.7)')POP_SPECIES(1:ND,2)
+ !
+-	    IF(ATM(1)%XzV_PRES)THEN
+-	      WRITE(LU_POP,'(A)')TRIM(ION_ID(1))//' populations'
+-	      WRITE(LU_POP,'(A,T30,I3)')' Number of Hydrogen levels:',ATM(1)%NXzV_F
+-	      WRITE(LU_POP,'(A,T30,A)')TRIM(ION_ID(1))//
+-	1                ' oscillator date:',ATM(1)%XzV_OSCDATE
+-	      WRITE(LU_POP,'(1X,1P8E16.7)')ATM(1)%XzV_F
+-	      WRITE(LU_POP,'(A)')' DHYD population'
+-	      WRITE(LU_POP,'(1X,1P8E16.7)')ATM(1)%DXzV_F
+-	    END IF
+-!
+-	    IF(ATM(3)%XzV_PRES)THEN
+-	      WRITE(LU_POP,'(A)')' HeI populations'
+-	      WRITE(LU_POP,'(A,T30,I3)')' Number of Helium I levels:',ATM(3)%NXzV_F
+-	      WRITE(LU_POP,'(A,T30,A)')TRIM(ION_ID(3))//
+-	1                ' oscillator date:',ATM(3)%XzV_OSCDATE
+-	      WRITE(LU_POP,'(1X,1P8E16.7)')ATM(3)%XzV_F
+-	      WRITE(LU_POP,'(A)')' DHeI population'
+-	      WRITE(LU_POP,'(1X,1P8E16.7)')ATM(3)%DXzV_F
+-	    END IF
+-!
+-	    IF(ATM(4)%XzV_PRES)THEN
+-	      WRITE(LU_POP,'(A)')' He2 populations'
+-	      WRITE(LU_POP,'(A,T30,I3)')' Number of Helium II levels:',ATM(4)%NXzV_F
+-	      WRITE(LU_POP,'(A,T30,A)')TRIM(ION_ID(4))//
+-	1                ' oscillator date:',ATM(1)%XzV_OSCDATE
+-	      WRITE(LU_POP,'(1X,1P8E16.7)')ATM(4)%XzV_F
+-	      WRITE(LU_POP,'(A)')' DHe2 population'
+-	      WRITE(LU_POP,'(1X,1P8E16.7)')ATM(4)%DXzV_F
+-	    END IF
++! QStarS: output by ion name, not fixed ion index. H0 shifts HI and He.
++	    DO ID=1,NUM_IONS
++	      IF(.NOT. ATM(ID)%XzV_PRES)CYCLE
++	      SELECT CASE(TRIM(ION_ID(ID)))
++	      CASE('H0')
++	        WRITE(LU_POP,'(A)')' H0 populations'
++	        WRITE(LU_POP,'(A,I4)')' Number of Hminus levels:',ATM(ID)%NXzV_F
++	      CASE('HI')
++	        WRITE(LU_POP,'(A)')' HI populations'
++	        WRITE(LU_POP,'(A,I4)')' Number of Hydrogen levels:',ATM(ID)%NXzV_F
++	      CASE('HeI')
++	        WRITE(LU_POP,'(A)')' HeI populations'
++	        WRITE(LU_POP,'(A,I4)')' Number of Helium I levels:',ATM(ID)%NXzV_F
++	      CASE('He2')
++	        WRITE(LU_POP,'(A)')' He2 populations'
++	        WRITE(LU_POP,'(A,I4)')' Number of Helium II levels:',ATM(ID)%NXzV_F
++	      CASE DEFAULT
++	        CYCLE
++	      END SELECT
++	      WRITE(LU_POP,'(A,T30,A)')TRIM(ION_ID(ID))//
++	1             ' oscillator date:',ATM(ID)%XzV_OSCDATE
++	      WRITE(LU_POP,'(1X,1P8E16.7)')ATM(ID)%XzV_F
++	      SELECT CASE(TRIM(ION_ID(ID)))
++	      CASE('HI')
++	        WRITE(LU_POP,'(A)')' DHYD population'
++	      CASE('HeI')
++	        WRITE(LU_POP,'(A)')' DHeI population'
++	      CASE('He2')
++	        WRITE(LU_POP,'(A)')' DHe2 population'
++	      CASE DEFAULT
++	        CYCLE
++	      END SELECT
++	      WRITE(LU_POP,'(1X,1P8E16.7)')ATM(ID)%DXzV_F
++	    END DO
+ !
+ 	  CLOSE(UNIT=LU_POP)
+ !

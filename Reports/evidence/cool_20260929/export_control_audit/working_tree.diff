@@ -1,0 +1,124 @@
+diff --git a/backends/cmfgen/record_build.py b/backends/cmfgen/record_build.py
+index 90bd15f..6da43cb 100644
+--- a/backends/cmfgen/record_build.py
++++ b/backends/cmfgen/record_build.py
+@@ -10,4 +10,11 @@ sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+ record=dict(executable_sha256=sha(exe),max_rays=2048,explicit_native_capacity_guard=True,
+  source_hashes={str(x.relative_to(a.root)):sha(x) for x in [module,guard,a.root/'new_main/cmfgen_sub.f']},
+  scope='non-dust spherical transfer only; not production certification')
++ray_manifest=Path(__file__).parent/'hminus_rayleigh_patch_manifest.json'
++record['hminus_rayleigh_fixed']=False
++if ray_manifest.exists():
++    required=json.loads(ray_manifest.read_text())['source_hashes']
++    record['hminus_rayleigh_fixed']=all(sha(a.root/name)==row['patched'] and
++        exe.stat().st_mtime_ns>(a.root/name).stat().st_mtime_ns for name,row in required.items())
++    record['source_hashes'].update({name:sha(a.root/name) for name in required})
+ exe.with_suffix('.capabilities.json').write_text(json.dumps(record,indent=2)+'\n');print(json.dumps(record,indent=2))
+diff --git a/backends/cmfgen/run_component.py b/backends/cmfgen/run_component.py
+index d9c9849..33147b3 100644
+--- a/backends/cmfgen/run_component.py
++++ b/backends/cmfgen/run_component.py
+@@ -7,7 +7,7 @@ from qstars.cmfgen_backend import sha256,read_rvtj,read_spectral
+ def check_grid_capacity(directory,executable):
+     # Upstream MOD_SPACE_GRID_V2 has RAY(500), without a bounds check.
+     # Only a matching build record may advertise the guarded larger array.
+-    limit=500;record=executable.with_suffix('.capabilities.json')
++    limit=500;record=executable.with_suffix('.capabilities.json');info={}
+     if record.is_file():
+         info=json.loads(record.read_text())
+         if info.get('executable_sha256')!=sha256(executable):raise RuntimeError('Build capability record does not match executable')
+@@ -17,6 +17,13 @@ def check_grid_capacity(directory,executable):
+         values=re.findall(r'(?m)^\s*(\d+)\s*\[NP\]',model.read_text())
+         if len(values)!=1:raise RuntimeError('Missing/duplicate native ray count')
+         if int(values[0])>limit:raise RuntimeError(f'Unsupported native ray count {values[0]} > verified capacity {limit}')
++        # The current upstream release uses a stale HMI name in the Rayleigh
++        # call and Jacobian, although the active negative ion is named H0.
++        hminus=re.search(r'(?m)^\s*([1-9]\d*)\s*,\s*[1-9]\d*\s*,\s*[1-9]\d*\s*\[H0_ISF\]',model.read_text())
++        vadat=directory/'VADAT'
++        ray=vadat.exists() and re.search(r'(?m)^\s*T\s+\[INC_RAY\]',vadat.read_text())
++        if hminus and ray and info.get('hminus_rayleigh_fixed') is not True:
++            raise RuntimeError('H0 with Rayleigh scattering requires the verified HI selection/stride/Jacobian repair')
+     return limit
+ 
+ 
+diff --git a/scripts/validate_cmfgen_component.py b/scripts/validate_cmfgen_component.py
+index e007a65..5074f0b 100644
+--- a/scripts/validate_cmfgen_component.py
++++ b/scripts/validate_cmfgen_component.py
+@@ -44,6 +44,7 @@ def audit(directory,output,reference=None,hhe=False):
+     if hhe:
+         pops=read_hhe_populations(p/'RVTJ')
+         levels={k:read_atomic_levels(p/n,pops[k].shape[0]) for k,n in [('HI','HI_F_OSCDAT'),('HeI','HeI_F_OSCDAT'),('HeII','He2_F_OSCDAT')]}
++        if 'Hminus' in pops:levels['Hminus']=read_atomic_levels(p/'H0_F_OSCDAT',pops['Hminus'].shape[0])
+         mat=hhe_material(s,pops,levels)
+         for k,v in mat['conservation_relative'].items():check('population_'+k,v,t['population_charge_relative'] if k=='charge' else t['population_nuclei_relative'],'atomic conservation on native output')
+         metrics['energy_gauge']=mat['energy_gauge'];metrics['material_derivatives_available']=False
+diff --git a/src/qstars/cmfgen_backend.py b/src/qstars/cmfgen_backend.py
+index 71487a1..2006a5d 100644
+--- a/src/qstars/cmfgen_backend.py
++++ b/src/qstars/cmfgen_backend.py
+@@ -69,10 +69,16 @@ def read_hhe_populations(path):
+     lines=Path(path).read_text().splitlines()
+     n=int(next(s.split(':',1)[1] for s in lines if s.strip().startswith('ND:')))
+     q={}
+-    for ion,label in [('HI','Number of Hydrogen levels:'),('HeI','Number of Helium I levels:'),('HeII','Number of Helium II levels:')]:
++    ions=[('HI','Number of Hydrogen levels:'),('HeI','Number of Helium I levels:'),('HeII','Number of Helium II levels:')]
++    if any(s.strip().startswith('Number of Hminus levels:') for s in lines):
++        ions.insert(0,('Hminus','Number of Hminus levels:'))
++    for ion,label in ions:
+         ii=[i for i,s in enumerate(lines) if s.strip().startswith(label)]
+         if len(ii)!=1:raise ValueError(f'Missing {ion} populations')
+         i=ii[0];nl=int(lines[i].split(':',1)[1]);vals=[]
++        expected={'HI':'HI','HeI':'HeI','HeII':'He2','Hminus':'H0'}[ion]+' populations'
++        if i<1 or lines[i-1].strip()!=expected:
++            raise ValueError('RVTJ ion label mismatch; unpatched native H- output uses incorrect fixed ion indices')
+         if nl<1:raise ValueError(f'Empty {ion} atom')
+         for line in lines[i+2:]:
+             row=_numbers(line)
+@@ -208,18 +214,18 @@ def hhe_material(state,populations,levels):
+     Coulomb terms, radiation energy or turbulence are included. This is not an
+     LTE FreeEOS call and supplies no equilibrium derivatives for a sonic solve.
+     """
+-    p=populations;s=state;h=6.62607015e-27;k=1.380649e-16
+-    nh=p['HI'].sum(axis=0)+p['HII'];nhe=p['HeI'].sum(axis=0)+p['HeII'].sum(axis=0)+p['HeIII']
+-    ne=p['HII']+p['HeII'].sum(axis=0)+2*p['HeIII']
+-    ih=levels['HI']['ionization_wavenumber']
+-    ihe=levels['HeI']['ionization_wavenumber'];ihe2=levels['HeII']['ionization_wavenumber']
+-    excitation=sum(np.einsum('l,lr->r',levels[ion]['wavenumber'],p[ion]) for ion in ['HI','HeI','HeII'])
+-    atomic=h*C*(excitation+ih*p['HII']+ihe*p['HeII'].sum(axis=0)+(ihe+ihe2)*p['HeIII'])
+-    pressure=(nh+nhe+ne)*k*s['temperature'];thermal=1.5*pressure
++    from .nlte_material import hhe_resolved_material
++    p=populations;s=state
++    hm=p['Hminus'].sum(axis=0) if 'Hminus' in p else 0.
++    nh=p['HI'].sum(axis=0)+p['HII']+hm;nhe=p['HeI'].sum(axis=0)+p['HeII'].sum(axis=0)+p['HeIII']
++    ne=p['HII']+p['HeII'].sum(axis=0)+2*p['HeIII']-hm
++    resolved=hhe_resolved_material(s,p,levels).values()
++    pressure=resolved['pressure'];thermal=1.5*pressure
++    atomic=resolved['atomic_energy']*s['density_clump']
+     residuals={'hydrogen':np.max(abs(nh/s['hydrogen_density']-1)),
+                'helium':np.max(abs(nhe/s['helium_density']-1)),
+                'charge':np.max(abs(ne/s['electron_density']-1))}
+     return dict(gas_pressure=pressure,gas_internal_energy=(thermal+atomic)/s['density_clump'],
+         translational_energy_density_clump=thermal,atomic_energy_density_clump=atomic,
+         energy_gauge='neutral_H_He_ground',conservation_relative={k:float(v) for k,v in residuals.items()},
+-        equilibrium_derivatives_available=False,production_certified=False)
++        equilibrium_derivatives_available=False,frozen_population_derivatives_available=True,production_certified=False)
+diff --git a/tests/test_cmfgen_backend.py b/tests/test_cmfgen_backend.py
+index ada1f1c..d0a498d 100644
+--- a/tests/test_cmfgen_backend.py
++++ b/tests/test_cmfgen_backend.py
+@@ -117,3 +117,14 @@ def test_unverified_native_ray_capacity_cannot_overrun(tmp_path):
+     executable.write_text('changed')
+     with pytest.raises(RuntimeError,match='does not match'):
+         runner_module().check_grid_capacity(directory,executable)
++
++
++def test_known_hminus_rayleigh_bug_is_gated(tmp_path):
++    run=tmp_path/'run';run.mkdir();(run/'MODEL_SPEC').write_text('99 [NP]\n1,1,1 [H0_ISF]\n')
++    (run/'VADAT').write_text('T [INC_RAY]\n');exe=tmp_path/'native';exe.write_text('dummy')
++    with pytest.raises(RuntimeError,match='HI selection/stride/Jacobian'):
++        runner_module().check_grid_capacity(run,exe)
++    import json
++    from qstars.cmfgen_backend import sha256
++    exe.with_suffix('.capabilities.json').write_text(json.dumps(dict(executable_sha256=sha256(exe),hminus_rayleigh_fixed=True)))
++    assert runner_module().check_grid_capacity(run,exe)==500

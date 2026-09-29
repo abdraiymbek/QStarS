@@ -1,0 +1,8 @@
+{
+  "command": ".venv/bin/qstars validate --require-v1 --output Reports/evidence/cool_20260929/cli_validation",
+  "exit_code": 2,
+  "checks": 31,
+  "passed": 29,
+  "failed": 2,
+  "v1_validated": false
+}

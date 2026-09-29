@@ -1,0 +1,40 @@
+{
+  "status": "PASS",
+  "input_hashes_identical": true,
+  "byte_identical": {
+    "QSTARS_SPECTRAL.bin": true,
+    "H0OUT": true,
+    "HIOUT": true,
+    "HeIOUT": true,
+    "He2OUT": true,
+    "GENCOOL": true
+  },
+  "material_relative_differences": {
+    "radius": 0.0,
+    "velocity": 0.0,
+    "temperature": 0.0,
+    "electron_density": 0.0,
+    "density_clump": 0.0,
+    "filling_factor": 0.0,
+    "hydrogen_density": 0.0,
+    "helium_density": 0.0,
+    "chi_rosseland": 0.0,
+    "chi_flux": 0.0,
+    "J": 0.0,
+    "H": 0.0,
+    "K": 0.0,
+    "density": 0.0,
+    "mass_flux": 0.0,
+    "kappa_flux": 0.0,
+    "kappa_rosseland": 0.0
+  },
+  "runtimes_seconds": [
+    21.30437579099089,
+    19.162746957998024
+  ],
+  "executable_hashes": [
+    "3b6b2a28d38d7f34029bb0e01eaf7a8ecb85a8ccd23b4c6a664af2d78458111f",
+    "a2b8962a39ee5c66399991d419d82644bd97461f778f2fc477813dad3d6930df"
+  ],
+  "scope": "Read-only RVTJ population indexing repair. Both executables have the same known Rayleigh defect; no physical validation claim."
+}

@@ -5,3 +5,7 @@ subject to its upstream license. The QStarS root MIT license does not relicense
 CMFGEN, its modified source, its binary, or separately authored atomic data.
 Archives/binaries are not vendored. Atomic files keep their original attribution.
 The Python file interface does not bundle the external executable.
+Report 14 adds name-based H-/H/He diagnostic output and repairs neutral-H
+Rayleigh ion selection, array stride and derivative indexing with H- present.
+The patches and modified native source remain subject to the upstream GPLv3.
+No upstream validation endorsement is implied.

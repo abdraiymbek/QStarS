@@ -1,0 +1,34 @@
+{
+  "campaign": "Report 14: cool recombination component and material response",
+  "production_certified": false,
+  "reference": "Martins et al. 2026, arXiv:2605.12141, Table 1 and Appendices A/C",
+  "scope": "Primordial H/He stress controls at published luminosity/radius/mdot scales, NOT reproductions of the metal-bearing published models. The unpublished base scale height is not fitted.",
+  "cases": {
+    "T9": {"inner_flux_temperature_K": 9000, "radius_Rsun": 41360, "luminosity_Lsun": 10000000000, "mdot_Msun_yr": 0.15},
+    "T6": {"inner_flux_temperature_K": 6000, "radius_Rsun": 93061, "luminosity_Lsun": 10000000000, "mdot_Msun_yr": 0.30}
+  },
+  "prescribed_control_flow": {"base_velocity_km_s": 0.01, "terminal_velocity_km_s": 200, "beta": 1, "outer_radius_ratio": 100, "initial_radii": 84, "core_rays": 15},
+  "physics": "H-/HI/HII/HeI/HeII/HeIII, native full levels, two-photon and Rayleigh enabled, coherent electron scattering, native level dissolution; no metals, molecules, clumping, X-rays or imposed temperature floor. Initial radiative-equilibrium controls omit material and population advection, which must be restored and validated before wind use.",
+  "thresholds": {
+    "inherited_component_plan": "benchmarks/cmfgen_validation_plan.json",
+    "cool_temperature_min_K": 3000,
+    "cool_temperature_max_K": 12000,
+    "recombination_neutral_fraction_min": 0.1,
+    "recombination_neutral_fraction_max": 0.9,
+    "minimum_recombining_depths": 3,
+    "material_derivative_relative": 0.000001,
+    "finite_difference_step_ln": 0.00001,
+    "cumulative_radiation_energy_relative": 0.001,
+    "population_advection_energy_relative": 0.001
+  },
+  "requirements": [
+    "Nonlinear/electron/independent radiation-energy checks must pass before refinement and response differencing",
+    "Internal population, temperature, force and heating response must converge under mesh/frequency refinement, not only luminosity",
+    "H- guessed collisional data must not be certified without sensitivity or independent validation",
+    "Frozen population partial derivatives must not be substituted for relaxed non-LTE derivatives",
+    "Radiation/population response must be global and retain material first-law terms before eigenvalue coupling",
+    "Keep Mach-one MLT guard; no convective flux may be discarded at matching",
+    "Stop downstream production work if the component remains invalid; preserve all trials"
+  ],
+  "justification": "Retain Report 13 tolerances. Require at least three partially recombined cool cells to prevent labeling an ionized control a recombination validation. Derivative identities have no discretization error except finite differences and floating-point/printed-state precision. A 0.1% integrated and cumulative luminosity budget is needed before QStarS can accept a radiative source. These controls establish no quantitative published-model agreement."
+}

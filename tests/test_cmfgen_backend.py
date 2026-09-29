@@ -97,6 +97,23 @@ def test_stale_native_output_rejected(tmp_path):
         runner_module().check_completion(tmp_path,time.time_ns(),False)
 
 
+def test_nan_luminosity_cannot_pass_zero_correction(tmp_path):
+    (tmp_path/'OUTGEN').write_text('Luminosity of star is: NaN NaN\nMaximm changes as returned by SOLVEBA_V13 is 0.0\n')
+    with pytest.raises(RuntimeError,match='Nonfinite native diagnostic'):
+        runner_module().check_completion(tmp_path,0,False)
+
+
+def test_live_nonfinite_native_run_is_stopped_and_retained(tmp_path):
+    exe=tmp_path/'nan_run'
+    exe.write_text('#!/bin/sh\nprintf "Luminosity of star is: NaN NaN\\n" > OUTGEN\nsleep 30\n')
+    exe.chmod(0o755);run=tmp_path/'run';run.mkdir()
+    result=runner_module().run(run,exe,timeout=15)
+    assert result['status']=='numerical_failure'
+    assert 'Nonfinite native diagnostic' in result['error']
+    assert result['seconds']<10
+    assert (run/'OUTGEN').read_text().endswith('NaN NaN\n')
+
+
 def test_nonphysical_frequency_rejected(tmp_path):
     p=tmp_path/'spectral';snapshot(p)
     a=bytearray(p.read_bytes());struct.pack_into('<d',a,16+8*(5*3+2+6*3),-1.)
@@ -117,3 +134,31 @@ def test_unverified_native_ray_capacity_cannot_overrun(tmp_path):
     executable.write_text('changed')
     with pytest.raises(RuntimeError,match='does not match'):
         runner_module().check_grid_capacity(directory,executable)
+
+
+def test_known_hminus_rayleigh_bug_is_gated(tmp_path):
+    run=tmp_path/'run';run.mkdir();(run/'MODEL_SPEC').write_text('99 [NP]\n1,1,1 [H0_ISF]\n')
+    (run/'VADAT').write_text('T [INC_RAY]\n');exe=tmp_path/'native';exe.write_text('dummy')
+    with pytest.raises(RuntimeError,match='HI selection/stride/Jacobian'):
+        runner_module().check_grid_capacity(run,exe)
+    import json
+    from qstars.cmfgen_backend import sha256
+    exe.with_suffix('.capabilities.json').write_text(json.dumps(dict(executable_sha256=sha256(exe),hminus_rayleigh_fixed=True)))
+    assert runner_module().check_grid_capacity(run,exe)==500
+
+
+def test_hminus_population_labels_and_charge_energy(tmp_path):
+    from qstars.cmfgen_backend import read_hhe_populations
+    p=tmp_path/'RVTJ'
+    text='ND: 2\n'
+    for ion,label,data in [('H0','Hminus','0.1 0.2'),('HI','Hydrogen','2 3'),
+                            ('HeI','Helium I','4 5'),('He2','Helium II','6 7')]:
+        text+=f'{ion} populations\nNumber of {label} levels: 1\n{ion} oscillator date: test\n{data}\n'
+        if ion=='HI':text+='DHYD population\n8 9\n'
+        if ion=='He2':text+='DHe2 population\n10 11\n'
+    p.write_text(text);q=read_hhe_populations(p)
+    np.testing.assert_array_equal(q['Hminus'],[[.2,.1]])
+    np.testing.assert_array_equal(q['HeIII'],[11,10])
+    # Upstream fixed indices can mislabel H0 as hydrogen. Fail closed.
+    p.write_text(text.replace('HI populations','H0 populations'))
+    with pytest.raises(ValueError,match='ion label mismatch'):read_hhe_populations(p)

@@ -1,0 +1,8 @@
+{
+  "fresh_full_trial": "T9_full failed at first matrix reuse because BAMATPNT/BAMAT were absent; preserved as setup/numerical failure",
+  "bootstrap": "T9_bootstrap: one completed native initialization iteration under the repaired build, followed by T9_newton via continue_component.py",
+  "continuation": "same physical inputs, 60 requested full cycles; native thermal/population safeguards remain active. Stops at iteration 6 with VAR_JREL_V2 runaway J",
+  "threshold_changes": false,
+  "physical_coefficient_changes": false,
+  "rayleigh_change": "documented native ion selection/stride/Jacobian repair, not parameter fitting"
+}

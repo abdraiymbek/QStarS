@@ -6,6 +6,16 @@ composition and explicitly chosen outer boundary conditions. Some hot
 pressure-confined models have quantitative convergence evidence. They are
 not complete quasi-star evolutionary tracks.
 
+Report 14 adds explicit ideal H−/H/He material energy and population partial
+derivatives, but **does not certify a cool non-LTE material/radiation closure**.
+The tested cool transfer states fail nonlinear and energy gates. H0 plus
+Rayleigh scattering is rejected unless the native executable has the verified
+HI-selection/stride/Jacobian repair. Nonfinite native diagnostics invalidate a
+run even if its last reported correction is zero. Frozen-population derivatives
+are not a relaxed EOS, and cannot be used to infer the physical sonic condition.
+The [cool contract](nlte_cool_closure.md) records unresolved level-dissolution,
+rate-data, shared energy-gauge and convective-handoff requirements.
+
 ## Active checks
 
 | Check | Threshold and purpose |

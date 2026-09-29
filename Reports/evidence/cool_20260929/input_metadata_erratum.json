@@ -1,0 +1,60 @@
+{
+  "issue": "The initial cool preparer inherited an obsolete input_flow description and an incomplete H/He atom list in component_definition.json from the hot template.",
+  "authority": "Actual native VADAT, MODEL_SPEC and RVSIG_COL plus cool_control.json define the cool configuration. H0 was present in MODEL_SPEC. The solver does not read component_definition.json.",
+  "correction": "Preparer fixed for future runs. Recorded original JSON files and hashes are preserved unchanged; this erratum applies to the listed trials.",
+  "physical_inputs_changed": false,
+  "cases": [
+    {
+      "case": "cmfgen_cool_T6_corrected",
+      "original_component_definition_sha256": "53d27ac0785c103856c7052d2a07d85f4e62a9b0f7e8f7745f158d0490bdaddf"
+    },
+    {
+      "case": "cmfgen_cool_T6_init",
+      "original_component_definition_sha256": "53d27ac0785c103856c7052d2a07d85f4e62a9b0f7e8f7745f158d0490bdaddf"
+    },
+    {
+      "case": "cmfgen_cool_T6_refined",
+      "original_component_definition_sha256": "53d27ac0785c103856c7052d2a07d85f4e62a9b0f7e8f7745f158d0490bdaddf"
+    },
+    {
+      "case": "cmfgen_cool_T9_atom",
+      "original_component_definition_sha256": "53d27ac0785c103856c7052d2a07d85f4e62a9b0f7e8f7745f158d0490bdaddf"
+    },
+    {
+      "case": "cmfgen_cool_T9_bootstrap",
+      "original_component_definition_sha256": "53d27ac0785c103856c7052d2a07d85f4e62a9b0f7e8f7745f158d0490bdaddf"
+    },
+    {
+      "case": "cmfgen_cool_T9_corrected",
+      "original_component_definition_sha256": "53d27ac0785c103856c7052d2a07d85f4e62a9b0f7e8f7745f158d0490bdaddf"
+    },
+    {
+      "case": "cmfgen_cool_T9_full",
+      "original_component_definition_sha256": "53d27ac0785c103856c7052d2a07d85f4e62a9b0f7e8f7745f158d0490bdaddf"
+    },
+    {
+      "case": "cmfgen_cool_T9_init",
+      "original_component_definition_sha256": "53d27ac0785c103856c7052d2a07d85f4e62a9b0f7e8f7745f158d0490bdaddf"
+    },
+    {
+      "case": "cmfgen_cool_T9_lte",
+      "original_component_definition_sha256": "53d27ac0785c103856c7052d2a07d85f4e62a9b0f7e8f7745f158d0490bdaddf"
+    },
+    {
+      "case": "cmfgen_cool_T9_newton",
+      "original_component_definition_sha256": "53d27ac0785c103856c7052d2a07d85f4e62a9b0f7e8f7745f158d0490bdaddf"
+    },
+    {
+      "case": "cmfgen_cool_T9_start",
+      "original_component_definition_sha256": "53d27ac0785c103856c7052d2a07d85f4e62a9b0f7e8f7745f158d0490bdaddf"
+    },
+    {
+      "case": "cmfgen_cool_export_build3",
+      "original_component_definition_sha256": "53d27ac0785c103856c7052d2a07d85f4e62a9b0f7e8f7745f158d0490bdaddf"
+    },
+    {
+      "case": "cmfgen_cool_export_build4",
+      "original_component_definition_sha256": "53d27ac0785c103856c7052d2a07d85f4e62a9b0f7e8f7745f158d0490bdaddf"
+    }
+  ]
+}

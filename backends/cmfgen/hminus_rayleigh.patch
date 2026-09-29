@@ -1,0 +1,31 @@
+--- new_main/mod_subs/comp_opac.f
++++ new_main/mod_subs/comp_opac.f
+@@ -174,10 +174,10 @@
+ ! Add in Rayleigh scattering contribution.
+ !
+ 	  CHI_RAY(1:ND)=0.0_LDP
+-	  ID=1; IF(ION_ID(1) .EQ. 'HMI')ID=2
++	  ID=1; IF((ION_ID(1) .EQ. 'H0' .OR. ION_ID(1) .EQ. 'HMI'))ID=2
+ 	  IF(SPECIES_PRES(1) .AND. INCL_RAY_SCAT)THEN
+ 	    CALL RAYLEIGH_SCAT(CHI_RAY,ATM(ID)%XzV_F,ATM(ID)%AXzV_F,ATM(ID)%EDGEXZV_F,
+-	1             ATM(1)%NXzV_F,CONT_FREQ,ND)
++	1             ATM(ID)%NXzV_F,CONT_FREQ,ND)
+ 	  END IF
+ 	  CHI_SCAT(1:ND)=ESEC(1:ND)+CHI_RAY(1:ND)
+ !
+--- new_main/mod_subs/do_var_cont.f
++++ new_main/mod_subs/do_var_cont.f
+@@ -801,10 +801,10 @@
+ 	      END DO
+ 	      VJ(NT-1,J,K)=VJ(NT-1,J,K) + ESEC(L)*dj_LOC(5,J,K)/ED(L)
+ 	      IF(SPECIES_PRES(1))THEN
+-	        IF(ION_ID(1) .EQ. 'HMI')THEN
+-	          VJ(2,J,K)=VJ(2,J,K) + CHI_RAY(L)*dj_LOC(5,J,K)/ATM(2)%XzV_F(1,L)
++	        IF((ION_ID(1) .EQ. 'H0' .OR. ION_ID(1) .EQ. 'HMI'))THEN
++	          VJ(ATM(2)%EQXzV,J,K)=VJ(ATM(2)%EQXzV,J,K) + CHI_RAY(L)*dj_LOC(5,J,K)/ATM(2)%XzV_F(1,L)
+ 	        ELSE
+-	          VJ(1,J,K)=VJ(1,J,K) + CHI_RAY(L)*dj_LOC(5,J,K)/ATM(1)%XzV_F(1,L)
++	          VJ(ATM(1)%EQXzV,J,K)=VJ(ATM(1)%EQXzV,J,K) + CHI_RAY(L)*dj_LOC(5,J,K)/ATM(1)%XzV_F(1,L)
+ 	        END IF
+ 	      END IF
+ !

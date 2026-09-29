@@ -12,13 +12,21 @@ photospheres, moving cavities, and coupled transonic winds remain open validatio
 Fiacconi–Rossi stationary wind solver now includes radiation enthalpy advection.
 These examples do not establish quasi-star lifetimes or QSRD recovery results.
 
-[Report 13](Reports/Report_13.md) records **BACKEND/PHYSICS BLOCKER**. CMFGEN was
+[Report 14](Reports/Report_14.md) records **BACKEND/PHYSICS BLOCKER** in the cool
+H/He recombination regime. H− output and Rayleigh-selection defects are repaired;
+the resolved-atom gas energy now has tested population and frozen-state
+derivatives. Cool nonlinear/thermal transfer still fails validation, so no
+physical envelope selects a production wind. The MLT guard remains active.
+**117 tests pass** with MESA and FreeEOS enabled.
+[Cool material and coupling contract](docs/nlte_cool_closure.md).
+
+[Report 13](Reports/Report_13.md) records the earlier **BACKEND/PHYSICS BLOCKER**. CMFGEN was
 selected after comparing existing methods, built natively on Apple Silicon,
 and integrated through an audited spectral/population interface. The 665-point
 fixed-state transfer control meets its global radiation-energy target, and a
 hot H/He continuation passes 12 component checks. Cool material-energy
-derivatives and a global wind eigenvalue remain open.
-**108 tests pass** with MESA and FreeEOS enabled. This is component validation,
+derivatives and a global wind eigenvalue remained open.
+**108 tests passed** with MESA and FreeEOS enabled. This is component validation,
 not a physical quasi-star wind. [Backend contract](docs/nlte_backend.md).
 
 [Report 12](Reports/Report_12.md) records **FAIL** for the self-selected outer

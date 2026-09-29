@@ -7,7 +7,7 @@ from qstars.cmfgen_backend import sha256,read_rvtj,read_spectral
 def check_grid_capacity(directory,executable):
     # Upstream MOD_SPACE_GRID_V2 has RAY(500), without a bounds check.
     # Only a matching build record may advertise the guarded larger array.
-    limit=500;record=executable.with_suffix('.capabilities.json')
+    limit=500;record=executable.with_suffix('.capabilities.json');info={}
     if record.is_file():
         info=json.loads(record.read_text())
         if info.get('executable_sha256')!=sha256(executable):raise RuntimeError('Build capability record does not match executable')
@@ -17,10 +17,25 @@ def check_grid_capacity(directory,executable):
         values=re.findall(r'(?m)^\s*(\d+)\s*\[NP\]',model.read_text())
         if len(values)!=1:raise RuntimeError('Missing/duplicate native ray count')
         if int(values[0])>limit:raise RuntimeError(f'Unsupported native ray count {values[0]} > verified capacity {limit}')
+        # The current upstream release uses a stale HMI name in the Rayleigh
+        # call and Jacobian, although the active negative ion is named H0.
+        hminus=re.search(r'(?m)^\s*([1-9]\d*)\s*,\s*[1-9]\d*\s*,\s*[1-9]\d*\s*\[H0_ISF\]',model.read_text())
+        vadat=directory/'VADAT'
+        ray=vadat.exists() and re.search(r'(?m)^\s*T\s+\[INC_RAY\]',vadat.read_text())
+        if hminus and ray and info.get('hminus_rayleigh_fixed') is not True:
+            raise RuntimeError('H0 with Rayleigh scattering requires the verified HI selection/stride/Jacobian repair')
     return limit
 
 
+def check_native_finiteness(directory):
+    """Zero nonlinear corrections can coexist with NaN luminosities upstream."""
+    path=directory/'OUTGEN'
+    if path.exists() and re.search(r'(?<![A-Za-z])(?:NaN|[+-]?Infinity)(?![A-Za-z])',path.read_text(),re.I):
+        raise RuntimeError('Nonfinite native diagnostic; zero corrections are not convergence')
+
+
 def check_completion(directory,started_ns,export_required):
+    check_native_finiteness(directory)
     log=(directory/'OUTGEN').read_text() if (directory/'OUTGEN').exists() else ''
     if re.search(r'Major Error|Major error|cant read BA File',log):
         raise RuntimeError('Native diagnostic reports a fatal error despite process status')
@@ -56,12 +71,20 @@ def run(directory,executable,timeout=3600,threads=1):
             manifest['verified_ray_capacity']=check_grid_capacity(directory,executable)
             p=subprocess.Popen(timer+[str(executable)],cwd=directory,env=env,stdin=subprocess.DEVNULL,
                 stdout=log,stderr=subprocess.STDOUT,preexec_fn=stack_limit,start_new_session=True)
-            try:p.wait(timeout=timeout)
-            except subprocess.TimeoutExpired:
-                os.killpg(p.pid,signal.SIGTERM)
+            try:
+                while p.poll() is None:
+                    remaining=timeout-(time.perf_counter()-start)
+                    if remaining<=0:raise subprocess.TimeoutExpired(p.args,timeout)
+                    try:p.wait(timeout=min(1.,remaining))
+                    except subprocess.TimeoutExpired:check_native_finiteness(directory)
+            except (subprocess.TimeoutExpired,RuntimeError) as exc:
+                try:os.killpg(p.pid,signal.SIGTERM)
+                except ProcessLookupError:pass
                 try:p.wait(timeout=5)
                 except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);p.wait()
-                raise RuntimeError('Component runtime limit exceeded; process group stopped')
+                if isinstance(exc,subprocess.TimeoutExpired):
+                    raise RuntimeError('Component runtime limit exceeded; process group stopped') from exc
+                raise
             manifest['exit_code']=p.returncode
             if p.returncode:raise RuntimeError(f'Native exit code {p.returncode}')
             # A normal Fortran STOP can return zero for both fatal errors and success.

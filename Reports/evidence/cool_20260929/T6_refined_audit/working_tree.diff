@@ -1,0 +1,958 @@
+diff --git a/README.md b/README.md
+index 3bd5c42..39b9e44 100644
+--- a/README.md
++++ b/README.md
+@@ -12,13 +12,21 @@ photospheres, moving cavities, and coupled transonic winds remain open validatio
+ Fiacconi–Rossi stationary wind solver now includes radiation enthalpy advection.
+ These examples do not establish quasi-star lifetimes or QSRD recovery results.
+ 
+-[Report 13](Reports/Report_13.md) records **BACKEND/PHYSICS BLOCKER**. CMFGEN was
++[Report 14](Reports/Report_14.md) records **BACKEND/PHYSICS BLOCKER** in the cool
++H/He recombination regime. H− output and Rayleigh-selection defects are repaired;
++the resolved-atom gas energy now has tested population and frozen-state
++derivatives. Cool nonlinear/thermal transfer still fails validation, so no
++physical envelope selects a production wind. The MLT guard remains active.
++**117 tests pass** with MESA and FreeEOS enabled.
++[Cool material and coupling contract](docs/nlte_cool_closure.md).
++
++[Report 13](Reports/Report_13.md) records the earlier **BACKEND/PHYSICS BLOCKER**. CMFGEN was
+ selected after comparing existing methods, built natively on Apple Silicon,
+ and integrated through an audited spectral/population interface. The 665-point
+ fixed-state transfer control meets its global radiation-energy target, and a
+ hot H/He continuation passes 12 component checks. Cool material-energy
+-derivatives and a global wind eigenvalue remain open.
+-**108 tests pass** with MESA and FreeEOS enabled. This is component validation,
++derivatives and a global wind eigenvalue remained open.
++**108 tests passed** with MESA and FreeEOS enabled. This is component validation,
+ not a physical quasi-star wind. [Backend contract](docs/nlte_backend.md).
+ 
+ [Report 12](Reports/Report_12.md) records **FAIL** for the self-selected outer
+diff --git a/Reports/evidence/completion_gates.json b/Reports/evidence/completion_gates.json
+index 72cd203..c186bbf 100644
+--- a/Reports/evidence/completion_gates.json
++++ b/Reports/evidence/completion_gates.json
+@@ -9,7 +9,7 @@
+     "CONDITIONAL": "Bounded evidence exists; does not certify general use.",
+     "FAIL": "Required capability or validation missing or failing."
+   },
+-  "automated_tests_passed": 108,
++  "automated_tests_passed": 117,
+   "automated_tests_failed": 0,
+   "optional_mesa_tests": 10,
+   "cli_validation": {
+@@ -22,7 +22,7 @@
+       "CB24 printed BH/inner mass"
+     ]
+   },
+-  "source_registry_entries": 54,
++  "source_registry_entries": 56,
+   "published_full_evolution_replication": false,
+   "published_full_evolution_replicas": 0,
+   "published_structure_replication": "subset_passes_with_two_retained_printed_value_discrepancies",
+@@ -39,14 +39,15 @@
+       "name": "Spatial and nonlinear convergence",
+       "status": "CONDITIONAL",
+       "achieved": "Hot-envelope runs through 2048 zones complete. 1024/2048 profile error below 0.081%; 512/2048 below 0.251%; refined independent time methods agree below 0.81%.",
+-      "remaining": "Production atmosphere/cavity/wind models untested. The 256-zone case fails 1% local energy-profile accuracy. Accepted timesteps vary across meshes.",
++      "remaining": "Production atmosphere/cavity/wind models untested. The 256-zone case fails 1% local energy-profile accuracy. Accepted timesteps vary across meshes. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified.",
+       "evidence": [
+         "benchmarks/results/2026-09-28-verified-spatial/20260928T033503.024409Z_spatial_validation/campaign.json",
+         "benchmarks/results/2026-09-28-closure/20260928T030639.520967Z_robustness_validation/campaign.json",
+         "benchmarks/results/2026-09-28-closure/20260928T031651.519611Z_midpoint_512_refined_time/method_comparison.json",
+         "benchmarks/results/2026-09-28-closure/20260928T031253.242612Z_time_method_validation/campaign.json",
+         "benchmarks/results/2026-09-28-verified-spatial/20260928T033503.024409Z_spatial_validation/previous_campaign_comparison.json",
+-        "Reports/Report_13.md"
++        "Reports/Report_13.md",
++        "Reports/Report_14.md"
+       ]
+     },
+     {
+@@ -54,7 +55,7 @@
+       "name": "Production microphysics",
+       "status": "FAIL",
+       "achieved": "Native EOS/opacity, atmosphere and full MLT references; direct FreeEOS gas audit; explicit-pressure layer integration and new dilute-gas validity guard. Gas-only FreeEOS energy derivatives independently reproduce its gas critical sound speed. Native CMFGEN spectral/population component and hot transfer controls now execute with explicit energy/frame conventions.",
+-      "remaining": "Candidate fails geometry and subsonic-convection validity; no validated conservative atmosphere/envelope/wind coupling. Historical table counterexamples retained. Rosseland opacity does not supply exposed-spectrum absorption/emission or force means. Consistent cool non-LTE material derivatives and global CMF force/source response are not validated.",
++      "remaining": "Candidate fails geometry and subsonic-convection validity; no validated conservative atmosphere/envelope/wind coupling. Historical table counterexamples retained. Rosseland opacity does not supply exposed-spectrum absorption/emission or force means. Consistent cool non-LTE material derivatives and global CMF force/source response are not validated. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified.",
+       "evidence": [
+         "benchmarks/results/2026-09-28-closure/20260928T021532.646459Z_mesa_microphysics_validation/validation.json",
+         "benchmarks/results/2026-09-28-closure/20260928T030928.629959Z_mesa_hot_current_verification/termination.json",
+@@ -64,7 +65,8 @@
+         "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.119787Z_freeeos_audit/audit.json",
+         "docs/atmosphere.md",
+         "docs/self_selected_outer.md",
+-        "Reports/Report_13.md"
++        "Reports/Report_13.md",
++        "Reports/Report_14.md"
+       ]
+     },
+     {
+@@ -84,7 +86,7 @@
+       "name": "Wind physics",
+       "status": "FAIL",
+       "achieved": "Grey/moving transfer, static thermal frequency-band controls, gas energy critical operator, base-selected adiabatic reference, robust diffusion matching and general conservative lab-radiation interface.",
+-      "remaining": "No combined H/He population/energy/force closure, convective handoff or physical envelope-to-escaping-wind eigenvalue. No coupled evolution.",
++      "remaining": "No combined H/He population/energy/force closure, convective handoff or physical envelope-to-escaping-wind eigenvalue. No coupled evolution. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified.",
+       "evidence": [
+         "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json",
+         "docs/equations.md",
+@@ -93,7 +95,8 @@
+         "Reports/Report_10.md",
+         "Reports/Report_11.md",
+         "Reports/Report_12.md",
+-        "Reports/Report_13.md"
++        "Reports/Report_13.md",
++        "Reports/Report_14.md"
+       ]
+     },
+     {
+@@ -125,7 +128,7 @@
+       "name": "Numerical robustness",
+       "status": "CONDITIONAL",
+       "achieved": "70 regression tests pass with real libraries; prior hot campaigns retained; fresh ABI 5 ten-year MESA state and ledger repeat bitwise. Report 13: 108 full native-enabled regressions pass; zero-status failures, stale outputs and native ray-capacity limits are guarded.",
+-      "remaining": "Full production-family campaigns absent. MESA remap-threshold cases do not actually remap. Early campaigns predate unchanged-source guards.",
++      "remaining": "Full production-family campaigns absent. MESA remap-threshold cases do not actually remap. Early campaigns predate unchanged-source guards. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified.",
+       "evidence": [
+         "benchmarks/results/2026-09-28-closure/20260928T030639.520967Z_robustness_validation/campaign.json",
+         "benchmarks/results/2026-09-28-closure/20260928T025423.972541Z_robustness_validation/campaign.json",
+@@ -134,7 +137,8 @@
+         "benchmarks/results/2026-09-28-outer-boundary/20260928T042828.972984Z_outer_final_verification/verification.json",
+         "Reports/evidence/outer_report10_20260928/hot_mesa_previous_comparison.json",
+         "Reports/evidence/spherical_20260928/final_tests.log",
+-        "Reports/Report_13.md"
++        "Reports/Report_13.md",
++        "Reports/Report_14.md"
+       ]
+     },
+     {
+@@ -385,9 +389,9 @@
+     "mesa_robustness": "benchmarks/results/2026-09-28-closure/20260928T025423.972541Z_robustness_validation/campaign.json",
+     "mesa_data": "benchmarks/results/2026-09-28-closure/20260928T030927.417120Z_mesa_data_inventory/inventory.json",
+     "wind": "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json",
+-    "cli": "Reports/evidence/backend_20260928/cli_validation/validation.json",
++    "cli": "Reports/evidence/cool_20260929/cli_validation/validation.json",
+     "performance": "benchmarks/results/2026-09-28-closure/20260928T031938.396825Z_performance_validation/performance.json",
+-    "tests": "Reports/evidence/backend_20260928/regression_release.xml",
++    "tests": "Reports/evidence/cool_20260929/pytest_final.txt",
+     "sources": "src/qstars/data/sources.json",
+     "published_suite": "benchmarks/manifest.yaml",
+     "validity": "docs/validity.md",
+@@ -415,7 +419,10 @@
+     "outer_analysis": "Reports/evidence/outer_report10_20260928/analysis/analysis.json",
+     "outer_tests": "Reports/evidence/outer_report10_20260928/final_tests_guard.log",
+     "nlte_backend": "Reports/evidence/backend_20260928/final_audit/campaign_summary.json",
+-    "nlte_contract": "docs/nlte_backend.md"
++    "nlte_contract": "docs/nlte_backend.md",
++    "cool_report": "Reports/Report_14.md",
++    "cool_campaign": "Reports/evidence/cool_20260929/campaign_summary.json",
++    "cool_contract": "docs/nlte_cool_closure.md"
+   },
+   "provenance_caveat": "Earlier exploratory campaigns need first snapshots and chronology. All four fresh spatial cases verify unchanged sources and exactly reproduce previous states and ledgers bitwise. Fresh final tests, robustness, independent-method, MESA confirmation and performance also verify unchanged sources. All original local runs remain intact.",
+   "deliverables": {
+@@ -423,115 +430,123 @@
+     "working_development_software": "DELIVERED",
+     "validation_report": "docs/validation.md",
+     "published_benchmark_suite": "PARTIAL; missing full tracks explicit in manifest",
+-    "regression_suite": "108 passing with pinned MESA and FreeEOS; zero skips",
++    "regression_suite": "117 passing with pinned MESA and FreeEOS; zero skips",
+     "model_families": "docs/model_families.md",
+     "performance_report": "docs/performance.md",
+     "source_registry": "src/qstars/data/sources.json",
+     "validity_domain": "docs/validity.md",
+     "gate_matrix": "Reports/evidence/completion_gates.json",
+-    "latest_release_report": "Reports/Report_13.md"
++    "latest_release_report": "Reports/Report_14.md"
+   },
+   "optional_freeeos_tests": 11,
+   "production_atmosphere": "BACKEND_PHYSICS_BLOCKER_native_CMFGEN_component_only",
+   "native_full_mlt": "reference_only_not_envelope_transport",
+   "freeeos_reference": "153_state_gas_audit_passes_upstream_byte_tests_fail",
+-  "latest_report": "Reports/Report_13.md",
+-  "release_blocker": "Selected native CMFGEN has scoped reference/transfer validation, but no validated cool non-LTE material energy/derivatives, global force/source response or conservative envelope wind eigenvalue and convective handoff.",
++  "latest_report": "Reports/Report_14.md",
++  "release_blocker": "Cool CMFGEN H-/H/He rate/transfer states are not thermally/nonlinearly converged: T9 produces NaN luminosities and a radiation-moment instability, while the completed T6 control fails electron and independent radiation-energy budgets. Ideal population-energy partials now pass, but relaxed nonlocal response, a consistent nonideal envelope bridge and the conservative convective/wind eigenvalue remain unvalidated.",
+   "active_request_gates": [
+     {
+-      "name": "Backend selection, native integration and contract",
++      "name": "Cool H/He recombination coverage",
+       "status": "PASS",
+-      "scope": "CMFGEN chosen after inspecting alternatives; pinned source/data, native arm64 executable, read-only spectral interface. Diagnostic scope only.",
++      "scope": "Nine 3000-12000 K, 10-90% neutral-H cells in the retained T6 control. Coverage only, not equilibrium or a physical envelope.",
+       "evidence": [
+-        "docs/nlte_backend.md",
+-        "backends/cmfgen/README.md",
+-        "Reports/evidence/backend_20260928/cmfgen_acquisition.json"
++        "Reports/evidence/cool_20260929/T6_coarse_audit/cool_validation.json"
+       ]
+     },
+     {
+-      "name": "Supplied reference profiles",
+-      "status": "CONDITIONAL",
+-      "scope": "Fixed-temperature prescribed hot reference matches T/ne/H/force tolerances; independent thermal prediction and full nonlinear/energy certification fail.",
++      "name": "Cool non-LTE nonlinear, thermal and energy validation",
++      "status": "FAIL",
++      "scope": "T9 NaN/zero-correction crash and runaway-J Newton continuation; T6 electron residual 150.59%, global radiation defect 8.6847%, cumulative interior defect 14.8590%. No converged cool reference reproduction.",
+       "evidence": [
+-        "Reports/evidence/backend_20260928/final_audit/zpup_4/validation.json"
++        "Reports/evidence/cool_20260929/campaign_summary.json",
++        "Reports/evidence/cool_20260929/T6_coarse_audit/cool_validation.json"
+       ]
+     },
+     {
+-      "name": "Spectral moments, force normalization and H/He nuclei/charge",
++      "name": "H-minus native output and Rayleigh implementation repairs",
+       "status": "PASS",
+-      "scope": "Native output checked by independent quadrature and population sums; not independent validation of every atomic rate.",
++      "scope": "Name-based output invariant under matched inputs; actual native Rayleigh call/HI population derivative passes analytic fixture. Original failures retained; no claim of full atmosphere certification.",
+       "evidence": [
+-        "Reports/evidence/backend_20260928/final_audit/mesh_665_fixed/validation.json"
++        "Reports/evidence/cool_20260929/population_export_invariance.json",
++        "Reports/evidence/cool_20260929/rayleigh_fixed_v2/validation.json"
+       ]
+     },
+     {
+-      "name": "Read-only export and capacity-patch invariance",
+-      "status": "PASS",
+-      "scope": "Matched input controls produce identical printed arrays; original small-grid result unchanged.",
++      "name": "Thermodynamically consistent material/radiation response",
++      "status": "CONDITIONAL",
++      "scope": "Exact ideal resolved-atom frozen-population and population-energy partials pass. Relaxed non-LTE response, consistent dissolution/nonideal terms and shared envelope mass/energy conventions are not validated; insufficient for production wind.",
+       "evidence": [
+-        "Reports/evidence/backend_20260928/export_invariance.json",
+-        "Reports/evidence/backend_20260928/capacity_invariance.json"
++        "src/qstars/nlte_material.py",
++        "Reports/evidence/cool_20260929/pytest_final.txt",
++        "docs/nlte_cool_closure.md"
+       ]
+     },
+     {
+-      "name": "Hot transfer radius/frequency refinement",
+-      "status": "PASS",
+-      "scope": "Frozen incoming-state operator: frequency force change 0.6026%; 333/665 profile change 0.2019%; 665 integrated energy defect 0.09140%. Coarse failures retained; atomic/thermal equilibria and wind not certified.",
++      "name": "Global nonlocal force/heating and mass-loss eigenvalue",
++      "status": "FAIL",
++      "scope": "No reliable derivatives can be constructed from the failed cool states. No production mdot or sonic solution selected.",
+       "evidence": [
+-        "Reports/evidence/backend_20260928/final_audit/resolution.json",
+-        "Reports/evidence/backend_20260928/final_audit/mesh_665_fixed/validation.json"
++        "docs/nlte_cool_closure.md",
++        "Reports/Report_14.md"
+       ]
+     },
+     {
+-      "name": "Hot H/He declared per-run residuals",
+-      "status": "PASS",
+-      "scope": "12 numerical/accounting targets pass: electron 0.29559%, endpoint radiation energy 0.020802%, correction 0.000075416%. Maximum cumulative interior energy defect is 0.1478%; thermal-mesh, atom-size and cool-domain validation remain open.",
++      "name": "Conservative convective-envelope handoff",
++      "status": "FAIL",
++      "scope": "No validated overlap or stress/transport/dissipation closure. Mach-one MLT guard remains enabled and tested.",
+       "evidence": [
+-        "Reports/evidence/backend_20260928/final_audit/thermal_equilibrium/validation.json",
+-        "Reports/evidence/backend_20260928/final_audit/thermal_profiles.json",
+-        "Reports/evidence/backend_20260928/final_audit/campaign_summary.json"
++        "docs/nlte_cool_closure.md",
++        "Reports/evidence/cool_20260929/pytest_final.txt"
+       ]
+     },
+     {
+-      "name": "Joint population, material and radiation-energy closure",
++      "name": "One physical envelope selecting a conservative escaping wind",
+       "status": "FAIL",
+-      "scope": "Hot thermal iterations do not establish converged cool atomic/rate/energy behavior; kinetic derivatives and consistent dissolution/FreeEOS bridge remain missing.",
++      "scope": "Not attempted because prerequisite cool/material/nonlocal/handoff gates fail. No physical no-wind theorem claimed.",
+       "evidence": [
+-        "Reports/evidence/backend_20260928/final_audit/campaign_summary.json",
+-        "docs/nlte_backend.md"
++        "Reports/Report_14.md"
+       ]
+     },
+     {
+-      "name": "Global wind eigenvalue and convective-envelope handoff",
++      "name": "Coupled evolution and complete published evolutionary benchmark",
+       "status": "FAIL",
+-      "scope": "No coupled nonlocal CMF response, selected physical mdot or conservative escape. Supersonic MLT remains excluded.",
++      "scope": "Downstream prerequisites failed; zero new physical evolution or published full-track replicas.",
+       "evidence": [
+-        "docs/nlte_backend.md",
+-        "docs/validity.md"
++        "benchmarks/manifest.yaml",
++        "Reports/Report_14.md"
+       ]
+     },
+     {
+-      "name": "Coupled evolution and complete published tracks",
++      "name": "Cool mesh/frequency and response convergence",
+       "status": "FAIL",
+-      "scope": "Prerequisite closure has not passed; zero new physical envelope/evolution/complete-track runs. No assertion of physical impossibility in 1D.",
++      "scope": "No pair of converged cool thermal/population equilibria; no validated response-step convergence. Radiation-operator normalization is insufficient.",
+       "evidence": [
+-        "Reports/Report_13.md",
+-        "benchmarks/manifest.yaml"
++        "Reports/evidence/cool_20260929/campaign_summary.json"
+       ]
+     },
+     {
+-      "name": "Apple Silicon workload validation",
++      "name": "Nonfinite rejection and retained failure/restart evidence",
++      "status": "PASS",
++      "scope": "NaN diagnostics cannot masquerade as zero-correction convergence. Setup failures, native instabilities and original inputs retained. This is software failure handling, not physical restart validation.",
++      "evidence": [
++        "tests/test_cmfgen_backend.py",
++        "Reports/evidence/cool_20260929/pytest_final.txt",
++        "benchmarks/results/2026-09-29-cool/archive_index.json"
++      ]
++    },
++    {
++      "name": "Apple Silicon and cloud readiness",
+       "status": "CONDITIONAL",
+-      "scope": "Useful reduced native cases and full-reference memory/time measured; Linux/cloud scaling and coupled-wind/evolution cost unmeasured.",
++      "scope": "Cool component costs measured locally; no resource exhaustion in completed coarse cases. Global wind and Linux/cloud numerical/scaling validation remain unmeasured.",
+       "evidence": [
+         "docs/performance.md",
+-        "Reports/evidence/backend_20260928/final_audit/campaign_summary.json"
++        "Reports/evidence/cool_20260929/campaign_summary.json"
+       ]
+     },
+     {
+       "name": "QStarS v1 / QSRD",
+       "status": "FAIL",
+-      "scope": "Independent v1 prerequisites remain unsatisfied; no QSRD campaign.",
++      "scope": "General-purpose independent v1 prerequisites remain unsatisfied. QSRD deferred.",
+       "evidence": [
+         "Reports/evidence/completion_gates.json"
+       ]
+@@ -621,10 +636,16 @@
+     "no_go_for_1d_demonstrated": false,
+     "qsrd_run": false,
+     "evidence": [
+-      "Reports/Report_13.md",
+-      "Reports/evidence/backend_20260928/final_audit/campaign_summary.json"
++      "Reports/Report_14.md",
++      "Reports/evidence/cool_20260929/campaign_summary.json"
+     ],
+-    "hot_hhe_per_run_checks_pass": true
++    "hot_hhe_per_run_checks_pass": true,
++    "cool_recombination_coverage": true,
++    "cool_nlte_equilibrium_validated": false,
++    "ideal_resolved_population_differential": true,
++    "relaxed_material_response_validated": false,
++    "global_nlte_eigenvalue_solved": false,
++    "scoped_radiation_operator_scope": "Report 13 hot fixed-incoming-state tests only; does not certify Report 14 cool equilibrium."
+   },
+   "previous_active_request_gates_report9": [
+     {
+@@ -1163,5 +1184,123 @@
+       "benchmarks/results/2026-09-28-nlte/archive_index.json"
+     ],
+     "scope": "Per-run component checks only; resolution, export/capacity invariance and thermal-profile comparisons are reported separately."
++  },
++  "previous_active_request_gates_report13": [
++    {
++      "name": "Backend selection, native integration and contract",
++      "status": "PASS",
++      "scope": "CMFGEN chosen after inspecting alternatives; pinned source/data, native arm64 executable, read-only spectral interface. Diagnostic scope only.",
++      "evidence": [
++        "docs/nlte_backend.md",
++        "backends/cmfgen/README.md",
++        "Reports/evidence/backend_20260928/cmfgen_acquisition.json"
++      ]
++    },
++    {
++      "name": "Supplied reference profiles",
++      "status": "CONDITIONAL",
++      "scope": "Fixed-temperature prescribed hot reference matches T/ne/H/force tolerances; independent thermal prediction and full nonlinear/energy certification fail.",
++      "evidence": [
++        "Reports/evidence/backend_20260928/final_audit/zpup_4/validation.json"
++      ]
++    },
++    {
++      "name": "Spectral moments, force normalization and H/He nuclei/charge",
++      "status": "PASS",
++      "scope": "Native output checked by independent quadrature and population sums; not independent validation of every atomic rate.",
++      "evidence": [
++        "Reports/evidence/backend_20260928/final_audit/mesh_665_fixed/validation.json"
++      ]
++    },
++    {
++      "name": "Read-only export and capacity-patch invariance",
++      "status": "PASS",
++      "scope": "Matched input controls produce identical printed arrays; original small-grid result unchanged.",
++      "evidence": [
++        "Reports/evidence/backend_20260928/export_invariance.json",
++        "Reports/evidence/backend_20260928/capacity_invariance.json"
++      ]
++    },
++    {
++      "name": "Hot transfer radius/frequency refinement",
++      "status": "PASS",
++      "scope": "Frozen incoming-state operator: frequency force change 0.6026%; 333/665 profile change 0.2019%; 665 integrated energy defect 0.09140%. Coarse failures retained; atomic/thermal equilibria and wind not certified.",
++      "evidence": [
++        "Reports/evidence/backend_20260928/final_audit/resolution.json",
++        "Reports/evidence/backend_20260928/final_audit/mesh_665_fixed/validation.json"
++      ]
++    },
++    {
++      "name": "Hot H/He declared per-run residuals",
++      "status": "PASS",
++      "scope": "12 numerical/accounting targets pass: electron 0.29559%, endpoint radiation energy 0.020802%, correction 0.000075416%. Maximum cumulative interior energy defect is 0.1478%; thermal-mesh, atom-size and cool-domain validation remain open.",
++      "evidence": [
++        "Reports/evidence/backend_20260928/final_audit/thermal_equilibrium/validation.json",
++        "Reports/evidence/backend_20260928/final_audit/thermal_profiles.json",
++        "Reports/evidence/backend_20260928/final_audit/campaign_summary.json"
++      ]
++    },
++    {
++      "name": "Joint population, material and radiation-energy closure",
++      "status": "FAIL",
++      "scope": "Hot thermal iterations do not establish converged cool atomic/rate/energy behavior; kinetic derivatives and consistent dissolution/FreeEOS bridge remain missing.",
++      "evidence": [
++        "Reports/evidence/backend_20260928/final_audit/campaign_summary.json",
++        "docs/nlte_backend.md"
++      ]
++    },
++    {
++      "name": "Global wind eigenvalue and convective-envelope handoff",
++      "status": "FAIL",
++      "scope": "No coupled nonlocal CMF response, selected physical mdot or conservative escape. Supersonic MLT remains excluded.",
++      "evidence": [
++        "docs/nlte_backend.md",
++        "docs/validity.md"
++      ]
++    },
++    {
++      "name": "Coupled evolution and complete published tracks",
++      "status": "FAIL",
++      "scope": "Prerequisite closure has not passed; zero new physical envelope/evolution/complete-track runs. No assertion of physical impossibility in 1D.",
++      "evidence": [
++        "Reports/Report_13.md",
++        "benchmarks/manifest.yaml"
++      ]
++    },
++    {
++      "name": "Apple Silicon workload validation",
++      "status": "CONDITIONAL",
++      "scope": "Useful reduced native cases and full-reference memory/time measured; Linux/cloud scaling and coupled-wind/evolution cost unmeasured.",
++      "evidence": [
++        "docs/performance.md",
++        "Reports/evidence/backend_20260928/final_audit/campaign_summary.json"
++      ]
++    },
++    {
++      "name": "QStarS v1 / QSRD",
++      "status": "FAIL",
++      "scope": "Independent v1 prerequisites remain unsatisfied; no QSRD campaign.",
++      "evidence": [
++        "Reports/evidence/completion_gates.json"
++      ]
++    }
++  ],
++  "previous_outer_campaign_completion_report13": {
++    "outcome": "BACKEND/PHYSICS BLOCKER",
++    "selected_backend": "CMFGEN",
++    "native_integration": true,
++    "scoped_radiation_operator_pass": true,
++    "production_self_selected_closure": false,
++    "thermodynamic_quasistar_wind_validated": false,
++    "physical_envelope_match": false,
++    "conservative_coupled_evolution_attempted": false,
++    "published_full_evolution_replicas": 0,
++    "no_go_for_1d_demonstrated": false,
++    "qsrd_run": false,
++    "evidence": [
++      "Reports/Report_13.md",
++      "Reports/evidence/backend_20260928/final_audit/campaign_summary.json"
++    ],
++    "hot_hhe_per_run_checks_pass": true
+   }
+ }
+diff --git a/backends/cmfgen/NOTICE b/backends/cmfgen/NOTICE
+index c624635..b115641 100644
+--- a/backends/cmfgen/NOTICE
++++ b/backends/cmfgen/NOTICE
+@@ -5,3 +5,7 @@ subject to its upstream license. The QStarS root MIT license does not relicense
+ CMFGEN, its modified source, its binary, or separately authored atomic data.
+ Archives/binaries are not vendored. Atomic files keep their original attribution.
+ The Python file interface does not bundle the external executable.
++Report 14 adds name-based H-/H/He diagnostic output and repairs neutral-H
++Rayleigh ion selection, array stride and derivative indexing with H- present.
++The patches and modified native source remain subject to the upstream GPLv3.
++No upstream validation endorsement is implied.
+diff --git a/backends/cmfgen/README.md b/backends/cmfgen/README.md
+index 0926c6c..e2a618a 100644
+--- a/backends/cmfgen/README.md
++++ b/backends/cmfgen/README.md
+@@ -32,6 +32,8 @@ tar -xzf sources/cache/three_recent_models.tar.gz -C sources/cache/models_local
+ cp backends/cmfgen/Makefile_definitions.apple backends/cmfgen/build_local/cur_cmf/Makefile_definitions
+ .venv/bin/python backends/cmfgen/apply_export.py backends/cmfgen/build_local/cur_cmf
+ .venv/bin/python backends/cmfgen/apply_ray_capacity.py backends/cmfgen/build_local/cur_cmf
++.venv/bin/python backends/cmfgen/apply_population_export.py backends/cmfgen/build_local/cur_cmf
++.venv/bin/python backends/cmfgen/apply_hminus_rayleigh.py backends/cmfgen/build_local/cur_cmf
+ ```
+ 
+ Initialize the installed SDK as documented in `docs/mesa.md`; then set the
+@@ -82,3 +84,38 @@ requests before indexing. The wrapper caps unrecognized builds at 500 rays;
+ the build record must match the executable hash to permit the guarded capacity.
+ This extension was tested on the stated non-dust H/He controls; gamma-ray and
+ dust capacities are unchanged and are outside the extended domain.
++
++## Cool H/He campaign (Report 14)
++
++Use all four patches above before building. The population patch repairs fixed
++ion indices in RVTJ when H0 is enabled. The Rayleigh patch corrects stale HMI
++naming, the HI array stride and the derivative equation index. Unlike the
++read-only export repair, it corrects the affected physical opacity/linearization.
++`record_build.py` records those source hashes and sets `hminus_rayleigh_fixed`
++only for the repaired source and a newer executable. The runner rejects
++H0 plus `INC_RAY=T` without a matching capability record.
++
++```sh
++.venv/bin/python scripts/check_cmfgen_rayleigh.py "$QSTARS_CMFGEN_ROOT" results/new_rayleigh_probe
++.venv/bin/python backends/cmfgen/prepare_cool.py \
++  sources/cache/models_local/sample_grid/zpup_like_model results/new_cool \
++  --atomic sources/cache/atomic_local/atomic --case T9 --iterations 60
++.venv/bin/python backends/cmfgen/run_component.py results/new_cool \
++  --executable "$QSTARS_CMFGEN_ROOT/exe/cmfgen_dev.exe" --timeout 2400
++# Only after native completion; this records failed checks without certification:
++.venv/bin/python scripts/audit_cmfgen_cool.py results/new_cool results/new_cool_audit
++```
++
++`--case T6` selects the other declared control; `--factor 2` geometrically bisects
++every original radial interval with the same analytic velocity law. The fresh
++`--initialization full` research trial encountered a missing native BA matrix;
++its failed inputs are preserved, and it is not a recommended restart recipe.
++Completed bootstrap controls can use `continue_component.py`; inspect the
++actual native iteration history because native safeguards can still choose
++Lambda iterations. These commands reproduce experiments, not a proven cool
++convergence path.
++
++The [cool closure contract](../../docs/nlte_cool_closure.md) states the material
++energy/derivative constraint and why none of these prescribed-flow controls
++selects mdot or validates a convective handoff. See [Report 14](../../Reports/Report_14.md)
++for results and retained failures.
+diff --git a/backends/cmfgen/record_build.py b/backends/cmfgen/record_build.py
+index 90bd15f..6da43cb 100644
+--- a/backends/cmfgen/record_build.py
++++ b/backends/cmfgen/record_build.py
+@@ -10,4 +10,11 @@ sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
+ record=dict(executable_sha256=sha(exe),max_rays=2048,explicit_native_capacity_guard=True,
+  source_hashes={str(x.relative_to(a.root)):sha(x) for x in [module,guard,a.root/'new_main/cmfgen_sub.f']},
+  scope='non-dust spherical transfer only; not production certification')
++ray_manifest=Path(__file__).parent/'hminus_rayleigh_patch_manifest.json'
++record['hminus_rayleigh_fixed']=False
++if ray_manifest.exists():
++    required=json.loads(ray_manifest.read_text())['source_hashes']
++    record['hminus_rayleigh_fixed']=all(sha(a.root/name)==row['patched'] and
++        exe.stat().st_mtime_ns>(a.root/name).stat().st_mtime_ns for name,row in required.items())
++    record['source_hashes'].update({name:sha(a.root/name) for name in required})
+ exe.with_suffix('.capabilities.json').write_text(json.dumps(record,indent=2)+'\n');print(json.dumps(record,indent=2))
+diff --git a/backends/cmfgen/run_component.py b/backends/cmfgen/run_component.py
+index d9c9849..636e32f 100644
+--- a/backends/cmfgen/run_component.py
++++ b/backends/cmfgen/run_component.py
+@@ -7,7 +7,7 @@ from qstars.cmfgen_backend import sha256,read_rvtj,read_spectral
+ def check_grid_capacity(directory,executable):
+     # Upstream MOD_SPACE_GRID_V2 has RAY(500), without a bounds check.
+     # Only a matching build record may advertise the guarded larger array.
+-    limit=500;record=executable.with_suffix('.capabilities.json')
++    limit=500;record=executable.with_suffix('.capabilities.json');info={}
+     if record.is_file():
+         info=json.loads(record.read_text())
+         if info.get('executable_sha256')!=sha256(executable):raise RuntimeError('Build capability record does not match executable')
+@@ -17,10 +17,25 @@ def check_grid_capacity(directory,executable):
+         values=re.findall(r'(?m)^\s*(\d+)\s*\[NP\]',model.read_text())
+         if len(values)!=1:raise RuntimeError('Missing/duplicate native ray count')
+         if int(values[0])>limit:raise RuntimeError(f'Unsupported native ray count {values[0]} > verified capacity {limit}')
++        # The current upstream release uses a stale HMI name in the Rayleigh
++        # call and Jacobian, although the active negative ion is named H0.
++        hminus=re.search(r'(?m)^\s*([1-9]\d*)\s*,\s*[1-9]\d*\s*,\s*[1-9]\d*\s*\[H0_ISF\]',model.read_text())
++        vadat=directory/'VADAT'
++        ray=vadat.exists() and re.search(r'(?m)^\s*T\s+\[INC_RAY\]',vadat.read_text())
++        if hminus and ray and info.get('hminus_rayleigh_fixed') is not True:
++            raise RuntimeError('H0 with Rayleigh scattering requires the verified HI selection/stride/Jacobian repair')
+     return limit
+ 
+ 
++def check_native_finiteness(directory):
++    """Zero nonlinear corrections can coexist with NaN luminosities upstream."""
++    path=directory/'OUTGEN'
++    if path.exists() and re.search(r'(?<![A-Za-z])(?:NaN|[+-]?Infinity)(?![A-Za-z])',path.read_text(),re.I):
++        raise RuntimeError('Nonfinite native diagnostic; zero corrections are not convergence')
++
++
+ def check_completion(directory,started_ns,export_required):
++    check_native_finiteness(directory)
+     log=(directory/'OUTGEN').read_text() if (directory/'OUTGEN').exists() else ''
+     if re.search(r'Major Error|Major error|cant read BA File',log):
+         raise RuntimeError('Native diagnostic reports a fatal error despite process status')
+@@ -56,12 +71,20 @@ def run(directory,executable,timeout=3600,threads=1):
+             manifest['verified_ray_capacity']=check_grid_capacity(directory,executable)
+             p=subprocess.Popen(timer+[str(executable)],cwd=directory,env=env,stdin=subprocess.DEVNULL,
+                 stdout=log,stderr=subprocess.STDOUT,preexec_fn=stack_limit,start_new_session=True)
+-            try:p.wait(timeout=timeout)
+-            except subprocess.TimeoutExpired:
+-                os.killpg(p.pid,signal.SIGTERM)
++            try:
++                while p.poll() is None:
++                    remaining=timeout-(time.perf_counter()-start)
++                    if remaining<=0:raise subprocess.TimeoutExpired(p.args,timeout)
++                    try:p.wait(timeout=min(1.,remaining))
++                    except subprocess.TimeoutExpired:check_native_finiteness(directory)
++            except (subprocess.TimeoutExpired,RuntimeError) as exc:
++                try:os.killpg(p.pid,signal.SIGTERM)
++                except ProcessLookupError:pass
+                 try:p.wait(timeout=5)
+                 except subprocess.TimeoutExpired:os.killpg(p.pid,signal.SIGKILL);p.wait()
+-                raise RuntimeError('Component runtime limit exceeded; process group stopped')
++                if isinstance(exc,subprocess.TimeoutExpired):
++                    raise RuntimeError('Component runtime limit exceeded; process group stopped') from exc
++                raise
+             manifest['exit_code']=p.returncode
+             if p.returncode:raise RuntimeError(f'Native exit code {p.returncode}')
+             # A normal Fortran STOP can return zero for both fatal errors and success.
+diff --git a/benchmarks/manifest.yaml b/benchmarks/manifest.yaml
+index b3d8760..872b186 100644
+--- a/benchmarks/manifest.yaml
++++ b/benchmarks/manifest.yaml
+@@ -1,5 +1,19 @@
+ schema_version: 1
+ benchmarks:
++  - id: cmfgen_cool_hhe_recombination
++    source: cmfgen_hminus_cool_audit
++    status: failed_cool_nonlinear_thermal_and_energy_gate
++    command: python scripts/audit_cmfgen_cool.py NATIVE_RUN AUDIT_OUTPUT
++    required_checks: [cool_recombination_coverage, population_charge, radiation_energy, cumulative_interior_energy, nonlinear_convergence, thermal_convergence, spatial_frequency_convergence]
++    limitation: Primordial prescribed-flow controls at T9/T6 reference input scales; not metal-bearing published atmosphere replicas, mass-loss eigenvalues or evolutionary tracks.
++    evidence: Reports/Report_14.md
++  - id: resolved_hhe_material_differential
++    source: resolved_nlte_material_differential
++    status: ideal_frozen_population_component_pass_relaxed_response_missing
++    command: python -m pytest -q tests/test_nlte_material.py
++    required_checks: [population_energy, ionization_excitation, negative_ion_detachment, pressure_work, gauge_invariance, constrained_directional_derivatives, lte_chain_rule]
++    limitation: No nonideal/dissolution free energy, relaxed global non-LTE response or production sonic closure.
++    evidence: Reports/evidence/cool_20260929/pytest_final.txt
+   - id: cmfgen_native_reference
+     source: cmfgen_native_2025
+     status: reference_profile_compatibility_pass_thermal_certification_fail
+diff --git a/docs/model_families.md b/docs/model_families.md
+index 8185953..f1ab890 100644
+--- a/docs/model_families.md
++++ b/docs/model_families.md
+@@ -92,3 +92,14 @@ They are not selectable production mass-loss families. No opacity/force
+ coefficient was fitted to a quasi-star target. Standard and advective transfer
+ options remain explicitly distinct; their different energy residuals are
+ retained. [Selection, units and validity](nlte_backend.md).
++# Report 14 cool component scope
++
++The external CMFGEN controls now explicitly include H−, HI, HeI, HeII and
++stripped ions with two-photon processes and corrected neutral-H Rayleigh
++scattering. T9 and T6 are prescribed primordial stress cases at literature
++input scales, not new selectable production wind families. Their cool
++nonlinear/thermal/energy validation fails. The resolved-atom material API
++provides population energy and frozen-state partial derivatives; it does not
++provide a relaxed EOS or global sonic closure. See
++[the cool contract](nlte_cool_closure.md). The existing physical model families
++and the Mach-one MLT guard retain their earlier validity restrictions.
+diff --git a/docs/nlte_backend.md b/docs/nlte_backend.md
+index 230960f..004fd0d 100644
+--- a/docs/nlte_backend.md
++++ b/docs/nlte_backend.md
+@@ -115,3 +115,11 @@ run has a 0.09140% integrated radiation-energy defect and differs from the
+ operator targets; the incoming populations remain out of equilibrium, so this
+ does not close thermal, atom-size or wind convergence. Failures and exact
+ timings remain in [Report 13](../Reports/Report_13.md).
++# Report 14 continuation
++
++The selected backend now has cool H−/H/He control inputs and a tested ideal
++material differential. Two H−-dependent native indexing defects are repaired;
++the cool nonlinear/energy gate still fails. See the
++[cool closure contract](nlte_cool_closure.md) and [Report 14](../Reports/Report_14.md)
++for the updated scope. The Report 13 results below retain their original hot
++component meaning.
+diff --git a/docs/sources.md b/docs/sources.md
+index 6bae469..ce6213d 100644
+--- a/docs/sources.md
++++ b/docs/sources.md
+@@ -591,8 +591,30 @@ This register distinguishes implemented laws, derived numerical identities, opti
+ 
+ - Status: `derived_and_tested_adapter_not_physical_closure`
+ - Assumptions: Coherent scattering, isotropic comoving material emission; ideal translational and resolved atomic energy
+-- Domain: Inelastic scattering rejected; no molecules, nonideal corrections, kinetic material derivatives or validated envelope/eigenvalue response
++- Domain: Inelastic scattering rejected; no molecules, nonideal corrections, relaxed kinetic response or validated envelope/eigenvalue response; Report 14 adds frozen-population partials
+ - Variables and units: Q0 erg/cm3/s positive material heating; f0 dyn/cm3; neutral H/He ground energy gauge; mean/clump densities distinct
+ - Interpretation: Independent spectral quadrature is a conversion check, not independent atomic-physics certification. LTE FreeEOS derivatives cannot be reused without a population-response and energy-gauge bridge.
+ - Implementation: `src/qstars/cmfgen_backend.py; scripts/validate_cmfgen_component.py; docs/nlte_backend.md`
+ 
++## cmfgen_hminus_cool_audit — CMFGEN H-minus and neutral-hydrogen Rayleigh implementation audit
++
++[CMFGEN H-minus and neutral-hydrogen Rayleigh implementation audit](https://sites.pitt.edu/~hillier/web/CMFGEN.htm) · 18-Jun-2025 cmfgen_sub, comp_opac, do_var_cont, rayleigh_scat; atomic HYD/MI/13apr15
++
++- Status: `native_defects_repaired_component_tested`
++- Assumptions: Negative ion H0 precedes HI; Rayleigh opacity is a neutral-H ground-state process
++- Domain: H-minus supplied col_guess remains an uncertainty; component call-site test does not certify the full cool atmosphere
++- Variables and units: Native opacity in inverse 1e10 cm; ion names, full-level strides, population equation indices
++- Interpretation: Name-based population export and corrected HI Rayleigh call/Jacobian; original failure retained; no rate or cross-section fitting
++- Implementation: `backends/cmfgen/population_export.patch; backends/cmfgen/hminus_rayleigh.patch; scripts/check_cmfgen_rayleigh.py; Reports/Report_14.md`
++
++## resolved_nlte_material_differential — Extended-state ideal H-/H/He material differential
++
++[Extended-state ideal H-/H/He material differential](https://sites.pitt.edu/~hillier/web/CMFGEN.htm) · Atomic oscillator energies and charges; ideal-mixture first-law derivation in docs/nlte_cool_closure.md
++
++- Status: `derived_component_implemented_and_tested`
++- Assumptions: Independent level numbers per gram, charge-neutral electrons, fixed nuclear composition
++- Domain: Frozen population partials only; no relaxed non-LTE response, entropy/free-energy completion, molecules or nonideal terms
++- Variables and units: cgs gas P/u; d/dlnrho and d/dlnT at fixed populations per gram; neutral H/He ground energy zero
++- Interpretation: Ionization, excitation, H-minus detachment and particle-creation terms enter du once. No graft of LTE EOS derivatives or blackbody radiation into the material state.
++- Implementation: `src/qstars/nlte_material.py; tests/test_nlte_material.py; scripts/audit_cmfgen_cool.py`
++
+diff --git a/docs/validation.md b/docs/validation.md
+index ddb5272..729be91 100644
+--- a/docs/validation.md
++++ b/docs/validation.md
+@@ -5,7 +5,7 @@ important numerical checks for a specified hot-envelope problem and adds direct
+ MESA microphysics and a stationary advective-wind reference. It does not
+ reproduce complete published quasi-star evolutionary tracks.
+ 
+-The current automated suite has **108 passing tests with MESA and FreeEOS enabled**
++The current automated suite has **117 passing tests with MESA and FreeEOS enabled**
+ (optional native-library tests require the pinned builds).
+ The full `qstars validate --require-v1` campaign has **29 passing checks and two
+ retained printed-value discrepancies** and correctly exits 2. Passing software
+@@ -24,7 +24,20 @@ tests and resolution criteria](atmosphere.md). General v1 remains blocked.
+ 
+ ## Current outer-closure gate
+ 
+-[Report 13](../Reports/Report_13.md) has outcome **BACKEND/PHYSICS BLOCKER**.
++[Report 14](../Reports/Report_14.md) has outcome **BACKEND/PHYSICS BLOCKER**.
++Cool H−/H/He controls expose native population-output and Rayleigh-indexing
++defects, now repaired and tested. The ideal material differential explicitly
++includes level energy and population changes. The corrected 84-zone T6 control
++contains nine cool partially recombined cells but fails nonlinear convergence,
++electron balance (150.59%), global radiation energy (8.6847%) and cumulative
++interior radiation energy (14.8590%). T9 develops nonfinite luminosities; the
++requested Newton continuation develops a radiation-moment instability. No
++nonlocal response from those failed states is fed to a wind solver. Refinement,
++all failed inputs and complete evidence are documented in the report. No
++physical envelope, evolving wind or published full evolutionary track is
++validated; the Mach-one MLT guard remains active.
++
++The preceding [Report 13](../Reports/Report_13.md) records the hot component.
+ CMFGEN supplies a native spherical non-LTE component with explicit atomic data,
+ spectral moments, force and energy exchange. Its adapter normalization and
+ read-only export pass independent checks. Fresh 84/167/333/665-point transfer
+diff --git a/docs/validity.md b/docs/validity.md
+index 8440e35..aac8071 100644
+--- a/docs/validity.md
++++ b/docs/validity.md
+@@ -6,6 +6,16 @@ composition and explicitly chosen outer boundary conditions. Some hot
+ pressure-confined models have quantitative convergence evidence. They are
+ not complete quasi-star evolutionary tracks.
+ 
++Report 14 adds explicit ideal H−/H/He material energy and population partial
++derivatives, but **does not certify a cool non-LTE material/radiation closure**.
++The tested cool transfer states fail nonlinear and energy gates. H0 plus
++Rayleigh scattering is rejected unless the native executable has the verified
++HI-selection/stride/Jacobian repair. Nonfinite native diagnostics invalidate a
++run even if its last reported correction is zero. Frozen-population derivatives
++are not a relaxed EOS, and cannot be used to infer the physical sonic condition.
++The [cool contract](nlte_cool_closure.md) records unresolved level-dissolution,
++rate-data, shared energy-gauge and convective-handoff requirements.
++
+ ## Active checks
+ 
+ | Check | Threshold and purpose |
+diff --git a/scripts/archive_cmfgen_components.py b/scripts/archive_cmfgen_components.py
+index d8d52f0..c20b842 100644
+--- a/scripts/archive_cmfgen_components.py
++++ b/scripts/archive_cmfgen_components.py
+@@ -6,9 +6,10 @@ from qstars.cmfgen_backend import sha256
+ 
+ NAMES={'VADAT','IN_ITS','MODEL_SPEC','RVSIG_COL','RDINR','HYDRO_DEFAULTS','ADJUST_R_DEFAULTS',
+        'IT_SPECIFIER','RVTJ','MOD_SUM','MODEL','OUTGEN','WARNINGS','GENCOOL','HYDRO','OBSFLUX',
+-       'CORRECTION_SUM','STEQ_VALS','POINT1','POINT2','SCRTEMP','QSTARS_EXPORT','EDDFACTOR_INFO',
++       'CORRECTION_SUM','CORRECTION_LINK','STEQ_VALS','POINT1','POINT2','SCRTEMP','QSTARS_EXPORT','EDDFACTOR_INFO',
+        'native.log','run_manifest.json','run_result.json','atomic_manifest.json','reference_origin.json',
+-       'component_definition.json','continuation.json','changes.json','failure_attribution.json','termination_reason.txt'}
++       'component_definition.json','continuation.json','changes.json','failure_attribution.json','termination_reason.txt',
++       'cool_control.json'}
+ 
+ def archive(sources,destination):
+     destination.mkdir(parents=True,exist_ok=False);files=[];external=[];omitted=[]
+diff --git a/scripts/build_registry.py b/scripts/build_registry.py
+index 3bae8d2..7eb3674 100644
+--- a/scripts/build_registry.py
++++ b/scripts/build_registry.py
+@@ -57,7 +57,9 @@ add('sirocco_nlte_scope','SIROCCO radiative transfer modes and macro-atoms','htt
+ add('lightweaver_nlte','Osborne and Milic (2021), Lightweaver','https://arxiv.org/abs/2107.00475','Formal solver geometry and extensible atomic/atmosphere interfaces; public MIT source','audited_not_installed','Multilevel NLTE in plane-parallel 1D or Cartesian 2D public solvers','Spherical moving wind and material-energy coupling require additional implementation','Level populations, intensities and rate coefficients require explicit atom configuration','Useful independent atomic/static comparison; not a ready spherical launch backend.','docs/nlte_backend.md')
+ add('rh_spherical_flow','RH spherical source implementation restriction','https://github.com/han-uitenbroek/RH','Commit c95bdf66ff6bc1c6cea0ed04dc688100170e8ee6: rhsphere/readatmos.c and formal.c','audited_not_installed','Static spherical non-LTE transfer implementation','Source explicitly rejects macroscopic spherical flows and angle-dependent moving opacity','Velocity and opacity checks in native source','Restriction established from source, not assumed from project age or popularity. License unresolved in this audit.','docs/nlte_backend.md')
+ add('cloudy_reference_role','Ferland et al. (2017), Cloudy','https://arxiv.org/abs/1705.10877','Photoionization, atomic and thermal calculations; candidate audit','audited_not_installed','Photoionized plasma, extensive atomic data and escape-probability line methods','Not a complete comoving hydrodynamic launch operator','Ionization fractions, temperature, heating/cooling','Potential independent atomic/thermal reference. No local Cloudy run, timing, or license verification claimed.','docs/nlte_backend.md')
+-add('nlte_material_contract','CMFGEN spectral four-force and resolved H/He material energy interface','https://sites.pitt.edu/~hillier/web/CMFGEN.htm','Audited cmfgen_sub, comp_opac, comp_j_blank, set_frequency_grid_v2, atomic oscillator level tables; diagnostic derivation','derived_and_tested_adapter_not_physical_closure','Coherent scattering, isotropic comoving material emission; ideal translational and resolved atomic energy','Inelastic scattering rejected; no molecules, nonideal corrections, kinetic material derivatives or validated envelope/eigenvalue response','Q0 erg/cm3/s positive material heating; f0 dyn/cm3; neutral H/He ground energy gauge; mean/clump densities distinct','Independent spectral quadrature is a conversion check, not independent atomic-physics certification. LTE FreeEOS derivatives cannot be reused without a population-response and energy-gauge bridge.','src/qstars/cmfgen_backend.py; scripts/validate_cmfgen_component.py; docs/nlte_backend.md')
++add('nlte_material_contract','CMFGEN spectral four-force and resolved H/He material energy interface','https://sites.pitt.edu/~hillier/web/CMFGEN.htm','Audited cmfgen_sub, comp_opac, comp_j_blank, set_frequency_grid_v2, atomic oscillator level tables; diagnostic derivation','derived_and_tested_adapter_not_physical_closure','Coherent scattering, isotropic comoving material emission; ideal translational and resolved atomic energy','Inelastic scattering rejected; no molecules, nonideal corrections, relaxed kinetic response or validated envelope/eigenvalue response; Report 14 adds frozen-population partials','Q0 erg/cm3/s positive material heating; f0 dyn/cm3; neutral H/He ground energy gauge; mean/clump densities distinct','Independent spectral quadrature is a conversion check, not independent atomic-physics certification. LTE FreeEOS derivatives cannot be reused without a population-response and energy-gauge bridge.','src/qstars/cmfgen_backend.py; scripts/validate_cmfgen_component.py; docs/nlte_backend.md')
++add('cmfgen_hminus_cool_audit','CMFGEN H-minus and neutral-hydrogen Rayleigh implementation audit','https://sites.pitt.edu/~hillier/web/CMFGEN.htm','18-Jun-2025 cmfgen_sub, comp_opac, do_var_cont, rayleigh_scat; atomic HYD/MI/13apr15','native_defects_repaired_component_tested','Negative ion H0 precedes HI; Rayleigh opacity is a neutral-H ground-state process','H-minus supplied col_guess remains an uncertainty; component call-site test does not certify the full cool atmosphere','Native opacity in inverse 1e10 cm; ion names, full-level strides, population equation indices','Name-based population export and corrected HI Rayleigh call/Jacobian; original failure retained; no rate or cross-section fitting','backends/cmfgen/population_export.patch; backends/cmfgen/hminus_rayleigh.patch; scripts/check_cmfgen_rayleigh.py; Reports/Report_14.md')
++add('resolved_nlte_material_differential','Extended-state ideal H-/H/He material differential','https://sites.pitt.edu/~hillier/web/CMFGEN.htm','Atomic oscillator energies and charges; ideal-mixture first-law derivation in docs/nlte_cool_closure.md','derived_component_implemented_and_tested','Independent level numbers per gram, charge-neutral electrons, fixed nuclear composition','Frozen population partials only; no relaxed non-LTE response, entropy/free-energy completion, molecules or nonideal terms','cgs gas P/u; d/dlnrho and d/dlnT at fixed populations per gram; neutral H/He ground energy zero','Ionization, excitation, H-minus detachment and particle-creation terms enter du once. No graft of LTE EOS derivatives or blackbody radiation into the material state.','src/qstars/nlte_material.py; tests/test_nlte_material.py; scripts/audit_cmfgen_cool.py')
+ p=Path('src/qstars/data');p.mkdir(parents=True,exist_ok=True)
+ registry={'schema_version':1,'audit_date':'2026-09-28','prescriptions':entries}
+ (p/'sources.json').write_text(json.dumps(registry,indent=2)+'\n')
+diff --git a/scripts/validate_cmfgen_component.py b/scripts/validate_cmfgen_component.py
+index e007a65..5074f0b 100644
+--- a/scripts/validate_cmfgen_component.py
++++ b/scripts/validate_cmfgen_component.py
+@@ -44,6 +44,7 @@ def audit(directory,output,reference=None,hhe=False):
+     if hhe:
+         pops=read_hhe_populations(p/'RVTJ')
+         levels={k:read_atomic_levels(p/n,pops[k].shape[0]) for k,n in [('HI','HI_F_OSCDAT'),('HeI','HeI_F_OSCDAT'),('HeII','He2_F_OSCDAT')]}
++        if 'Hminus' in pops:levels['Hminus']=read_atomic_levels(p/'H0_F_OSCDAT',pops['Hminus'].shape[0])
+         mat=hhe_material(s,pops,levels)
+         for k,v in mat['conservation_relative'].items():check('population_'+k,v,t['population_charge_relative'] if k=='charge' else t['population_nuclei_relative'],'atomic conservation on native output')
+         metrics['energy_gauge']=mat['energy_gauge'];metrics['material_derivatives_available']=False
+diff --git a/src/qstars/cmfgen_backend.py b/src/qstars/cmfgen_backend.py
+index 71487a1..2006a5d 100644
+--- a/src/qstars/cmfgen_backend.py
++++ b/src/qstars/cmfgen_backend.py
+@@ -69,10 +69,16 @@ def read_hhe_populations(path):
+     lines=Path(path).read_text().splitlines()
+     n=int(next(s.split(':',1)[1] for s in lines if s.strip().startswith('ND:')))
+     q={}
+-    for ion,label in [('HI','Number of Hydrogen levels:'),('HeI','Number of Helium I levels:'),('HeII','Number of Helium II levels:')]:
++    ions=[('HI','Number of Hydrogen levels:'),('HeI','Number of Helium I levels:'),('HeII','Number of Helium II levels:')]
++    if any(s.strip().startswith('Number of Hminus levels:') for s in lines):
++        ions.insert(0,('Hminus','Number of Hminus levels:'))
++    for ion,label in ions:
+         ii=[i for i,s in enumerate(lines) if s.strip().startswith(label)]
+         if len(ii)!=1:raise ValueError(f'Missing {ion} populations')
+         i=ii[0];nl=int(lines[i].split(':',1)[1]);vals=[]
++        expected={'HI':'HI','HeI':'HeI','HeII':'He2','Hminus':'H0'}[ion]+' populations'
++        if i<1 or lines[i-1].strip()!=expected:
++            raise ValueError('RVTJ ion label mismatch; unpatched native H- output uses incorrect fixed ion indices')
+         if nl<1:raise ValueError(f'Empty {ion} atom')
+         for line in lines[i+2:]:
+             row=_numbers(line)
+@@ -208,18 +214,18 @@ def hhe_material(state,populations,levels):
+     Coulomb terms, radiation energy or turbulence are included. This is not an
+     LTE FreeEOS call and supplies no equilibrium derivatives for a sonic solve.
+     """
+-    p=populations;s=state;h=6.62607015e-27;k=1.380649e-16
+-    nh=p['HI'].sum(axis=0)+p['HII'];nhe=p['HeI'].sum(axis=0)+p['HeII'].sum(axis=0)+p['HeIII']
+-    ne=p['HII']+p['HeII'].sum(axis=0)+2*p['HeIII']
+-    ih=levels['HI']['ionization_wavenumber']
+-    ihe=levels['HeI']['ionization_wavenumber'];ihe2=levels['HeII']['ionization_wavenumber']
+-    excitation=sum(np.einsum('l,lr->r',levels[ion]['wavenumber'],p[ion]) for ion in ['HI','HeI','HeII'])
+-    atomic=h*C*(excitation+ih*p['HII']+ihe*p['HeII'].sum(axis=0)+(ihe+ihe2)*p['HeIII'])
+-    pressure=(nh+nhe+ne)*k*s['temperature'];thermal=1.5*pressure
++    from .nlte_material import hhe_resolved_material
++    p=populations;s=state
++    hm=p['Hminus'].sum(axis=0) if 'Hminus' in p else 0.
++    nh=p['HI'].sum(axis=0)+p['HII']+hm;nhe=p['HeI'].sum(axis=0)+p['HeII'].sum(axis=0)+p['HeIII']
++    ne=p['HII']+p['HeII'].sum(axis=0)+2*p['HeIII']-hm
++    resolved=hhe_resolved_material(s,p,levels).values()
++    pressure=resolved['pressure'];thermal=1.5*pressure
++    atomic=resolved['atomic_energy']*s['density_clump']
+     residuals={'hydrogen':np.max(abs(nh/s['hydrogen_density']-1)),
+                'helium':np.max(abs(nhe/s['helium_density']-1)),
+                'charge':np.max(abs(ne/s['electron_density']-1))}
+     return dict(gas_pressure=pressure,gas_internal_energy=(thermal+atomic)/s['density_clump'],
+         translational_energy_density_clump=thermal,atomic_energy_density_clump=atomic,
+         energy_gauge='neutral_H_He_ground',conservation_relative={k:float(v) for k,v in residuals.items()},
+-        equilibrium_derivatives_available=False,production_certified=False)
++        equilibrium_derivatives_available=False,frozen_population_derivatives_available=True,production_certified=False)
+diff --git a/src/qstars/data/sources.json b/src/qstars/data/sources.json
+index ccd184f..cb18892 100644
+--- a/src/qstars/data/sources.json
++++ b/src/qstars/data/sources.json
+@@ -698,11 +698,37 @@
+       "reference_location": "Audited cmfgen_sub, comp_opac, comp_j_blank, set_frequency_grid_v2, atomic oscillator level tables; diagnostic derivation",
+       "status": "derived_and_tested_adapter_not_physical_closure",
+       "assumptions": "Coherent scattering, isotropic comoving material emission; ideal translational and resolved atomic energy",
+-      "validity": "Inelastic scattering rejected; no molecules, nonideal corrections, kinetic material derivatives or validated envelope/eigenvalue response",
++      "validity": "Inelastic scattering rejected; no molecules, nonideal corrections, relaxed kinetic response or validated envelope/eigenvalue response; Report 14 adds frozen-population partials",
+       "variables_units": "Q0 erg/cm3/s positive material heating; f0 dyn/cm3; neutral H/He ground energy gauge; mean/clump densities distinct",
+       "implementation_interpretation": "Independent spectral quadrature is a conversion check, not independent atomic-physics certification. LTE FreeEOS derivatives cannot be reused without a population-response and energy-gauge bridge.",
+       "implementation": "src/qstars/cmfgen_backend.py; scripts/validate_cmfgen_component.py; docs/nlte_backend.md",
+       "inspected_utc": "2026-09-28"
++    },
++    {
++      "id": "cmfgen_hminus_cool_audit",
++      "title": "CMFGEN H-minus and neutral-hydrogen Rayleigh implementation audit",
++      "url": "https://sites.pitt.edu/~hillier/web/CMFGEN.htm",
++      "reference_location": "18-Jun-2025 cmfgen_sub, comp_opac, do_var_cont, rayleigh_scat; atomic HYD/MI/13apr15",
++      "status": "native_defects_repaired_component_tested",
++      "assumptions": "Negative ion H0 precedes HI; Rayleigh opacity is a neutral-H ground-state process",
++      "validity": "H-minus supplied col_guess remains an uncertainty; component call-site test does not certify the full cool atmosphere",
++      "variables_units": "Native opacity in inverse 1e10 cm; ion names, full-level strides, population equation indices",
++      "implementation_interpretation": "Name-based population export and corrected HI Rayleigh call/Jacobian; original failure retained; no rate or cross-section fitting",
++      "implementation": "backends/cmfgen/population_export.patch; backends/cmfgen/hminus_rayleigh.patch; scripts/check_cmfgen_rayleigh.py; Reports/Report_14.md",
++      "inspected_utc": "2026-09-28"
++    },
++    {
++      "id": "resolved_nlte_material_differential",
++      "title": "Extended-state ideal H-/H/He material differential",
++      "url": "https://sites.pitt.edu/~hillier/web/CMFGEN.htm",
++      "reference_location": "Atomic oscillator energies and charges; ideal-mixture first-law derivation in docs/nlte_cool_closure.md",
++      "status": "derived_component_implemented_and_tested",
++      "assumptions": "Independent level numbers per gram, charge-neutral electrons, fixed nuclear composition",
++      "validity": "Frozen population partials only; no relaxed non-LTE response, entropy/free-energy completion, molecules or nonideal terms",
++      "variables_units": "cgs gas P/u; d/dlnrho and d/dlnT at fixed populations per gram; neutral H/He ground energy zero",
++      "implementation_interpretation": "Ionization, excitation, H-minus detachment and particle-creation terms enter du once. No graft of LTE EOS derivatives or blackbody radiation into the material state.",
++      "implementation": "src/qstars/nlte_material.py; tests/test_nlte_material.py; scripts/audit_cmfgen_cool.py",
++      "inspected_utc": "2026-09-28"
+     }
+   ]
+ }
+diff --git a/tests/test_cmfgen_backend.py b/tests/test_cmfgen_backend.py
+index ada1f1c..bf07a21 100644
+--- a/tests/test_cmfgen_backend.py
++++ b/tests/test_cmfgen_backend.py
+@@ -97,6 +97,23 @@ def test_stale_native_output_rejected(tmp_path):
+         runner_module().check_completion(tmp_path,time.time_ns(),False)
+ 
+ 
++def test_nan_luminosity_cannot_pass_zero_correction(tmp_path):
++    (tmp_path/'OUTGEN').write_text('Luminosity of star is: NaN NaN\nMaximm changes as returned by SOLVEBA_V13 is 0.0\n')
++    with pytest.raises(RuntimeError,match='Nonfinite native diagnostic'):
++        runner_module().check_completion(tmp_path,0,False)
++
++
++def test_live_nonfinite_native_run_is_stopped_and_retained(tmp_path):
++    exe=tmp_path/'nan_run'
++    exe.write_text('#!/bin/sh\nprintf "Luminosity of star is: NaN NaN\\n" > OUTGEN\nsleep 30\n')
++    exe.chmod(0o755);run=tmp_path/'run';run.mkdir()
++    result=runner_module().run(run,exe,timeout=15)
++    assert result['status']=='numerical_failure'
++    assert 'Nonfinite native diagnostic' in result['error']
++    assert result['seconds']<10
++    assert (run/'OUTGEN').read_text().endswith('NaN NaN\n')
++
++
+ def test_nonphysical_frequency_rejected(tmp_path):
+     p=tmp_path/'spectral';snapshot(p)
+     a=bytearray(p.read_bytes());struct.pack_into('<d',a,16+8*(5*3+2+6*3),-1.)
+@@ -117,3 +134,31 @@ def test_unverified_native_ray_capacity_cannot_overrun(tmp_path):
+     executable.write_text('changed')
+     with pytest.raises(RuntimeError,match='does not match'):
+         runner_module().check_grid_capacity(directory,executable)
++
++
++def test_known_hminus_rayleigh_bug_is_gated(tmp_path):
++    run=tmp_path/'run';run.mkdir();(run/'MODEL_SPEC').write_text('99 [NP]\n1,1,1 [H0_ISF]\n')
++    (run/'VADAT').write_text('T [INC_RAY]\n');exe=tmp_path/'native';exe.write_text('dummy')
++    with pytest.raises(RuntimeError,match='HI selection/stride/Jacobian'):
++        runner_module().check_grid_capacity(run,exe)
++    import json
++    from qstars.cmfgen_backend import sha256
++    exe.with_suffix('.capabilities.json').write_text(json.dumps(dict(executable_sha256=sha256(exe),hminus_rayleigh_fixed=True)))
++    assert runner_module().check_grid_capacity(run,exe)==500
++
++
++def test_hminus_population_labels_and_charge_energy(tmp_path):
++    from qstars.cmfgen_backend import read_hhe_populations
++    p=tmp_path/'RVTJ'
++    text='ND: 2\n'
++    for ion,label,data in [('H0','Hminus','0.1 0.2'),('HI','Hydrogen','2 3'),
++                            ('HeI','Helium I','4 5'),('He2','Helium II','6 7')]:
++        text+=f'{ion} populations\nNumber of {label} levels: 1\n{ion} oscillator date: test\n{data}\n'
++        if ion=='HI':text+='DHYD population\n8 9\n'
++        if ion=='He2':text+='DHe2 population\n10 11\n'
++    p.write_text(text);q=read_hhe_populations(p)
++    np.testing.assert_array_equal(q['Hminus'],[[.2,.1]])
++    np.testing.assert_array_equal(q['HeIII'],[11,10])
++    # Upstream fixed indices can mislabel H0 as hydrogen. Fail closed.
++    p.write_text(text.replace('HI populations','H0 populations'))
++    with pytest.raises(ValueError,match='ion label mismatch'):read_hhe_populations(p)

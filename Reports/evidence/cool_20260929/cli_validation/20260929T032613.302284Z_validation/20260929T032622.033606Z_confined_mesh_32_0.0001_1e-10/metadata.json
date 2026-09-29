@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "git_commit": "e0082eac0206c3021f5b67e6f133b6ec72f46863",
+  "git_status": "M backends/cmfgen/NOTICE\n M backends/cmfgen/README.md\n M backends/cmfgen/record_build.py\n M backends/cmfgen/run_component.py\n M docs/sources.md\n M scripts/archive_cmfgen_components.py\n M scripts/build_registry.py\n M scripts/validate_cmfgen_component.py\n M src/qstars/cmfgen_backend.py\n M src/qstars/data/sources.json\n M tests/test_cmfgen_backend.py\n?? Reports/Report_14.md\n?? Reports/evidence/cool_20260929/\n?? backends/cmfgen/apply_hminus_rayleigh.py\n?? backends/cmfgen/apply_population_export.py\n?? backends/cmfgen/hminus_rayleigh.patch\n?? backends/cmfgen/hminus_rayleigh_patch_manifest.json\n?? backends/cmfgen/population_export.patch\n?? backends/cmfgen/population_export_patch_manifest.json\n?? backends/cmfgen/prepare_cool.py\n?? benchmarks/cmfgen_cool_recovery_plan.json\n?? benchmarks/cmfgen_cool_validation_plan.json\n?? docs/nlte_cool_closure.md\n?? scripts/audit_cmfgen_cool.py\n?? scripts/check_cmfgen_rayleigh.py\n?? scripts/report_cmfgen_cool.py\n?? src/qstars/nlte_material.py\n?? tests/test_nlte_material.py",
+  "source_sha256": "05c09a43a6819b830f68581b500c6bc8209c96f57c1901c91f8c8a351fd9841b",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "created_utc": "2026-09-29T03:26:22.074311+00:00",
+  "process_package_sha256": "d299ae10dcee90c632d975384feb62be878512c12616cbdc674ffc9f12a69bfe",
+  "source_tree_matches_import": true,
+  "dependencies": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.11.2"
+  },
+  "source_tree_matches_at_end": true,
+  "source_snapshot_verified": true
+}

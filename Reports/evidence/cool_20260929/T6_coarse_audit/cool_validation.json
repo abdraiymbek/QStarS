@@ -1,0 +1,174 @@
+{
+  "component": {
+    "scope": "component only; prescribed flow, no wind eigenvalue",
+    "backend": "CMFGEN 18-Jun-2025",
+    "checks": [
+      {
+        "name": "spectral_J",
+        "value": 4.413629223196926e-08,
+        "limit": 1e-06,
+        "status": "PASS",
+        "scope": "native printed vs independently integrated spectral moment"
+      },
+      {
+        "name": "spectral_H",
+        "value": 4.447226296126042e-08,
+        "limit": 1e-06,
+        "status": "PASS",
+        "scope": "native printed vs independently integrated spectral moment"
+      },
+      {
+        "name": "spectral_K",
+        "value": 4.682197478773594e-08,
+        "limit": 1e-06,
+        "status": "PASS",
+        "scope": "native printed vs independently integrated spectral moment"
+      },
+      {
+        "name": "spectral_flux_mean",
+        "value": 4.845268223299303e-08,
+        "limit": 2e-06,
+        "status": "PASS",
+        "scope": "independent extinction-force quadrature"
+      },
+      {
+        "name": "spectral_material_temperature",
+        "value": 4.401868150943525e-08,
+        "limit": 0.001,
+        "status": "PASS",
+        "scope": "state synchronization"
+      },
+      {
+        "name": "mass_flux_uniformity",
+        "value": 6.720143153194137e-08,
+        "limit": 1e-06,
+        "status": "PASS",
+        "scope": "prescribed-flow input consistency only"
+      },
+      {
+        "name": "electron_balance",
+        "value": 1.5059,
+        "limit": 0.01,
+        "status": "FAIL",
+        "scope": "electron heating/cooling; not total material energy"
+      },
+      {
+        "name": "global_radiation_energy",
+        "value": 0.08684718725150094,
+        "limit": 0.001,
+        "status": "FAIL",
+        "scope": "independent trapezoid volume four-force vs lab luminosity; mesh error and transfer approximations included"
+      },
+      {
+        "name": "last_nonlinear_correction",
+        "value": 2.0739541499058475e+19,
+        "limit": 0.001,
+        "status": "FAIL",
+        "scope": "all native variables; full convergence needed"
+      },
+      {
+        "name": "population_hydrogen",
+        "value": 6.136018515512376e-08,
+        "limit": 1e-06,
+        "status": "PASS",
+        "scope": "atomic conservation on native output"
+      },
+      {
+        "name": "population_helium",
+        "value": 6.135681818175698e-08,
+        "limit": 1e-06,
+        "status": "PASS",
+        "scope": "atomic conservation on native output"
+      },
+      {
+        "name": "population_charge",
+        "value": 5.9331032087328595e-08,
+        "limit": 1e-06,
+        "status": "PASS",
+        "scope": "atomic conservation on native output"
+      }
+    ],
+    "metrics": {
+      "radii": 84,
+      "frequencies": 43314,
+      "temperature_min": 2808.1855,
+      "temperature_max": 13553.279,
+      "luminosity_lab_inner": 3.825996008560392e+43,
+      "luminosity_lab_outer": 7.946971940747828e+43,
+      "volume_energy_to_matter": -3.4308037719668854e+43,
+      "prescribed_mdot": 1.8923359947926202e+25,
+      "heating_max_abs": 0.3200389519204341,
+      "warnings": "\n Reading in atomic data\n\n Warning -- FORMAT Date not found in oscilator file:HI_F_OSCDAT\n Warning -- FORMAT Date not found in oscilator file:He2_F_OSCDAT\n\n Begin COMP_GREY_V4    84    15    99\n ST_IREC, IREC+2, NCF, ND, NU in OUT_JH\n           6           6          85          84   3.3004025050686892E-006\n \n\n Begin COMP_GREY_V4    84    15    99\n \n\n Begin COMP_GREY_V4    84    15    99\n \n\n Begin COMP_GREY_V4    84    15    99\n \n\n Begin COMP_GREY_V4    84    15    99\n \n\n\n Checking whether some low ionization stages may be omitted from the model.\n   H0      may not need to be include in model. Its maximum fractional abundance of 9.34E-13 < 1.00E-10\n Checking whether some high ionization stages may be omitted from the model.\n   He2    may not need to be include in model. Its maximum fractional abundance is 7.82E-06 < 1.00E-04\n \n Checking whether lower ionization stages need to be included in model\n \n                   Temperature (10^4 K) is  1.355E+00\n           Atom/ion density (per cm^3)) is  1.677E+13\n                 Electrons per atom/ion is  9.424E-01\n Total thermal kinetic energy (ev/atom) is  3.403E+00\n  Approximate internal energy (ev/atom) is  1.325E+01\n App. missing internal energy (ev/atom) is  0.000E+00\n             Radiation energy (ev/atom) is  2.985E+01\n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  63 depths.\n HeI     g.s. eq. replaced by ionization eq. at  56 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  65 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  66 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  67 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  58 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n Begin COMP_GREY_V4    84    15    99\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  68 depths.\n HeI     g.s. eq. replaced by ionization eq. at  59 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n Checking whether some low ionization stages may be omitted from the model.\n   H0      may not need to be include in model. Its maximum fractional abundance of 1.54E-12 < 1.00E-10\n Checking whether some high ionization stages may be omitted from the model.\n   He2    may not need to be include in model. Its maximum fractional abundance is 4.05E-12 < 1.00E-04\n \n Checking whether lower ionization stages need to be included in model\n \n                   Temperature (10^4 K) is  1.355E+00\n           Atom/ion density (per cm^3)) is  1.677E+13\n                 Electrons per atom/ion is  9.431E-01\n Total thermal kinetic energy (ev/atom) is  3.404E+00\n  Approximate internal energy (ev/atom) is  1.327E+01\n App. missing internal energy (ev/atom) is  0.000E+00\n             Radiation energy (ev/atom) is  2.985E+01\n",
+      "energy_gauge": "neutral_H_He_ground",
+      "material_derivatives_available": false,
+      "neutral_hydrogen_fraction_range": [
+        1.9726017848000426e-06,
+        0.9996737768132545
+      ]
+    },
+    "all_requested_component_gates_pass": false,
+    "production_certified": false,
+    "wind_eigenvalue_solved": false,
+    "unperformed_in_this_run": [
+      "radial/frequency convergence",
+      "export invariance",
+      "cool recombination regime",
+      "full coupled energy/population response"
+    ],
+    "this_run_checks_pass": false,
+    "passed": 9,
+    "failed": 3,
+    "input_hashes": {
+      "RVTJ": "7fbab603867b6b59820aff3e25d6360fc353a587205f9b1ccb2548f7b1fec451",
+      "MODEL": "058e4c9dd8932c5e32733702a3173ea2f1851fc27ebc308885a0527e78b68155",
+      "GENCOOL": "72eca5e22c94802b6a0c96117b2cd4b7ecbb99d39ddb636e19bc64c470e2927f",
+      "OUTGEN": "3f47f618f49914ee0402c5fb2c801a8bd8cf94e77b7dbeb524ce4b1336c00cb7",
+      "QSTARS_SPECTRAL.bin": "0484d09574e7a07b3251ddee3c542073496d7226592ff00843f850225d0289bb"
+    },
+    "plan_sha256": "be3ca7f9adc105668f6e357a0b6b9c276e9578ea3c77838e4ba02896d11dc310",
+    "source_snapshot_verified": true
+  },
+  "additional_checks": [
+    {
+      "name": "cool_partial_recombination_coverage",
+      "value": 9,
+      "minimum": 3,
+      "status": "PASS"
+    },
+    {
+      "name": "native_Hminus_Rayleigh_repair",
+      "value": true,
+      "status": "PASS"
+    },
+    {
+      "name": "extended_material_directional_derivatives",
+      "value": 2.5660035487850106e-11,
+      "limit": 1e-06,
+      "status": "PASS"
+    },
+    {
+      "name": "cumulative_radiation_energy",
+      "value": 0.14859018572026353,
+      "limit": 0.001,
+      "status": "FAIL"
+    }
+  ],
+  "derivative_normalization": "absolute directional error divided by P or u; no relaxed-response claim",
+  "derivative_errors": {
+    "pressure": 2.5660035487850106e-11,
+    "internal_energy": 1.9257061802247763e-11
+  },
+  "cool_depths": 9,
+  "hminus_fraction_max": 1.5363866971986678e-12,
+  "material_firstlaw_cumulative_fraction_max": 0.43203263821875887,
+  "material_radiation_synchronized_to_component_tolerance": false,
+  "material_firstlaw_scope": "prescribed flow diagnostic only; final spectrum precedes the final material update. Do not interpret mixed-iteration gas/heat defects physically when nonlinear convergence fails. Radiative-equilibrium controls omit gas/population advection.",
+  "atomic_advected_energy_fraction_max": 2.36183467575188e-06,
+  "radiation_cumulative_fraction_max": 0.14859018572026353,
+  "equilibrium_response_validated": false,
+  "global_wind_eigenvalue_solved": false,
+  "published_cool_reference_reproduced": false,
+  "production_certified": false,
+  "plan_sha256": "916ff171cf36a1b1027f07c1948955b4c13d8ea83a8bfafc6b860206b2e9d1b6",
+  "driver_sha256": "be9434cae0bd308733bb50ecd05bcd8a8a880b9f38f98fb2497a2af47e41dfc5"
+}

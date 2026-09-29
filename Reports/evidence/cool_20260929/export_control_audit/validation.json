@@ -1,0 +1,129 @@
+{
+  "scope": "component only; prescribed flow, no wind eigenvalue",
+  "backend": "CMFGEN 18-Jun-2025",
+  "checks": [
+    {
+      "name": "spectral_J",
+      "value": 4.4946423011435325e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "native printed vs independently integrated spectral moment"
+    },
+    {
+      "name": "spectral_H",
+      "value": 4.2789254339142855e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "native printed vs independently integrated spectral moment"
+    },
+    {
+      "name": "spectral_K",
+      "value": 4.697040607692309e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "native printed vs independently integrated spectral moment"
+    },
+    {
+      "name": "spectral_flux_mean",
+      "value": 5.24255923626442e-08,
+      "limit": 2e-06,
+      "status": "PASS",
+      "scope": "independent extinction-force quadrature"
+    },
+    {
+      "name": "spectral_material_temperature",
+      "value": 3.5128895815686044e-08,
+      "limit": 0.001,
+      "status": "PASS",
+      "scope": "state synchronization"
+    },
+    {
+      "name": "mass_flux_uniformity",
+      "value": 7.687150452232982e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "prescribed-flow input consistency only"
+    },
+    {
+      "name": "electron_balance",
+      "value": 2.0,
+      "limit": 0.01,
+      "status": "FAIL",
+      "scope": "electron heating/cooling; not total material energy"
+    },
+    {
+      "name": "global_radiation_energy",
+      "value": 12.144106607381156,
+      "limit": 0.001,
+      "status": "FAIL",
+      "scope": "independent trapezoid volume four-force vs lab luminosity; mesh error and transfer approximations included"
+    },
+    {
+      "name": "last_nonlinear_correction",
+      "value": 2.7530988162820944e+17,
+      "limit": 0.001,
+      "status": "FAIL",
+      "scope": "all native variables; full convergence needed"
+    },
+    {
+      "name": "population_hydrogen",
+      "value": 9.195825251273604e-07,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "atomic conservation on native output"
+    },
+    {
+      "name": "population_helium",
+      "value": 4.84316420301667e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "atomic conservation on native output"
+    },
+    {
+      "name": "population_charge",
+      "value": 5.322224660986308e-08,
+      "limit": 1e-06,
+      "status": "PASS",
+      "scope": "atomic conservation on native output"
+    }
+  ],
+  "metrics": {
+    "radii": 84,
+    "frequencies": 43314,
+    "temperature_min": 3796.5164,
+    "temperature_max": 20949.569,
+    "luminosity_lab_inner": 3.451223546626462e+43,
+    "luminosity_lab_outer": 5.102258698424276e+43,
+    "volume_energy_to_matter": -6.361340872390003e+44,
+    "prescribed_mdot": 9.461679979732087e+24,
+    "heating_max_abs": 415.0223643334915,
+    "warnings": "\n Reading in atomic data\n\n Warning -- FORMAT Date not found in oscilator file:HI_F_OSCDAT\n Warning -- FORMAT Date not found in oscilator file:He2_F_OSCDAT\n\n Begin COMP_GREY_V4    84    15    99\n ST_IREC, IREC+2, NCF, ND, NU in OUT_JH\n           6           6          85          84   3.3796516748507699E-006\n \n\n Begin COMP_GREY_V4    84    15    99\n \n\n Begin COMP_GREY_V4    84    15    99\n \n\n Begin COMP_GREY_V4    84    15    99\n \n\n Begin COMP_GREY_V4    84    15    99\n \n\n\n Checking whether some low ionization stages may be omitted from the model.\n   H0      may not need to be include in model. Its maximum fractional abundance of 1.89E-13 < 1.00E-10\n Checking whether some high ionization stages may be omitted from the model.\n   He2    may not need to be include in model. Its maximum fractional abundance is 1.40E-05 < 1.00E-04\n \n Checking whether lower ionization stages need to be included in model\n \n                   Temperature (10^4 K) is  2.095E+00\n           Atom/ion density (per cm^3)) is  4.244E+13\n                 Electrons per atom/ion is  9.999E-01\n Total thermal kinetic energy (ev/atom) is  5.415E+00\n  Approximate internal energy (ev/atom) is  1.466E+01\n App. missing internal energy (ev/atom) is  0.000E+00\n             Radiation energy (ev/atom) is  6.733E+01\n\n Begin COMP_GREY_V4    84    15    99\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  33 depths.\n HeI     g.s. eq. replaced by ionization eq. at  31 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n Checking whether some low ionization stages may be omitted from the model.\n   H0      may not need to be include in model. Its maximum fractional abundance of 7.82E-13 < 1.00E-10\n Checking whether some high ionization stages may be omitted from the model.\n   He2    may not need to be include in model. Its maximum fractional abundance is 1.40E-05 < 1.00E-04\n \n Checking whether lower ionization stages need to be included in model\n \n                   Temperature (10^4 K) is  2.095E+00\n           Atom/ion density (per cm^3)) is  4.244E+13\n                 Electrons per atom/ion is  9.999E-01\n Total thermal kinetic energy (ev/atom) is  5.415E+00\n  Approximate internal energy (ev/atom) is  1.466E+01\n App. missing internal energy (ev/atom) is  0.000E+00\n             Radiation energy (ev/atom) is  6.733E+01\n",
+    "energy_gauge": "neutral_H_He_ground",
+    "material_derivatives_available": false,
+    "neutral_hydrogen_fraction_range": [
+      2.1669870738002575e-07,
+      0.9958028385400373
+    ]
+  },
+  "all_requested_component_gates_pass": false,
+  "production_certified": false,
+  "wind_eigenvalue_solved": false,
+  "unperformed_in_this_run": [
+    "radial/frequency convergence",
+    "export invariance",
+    "cool recombination regime",
+    "full coupled energy/population response"
+  ],
+  "this_run_checks_pass": false,
+  "passed": 9,
+  "failed": 3,
+  "input_hashes": {
+    "RVTJ": "b1320e5a0036fa9c4e5f3d216d0002075af3ac37411fb1a71e9352fb5b499466",
+    "MODEL": "57b434f7995b9d7a4cf33c38500fa891faaa5ede63ef116ed52d499a9e80ee92",
+    "GENCOOL": "1005915cc8d3892e6132d87a07bfaf19a81213acf9d49778847069aace27fb07",
+    "OUTGEN": "8338819e8bdb1cf61f88b910d7dcd98a894350e0aa28cfd3e4f2adc3937aab24",
+    "QSTARS_SPECTRAL.bin": "34748bf029100a786e24f72f13925f235cfec6f088f9d25a57e1c022edd97d57"
+  },
+  "plan_sha256": "be3ca7f9adc105668f6e357a0b6b9c276e9578ea3c77838e4ba02896d11dc310",
+  "source_snapshot_verified": true
+}

@@ -1,0 +1,42 @@
+plan:
+  scope: CMFGEN external component. No wind or quasi-star production certification.
+  source: official 18 June 2025 distribution; 21 June 2023 atomic data
+  cases:
+  - Supplied Zeta Pup-like reference, all supplied species and physical settings
+  - Declared H/He unclumped prescribed-flow component without X-rays
+  - H/He continued iteration and independent spectral energy/momentum audit
+  - Read-only export invariance
+  - H/He frequency and radial refinement if nonlinear convergence permits
+  thresholds:
+    reference_temperature_relative: 0.01
+    reference_electron_density_relative: 0.02
+    reference_flux_moment_relative: 0.02
+    reference_force_relative: 0.05
+    population_nuclei_relative: 1.0e-06
+    population_charge_relative: 1.0e-06
+    spectral_moments_relative: 1.0e-06
+    spectral_flux_mean_relative: 2.0e-06
+    profile_refinement_relative: 0.01
+    global_radiation_energy_relative: 0.001
+    electron_balance_relative: 0.01
+    iteration_max_fractional_correction: 0.001
+    export_invariance_relative: 1.0e-10
+  justification: Printed native profiles have roughly 7-8 significant digits, so 1e-6
+    independently checks parsing and normalization. Reference reruns across the 2023/2025
+    release and atomic/constant updates allow explicitly disclosed percent-level comparisons;
+    these are compatibility tests, not quasi-star predictive validation. The 0.1%
+    energy target is needed before placing a source in QStarS's conservative ledger.
+    A 1% internal-profile tolerance is a first component convergence gate, not a final
+    mass-loss eigenvalue error allowance. Nonlinear corrections must be below 0.1%
+    before calling a solution converged. Failed targets are retained, never raised
+    after seeing outputs.
+  gated_until_component_pass:
+  - production mdot
+  - convective envelope handoff
+  - escaping quasi-star wind
+  - evolution
+  - published full tracks
+  - QSRD
+native_directory: /Users/abraiymbek/Projects/QStarS/results/cmfgen_cool_T6_corrected
+reference: None
+hhe: true

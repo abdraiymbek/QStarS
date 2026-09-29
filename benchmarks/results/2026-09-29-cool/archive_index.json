@@ -1,0 +1,22 @@
+{
+  "scope": "Selected native evidence from all 13 cool trials. Raw local cases are preserved. Atomic links, large spectra and Jacobians are separately hashed and retained locally; not a standalone upstream distribution.",
+  "parts": [
+    {
+      "manifest": "primary/archive_manifest.json",
+      "sha256": "4edf7b5f5decd3ea1d8874b8624fd49284051610c4025b8e7ced48165177db0d",
+      "verification": "primary/verification.json",
+      "files_verified": 1061,
+      "omitted_local_files": 891
+    },
+    {
+      "manifest": "refinement/archive_manifest.json",
+      "sha256": "14d0b0ccb323121317c4b85c7fef7908b25e01c7fa06a1cee05802a8dc429eb1",
+      "verification": "refinement/verification.json",
+      "files_verified": 94,
+      "omitted_local_files": 46
+    }
+  ],
+  "total_files_verified": 1155,
+  "total_omitted_local_files": 937,
+  "failures": 0
+}

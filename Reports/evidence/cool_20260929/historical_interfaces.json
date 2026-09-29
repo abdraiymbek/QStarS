@@ -1,0 +1,11 @@
+{
+  "scope": "Historical runner and adapter revisions matching every cool native run manifest. Baseline bytes are recovered from e0082ea; H-minus adapter from executed audit snapshot; Rayleigh-only runner reconstructed and accepted only after exact SHA256 match to recorded runs. Final live NaN guard is retained in the final interface snapshot, not retroactively attributed to these trials.",
+  "files": {
+    "baseline/backends/cmfgen/run_component.py": "4979eeedadbdc69330fc5419f94d938c6d4d97d95af61446e6e6973dca8372a8",
+    "baseline/src/qstars/cmfgen_backend.py": "c0fa9c976d2e5d201421812de216d12ee9211abc61942f6d5e80a877da8941d2",
+    "rayleigh_guard/backends/cmfgen/run_component.py": "4c98ea29c3783271a38228687fef8cd227aadb65f26c8332bfc57910ad6e54a5",
+    "hminus_output/src/qstars/cmfgen_backend.py": "8c8c54bfd8d977cedbd3b2b59986f288cfc9314a26a1db697f30f5f9a52f0c6d"
+  },
+  "all_native_runner_adapter_hashes_matched": true,
+  "zip_sha256": "565513b35d23a08ea81c92652e2744cf57404ed98282fd200dc9f6d6619a42f3"
+}

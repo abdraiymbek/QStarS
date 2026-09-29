@@ -1,0 +1,14 @@
+{
+  "source_hashes": {
+    "new_main/mod_subs/comp_opac.f": {
+      "original": "46aa68419d3bd6ef359d43ac95e8de6ee19ab0e33f52f1a61dca17431d21ea41",
+      "patched": "b36d9a290f83a383f14c0e41600ecb3cb70e1b533f3dda99f06a77fbf678dd86"
+    },
+    "new_main/mod_subs/do_var_cont.f": {
+      "original": "553f5c44b8df9c527e39a39b7b2d75d7c422d604cf2ac8aae8c77f50d9a89f8f",
+      "patched": "288b559347d3a91d44335a7a9f8516069d28331968f766a77d088f102d081098"
+    }
+  },
+  "physical_change": "Use neutral HI, its actual array stride and equation index for Rayleigh opacity/linearization when H- is present",
+  "coefficients_changed": false
+}

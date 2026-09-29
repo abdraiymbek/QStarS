@@ -6,9 +6,10 @@ from qstars.cmfgen_backend import sha256
 
 NAMES={'VADAT','IN_ITS','MODEL_SPEC','RVSIG_COL','RDINR','HYDRO_DEFAULTS','ADJUST_R_DEFAULTS',
        'IT_SPECIFIER','RVTJ','MOD_SUM','MODEL','OUTGEN','WARNINGS','GENCOOL','HYDRO','OBSFLUX',
-       'CORRECTION_SUM','STEQ_VALS','POINT1','POINT2','SCRTEMP','QSTARS_EXPORT','EDDFACTOR_INFO',
+       'CORRECTION_SUM','CORRECTION_LINK','STEQ_VALS','POINT1','POINT2','SCRTEMP','QSTARS_EXPORT','EDDFACTOR_INFO',
        'native.log','run_manifest.json','run_result.json','atomic_manifest.json','reference_origin.json',
-       'component_definition.json','continuation.json','changes.json','failure_attribution.json','termination_reason.txt'}
+       'component_definition.json','continuation.json','changes.json','failure_attribution.json','termination_reason.txt',
+       'cool_control.json'}
 
 def archive(sources,destination):
     destination.mkdir(parents=True,exist_ok=False);files=[];external=[];omitted=[]

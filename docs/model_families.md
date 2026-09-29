@@ -92,3 +92,14 @@ They are not selectable production mass-loss families. No opacity/force
 coefficient was fitted to a quasi-star target. Standard and advective transfer
 options remain explicitly distinct; their different energy residuals are
 retained. [Selection, units and validity](nlte_backend.md).
+# Report 14 cool component scope
+
+The external CMFGEN controls now explicitly include H−, HI, HeI, HeII and
+stripped ions with two-photon processes and corrected neutral-H Rayleigh
+scattering. T9 and T6 are prescribed primordial stress cases at literature
+input scales, not new selectable production wind families. Their cool
+nonlinear/thermal/energy validation fails. The resolved-atom material API
+provides population energy and frozen-state partial derivatives; it does not
+provide a relaxed EOS or global sonic closure. See
+[the cool contract](nlte_cool_closure.md). The existing physical model families
+and the Mach-one MLT guard retain their earlier validity restrictions.

@@ -1,0 +1,18 @@
+{
+  "status": "FAIL",
+  "errors": {
+    "opacity": 0.9999999999059702,
+    "jacobian": 1.0,
+    "spurious_hminus_derivative": 1208.954975440926
+  },
+  "limit": 1e-12,
+  "source_hashes": {
+    "new_main/mod_subs/comp_opac.f": "46aa68419d3bd6ef359d43ac95e8de6ee19ab0e33f52f1a61dca17431d21ea41",
+    "new_main/mod_subs/do_var_cont.f": "553f5c44b8df9c527e39a39b7b2d75d7c422d604cf2ac8aae8c77f50d9a89f8f",
+    "newsubs/rayleigh_scat.f": "19a913be7535b3c9084fe188db296ba7b05fb27d07a348e839c2a307edcb2c01"
+  },
+  "scope": "actual upstream call-site extraction with H- present; low-frequency HI analytic formula and linear derivative",
+  "test_source_sha256": "b9345b59b2608a5945d3ae327547e946082d3bc44702440dbc15485625cfc696",
+  "executable_sha256": "08072a8c5ec5fa683bcfdb38d5a19d0555d24cdf1b677d1aca9d017403c87030",
+  "production_certified": false
+}

@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "git_commit": "e0082eac0206c3021f5b67e6f133b6ec72f46863",
+  "git_status": "M backends/cmfgen/record_build.py\n M backends/cmfgen/run_component.py\n M scripts/validate_cmfgen_component.py\n M src/qstars/cmfgen_backend.py\n M tests/test_cmfgen_backend.py\n?? Reports/evidence/cool_20260929/\n?? backends/cmfgen/apply_hminus_rayleigh.py\n?? backends/cmfgen/apply_population_export.py\n?? backends/cmfgen/hminus_rayleigh.patch\n?? backends/cmfgen/hminus_rayleigh_patch_manifest.json\n?? backends/cmfgen/population_export.patch\n?? backends/cmfgen/population_export_patch_manifest.json\n?? backends/cmfgen/prepare_cool.py\n?? benchmarks/cmfgen_cool_validation_plan.json\n?? scripts/audit_cmfgen_cool.py\n?? scripts/check_cmfgen_rayleigh.py\n?? src/qstars/nlte_material.py\n?? tests/test_nlte_material.py",
+  "source_sha256": "7fd095446d51f98198e01fffcc7e6d3d3e88aea7c7edc87fc4e517342c9a6b15",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "created_utc": "2026-09-29T03:05:19.202050+00:00",
+  "process_package_sha256": "50bad6ab251ef65d046c5d65ddb7aa6e24540b88f5e95aab3c9f5afa67c4079a",
+  "source_tree_matches_import": true,
+  "dependencies": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.11.2"
+  },
+  "source_tree_matches_at_end": true,
+  "source_snapshot_verified": true
+}

@@ -10,4 +10,11 @@ sha=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 record=dict(executable_sha256=sha(exe),max_rays=2048,explicit_native_capacity_guard=True,
  source_hashes={str(x.relative_to(a.root)):sha(x) for x in [module,guard,a.root/'new_main/cmfgen_sub.f']},
  scope='non-dust spherical transfer only; not production certification')
+ray_manifest=Path(__file__).parent/'hminus_rayleigh_patch_manifest.json'
+record['hminus_rayleigh_fixed']=False
+if ray_manifest.exists():
+    required=json.loads(ray_manifest.read_text())['source_hashes']
+    record['hminus_rayleigh_fixed']=all(sha(a.root/name)==row['patched'] and
+        exe.stat().st_mtime_ns>(a.root/name).stat().st_mtime_ns for name,row in required.items())
+    record['source_hashes'].update({name:sha(a.root/name) for name in required})
 exe.with_suffix('.capabilities.json').write_text(json.dumps(record,indent=2)+'\n');print(json.dumps(record,indent=2))

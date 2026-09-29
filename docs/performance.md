@@ -1,5 +1,23 @@
 # Apple Silicon performance report
 
+Report 14 adds 13 cool CMFGEN trials, including setup failures and diagnostic
+controls. The corrected T6 runs at 84 / 167 radii and 43,314 frequencies take
+**1041.17 / 2008.61 s**, with **121.75 / 181.69 MiB peak footprint**. The failed
+T9 Newton continuation takes **331.47 s / 543.09 MiB**. All native per-process
+wall times sum to **4849.26 s**; because trials overlap, this is not elapsed
+campaign time. The final native-enabled suite passes **117 tests in 63.37 s**,
+with zero skips. Measurements include concurrent work, so they are not
+isolated scaling comparisons. Exact timings and both resident/footprint
+measurements are in the [cool campaign summary](../Reports/evidence/cool_20260929/campaign_summary.json).
+
+These cool trials fail population/thermal and independent radiative-energy
+validation; none measures a physical selected wind. They fit the same Apple
+M5 / 16 GiB MacBook without resource exhaustion. No physical model was reduced
+to fit the hardware, and no cloud run was needed to establish the closure
+failure. Larger CPU/memory resources become relevant for converged full-metal
+and global-response ensembles; their cost and Linux agreement remain unknown.
+See [Report 14](../Reports/Report_14.md).
+
 Report 13 adds native CMFGEN on the same Apple M5 / 16 GiB MacBook, using
 GNU Fortran 13.3.0, Accelerate and one OpenMP thread per process. The full
 metal/clumped reference takes **883.66 s** for two initialization iterations

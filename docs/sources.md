@@ -591,8 +591,30 @@ This register distinguishes implemented laws, derived numerical identities, opti
 
 - Status: `derived_and_tested_adapter_not_physical_closure`
 - Assumptions: Coherent scattering, isotropic comoving material emission; ideal translational and resolved atomic energy
-- Domain: Inelastic scattering rejected; no molecules, nonideal corrections, kinetic material derivatives or validated envelope/eigenvalue response
+- Domain: Inelastic scattering rejected; no molecules, nonideal corrections, relaxed kinetic response or validated envelope/eigenvalue response; Report 14 adds frozen-population partials
 - Variables and units: Q0 erg/cm3/s positive material heating; f0 dyn/cm3; neutral H/He ground energy gauge; mean/clump densities distinct
 - Interpretation: Independent spectral quadrature is a conversion check, not independent atomic-physics certification. LTE FreeEOS derivatives cannot be reused without a population-response and energy-gauge bridge.
 - Implementation: `src/qstars/cmfgen_backend.py; scripts/validate_cmfgen_component.py; docs/nlte_backend.md`
+
+## cmfgen_hminus_cool_audit — CMFGEN H-minus and neutral-hydrogen Rayleigh implementation audit
+
+[CMFGEN H-minus and neutral-hydrogen Rayleigh implementation audit](https://sites.pitt.edu/~hillier/web/CMFGEN.htm) · 18-Jun-2025 cmfgen_sub, comp_opac, do_var_cont, rayleigh_scat; atomic HYD/MI/13apr15
+
+- Status: `native_defects_repaired_component_tested`
+- Assumptions: Negative ion H0 precedes HI; Rayleigh opacity is a neutral-H ground-state process
+- Domain: H-minus supplied col_guess remains an uncertainty; component call-site test does not certify the full cool atmosphere
+- Variables and units: Native opacity in inverse 1e10 cm; ion names, full-level strides, population equation indices
+- Interpretation: Name-based population export and corrected HI Rayleigh call/Jacobian; original failure retained; no rate or cross-section fitting
+- Implementation: `backends/cmfgen/population_export.patch; backends/cmfgen/hminus_rayleigh.patch; scripts/check_cmfgen_rayleigh.py; Reports/Report_14.md`
+
+## resolved_nlte_material_differential — Extended-state ideal H-/H/He material differential
+
+[Extended-state ideal H-/H/He material differential](https://sites.pitt.edu/~hillier/web/CMFGEN.htm) · Atomic oscillator energies and charges; ideal-mixture first-law derivation in docs/nlte_cool_closure.md
+
+- Status: `derived_component_implemented_and_tested`
+- Assumptions: Independent level numbers per gram, charge-neutral electrons, fixed nuclear composition
+- Domain: Frozen population partials only; no relaxed non-LTE response, entropy/free-energy completion, molecules or nonideal terms
+- Variables and units: cgs gas P/u; d/dlnrho and d/dlnT at fixed populations per gram; neutral H/He ground energy zero
+- Interpretation: Ionization, excitation, H-minus detachment and particle-creation terms enter du once. No graft of LTE EOS derivatives or blackbody radiation into the material state.
+- Implementation: `src/qstars/nlte_material.py; tests/test_nlte_material.py; scripts/audit_cmfgen_cool.py`
 

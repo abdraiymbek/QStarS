@@ -44,6 +44,7 @@ def audit(directory,output,reference=None,hhe=False):
     if hhe:
         pops=read_hhe_populations(p/'RVTJ')
         levels={k:read_atomic_levels(p/n,pops[k].shape[0]) for k,n in [('HI','HI_F_OSCDAT'),('HeI','HeI_F_OSCDAT'),('HeII','He2_F_OSCDAT')]}
+        if 'Hminus' in pops:levels['Hminus']=read_atomic_levels(p/'H0_F_OSCDAT',pops['Hminus'].shape[0])
         mat=hhe_material(s,pops,levels)
         for k,v in mat['conservation_relative'].items():check('population_'+k,v,t['population_charge_relative'] if k=='charge' else t['population_nuclei_relative'],'atomic conservation on native output')
         metrics['energy_gauge']=mat['energy_gauge'];metrics['material_derivatives_available']=False

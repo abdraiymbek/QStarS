@@ -1,5 +1,19 @@
 schema_version: 1
 benchmarks:
+  - id: cmfgen_cool_hhe_recombination
+    source: cmfgen_hminus_cool_audit
+    status: failed_cool_nonlinear_thermal_and_energy_gate
+    command: python scripts/audit_cmfgen_cool.py NATIVE_RUN AUDIT_OUTPUT
+    required_checks: [cool_recombination_coverage, population_charge, radiation_energy, cumulative_interior_energy, nonlinear_convergence, thermal_convergence, spatial_frequency_convergence]
+    limitation: Primordial prescribed-flow controls at T9/T6 reference input scales; not metal-bearing published atmosphere replicas, mass-loss eigenvalues or evolutionary tracks.
+    evidence: Reports/Report_14.md
+  - id: resolved_hhe_material_differential
+    source: resolved_nlte_material_differential
+    status: ideal_frozen_population_component_pass_relaxed_response_missing
+    command: python -m pytest -q tests/test_nlte_material.py
+    required_checks: [population_energy, ionization_excitation, negative_ion_detachment, pressure_work, gauge_invariance, constrained_directional_derivatives, lte_chain_rule]
+    limitation: No nonideal/dissolution free energy, relaxed global non-LTE response or production sonic closure.
+    evidence: Reports/evidence/cool_20260929/pytest_final.txt
   - id: cmfgen_native_reference
     source: cmfgen_native_2025
     status: reference_profile_compatibility_pass_thermal_certification_fail

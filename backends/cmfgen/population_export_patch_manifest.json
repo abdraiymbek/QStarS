@@ -1,0 +1,6 @@
+{
+  "original_sha256": "b6706fa7c93f957898dd099f4259d1495a7e195f37c1cd3d318775e2ae432913",
+  "patched_sha256": "b45b58e99a0ff9ac4bfb14471e5612cdb5ee63b7afc3c8639af7158bdc3d0865",
+  "physical_arrays_modified": false,
+  "scope": "RVTJ output ion names including H-"
+}
