@@ -1,0 +1,9 @@
+{
+  "classification": "hydrostatic_no_wind_reference",
+  "mdot": 0.0,
+  "lambda_base": 4.0,
+  "vacuum_surface_radius": 4000000000000.0034,
+  "finite_surface": true,
+  "proof": "Convex sonic residual is nonpositive at both admissible interval endpoints; no interior accelerating root",
+  "physical_quasistar": false
+}

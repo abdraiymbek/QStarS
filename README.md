@@ -12,6 +12,13 @@ photospheres, moving cavities, and coupled transonic winds remain open validatio
 Fiacconi–Rossi stationary wind solver now includes radiation enthalpy advection.
 These examples do not establish quasi-star lifetimes or QSRD recovery results.
 
+[Report 12](Reports/Report_12.md) records **FAIL** for the self-selected outer
+boundary. New thermal-band transfer, conservative lab-radiation interface,
+material-energy critical equations and base-selected wind controls are verified;
+**97 tests pass**. The coupled H/He population/energy/force closure and convective
+handoff remain unresolved. No physical-envelope or coupled-evolution gate was
+bypassed. [Equations and evidence](docs/self_selected_outer.md).
+
 [Report 11](Reports/Report_11.md) records **OUTER CLOSURE FAIL**. Spherical grey
 angular transfer and a constructed stationary continuum control now pass scoped
 validation, including radiation work and outer-boundary refinement. **85 tests

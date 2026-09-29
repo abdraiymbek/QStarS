@@ -1,0 +1,219 @@
+{
+  "energy_integral_relative_defect": 0.0014344853192330915,
+  "histories": [
+    [
+      0.0042759394752450676,
+      1.271330530729781e-05,
+      2.4411791267458713e-08,
+      5.487017964309747e-11
+    ],
+    [
+      0.03755337214083674,
+      0.0011920554062573613,
+      3.100411709303811e-05,
+      6.822135560301614e-07,
+      1.1091833309989939e-08,
+      1.6199963784161789e-10,
+      2.065619178782698e-12
+    ]
+  ],
+  "population_kinetics_solved": false,
+  "wind_eigenvalue_solved": false,
+  "coefficients_are_prescribed": true,
+  "equilibrium_history": [
+    {
+      "iteration": 0,
+      "thermal_balance_error": 0.5414350397141052,
+      "energy_integral_error": 0.0002839771795336867
+    },
+    {
+      "iteration": 1,
+      "thermal_balance_error": 0.11548577681904837,
+      "energy_integral_error": 0.000492421334127277
+    },
+    {
+      "iteration": 2,
+      "thermal_balance_error": 0.07717472164936212,
+      "energy_integral_error": 0.000915024757580674
+    },
+    {
+      "iteration": 3,
+      "thermal_balance_error": 0.06012358950862018,
+      "energy_integral_error": 0.0011180495652210127
+    },
+    {
+      "iteration": 4,
+      "thermal_balance_error": 0.04491885018455588,
+      "energy_integral_error": 0.0012349696978992352
+    },
+    {
+      "iteration": 5,
+      "thermal_balance_error": 0.0320951615559838,
+      "energy_integral_error": 0.0013067693487377797
+    },
+    {
+      "iteration": 6,
+      "thermal_balance_error": 0.022234865177880758,
+      "energy_integral_error": 0.0013521116230628726
+    },
+    {
+      "iteration": 7,
+      "thermal_balance_error": 0.01509201530858062,
+      "energy_integral_error": 0.0013811409075102166
+    },
+    {
+      "iteration": 8,
+      "thermal_balance_error": 0.01010573141917892,
+      "energy_integral_error": 0.0013998609233999136
+    },
+    {
+      "iteration": 9,
+      "thermal_balance_error": 0.006705823517214715,
+      "energy_integral_error": 0.001411981365167529
+    },
+    {
+      "iteration": 10,
+      "thermal_balance_error": 0.0044227687623433765,
+      "energy_integral_error": 0.001419847091452224
+    },
+    {
+      "iteration": 11,
+      "thermal_balance_error": 0.0029050893972907277,
+      "energy_integral_error": 0.0014249587503044284
+    },
+    {
+      "iteration": 12,
+      "thermal_balance_error": 0.0019029610853013024,
+      "energy_integral_error": 0.0014282834669048373
+    },
+    {
+      "iteration": 13,
+      "thermal_balance_error": 0.0012442214402692553,
+      "energy_integral_error": 0.0014304470766151425
+    },
+    {
+      "iteration": 14,
+      "thermal_balance_error": 0.0008125070321451933,
+      "energy_integral_error": 0.0014318555559783462
+    },
+    {
+      "iteration": 15,
+      "thermal_balance_error": 0.0005301467634353241,
+      "energy_integral_error": 0.0014327726563487886
+    },
+    {
+      "iteration": 16,
+      "thermal_balance_error": 0.00034571968613550386,
+      "energy_integral_error": 0.0014333698907819945
+    },
+    {
+      "iteration": 17,
+      "thermal_balance_error": 0.00022536745991907914,
+      "energy_integral_error": 0.0014337588580708434
+    },
+    {
+      "iteration": 18,
+      "thermal_balance_error": 0.0001468760597383989,
+      "energy_integral_error": 0.0014340122004139256
+    },
+    {
+      "iteration": 19,
+      "thermal_balance_error": 9.57060368099727e-05,
+      "energy_integral_error": 0.0014341772140821277
+    },
+    {
+      "iteration": 20,
+      "thermal_balance_error": 6.235626074924117e-05,
+      "energy_integral_error": 0.001434284698026723
+    },
+    {
+      "iteration": 21,
+      "thermal_balance_error": 4.062460369214094e-05,
+      "energy_integral_error": 0.0014343547104147764
+    },
+    {
+      "iteration": 22,
+      "thermal_balance_error": 2.6465320553281657e-05,
+      "energy_integral_error": 0.0014344003152900132
+    },
+    {
+      "iteration": 23,
+      "thermal_balance_error": 1.724055282903425e-05,
+      "energy_integral_error": 0.0014344300217557374
+    },
+    {
+      "iteration": 24,
+      "thermal_balance_error": 1.1230935151762544e-05,
+      "energy_integral_error": 0.0014344493722880294
+    },
+    {
+      "iteration": 25,
+      "thermal_balance_error": 7.3160131222049785e-06,
+      "energy_integral_error": 0.0014344619770990657
+    },
+    {
+      "iteration": 26,
+      "thermal_balance_error": 4.765724478716926e-06,
+      "energy_integral_error": 0.0014344701878104484
+    },
+    {
+      "iteration": 27,
+      "thermal_balance_error": 3.1044213557596123e-06,
+      "energy_integral_error": 0.0014344755362375261
+    },
+    {
+      "iteration": 28,
+      "thermal_balance_error": 2.0222301743144655e-06,
+      "energy_integral_error": 0.001434479020180933
+    },
+    {
+      "iteration": 29,
+      "thermal_balance_error": 1.3172836769159701e-06,
+      "energy_integral_error": 0.001434481289613892
+    },
+    {
+      "iteration": 30,
+      "thermal_balance_error": 8.580785538780944e-07,
+      "energy_integral_error": 0.0014344827679144388
+    },
+    {
+      "iteration": 31,
+      "thermal_balance_error": 5.589518071724697e-07,
+      "energy_integral_error": 0.001434483730876735
+    },
+    {
+      "iteration": 32,
+      "thermal_balance_error": 3.6410059134350803e-07,
+      "energy_integral_error": 0.0014344843581494031
+    },
+    {
+      "iteration": 33,
+      "thermal_balance_error": 2.3717461095085213e-07,
+      "energy_integral_error": 0.0014344847667520726
+    },
+    {
+      "iteration": 34,
+      "thermal_balance_error": 1.544951558907215e-07,
+      "energy_integral_error": 0.0014344850329140167
+    },
+    {
+      "iteration": 35,
+      "thermal_balance_error": 1.0063787292402537e-07,
+      "energy_integral_error": 0.0014344852062927048
+    },
+    {
+      "iteration": 36,
+      "thermal_balance_error": 6.555531961716099e-08,
+      "energy_integral_error": 0.0014344853192330915
+    }
+  ],
+  "thermal_balance_error": 6.555531961716099e-08,
+  "max_gas_radiation_temperature_ratio": 1.3141036574838452,
+  "max_flux_rosseland_ratio": 5.912543125851168,
+  "luminosity_profile_relative_defect": 0.0014346117760237753,
+  "band_tau_two_thirds_radii": [
+    null,
+    3.0513082247175407
+  ],
+  "thermal_photosphere_certified": false
+}

@@ -1,0 +1,6 @@
+{
+  "classification": "model_domain_exit",
+  "reason": "Base must be below an accelerating sonic point (lambda>2)",
+  "lambda_base": 1.9000000000000001,
+  "physical_quasistar": false
+}

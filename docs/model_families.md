@@ -72,3 +72,12 @@ Pure scattering returns no gas temperature, entropy, enthalpy or ionization;
 its effective temperature and tau=2/3 radius are radiation diagnostics. The
 constructed stationary model prescribes mass flow and base velocity. No new
 production evolution boundary is enabled by these component results.
+
+## Report 12 component scope
+
+- Frequency-band static absorption/emission/scattering with a solved material radiative-equilibrium temperature and four distinct mean opacities. Coefficients are synthetic and frozen; H/He populations and an accelerating energy equation are not coupled.
+- A base-selected adiabatic Parker verification family, with no mdot/base-speed input and a proven hydrostatic alternative in its restricted interval. Its calorically ideal fluid is not a primordial quasi-star wind.
+- Gas-only FreeEOS derivatives in a local continuum momentum/energy operator; a general moving-interface ledger using lab E/F/Prr without an LTE assumption.
+- More robust diffusion matching that retains rejected trials and still does not certify a physical envelope or escaping branch.
+
+All are separate Python reference APIs. No new production stellar wind family is enabled. See [the equations and validity boundary](self_selected_outer.md).

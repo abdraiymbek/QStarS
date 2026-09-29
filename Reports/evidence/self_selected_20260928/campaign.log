@@ -1,0 +1,36 @@
+results/20260929T001450.984037Z_self_selected_outer
+thermal_101 completed_component 1.983
+thermal_201 completed_component 3.964
+thermal_401 completed_component 8.591
+thermal_801 completed_component 19.298
+thermal_core64 completed_component 8.702
+thermal_tight completed_component 11.076
+thermal_outer60 completed_component 13.858
+thermal_outer180 completed_component 19.697
+thermal_iteration_failure numerical_or_domain_failure 0.06
+frequency_16 completed_component 0.372
+frequency_32 completed_component 0.743
+frequency_64 completed_component 2.121
+frequency_128 completed_component 3.097
+adiabatic completed_component 0.014
+adiabatic_coarse completed_component 0.01
+adiabatic_tight completed_component 0.017
+adiabatic_exterior completed_component 0.018
+adiabatic_cross completed_component 0.013
+adiabatic_rematch_200 completed_component 0.013
+adiabatic_rematch_400 completed_component 0.012
+adiabatic_rematch_600 completed_component 0.012
+adiabatic_existence_1.9 completed_component 0.0
+adiabatic_existence_3.1 completed_component 0.0
+adiabatic_existence_4.0 completed_component 0.0
+adiabatic_existence_10.0 completed_component 0.0
+diffusion_match_-0.003_broad completed_component 2.107
+diffusion_match_-0.003_near completed_component 1.071
+diffusion_match_-0.003_exhausted numerical_or_domain_failure 0.047
+diffusion_match_-0.01_broad completed_component 1.928
+diffusion_match_-0.01_near completed_component 1.122
+diffusion_match_-0.01_exhausted numerical_or_domain_failure 0.055
+diffusion_match_-0.03_broad completed_component 2.771
+diffusion_match_-0.03_near completed_component 1.638
+diffusion_match_-0.03_exhausted numerical_or_domain_failure 0.079
+{"outcome": "FAIL", "checks": 108, "passed": 87, "failed_checks": [{"name": "thermal_101:energy_integral", "value": 0.0023284029505835756, "limit": 0.0005, "passed": false}, {"name": "thermal_201:energy_integral", "value": 0.0014344853192330915, "limit": 0.0005, "passed": false}, {"name": "thermal_401:energy_integral", "value": 0.0007377612145020594, "limit": 0.0005, "passed": false}, {"name": "radial_101:gas_temperature", "value": 0.005704771906288322, "limit": 0.002, "passed": false}, {"name": "radial_101:J_total", "value": 0.025040374663721523, "limit": 0.002, "passed": false}, {"name": "radial_101:radiation_flux", "value": 0.003930955690925252, "limit": 0.002, "passed": false}, {"name": "radial_101:K_total", "value": 0.0038633440124232195, "limit": 0.002, "passed": false}, {"name": "radial_101:mean_acceleration", "value": 0.004213230181006506, "limit": 0.002, "passed": false}, {"name": "radial_201:gas_temperature", "value": 0.003427909375095984, "limit": 0.002, "passed": false}, {"name": "radial_201:J_total", "value": 0.01482911314050927, "limit": 0.002, "passed": false}, {"name": "radial_401:J_total", "value": 0.0073361641557225825, "limit": 0.002, "passed": false}, {"name": "exterior20:J_total", "value": 0.007855255100111811, "limit": 0.002, "passed": false}, {"name": "exterior20:K_total", "value": 0.0029614000479037577, "limit": 0.002, "passed": false}, {"name": "frequency_16:analytic_temperature", "value": 0.002810855256696554, "limit": 0.001, "passed": false}, {"name": "adiabatic_coarse_profiles:velocity", "value": 1.3301876544382007e-06, "limit": 1e-06, "passed": false}, {"name": "adiabatic_coarse_profiles:density", "value": 0.00010446921585281799, "limit": 1e-06, "passed": false}, {"name": "adiabatic_coarse_profiles:pressure", "value": 0.00018539920109291255, "limit": 1e-06, "passed": false}, {"name": "adiabatic_profiles:density", "value": 3.7473610066617145e-06, "limit": 1e-06, "passed": false}, {"name": "adiabatic_profiles:pressure", "value": 6.614927773851078e-06, "limit": 1e-06, "passed": false}, {"name": "adiabatic_exterior_profiles:density", "value": 2.699401080213236e-06, "limit": 1e-06, "passed": false}, {"name": "adiabatic_exterior_profiles:pressure", "value": 4.761771313897254e-06, "limit": 1e-06, "passed": false}], "cases": 34, "completed_components": 30, "elapsed_seconds": 105.07946924999123, "peak_rss_mib": 762.421875, "source_snapshot_verified": true, "physical_envelope_test": false, "coupled_evolution": false, "published_track": false, "qsrd": false, "remaining": ["validated H/He frequency-dependent population/energy/force coupling", "convective handoff", "combined escaping thermodynamic eigenvalue and physical envelope matching", "global branch search"]}

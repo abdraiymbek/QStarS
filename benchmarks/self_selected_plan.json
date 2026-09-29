@@ -1,0 +1,30 @@
+{
+  "campaign": "Report 12 self-selected outer prerequisites",
+  "physical_acceptance": "FAIL until H/He population/energy transport, convective handoff and an escaping envelope eigenmatch pass jointly",
+  "thermal_reference": {
+    "core_temperature_K": 20000,
+    "photon_temperature_edges_K": [0, 20000, "infinity"],
+    "absorption_times_inner_radius": [0.2, 2.0],
+    "scattering_to_absorption": 0.2,
+    "extinction_radial_power": -2,
+    "material": "specified frequency bands, frozen coefficients, Kirchhoff emission, static radiative equilibrium; not atomic H/He"
+  },
+  "thresholds": {
+    "thermal_balance_relative": 1e-7,
+    "independent_energy_relative": 0.0005,
+    "radial_profile_relative": 0.002,
+    "exterior_profile_relative": 0.002,
+    "angular_profile_relative": 0.002,
+    "iteration_profile_relative": 1e-5,
+    "thin_powerlaw_temperature_relative": 0.001,
+    "adiabatic_profile_relative": 1e-6,
+    "adiabatic_energy_relative": 1e-7,
+    "adiabatic_integral_relative": 1e-6,
+    "diffusion_match_log_residual": 1e-8,
+    "diffusion_recovered_mass_flux_relative": 1e-6
+  },
+  "threshold_basis": "Analytic controls use 1e-6 profile / 1e-7 conserved flux accuracy, tighter than existing 1% research gates. Formal angular transport uses 0.2% profile and 0.05% independent integral targets so temperature/force cannot pass solely from luminosity; 0.1% spectral thermal target for smooth analytic opacity. These certify components only, never realistic microphysics.",
+  "gate_order": ["independent components", "validated physical envelope match", "coupled evolution", "published complete track"],
+  "later_stages_require_previous_pass": true,
+  "no_fitted_physics_coefficients": true
+}

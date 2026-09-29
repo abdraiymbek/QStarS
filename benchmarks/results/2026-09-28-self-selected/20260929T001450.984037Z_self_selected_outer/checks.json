@@ -1,0 +1,650 @@
+[
+  {
+    "name": "thermal_101:thermal_balance",
+    "value": 9.823449620416369e-08,
+    "limit": 1e-07,
+    "passed": true
+  },
+  {
+    "name": "thermal_101:energy_integral",
+    "value": 0.0023284029505835756,
+    "limit": 0.0005,
+    "passed": false
+  },
+  {
+    "name": "thermal_201:thermal_balance",
+    "value": 6.555531961716099e-08,
+    "limit": 1e-07,
+    "passed": true
+  },
+  {
+    "name": "thermal_201:energy_integral",
+    "value": 0.0014344853192330915,
+    "limit": 0.0005,
+    "passed": false
+  },
+  {
+    "name": "thermal_401:thermal_balance",
+    "value": 6.606402469522266e-08,
+    "limit": 1e-07,
+    "passed": true
+  },
+  {
+    "name": "thermal_401:energy_integral",
+    "value": 0.0007377612145020594,
+    "limit": 0.0005,
+    "passed": false
+  },
+  {
+    "name": "thermal_801:thermal_balance",
+    "value": 6.622525694499615e-08,
+    "limit": 1e-07,
+    "passed": true
+  },
+  {
+    "name": "thermal_801:energy_integral",
+    "value": 0.00039304812677534983,
+    "limit": 0.0005,
+    "passed": true
+  },
+  {
+    "name": "radial_101:gas_temperature",
+    "value": 0.005704771906288322,
+    "limit": 0.002,
+    "passed": false
+  },
+  {
+    "name": "radial_101:J_total",
+    "value": 0.025040374663721523,
+    "limit": 0.002,
+    "passed": false
+  },
+  {
+    "name": "radial_101:radiation_flux",
+    "value": 0.003930955690925252,
+    "limit": 0.002,
+    "passed": false
+  },
+  {
+    "name": "radial_101:K_total",
+    "value": 0.0038633440124232195,
+    "limit": 0.002,
+    "passed": false
+  },
+  {
+    "name": "radial_101:mean_acceleration",
+    "value": 0.004213230181006506,
+    "limit": 0.002,
+    "passed": false
+  },
+  {
+    "name": "radial_201:gas_temperature",
+    "value": 0.003427909375095984,
+    "limit": 0.002,
+    "passed": false
+  },
+  {
+    "name": "radial_201:J_total",
+    "value": 0.01482911314050927,
+    "limit": 0.002,
+    "passed": false
+  },
+  {
+    "name": "radial_201:radiation_flux",
+    "value": 0.0016780369466869523,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "radial_201:K_total",
+    "value": 0.0016469914211138367,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "radial_201:mean_acceleration",
+    "value": 0.0017960951872295226,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "radial_401:gas_temperature",
+    "value": 0.0016999873487635489,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "radial_401:J_total",
+    "value": 0.0073361641557225825,
+    "limit": 0.002,
+    "passed": false
+  },
+  {
+    "name": "radial_401:radiation_flux",
+    "value": 0.0005087702156934301,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "radial_401:K_total",
+    "value": 0.0004990984243054103,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "radial_401:mean_acceleration",
+    "value": 0.0005442456288749057,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "core_resolution:gas_temperature",
+    "value": 2.6747018119003863e-05,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "core_resolution:J_total",
+    "value": 0.00010809309189535904,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "core_resolution:radiation_flux",
+    "value": 0.00010097238576861354,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "core_resolution:K_total",
+    "value": 0.00010084417426353634,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "core_resolution:mean_acceleration",
+    "value": 0.00010829313561288316,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "thermal_tolerance:gas_temperature",
+    "value": 3.598698155135647e-08,
+    "limit": 1e-05,
+    "passed": true
+  },
+  {
+    "name": "thermal_tolerance:J_total",
+    "value": 1.148735473150024e-07,
+    "limit": 1e-05,
+    "passed": true
+  },
+  {
+    "name": "thermal_tolerance:radiation_flux",
+    "value": 1.104800051382405e-07,
+    "limit": 1e-05,
+    "passed": true
+  },
+  {
+    "name": "thermal_tolerance:K_total",
+    "value": 1.0854249777306665e-07,
+    "limit": 1e-05,
+    "passed": true
+  },
+  {
+    "name": "thermal_tolerance:mean_acceleration",
+    "value": 1.1760036366511926e-07,
+    "limit": 1e-05,
+    "passed": true
+  },
+  {
+    "name": "exterior20:gas_temperature",
+    "value": 0.0012378858218983853,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "exterior20:J_total",
+    "value": 0.007855255100111811,
+    "limit": 0.002,
+    "passed": false
+  },
+  {
+    "name": "exterior20:radiation_flux",
+    "value": 0.00036767762013605255,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "exterior20:K_total",
+    "value": 0.0029614000479037577,
+    "limit": 0.002,
+    "passed": false
+  },
+  {
+    "name": "exterior20:mean_acceleration",
+    "value": 0.00037570452624809423,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "exterior60:gas_temperature",
+    "value": 0.00014393473383236165,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "exterior60:J_total",
+    "value": 0.0006229682835547001,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "exterior60:radiation_flux",
+    "value": 4.476005011986159e-05,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "exterior60:K_total",
+    "value": 0.00015158707927981783,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "exterior60:mean_acceleration",
+    "value": 5.048697456364708e-05,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "frequency_16:analytic_temperature",
+    "value": 0.002810855256696554,
+    "limit": 0.001,
+    "passed": false
+  },
+  {
+    "name": "frequency_32:analytic_temperature",
+    "value": 1.9016736318988592e-07,
+    "limit": 0.001,
+    "passed": true
+  },
+  {
+    "name": "frequency_64:analytic_temperature",
+    "value": 8.150813357588049e-11,
+    "limit": 0.001,
+    "passed": true
+  },
+  {
+    "name": "frequency_128:analytic_temperature",
+    "value": 8.113842930868032e-11,
+    "limit": 0.001,
+    "passed": true
+  },
+  {
+    "name": "adiabatic:base_density",
+    "value": 2.220446049250313e-16,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "adiabatic:base_pressure",
+    "value": 2.220446049250313e-16,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "adiabatic:mass",
+    "value": 6.661338147750939e-16,
+    "limit": 1e-07,
+    "passed": true
+  },
+  {
+    "name": "adiabatic:energy",
+    "value": 4.96269692007445e-14,
+    "limit": 1e-07,
+    "passed": true
+  },
+  {
+    "name": "adiabatic:momentum_energy_integral",
+    "value": 4.340215444791572e-10,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_coarse:base_density",
+    "value": 5.184741524999481e-14,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_coarse:base_pressure",
+    "value": 6.916689443414725e-14,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_coarse:mass",
+    "value": 6.661338147750939e-16,
+    "limit": 1e-07,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_coarse:energy",
+    "value": 9.422462809993704e-13,
+    "limit": 1e-07,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_coarse:momentum_energy_integral",
+    "value": 2.7138531002639956e-07,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_tight:base_density",
+    "value": 2.220446049250313e-16,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_tight:base_pressure",
+    "value": 0.0,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_tight:mass",
+    "value": 8.881784197001252e-16,
+    "limit": 1e-07,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_tight:energy",
+    "value": 7.549516567451064e-15,
+    "limit": 1e-07,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_tight:momentum_energy_integral",
+    "value": 2.7125800252539766e-11,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_exterior:base_density",
+    "value": 2.220446049250313e-16,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_exterior:base_pressure",
+    "value": 2.220446049250313e-16,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_exterior:mass",
+    "value": 1.3322676295501878e-15,
+    "limit": 1e-07,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_exterior:energy",
+    "value": 5.062616992290714e-14,
+    "limit": 1e-07,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_exterior:momentum_energy_integral",
+    "value": 2.1377183697870462e-10,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_cross:base_density",
+    "value": 3.3306690738754696e-16,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_cross:base_pressure",
+    "value": 0.0,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_cross:mass",
+    "value": 8.881784197001252e-16,
+    "limit": 1e-07,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_cross:energy",
+    "value": 7.005507285384738e-14,
+    "limit": 1e-07,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_cross:momentum_energy_integral",
+    "value": 2.55904367382845e-10,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_coarse_profiles:velocity",
+    "value": 1.3301876544382007e-06,
+    "limit": 1e-06,
+    "passed": false
+  },
+  {
+    "name": "adiabatic_coarse_profiles:density",
+    "value": 0.00010446921585281799,
+    "limit": 1e-06,
+    "passed": false
+  },
+  {
+    "name": "adiabatic_coarse_profiles:pressure",
+    "value": 0.00018539920109291255,
+    "limit": 1e-06,
+    "passed": false
+  },
+  {
+    "name": "adiabatic_profiles:velocity",
+    "value": 4.8600754796911904e-08,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_profiles:density",
+    "value": 3.7473610066617145e-06,
+    "limit": 1e-06,
+    "passed": false
+  },
+  {
+    "name": "adiabatic_profiles:pressure",
+    "value": 6.614927773851078e-06,
+    "limit": 1e-06,
+    "passed": false
+  },
+  {
+    "name": "adiabatic_exterior_profiles:velocity",
+    "value": 3.5008117632349316e-08,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_exterior_profiles:density",
+    "value": 2.699401080213236e-06,
+    "limit": 1e-06,
+    "passed": false
+  },
+  {
+    "name": "adiabatic_exterior_profiles:pressure",
+    "value": 4.761771313897254e-06,
+    "limit": 1e-06,
+    "passed": false
+  },
+  {
+    "name": "adiabatic_rematch_200:mdot",
+    "value": 1.3322676295501878e-15,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_rematch_400:mdot",
+    "value": 4.3431924723336124e-13,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "adiabatic_rematch_600:mdot",
+    "value": 2.220446049250313e-16,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "native_gas_gamma1:3e-11:4000.0",
+    "value": 1.021405182655144e-14,
+    "limit": 3e-07,
+    "passed": true
+  },
+  {
+    "name": "native_gas_gamma1:3e-11:6000.0",
+    "value": 8.881784197001252e-16,
+    "limit": 3e-07,
+    "passed": true
+  },
+  {
+    "name": "native_gas_gamma1:3e-11:10000.0",
+    "value": 3.9968028886505635e-15,
+    "limit": 3e-07,
+    "passed": true
+  },
+  {
+    "name": "native_gas_gamma1:3e-11:16000.0",
+    "value": 2.220446049250313e-16,
+    "limit": 3e-07,
+    "passed": true
+  },
+  {
+    "name": "native_gas_gamma1:3e-11:40000.0",
+    "value": 3.3306690738754696e-15,
+    "limit": 3e-07,
+    "passed": true
+  },
+  {
+    "name": "native_gas_gamma1:3e-11:200000.0",
+    "value": 0.0,
+    "limit": 3e-07,
+    "passed": true
+  },
+  {
+    "name": "native_gas_gamma1:1e-08:4000.0",
+    "value": 1.7763568394002505e-15,
+    "limit": 3e-07,
+    "passed": true
+  },
+  {
+    "name": "native_gas_gamma1:1e-08:6000.0",
+    "value": 3.1086244689504383e-15,
+    "limit": 3e-07,
+    "passed": true
+  },
+  {
+    "name": "native_gas_gamma1:1e-08:10000.0",
+    "value": 4.440892098500626e-16,
+    "limit": 3e-07,
+    "passed": true
+  },
+  {
+    "name": "native_gas_gamma1:1e-08:16000.0",
+    "value": 1.7763568394002505e-15,
+    "limit": 3e-07,
+    "passed": true
+  },
+  {
+    "name": "native_gas_gamma1:1e-08:40000.0",
+    "value": 8.881784197001252e-16,
+    "limit": 3e-07,
+    "passed": true
+  },
+  {
+    "name": "native_gas_gamma1:1e-08:200000.0",
+    "value": 5.10702591327572e-15,
+    "limit": 3e-07,
+    "passed": true
+  },
+  {
+    "name": "diffusion_match_-0.003_broad:residual",
+    "value": 4.387855635353922e-10,
+    "limit": 1e-08,
+    "passed": true
+  },
+  {
+    "name": "diffusion_match_-0.003_broad:mass_flux",
+    "value": 1.8820167646538266e-11,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "diffusion_match_-0.003_near:residual",
+    "value": 7.395732917706929e-10,
+    "limit": 1e-08,
+    "passed": true
+  },
+  {
+    "name": "diffusion_match_-0.003_near:mass_flux",
+    "value": 2.7618599629519736e-09,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "diffusion_match_-0.01_broad:residual",
+    "value": 8.577632789457571e-09,
+    "limit": 1e-08,
+    "passed": true
+  },
+  {
+    "name": "diffusion_match_-0.01_broad:mass_flux",
+    "value": 4.3658249682110295e-08,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "diffusion_match_-0.01_near:residual",
+    "value": 9.202018411852636e-09,
+    "limit": 1e-08,
+    "passed": true
+  },
+  {
+    "name": "diffusion_match_-0.01_near:mass_flux",
+    "value": 8.457842204379062e-10,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "diffusion_match_-0.03_broad:residual",
+    "value": 9.857039455504786e-09,
+    "limit": 1e-08,
+    "passed": true
+  },
+  {
+    "name": "diffusion_match_-0.03_broad:mass_flux",
+    "value": 6.096695814861164e-09,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "diffusion_match_-0.03_near:residual",
+    "value": 3.3998917072850848e-09,
+    "limit": 1e-08,
+    "passed": true
+  },
+  {
+    "name": "diffusion_match_-0.03_near:mass_flux",
+    "value": 3.160660699830231e-08,
+    "limit": 1e-06,
+    "passed": true
+  }
+]

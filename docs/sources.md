@@ -453,3 +453,69 @@ This register distinguishes implemented laws, derived numerical identities, opti
 - Interpretation: Constructed analytic continuum control chosen for exact reproducibility; public transfer packages remain candidates for closing missing gas/radiation microphysics, not substitutes for a solved launch.
 - Implementation: `benchmarks/outer_candidates.json; scripts/register_outer_candidates.py`
 
+## sander2017 — Sander et al. (2017) hydrodynamically consistent PoWR
+
+[Sander et al. (2017) hydrodynamically consistent PoWR](https://arxiv.org/abs/1704.08698) · Sections 2-5, critical condition and mass-loss update; PDF hash in Report 12 acquisition
+
+- Status: `audited_not_replicated`
+- Assumptions: Coupled non-LTE populations, comoving-frame transfer and hydrodynamic iteration; atmospheric inner optical depth is a matching constraint
+- Domain: O/WR-star examples have metals, line driving and explicit turbulence/clumping choices; not primordial quasi-star calibration
+- Variables and units: Mass loss g/s, opacity per mass, material temperature K, radiative acceleration cm/s2
+- Interpretation: A single critical-point condition is insufficient without consistent inner radiation/thermodynamic constraints and the force response to density. No published PoWR quasi-star run claimed.
+- Implementation: `docs/self_selected_outer.md`
+
+## mayer2005 — Mayer & Duschl (2005) primordial mean opacities
+
+[Mayer & Duschl (2005) primordial mean opacities](https://arxiv.org/abs/astro-ph/0411613) · Sections on Rosseland, Planck continuum and line means; conclusion; cached paper
+
+- Status: `audited_not_installed`
+- Assumptions: Primordial H/He plus trace D/Li, equilibrium populations; Planck continuum and line sets differ
+- Domain: Single-temperature means do not determine the absorption energy mean or flux mean for arbitrary escaping spectra
+- Variables and units: rho g/cm3, temperature K, opacity cm2/g
+- Interpretation: Paper states full tables available from authors on request. No complete table or non-LTE atom installed by this campaign; trace-Li convention differs from current X=.7 Y=.3 mixture.
+- Implementation: `docs/self_selected_outer.md`
+
+## malygin2014 — Malygin et al. (2014) two-temperature Planck means
+
+[Malygin et al. (2014) two-temperature Planck means](https://arxiv.org/abs/1408.3377) · Sections 2-4, equilibrium-temperature degeneracy; cached PDF
+
+- Status: `audited_frequency_requirement`
+- Assumptions: LTE chemical populations and high-resolution opacity spectrum; gas and illuminating radiation temperatures distinct
+- Domain: Published metallicities -0.3, 0,+0.3 dex are not primordial; multiple thermal roots possible when opacity depends on state
+- Variables and units: Tgas, Trad K; Planck/Rosseland cm2/g
+- Interpretation: Demonstrates why a Rosseland-only backend is insufficient and why a unique frozen-coefficient thermal root is not evidence for unique real-gas equilibria.
+- Implementation: `src/qstars/thermal_transfer.py; docs/self_selected_outer.md`
+
+## thermal_bands_control — Spherical frequency-band thermal transfer verification
+
+[Spherical frequency-band thermal transfer verification](https://arxiv.org/abs/1408.3377) · Standard static transfer and Kirchhoff source; exact chord and thin power-law limits derived in QStarS
+
+- Status: `derived_and_tested_component`
+- Assumptions: Specified constant opacity within each band, isotropic coherent scattering, static material energy equilibrium
+- Domain: No state-dependent H/He opacity, statistical populations, moving frequency shifts or mechanical energy coupling
+- Variables and units: J,H,K band integrated intensities; photon-temperature edges h nu/k in K
+- Interpretation: Temperature is solved from absorption/emission balance; Planck, radiation-energy, flux and Rosseland means remain distinct. Independent luminosity/heating integral is never renormalized.
+- Implementation: `src/qstars/thermal_transfer.py; scripts/validate_self_selected_outer.py`
+
+## material_energy_critical — Material energy equation and adiabatic Parker eigenvalue control
+
+[Material energy equation and adiabatic Parker eigenvalue control](https://arxiv.org/abs/1207.7348) · Parker polytropic family; independent local first-law elimination in docs/self_selected_outer.md
+
+- Status: `derived_and_tested_component`
+- Assumptions: Finite local thermal source without explicit velocity-gradient dependence; caloric ideal gamma between 1 and 1.5 for exact reference; fixed point gravity
+- Domain: Reference is not H/He nor radiation escape. Isothermal/diffusive prescribed-gradient critical equations are distinct limits
+- Variables and units: mdot g/s selected from base rho,P,M,r; local Q erg/cm3/s
+- Interpretation: Gas-only FreeEOS energy derivatives yield the native gas adiabatic sound speed. Reference root interval and hydrostatic alternative have an explicit scoped proof.
+- Implementation: `src/qstars/material_wind.py; tests/test_material_wind.py`
+
+## general_radiation_interface — General lab radiation moments at a moving matching face
+
+[General lab radiation moments at a moving matching face](https://arxiv.org/abs/1708.07790) · Reynolds transport derivation in docs/self_selected_outer.md; not an LTE closure
+
+- Status: `derived_and_tested_component`
+- Assumptions: Newtonian material and realizable lab radiation moments, same static potential and gas energy gauge
+- Domain: Zero-thickness flux jumps only; finite layers require storage, gravity and curvature; no entropy continuity imposed
+- Variables and units: Mass g/s, momentum dyn, energy erg/s; E erg/cm3, F erg/cm2/s, Prr dyn/cm2
+- Interpretation: Subtract swept gas and radiation energy/momentum. Radiation enthalpy is already in lab flux. Independent normal-shock and energy-gauge controls.
+- Implementation: `src/qstars/outer_interface.py; tests/test_outer_thermal.py`
+

@@ -103,6 +103,24 @@ def test_base_matching_recovers_mass_flux_without_mdot_input(real_micro):
     assert report['escape_not_certified']
 
 
+def test_matching_backtracks_after_inadmissible_sonic_trial(real_micro):
+    # An admissible distant guess generates local critical points with complex
+    # slopes during full Newton steps. Those trials must not abort the search.
+    w=DiffusionWind(real_micro,1e4*MSUN,1.152e15,3e-11,16000.)
+    eps=1e-7;x=-.03
+    sol=solve_ivp(w.rhs,[-eps,x],-eps*np.array([w.slope,w.sonic_temperature_slope]),
+                  method='DOP853',rtol=1e-10,atol=1e-12,max_step=.001)
+    assert sol.success
+    r,v,T,rho,q,L,*_=w.state(x,sol.y[:,-1])
+    recovered,report=match_base(real_micro,mass=w.mass,radius=r,density=rho,temperature=T,
+        luminosity=L+w.mdot*(v*v/2+q.h),sonic_guess=[w.rs*1.1,w.rhos*.1,w.ts*.8],
+        initial_trust_radius=2.,rtol=1e-9,match_tolerance=1e-8,max_nfev=250)
+    assert report['rejected_trials']>=1
+    assert any(t['status']=='rejected_local_trial' and t['purpose']=='line_search' for t in report['trials'])
+    assert abs(recovered.mdot/w.mdot-1)<1e-6
+    assert not report['all_branches_enumerated']
+
+
 def test_step_reduction_preserves_published_inputs(real_micro):
     # Some native-library cache histories produce a rejected DOP853 trial.
     # Compare accepted solutions; rejection count is not a physical invariant.

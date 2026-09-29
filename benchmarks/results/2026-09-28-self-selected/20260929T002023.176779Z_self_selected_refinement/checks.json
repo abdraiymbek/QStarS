@@ -1,0 +1,188 @@
+[
+  {
+    "name": "cluster401:energy",
+    "value": 0.0010411234126663873,
+    "limit": 0.0005,
+    "passed": false
+  },
+  {
+    "name": "cluster801:energy",
+    "value": 0.0004957899914456893,
+    "limit": 0.0005,
+    "passed": true
+  },
+  {
+    "name": "cluster1601:energy",
+    "value": 0.00028081433718832175,
+    "limit": 0.0005,
+    "passed": true
+  },
+  {
+    "name": "cluster_outer60:energy",
+    "value": 0.0006099974948454267,
+    "limit": 0.0005,
+    "passed": false
+  },
+  {
+    "name": "cluster_outer180:energy",
+    "value": 0.000467373995528595,
+    "limit": 0.0005,
+    "passed": true
+  },
+  {
+    "name": "cluster401_vs_cluster1601:gas_temperature",
+    "value": 0.0001599804961686102,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "cluster401_vs_cluster1601:radiation_energy",
+    "value": 0.0008975212343176331,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "cluster401_vs_cluster1601:radiation_flux",
+    "value": 0.000727789021484404,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "cluster401_vs_cluster1601:radiation_pressure_rr",
+    "value": 0.0007033823012193574,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "cluster401_vs_cluster1601:radiative_acceleration",
+    "value": 0.0007772784074991934,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "cluster801_vs_cluster1601:gas_temperature",
+    "value": 4.799247419928765e-05,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "cluster801_vs_cluster1601:radiation_energy",
+    "value": 0.0002720450587165857,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "cluster801_vs_cluster1601:radiation_flux",
+    "value": 0.000205617609214781,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "cluster801_vs_cluster1601:radiation_pressure_rr",
+    "value": 0.00019801602570301835,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "cluster801_vs_cluster1601:radiative_acceleration",
+    "value": 0.0002193622083697111,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "cluster_outer60_vs_cluster_outer180:gas_temperature",
+    "value": 4.578451337566847e-05,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "cluster_outer60_vs_cluster_outer180:radiation_energy",
+    "value": 0.00037583599774282384,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "cluster_outer60_vs_cluster_outer180:radiation_flux",
+    "value": 0.00012145525251983091,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "cluster_outer60_vs_cluster_outer180:radiation_pressure_rr",
+    "value": 0.00022244645977154143,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "cluster_outer60_vs_cluster_outer180:radiative_acceleration",
+    "value": 0.00013201980973975846,
+    "limit": 0.002,
+    "passed": true
+  },
+  {
+    "name": "dense2001:energy",
+    "value": 7.993605777301127e-15,
+    "limit": 1e-07,
+    "passed": true
+  },
+  {
+    "name": "dense4001:energy",
+    "value": 7.993605777301127e-15,
+    "limit": 1e-07,
+    "passed": true
+  },
+  {
+    "name": "dense_exterior:energy",
+    "value": 7.993605777301127e-15,
+    "limit": 1e-07,
+    "passed": true
+  },
+  {
+    "name": "dense2001_vs_dense4001:velocity",
+    "value": 3.0667567374464966e-09,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "dense2001_vs_dense4001:density",
+    "value": 2.3528170389752745e-07,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "dense2001_vs_dense4001:pressure",
+    "value": 4.150741470532182e-07,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "dense_exterior_vs_dense4001:velocity",
+    "value": 2.239702312500924e-09,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "dense_exterior_vs_dense4001:density",
+    "value": 1.7183153899757997e-07,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "dense_exterior_vs_dense4001:pressure",
+    "value": 3.030881599030977e-07,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "recovered_mdot",
+    "value": 8.255342054397374e-08,
+    "limit": 1e-06,
+    "passed": true
+  },
+  {
+    "name": "actual_inadmissible_trial_exercised",
+    "value": 0.0,
+    "limit": 0,
+    "passed": true
+  }
+]

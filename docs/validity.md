@@ -115,3 +115,7 @@ fully-ionized/self-gravity interpretation and is labeled only a mathematical
 scaling. The 100R exterior failed radiation-profile and photospheric convergence;
 only the extended control has the documented 0.2% placement evidence. The
 Mach-one MLT exit remains unchanged. See [Report 11](../Reports/Report_11.md).
+
+## Report 12 self-selection boundary
+
+The production self-selected outer gate remains **FAIL**. Frequency-band thermal transfer, a base-selected adiabatic wind and conservative arbitrary-moment interface are separately verified components. They have not been joined into a population-consistent, recombining, convectively matched, escaping quasi-star solution. The static transfer solves different gas/radiation temperatures with frozen synthetic absorption/scattering; it is not a non-LTE atom. The adiabatic wind has no radiation. Its analytically justified hydrostatic/no-wind outcome applies only to that declared reference family. No numerical matching failure is promoted to physical nonexistence. [Report 12 equations and restrictions](self_selected_outer.md) state the conditions needed before a physical envelope test or coupled evolution.

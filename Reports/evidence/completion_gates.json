@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "assessment_date_utc": "2026-09-28",
+  "assessment_date_utc": "2026-09-29",
   "software_version": "0.1.0",
   "v1_complete": false,
   "release_status": "DEVELOPMENT_NOT_V1",
@@ -9,7 +9,7 @@
     "CONDITIONAL": "Bounded evidence exists; does not certify general use.",
     "FAIL": "Required capability or validation missing or failing."
   },
-  "automated_tests_passed": 85,
+  "automated_tests_passed": 97,
   "automated_tests_failed": 0,
   "optional_mesa_tests": 10,
   "cli_validation": {
@@ -22,7 +22,7 @@
       "CB24 printed BH/inner mass"
     ]
   },
-  "source_registry_entries": 41,
+  "source_registry_entries": 47,
   "published_full_evolution_replication": false,
   "published_full_evolution_replicas": 0,
   "published_structure_replication": "subset_passes_with_two_retained_printed_value_discrepancies",
@@ -52,8 +52,8 @@
       "priority": 2,
       "name": "Production microphysics",
       "status": "FAIL",
-      "achieved": "Native EOS/opacity, atmosphere and full MLT references; direct FreeEOS gas audit; explicit-pressure layer integration and new dilute-gas validity guard.",
-      "remaining": "Candidate fails geometry and subsonic-convection validity; no validated conservative atmosphere/envelope/wind coupling. Historical table counterexamples retained.",
+      "achieved": "Native EOS/opacity, atmosphere and full MLT references; direct FreeEOS gas audit; explicit-pressure layer integration and new dilute-gas validity guard. Gas-only FreeEOS energy derivatives independently reproduce its gas critical sound speed.",
+      "remaining": "Candidate fails geometry and subsonic-convection validity; no validated conservative atmosphere/envelope/wind coupling. Historical table counterexamples retained. Rosseland opacity does not supply exposed-spectrum absorption/emission or force means.",
       "evidence": [
         "benchmarks/results/2026-09-28-closure/20260928T021532.646459Z_mesa_microphysics_validation/validation.json",
         "benchmarks/results/2026-09-28-closure/20260928T030928.629959Z_mesa_hot_current_verification/termination.json",
@@ -61,7 +61,8 @@
         "benchmarks/results/2026-09-28-closure/20260928T030927.417120Z_mesa_data_inventory/inventory.json",
         "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.865567Z_atmosphere_reference/validation.json",
         "benchmarks/results/2026-09-28-outer-boundary/20260928T042655.119787Z_freeeos_audit/audit.json",
-        "docs/atmosphere.md"
+        "docs/atmosphere.md",
+        "docs/self_selected_outer.md"
       ]
     },
     {
@@ -80,15 +81,16 @@
       "priority": 4,
       "name": "Wind physics",
       "status": "FAIL",
-      "achieved": "Gas-sonic diffusion component remains; new independent static/moving grey angular transfer and constructed pressure-free stationary control pass scoped checks.",
-      "remaining": "Thermodynamic recombining wind, envelope mass-loss eigenvalue, convection handoff and coupled evolution remain unvalidated.",
+      "achieved": "Grey/moving transfer, static thermal frequency-band controls, gas energy critical operator, base-selected adiabatic reference, robust diffusion matching and general conservative lab-radiation interface.",
+      "remaining": "No combined H/He population/energy/force closure, convective handoff or physical envelope-to-escaping-wind eigenvalue. No coupled evolution.",
       "evidence": [
         "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json",
         "docs/equations.md",
         "Reports/evidence/development_20260928/final_tests/result.json",
         "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/validation.json",
         "Reports/Report_10.md",
-        "Reports/Report_11.md"
+        "Reports/Report_11.md",
+        "Reports/Report_12.md"
       ]
     },
     {
@@ -409,87 +411,149 @@
     "working_development_software": "DELIVERED",
     "validation_report": "docs/validation.md",
     "published_benchmark_suite": "PARTIAL; missing full tracks explicit in manifest",
-    "regression_suite": "76 passing with pinned MESA and FreeEOS",
+    "regression_suite": "97 passing with pinned MESA and FreeEOS; zero skips",
     "model_families": "docs/model_families.md",
     "performance_report": "docs/performance.md",
     "source_registry": "src/qstars/data/sources.json",
     "validity_domain": "docs/validity.md",
     "gate_matrix": "Reports/evidence/completion_gates.json",
-    "latest_release_report": "Reports/Report_10.md"
+    "latest_release_report": "Reports/Report_12.md"
   },
   "optional_freeeos_tests": 11,
   "production_atmosphere": "OUTER_FAIL_historical_opacity_audit_moving_flux_and_MLT_exit_do_not_validate_exterior",
   "native_full_mlt": "reference_only_not_envelope_transport",
   "freeeos_reference": "153_state_gas_audit_passes_upstream_byte_tests_fail",
-  "latest_report": "Reports/Report_11.md",
-  "release_blocker": "Grey angular transfer and constructed stationary control validated in restricted domains; material energy/ionization/flux means and physical gas-sonic envelope match still absent. Mach-one MLT exclusion retained.",
+  "latest_report": "Reports/Report_12.md",
+  "release_blocker": "H/He population/thermal/force coupling, convective handoff and the combined escaping envelope mass-loss eigenvalue remain unresolved. Separate thermal-transfer and adiabatic eigenvalue controls are not a physical outer closure.",
   "active_request_gates": [
     {
-      "name": "Reproducible stationary benchmark selection",
-      "status": "CONDITIONAL",
-      "scope": "Nine candidate records. Constructed exact-input continuum control passes, but does not supply thermodynamic gas/ionization or a mass-loss eigenvalue.",
-      "evidence": [
-        "benchmarks/outer_candidates.json",
-        "benchmarks/grey_continuum_wind.json"
-      ]
-    },
-    {
-      "name": "Independent grey escaping radiation",
+      "name": "Static two-temperature absorption/emission control",
       "status": "PASS",
-      "scope": "Published J and f, angular flux, moving work, streaming/diffusion and refined domains. Fixed grey coherent isotropic scattering only.",
+      "scope": "Frozen frequency-band coefficients only; independent analytic spectra/chords, energy and refined profiles.",
       "evidence": [
-        "Reports/Report_11.md",
-        "benchmarks/results/2026-09-28-escaping/20260928T185733.289889Z_escaping_radiation/checks.json",
-        "benchmarks/results/2026-09-28-escaping/20260928T190026.596335Z_escaping_extent/checks.json"
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
       ]
     },
     {
-      "name": "Recombining-envelope escaping radiation",
+      "name": "Production matter/radiation thermodynamics",
       "status": "FAIL",
-      "scope": "No material energy/population solution or justified non-grey flux means. Constant opacity is not substituted into the original stellar wind.",
+      "scope": "No jointly consistent H/He absorption/emission, populations, force and advecting gas energy.",
       "evidence": [
-        "docs/escaping_radiation.md"
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
       ]
     },
     {
-      "name": "Stationary grey continuum control",
-      "status": "PASS",
-      "scope": "Velocity, density, luminosity, force, photosphere, independent work/momentum and mesh/extent checks; supplied mdot and base speed.",
-      "evidence": [
-        "Reports/Report_11.md"
-      ]
-    },
-    {
-      "name": "Physical envelope-to-wind match",
-      "status": "FAIL",
-      "scope": "Required thermodynamic state and gas-sonic mass-loss eigencondition missing; no physical matching solve claimed.",
-      "evidence": [
-        "docs/escaping_radiation.md"
-      ]
-    },
-    {
-      "name": "Convection transition validity",
+      "name": "Opacity means and frequency treatment",
       "status": "CONDITIONAL",
-      "scope": "Mach-one rejection retained and native regression passes; no physically validated accelerating handoff from the excluded MLT state.",
+      "scope": "Four distinct means and smooth spectral refinement pass; no minimum group count or non-LTE method validated for primordial matter.",
       "evidence": [
-        "Reports/evidence/escaping_20260928/full_tests.log",
-        "docs/atmosphere.md"
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
       ]
     },
     {
-      "name": "Conservative coupled evolving envelope",
-      "status": "FAIL",
-      "scope": "Not run because required physical prerequisites fail. No coupled restart/retry/remesh or time-convergence claim.",
+      "name": "No-prescribed-mdot eigenvalue mechanism",
+      "status": "CONDITIONAL",
+      "scope": "Adiabatic base-selected wind and local FreeEOS/MESA diffusion matches; no radiating physical envelope eigenvalue.",
       "evidence": [
-        "Reports/Report_11.md"
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
       ]
     },
     {
-      "name": "First complete published evolution",
+      "name": "Convective-envelope handoff",
       "status": "FAIL",
-      "scope": "Not attempted; zero complete tracks, no QSRD or general v1 claim.",
+      "scope": "Existing Mach-one MLT exclusion passes; no independently validated stress/transport transition.",
       "evidence": [
-        "Reports/Report_11.md"
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "General moving-interface flux ledger",
+      "status": "PASS",
+      "scope": "Newtonian material, arbitrary realizable lab E/F/Prr, common static potential and energy gauge. Independent Reynolds and shock tests; zero-thickness interface only.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "Global solution existence and branch classification",
+      "status": "CONDITIONAL",
+      "scope": "Analytic hydrostatic/no-wind proof only in the restricted adiabatic family. Coupled branch enumeration absent; solver failures never imply nonexistence.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "Independent complete thermodynamic radiative wind benchmark",
+      "status": "FAIL",
+      "scope": "Controlled limits verified; zero full published population-consistent escaping wind reproductions added.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "Numerical convergence and failure retention",
+      "status": "CONDITIONAL",
+      "scope": "139 component checks, 116 pass and 23 retained failures. Fine thermal/adiabatic/reference matching pass scoped targets. No coupled timestep/restart/remesh campaign.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "First physical quasi-star envelope selection",
+      "status": "FAIL",
+      "scope": "Not attempted: joint physical prerequisites remain unmet.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "First coupled self-selected evolution",
+      "status": "FAIL",
+      "scope": "Not attempted: physical envelope selection gate not passed.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "First complete published evolutionary track",
+      "status": "FAIL",
+      "scope": "Not attempted; zero complete replicas.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
+      ]
+    },
+    {
+      "name": "v1 and QSRD readiness",
+      "status": "FAIL",
+      "scope": "Development release; general independent validation gates remain open; QSRD deferred.",
+      "evidence": [
+        "Reports/Report_12.md",
+        "docs/self_selected_outer.md",
+        "Reports/evidence/self_selected_20260928/analysis/analysis.json"
       ]
     }
   ],
@@ -565,17 +629,19 @@
     }
   ],
   "outer_campaign_completion": {
-    "outcome": "OUTER CLOSURE FAIL",
-    "static_grey_component_pass": true,
-    "moving_grey_component_pass": true,
-    "constructed_stationary_control_pass": true,
+    "outcome": "FAIL",
+    "static_thermal_control_pass": true,
+    "adiabatic_eigenvalue_control_pass": true,
+    "general_interface_component_pass": true,
+    "diffusion_rejected_trial_recovery_pass": true,
+    "production_self_selected_closure": false,
     "thermodynamic_quasistar_wind_validated": false,
     "physical_envelope_match": false,
     "conservative_coupled_evolution_attempted": false,
     "published_full_evolution_replicas": 0,
     "no_go_for_1d_demonstrated": false,
     "evidence": [
-      "Reports/Report_11.md"
+      "Reports/Report_12.md"
     ]
   },
   "previous_active_request_gates_report9": [
@@ -858,5 +924,101 @@
     "full_suite_seconds": 34.29,
     "archive_files": 132,
     "source_snapshot_verified": true
+  },
+  "previous_active_request_gates_report11": [
+    {
+      "name": "Reproducible stationary benchmark selection",
+      "status": "CONDITIONAL",
+      "scope": "Nine candidate records. Constructed exact-input continuum control passes, but does not supply thermodynamic gas/ionization or a mass-loss eigenvalue.",
+      "evidence": [
+        "benchmarks/outer_candidates.json",
+        "benchmarks/grey_continuum_wind.json"
+      ]
+    },
+    {
+      "name": "Independent grey escaping radiation",
+      "status": "PASS",
+      "scope": "Published J and f, angular flux, moving work, streaming/diffusion and refined domains. Fixed grey coherent isotropic scattering only.",
+      "evidence": [
+        "Reports/Report_11.md",
+        "benchmarks/results/2026-09-28-escaping/20260928T185733.289889Z_escaping_radiation/checks.json",
+        "benchmarks/results/2026-09-28-escaping/20260928T190026.596335Z_escaping_extent/checks.json"
+      ]
+    },
+    {
+      "name": "Recombining-envelope escaping radiation",
+      "status": "FAIL",
+      "scope": "No material energy/population solution or justified non-grey flux means. Constant opacity is not substituted into the original stellar wind.",
+      "evidence": [
+        "docs/escaping_radiation.md"
+      ]
+    },
+    {
+      "name": "Stationary grey continuum control",
+      "status": "PASS",
+      "scope": "Velocity, density, luminosity, force, photosphere, independent work/momentum and mesh/extent checks; supplied mdot and base speed.",
+      "evidence": [
+        "Reports/Report_11.md"
+      ]
+    },
+    {
+      "name": "Physical envelope-to-wind match",
+      "status": "FAIL",
+      "scope": "Required thermodynamic state and gas-sonic mass-loss eigencondition missing; no physical matching solve claimed.",
+      "evidence": [
+        "docs/escaping_radiation.md"
+      ]
+    },
+    {
+      "name": "Convection transition validity",
+      "status": "CONDITIONAL",
+      "scope": "Mach-one rejection retained and native regression passes; no physically validated accelerating handoff from the excluded MLT state.",
+      "evidence": [
+        "Reports/evidence/escaping_20260928/full_tests.log",
+        "docs/atmosphere.md"
+      ]
+    },
+    {
+      "name": "Conservative coupled evolving envelope",
+      "status": "FAIL",
+      "scope": "Not run because required physical prerequisites fail. No coupled restart/retry/remesh or time-convergence claim.",
+      "evidence": [
+        "Reports/Report_11.md"
+      ]
+    },
+    {
+      "name": "First complete published evolution",
+      "status": "FAIL",
+      "scope": "Not attempted; zero complete tracks, no QSRD or general v1 claim.",
+      "evidence": [
+        "Reports/Report_11.md"
+      ]
+    }
+  ],
+  "previous_outer_campaign_completion_report11": {
+    "outcome": "OUTER CLOSURE FAIL",
+    "static_grey_component_pass": true,
+    "moving_grey_component_pass": true,
+    "constructed_stationary_control_pass": true,
+    "thermodynamic_quasistar_wind_validated": false,
+    "physical_envelope_match": false,
+    "conservative_coupled_evolution_attempted": false,
+    "published_full_evolution_replicas": 0,
+    "no_go_for_1d_demonstrated": false,
+    "evidence": [
+      "Reports/Report_11.md"
+    ]
+  },
+  "legacy_optional_backend_counts_scope": "Historical counts retained from earlier report; Report 12 executed the full suite with both libraries enabled: 97 passes, zero skips.",
+  "report12_numerical_checks": {
+    "checks": 139,
+    "passed": 116,
+    "failed": 23,
+    "regression_tests": 97,
+    "archive_files_verified": 89,
+    "evidence": [
+      "benchmarks/results/2026-09-28-self-selected/archive_manifest.json",
+      "Reports/evidence/self_selected_20260928/archive_verification.json"
+    ]
   }
 }

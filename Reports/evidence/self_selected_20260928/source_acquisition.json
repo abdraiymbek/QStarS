@@ -1,0 +1,20 @@
+[
+  {
+    "name": "sander2017",
+    "url": "https://arxiv.org/pdf/1704.08698",
+    "sha256": "051858be16446587f7b192018d6d61f360d514d5357cb4aad66affc8581429d4",
+    "bytes": 626696
+  },
+  {
+    "name": "mayer2005",
+    "url": "https://arxiv.org/pdf/astro-ph/0411613",
+    "sha256": "8b90cf662d2e645d358fef373c2a05ca58b7ca904dfae3bc46b8aa85bbc4446b",
+    "bytes": 404481
+  },
+  {
+    "name": "malygin2014",
+    "url": "https://arxiv.org/pdf/1408.3377",
+    "sha256": "25113cc11ebb1ed5284e7b4ea5fd07d1f2ff5de71de5e74a4bce82aca1c85452",
+    "bytes": 533657
+  }
+]

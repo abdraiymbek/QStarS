@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "git_commit": "7f308d03d67cc7d8c1664a3902bfce623c233f98",
+  "git_status": "M docs/model_families.md\n M docs/sources.md\n M docs/validity.md\n M scripts/build_registry.py\n M src/qstars/data/sources.json\n M src/qstars/spherical_wind.py\n M tests/test_spherical_wind.py\n?? Reports/evidence/self_selected_20260928/\n?? benchmarks/self_selected_plan.json\n?? benchmarks/self_selected_refinement_plan.json\n?? docs/self_selected_outer.md\n?? scripts/validate_self_selected_outer.py\n?? scripts/validate_self_selected_refinement.py\n?? src/qstars/material_wind.py\n?? src/qstars/outer_interface.py\n?? src/qstars/thermal_transfer.py\n?? tests/test_material_wind.py\n?? tests/test_outer_thermal.py",
+  "source_sha256": "f9a2196cc205af44d1c6612d7070372ee3ab312b24a49bb6d632d05b130d2562",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "created_utc": "2026-09-29T00:20:23.214895+00:00",
+  "process_package_sha256": "f03cd8786651478edfaf9e7a1fa323576627588602a121c22adcc6977cf8a7b2",
+  "source_tree_matches_import": true,
+  "dependencies": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.11.2"
+  },
+  "source_tree_matches_at_end": true,
+  "source_snapshot_verified": true
+}

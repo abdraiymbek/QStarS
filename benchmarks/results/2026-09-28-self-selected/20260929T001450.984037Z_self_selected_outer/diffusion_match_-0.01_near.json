@@ -1,0 +1,421 @@
+{
+  "max_log_residual": 9.202018411852636e-09,
+  "nfev": 22,
+  "trials": [
+    {
+      "log_coordinates": [
+        -4.50440064011053,
+        -0.7347912377275754,
+        -0.32667725669187087
+      ],
+      "purpose": "initial",
+      "status": "admissible",
+      "residual": [
+        0.06430499526282256,
+        0.0262356929201884,
+        -0.0010647927795312592
+      ],
+      "sonic_radius": 1153151999999999.8,
+      "sonic_density": 3.03e-11,
+      "sonic_temperature": 16016.0
+    },
+    {
+      "log_coordinates": [
+        -4.5043006401105306,
+        -0.7347912377275754,
+        -0.32667725669187087
+      ],
+      "purpose": "jacobian_plus",
+      "status": "admissible",
+      "residual": [
+        0.0643612046230676,
+        0.02626150406745614,
+        -0.00106368676942699
+      ],
+      "sonic_radius": 1153153261522227.0,
+      "sonic_density": 3.03e-11,
+      "sonic_temperature": 16016.0
+    },
+    {
+      "log_coordinates": [
+        -4.50450064011053,
+        -0.7347912377275754,
+        -0.32667725669187087
+      ],
+      "purpose": "jacobian_minus",
+      "status": "admissible",
+      "residual": [
+        0.06424877332192314,
+        0.026209886001974988,
+        -0.001065898677936276
+      ],
+      "sonic_radius": 1153150738603918.8,
+      "sonic_density": 3.03e-11,
+      "sonic_temperature": 16016.0
+    },
+    {
+      "log_coordinates": [
+        -4.50440064011053,
+        -0.7346912377275754,
+        -0.32667725669187087
+      ],
+      "purpose": "jacobian_plus",
+      "status": "admissible",
+      "residual": [
+        0.0644534554777555,
+        0.026257270552460858,
+        -0.0011021286922642762
+      ],
+      "sonic_radius": 1153151999999999.8,
+      "sonic_density": 3.030303015150505e-11,
+      "sonic_temperature": 16016.0
+    },
+    {
+      "log_coordinates": [
+        -4.50440064011053,
+        -0.7348912377275754,
+        -0.32667725669187087
+      ],
+      "purpose": "jacobian_minus",
+      "status": "admissible",
+      "residual": [
+        0.06415658134536369,
+        0.026214114865100915,
+        -0.0010274586684588098
+      ],
+      "sonic_radius": 1153151999999999.8,
+      "sonic_density": 3.029697015149495e-11,
+      "sonic_temperature": 16016.0
+    },
+    {
+      "log_coordinates": [
+        -4.50440064011053,
+        -0.7347912377275754,
+        -0.3265772566918709
+      ],
+      "purpose": "jacobian_plus",
+      "status": "admissible",
+      "residual": [
+        0.06399183684671496,
+        0.026240599828894637,
+        -0.0008994492038087358
+      ],
+      "sonic_radius": 1153151999999999.8,
+      "sonic_density": 3.03e-11,
+      "sonic_temperature": 16017.601680082667
+    },
+    {
+      "log_coordinates": [
+        -4.50440064011053,
+        -0.7347912377275754,
+        -0.32677725669187085
+      ],
+      "purpose": "jacobian_minus",
+      "status": "admissible",
+      "residual": [
+        0.06461817656978998,
+        0.026230798472926923,
+        -0.0012301676008454987
+      ],
+      "sonic_radius": 1153151999999999.8,
+      "sonic_density": 3.03e-11,
+      "sonic_temperature": 16014.39848007733
+    },
+    {
+      "log_coordinates": [
+        -4.59675145853851,
+        -0.7456474844123879,
+        -0.3278668067286734
+      ],
+      "purpose": "line_search",
+      "status": "admissible",
+      "residual": [
+        0.0010733532734174282,
+        0.0006292200209121701,
+        5.956514335246612e-05
+      ],
+      "sonic_radius": 1152039206614108.2,
+      "sonic_density": 2.9972834831586566e-11,
+      "sonic_temperature": 15996.95949367331
+    },
+    {
+      "log_coordinates": [
+        -4.59665145853851,
+        -0.7456474844123879,
+        -0.3278668067286734
+      ],
+      "purpose": "jacobian_plus",
+      "status": "admissible",
+      "residual": [
+        0.001127345122413188,
+        0.0006537141393920858,
+        6.055927401590396e-05
+      ],
+      "sonic_radius": 1152040356851432.5,
+      "sonic_density": 2.9972834831586566e-11,
+      "sonic_temperature": 15996.95949367331
+    },
+    {
+      "log_coordinates": [
+        -4.596851458538509,
+        -0.7456474844123879,
+        -0.3278668067286734
+      ],
+      "purpose": "jacobian_minus",
+      "status": "admissible",
+      "residual": [
+        0.001019367823464931,
+        0.0006047282609004065,
+        5.8571113018191186e-05
+      ],
+      "sonic_radius": 1152038056491802.0,
+      "sonic_density": 2.9972834831586566e-11,
+      "sonic_temperature": 15996.95949367331
+    },
+    {
+      "log_coordinates": [
+        -4.59675145853851,
+        -0.7455474844123879,
+        -0.3278668067286734
+      ],
+      "purpose": "jacobian_plus",
+      "status": "admissible",
+      "residual": [
+        0.0012191200322449328,
+        0.0006497222593813897,
+        2.217406575426245e-05
+      ],
+      "sonic_radius": 1152039206614108.2,
+      "sonic_density": 2.9975832264938894e-11,
+      "sonic_temperature": 15996.95949367331
+    },
+    {
+      "log_coordinates": [
+        -4.59675145853851,
+        -0.7457474844123879,
+        -0.3278668067286734
+      ],
+      "purpose": "jacobian_minus",
+      "status": "admissible",
+      "residual": [
+        0.0009275987425752851,
+        0.000608718657204672,
+        9.695439982641334e-05
+      ],
+      "sonic_radius": 1152039206614108.2,
+      "sonic_density": 2.9969837697962584e-11,
+      "sonic_temperature": 15996.95949367331
+    },
+    {
+      "log_coordinates": [
+        -4.59675145853851,
+        -0.7456474844123879,
+        -0.3277668067286734
+      ],
+      "purpose": "jacobian_plus",
+      "status": "admissible",
+      "residual": [
+        0.000782853325862422,
+        0.0006400314825780579,
+        0.00022426068109016587
+      ],
+      "sonic_radius": 1152039206614108.2,
+      "sonic_density": 2.9972834831586566e-11,
+      "sonic_temperature": 15998.559269610141
+    },
+    {
+      "log_coordinates": [
+        -4.59675145853851,
+        -0.7456474844123879,
+        -0.3279668067286734
+      ],
+      "purpose": "jacobian_minus",
+      "status": "admissible",
+      "residual": [
+        0.0013638786267064936,
+        0.0006184187509419263,
+        -0.00010516132902129506
+      ],
+      "sonic_radius": 1152039206614108.2,
+      "sonic_density": 2.9972834831586566e-11,
+      "sonic_temperature": 15995.359877706074
+    },
+    {
+      "log_coordinates": [
+        -4.600162557195469,
+        -0.7447416143078025,
+        -0.3276767464055508
+      ],
+      "purpose": "line_search",
+      "status": "admissible",
+      "residual": [
+        1.768869808924324e-06,
+        8.381315093487035e-07,
+        6.892683275292586e-08
+      ],
+      "sonic_radius": 1152000039685044.2,
+      "sonic_density": 2.999999862818826e-11,
+      "sonic_temperature": 16000.00016991046
+    },
+    {
+      "log_coordinates": [
+        -4.60006255719547,
+        -0.7447416143078025,
+        -0.3276767464055508
+      ],
+      "purpose": "jacobian_plus",
+      "status": "admissible",
+      "residual": [
+        5.566313266608833e-05,
+        2.528321750492494e-05,
+        1.0606632269615712e-06
+      ],
+      "sonic_radius": 1152001186005480.0,
+      "sonic_density": 2.999999862818826e-11,
+      "sonic_temperature": 16000.00016991046
+    },
+    {
+      "log_coordinates": [
+        -4.600262557195469,
+        -0.7447416143078025,
+        -0.3276767464055508
+      ],
+      "purpose": "jacobian_minus",
+      "status": "admissible",
+      "residual": [
+        -5.2133201895781774e-05,
+        -2.3606645970012592e-05,
+        -9.227094785270213e-07
+      ],
+      "sonic_radius": 1151998893479234.8,
+      "sonic_density": 2.999999862818826e-11,
+      "sonic_temperature": 16000.00016991046
+    },
+    {
+      "log_coordinates": [
+        -4.600162557195469,
+        -0.7446416143078025,
+        -0.3276767464055508
+      ],
+      "purpose": "jacobian_plus",
+      "status": "admissible",
+      "residual": [
+        0.0001474194605778678,
+        2.130037744884758e-05,
+        -3.732374386475921e-05
+      ],
+      "sonic_radius": 1152000039685044.2,
+      "sonic_density": 3.0002998778056073e-11,
+      "sonic_temperature": 16000.00016991046
+    },
+    {
+      "log_coordinates": [
+        -4.600162557195469,
+        -0.7448416143078025,
+        -0.3276767464055508
+      ],
+      "purpose": "jacobian_minus",
+      "status": "admissible",
+      "residual": [
+        -0.00014386545123411227,
+        -1.9623115468073293e-05,
+        3.745977619687081e-05
+      ],
+      "sonic_radius": 1152000039685044.2,
+      "sonic_density": 2.9996998778320435e-11,
+      "sonic_temperature": 16000.00016991046
+    },
+    {
+      "log_coordinates": [
+        -4.600162557195469,
+        -0.7447416143078025,
+        -0.3275767464055508
+      ],
+      "purpose": "jacobian_plus",
+      "status": "admissible",
+      "residual": [
+        -0.0002880507089379977,
+        1.184182346616461e-05,
+        0.00016480157145896775
+      ],
+      "sonic_radius": 1152000039685044.2,
+      "sonic_density": 2.999999862818826e-11,
+      "sonic_temperature": 16001.600249930118
+    },
+    {
+      "log_coordinates": [
+        -4.600162557195469,
+        -0.7447416143078025,
+        -0.32777674640555077
+      ],
+      "purpose": "jacobian_minus",
+      "status": "admissible",
+      "residual": [
+        0.00029160845515761164,
+        -1.0155412821400872e-05,
+        -0.00016469470494183245
+      ],
+      "sonic_radius": 1152000039685044.2,
+      "sonic_density": 2.999999862818826e-11,
+      "sonic_temperature": 15998.400249890803
+    },
+    {
+      "log_coordinates": [
+        -4.600166018623532,
+        -0.7447415693468755,
+        -0.3276767572030271
+      ],
+      "purpose": "line_search",
+      "status": "admissible",
+      "residual": [
+        -9.202018411852636e-09,
+        -2.9020963414386765e-10,
+        5.506706202140625e-14
+      ],
+      "sonic_radius": 1152000000008039.8,
+      "sonic_density": 2.999999997701604e-11,
+      "sonic_temperature": 15999.999997150835
+    }
+  ],
+  "iterations": [
+    {
+      "residual": [
+        0.0010733532734174282,
+        0.0006292200209121701,
+        5.956514335246612e-05
+      ],
+      "fraction": 1.0,
+      "jacobian_condition": 70.9655492529147,
+      "trust": 0.2
+    },
+    {
+      "residual": [
+        1.768869808924324e-06,
+        8.381315093487035e-07,
+        6.892683275292586e-08
+      ],
+      "fraction": 1.0,
+      "jacobian_condition": 67.53640812039531,
+      "trust": 0.30000000000000004
+    },
+    {
+      "residual": [
+        -9.202018411852636e-09,
+        -2.9020963414386765e-10,
+        5.506706202140625e-14
+      ],
+      "fraction": 1.0,
+      "jacobian_condition": 67.4444970716222,
+      "trust": 0.45000000000000007
+    }
+  ],
+  "rejected_trials": 0,
+  "method": "admissible_damped_newton",
+  "mass_flux_is_eigenvalue": true,
+  "escape_not_certified": true,
+  "all_branches_enumerated": false,
+  "mdot": 7.145076885162342e+26,
+  "mdot_relative_error": 8.457842204379062e-10,
+  "base_is_wind_slice": true,
+  "physical_envelope_test": false
+}

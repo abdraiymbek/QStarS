@@ -1,0 +1,15 @@
+{
+  "classification": "stationary_wind_reference",
+  "mdot": 3.3103419486750653e+22,
+  "sonic_radius": 3316471636723.3745,
+  "sonic_density": 5.3542812075288985e-12,
+  "sonic_speed": 44731065.35679324,
+  "base_velocity": 26342864.222804695,
+  "lambda_base": 2.5000000000000004,
+  "terminal_speed": 77476477.87464999,
+  "base_density_relative_error": 2.220446049250313e-16,
+  "base_pressure_relative_error": 0.0,
+  "physical_quasistar": false,
+  "radiation_solved": false,
+  "sonic_root_residual": 2.220446049250313e-16
+}

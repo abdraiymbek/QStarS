@@ -1,0 +1,69 @@
+{
+  "energy_integral_relative_defect": 3.2809730235954647e-13,
+  "histories": [
+    [
+      0.0
+    ],
+    [
+      2.7650310034136224e-16
+    ],
+    [
+      3.8042539222495373e-16
+    ],
+    [
+      8.130393271762414e-16
+    ],
+    [
+      2.1297481985838332e-15
+    ],
+    [
+      5.588106198114227e-15
+    ],
+    [
+      1.4866048338591548e-14
+    ],
+    [
+      4.003032731407435e-14
+    ],
+    [
+      1.1152089965214551e-13
+    ],
+    [
+      3.4105884185802186e-13
+    ],
+    [
+      1.0719231393479455e-12
+    ],
+    [
+      8.7698148455933e-12
+    ],
+    [
+      4.9849040077878385e-11
+    ],
+    [
+      9.428628858310503e-11
+    ],
+    [
+      1.18532157156296e-10,
+      7.350743813162298e-17
+    ],
+    []
+  ],
+  "population_kinetics_solved": false,
+  "wind_eigenvalue_solved": false,
+  "coefficients_are_prescribed": true,
+  "equilibrium_history": [
+    {
+      "iteration": 0,
+      "thermal_balance_error": 0.8422839989833846,
+      "energy_integral_error": 7.122093946390397e-13
+    },
+    {
+      "iteration": 1,
+      "thermal_balance_error": 1.6088685939052993e-10,
+      "energy_integral_error": 3.2809730235954647e-13
+    }
+  ],
+  "thermal_balance_error": 1.6088685939052993e-10,
+  "temperature_relative_error": 0.002810855256696554
+}

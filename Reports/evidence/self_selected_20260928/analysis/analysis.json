@@ -1,0 +1,341 @@
+{
+  "outcome": "FAIL",
+  "main_campaign": {
+    "outcome": "FAIL",
+    "checks": 108,
+    "passed": 87,
+    "failed_checks": [
+      {
+        "name": "thermal_101:energy_integral",
+        "value": 0.0023284029505835756,
+        "limit": 0.0005,
+        "passed": false
+      },
+      {
+        "name": "thermal_201:energy_integral",
+        "value": 0.0014344853192330915,
+        "limit": 0.0005,
+        "passed": false
+      },
+      {
+        "name": "thermal_401:energy_integral",
+        "value": 0.0007377612145020594,
+        "limit": 0.0005,
+        "passed": false
+      },
+      {
+        "name": "radial_101:gas_temperature",
+        "value": 0.005704771906288322,
+        "limit": 0.002,
+        "passed": false
+      },
+      {
+        "name": "radial_101:J_total",
+        "value": 0.025040374663721523,
+        "limit": 0.002,
+        "passed": false
+      },
+      {
+        "name": "radial_101:radiation_flux",
+        "value": 0.003930955690925252,
+        "limit": 0.002,
+        "passed": false
+      },
+      {
+        "name": "radial_101:K_total",
+        "value": 0.0038633440124232195,
+        "limit": 0.002,
+        "passed": false
+      },
+      {
+        "name": "radial_101:mean_acceleration",
+        "value": 0.004213230181006506,
+        "limit": 0.002,
+        "passed": false
+      },
+      {
+        "name": "radial_201:gas_temperature",
+        "value": 0.003427909375095984,
+        "limit": 0.002,
+        "passed": false
+      },
+      {
+        "name": "radial_201:J_total",
+        "value": 0.01482911314050927,
+        "limit": 0.002,
+        "passed": false
+      },
+      {
+        "name": "radial_401:J_total",
+        "value": 0.0073361641557225825,
+        "limit": 0.002,
+        "passed": false
+      },
+      {
+        "name": "exterior20:J_total",
+        "value": 0.007855255100111811,
+        "limit": 0.002,
+        "passed": false
+      },
+      {
+        "name": "exterior20:K_total",
+        "value": 0.0029614000479037577,
+        "limit": 0.002,
+        "passed": false
+      },
+      {
+        "name": "frequency_16:analytic_temperature",
+        "value": 0.002810855256696554,
+        "limit": 0.001,
+        "passed": false
+      },
+      {
+        "name": "adiabatic_coarse_profiles:velocity",
+        "value": 1.3301876544382007e-06,
+        "limit": 1e-06,
+        "passed": false
+      },
+      {
+        "name": "adiabatic_coarse_profiles:density",
+        "value": 0.00010446921585281799,
+        "limit": 1e-06,
+        "passed": false
+      },
+      {
+        "name": "adiabatic_coarse_profiles:pressure",
+        "value": 0.00018539920109291255,
+        "limit": 1e-06,
+        "passed": false
+      },
+      {
+        "name": "adiabatic_profiles:density",
+        "value": 3.7473610066617145e-06,
+        "limit": 1e-06,
+        "passed": false
+      },
+      {
+        "name": "adiabatic_profiles:pressure",
+        "value": 6.614927773851078e-06,
+        "limit": 1e-06,
+        "passed": false
+      },
+      {
+        "name": "adiabatic_exterior_profiles:density",
+        "value": 2.699401080213236e-06,
+        "limit": 1e-06,
+        "passed": false
+      },
+      {
+        "name": "adiabatic_exterior_profiles:pressure",
+        "value": 4.761771313897254e-06,
+        "limit": 1e-06,
+        "passed": false
+      }
+    ],
+    "cases": 34,
+    "completed_components": 30,
+    "elapsed_seconds": 105.07946924999123,
+    "peak_rss_mib": 762.421875,
+    "source_snapshot_verified": true,
+    "physical_envelope_test": false,
+    "coupled_evolution": false,
+    "published_track": false,
+    "qsrd": false,
+    "remaining": [
+      "validated H/He frequency-dependent population/energy/force coupling",
+      "convective handoff",
+      "combined escaping thermodynamic eigenvalue and physical envelope matching",
+      "global branch search"
+    ]
+  },
+  "refinement_campaign": {
+    "outcome": "FAIL",
+    "checks": 31,
+    "passed": 29,
+    "failed_checks": [
+      {
+        "name": "cluster401:energy",
+        "value": 0.0010411234126663873,
+        "limit": 0.0005,
+        "passed": false
+      },
+      {
+        "name": "cluster_outer60:energy",
+        "value": 0.0006099974948454267,
+        "limit": 0.0005,
+        "passed": false
+      }
+    ],
+    "elapsed_seconds": 156.49987041699933,
+    "peak_rss_mib": 936.75,
+    "source_snapshot_verified": true,
+    "physical_envelope_test": false,
+    "coupled_evolution": false
+  },
+  "checks": 139,
+  "passing": 116,
+  "failed": [
+    {
+      "name": "thermal_101:energy_integral",
+      "value": 0.0023284029505835756,
+      "limit": 0.0005,
+      "passed": false
+    },
+    {
+      "name": "thermal_201:energy_integral",
+      "value": 0.0014344853192330915,
+      "limit": 0.0005,
+      "passed": false
+    },
+    {
+      "name": "thermal_401:energy_integral",
+      "value": 0.0007377612145020594,
+      "limit": 0.0005,
+      "passed": false
+    },
+    {
+      "name": "radial_101:gas_temperature",
+      "value": 0.005704771906288322,
+      "limit": 0.002,
+      "passed": false
+    },
+    {
+      "name": "radial_101:J_total",
+      "value": 0.025040374663721523,
+      "limit": 0.002,
+      "passed": false
+    },
+    {
+      "name": "radial_101:radiation_flux",
+      "value": 0.003930955690925252,
+      "limit": 0.002,
+      "passed": false
+    },
+    {
+      "name": "radial_101:K_total",
+      "value": 0.0038633440124232195,
+      "limit": 0.002,
+      "passed": false
+    },
+    {
+      "name": "radial_101:mean_acceleration",
+      "value": 0.004213230181006506,
+      "limit": 0.002,
+      "passed": false
+    },
+    {
+      "name": "radial_201:gas_temperature",
+      "value": 0.003427909375095984,
+      "limit": 0.002,
+      "passed": false
+    },
+    {
+      "name": "radial_201:J_total",
+      "value": 0.01482911314050927,
+      "limit": 0.002,
+      "passed": false
+    },
+    {
+      "name": "radial_401:J_total",
+      "value": 0.0073361641557225825,
+      "limit": 0.002,
+      "passed": false
+    },
+    {
+      "name": "exterior20:J_total",
+      "value": 0.007855255100111811,
+      "limit": 0.002,
+      "passed": false
+    },
+    {
+      "name": "exterior20:K_total",
+      "value": 0.0029614000479037577,
+      "limit": 0.002,
+      "passed": false
+    },
+    {
+      "name": "frequency_16:analytic_temperature",
+      "value": 0.002810855256696554,
+      "limit": 0.001,
+      "passed": false
+    },
+    {
+      "name": "adiabatic_coarse_profiles:velocity",
+      "value": 1.3301876544382007e-06,
+      "limit": 1e-06,
+      "passed": false
+    },
+    {
+      "name": "adiabatic_coarse_profiles:density",
+      "value": 0.00010446921585281799,
+      "limit": 1e-06,
+      "passed": false
+    },
+    {
+      "name": "adiabatic_coarse_profiles:pressure",
+      "value": 0.00018539920109291255,
+      "limit": 1e-06,
+      "passed": false
+    },
+    {
+      "name": "adiabatic_profiles:density",
+      "value": 3.7473610066617145e-06,
+      "limit": 1e-06,
+      "passed": false
+    },
+    {
+      "name": "adiabatic_profiles:pressure",
+      "value": 6.614927773851078e-06,
+      "limit": 1e-06,
+      "passed": false
+    },
+    {
+      "name": "adiabatic_exterior_profiles:density",
+      "value": 2.699401080213236e-06,
+      "limit": 1e-06,
+      "passed": false
+    },
+    {
+      "name": "adiabatic_exterior_profiles:pressure",
+      "value": 4.761771313897254e-06,
+      "limit": 1e-06,
+      "passed": false
+    },
+    {
+      "name": "cluster401:energy",
+      "value": 0.0010411234126663873,
+      "limit": 0.0005,
+      "passed": false
+    },
+    {
+      "name": "cluster_outer60:energy",
+      "value": 0.0006099974948454267,
+      "limit": 0.0005,
+      "passed": false
+    }
+  ],
+  "fine_thermal": {
+    "energy_defect": 0.00028081433718832175,
+    "max_profile_difference_801_1601": 0.0002720450587165857,
+    "exterior_difference_60_180": 0.00037583599774282384,
+    "exterior180_energy_defect": 0.000467373995528595,
+    "Tgas_outer": 3861.1851825924127,
+    "Trad_outer": 2938.646201100663,
+    "max_flux_to_rosseland": 5.911020437840429
+  },
+  "adiabatic": {
+    "mdot": 3.3103419486750653e+22,
+    "sonic_radius": 3316471636723.3745,
+    "base_velocity": 26342864.222804695,
+    "terminal_speed": 77476477.87464999,
+    "profile_difference_2001_4001": 4.150741470532182e-07,
+    "exterior_profile_difference": 3.030881599030977e-07
+  },
+  "native_critical_speed_ratio_range": [
+    1.0935629256095345,
+    1.2910040123467357
+  ],
+  "recovered_mass_flux_error": 8.255342054397374e-08,
+  "rejected_trials": 2,
+  "max_native_slice_mass_flux_error": 4.3658249682110295e-08
+}

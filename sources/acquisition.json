@@ -146,5 +146,29 @@
     "url": "https://academic.oup.com/mnras/article/476/2/1840/4862479",
     "status": "primary_indexed_text_audited_direct_download_403",
     "audited": "Equations 3-14 and radiation moment equations via primary indexed article; no local full-paper PDF, no figure replication claim"
+  },
+  {
+    "id": "sander2017",
+    "url": "https://arxiv.org/abs/1704.08698",
+    "sha256": "051858be16446587f7b192018d6d61f360d514d5357cb4aad66affc8581429d4",
+    "pages": 14,
+    "status": "downloaded",
+    "scope": "Report 12 closure audit; no complete published model reproduced"
+  },
+  {
+    "id": "mayer2005",
+    "url": "https://arxiv.org/abs/astro-ph/0411613",
+    "sha256": "8b90cf662d2e645d358fef373c2a05ca58b7ca904dfae3bc46b8aa85bbc4446b",
+    "pages": 16,
+    "status": "downloaded",
+    "scope": "Report 12 closure audit; no complete published model reproduced"
+  },
+  {
+    "id": "malygin2014",
+    "url": "https://arxiv.org/abs/1408.3377",
+    "sha256": "25113cc11ebb1ed5284e7b4ea5fd07d1f2ff5de71de5e74a4bce82aca1c85452",
+    "pages": 8,
+    "status": "downloaded",
+    "scope": "Report 12 closure audit; no complete published model reproduced"
   }
 ]

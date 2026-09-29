@@ -10,7 +10,6 @@ screen by construction. No MLT flux or mass-loss coefficient is introduced.
 from dataclasses import dataclass
 import numpy as np
 from scipy.integrate import solve_ivp, cumulative_trapezoid, simpson
-from scipy.optimize import least_squares
 from .constants import G, C, KB, MU, A
 
 
@@ -310,7 +309,9 @@ class DiffusionWind:
 
 
 def match_base(microphysics, *, mass, radius, density, temperature, luminosity,
-               sonic_guess, rtol=1e-7, match_tolerance=1e-5, max_nfev=80):
+               sonic_guess, rtol=1e-7, match_tolerance=1e-5, max_nfev=200,
+               initial_trust_radius=.2, derivative_step=1e-4,
+               sonic_offset=1e-7, max_log_step=.01):
     """Shoot sonic r,rho,T to supplied base rho,T,total outward energy flux.
 
     No mdot input: it follows from sonic regularity and the three base data.
@@ -321,41 +322,87 @@ def match_base(microphysics, *, mass, radius, density, temperature, luminosity,
     """
     if not all(np.isfinite(v) and v>0 for v in (mass,radius,density,temperature,luminosity)):
         raise ValueError('Base data must be finite and positive')
+    if (not 0 < rtol < 1e-3 or not 0 < match_tolerance < .01 or max_nfev < 1
+            or not 0 < initial_trust_radius <= 2 or not 0 < sonic_offset < .001
+            or not 0 < derivative_step < .01 or not 0 < max_log_step < 1):
+        raise ValueError('Invalid matching controls')
     trace=[]
     scale=np.array([radius,density,temperature])
     def decode(y):
         return scale*np.array([1+np.exp(y[0]),np.exp(y[1]),np.exp(y[2])])
-    def residual(y):
+    def evaluate(y):
         rs,ds,ts=decode(y)
-        wind=DiffusionWind(microphysics,mass,rs,ds,ts)
-        eps=min(1e-7,.01*np.log(rs/radius))
+        wind=DiffusionWind(microphysics,mass,rs,ds,ts,derivative_step)
+        eps=min(sonic_offset,.01*np.log(rs/radius))
         sol=solve_ivp(wind.rhs,[-eps,np.log(radius/rs)],-eps*np.array([wind.slope,wind.sonic_temperature_slope]),
-                      method='DOP853',rtol=rtol,atol=rtol*.01,max_step=.01)
+                      method='DOP853',rtol=rtol,atol=rtol*.01,max_step=max_log_step)
         if not sol.success:
             raise RuntimeError('Base matching integration failed; no physical no-root inference: '+sol.message)
         r,v,T,rho,q,L,*_=wind.state(sol.t[-1],sol.y[:,-1])
         total=L+wind.mdot*(v*v/2+q.h)
         if total<=0:raise WindBranchError('Negative outward total base energy flux')
         value=[np.log(rho/density),np.log(T/temperature),np.log(total/luminosity)]
-        trace.append(dict(sonic_radius=rs,sonic_density=ds,sonic_temperature=ts,residual=value))
+        return np.asarray(value)
+    lower=np.array([np.log(1e-8),-30.,-10.]);upper=np.array([np.log(99),10.,10.])
+    def residual(y, purpose):
+        if len(trace)>=max_nfev:
+            raise WindMatchError('Matching evaluation budget exhausted; no physical no-root inference',trace)
+        row=dict(log_coordinates=y.tolist(),purpose=purpose)
+        try:
+            if np.any(y<lower) or np.any(y>upper):
+                raise WindBranchError('Trial outside declared sonic search box')
+            value=evaluate(y)
+            if not np.all(np.isfinite(value)):
+                raise WindBranchError('Nonfinite matching residual')
+            row.update(status='admissible',residual=value.tolist(),
+                       sonic_radius=float(decode(y)[0]),sonic_density=float(decode(y)[1]),
+                       sonic_temperature=float(decode(y)[2]))
+        except (ValueError,RuntimeError,FloatingPointError) as exc:
+            row.update(status='rejected_local_trial',reason=str(exc));value=None
+        trace.append(row)
         return value
     guess=np.asarray(sonic_guess)/scale
     if guess.shape!=(3,) or np.any(guess<=0) or guess[0]<=1:
         raise ValueError('Sonic guess must lie above base with positive rho,T')
     guess[0]-=1
-    try:
-        fit=least_squares(residual,np.log(guess),
-                          bounds=([np.log(1e-8),-30.,-10.],[np.log(99),10.,10.]),
-                          jac='3-point',x_scale='jac',
-                          xtol=1e-9,ftol=1e-9,gtol=1e-9,max_nfev=max_nfev)
-    except (ValueError,RuntimeError) as exc:
-        raise WindMatchError('Numerical/local-branch matching failure: '+str(exc),trace) from exc
-    defect=float(np.max(abs(fit.fun)))
-    if not fit.success or defect>match_tolerance:
-        raise WindMatchError(f'Base match not converged: {fit.message}; defect={defect}',trace)
-    wind=DiffusionWind(microphysics,mass,*decode(fit.x))
-    return wind,dict(max_log_residual=defect,nfev=fit.nfev,trials=trace,
-                     mass_flux_is_eigenvalue=True,escape_not_certified=True)
+    y=np.log(guess);value=residual(y,'initial');iterations=[];trust=initial_trust_radius
+    if value is None:
+        raise WindMatchError('Initial sonic branch is inadmissible; continuation needs an admissible anchor',trace)
+    while max(abs(value))>match_tolerance:
+        columns=[]
+        for k in range(3):
+            h=1e-4
+            for attempt in range(10):
+                delta=np.eye(3)[k]*h
+                plus=residual(y+delta,'jacobian_plus');minus=residual(y-delta,'jacobian_minus')
+                if plus is not None and minus is not None:
+                    columns.append((plus-minus)/(2*h));break
+                h*=.5
+            else:
+                raise WindMatchError('No admissible centered Jacobian stencil; local numerical/domain failure',trace)
+        jac=np.column_stack(columns)
+        step,_,rank,singular=np.linalg.lstsq(jac,-value,rcond=1e-12)
+        if rank<3:
+            raise WindMatchError('Matching Jacobian lost rank; branch continuation required',trace)
+        step*=min(1.,trust/max(abs(step)))
+        old_norm=float(np.linalg.norm(value))
+        for backtrack in range(16):
+            fraction=2.**-backtrack
+            trial=residual(y+fraction*step,'line_search')
+            if trial is not None and np.linalg.norm(trial)<old_norm*(1-1e-4*fraction):
+                y+=fraction*step;value=trial
+                iterations.append(dict(residual=value.tolist(),fraction=fraction,
+                                       jacobian_condition=float(singular[0]/singular[-1]),trust=trust))
+                trust=min(initial_trust_radius*4,trust*(1.5 if backtrack==0 else .5))
+                break
+        else:
+            raise WindMatchError('Admissible line search stalled; no physical nonexistence claim',trace)
+    defect=float(max(abs(value)))
+    wind=DiffusionWind(microphysics,mass,*decode(y),derivative_step)
+    return wind,dict(max_log_residual=defect,nfev=len(trace),trials=trace,iterations=iterations,
+                     rejected_trials=sum(t['status']=='rejected_local_trial' for t in trace),
+                     method='admissible_damped_newton',mass_flux_is_eigenvalue=True,
+                     escape_not_certified=True,all_branches_enumerated=False)
 
 
 def spherical_hydrostatic(microphysics, *, mass, radius, density, temperature,

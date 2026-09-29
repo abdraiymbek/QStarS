@@ -256,3 +256,19 @@ See [model families](model_families.md), [validity limits](validity.md),
 [equations](equations.md), [MESA](mesa.md), [source registry](sources.md) and
 [MacBook performance](performance.md). These remaining requirements cannot be
 narrowed away while still calling this a general-purpose validated v1.
+
+
+## Report 12 self-selected outer prerequisites
+
+The requested outcome is **FAIL**: no physical quasi-star currently selects a
+validated escaping thermodynamic wind. `scripts/validate_self_selected_outer.py`
+and `scripts/validate_self_selected_refinement.py` provide two frozen campaigns;
+`analyze_self_selected_outer.py` compares their archived data. The 139 checks
+retain 23 failures, while refined thermal profiles/energy, smooth frequency
+limits, adiabatic eigenvalue profiles and native rejected-trial recovery pass
+scoped targets. Full native regression: 97 tests pass. All 89 archived files are
+SHA256-verified. The user-required physical-envelope, coupled-evolution and
+complete published-track stages were not attempted because the joint physical
+closure gate remains open. [Report 12](../Reports/Report_12.md) and
+[its equations/validity domain](self_selected_outer.md) distinguish these controls
+from a production stellar mass-loss model.

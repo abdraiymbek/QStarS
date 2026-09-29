@@ -1,5 +1,17 @@
 # Apple Silicon performance report
 
+Report 12's main component campaign took **105.08 s / 762.42 MiB** and its
+refinement **156.50 s / 936.75 MiB**. The 1601-point two-band thermal solve took
+**51.39 s**; distant native diffusion matching with rejected-trial recovery took
+**17.65 s**. The complete native-enabled suite passed **97 tests in 50.52 s**.
+These are stationary reference components on the Apple M5 / 16 GiB MacBook,
+not physical quasi-star tracks. Ray storage scales approximately as bands times
+radial-points squared; independent larger frequency/grid campaigns can use cloud
+CPU/memory resources. MESA calls require process isolation, not concurrent
+threads. No cloud scaling measurement or full non-LTE model runtime is claimed.
+See [Report 12](../Reports/Report_12.md).
+
+
 Report 11's sequential grey radiation/stationary-control campaign took
 **55.42 s / 745.03 MiB**; its outer-extent follow-up took **68.63 s / 1213.56 MiB**.
 Individual 401/801-node stationary controls took **3.95/8.13 s**; the extended

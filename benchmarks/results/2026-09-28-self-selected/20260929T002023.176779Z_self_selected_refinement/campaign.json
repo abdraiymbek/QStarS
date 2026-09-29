@@ -1,0 +1,24 @@
+{
+  "outcome": "FAIL",
+  "checks": 31,
+  "passed": 29,
+  "failed_checks": [
+    {
+      "name": "cluster401:energy",
+      "value": 0.0010411234126663873,
+      "limit": 0.0005,
+      "passed": false
+    },
+    {
+      "name": "cluster_outer60:energy",
+      "value": 0.0006099974948454267,
+      "limit": 0.0005,
+      "passed": false
+    }
+  ],
+  "elapsed_seconds": 156.49987041699933,
+  "peak_rss_mib": 936.75,
+  "source_snapshot_verified": true,
+  "physical_envelope_test": false,
+  "coupled_evolution": false
+}

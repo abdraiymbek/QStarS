@@ -1,0 +1,45 @@
+reason: Initial formal campaign retains coarse thermal energy/profile failures and
+  finite-output interpolation failures. A luminous finite core has J proportional
+  to 1-sqrt(1-Rcore^2/r^2), requiring extra radial resolution near its limb.
+source_campaign: 20260929T001450.984037Z_self_selected_outer
+radial_coordinate: ln(r/Rcore)=ln(Rout/Rcore)*s^2, with uniform s from 0 to 1
+thermal_cases:
+- name: cluster401
+  n: 401
+  outer: 20
+- name: cluster801
+  n: 801
+  outer: 20
+- name: cluster1601
+  n: 1601
+  outer: 20
+- name: cluster_outer60
+  n: 801
+  outer: 60
+- name: cluster_outer180
+  n: 1201
+  outer: 180
+unchanged_targets:
+  independent_energy: 0.0005
+  profiles: 0.002
+  adiabatic_profiles: 1.0e-06
+adiabatic_cases:
+- name: dense2001
+  samples: 2001
+  outer_ratio: 100
+- name: dense4001
+  samples: 4001
+  outer_ratio: 100
+- name: dense_exterior
+  samples: 4001
+  outer_ratio: 1000
+diffusion_match:
+  guess_factors:
+  - 1.1
+  - 0.1
+  - 0.8
+  initial_trust_radius: 2
+  purpose: Test actual rejected complex-slope sonic trials and backtracking without
+    changing base data
+physics_retuned: false
+earlier_failures_remain_failed: true

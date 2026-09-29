@@ -1,0 +1,29 @@
+{
+  "outcome": "FAIL",
+  "checks": 139,
+  "passing": 116,
+  "fine_thermal": {
+    "energy_defect": 0.00028081433718832175,
+    "max_profile_difference_801_1601": 0.0002720450587165857,
+    "exterior_difference_60_180": 0.00037583599774282384,
+    "exterior180_energy_defect": 0.000467373995528595,
+    "Tgas_outer": 3861.1851825924127,
+    "Trad_outer": 2938.646201100663,
+    "max_flux_to_rosseland": 5.911020437840429
+  },
+  "adiabatic": {
+    "mdot": 3.3103419486750653e+22,
+    "sonic_radius": 3316471636723.3745,
+    "base_velocity": 26342864.222804695,
+    "terminal_speed": 77476477.87464999,
+    "profile_difference_2001_4001": 4.150741470532182e-07,
+    "exterior_profile_difference": 3.030881599030977e-07
+  },
+  "native_critical_speed_ratio_range": [
+    1.0935629256095345,
+    1.2910040123467357
+  ],
+  "recovered_mass_flux_error": 8.255342054397374e-08,
+  "rejected_trials": 2,
+  "max_native_slice_mass_flux_error": 4.3658249682110295e-08
+}

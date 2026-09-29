@@ -1,0 +1,18 @@
+{
+  "archive_files": 89,
+  "bad_hashes": [],
+  "snapshots": [
+    {
+      "campaign": "20260929T001450.984037Z_self_selected_outer",
+      "source_verified": true,
+      "current_package_differences": [],
+      "snapshot_sha_verified": true
+    },
+    {
+      "campaign": "20260929T002023.176779Z_self_selected_refinement",
+      "source_verified": true,
+      "current_package_differences": [],
+      "snapshot_sha_verified": true
+    }
+  ]
+}

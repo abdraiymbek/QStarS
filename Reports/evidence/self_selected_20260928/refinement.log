@@ -1,0 +1,11 @@
+results/20260929T002023.176779Z_self_selected_refinement
+cluster401 completed_component 9.325
+cluster801 completed_component 21.61
+cluster1601 completed_component 51.389
+cluster_outer60 completed_component 21.449
+cluster_outer180 completed_component 34.982
+dense2001 completed_component 0.026
+dense4001 completed_component 0.024
+dense_exterior completed_component 0.028
+rejected_trial_recovery completed_component 17.652
+{"outcome": "FAIL", "checks": 31, "passed": 29, "failed_checks": [{"name": "cluster401:energy", "value": 0.0010411234126663873, "limit": 0.0005, "passed": false}, {"name": "cluster_outer60:energy", "value": 0.0006099974948454267, "limit": 0.0005, "passed": false}], "elapsed_seconds": 156.49987041699933, "peak_rss_mib": 936.75, "source_snapshot_verified": true, "physical_envelope_test": false, "coupled_evolution": false}

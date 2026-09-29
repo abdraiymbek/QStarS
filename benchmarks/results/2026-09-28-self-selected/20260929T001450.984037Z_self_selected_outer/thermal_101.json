@@ -1,0 +1,214 @@
+{
+  "energy_integral_relative_defect": 0.0023284029505835756,
+  "histories": [
+    [
+      0.004280347861665487,
+      1.2838650796590785e-05,
+      2.4879837553985653e-08,
+      5.594214334525516e-11
+    ],
+    [
+      0.0398128014498757,
+      0.001326796954084923,
+      3.351622891756849e-05,
+      7.302222184657703e-07,
+      1.1866681126857202e-08,
+      1.6990683310942148e-10,
+      2.149822299720917e-12
+    ]
+  ],
+  "population_kinetics_solved": false,
+  "wind_eigenvalue_solved": false,
+  "coefficients_are_prescribed": true,
+  "equilibrium_history": [
+    {
+      "iteration": 0,
+      "thermal_balance_error": 0.5409553082681438,
+      "energy_integral_error": 0.002040795436160513
+    },
+    {
+      "iteration": 1,
+      "thermal_balance_error": 0.11532286009450332,
+      "energy_integral_error": 0.00021598212513673315
+    },
+    {
+      "iteration": 2,
+      "thermal_balance_error": 0.07700172876709721,
+      "energy_integral_error": 0.0009458780121860065
+    },
+    {
+      "iteration": 3,
+      "thermal_balance_error": 0.059942906230313064,
+      "energy_integral_error": 0.0014968268891717743
+    },
+    {
+      "iteration": 4,
+      "thermal_balance_error": 0.04475082517563944,
+      "energy_integral_error": 0.0018083544862391716
+    },
+    {
+      "iteration": 5,
+      "thermal_balance_error": 0.03195193550513886,
+      "energy_integral_error": 0.0019973146900022338
+    },
+    {
+      "iteration": 6,
+      "thermal_balance_error": 0.022119728242940284,
+      "energy_integral_error": 0.002115661143681426
+    },
+    {
+      "iteration": 7,
+      "thermal_balance_error": 0.015003233211180356,
+      "energy_integral_error": 0.0021910026350991196
+    },
+    {
+      "iteration": 8,
+      "thermal_balance_error": 0.010039273091518752,
+      "energy_integral_error": 0.002239396936376646
+    },
+    {
+      "iteration": 9,
+      "thermal_balance_error": 0.006657140081873014,
+      "energy_integral_error": 0.0022706422080439994
+    },
+    {
+      "iteration": 10,
+      "thermal_balance_error": 0.004387680731030907,
+      "energy_integral_error": 0.0022908772105432996
+    },
+    {
+      "iteration": 11,
+      "thermal_balance_error": 0.002880109555510324,
+      "energy_integral_error": 0.0023040063482572515
+    },
+    {
+      "iteration": 12,
+      "thermal_balance_error": 0.0018853456569712934,
+      "energy_integral_error": 0.0023125349587410117
+    },
+    {
+      "iteration": 13,
+      "thermal_balance_error": 0.001231891806719898,
+      "energy_integral_error": 0.0023180792224513484
+    },
+    {
+      "iteration": 14,
+      "thermal_balance_error": 0.0008039287056752498,
+      "energy_integral_error": 0.002321685154155049
+    },
+    {
+      "iteration": 15,
+      "thermal_balance_error": 0.0005242076209002189,
+      "energy_integral_error": 0.002324031143525204
+    },
+    {
+      "iteration": 16,
+      "thermal_balance_error": 0.0003416245600674772,
+      "energy_integral_error": 0.0023255577343977286
+    },
+    {
+      "iteration": 17,
+      "thermal_balance_error": 0.0002225536078147572,
+      "energy_integral_error": 0.002326551255396033
+    },
+    {
+      "iteration": 18,
+      "thermal_balance_error": 0.00014494839076939492,
+      "energy_integral_error": 0.002327197905645366
+    },
+    {
+      "iteration": 19,
+      "thermal_balance_error": 9.438892357271911e-05,
+      "energy_integral_error": 0.0023276188134017106
+    },
+    {
+      "iteration": 20,
+      "thermal_balance_error": 6.145841246329997e-05,
+      "energy_integral_error": 0.0023278927947352934
+    },
+    {
+      "iteration": 21,
+      "thermal_balance_error": 4.0013833887297956e-05,
+      "energy_integral_error": 0.002328071141806521
+    },
+    {
+      "iteration": 22,
+      "thermal_balance_error": 2.605062028915306e-05,
+      "energy_integral_error": 0.0023281872380723693
+    },
+    {
+      "iteration": 23,
+      "thermal_balance_error": 1.695946196822451e-05,
+      "energy_integral_error": 0.0023282628125802013
+    },
+    {
+      "iteration": 24,
+      "thermal_balance_error": 1.1040705814036045e-05,
+      "energy_integral_error": 0.002328312009238396
+    },
+    {
+      "iteration": 25,
+      "thermal_balance_error": 7.187460551283387e-06,
+      "energy_integral_error": 0.0023283440348888518
+    },
+    {
+      "iteration": 26,
+      "thermal_balance_error": 4.6789676175773565e-06,
+      "energy_integral_error": 0.002328364882761246
+    },
+    {
+      "iteration": 27,
+      "thermal_balance_error": 3.045943919532945e-06,
+      "energy_integral_error": 0.00232837845421929
+    },
+    {
+      "iteration": 28,
+      "thermal_balance_error": 1.9828596425908174e-06,
+      "energy_integral_error": 0.0023283872889183024
+    },
+    {
+      "iteration": 29,
+      "thermal_balance_error": 1.2908056418181602e-06,
+      "energy_integral_error": 0.0023283930401069666
+    },
+    {
+      "iteration": 30,
+      "thermal_balance_error": 8.402891582548477e-07,
+      "energy_integral_error": 0.0023283967839997253
+    },
+    {
+      "iteration": 31,
+      "thermal_balance_error": 5.470112361960489e-07,
+      "energy_integral_error": 0.0023283992211937075
+    },
+    {
+      "iteration": 32,
+      "thermal_balance_error": 3.5609300197414484e-07,
+      "energy_integral_error": 0.002328400807750574
+    },
+    {
+      "iteration": 33,
+      "thermal_balance_error": 2.3180907127162698e-07,
+      "energy_integral_error": 0.0023284018405663287
+    },
+    {
+      "iteration": 34,
+      "thermal_balance_error": 1.5090279215090874e-07,
+      "energy_integral_error": 0.0023284025129032145
+    },
+    {
+      "iteration": 35,
+      "thermal_balance_error": 9.823449620416369e-08,
+      "energy_integral_error": 0.0023284029505835756
+    }
+  ],
+  "thermal_balance_error": 9.823449620416369e-08,
+  "max_gas_radiation_temperature_ratio": 1.314301379838929,
+  "max_flux_rosseland_ratio": 5.914298333640857,
+  "luminosity_profile_relative_defect": 0.004026855570198107,
+  "band_tau_two_thirds_radii": [
+    null,
+    3.0525199726555297
+  ],
+  "thermal_photosphere_certified": false
+}
