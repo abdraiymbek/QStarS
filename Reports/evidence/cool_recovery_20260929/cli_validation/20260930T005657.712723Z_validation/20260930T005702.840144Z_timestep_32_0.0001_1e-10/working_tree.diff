@@ -1,0 +1,158 @@
+diff --git a/backends/cmfgen/record_build.py b/backends/cmfgen/record_build.py
+index 6da43cb..9aa9539 100644
+--- a/backends/cmfgen/record_build.py
++++ b/backends/cmfgen/record_build.py
+@@ -17,4 +17,13 @@ if ray_manifest.exists():
+     record['hminus_rayleigh_fixed']=all(sha(a.root/name)==row['patched'] and
+         exe.stat().st_mtime_ns>(a.root/name).stat().st_mtime_ns for name,row in required.items())
+     record['source_hashes'].update({name:sha(a.root/name) for name in required})
++ff_manifest=Path(__file__).parent/'hminus_ff_patch_manifest.json'
++record['hminus_ff_fixed']=False
++if ff_manifest.exists():
++    required=json.loads(ff_manifest.read_text())['source_hashes']
++    record['hminus_ff_fixed']=all(sha(a.root/name)==row['patched'] and
++        exe.stat().st_mtime_ns>(a.root/name).stat().st_mtime_ns for name,row in required.items())
++    record['source_hashes'].update({name:sha(a.root/name) for name in required})
++for name in ['plane/mom_jrel_v9.f','plane/var_jrel_v5.f','new_main/mod_subs/comp_j_blank.f']:
++    record['source_hashes'][name]=sha(a.root/name)
+ exe.with_suffix('.capabilities.json').write_text(json.dumps(record,indent=2)+'\n');print(json.dumps(record,indent=2))
+diff --git a/backends/cmfgen/run_component.py b/backends/cmfgen/run_component.py
+index 636e32f..9687678 100644
+--- a/backends/cmfgen/run_component.py
++++ b/backends/cmfgen/run_component.py
+@@ -39,6 +39,8 @@ def check_completion(directory,started_ns,export_required):
+     log=(directory/'OUTGEN').read_text() if (directory/'OUTGEN').exists() else ''
+     if re.search(r'Major Error|Major error|cant read BA File',log):
+         raise RuntimeError('Native diagnostic reports a fatal error despite process status')
++    if re.search(r'excessive iteration count|(?:RJ|Mean intensity) blowing up',log,re.I):
++        raise RuntimeError('Native radiation iteration failed; finite/stale output is not convergence')
+     required=['RVTJ','MOD_SUM','OUTGEN']+(['QSTARS_SPECTRAL.bin'] if export_required else [])
+     for name in required:
+         p=directory/name
+@@ -55,7 +57,7 @@ def run(directory,executable,timeout=3600,threads=1):
+     manifest=dict(executable=str(executable),executable_sha256=sha256(executable),inputs=inputs,
+         platform=platform.platform(),threads=threads,purpose='component_validation',production=False)
+     initial=directory/'initial_inputs';initial.mkdir(exist_ok=False)
+-    for name in ['VADAT','IN_ITS','MODEL_SPEC','IT_SPECIFIER','RVSIG_COL','HYDRO_DEFAULTS','ADJUST_R_DEFAULTS']:
++    for name in ['VADAT','IN_ITS','MODEL_SPEC','IT_SPECIFIER','RVSIG_COL','HYDRO_DEFAULTS','ADJUST_R_DEFAULTS','OUTGEN']:
+         if (directory/name).is_file():shutil.copy2(directory/name,initial/name)
+     manifest['adapter_sha256']=sha256(Path(__file__).parents[2]/'src/qstars/cmfgen_backend.py')
+     manifest['runner_sha256']=sha256(__file__)
+diff --git a/scripts/archive_cmfgen_components.py b/scripts/archive_cmfgen_components.py
+index c20b842..4273908 100644
+--- a/scripts/archive_cmfgen_components.py
++++ b/scripts/archive_cmfgen_components.py
+@@ -9,7 +9,8 @@ NAMES={'VADAT','IN_ITS','MODEL_SPEC','RVSIG_COL','RDINR','HYDRO_DEFAULTS','ADJUS
+        'CORRECTION_SUM','CORRECTION_LINK','STEQ_VALS','POINT1','POINT2','SCRTEMP','QSTARS_EXPORT','EDDFACTOR_INFO',
+        'native.log','run_manifest.json','run_result.json','atomic_manifest.json','reference_origin.json',
+        'component_definition.json','continuation.json','changes.json','failure_attribution.json','termination_reason.txt',
+-       'cool_control.json'}
++       'cool_control.json','recovery_control.json','debugger.log','debugger_manifest.json',
++       'QSTARS_MOM_FAILURE','QSTARS_VAR_FAILURE','QSTARS_MOM_GROWTH','QSTARS_J_FAILURE'}
+ 
+ def archive(sources,destination):
+     destination.mkdir(parents=True,exist_ok=False);files=[];external=[];omitted=[]
+diff --git a/scripts/validate_cmfgen_component.py b/scripts/validate_cmfgen_component.py
+index 5074f0b..4d85706 100644
+--- a/scripts/validate_cmfgen_component.py
++++ b/scripts/validate_cmfgen_component.py
+@@ -6,7 +6,7 @@ import numpy as np
+ from scipy.integrate import trapezoid
+ from qstars import io
+ from qstars.constants import C
+-from qstars.cmfgen_backend import read_rvtj,read_spectral,read_cooling,read_hhe_populations,read_atomic_levels,hhe_material,sha256
++from qstars.cmfgen_backend import read_rvtj,read_spectral,read_cooling,read_hhe_populations,read_atomic_levels,hhe_material,sha256,nonlinear_corrections
+ 
+ def audit(directory,output,reference=None,hhe=False):
+     p=directory.resolve();output.mkdir(parents=True,exist_ok=False)
+@@ -34,8 +34,10 @@ def audit(directory,output,reference=None,hhe=False):
+     L=q['luminosity_lab'];exchange=4*np.pi*trapezoid(q['radius']**2*q['energy_to_matter_lab'],q['radius'])
+     check('global_radiation_energy',abs(L[-1]-L[0]+exchange)/max(abs(L[0]),abs(L[-1])),t['global_radiation_energy_relative'],
+           'independent trapezoid volume four-force vs lab luminosity; mesh error and transfer approximations included')
+-    corrections=re.findall(r'Maximm changes as returned by SOLVEBA_V13 is\s+([0-9.Ee+\-]+)',(p/'OUTGEN').read_text())
+-    check('last_nonlinear_correction',float(corrections[-1])/100 if corrections else float('nan'),t['iteration_max_fractional_correction'],'all native variables; full convergence needed')
++    corrections=nonlinear_corrections((p/'OUTGEN').read_text())
++    last=corrections[-1]['all_level_percent'] if corrections else None
++    check('last_nonlinear_correction',last/100 if last is not None else float('nan'),t['iteration_max_fractional_correction'],'largest raw and returned native corrections; no discarded levels')
++    metrics['nonlinear_corrections']=corrections
+     metrics.update(radii=len(s['radius']),frequencies=len(spec.frequency),temperature_min=float(s['temperature'].min()),temperature_max=float(s['temperature'].max()),
+        luminosity_lab_inner=float(L[0]),luminosity_lab_outer=float(L[-1]),volume_energy_to_matter=float(exchange),
+        prescribed_mdot=float(np.mean(s['mass_flux'])),heating_max_abs=float(max(abs(q['heating_comoving']))),
+diff --git a/src/qstars/cmfgen_backend.py b/src/qstars/cmfgen_backend.py
+index 2006a5d..ee2f663 100644
+--- a/src/qstars/cmfgen_backend.py
++++ b/src/qstars/cmfgen_backend.py
+@@ -23,6 +23,34 @@ def _numbers(line):
+     except ValueError:return None
+ 
+ 
++def nonlinear_corrections(text):
++    """Retain raw largest corrections: upstream stopping can discard ten levels.
++
++    Percent decrease is printed relative to the old value, whereas MAXCH uses
++    the new value. Missing raw records fail closed; neither a native zero nor
++    a converged majority of levels certifies the complete atomic state.
++    """
++    rows=[];current=None;increase=None;decrease=None
++    for line in text.splitlines():
++        m=re.search(r'Current great iteration count is\s+(\d+)',line)
++        if m:current=int(m[1]);increase=decrease=None
++        m=re.search(r'Maximum % (increase|decrease) at depth\s+\d+ is\s+(\S+)',line)
++        if m:
++            value=_numbers(m[2])
++            if m[1]=='increase':increase=value[0] if value else None
++            else:decrease=value[0] if value else None
++        m=re.search(r'Maximm changes as returned by SOLVEBA_V13 is\s+(\S+)',line)
++        if m:
++            value=_numbers(m[1]);reported=value[0] if value else None
++            raw=None
++            if increase is not None and decrease is not None and np.isfinite([increase,decrease]).all():
++                down=100*decrease/(100-decrease) if decrease<99.999 else 1e7
++                raw=max(abs(increase),down)
++            complete=max(raw,abs(reported)) if raw is not None and reported is not None and np.isfinite(reported) else None
++            rows.append(dict(iteration=current,reported_percent=reported,raw_percent=raw,all_level_percent=complete))
++    return rows
++
++
+ def vector_section(lines, label, count):
+     """Strict labeled vector; reject missing/truncated/nonfinite output."""
+     matches=[i for i,s in enumerate(lines) if s.strip()==label]
+diff --git a/tests/test_cmfgen_backend.py b/tests/test_cmfgen_backend.py
+index bf07a21..421778b 100644
+--- a/tests/test_cmfgen_backend.py
++++ b/tests/test_cmfgen_backend.py
+@@ -103,6 +103,34 @@ def test_nan_luminosity_cannot_pass_zero_correction(tmp_path):
+         runner_module().check_completion(tmp_path,0,False)
+ 
+ 
++def test_native_stopping_cannot_discard_largest_levels():
++    from qstars.cmfgen_backend import nonlinear_corrections
++    text='''Current great iteration count is 10
++Maximum % increase at depth 81 is 40.3 (LAMBDA)
++Maximum % decrease at depth 84 is 22.1 (LAMBDA)
++Maximm changes as returned by SOLVEBA_V13 is 4.8E-10
++'''
++    q=nonlinear_corrections(text)[0]
++    assert q['iteration']==10
++    assert q['all_level_percent']==40.3
++    assert q['reported_percent']==4.8e-10
++    assert nonlinear_corrections('Maximm changes as returned by SOLVEBA_V13 is 0')[0]['all_level_percent'] is None
++
++
++def test_raw_decrease_normalization_and_three_digit_exponent():
++    from qstars.cmfgen_backend import nonlinear_corrections
++    q=nonlinear_corrections('''Maximum % increase at depth 1 is 1.0-100
++Maximum % decrease at depth 2 is 50.0
++Maximm changes as returned by SOLVEBA_V13 is 1.0E-10''')[0]
++    assert q['all_level_percent']==100.
++
++
++def test_native_moment_failure_rejected_despite_finite_output(tmp_path):
++    (tmp_path/'OUTGEN').write_text('Error in MOM_J_REL_V9: excessive iteration count.\n')
++    with pytest.raises(RuntimeError,match='radiation iteration failed'):
++        runner_module().check_completion(tmp_path,0,False)
++
++
+ def test_live_nonfinite_native_run_is_stopped_and_retained(tmp_path):
+     exe=tmp_path/'nan_run'
+     exe.write_text('#!/bin/sh\nprintf "Luminosity of star is: NaN NaN\\n" > OUTGEN\nsleep 30\n')

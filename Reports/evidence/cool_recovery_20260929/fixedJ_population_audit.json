@@ -1,0 +1,43 @@
+{
+  "cases": [
+    {
+      "case": "cmfgen_recovery_T9_fixedJ_ff",
+      "ND": 84,
+      "temperature_range_K": [
+        3797.3268,
+        20949.97
+      ],
+      "neutral_H_range": [
+        1.1356497863377342e-06,
+        0.995369540408235
+      ],
+      "cool_partial_cells": 5,
+      "conservation_relative": {
+        "hydrogen": 5.1905249542905096e-08,
+        "helium": 6.512297767713449e-08,
+        "charge": 5.004897707383549e-08
+      },
+      "rvtj_sha256": "bf205e86eef6e7f5dced772d05b897d4cae999ac5c8b6f92f49fa171643eff2a"
+    },
+    {
+      "case": "cmfgen_recovery_T9_refined_full_ff_fixedJ",
+      "ND": 167,
+      "temperature_range_K": [
+        3782.4341,
+        20951.051
+      ],
+      "neutral_H_range": [
+        1.1985209304170182e-06,
+        0.9953854340017882
+      ],
+      "cool_partial_cells": 11,
+      "conservation_relative": {
+        "hydrogen": 6.912552508175906e-08,
+        "helium": 7.373994237447334e-08,
+        "charge": 5.09059336906148e-08
+      },
+      "rvtj_sha256": "bd94545eadb30cdd32859086552b7199a96d7ce452ac64472a6a3afc5727fee3"
+    }
+  ],
+  "scope": "converged fixed-field rate initialization only. Temperature held fixed and radiation dummy flux prohibit thermal or energy certification."
+}

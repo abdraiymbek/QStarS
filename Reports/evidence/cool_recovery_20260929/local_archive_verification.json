@@ -1,0 +1,7 @@
+{
+  "archived_originals_verified": 1285,
+  "omitted_local_files_verified": 2092,
+  "external_links_verified": 10517,
+  "failures": [],
+  "scope": "Current local originals checked against immutable archive manifest; compressed archive independently verified by archive tool."
+}

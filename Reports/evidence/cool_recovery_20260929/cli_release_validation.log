@@ -1,0 +1,8 @@
+Reports/evidence/cool_recovery_20260929/cli_release_validation/20260930T012647.271050Z_validation/validation.md
+{
+  "v1_validated": false,
+  "failed_checks": [
+    "CB24 printed Ki_max",
+    "CB24 printed BH/inner mass"
+  ]
+}

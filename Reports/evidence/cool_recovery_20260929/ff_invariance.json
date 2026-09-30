@@ -1,0 +1,30 @@
+{
+  "status": "PASS",
+  "cases": [
+    {
+      "case": 0,
+      "printed_arrays_identical": true,
+      "original_sha256": "7e38607e1754e5db35c9fca472c961a9d9df3fa16c950f385333b7261cc32197",
+      "fixed_sha256": "f1a42c3f8d675c5fb790b29d4b4104c4efe1953c68c7374f5eb5e63d230ea048"
+    },
+    {
+      "case": 1,
+      "printed_arrays_identical": true,
+      "original_sha256": "3cbe4b5f913749fde39c1efac5aad1bfd1c9b742cd95620ef80d9ac4ab080f54",
+      "fixed_sha256": "d3033a4d98eb69cbaac4802623a0fb4560ed90c59cfca2bc626ce8f50e6ef8e0"
+    },
+    {
+      "case": 2,
+      "printed_arrays_identical": true,
+      "original_sha256": "e0b387d03efb5fe5970fc48f7d07d4f8d545dd9cd6cb4edb7c8193b887b5d0fe",
+      "fixed_sha256": "1c91c739e2a5ff3c2a00d573f64f556a33e5c8df3c39a61233fdf95b32fb6059"
+    },
+    {
+      "case": 3,
+      "printed_arrays_identical": true,
+      "original_sha256": "a6156e27465ca6c4053da67bf0cfeaca33c2e9816eb1d16fe00acf3c02d9e0ea",
+      "fixed_sha256": "173ba5c5aa100ae34845542759baf14dbbba037d2fbdf8223eaaf7697489788d"
+    }
+  ],
+  "scope": "normal all-depth opacity/emissivity/cooling unchanged at 16-digit precision; repaired last-depth and EHB paths intentionally differ"
+}

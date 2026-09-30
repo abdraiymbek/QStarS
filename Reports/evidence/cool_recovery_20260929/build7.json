@@ -1,0 +1,14 @@
+{
+  "executable_sha256": "0315d560fc2f79e3b23fed5a9d224332e4e2c1537c2e455ec65608240dcf5b9b",
+  "max_rays": 2048,
+  "explicit_native_capacity_guard": true,
+  "source_hashes": {
+    "plane/mod_space_grid_v2.f": "b9c11f8a90629555e8b964b8f4596de50e44a0c7beb8f2a9500afda4abe4c4ce",
+    "plane/define_grid_v2.f": "51bae5f93bac3073c3050f284f6ccce7745cb25c928806d6455810d92cc015f8",
+    "new_main/cmfgen_sub.f": "b45b58e99a0ff9ac4bfb14471e5612cdb5ee63b7afc3c8639af7158bdc3d0865",
+    "new_main/mod_subs/comp_opac.f": "b36d9a290f83a383f14c0e41600ecb3cb70e1b533f3dda99f06a77fbf678dd86",
+    "new_main/mod_subs/do_var_cont.f": "288b559347d3a91d44335a7a9f8516069d28331968f766a77d088f102d081098"
+  },
+  "scope": "non-dust spherical transfer only; not production certification",
+  "hminus_rayleigh_fixed": true
+}

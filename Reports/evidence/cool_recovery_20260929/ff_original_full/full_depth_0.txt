@@ -1,0 +1,26 @@
+INPUT 4 0.03 0.33 0.61 1.13 2000000000.0 300000000000.0 5000000000000.0 40000000000.0 7000000000000.0 90000000000000.0
+ Opening H- free-free file
+ NTHETA= 11    NLAM= 22
+              0.5     0.6     0.8     1.0     1.2     1.4    1.6    1.8     2.0     2.8    3.6                                                                                                          
+
+
+ LOG(T/10^4)_TAB
+
+  -1.966E+00 -1.715E+00 -1.378E+00 -1.273E+00 -1.155E+00 -1.022E+00 -8.675E-01 -6.852E-01 -4.620E-01 -1.744E-01  7.968E-03
+
+
+ LOG(NU/10^15 Hz)_TAB
+
+  -3.925E+00 -3.638E+00 -3.414E+00 -2.721E+00 -2.316E+00 -2.028E+00 -1.805E+00 -1.623E+00 -1.468E+00 -1.335E+00 -1.217E+00
+  -1.112E+00 -9.296E-01 -7.754E-01 -6.418E-01 -5.240E-01 -4.187E-01 -1.954E-01 -1.327E-02  1.409E-01  2.746E-01  4.974E-01
+ 
+DATA    3.2380523033381234E-07   2.3568563629847864E-13   1.8658792235036212E-22
+DATA    9.3113407800578217E-03   1.3925030857313692E-08   1.1024187206047463E-17
+DATA    2.0692358883894628E+00   6.0623619483233965E-06   4.7994588819193880E-15
+GEN    3.2380523033381234E-07   2.3568563629847864E-13
+GEN    9.3113407800578217E-03   1.3925030857313692E-08
+GEN    2.0692358883894628E+00   6.0623619483233965E-06
+At line 22 of file /Users/abraiymbek/Projects/QStarS/Reports/evidence/cool_recovery_20260929/ff_original_full/probe.f90
+Fortran runtime warning: An array temporary was created
+At line 23 of file /Users/abraiymbek/Projects/QStarS/Reports/evidence/cool_recovery_20260929/ff_original_full/probe.f90
+Fortran runtime warning: An array temporary was created for argument '_formal_83' of procedure 'do_h0_ff_cool'

@@ -1,0 +1,164 @@
+{
+  "schema_version": 1,
+  "baseline_commit": "009e395",
+  "report": "Reports/Report_15.md",
+  "outcome": "NUMERICAL BLOCKER",
+  "software_version": "0.1.0",
+  "v1_complete": false,
+  "self_selected_wind_pass": false,
+  "physical_nonexistence_demonstrated": false,
+  "regression": {
+    "passed": 122,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 51.91,
+    "mesa_bridge_abi": 6,
+    "freeeos_enabled": true
+  },
+  "cli": {
+    "checks": 31,
+    "passed": 29,
+    "failed": 2,
+    "require_v1_exit_code": 2
+  },
+  "native_cases": 13,
+  "timed_cases": 12,
+  "source_registry_entries": 57,
+  "archive": {
+    "files_verified": 1285,
+    "omitted_local_files_verified": 2092,
+    "external_links_verified": 10517,
+    "failures": 0
+  },
+  "source_snapshot": {
+    "files_verified": 199,
+    "sha256": "d816becca81852fe9e5495ec693351e838cf35cbab731b5f25d24d1211bdb36d",
+    "scope": "Final Report 15 project interface, patch tools, plans, tests, documentation and source registry. External native/atomic/binary assets excluded and separately attested; this final snapshot is not the historical code used by every trial."
+  },
+  "analysis_driver_verification": [
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/ff_fixed_full/driver.py",
+      "sha256": "16c0a91b4beaa72c9f07e977e92160e4876bfbda6b9e0a31df3c5b17057a982e",
+      "matches_record": true
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/moment_trace_analysis/driver.py",
+      "sha256": "e60a1f6385cd373121cd43da3fce0ffc75a9c211adb534100bb069e10981f0e1",
+      "matches_record": true
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/ff_original/driver.py",
+      "sha256": "1e5b37a16aa484152fa3ecaeb955490d8e004f9349c1e252439d5c320b5d77ff",
+      "matches_record": true
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/ff_fixed/driver.py",
+      "sha256": "1e5b37a16aa484152fa3ecaeb955490d8e004f9349c1e252439d5c320b5d77ff",
+      "matches_record": true
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/frequency2_analysis_v3/driver.py",
+      "sha256": "96d9c64303df6da28087466c0d7f8c8a8c69d5f12e83ccce55afcd046a0a84ac",
+      "matches_record": true
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/frequency2_analysis/driver.py",
+      "sha256": "9115a8ee32fc59edb56f698a6db29801049c9ecca9c7099afef2c977112e1f86",
+      "matches_record": true
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/growth_analysis/driver.py",
+      "sha256": "9115a8ee32fc59edb56f698a6db29801049c9ecca9c7099afef2c977112e1f86",
+      "matches_record": true
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/fresh_angular_analysis/driver.py",
+      "sha256": "9115a8ee32fc59edb56f698a6db29801049c9ecca9c7099afef2c977112e1f86",
+      "matches_record": true
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/ff_original_full/driver.py",
+      "sha256": "16c0a91b4beaa72c9f07e977e92160e4876bfbda6b9e0a31df3c5b17057a982e",
+      "matches_record": true
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/growth_analysis_v3/driver.py",
+      "sha256": "96d9c64303df6da28087466c0d7f8c8a8c69d5f12e83ccce55afcd046a0a84ac",
+      "matches_record": true
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/moment_trace_analysis_v2/driver.py",
+      "sha256": "9115a8ee32fc59edb56f698a6db29801049c9ecca9c7099afef2c977112e1f86",
+      "matches_record": true
+    }
+  ],
+  "evidence": [
+    {
+      "path": "Reports/Report_15.md",
+      "sha256": "e5786edffe498835af42270a27e673d8dcf4064400ab4ca37f06bc8c46107d30"
+    },
+    {
+      "path": "Reports/evidence/completion_gates.json",
+      "sha256": "ff0c4a0650ab9532c0978bbeb70b33a904a571c792858c57c84e379782913bed"
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/gate_matrix.json",
+      "sha256": "5248af08c61d7377f682085eb89ebfd5747458ff99b0fd85dc1ddbe72566f1b3"
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/pytest_prefix_guard_native.log",
+      "sha256": "35845fb1363f31a19c48818a8bf5d12a06c884f5bb4002fca024b3bd8a6d7cf1"
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/cli_release_validation/20260930T012647.271050Z_validation/validation.json",
+      "sha256": "99b9e569b4d2f89328f39554b24819fce345f8d1350d12164f74fcff8aaea9f8"
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/interface_source_manifest.json",
+      "sha256": "d8f0020dfe46bfc1a0dfa3a78a70e52ed45a6b83134360b4125a1565a247d820"
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/interface_source.zip",
+      "sha256": "d816becca81852fe9e5495ec693351e838cf35cbab731b5f25d24d1211bdb36d"
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/native_build_verification.json",
+      "sha256": "6ea68ddac8643533741f176375cf0a051dc33f9283c884924c5ad855d914f649"
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/local_archive_verification.json",
+      "sha256": "15fa1a1c434756b1734057194418793109cf2c32a41fb9acac4f3f7853eb930a"
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/final_historical_interface_verification.json",
+      "sha256": "9232b25d6fb0fec83d98c3755ba5e9a4433aa7e7076a095576f9233b433a0bab"
+    },
+    {
+      "path": "benchmarks/results/2026-09-29-cool-recovery/archive_manifest.json",
+      "sha256": "47c548655e2d5a2b4354e458e95cd7aadbfd821a84a978fcb634666616c50b81"
+    },
+    {
+      "path": "benchmarks/results/2026-09-29-cool-recovery/verification.json",
+      "sha256": "36939e9227212d51fdd6c2254a2d94a5039ef4e332e43e590462ffa2cbf4f9aa"
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/loaded_code_hash_erratum.json",
+      "sha256": "6ac4b785c247b4f577be46a07a1a76049e8b7a11b78841311d2242ed4a9f52df"
+    },
+    {
+      "path": "Reports/evidence/cool_recovery_20260929/analysis_interpretation_erratum.json",
+      "sha256": "60e204320fd11ba805001b2d1bd9b51677a1ddb44b877751f64acb97322e6ff9"
+    }
+  ],
+  "limitations": [
+    "No jointly converged cool populations, temperature, radiation and independent radiation-energy state.",
+    "Fixed-J/T initialization and isolated FF derivatives are bounded component passes only.",
+    "No validated relaxed response, global wind eigenvalue, convective handoff, physical selected escaping wind or evolutionary track.",
+    "No assertion of physical nonexistence or universal numerical impossibility.",
+    "No Linux/cloud numerical agreement or production wind/evolution performance measured."
+  ],
+  "format_check": {
+    "project_code_and_docs_pass": true,
+    "excluded": "Immutable native logs, archived inputs, historical evidence and exact upstream patch text retain original whitespace."
+  }
+}

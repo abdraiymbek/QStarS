@@ -17,4 +17,13 @@ if ray_manifest.exists():
     record['hminus_rayleigh_fixed']=all(sha(a.root/name)==row['patched'] and
         exe.stat().st_mtime_ns>(a.root/name).stat().st_mtime_ns for name,row in required.items())
     record['source_hashes'].update({name:sha(a.root/name) for name in required})
+ff_manifest=Path(__file__).parent/'hminus_ff_patch_manifest.json'
+record['hminus_ff_fixed']=False
+if ff_manifest.exists():
+    required=json.loads(ff_manifest.read_text())['source_hashes']
+    record['hminus_ff_fixed']=all(sha(a.root/name)==row['patched'] and
+        exe.stat().st_mtime_ns>(a.root/name).stat().st_mtime_ns for name,row in required.items())
+    record['source_hashes'].update({name:sha(a.root/name) for name in required})
+for name in ['plane/mom_jrel_v9.f','plane/var_jrel_v5.f','new_main/mod_subs/comp_j_blank.f']:
+    record['source_hashes'][name]=sha(a.root/name)
 exe.with_suffix('.capabilities.json').write_text(json.dumps(record,indent=2)+'\n');print(json.dumps(record,indent=2))

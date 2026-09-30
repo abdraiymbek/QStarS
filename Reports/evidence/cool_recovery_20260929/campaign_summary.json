@@ -1,0 +1,756 @@
+{
+  "cases": [
+    {
+      "case": "cmfgen_recovery_T9_fixedJ",
+      "status": "numerical_failure",
+      "error": "Native exit code -11",
+      "native_exit": -11,
+      "seconds": 16.163281749992166,
+      "ND": 84,
+      "correction_history": [
+        {
+          "iteration": 2,
+          "reported_percent": 341809717061.07666,
+          "raw_percent": 342000000000.0,
+          "all_level_percent": 342000000000.0
+        },
+        {
+          "iteration": 3,
+          "reported_percent": 1915849855.8434908,
+          "raw_percent": 1920000000.0,
+          "all_level_percent": 1920000000.0
+        },
+        {
+          "iteration": 4,
+          "reported_percent": 140296732.0277225,
+          "raw_percent": 140000000.0,
+          "all_level_percent": 140296732.0277225
+        },
+        {
+          "iteration": 5,
+          "reported_percent": 14029583.273661599,
+          "raw_percent": 14000000.0,
+          "all_level_percent": 14029583.273661599
+        },
+        {
+          "iteration": 6,
+          "reported_percent": 1402868.3273308726,
+          "raw_percent": 1400000.0,
+          "all_level_percent": 1402868.3273308726
+        },
+        {
+          "iteration": 7,
+          "reported_percent": 140196.83273277074,
+          "raw_percent": 140000.0,
+          "all_level_percent": 140196.83273277074
+        },
+        {
+          "iteration": 8,
+          "reported_percent": 13929.683273270663,
+          "raw_percent": 13900.0,
+          "all_level_percent": 13929.683273270663
+        },
+        {
+          "iteration": 9,
+          "reported_percent": 1302.9683273270637,
+          "raw_percent": 1300.0,
+          "all_level_percent": 1302.9683273270637
+        },
+        {
+          "iteration": 10,
+          "reported_percent": 4.798651661358666e-10,
+          "raw_percent": 40.3,
+          "all_level_percent": 40.3
+        }
+      ],
+      "last_counter": 11,
+      "temperature_held_iterations": 9,
+      "verified_inherited_log_prefix": {
+        "bytes": 109863,
+        "sha256": "4f63b2c692cca1f8f2d04f74120ebd6c914562c9e3debc6018081c22e7d19ce0",
+        "source": "/Users/abraiymbek/Projects/QStarS/results/cmfgen_cool_T9_bootstrap/OUTGEN"
+      },
+      "radiation_instability": false,
+      "executable_sha256": "a4e9b9155709f50cedc2bbb969d18f27ee1c2e1624d8efbd17dd5cf5900c345b",
+      "hashes": {
+        "run_manifest.json": "f7193cd5556b3dcd427cc936da619361680ae88be208bc29ecf6d5e1d75c59cf",
+        "run_result.json": "03d12f525893206785af3ff7574d53da6170ca495e06f193980dc63c242d148f",
+        "OUTGEN": "da8f3c88a5631fb7ad4a8fc5db304b19b3c3f893ce5a8addfc23a75441804611",
+        "recovery_control.json": "4d9f5e8ba1afaed18d35da0f1a722d8e3b10a594e3700a01713cfaa1a234df13"
+      },
+      "peak_footprint_bytes": 121078528,
+      "maximum_resident_bytes": 125452288
+    },
+    {
+      "case": "cmfgen_recovery_T9_fixedJ_debug",
+      "status": "debugger_native_crash",
+      "seconds": null,
+      "executable_sha256": "233ce39aa65067c82ab94f107bc39388d310b7b3822758a91e13ac62f07cb2b3",
+      "error": "EXC_BAD_ACCESS address 0 in do_h0_ff_cool_ +100; not native success",
+      "scope": "retrospective debugger record; not a run_component manifest or equilibrium",
+      "hashes": {
+        "debugger_manifest.json": "288eae4e906241693e44b840a92286310d136b9379d3c125a76f884eef8d573c"
+      }
+    },
+    {
+      "case": "cmfgen_recovery_T9_fixedJ_ff",
+      "status": "completed_component_not_certified",
+      "error": null,
+      "native_exit": 0,
+      "seconds": 20.430730665975716,
+      "ND": 84,
+      "correction_history": [
+        {
+          "iteration": 2,
+          "reported_percent": 341809717061.07666,
+          "raw_percent": 342000000000.0,
+          "all_level_percent": 342000000000.0
+        },
+        {
+          "iteration": 3,
+          "reported_percent": 1915849855.8434908,
+          "raw_percent": 1920000000.0,
+          "all_level_percent": 1920000000.0
+        },
+        {
+          "iteration": 4,
+          "reported_percent": 140296732.0277225,
+          "raw_percent": 140000000.0,
+          "all_level_percent": 140296732.0277225
+        },
+        {
+          "iteration": 5,
+          "reported_percent": 14029583.273661599,
+          "raw_percent": 14000000.0,
+          "all_level_percent": 14029583.273661599
+        },
+        {
+          "iteration": 6,
+          "reported_percent": 1402868.3273308726,
+          "raw_percent": 1400000.0,
+          "all_level_percent": 1402868.3273308726
+        },
+        {
+          "iteration": 7,
+          "reported_percent": 140196.83273277074,
+          "raw_percent": 140000.0,
+          "all_level_percent": 140196.83273277074
+        },
+        {
+          "iteration": 8,
+          "reported_percent": 13929.683273270663,
+          "raw_percent": 13900.0,
+          "all_level_percent": 13929.683273270663
+        },
+        {
+          "iteration": 9,
+          "reported_percent": 1302.9683273270637,
+          "raw_percent": 1300.0,
+          "all_level_percent": 1302.9683273270637
+        },
+        {
+          "iteration": 10,
+          "reported_percent": 40.29683273270619,
+          "raw_percent": 40.3,
+          "all_level_percent": 40.3
+        },
+        {
+          "iteration": 11,
+          "reported_percent": 5.080333363159829e-10,
+          "raw_percent": 5.08e-10,
+          "all_level_percent": 5.080333363159829e-10
+        },
+        {
+          "iteration": 12,
+          "reported_percent": 3.9366622352835406e-10,
+          "raw_percent": 3.94e-10,
+          "all_level_percent": 3.94e-10
+        }
+      ],
+      "last_counter": 12,
+      "temperature_held_iterations": 11,
+      "verified_inherited_log_prefix": {
+        "bytes": 109863,
+        "sha256": "4f63b2c692cca1f8f2d04f74120ebd6c914562c9e3debc6018081c22e7d19ce0",
+        "source": "/Users/abraiymbek/Projects/QStarS/results/cmfgen_cool_T9_bootstrap/OUTGEN"
+      },
+      "radiation_instability": false,
+      "executable_sha256": "0315d560fc2f79e3b23fed5a9d224332e4e2c1537c2e455ec65608240dcf5b9b",
+      "hashes": {
+        "run_manifest.json": "08d62880a97face925b31fdc9571e56e50813b495c9068715ac53b579c75663d",
+        "run_result.json": "7376bac89ed0c5627156284f4030c5d426b779493c638934359202ea02a942df",
+        "OUTGEN": "d65bf07003e90b528cc05ba183d9cd5cbe08528ead9934c73e69c04331320a4e",
+        "recovery_control.json": "c7a707be161afd8ad21629857bbf3bebf545475af5c20165838ba7f4ff4bf9df"
+      },
+      "peak_footprint_bytes": 121504536,
+      "maximum_resident_bytes": 127352832
+    },
+    {
+      "case": "cmfgen_recovery_T9_frequency2",
+      "status": "numerical_failure",
+      "error": "Native radiation iteration failed; finite/stale output is not convergence",
+      "native_exit": 0,
+      "seconds": 55.213611375016626,
+      "ND": 84,
+      "correction_history": [],
+      "last_counter": 19,
+      "temperature_held_iterations": 0,
+      "verified_inherited_log_prefix": {
+        "bytes": 142152,
+        "sha256": "a3c4dbf21eb308ebe46ae9339c947fe645050b054e9ecb97b30beca4eea3a3d3",
+        "source": "results/cmfgen_recovery_T9_frequency2/initial_inputs/OUTGEN"
+      },
+      "radiation_instability": true,
+      "executable_sha256": "f1ea4c30bafb141db196fa486323a1ac62eb438b0ad05e4907877f012cdc9c0b",
+      "hashes": {
+        "run_manifest.json": "22e52c77bbfde741e3e6bd905eeaef3b2bd018fa5c93a8d2a1fe71b514b4df93",
+        "run_result.json": "57e9a0e42f205faa64d50fdc201e9ed71f9dd8800cd3eb3a6c5e099227b77e9a",
+        "OUTGEN": "b469b8f5aab9e70f96cbb6d6109c47dae55b486318a3a5ecb15411301ee79760",
+        "recovery_control.json": "823f6d9cba2c393ebb26c453d5a30b15fdd8d6a9daa003b2711b9a32ceaaafd9",
+        "QSTARS_J_FAILURE": "b9f9808a0d33489f61025d7c72ab5d74054303e1b7817594f3d282451ff77cfc"
+      },
+      "peak_footprint_bytes": 566494384,
+      "maximum_resident_bytes": 572260352
+    },
+    {
+      "case": "cmfgen_recovery_T9_fresh_angular",
+      "status": "numerical_failure",
+      "error": "Native radiation iteration failed; finite/stale output is not convergence",
+      "native_exit": 0,
+      "seconds": 28.162236458039843,
+      "ND": 84,
+      "correction_history": [],
+      "last_counter": 19,
+      "temperature_held_iterations": 0,
+      "verified_inherited_log_prefix": {
+        "bytes": 142152,
+        "sha256": "a3c4dbf21eb308ebe46ae9339c947fe645050b054e9ecb97b30beca4eea3a3d3",
+        "source": "results/cmfgen_recovery_T9_fresh_angular/initial_inputs/OUTGEN"
+      },
+      "radiation_instability": true,
+      "executable_sha256": "f1ea4c30bafb141db196fa486323a1ac62eb438b0ad05e4907877f012cdc9c0b",
+      "hashes": {
+        "run_manifest.json": "345c53308051c48c73431bda2ef3ed429a706a93be5c7a15a3795fd5efef4d32",
+        "run_result.json": "0ed5a094561ede898f19cc7ca575fb80b99d034dc3728e9de4401e2de8758d3b",
+        "OUTGEN": "47740fb851746f7be82ac78b12cd272212d29d1ab35c305bf1c07c61c0fd0ddd",
+        "recovery_control.json": "f22d5ebf112210c6589309c3b01a1e531b6b2c72775f07f6cb523f8efc504fdf",
+        "QSTARS_MOM_GROWTH": "2fc4fa6ba3cba5febac27c4283bc1ccb5ec082b0cad023f6e0d6dd1e7c9806a0",
+        "QSTARS_J_FAILURE": "69f3d940c58b6c0ceec041a8e805506a66dd43e39d02f05b89035452e5a5d061"
+      },
+      "peak_footprint_bytes": 565413064,
+      "maximum_resident_bytes": 564674560
+    },
+    {
+      "case": "cmfgen_recovery_T9_full_ff",
+      "status": "numerical_failure",
+      "error": "Native run did not produce fresh RVTJ",
+      "native_exit": 0,
+      "seconds": 257.94180766603677,
+      "ND": 84,
+      "correction_history": [
+        {
+          "iteration": 13,
+          "reported_percent": 2.6884294233957914e+17,
+          "raw_percent": 2.69e+17,
+          "all_level_percent": 2.69e+17
+        },
+        {
+          "iteration": 14,
+          "reported_percent": 2.71045165231742e+17,
+          "raw_percent": 2.71e+17,
+          "all_level_percent": 2.71045165231742e+17
+        },
+        {
+          "iteration": 15,
+          "reported_percent": 5.937595047669764e+17,
+          "raw_percent": 5.94e+17,
+          "all_level_percent": 5.94e+17
+        },
+        {
+          "iteration": 16,
+          "reported_percent": 1.9931897666163228e+18,
+          "raw_percent": 1.99e+18,
+          "all_level_percent": 1.9931897666163228e+18
+        },
+        {
+          "iteration": 17,
+          "reported_percent": 3.473555489095496e+18,
+          "raw_percent": 3.47e+18,
+          "all_level_percent": 3.473555489095496e+18
+        },
+        {
+          "iteration": 18,
+          "reported_percent": 3.0062745671369888e+19,
+          "raw_percent": 3.01e+19,
+          "all_level_percent": 3.01e+19
+        }
+      ],
+      "last_counter": 19,
+      "temperature_held_iterations": 1,
+      "verified_inherited_log_prefix": {
+        "bytes": 125456,
+        "sha256": "d65bf07003e90b528cc05ba183d9cd5cbe08528ead9934c73e69c04331320a4e",
+        "source": "/Users/abraiymbek/Projects/QStarS/results/cmfgen_recovery_T9_fixedJ_ff/OUTGEN"
+      },
+      "radiation_instability": true,
+      "executable_sha256": "0315d560fc2f79e3b23fed5a9d224332e4e2c1537c2e455ec65608240dcf5b9b",
+      "hashes": {
+        "run_manifest.json": "617be216b14de10d2bb02fb3a01b3130fcafc86589d45145050db159bcf328ca",
+        "run_result.json": "38012c61144b3a593b7f966e42b577bcec40bcac091270e0171beb211f35761e",
+        "OUTGEN": "a3c4dbf21eb308ebe46ae9339c947fe645050b054e9ecb97b30beca4eea3a3d3",
+        "recovery_control.json": "8f0b212fec5d231866859cbd646764eb57ca6424c4e6608dd6032ade1328fdad"
+      },
+      "peak_footprint_bytes": 568198272,
+      "maximum_resident_bytes": 565723136
+    },
+    {
+      "case": "cmfgen_recovery_T9_growth_trace",
+      "status": "numerical_failure",
+      "error": "Native radiation iteration failed; finite/stale output is not convergence",
+      "native_exit": 0,
+      "seconds": 23.974132417002693,
+      "ND": 84,
+      "correction_history": [],
+      "last_counter": 19,
+      "temperature_held_iterations": 0,
+      "verified_inherited_log_prefix": {
+        "bytes": 142152,
+        "sha256": "a3c4dbf21eb308ebe46ae9339c947fe645050b054e9ecb97b30beca4eea3a3d3",
+        "source": "results/cmfgen_recovery_T9_growth_trace/initial_inputs/OUTGEN"
+      },
+      "radiation_instability": true,
+      "executable_sha256": "f1ea4c30bafb141db196fa486323a1ac62eb438b0ad05e4907877f012cdc9c0b",
+      "hashes": {
+        "run_manifest.json": "2db93771c07097429e5f1ad3a3b9c8485cf29debea88ce5caa777ac8aef008f1",
+        "run_result.json": "8df8c80620b24f100fe1b0139349428965bb85577d9487d28044392c79e72871",
+        "OUTGEN": "2ceb1dfae5b44ffec52b14bb12d52622287269339237179586187f817cbd0cdc",
+        "recovery_control.json": "90e4caf816b239663d79de1874079aa4262fce6e7bf0201c1bda4173b0e40eaf",
+        "QSTARS_MOM_GROWTH": "b78568ebe4d3baff56d449bb37623f519a615b6e65e631079cb2d18bc2f1d34c",
+        "QSTARS_J_FAILURE": "55da0354cfcfd252659838c592008e00986b1422be7722425734e0b0f6c375be"
+      },
+      "peak_footprint_bytes": 564069432,
+      "maximum_resident_bytes": 569901056
+    },
+    {
+      "case": "cmfgen_recovery_T9_refined_full_ff",
+      "status": "numerical_failure",
+      "error": "Native run did not produce fresh RVTJ",
+      "native_exit": 0,
+      "seconds": 1727.1339539170149,
+      "ND": 167,
+      "correction_history": [
+        {
+          "iteration": 13,
+          "reported_percent": 2.1614376418263645e+17,
+          "raw_percent": 2.16e+17,
+          "all_level_percent": 2.1614376418263645e+17
+        },
+        {
+          "iteration": 14,
+          "reported_percent": 3.522950613555816e+17,
+          "raw_percent": 3.52e+17,
+          "all_level_percent": 3.522950613555816e+17
+        },
+        {
+          "iteration": 15,
+          "reported_percent": 2.2180031467280307e+17,
+          "raw_percent": 2.22e+17,
+          "all_level_percent": 2.22e+17
+        },
+        {
+          "iteration": 16,
+          "reported_percent": 7.427822009420824e+17,
+          "raw_percent": 7.43e+17,
+          "all_level_percent": 7.43e+17
+        },
+        {
+          "iteration": 17,
+          "reported_percent": 1.8157675449524918e+17,
+          "raw_percent": 1.82e+17,
+          "all_level_percent": 1.82e+17
+        },
+        {
+          "iteration": 18,
+          "reported_percent": 5.151884169518064e+17,
+          "raw_percent": 5.15e+17,
+          "all_level_percent": 5.151884169518064e+17
+        },
+        {
+          "iteration": 19,
+          "reported_percent": 2.6997626513387776e+18,
+          "raw_percent": 2.7e+18,
+          "all_level_percent": 2.7e+18
+        },
+        {
+          "iteration": 20,
+          "reported_percent": 1.1758740353033357e+18,
+          "raw_percent": 1.18e+18,
+          "all_level_percent": 1.18e+18
+        },
+        {
+          "iteration": 21,
+          "reported_percent": 6.212704351508552e+18,
+          "raw_percent": 6.21e+18,
+          "all_level_percent": 6.212704351508552e+18
+        },
+        {
+          "iteration": 22,
+          "reported_percent": 1.1551697841316014e+18,
+          "raw_percent": 1.16e+18,
+          "all_level_percent": 1.16e+18
+        },
+        {
+          "iteration": 23,
+          "reported_percent": 4.114128027378889e+17,
+          "raw_percent": 4.11e+17,
+          "all_level_percent": 4.114128027378889e+17
+        },
+        {
+          "iteration": 24,
+          "reported_percent": 2.2082526319129773e+17,
+          "raw_percent": 2.21e+17,
+          "all_level_percent": 2.21e+17
+        },
+        {
+          "iteration": 25,
+          "reported_percent": 1.413877735098429e+17,
+          "raw_percent": 1.41e+17,
+          "all_level_percent": 1.413877735098429e+17
+        },
+        {
+          "iteration": 26,
+          "reported_percent": 3.778021866934427e+17,
+          "raw_percent": 3.78e+17,
+          "all_level_percent": 3.78e+17
+        },
+        {
+          "iteration": 27,
+          "reported_percent": 2.0129002419663232e+18,
+          "raw_percent": 2.01e+18,
+          "all_level_percent": 2.0129002419663232e+18
+        }
+      ],
+      "last_counter": 28,
+      "temperature_held_iterations": 1,
+      "verified_inherited_log_prefix": {
+        "bytes": 219439,
+        "sha256": "e7a58c0bd44fd9092dadb61d0fafa1d6df8d7b71b115894fdcecb59304541844",
+        "source": "/Users/abraiymbek/Projects/QStarS/results/cmfgen_recovery_T9_refined_full_ff_fixedJ/OUTGEN"
+      },
+      "radiation_instability": true,
+      "executable_sha256": "0315d560fc2f79e3b23fed5a9d224332e4e2c1537c2e455ec65608240dcf5b9b",
+      "hashes": {
+        "run_manifest.json": "eb560be4fd337cb2d96838609b86df4c4d520779ae9621a66c1b8a72bb5eda67",
+        "run_result.json": "a073a97ac3977b091744ff1874a4c938fa187b5dce87f30f054f279ad69f0729",
+        "OUTGEN": "7cac9e964bb05bc6ce9d26a85e69155b32908f276e37aa2ff61f0bb52aa76ac4",
+        "recovery_control.json": "61b840e06ae74bd323011d2835fda4e8738363f9ab6113ca9cd2f3e50aba12c7",
+        "QSTARS_MOM_FAILURE": "2c1f80e1c6c4af92c36071d1c6fbcb2ed6479cc9b08c6c73cd82b3b0cf85b611"
+      },
+      "peak_footprint_bytes": 1202849352,
+      "maximum_resident_bytes": 1199292416
+    },
+    {
+      "case": "cmfgen_recovery_T9_refined_full_ff_bootstrap",
+      "status": "completed_component_not_certified",
+      "error": null,
+      "native_exit": 0,
+      "seconds": 48.20945137494709,
+      "ND": 167,
+      "correction_history": [
+        {
+          "iteration": 1,
+          "reported_percent": 3.5379771925698976e+20,
+          "raw_percent": 3.54e+20,
+          "all_level_percent": 3.54e+20
+        }
+      ],
+      "last_counter": 1,
+      "temperature_held_iterations": 1,
+      "verified_inherited_log_prefix": null,
+      "radiation_instability": false,
+      "executable_sha256": "0315d560fc2f79e3b23fed5a9d224332e4e2c1537c2e455ec65608240dcf5b9b",
+      "hashes": {
+        "run_manifest.json": "cf08c45d77d2763081bbdf540cbb3169d052a280835d113376aff53d1daef477",
+        "run_result.json": "685a93a0bf2fb2747e6b3593356283b021b44bbce65ed1eb2b84debc79f424cb",
+        "OUTGEN": "338de01af74090516cb2f3bc78f67e4db4c32344107abcee7482161ef055bccb"
+      },
+      "peak_footprint_bytes": 185975552,
+      "maximum_resident_bytes": 185188352
+    },
+    {
+      "case": "cmfgen_recovery_T9_refined_full_ff_fixedJ",
+      "status": "completed_component_not_certified",
+      "error": null,
+      "native_exit": 0,
+      "seconds": 43.36778170801699,
+      "ND": 167,
+      "correction_history": [
+        {
+          "iteration": 2,
+          "reported_percent": 309229399882.11285,
+          "raw_percent": 309000000000.0,
+          "all_level_percent": 309229399882.11285
+        },
+        {
+          "iteration": 3,
+          "reported_percent": 1631354730.2899978,
+          "raw_percent": 1630000000.0,
+          "all_level_percent": 1631354730.2899978
+        },
+        {
+          "iteration": 4,
+          "reported_percent": 126980924.71248077,
+          "raw_percent": 127000000.0,
+          "all_level_percent": 127000000.0
+        },
+        {
+          "iteration": 5,
+          "reported_percent": 12698002.58914406,
+          "raw_percent": 12700000.0,
+          "all_level_percent": 12700000.0
+        },
+        {
+          "iteration": 6,
+          "reported_percent": 1269710.2589280386,
+          "raw_percent": 1270000.0,
+          "all_level_percent": 1270000.0
+        },
+        {
+          "iteration": 7,
+          "reported_percent": 126881.0258933601,
+          "raw_percent": 127000.0,
+          "all_level_percent": 127000.0
+        },
+        {
+          "iteration": 8,
+          "reported_percent": 12598.10258933869,
+          "raw_percent": 12600.0,
+          "all_level_percent": 12600.0
+        },
+        {
+          "iteration": 9,
+          "reported_percent": 1169.8102589338878,
+          "raw_percent": 1170.0,
+          "all_level_percent": 1170.0
+        },
+        {
+          "iteration": 10,
+          "reported_percent": 26.98102589338879,
+          "raw_percent": 27.0,
+          "all_level_percent": 27.0
+        },
+        {
+          "iteration": 11,
+          "reported_percent": 3.700064214154034e-10,
+          "raw_percent": 3.70000000001369e-10,
+          "all_level_percent": 3.700064214154034e-10
+        },
+        {
+          "iteration": 12,
+          "reported_percent": 3.4155787195524614e-10,
+          "raw_percent": 3.4200000000116964e-10,
+          "all_level_percent": 3.4200000000116964e-10
+        }
+      ],
+      "last_counter": 12,
+      "temperature_held_iterations": 11,
+      "verified_inherited_log_prefix": {
+        "bytes": 203846,
+        "sha256": "338de01af74090516cb2f3bc78f67e4db4c32344107abcee7482161ef055bccb",
+        "source": "/Users/abraiymbek/Projects/QStarS/results/cmfgen_recovery_T9_refined_full_ff_bootstrap/OUTGEN"
+      },
+      "radiation_instability": false,
+      "executable_sha256": "0315d560fc2f79e3b23fed5a9d224332e4e2c1537c2e455ec65608240dcf5b9b",
+      "hashes": {
+        "run_manifest.json": "30fab80e9476619898904f58eaee9749d1585cda4993be930d9fa0ad2a871f5a",
+        "run_result.json": "e13ffedb3d872ccac4b6c5b37c721737f7ece234be859ca057e3055c2e07eebb",
+        "OUTGEN": "e7a58c0bd44fd9092dadb61d0fafa1d6df8d7b71b115894fdcecb59304541844"
+      },
+      "peak_footprint_bytes": 180355840,
+      "maximum_resident_bytes": 181911552
+    },
+    {
+      "case": "cmfgen_recovery_T9_release_ff",
+      "status": "numerical_failure",
+      "error": "Native run did not produce fresh RVTJ",
+      "native_exit": 0,
+      "seconds": 233.34334162500454,
+      "ND": 84,
+      "correction_history": [
+        {
+          "iteration": 13,
+          "reported_percent": 2.6884294233957914e+17,
+          "raw_percent": 2.69e+17,
+          "all_level_percent": 2.69e+17
+        },
+        {
+          "iteration": 14,
+          "reported_percent": 2.71045165231742e+17,
+          "raw_percent": 2.71e+17,
+          "all_level_percent": 2.71045165231742e+17
+        },
+        {
+          "iteration": 15,
+          "reported_percent": 5.937595047669764e+17,
+          "raw_percent": 5.94e+17,
+          "all_level_percent": 5.94e+17
+        },
+        {
+          "iteration": 16,
+          "reported_percent": 1.9931897666163228e+18,
+          "raw_percent": 1.99e+18,
+          "all_level_percent": 1.9931897666163228e+18
+        },
+        {
+          "iteration": 17,
+          "reported_percent": 3.473555489095496e+18,
+          "raw_percent": 3.47e+18,
+          "all_level_percent": 3.473555489095496e+18
+        },
+        {
+          "iteration": 18,
+          "reported_percent": 3.0062745671369888e+19,
+          "raw_percent": 3.01e+19,
+          "all_level_percent": 3.01e+19
+        }
+      ],
+      "last_counter": 19,
+      "temperature_held_iterations": 1,
+      "verified_inherited_log_prefix": {
+        "bytes": 125456,
+        "sha256": "d65bf07003e90b528cc05ba183d9cd5cbe08528ead9934c73e69c04331320a4e",
+        "source": "/Users/abraiymbek/Projects/QStarS/results/cmfgen_recovery_T9_fixedJ_ff/OUTGEN"
+      },
+      "radiation_instability": true,
+      "executable_sha256": "0315d560fc2f79e3b23fed5a9d224332e4e2c1537c2e455ec65608240dcf5b9b",
+      "hashes": {
+        "run_manifest.json": "ff64ef6e1e9d1be0a5d8907cef8c21ae4fc4368b5ad04db8757200a29670664c",
+        "run_result.json": "dc27f201228f3a23d785f19884bb79caf7ededce8c8f0b2e6ab84acc0f187913",
+        "OUTGEN": "8664fc52594c34f7e7a2aedd8ac337e49466f957fc4d07c9db487744a0644e46",
+        "recovery_control.json": "6d04476b5d68491240b88ce5a522ea43c795fbac478e43ee3c5b63c2b06ba638"
+      },
+      "peak_footprint_bytes": 568575056,
+      "maximum_resident_bytes": 566116352
+    },
+    {
+      "case": "cmfgen_recovery_T9_trace",
+      "status": "numerical_failure",
+      "error": "Native run did not produce fresh RVTJ",
+      "native_exit": 0,
+      "seconds": 170.39853124998626,
+      "ND": 84,
+      "correction_history": [
+        {
+          "iteration": 2,
+          "reported_percent": 3.023226979452813e+27,
+          "raw_percent": 3.02e+27,
+          "all_level_percent": 3.023226979452813e+27
+        },
+        {
+          "iteration": 3,
+          "reported_percent": 3.253978117905936e+27,
+          "raw_percent": 3.25e+27,
+          "all_level_percent": 3.253978117905936e+27
+        },
+        {
+          "iteration": 4,
+          "reported_percent": 3.447102507698131e+29,
+          "raw_percent": 3.45e+29,
+          "all_level_percent": 3.45e+29
+        },
+        {
+          "iteration": 5,
+          "reported_percent": 3.979634348746297e+29,
+          "raw_percent": 3.98e+29,
+          "all_level_percent": 3.98e+29
+        }
+      ],
+      "last_counter": 6,
+      "temperature_held_iterations": 1,
+      "verified_inherited_log_prefix": {
+        "bytes": 109863,
+        "sha256": "4f63b2c692cca1f8f2d04f74120ebd6c914562c9e3debc6018081c22e7d19ce0",
+        "source": "/Users/abraiymbek/Projects/QStarS/results/cmfgen_cool_T9_bootstrap/OUTGEN"
+      },
+      "radiation_instability": true,
+      "executable_sha256": "233ce39aa65067c82ab94f107bc39388d310b7b3822758a91e13ac62f07cb2b3",
+      "hashes": {
+        "run_manifest.json": "94cef4e1f99fa4ea243c73b8b8d7903ab72f3932bbd536242646e3e7ef900d78",
+        "run_result.json": "21ad38e3deaea1f6ceedad321da1f65d611b26dda6814981fbb12099be2c7bed",
+        "OUTGEN": "3a5373c6f9cee849f1b32ec77d3474c7c69c575e2baf3d98a9c4386adac14172",
+        "recovery_control.json": "1634c19ba37833db742c93499306e5898e88c41dc54fd8586c0689b56b694c5f",
+        "QSTARS_MOM_FAILURE": "a46a7aa0bb3e2078c3bc0d9ad326e7bc3b3cc8de32b5a3ef1befb66c2ea0b959",
+        "QSTARS_VAR_FAILURE": "ef9a1eb5c29fa12e5b95fb5755ae91ad961e02b4a2e1be4f8b280b50c25b52ee"
+      },
+      "peak_footprint_bytes": 568099968,
+      "maximum_resident_bytes": 565116928
+    },
+    {
+      "case": "cmfgen_recovery_T9_warm_newton",
+      "status": "numerical_failure",
+      "error": "Native run did not produce fresh RVTJ",
+      "native_exit": 0,
+      "seconds": 241.67084516698378,
+      "ND": 84,
+      "correction_history": [
+        {
+          "iteration": 11,
+          "reported_percent": 2.688429416872353e+17,
+          "raw_percent": 2.69e+17,
+          "all_level_percent": 2.69e+17
+        },
+        {
+          "iteration": 12,
+          "reported_percent": 2.7104516358030614e+17,
+          "raw_percent": 2.71e+17,
+          "all_level_percent": 2.7104516358030614e+17
+        },
+        {
+          "iteration": 13,
+          "reported_percent": 5.942276961409405e+17,
+          "raw_percent": 5.94e+17,
+          "all_level_percent": 5.942276961409405e+17
+        },
+        {
+          "iteration": 14,
+          "reported_percent": 1.9963657958970135e+18,
+          "raw_percent": 2e+18,
+          "all_level_percent": 2e+18
+        },
+        {
+          "iteration": 15,
+          "reported_percent": 3.48265197026007e+18,
+          "raw_percent": 3.48e+18,
+          "all_level_percent": 3.48265197026007e+18
+        },
+        {
+          "iteration": 16,
+          "reported_percent": 3.0191669341883003e+19,
+          "raw_percent": 3.02e+19,
+          "all_level_percent": 3.02e+19
+        }
+      ],
+      "last_counter": 17,
+      "temperature_held_iterations": 1,
+      "verified_inherited_log_prefix": {
+        "bytes": 122625,
+        "sha256": "da8f3c88a5631fb7ad4a8fc5db304b19b3c3f893ce5a8addfc23a75441804611",
+        "source": "/Users/abraiymbek/Projects/QStarS/results/cmfgen_recovery_T9_fixedJ/OUTGEN"
+      },
+      "radiation_instability": true,
+      "executable_sha256": "233ce39aa65067c82ab94f107bc39388d310b7b3822758a91e13ac62f07cb2b3",
+      "hashes": {
+        "run_manifest.json": "139d081ca610195684c6c7a18a290b243b5869bd5b9023b44d8ae798e9c8e584",
+        "run_result.json": "e0641bf21c16046c33bc345bdd6166aa23bf9aba6aaaef704b18bc9389b14fc2",
+        "OUTGEN": "a09fc1d697c17968d51c8445a8e3a3fae77c5d211a483e0c3b9627e9343f31bf",
+        "recovery_control.json": "d000be7c3aa22624e27bbf7d637c82260843d749401d3086667779e8b417f906"
+      },
+      "peak_footprint_bytes": 567755976,
+      "maximum_resident_bytes": 564428800
+    }
+  ],
+  "measured_native_wall_sum_seconds": 2866.0097053740174,
+  "timing_scope": "sum of measured processes; concurrent cases, not elapsed campaign; debugger unmeasured",
+  "production_wind": false,
+  "driver_sha256": "fcd3779272e582fdce39a8992acec2d46223caf757239c65b84f52ffe5e95923"
+}

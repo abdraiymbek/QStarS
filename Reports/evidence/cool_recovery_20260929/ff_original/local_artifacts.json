@@ -1,0 +1,37 @@
+[
+  {
+    "original": "Reports/evidence/cool_recovery_20260929/ff_original/H0_FF",
+    "retained_local": "results/cmfgen_probe_artifacts/ff_original/H0_FF",
+    "bytes": 2454,
+    "sha256": "d36bff862227e31366b83ea3629fb800f9134d0bb21c64a4c8ffce940a8903df",
+    "reason": "compiled/table asset separately retained; not redistributed"
+  },
+  {
+    "original": "Reports/evidence/cool_recovery_20260929/ff_original/h0_ff_data.mod",
+    "retained_local": "results/cmfgen_probe_artifacts/ff_original/h0_ff_data.mod",
+    "bytes": 482,
+    "sha256": "578a69065eae1cc25e64dec90ef109141745272566f85aec7173266589beea6d",
+    "reason": "compiled/table asset separately retained; not redistributed"
+  },
+  {
+    "original": "Reports/evidence/cool_recovery_20260929/ff_original/mod_cmfgen.mod",
+    "retained_local": "results/cmfgen_probe_artifacts/ff_original/mod_cmfgen.mod",
+    "bytes": 1355,
+    "sha256": "28dfa4be8546b2086df7193c4cc0da1cca78ada9bd8230b00e25f83bc7c54752",
+    "reason": "compiled/table asset separately retained; not redistributed"
+  },
+  {
+    "original": "Reports/evidence/cool_recovery_20260929/ff_original/mod_lev_dis_blk.mod",
+    "retained_local": "results/cmfgen_probe_artifacts/ff_original/mod_lev_dis_blk.mod",
+    "bytes": 430,
+    "sha256": "50856cda6ec8c7a61cd52465f7d4fa4ce5dc961f3f990a4295b7475fd973cca2",
+    "reason": "compiled/table asset separately retained; not redistributed"
+  },
+  {
+    "original": "Reports/evidence/cool_recovery_20260929/ff_original/probe",
+    "retained_local": "results/cmfgen_probe_artifacts/ff_original/probe",
+    "bytes": 188600,
+    "sha256": "dc76cf885571b5b150025d7859e622e1060a8606294f4040a034be2899637340",
+    "reason": "compiled/table asset separately retained; not redistributed"
+  }
+]

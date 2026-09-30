@@ -5,7 +5,7 @@ important numerical checks for a specified hot-envelope problem and adds direct
 MESA microphysics and a stationary advective-wind reference. It does not
 reproduce complete published quasi-star evolutionary tracks.
 
-The current automated suite has **117 passing tests with MESA and FreeEOS enabled**
+The current automated suite has **122 passing tests with MESA and FreeEOS enabled**
 (optional native-library tests require the pinned builds).
 The full `qstars validate --require-v1` campaign has **29 passing checks and two
 retained printed-value discrepancies** and correctly exits 2. Passing software
@@ -23,6 +23,16 @@ not physical destruction or completed evolution. See [the equations, sensitivity
 tests and resolution criteria](atmosphere.md). General v1 remains blocked.
 
 ## Current outer-closure gate
+
+[Report 15](../Reports/Report_15.md) has outcome **NUMERICAL BLOCKER**. It repairs
+H-minus FF initialization, last-depth opacity and missing continuum/EHB
+derivatives, and retains every level in convergence checks. Fixed-J/T cool
+population initializations settle on 84/167 radii, with 5/11 recombined cells;
+this is not thermal/radiation closure. Released solves and two matched
+angular/frequency recovery diagnostics fail. Captured frequency-coupling
+operators reproduce runaway J under independent linear algebra. The relaxed
+response, global mdot/sonic solve, physical envelope handoff and evolution
+remain withheld. See the report's campaign matrix and retained evidence.
 
 [Report 14](../Reports/Report_14.md) has outcome **BACKEND/PHYSICS BLOCKER**.
 Cool H−/H/He controls expose native population-output and Rayleigh-indexing

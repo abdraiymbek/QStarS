@@ -2,7 +2,9 @@
 """Run one isolated native component, retaining failures and input hashes."""
 import argparse,json,os,platform,resource,signal,subprocess,time,shutil,re
 from pathlib import Path
-from qstars.cmfgen_backend import sha256,read_rvtj,read_spectral
+from qstars.cmfgen_backend import sha256,read_rvtj,read_spectral,LOADED_SOURCE_SHA256
+
+RUNNER_SOURCE_SHA256 = sha256(__file__)
 
 def check_grid_capacity(directory,executable):
     # Upstream MOD_SPACE_GRID_V2 has RAY(500), without a bounds check.
@@ -27,18 +29,33 @@ def check_grid_capacity(directory,executable):
     return limit
 
 
+def current_native_log(directory):
+    """Exclude only the manifest-attested, byte-identical inherited log prefix."""
+    path=directory/'OUTGEN'
+    if not path.is_file():return ''
+    data=path.read_bytes();initial=directory/'initial_inputs'/'OUTGEN'
+    manifest=directory/'run_manifest.json'
+    if initial.is_file() and manifest.is_file():
+        expected=json.loads(manifest.read_text()).get('inputs',{}).get('OUTGEN')
+        prefix=initial.read_bytes()
+        if expected and sha256(initial)==expected and data.startswith(prefix):
+            data=data[len(prefix):]
+    return data.decode()
+
+
 def check_native_finiteness(directory):
     """Zero nonlinear corrections can coexist with NaN luminosities upstream."""
-    path=directory/'OUTGEN'
-    if path.exists() and re.search(r'(?<![A-Za-z])(?:NaN|[+-]?Infinity)(?![A-Za-z])',path.read_text(),re.I):
+    if re.search(r'(?<![A-Za-z])(?:NaN|[+-]?Infinity)(?![A-Za-z])',current_native_log(directory),re.I):
         raise RuntimeError('Nonfinite native diagnostic; zero corrections are not convergence')
 
 
 def check_completion(directory,started_ns,export_required):
     check_native_finiteness(directory)
-    log=(directory/'OUTGEN').read_text() if (directory/'OUTGEN').exists() else ''
+    log=current_native_log(directory)
     if re.search(r'Major Error|Major error|cant read BA File',log):
         raise RuntimeError('Native diagnostic reports a fatal error despite process status')
+    if re.search(r'excessive iteration count|(?:RJ|Mean intensity) blowing up|You have poor flux accuracy',log,re.I):
+        raise RuntimeError('Native radiation iteration failed; finite/stale output is not convergence')
     required=['RVTJ','MOD_SUM','OUTGEN']+(['QSTARS_SPECTRAL.bin'] if export_required else [])
     for name in required:
         p=directory/name
@@ -55,10 +72,10 @@ def run(directory,executable,timeout=3600,threads=1):
     manifest=dict(executable=str(executable),executable_sha256=sha256(executable),inputs=inputs,
         platform=platform.platform(),threads=threads,purpose='component_validation',production=False)
     initial=directory/'initial_inputs';initial.mkdir(exist_ok=False)
-    for name in ['VADAT','IN_ITS','MODEL_SPEC','IT_SPECIFIER','RVSIG_COL','HYDRO_DEFAULTS','ADJUST_R_DEFAULTS']:
+    for name in ['VADAT','IN_ITS','MODEL_SPEC','IT_SPECIFIER','RVSIG_COL','HYDRO_DEFAULTS','ADJUST_R_DEFAULTS','OUTGEN']:
         if (directory/name).is_file():shutil.copy2(directory/name,initial/name)
-    manifest['adapter_sha256']=sha256(Path(__file__).parents[2]/'src/qstars/cmfgen_backend.py')
-    manifest['runner_sha256']=sha256(__file__)
+    manifest['adapter_sha256']=LOADED_SOURCE_SHA256
+    manifest['runner_sha256']=RUNNER_SOURCE_SHA256
     (directory/'run_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
     env={**os.environ,'OMP_NUM_THREADS':str(threads),'OMP_STACKSIZE':'256M','VECLIB_MAXIMUM_THREADS':'1'}
     def stack_limit():

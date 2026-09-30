@@ -12,6 +12,13 @@ photospheres, moving cavities, and coupled transonic winds remain open validatio
 Fiacconi–Rossi stationary wind solver now includes radiation enthalpy advection.
 These examples do not establish quasi-star lifetimes or QSRD recovery results.
 
+[Report 15](Reports/Report_15.md) records **NUMERICAL BLOCKER**. H-minus free-free
+entry, opacity and derivative defects are repaired and tested. Fixed-field
+cool populations settle on two meshes, but released radiation/rate closure
+still fails near the He I continuum edge. No validated self-selected wind or
+physical evolutionary track is claimed. **122 tests pass** with native MESA
+and FreeEOS enabled. The complete failed-run and gate evidence is retained.
+
 [Report 14](Reports/Report_14.md) records **BACKEND/PHYSICS BLOCKER** in the cool
 H/He recombination regime. H− output and Rayleigh-selection defects are repaired;
 the resolved-atom gas energy now has tested population and frozen-state

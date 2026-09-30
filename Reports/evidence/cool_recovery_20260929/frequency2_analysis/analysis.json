@@ -1,0 +1,7 @@
+{
+  "frames": [],
+  "input_sha256": {},
+  "driver_sha256": "9115a8ee32fc59edb56f698a6db29801049c9ecca9c7099afef2c977112e1f86",
+  "conclusion": "Independent band solve reproduces failed native linear solutions; this diagnoses captured operators only, not nonlinear closure or physical nonexistence.",
+  "production_certified": false
+}

@@ -6,6 +6,14 @@ composition and explicitly chosen outer boundary conditions. Some hot
 pressure-confined models have quantitative convergence evidence. They are
 not complete quasi-star evolutionary tracks.
 
+Report 15 adds bounded native H-minus FF entry/opacity/derivative checks and
+settled fixed-field cool population initializations. **The fully released cool
+closure remains invalid.** Negative/overflowing intensities and native moment
+iteration failures are numerical failures, not physical no-wind results.
+All-level corrections and imported-code hashes are retained. No relaxed
+population-energy/radiation response or wind certificate follows from the new
+FF partials; the existing MLT and downstream coupling guards remain in force.
+
 Report 14 adds explicit ideal H−/H/He material energy and population partial
 derivatives, but **does not certify a cool non-LTE material/radiation closure**.
 The tested cool transfer states fail nonlinear and energy gates. H0 plus

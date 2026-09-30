@@ -1,0 +1,13 @@
+INPUT 1 2.0 0.33 0.61 1.13 2000000000.0 300000000000.0 5000000000000.0 40000000000.0 7000000000000.0 90000000000000.0
+At line 21 of file /Users/abraiymbek/Projects/QStarS/Reports/evidence/cool_recovery_20260929/ff_original/probe.f90
+Fortran runtime warning: An array temporary was created
+
+Program received signal SIGSEGV: Segmentation fault - invalid memory reference.
+
+Backtrace for this error:
+#0  0x1022ffc07
+#1  0x1022fec33
+#2  0x19c48c143
+#3  0x102104737
+#4  0x102114ac3
+#5  0x102116f17

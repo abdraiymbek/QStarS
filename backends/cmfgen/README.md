@@ -34,6 +34,7 @@ cp backends/cmfgen/Makefile_definitions.apple backends/cmfgen/build_local/cur_cm
 .venv/bin/python backends/cmfgen/apply_ray_capacity.py backends/cmfgen/build_local/cur_cmf
 .venv/bin/python backends/cmfgen/apply_population_export.py backends/cmfgen/build_local/cur_cmf
 .venv/bin/python backends/cmfgen/apply_hminus_rayleigh.py backends/cmfgen/build_local/cur_cmf
+.venv/bin/python backends/cmfgen/apply_hminus_ff_repair.py backends/cmfgen/build_local/cur_cmf backends/cmfgen
 ```
 
 Initialize the installed SDK as documented in `docs/mesa.md`; then set the
@@ -119,3 +120,44 @@ The [cool closure contract](../../docs/nlte_cool_closure.md) states the material
 energy/derivative constraint and why none of these prescribed-flow controls
 selects mdot or validates a convective handoff. See [Report 14](../../Reports/Report_14.md)
 for results and retained failures.
+
+## Report 15: H-minus free-free repair and cool numerical recovery
+
+The FF patch preserves the supplied table, interpolation and coefficients. It
+initializes the table from either opacity or cooling, fixes last-depth opacity
+selection, supplies the missing continuum derivatives, and makes the EHB path
+use the same neutral-H ground population. It also retains all levels in native
+MAXCH stopping. The native probe compiles the actual source routines; bound-free
+terms are zeroed **only in that isolated FF regression**, never in a scientific
+run. With the installed compiler environment:
+
+```sh
+.venv/bin/python scripts/check_cmfgen_hminus_ff.py "$QSTARS_CMFGEN_ROOT" \
+  results/new_ff_probe sources/cache/atomic_local/atomic/HYD/MI/13apr15/hmi_ff
+.venv/bin/python backends/cmfgen/recover_cool.py \
+  sources/cache/models_local/sample_grid/zpup_like_model results/new_cool_recovery \
+  sources/cache/atomic_local/atomic "$QSTARS_CMFGEN_ROOT/exe/cmfgen_dev.exe" --factor 2
+```
+
+The second command preserves separate bootstrap, fixed-J/T initialization and
+released trials. A stage failure stops the chain with its recorded result;
+none is a selected wind. `continue_component.py` can also copy a failed trial's
+restart state for explicitly labelled diagnostics; having MOD_SUM does not
+certify that checkpoint. No failure directory is overwritten.
+
+Optional `apply_moment_trace.py ROOT` and
+`apply_growth_trace.py ROOT OUTPUT` add read-only failure captures. Apply them
+before rebuilding and recording executable capabilities. They do not change
+operators, clipping, physical coefficients or native stopping. The latter
+requires the former. Build 6 has moment tracing, build 7 adds the FF/stopping
+repair, and build 8 adds growth tracing. Each executable and modified source
+is hashed in Report 15's evidence. Do not assign a newer runner/hash to an
+older run. Original upstream GPLv3 and atomic provenance remain applicable.
+
+`validate_cmfgen_component.py` now checks the largest raw and returned
+corrections. A native MAXCH can ignore ten levels in an unpatched build.
+The runner rejects explicit moment/intensity failures even if native STOP
+returns zero. Continuations retain inherited OUTGEN content; new runs save
+its initial copy, and the campaign report excludes only a hash-verified prefix.
+[Report 15](../../Reports/Report_15.md) documents the remaining numerical
+blocker. A native component completion is never production certification.

@@ -4,7 +4,9 @@ Report 14 extends the CMFGEN route into deliberately prescribed cool H/He
 controls. This document defines the implemented material differential and the
 remaining physical coupling requirements. **It does not authorize a production
 wind.** Numerical results and release decisions are in
-[Report 14](../Reports/Report_14.md).
+[Report 14](../Reports/Report_14.md) and
+[Report 15](../Reports/Report_15.md). Report 15 repairs native H-minus FF
+initialization/Jacobian defects; the joint cool closure still fails.
 
 ## Component definition and reference boundary
 
@@ -56,6 +58,25 @@ frequency. The standalone upstream display program is not used by QStarS and
 is not repaired by this patch.
 
 ## Material state and derivatives
+
+Report 15 also audits the native H-minus free-free contribution. Its tabulated
+coefficient gives `chi = T exp(ell(log T, log nu)) ne nHI_ground`; `ell` is the
+unchanged native bilinear log-table interpolation. Within a temperature table
+interval, `dln chi/dln T = 1 + d ell/dln T`. Independent population/electron
+partials follow the two density factors. `eta = chi Bnu(T)`, so its temperature
+partial includes both this coefficient slope and
+`dln Bnu/dln T = x/(1-exp(-x))`, with `x=h nu/(k T)`.
+
+The repaired continuum and electron-heating Jacobians include these terms.
+Cooling uses the same coefficient and ground-H population, with native
+`4pi * 1e-10 * chi * (Bnu-Jnu)` per frequency: positive cooling, opposite to
+QStarS's positive material heating. The table and its stimulated-emission
+convention are unchanged. No additional stimulated factor is multiplied into
+chi. The derivative is piecewise; at interpolation knots a single two-sided
+derivative is not promised. Four-frequency native checks at 3300, 6100 and
+11300 K pass, including independent first-entry cooling and the last-depth
+path. These are FF component derivatives, **not** a relaxed non-LTE
+population-energy, radiation-force or wind-eigenvalue response.
 
 [`nlte_material.py`](../src/qstars/nlte_material.py) treats the population vector
 as an independent coordinate. Let Y_a=n_a/rho be the number of particles in

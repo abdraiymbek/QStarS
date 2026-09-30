@@ -9,3 +9,8 @@ Report 14 adds name-based H-/H/He diagnostic output and repairs neutral-H
 Rayleigh ion selection, array stride and derivative indexing with H- present.
 The patches and modified native source remain subject to the upstream GPLv3.
 No upstream validation endorsement is implied.
+Report 15 repairs H-minus FF table initialization, last-depth opacity and
+continuum/EHB derivatives, and retains all levels in native stopping.
+Read-only moment/variation/growth traces preserve native failure behavior.
+These native patches remain subject to the upstream GPLv3; component tests
+do not imply upstream endorsement or production wind certification.

@@ -1,0 +1,76 @@
+{
+  "records": [
+    {
+      "record": "build6.json",
+      "executable_sha256": "233ce39aa65067c82ab94f107bc39388d310b7b3822758a91e13ac62f07cb2b3",
+      "executable_match": true,
+      "source_files": 5,
+      "source_mismatches": []
+    },
+    {
+      "record": "build7_final.json",
+      "executable_sha256": "0315d560fc2f79e3b23fed5a9d224332e4e2c1537c2e455ec65608240dcf5b9b",
+      "executable_match": true,
+      "source_files": 13,
+      "source_mismatches": []
+    },
+    {
+      "record": "build8_final.json",
+      "executable_sha256": "f1ea4c30bafb141db196fa486323a1ac62eb438b0ad05e4907877f012cdc9c0b",
+      "executable_match": true,
+      "source_files": 13,
+      "source_mismatches": []
+    }
+  ],
+  "cases": [
+    {
+      "case": "cmfgen_recovery_T9_growth_trace",
+      "recorded_executable_match": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_release_ff",
+      "recorded_executable_match": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_fixedJ_ff",
+      "recorded_executable_match": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_refined_full_ff_bootstrap",
+      "recorded_executable_match": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_fresh_angular",
+      "recorded_executable_match": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_refined_full_ff_fixedJ",
+      "recorded_executable_match": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_fixedJ",
+      "recorded_executable_match": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_warm_newton",
+      "recorded_executable_match": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_refined_full_ff",
+      "recorded_executable_match": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_full_ff",
+      "recorded_executable_match": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_trace",
+      "recorded_executable_match": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_frequency2",
+      "recorded_executable_match": true
+    }
+  ],
+  "scope": "Final local executable/source verification, not independent validation of physical coefficients."
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "audit_date": "2026-09-28",
+  "audit_date": "2026-09-30",
   "prescriptions": [
     {
       "id": "bra2008",
@@ -729,6 +729,19 @@
       "implementation_interpretation": "Ionization, excitation, H-minus detachment and particle-creation terms enter du once. No graft of LTE EOS derivatives or blackbody radiation into the material state.",
       "implementation": "src/qstars/nlte_material.py; tests/test_nlte_material.py; scripts/audit_cmfgen_cool.py",
       "inspected_utc": "2026-09-28"
+    },
+    {
+      "id": "cmfgen_hminus_ff_jacobian_audit",
+      "title": "CMFGEN H-minus free-free cooling/opacity/Jacobian audit",
+      "url": "https://sites.pitt.edu/~hillier/web/CMFGEN.htm",
+      "reference_location": "18-Jun-2025 do_h0_ff, genopaeta_v10, var_op_v10, comp_free_free_v2 and solveba_v13; HYD/MI/13apr15/hmi_ff",
+      "status": "native_defects_repaired_component_tested",
+      "assumptions": "Tabulated neutral-H ground-state/electron free-free opacity; existing native log interpolation and stimulated convention",
+      "validity": "Four-frequency component probe at 3300/6100/11300 K; not a full atomic-rate validation, relaxed material response or cool atmosphere certificate",
+      "variables_units": "T in 1e4 K, nu in 1e15 Hz, chi in inverse 1e10 cm; physical population partials and native cooling sign",
+      "implementation_interpretation": "Lazy initialization from cooling and opacity; correct last-depth selection; analytic T/ne/ground-H partials and EHB consistency; all-level stopping; no coefficient or rate fit",
+      "implementation": "backends/cmfgen/hminus_ff.patch; scripts/check_cmfgen_hminus_ff.py; Reports/Report_15.md",
+      "inspected_utc": "2026-09-30"
     }
   ]
 }

@@ -6,7 +6,7 @@ import numpy as np
 from scipy.integrate import trapezoid
 from qstars import io
 from qstars.constants import C
-from qstars.cmfgen_backend import read_rvtj,read_spectral,read_cooling,read_hhe_populations,read_atomic_levels,hhe_material,sha256
+from qstars.cmfgen_backend import read_rvtj,read_spectral,read_cooling,read_hhe_populations,read_atomic_levels,hhe_material,sha256,nonlinear_corrections
 
 def audit(directory,output,reference=None,hhe=False):
     p=directory.resolve();output.mkdir(parents=True,exist_ok=False)
@@ -34,8 +34,10 @@ def audit(directory,output,reference=None,hhe=False):
     L=q['luminosity_lab'];exchange=4*np.pi*trapezoid(q['radius']**2*q['energy_to_matter_lab'],q['radius'])
     check('global_radiation_energy',abs(L[-1]-L[0]+exchange)/max(abs(L[0]),abs(L[-1])),t['global_radiation_energy_relative'],
           'independent trapezoid volume four-force vs lab luminosity; mesh error and transfer approximations included')
-    corrections=re.findall(r'Maximm changes as returned by SOLVEBA_V13 is\s+([0-9.Ee+\-]+)',(p/'OUTGEN').read_text())
-    check('last_nonlinear_correction',float(corrections[-1])/100 if corrections else float('nan'),t['iteration_max_fractional_correction'],'all native variables; full convergence needed')
+    corrections=nonlinear_corrections((p/'OUTGEN').read_text())
+    last=corrections[-1]['all_level_percent'] if corrections else None
+    check('last_nonlinear_correction',last/100 if last is not None else float('nan'),t['iteration_max_fractional_correction'],'largest raw and returned native corrections; no discarded levels')
+    metrics['nonlinear_corrections']=corrections
     metrics.update(radii=len(s['radius']),frequencies=len(spec.frequency),temperature_min=float(s['temperature'].min()),temperature_max=float(s['temperature'].max()),
        luminosity_lab_inner=float(L[0]),luminosity_lab_outer=float(L[-1]),volume_energy_to_matter=float(exchange),
        prescribed_mdot=float(np.mean(s['mass_flux'])),heating_max_abs=float(max(abs(q['heating_comoving']))),

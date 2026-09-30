@@ -1,0 +1,82 @@
+{
+  "frames": [
+    {
+      "file": "QSTARS_MOM_FAILURE",
+      "ND": 84,
+      "frequency_1e15Hz": 5.556685569199138,
+      "dlog_nu": 0.00033361974007543714,
+      "native_fixedpoint_error": 47050.45111619448,
+      "linear_solution_relative_difference": 1.874655976235408e-16,
+      "linear_backward_residual": 1.4530242326332261e-21,
+      "negative_rhs_rows": [
+        3
+      ],
+      "negative_solution_rows": [
+        3
+      ],
+      "raw_solution_range": [
+        -1.0435578721188568,
+        620995.6562841699
+      ],
+      "matrix_condition": 25305860.220475923,
+      "diagonal_positive": true,
+      "off_diagonal_nonpositive": true,
+      "symmetrized_min_eigenvalue": 0.020392978501697218,
+      "negative_absorption_rows": [],
+      "opacity_min": 9.06917639261395e-09,
+      "absorption_min": 7.219047548101939e-09,
+      "photon_advection_log_gradient_range": [
+        -11529.33474507739,
+        13.365535765492131
+      ],
+      "repaired_solution_difference": 4.262613594941183e-06
+    },
+    {
+      "file": "QSTARS_VAR_FAILURE",
+      "ND": 84,
+      "frequency_1e15Hz": 4.942845412836493,
+      "dlog_nu": 0.00033361974007543714,
+      "native_fixedpoint_error": null,
+      "linear_solution_relative_difference": 1.7853732369439085e-16,
+      "linear_backward_residual": 6.010754914359323e-20,
+      "negative_rhs_rows": [
+        2,
+        3,
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "negative_solution_rows": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "raw_solution_range": [
+        -1.3227929974803574e+20,
+        1.8353585301911572e+20
+      ],
+      "matrix_condition": 1346443102.785727,
+      "diagonal_positive": true,
+      "off_diagonal_nonpositive": true,
+      "symmetrized_min_eigenvalue": 1241247437.7810051,
+      "negative_absorption_rows": [],
+      "opacity_min": 1.8454020618567916e-08,
+      "absorption_min": 8.939160226240721e-09,
+      "photon_advection_log_gradient_range": [
+        -10172.596506540995,
+        13.305217918178126
+      ],
+      "repaired_solution_difference": null
+    }
+  ],
+  "input_sha256": {
+    "QSTARS_MOM_FAILURE": "a46a7aa0bb3e2078c3bc0d9ad326e7bc3b3cc8de32b5a3ef1befb66c2ea0b959",
+    "QSTARS_VAR_FAILURE": "ef9a1eb5c29fa12e5b95fb5755ae91ad961e02b4a2e1be4f8b280b50c25b52ee"
+  },
+  "driver_sha256": "e60a1f6385cd373121cd43da3fce0ffc75a9c211adb534100bb069e10981f0e1",
+  "conclusion": "Independent band solve reproduces failed native linear solutions; this diagnoses captured operators only, not nonlinear closure or physical nonexistence.",
+  "production_certified": false
+}

@@ -18,9 +18,42 @@ def sha256(path):
     return h.hexdigest()
 
 
+# A long-lived continuation chain must attest the code it imported, even if
+# source files are edited while its native subprocess is running.
+LOADED_SOURCE_SHA256 = sha256(__file__)
+
+
 def _numbers(line):
     try:return [float(re.sub(r'(?<=[0-9.])([+-]\d{3})$', r'E\1', x.replace('D','E').replace('d','e'))) for x in line.split()]
     except ValueError:return None
+
+
+def nonlinear_corrections(text):
+    """Retain raw largest corrections: upstream stopping can discard ten levels.
+
+    Percent decrease is printed relative to the old value, whereas MAXCH uses
+    the new value. Missing raw records fail closed; neither a native zero nor
+    a converged majority of levels certifies the complete atomic state.
+    """
+    rows=[];current=None;increase=None;decrease=None
+    for line in text.splitlines():
+        m=re.search(r'Current great iteration count is\s+(\d+)',line)
+        if m:current=int(m[1]);increase=decrease=None
+        m=re.search(r'Maximum % (increase|decrease) at depth\s+\d+ is\s+(\S+)',line)
+        if m:
+            value=_numbers(m[2])
+            if m[1]=='increase':increase=value[0] if value else None
+            else:decrease=value[0] if value else None
+        m=re.search(r'Maximm changes as returned by SOLVEBA_V13 is\s+(\S+)',line)
+        if m:
+            value=_numbers(m[1]);reported=value[0] if value else None
+            raw=None
+            if increase is not None and decrease is not None and np.isfinite([increase,decrease]).all():
+                down=100*decrease/(100-decrease) if decrease<99.999 else 1e7
+                raw=max(abs(increase),down)
+            complete=max(raw,abs(reported)) if raw is not None and reported is not None and np.isfinite(reported) else None
+            rows.append(dict(iteration=current,reported_percent=reported,raw_percent=raw,all_level_percent=complete))
+    return rows
 
 
 def vector_section(lines, label, count):

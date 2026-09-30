@@ -1,0 +1,25 @@
+{
+  "source_hashes": {
+    "newsubs/do_h0_ff.f": {
+      "original": "5bd5fdfc63de54f205d0320da3e88f6aa9ffe904ee799c6ab5aae79e6975d0c6",
+      "patched": "9fc1c063ce7b66bf7b29b70c80c232637b0e62bb3a450615d8bbc8bf8a53b219"
+    },
+    "new_main/subs/var_op_v10.f": {
+      "original": "6a190b44d02b1bdbbe084398161353c8b474f0876103d8a82a7e564f42a82ca4",
+      "patched": "5636fa9aedc573e8092ea45bc6862e20d890a4ec1a988fcaf50425f4edd7d14f"
+    },
+    "newsubs/genopaeta_v10.f": {
+      "original": "56f588f77221f33d512a70a98c8c264425dcd4fc9cf79f656eb4c7280e51a6e4",
+      "patched": "3b16ad6c812e91ce38aa94742c2c8e9faf25c48ff96b3e2a79fc50aaa5a078e8"
+    },
+    "newsubs/comp_free_free_v2.f": {
+      "original": "427abd62b5a984ceb8cb8c99a24a93e9d342f33c5a9a0b85e88b099c0584b25f",
+      "patched": "a60e4144d37de9dd9ca9ee03e7aa051278d087c000372564f0c0b55300f1c59d"
+    },
+    "new_main/subs/solveba_v13.f": {
+      "original": "8210020b3a3df9a0c1af31de26eedd73fefcdb365547a2677e21b3b83faa63e8",
+      "patched": "c166b5f4d7fa9cc80573e333a6a4487d55ec77ed1b83b49a1bfdbf852646f20f"
+    }
+  },
+  "scope": "native FF table and coefficients unchanged; ground-H consistent opacity/cooling/EHB derivatives; full-level nonlinear stopping"
+}

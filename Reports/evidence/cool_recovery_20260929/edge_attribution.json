@@ -1,0 +1,21 @@
+{
+  "first_native_negative_J_record": [
+    3.0,
+    5.9418253,
+    -14.026,
+    1.4804e-22,
+    2.3375e-08,
+    3.1126e-09,
+    0.77279,
+    25.931,
+    0.060012,
+    -14.026,
+    34.285,
+    935.13
+  ],
+  "HeI_ground_threshold_1e15Hz": 5.9452,
+  "threshold_offset_fraction": 0.0005676343941331116,
+  "diagnostic_sha256": "6ce31d8035a10b8a58f46489b999d562454b39d649b93cb7669787dba9be8748",
+  "atomic_sha256": "bd13c9f0e0e8974a5f1d7bde31f5bddb253a6c8ab96f26977a2adfe1f55c8ce5",
+  "scope": "First negative moment intensity in this frozen failed checkpoint is just below HeI ground bound-free edge. Association, not proof that a particular atomic rate is wrong. Required HeI processes retained."
+}

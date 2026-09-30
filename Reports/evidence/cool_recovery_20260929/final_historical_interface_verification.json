@@ -1,0 +1,150 @@
+{
+  "records": [
+    {
+      "case": "cmfgen_recovery_T9_growth_trace",
+      "field": "runner_sha256",
+      "sha256": "d3e5786171c1760e3f389acc487886d6587875a5d22e8579dca6bfb6c83362c9",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_growth_trace",
+      "field": "adapter_sha256",
+      "sha256": "eb1a98048e68f9fa0c811db8fe5a9c71ee11e0d38d4714451c05794031c92b94",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_release_ff",
+      "field": "runner_sha256",
+      "sha256": "1d205e6602b2dd0bef9bc8beaa9ec518f8ee82d1d3566459e101741e0f3e1a77",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_release_ff",
+      "field": "adapter_sha256",
+      "sha256": "8c8c54bfd8d977cedbd3b2b59986f288cfc9314a26a1db697f30f5f9a52f0c6d",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_fixedJ_ff",
+      "field": "runner_sha256",
+      "sha256": "1d205e6602b2dd0bef9bc8beaa9ec518f8ee82d1d3566459e101741e0f3e1a77",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_fixedJ_ff",
+      "field": "adapter_sha256",
+      "sha256": "8c8c54bfd8d977cedbd3b2b59986f288cfc9314a26a1db697f30f5f9a52f0c6d",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_refined_full_ff_bootstrap",
+      "field": "runner_sha256",
+      "sha256": "1d205e6602b2dd0bef9bc8beaa9ec518f8ee82d1d3566459e101741e0f3e1a77",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_refined_full_ff_bootstrap",
+      "field": "adapter_sha256",
+      "sha256": "8c8c54bfd8d977cedbd3b2b59986f288cfc9314a26a1db697f30f5f9a52f0c6d",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_fresh_angular",
+      "field": "runner_sha256",
+      "sha256": "6dc5a49e35f13d5e4129df14b07b16d9d4afec8ba1dcc6ff1a88917bc461f864",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_fresh_angular",
+      "field": "adapter_sha256",
+      "sha256": "396eff3745635b4faefc14c6ba5edd6e12ef68ea459295189b35718584aa558b",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_refined_full_ff_fixedJ",
+      "field": "runner_sha256",
+      "sha256": "1825131c4880a8e55489dd9feb934e99546c8a3cbbda40a695a30a8b944b3b83",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_refined_full_ff_fixedJ",
+      "field": "adapter_sha256",
+      "sha256": "eb1a98048e68f9fa0c811db8fe5a9c71ee11e0d38d4714451c05794031c92b94",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_fixedJ",
+      "field": "runner_sha256",
+      "sha256": "1d205e6602b2dd0bef9bc8beaa9ec518f8ee82d1d3566459e101741e0f3e1a77",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_fixedJ",
+      "field": "adapter_sha256",
+      "sha256": "8c8c54bfd8d977cedbd3b2b59986f288cfc9314a26a1db697f30f5f9a52f0c6d",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_warm_newton",
+      "field": "runner_sha256",
+      "sha256": "1d205e6602b2dd0bef9bc8beaa9ec518f8ee82d1d3566459e101741e0f3e1a77",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_warm_newton",
+      "field": "adapter_sha256",
+      "sha256": "8c8c54bfd8d977cedbd3b2b59986f288cfc9314a26a1db697f30f5f9a52f0c6d",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_refined_full_ff",
+      "field": "runner_sha256",
+      "sha256": "1825131c4880a8e55489dd9feb934e99546c8a3cbbda40a695a30a8b944b3b83",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_refined_full_ff",
+      "field": "adapter_sha256",
+      "sha256": "eb1a98048e68f9fa0c811db8fe5a9c71ee11e0d38d4714451c05794031c92b94",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_full_ff",
+      "field": "runner_sha256",
+      "sha256": "1d205e6602b2dd0bef9bc8beaa9ec518f8ee82d1d3566459e101741e0f3e1a77",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_full_ff",
+      "field": "adapter_sha256",
+      "sha256": "8c8c54bfd8d977cedbd3b2b59986f288cfc9314a26a1db697f30f5f9a52f0c6d",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_trace",
+      "field": "runner_sha256",
+      "sha256": "1d205e6602b2dd0bef9bc8beaa9ec518f8ee82d1d3566459e101741e0f3e1a77",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_trace",
+      "field": "adapter_sha256",
+      "sha256": "8c8c54bfd8d977cedbd3b2b59986f288cfc9314a26a1db697f30f5f9a52f0c6d",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_frequency2",
+      "field": "runner_sha256",
+      "sha256": "6dc5a49e35f13d5e4129df14b07b16d9d4afec8ba1dcc6ff1a88917bc461f864",
+      "preserved_source_exists": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_frequency2",
+      "field": "adapter_sha256",
+      "sha256": "396eff3745635b4faefc14c6ba5edd6e12ef68ea459295189b35718584aa558b",
+      "preserved_source_exists": true
+    }
+  ],
+  "loaded_code_erratum_verified": true,
+  "failures": 0
+}

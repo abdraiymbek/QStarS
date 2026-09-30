@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "report": "Reports/Report_15.md",
+  "outcome": "NUMERICAL BLOCKER",
+  "v1_complete": false,
+  "self_selected_wind_pass": false,
+  "physical_nonexistence_demonstrated": false,
+  "precise_blocker": "Unstable moving-frame frequency/spatial radiation-moment recurrence and nonlinear rate response across the He I continuum edge in the cool recombining component; no converged synchronized energy state.",
+  "gates": [
+    {
+      "name": "Cool partially recombined coverage",
+      "status": "PASS",
+      "scope": "5 / 11 cool partially recombined cells on 84 / 167 radii, fixed J/T initialization only.",
+      "evidence": [
+        "Reports/evidence/cool_recovery_20260929/fixedJ_population_audit.json"
+      ]
+    },
+    {
+      "name": "Native H-minus free-free repairs",
+      "status": "PASS",
+      "scope": "Original entry-order crash, last-depth error, missing opacity/temperature derivatives and EHB bounds defect reproduced; actual repaired native fixtures pass 1e-6 targets. No full-atom accuracy certificate.",
+      "evidence": [
+        "Reports/evidence/cool_recovery_20260929/ff_original_full/validation.json",
+        "Reports/evidence/cool_recovery_20260929/ff_fixed_full/validation.json",
+        "Reports/evidence/cool_recovery_20260929/ff_invariance.json"
+      ]
+    },
+    {
+      "name": "Complete fixed-J population initialization",
+      "status": "CONDITIONAL",
+      "scope": "All-level corrections and printed particle accounting settle with held radiation and temperature. Independent full-atom rate certification remains absent.",
+      "evidence": [
+        "Reports/evidence/cool_recovery_20260929/fixedJ_population_audit.json",
+        "Reports/evidence/cool_recovery_20260929/campaign_summary.json"
+      ]
+    },
+    {
+      "name": "Released cool non-LTE population/thermal/radiation/charge/energy closure",
+      "status": "FAIL",
+      "scope": "Coarse native mean-intensity runaway; refined native poor-flux stop at counter 28. No synchronized fresh final state or radiation-energy certificate. Solver failure does not demonstrate physical nonexistence.",
+      "evidence": [
+        "Reports/evidence/cool_recovery_20260929/campaign_summary.json",
+        "Reports/evidence/cool_recovery_20260929/moment_trace_analysis_v2/analysis.json",
+        "Reports/evidence/cool_recovery_20260929/growth_analysis_v3/analysis.json"
+      ]
+    },
+    {
+      "name": "Internal mesh and frequency convergence",
+      "status": "FAIL",
+      "scope": "Released 84 / 167-radius solves fail. Fresh angular and 43314 / 85359-frequency one-iteration controls also fail. No pair of converged equilibria.",
+      "evidence": [
+        "Reports/evidence/cool_recovery_20260929/campaign_summary.json",
+        "Reports/evidence/cool_recovery_20260929/frequency2_analysis_v3/analysis.json"
+      ]
+    },
+    {
+      "name": "Relaxed material/population/radiation response",
+      "status": "FAIL",
+      "scope": "Frozen-population ideal energy partials and native FF derivatives only. Full relaxed nonlocal Jacobian, dissolution consistency and H-minus guessed collision rates remain uncertified.",
+      "evidence": [
+        "Reports/evidence/cool_recovery_20260929/ff_fixed_full/validation.json"
+      ]
+    },
+    {
+      "name": "Global self-selected mdot/sonic solution",
+      "status": "FAIL",
+      "scope": "Not attempted because prerequisite physical response is invalid; prescribed component mass flux is not production mdot.",
+      "evidence": [
+        "Reports/evidence/cool_recovery_20260929/campaign_summary.json"
+      ]
+    },
+    {
+      "name": "Conservative convective-envelope handoff",
+      "status": "FAIL",
+      "scope": "No validated overlap/stress/energy closure. Existing Mach-one MLT guard retained.",
+      "evidence": [
+        "Reports/evidence/cool_recovery_20260929/campaign_summary.json"
+      ]
+    },
+    {
+      "name": "Real-envelope escaping wind and coupled evolution",
+      "status": "FAIL",
+      "scope": "Not attempted: no validated escaping wind selected from a physical envelope.",
+      "evidence": [
+        "Reports/evidence/cool_recovery_20260929/campaign_summary.json"
+      ]
+    },
+    {
+      "name": "First complete published evolutionary track",
+      "status": "FAIL",
+      "scope": "Not attempted; zero complete replicas.",
+      "evidence": [
+        "Reports/evidence/cool_recovery_20260929/campaign_summary.json"
+      ]
+    },
+    {
+      "name": "Failure/provenance safeguards",
+      "status": "PASS",
+      "scope": "13 native cases preserved, including debugger and failed-checkpoint diagnostics; archived bytes verified. Imported-code hash erratum explicit, original manifests unchanged; future guard records import-time hashes.",
+      "evidence": [
+        "Reports/evidence/cool_recovery_20260929/loaded_code_hash_erratum.json",
+        "Reports/evidence/cool_recovery_20260929/historical_interface_verification.json"
+      ]
+    },
+    {
+      "name": "General QStarS v1 and QSRD",
+      "status": "FAIL",
+      "scope": "Development release 0.1.0; independent v1 gates remain open and QSRD deferred.",
+      "evidence": [
+        "Reports/evidence/cool_recovery_20260929/campaign_summary.json"
+      ]
+    }
+  ]
+}

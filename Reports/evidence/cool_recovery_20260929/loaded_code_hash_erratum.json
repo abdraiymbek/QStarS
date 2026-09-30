@@ -1,0 +1,30 @@
+{
+  "scope": "Three stages share one Python process. Later on-disk hashes may differ from imported code. Original manifests remain unchanged; actual loaded code is identified by the bootstrap import. Existing fresh-output/nonfinite guards ran; new radiation-failure and initial-OUTGEN-copy guard did not retroactively run.",
+  "cases": [
+    {
+      "case": "cmfgen_recovery_T9_refined_full_ff_bootstrap",
+      "loaded_runner_sha256": "1d205e6602b2dd0bef9bc8beaa9ec518f8ee82d1d3566459e101741e0f3e1a77",
+      "loaded_adapter_sha256": "8c8c54bfd8d977cedbd3b2b59986f288cfc9314a26a1db697f30f5f9a52f0c6d",
+      "recorded_runner_file_sha256": "1d205e6602b2dd0bef9bc8beaa9ec518f8ee82d1d3566459e101741e0f3e1a77",
+      "recorded_adapter_file_sha256": "8c8c54bfd8d977cedbd3b2b59986f288cfc9314a26a1db697f30f5f9a52f0c6d",
+      "recorded_hashes_match_loaded": true
+    },
+    {
+      "case": "cmfgen_recovery_T9_refined_full_ff_fixedJ",
+      "loaded_runner_sha256": "1d205e6602b2dd0bef9bc8beaa9ec518f8ee82d1d3566459e101741e0f3e1a77",
+      "loaded_adapter_sha256": "8c8c54bfd8d977cedbd3b2b59986f288cfc9314a26a1db697f30f5f9a52f0c6d",
+      "recorded_runner_file_sha256": "1825131c4880a8e55489dd9feb934e99546c8a3cbbda40a695a30a8b944b3b83",
+      "recorded_adapter_file_sha256": "eb1a98048e68f9fa0c811db8fe5a9c71ee11e0d38d4714451c05794031c92b94",
+      "recorded_hashes_match_loaded": false
+    },
+    {
+      "case": "cmfgen_recovery_T9_refined_full_ff",
+      "loaded_runner_sha256": "1d205e6602b2dd0bef9bc8beaa9ec518f8ee82d1d3566459e101741e0f3e1a77",
+      "loaded_adapter_sha256": "8c8c54bfd8d977cedbd3b2b59986f288cfc9314a26a1db697f30f5f9a52f0c6d",
+      "recorded_runner_file_sha256": "1825131c4880a8e55489dd9feb934e99546c8a3cbbda40a695a30a8b944b3b83",
+      "recorded_adapter_file_sha256": "eb1a98048e68f9fa0c811db8fe5a9c71ee11e0d38d4714451c05794031c92b94",
+      "recorded_hashes_match_loaded": false
+    }
+  ],
+  "future_fix": "Record import-time adapter and runner hashes; regression exercises changed on-disk hashes."
+}

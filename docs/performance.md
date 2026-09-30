@@ -1,5 +1,19 @@
 # Apple Silicon performance report
 
+Report 15 measures 12 native recovery trials plus one untimed debugger crash.
+Repaired fixed-J/T initialization at 84 / 167 radii takes **20.43 / 43.37 s**,
+with **115.88 / 172.00 MiB** peak footprint. Released full-cycle cases fail
+after **257.94 / 1727.13 s**, with **541.88 / 1147.13 MiB** peak footprint.
+Their summed per-process wall time is **2866.01 s**, not elapsed campaign time.
+The final native-enabled suite passes **122 tests in 51.91 s**, zero skips.
+These measured concurrent workloads fit the Apple M5 / 16 GiB MacBook with all
+declared H/He processes retained. The refined case stops through native poor-flux
+diagnostics, before its runtime limit; compute exhaustion does not explain the
+captured radiation instability. No cloud scaling, Linux agreement or physical
+selected-wind/evolution runtime is established. See
+[Report 15](../Reports/Report_15.md) and the
+[per-case measurements](../Reports/evidence/cool_recovery_20260929/campaign_summary.json).
+
 Report 14 adds 13 cool CMFGEN trials, including setup failures and diagnostic
 controls. The corrected T6 runs at 84 / 167 radii and 43,314 frequencies take
 **1041.17 / 2008.61 s**, with **121.75 / 181.69 MiB peak footprint**. The failed

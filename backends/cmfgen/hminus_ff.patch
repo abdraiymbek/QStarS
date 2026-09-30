@@ -1,0 +1,284 @@
+--- a/newsubs/do_h0_ff.f
++++ b/newsubs/do_h0_ff.f
+@@ -51,73 +51,8 @@
+ 	REAL(KIND=LDP) CHIBF,CHIFF,HDKT,TWOHCSQ
+ 	COMMON/CONSTANTS/ CHIBF,CHIFF,HDKT,TWOHCSQ
+ !
+-	IF(FIRST_TIME)THEN
+-	  WRITE(6,*)'Opening H- free-free file'
+-	  OPEN(UNIT=LUIN,FILE='H0_FF',STATUS='OLD',ACTION='READ')
+-	  STRING=' '
+-	  DO WHILE(INDEX(STRING,'Format date') .EQ. 0)
+-	    READ(LUIN,'(A)')STRING
+-	  END DO
+-	  IF( INDEX(STRING,'20-Jun-2015') .EQ. 0)THEN
+-	    WRITE(6,*)'Invalid format date when reading H- free-free data'
+-	    WRITE(6,*)TRIM(STRING)
+-	    STOP
+-	  END IF
+-	  READ(LUIN,'(A)')STRING
+-!
+-	  READ(LUIN,'(A)')STRING
+-	  IF(INDEX(STRING,'!NTHETA') .NE. 0)THEN
+-	    READ(STRING,*)NT
+-	  ELSE
+-	    WRITE(6,*)'Error -- NTHETA not found when reading H- free-free data'
+-	    WRITE(6,*)TRIM(STRING)
+-	    STOP
+-	  END IF
+-!
+-	  READ(LUIN,'(A)')STRING
+-	  IF(INDEX(STRING,'!NLAM') .NE. 0)THEN
+-	    READ(STRING,*)NNU
+-	  ELSE
+-	    WRITE(6,*)'Error -- NLAM not found when reading H- free-free data'
+-	    WRITE(6,*)TRIM(STRING)
+-	    STOP
+-	  END IF
+-	  WRITE(6,'(A,I3,4X,A,I3)')' NTHETA=',NT,'NLAM=',NNU
+-!
+-	  ALLOCATE (LOG_T_TAB(NT))
+-	  ALLOCATE (LOG_NU_TAB(NNU))
+-	  ALLOCATE (CROSS(NT,NNU))
+-!	
+-	  STRING=' '
+-	  DO WHILE(STRING .EQ. ' ' .OR. STRING(1:1) .EQ. '!')
+-	    READ(LUIN,'(A)')STRING
+-	  END DO
+-	  WRITE(6,'(A)')STRING
+-!
+-! In the table, T is tabulated as 5040/T, is increasing with index.
+-! In the table, the wavelenth is in Angstroms.
+-! We change to T, NU(10^15Hz) for table axes -- both monotonically increase with index.
+-! Note: We read the T axis i backwards to ensure monotonically increasing.
+-! Recall: T is in units of 10^4 K, NU in units of 10^15 Hz.
+-!
+-! The cross-section tabulated is per hydrodegn atom per unit electron pressures (kT.Ne)
+-! and need to be multipled by 10^{-26}. There is a factor of 10^{10} to keep R.CHI unitless.
+-!
+-	  READ(STRING,*)(LOG_T_TAB(I),I=NT,1,-1)
+-	  LOG_T_TAB=LOG(0.504_LDP/LOG_T_TAB)
+-	  I=3; CALL WRITV_V2(LOG_T_TAB,NT,I,'LOG(T/10^4)_TAB',6)
+-	  DO J=1,NNU
+-	    READ(LUIN,*)LOG_NU_TAB(J),(CROSS(I,J),I=NT,1,-1)
+-	    LOG_NU_TAB(J)=LOG(2997.94_LDP/LOG_NU_TAB(J))	!Convert from Ang to 10^15Hz
+-	  END DO
+-	  T1=1.0E+04_LDP*1.0E-16_LDP*BOLTZMANN_CONSTANT()
+-	  CROSS=LOG(CROSS*T1)
+-	  FIRST_TIME=.FALSE.
+-	  I=3; CALL WRITV_V2(LOG_NU_TAB,NNU,I,'LOG(NU/10^15 Hz)_TAB',6)
+-	  WRITE(6,'(A)')' '
+-!
+-	END IF
+-!
++	CALL INIT_H0_FF_DATA(LUIN)
++
+ 	LOG_NU=LOG(CONT_FREQ)
+ 	IF(LOG_NU .GT. LOG_NU_TAB(NNU))THEN
+ 	  NU_INDX=NNU-1
+@@ -181,6 +116,7 @@
+ 	REAL(KIND=LDP) T1,T2,T3
+ 	INTEGER I,J
+ !
++	CALL INIT_H0_FF_DATA(7)
+ 	LOG_NU=LOG(CONT_FREQ)
+ 	IF(LOG_NU .GT. LOG_NU_TAB(NNU))THEN
+ 	  NU_INDX=NNU-1
+@@ -227,3 +163,128 @@
+ !
+ 	RETURN
+ 	END
++
++! QSTARS_HMINUS_FF_REPAIR: lazy loading for every independent entry point.
++	SUBROUTINE INIT_H0_FF_DATA(LUIN)
++	USE H0_FF_DATA
++	IMPLICIT NONE
++	INTEGER LUIN,I,J
++	REAL(KIND=LDP) T1,BOLTZMANN_CONSTANT
++	EXTERNAL BOLTZMANN_CONSTANT
++	CHARACTER(LEN=200) STRING
++	LOGICAL, SAVE :: FIRST_TIME=.TRUE.
++	IF(FIRST_TIME)THEN
++	  WRITE(6,*)'Opening H- free-free file'
++	  OPEN(UNIT=LUIN,FILE='H0_FF',STATUS='OLD',ACTION='READ')
++	  STRING=' '
++	  DO WHILE(INDEX(STRING,'Format date') .EQ. 0)
++	    READ(LUIN,'(A)')STRING
++	  END DO
++	  IF( INDEX(STRING,'20-Jun-2015') .EQ. 0)THEN
++	    WRITE(6,*)'Invalid format date when reading H- free-free data'
++	    WRITE(6,*)TRIM(STRING)
++	    STOP
++	  END IF
++	  READ(LUIN,'(A)')STRING
++!
++	  READ(LUIN,'(A)')STRING
++	  IF(INDEX(STRING,'!NTHETA') .NE. 0)THEN
++	    READ(STRING,*)NT
++	  ELSE
++	    WRITE(6,*)'Error -- NTHETA not found when reading H- free-free data'
++	    WRITE(6,*)TRIM(STRING)
++	    STOP
++	  END IF
++!
++	  READ(LUIN,'(A)')STRING
++	  IF(INDEX(STRING,'!NLAM') .NE. 0)THEN
++	    READ(STRING,*)NNU
++	  ELSE
++	    WRITE(6,*)'Error -- NLAM not found when reading H- free-free data'
++	    WRITE(6,*)TRIM(STRING)
++	    STOP
++	  END IF
++	  WRITE(6,'(A,I3,4X,A,I3)')' NTHETA=',NT,'NLAM=',NNU
++!
++	  ALLOCATE (LOG_T_TAB(NT))
++	  ALLOCATE (LOG_NU_TAB(NNU))
++	  ALLOCATE (CROSS(NT,NNU))
++!	
++	  STRING=' '
++	  DO WHILE(STRING .EQ. ' ' .OR. STRING(1:1) .EQ. '!')
++	    READ(LUIN,'(A)')STRING
++	  END DO
++	  WRITE(6,'(A)')STRING
++!
++! In the table, T is tabulated as 5040/T, is increasing with index.
++! In the table, the wavelenth is in Angstroms.
++! We change to T, NU(10^15Hz) for table axes -- both monotonically increase with index.
++! Note: We read the T axis i backwards to ensure monotonically increasing.
++! Recall: T is in units of 10^4 K, NU in units of 10^15 Hz.
++!
++! The cross-section tabulated is per hydrodegn atom per unit electron pressures (kT.Ne)
++! and need to be multipled by 10^{-26}. There is a factor of 10^{10} to keep R.CHI unitless.
++!
++	  READ(STRING,*)(LOG_T_TAB(I),I=NT,1,-1)
++	  LOG_T_TAB=LOG(0.504_LDP/LOG_T_TAB)
++	  I=3; CALL WRITV_V2(LOG_T_TAB,NT,I,'LOG(T/10^4)_TAB',6)
++	  DO J=1,NNU
++	    READ(LUIN,*)LOG_NU_TAB(J),(CROSS(I,J),I=NT,1,-1)
++	    LOG_NU_TAB(J)=LOG(2997.94_LDP/LOG_NU_TAB(J))	!Convert from Ang to 10^15Hz
++	  END DO
++	  T1=1.0E+04_LDP*1.0E-16_LDP*BOLTZMANN_CONSTANT()
++	  CROSS=LOG(CROSS*T1)
++	  CLOSE(LUIN)
++	  FIRST_TIME=.FALSE.
++	  I=3; CALL WRITV_V2(LOG_NU_TAB,NNU,I,'LOG(NU/10^15 Hz)_TAB',6)
++	  WRITE(6,'(A)')' '
++!
++	END IF
++!
++	END
++!
++! Exact derivatives of native bilinear log-table interpolation and Planck
++! emissivity. Derivatives are at fixed frequency and independent populations.
++! Ion argument is the neutral-H ground population, not H-minus population.
++	SUBROUTINE DO_H0_FF_VAR(VETA,VCHI,ION_DEN,ED,TEMP,NU,EQION,ND,NVAR,LAST_ONLY)
++	USE H0_FF_DATA
++	IMPLICIT NONE
++	INTEGER ND,NVAR,EQION,I,J,K,KSTART
++	LOGICAL LAST_ONLY
++	REAL(KIND=LDP) VETA(NVAR,ND),VCHI(NVAR,ND),ION_DEN(ND),ED(ND),TEMP(ND),NU
++	REAL(KIND=LDP) W,U,C0,C1,SLOPE,BASE,OP,EM,B,X,E,DB
++	REAL(KIND=LDP) CHIBF,CHIFF,HDKT,TWOHCSQ
++	COMMON/CONSTANTS/ CHIBF,CHIFF,HDKT,TWOHCSQ
++	CALL INIT_H0_FF_DATA(7)
++	J=1
++	DO WHILE(J .LT. NNU-1)
++	  IF(LOG(NU) .LE. LOG_NU_TAB(J+1))EXIT
++	  J=J+1
++	END DO
++	W=(LOG(NU)-LOG_NU_TAB(J))/(LOG_NU_TAB(J+1)-LOG_NU_TAB(J))
++	KSTART=1
++	IF(LAST_ONLY)KSTART=ND
++	DO K=KSTART,ND
++	  I=1
++	  DO WHILE(I .LT. NT-1)
++	    IF(LOG(TEMP(K)) .LT. LOG_T_TAB(I+1))EXIT
++	    I=I+1
++	  END DO
++	  C0=(1.0_LDP-W)*CROSS(I,J)+W*CROSS(I,J+1)
++	  C1=(1.0_LDP-W)*CROSS(I+1,J)+W*CROSS(I+1,J+1)
++	  SLOPE=(C1-C0)/(LOG_T_TAB(I+1)-LOG_T_TAB(I))
++	  U=(LOG(TEMP(K))-LOG_T_TAB(I))/(LOG_T_TAB(I+1)-LOG_T_TAB(I))
++	  BASE=TEMP(K)*EXP((1.0_LDP-U)*C0+U*C1)
++	  OP=BASE*ED(K)*ION_DEN(K)
++	  X=HDKT*NU/TEMP(K); E=EXP(-X)
++	  B=TWOHCSQ*NU**3*E/(1.0_LDP-E)
++	  DB=B*X/TEMP(K)/(1.0_LDP-E)
++	  EM=OP*B
++	  VCHI(EQION,K)=VCHI(EQION,K)+BASE*ED(K)
++	  VETA(EQION,K)=VETA(EQION,K)+BASE*ED(K)*B
++	  VCHI(NVAR-1,K)=VCHI(NVAR-1,K)+BASE*ION_DEN(K)
++	  VETA(NVAR-1,K)=VETA(NVAR-1,K)+BASE*ION_DEN(K)*B
++	  VCHI(NVAR,K)=VCHI(NVAR,K)+OP*(1.0_LDP+SLOPE)/TEMP(K)
++	  VETA(NVAR,K)=VETA(NVAR,K)+EM*(1.0_LDP+SLOPE)/TEMP(K)+OP*DB
++	END DO
++	END
+--- a/new_main/subs/var_op_v10.f
++++ b/new_main/subs/var_op_v10.f
+@@ -173,7 +173,11 @@
+ C
+ C Free-free processes
+ C
+-	IF( IONFF .AND. PHOT_ID .EQ. 1)THEN
++! QSTARS_HMINUS_FF_REPAIR: same ground population as GENOPAETA_V10.
++	IF(Z .EQ. 0.0_LDP)THEN
++	  POP_SUM=DI_S(1,:)
++	  CALL DO_H0_FF_VAR(PETA,PCHI,POP_SUM,ED,T,NU,GS_ION_EQ,ND,NT,LST_DEPTH_ONLY)
++	ELSE IF( IONFF .AND. PHOT_ID .EQ. 1)THEN
+ C
+ C Compute free-free gaunt factors. Replaces call to GFF in following DO loop.
+ C
+--- a/newsubs/genopaeta_v10.f
++++ b/newsubs/genopaeta_v10.f
+@@ -131,9 +131,9 @@
+ 	IF(ZION .EQ. 0.0_LDP)THEN
+ 	  I=7
+ 	  IF(LST_DEPTH_ONLY)THEN
+-	    K=ND_LOC
++	    K=ND
+ 	    COR_FAC(K)=DI(1,K)
+-	    CALL DO_H0_FF(ETA(K),CHI(K),COR_FAC(K),ED(K),T(K),EMHNUKT(K),NU,I,K)
++	    CALL DO_H0_FF(ETA(K),CHI(K),COR_FAC(K),ED(K),T(K),EMHNUKT(K),NU,I,1)
+ 	  ELSE
+ 	    COR_FAC=DI(1,1:ND)
+ 	    CALL DO_H0_FF(ETA,CHI,COR_FAC,ED,T,EMHNUKT,NU,I,ND)
+--- a/newsubs/comp_free_free_v2.f
++++ b/newsubs/comp_free_free_v2.f
+@@ -93,7 +93,8 @@
+ 	  IF(.NOT. ATM(ID)%XzV_PRES)THEN
+ 	  ELSE IF(ION_ID(ID) .EQ. 'H0')THEN
+ 	    I=7                                 !Used to read in data on first entry (will not be used here.)
+-	    CALL DO_H0_FF(ETA_FF,CHI_FF,POP_SUM(1,ID),ED,T,EMHNUKT,FREQ,I,ND)
++	    GFF_VAL=ATM(ID+1)%XzV(1,:)
++	    CALL DO_H0_FF(ETA_FF,CHI_FF,GFF_VAL,ED,T,EMHNUKT,FREQ,I,ND)
+ 	  ELSE IF(NINT(ATM(ID)%ZXzV) .GT. 0.0_LDP)THEN
+ !
+ ! Compute free-free gaunt factors. Replaces call to GFF in following DO loop.
+@@ -118,7 +119,11 @@
+ 	IF(USE_EHB .AND. DO_VAR)THEN
+ 	  DO ID=1,NUM_IONS
+ 	    IF(.NOT. ATM(ID)%XzV_PRES)THEN
+-	    ELSE
++	    ELSE IF(ION_ID(ID) .EQ. 'H0')THEN
++	      GFF_VAL=ATM(ID+1)%XzV(1,:)
++	      EQION=ATM(ID+1)%EQXzV
++	      CALL DO_H0_FF_VAR(VETA_FF,VCHI_FF,GFF_VAL,ED,T,FREQ,EQION,ND,NT,.FALSE.)
++	    ELSE IF(NINT(ATM(ID)%ZXzV) .GT. 0)THEN
+ 	      GFF_VAL=GFF_STORE(:,NINT(ATM(ID)%ZXzV))
+ 	      CALL FF_RES_GAUNT(GFF_VAL,FREQ,T,ID,ATM(ID)%GIONXzV_F,ATM(ID)%ZXzV,ND)
+ 	      EQION=ATM(ID+1)%EQXzV
+--- a/new_main/subs/solveba_v13.f
++++ b/new_main/subs/solveba_v13.f
+@@ -264,10 +264,8 @@
+ !
+ ! Rather than return the largest change, return the max/min of the NV correction.
+ !
+-	IF(DO_LEVEL_CHK)THEN
+-	  MAXCH=MAX( ABS(MAX_INC_VEC(NV)), MAX_DEC_VEC(NV)/(1.0_LDP-MIN(MAX_DEC_VEC(NV),0.9999_LDP)))
+-	  MAXCH=100.0_LDP*MAXCH
+-	END IF
++! QSTARS_STRICT_LEVEL_STOP: do not discard ten largest corrections.
++! Keep DO_LEVEL_CHK for native scaling, but MAXCH remains the full maximum.
+ 	WRITE(6,*)'Maximm changes as returned by SOLVEBA_V13 is',MAXCH
+ 	WRITE(6,'(A,10ES10.2)')' DEC_VEC: ',MAX_DEC_VEC(1:10)
+ 	WRITE(6,'(A,10ES10.2)')' INC_VEC: ',MAX_INC_VEC(1:10)

@@ -1,0 +1,15 @@
+{
+  "scope": "Historical analysis files retained unchanged; corrections apply to interpretation only.",
+  "corrections": [
+    {
+      "original": "growth_analysis/analysis.json",
+      "corrected": "growth_analysis_v3/analysis.json",
+      "reason": "Growth snapshot header contains maximum physical J, not fixed-point residual. The independent band-solve attribution remains valid for captured operators."
+    },
+    {
+      "original": "frequency2_analysis/analysis.json",
+      "corrected": "frequency2_analysis_v3/analysis.json",
+      "reason": "No complete raw operator captured; generic band-solve conclusion does not apply. Fatal J-state evidence only."
+    }
+  ]
+}

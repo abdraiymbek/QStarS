@@ -1,0 +1,22 @@
+{
+  "frames": [],
+  "fatal_state": {
+    "ND": 84,
+    "frequency_1e15Hz": 5.943370801246415,
+    "frequency_index": 31913,
+    "J_range": [
+      2.685397134520385e-35,
+      6.0231341866644416e+221
+    ],
+    "temperature_range_K": [
+      3072.435476229867,
+      20956.56623586433
+    ],
+    "absorption_min": 8.117032823185363e-09,
+    "sha256": "b9f9808a0d33489f61025d7c72ab5d74054303e1b7817594f3d282451ff77cfc"
+  },
+  "input_sha256": {},
+  "driver_sha256": "96d9c64303df6da28087466c0d7f8c8a8c69d5f12e83ccce55afcd046a0a84ac",
+  "conclusion": "No full raw operator was captured; independent linear-solve attribution is unavailable for this case. Fatal native J state, if present, is retained.",
+  "production_certified": false
+}

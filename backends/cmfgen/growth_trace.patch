@@ -1,0 +1,72 @@
+--- a/plane/mom_jrel_v9.f
++++ b/plane/mom_jrel_v9.f
+@@ -339,6 +339,7 @@
+ 	REAL(KIND=LDP) TA_SAV,TB_SAV,XM_SAV
+ 	REAL(KIND=LDP) C_KMS
+ !
++	LOGICAL, SAVE :: QSTARS_BIG_WRITTEN=.FALSE.
+ 	INTEGER QSTARS_LU,QSTARS_I
+ 	REAL(KIND=LDP), ALLOCATABLE :: QSTARS_OPERATOR(:,:),QSTARS_RAW(:)
+ 	INTEGER ICOUNT
+@@ -361,6 +362,7 @@
+ !
+ 	C_KMS=1.0E-05_LDP*SPEED_OF_LIGHT()
+ 	LUER=ERROR_LU()
++	IF(INIT)QSTARS_BIG_WRITTEN=.FALSE.
+ 	IF(INIT)THEN
+ !
+ ! Determin # of points in the new grid. This will allow us to allocate
+@@ -890,6 +892,28 @@
+ 	  QSTARS_OPERATOR(:,3)=TC; QSTARS_OPERATOR(:,4)=XM
+ 	  CALL THOMAS(TA,TB,TC,XM,ND,1)
+ 	  QSTARS_RAW=XM
++! QSTARS_GROWTH_TRACE: unmodified recurrence and raw linear solution.
++	  IF(.NOT. QSTARS_BIG_WRITTEN .AND. MAXVAL(ABS(XM/GAM_REL/R**2)) .GT. 1.0E20_LDP)THEN
++	    OPEN(NEWUNIT=QSTARS_LU,FILE='QSTARS_MOM_GROWTH',STATUS='UNKNOWN',POSITION='APPEND')
++	    WRITE(QSTARS_LU,*)'FRAME',ND,FREQ,dLOG_NU,MAXVAL(ABS(XM/GAM_REL/R**2))
++	    WRITE(QSTARS_LU,*)'R V chi eta scattering K/J H/J dlnGJ P_J a b c rhs rawJ local prevH prevJ minusEPS plusEPS'
++	    DO QSTARS_I=1,ND
++	      I=QSTARS_I
++	      IF(I .GT. 1 .AND. I .LT. ND)THEN
++	        WRITE(QSTARS_LU,'(19ES25.16)')R(I),V(I),CHI(I),ETA(I),ESEC(I),K_ON_J(I),H_ON_J(I),
++	1          dlnGRSQJdlnR(I),P_J(I),QSTARS_OPERATOR(I,:),QSTARS_RAW(I),
++	1          DTAUONQ(I)*SOURCE(I)*R(I)*R(I),VB(I)*GAM_RSQHNU_PREV(I-1)+VC(I)*GAM_RSQHNU_PREV(I),
++	1          PSIPREV(I)*GAM_RSQJNU_PREV(I),
++	1          -EPS_PREV(I-1)*(GAM_RSQJNU_PREV(I-1)+GAM_RSQJNU_PREV(I)),
++	1          EPS_PREV(I)*(GAM_RSQJNU_PREV(I)+GAM_RSQJNU_PREV(I+1))
++	      ELSE
++	        WRITE(QSTARS_LU,'(19ES25.16)')R(I),V(I),CHI(I),ETA(I),ESEC(I),K_ON_J(I),H_ON_J(I),
++	1          dlnGRSQJdlnR(I),P_J(I),QSTARS_OPERATOR(I,:),QSTARS_RAW(I),0.0_LDP,0.0_LDP,0.0_LDP,0.0_LDP,0.0_LDP
++	      END IF
++	    END DO
++	    CLOSE(QSTARS_LU)
++	    QSTARS_BIG_WRITTEN=.TRUE.
++	  END IF
+ !
+ !	  IF(FREQ .EQ. FREQ_SAVE)BACKSPACE(UNIT=178)
+ !	  WRITE(178,'(ES15.7,9ES14.6)')FREQ,RSQ_JP,RSQ_HP,XM(ND)+RSQ_JP,XM(ND-1),XM(ND-2),RSQ_HP-HMIN*XM(ND)
+--- a/new_main/mod_subs/comp_j_blank.f
++++ b/new_main/mod_subs/comp_j_blank.f
+@@ -91,6 +91,7 @@
+ ! frequency.
+ !
+ 	INTEGER, SAVE :: FG_COUNT
++	INTEGER QSTARS_LU
+ 	INTEGER I
+ 	INTEGER J_IT_COUNTER
+ 	LOGICAL NEW_FREQ
+@@ -1018,6 +1019,14 @@
+ 	END IF
+ !
+ 	IF(ABS(RJ(1)) .GT. 1.0E+30_LDP)THEN
++! QSTARS_GROWTH_TRACE: native fatal state, unchanged stopping threshold.
++	  OPEN(NEWUNIT=QSTARS_LU,FILE='QSTARS_J_FAILURE',STATUS='UNKNOWN',POSITION='APPEND')
++	  WRITE(QSTARS_LU,*)'FRAME',ND,FL,FREQ_INDX,SECTION
++	  WRITE(QSTARS_LU,*)'R T V chi eta scattering J K'
++	  DO I=1,ND
++	    WRITE(QSTARS_LU,'(8ES25.16)')R(I),T(I),V(I),CHI_CLUMP(I),ETA_CLUMP(I),CHI_SCAT_CLUMP(I),RJ(I),K_MOM(I)
++	  END DO
++	  CLOSE(QSTARS_LU)
+ 	  WRITE(LUER,*)' '
+ 	  WRITE(LUER,*)' '
+ 	  WRITE(LUER,*)'Error in comp_j_blank.f'

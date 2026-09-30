@@ -1,0 +1,19 @@
+{
+  "version": "0.1.0",
+  "git_commit": "009e395928192e3da74e3a514194e9d1cabe19b6",
+  "git_status": "M README.md\n M Reports/evidence/completion_gates.json\n M backends/cmfgen/NOTICE\n M backends/cmfgen/README.md\n M backends/cmfgen/record_build.py\n M backends/cmfgen/run_component.py\n M docs/nlte_cool_closure.md\n M docs/performance.md\n M docs/validation.md\n M docs/validity.md\n M scripts/archive_cmfgen_components.py\n M scripts/validate_cmfgen_component.py\n M src/qstars/cmfgen_backend.py\n M src/qstars/data/sources.json\n M tests/test_cmfgen_backend.py\n?? Reports/Report_15.md\n?? Reports/evidence/cool_recovery_20260929/\n?? backends/cmfgen/apply_growth_trace.py\n?? backends/cmfgen/apply_hminus_ff_repair.py\n?? backends/cmfgen/apply_moment_trace.py\n?? backends/cmfgen/growth_trace.patch\n?? backends/cmfgen/growth_trace_manifest.json\n?? backends/cmfgen/hminus_ff.patch\n?? backends/cmfgen/hminus_ff_patch_manifest.json\n?? backends/cmfgen/recover_cool.py\n?? benchmarks/cmfgen_cool_rate_recovery_plan.json\n?? benchmarks/results/2026-09-29-cool-recovery/\n?? scripts/analyze_cmfgen_moment_failure.py\n?? scripts/check_cmfgen_hminus_ff.py\n?? scripts/report_cmfgen_rate_recovery.py",
+  "source_sha256": "6da9a662847f85ca3445e2411af667719c05e3729906787b2bea24f59351245e",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "platform": "macOS-27.0-arm64-arm-64bit",
+  "created_utc": "2026-09-30T01:26:47.949609+00:00",
+  "process_package_sha256": "307a33a42b9c6a240737c2aa5c5fe9594aba47725041ec7ab220db35aa3b6a5d",
+  "source_tree_matches_import": true,
+  "dependencies": {
+    "numpy": "2.5.3",
+    "scipy": "1.18.1",
+    "PyYAML": "6.0.3",
+    "matplotlib": "3.11.2"
+  },
+  "source_tree_matches_at_end": true,
+  "source_snapshot_verified": true
+}

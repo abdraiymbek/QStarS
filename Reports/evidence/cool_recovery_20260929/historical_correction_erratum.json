@@ -1,0 +1,209 @@
+{
+  "scope": "read-only stricter interpretation of archived logs; historical files unchanged. Report 13 hot nonlinear PASS scopes remain below 0.1%; this is not a new thermal/energy audit.",
+  "cases": [
+    {
+      "case": "cmfgen_capacity_control",
+      "last": {
+        "iteration": 26,
+        "reported_percent": 8.936281161769795,
+        "raw_percent": 9.182225133748226,
+        "all_level_percent": 9.182225133748226
+      },
+      "outgen_sha256": "5f20f7ba9ac419f47f0295ff9f200b31f21a35a3b24d1833510cc28689446788",
+      "fractional_limit": 0.001,
+      "passes_correction_gate": false
+    },
+    {
+      "case": "cmfgen_export_off",
+      "last": {
+        "iteration": 26,
+        "reported_percent": 6.950140950244521,
+        "raw_percent": 7.146683810136077,
+        "all_level_percent": 7.146683810136077
+      },
+      "outgen_sha256": "6d0c8a23026aa75a2e8b3489cd1bacff5ba1b03c657ed9f3e071572f365ab2bb",
+      "fractional_limit": 0.001,
+      "passes_correction_gate": false
+    },
+    {
+      "case": "cmfgen_export_on",
+      "last": {
+        "iteration": 26,
+        "reported_percent": 6.950140950244521,
+        "raw_percent": 7.146683810136077,
+        "all_level_percent": 7.146683810136077
+      },
+      "outgen_sha256": "eef869875833e4037c90be409f5393b6eb327735df86aeeff2a7180fbabfb002",
+      "fractional_limit": 0.001,
+      "passes_correction_gate": false
+    },
+    {
+      "case": "cmfgen_hhe_2",
+      "last": {
+        "iteration": 25,
+        "reported_percent": 23.775837506457158,
+        "raw_percent": 23.8,
+        "all_level_percent": 23.8
+      },
+      "outgen_sha256": "adca458eb35c91dbb83feb7bec91a6f530d2bf1181bd1ea098702c8c911fa578",
+      "fractional_limit": 0.001,
+      "passes_correction_gate": false
+    },
+    {
+      "case": "cmfgen_hhe_3",
+      "last": {
+        "iteration": 55,
+        "reported_percent": 0.01206872166569487,
+        "raw_percent": 0.013301769135294994,
+        "all_level_percent": 0.013301769135294994
+      },
+      "outgen_sha256": "e534f6194036166f128625f523ca8416e02c653daa460eb9fd1422e4989d39df",
+      "fractional_limit": 0.001,
+      "passes_correction_gate": true
+    },
+    {
+      "case": "cmfgen_mesh_167",
+      "last": {
+        "iteration": 1,
+        "reported_percent": 8.143739192135998,
+        "raw_percent": 8.24,
+        "all_level_percent": 8.24
+      },
+      "outgen_sha256": "45c0c000068f8a659860ceae47e9215f75762c1c4675aeadf91ba28aaad5892b",
+      "fractional_limit": 0.001,
+      "passes_correction_gate": false
+    },
+    {
+      "case": "cmfgen_mesh_333",
+      "last": {
+        "iteration": 1,
+        "reported_percent": 8.376127128287852,
+        "raw_percent": 8.39,
+        "all_level_percent": 8.39
+      },
+      "outgen_sha256": "809b5eaa44b152c3fb2f2c0fc0c51a592d54cbe66e9138d5f55d1f511fdef04a",
+      "fractional_limit": 0.001,
+      "passes_correction_gate": false
+    },
+    {
+      "case": "cmfgen_mesh_665_fixed",
+      "last": {
+        "iteration": 1,
+        "reported_percent": 8.432681394607725,
+        "raw_percent": 8.44,
+        "all_level_percent": 8.44
+      },
+      "outgen_sha256": "1922d30325a38c91cf87afb006bc1259feccafeba600045942af53aa4c985280",
+      "fractional_limit": 0.001,
+      "passes_correction_gate": false
+    },
+    {
+      "case": "cmfgen_mesh_84",
+      "last": {
+        "iteration": 1,
+        "reported_percent": 8.936287875736049,
+        "raw_percent": 9.182225133748226,
+        "all_level_percent": 9.182225133748226
+      },
+      "outgen_sha256": "8e39a4b37bcc5141e88df0d3bf75c49a83782c9e0990e7591e06d3897710772a",
+      "fractional_limit": 0.001,
+      "passes_correction_gate": false
+    },
+    {
+      "case": "cmfgen_probe_hhe_1",
+      "last": {
+        "iteration": 4,
+        "reported_percent": 4046.77538412615,
+        "raw_percent": 4066.666666666657,
+        "all_level_percent": 4066.666666666657
+      },
+      "outgen_sha256": "3b06e85105237b0cd222cb61df85db274f2e2318f782de028f806192d9ac88fe",
+      "fractional_limit": 0.001,
+      "passes_correction_gate": false
+    },
+    {
+      "case": "cmfgen_thermal_equilibrium",
+      "last": {
+        "iteration": 96,
+        "reported_percent": 7.541571210977921e-05,
+        "raw_percent": 8.47e-05,
+        "all_level_percent": 8.47e-05
+      },
+      "outgen_sha256": "309292496619d4fd0e6f63885a0dfc70b9edbbfd4615a45eebae49b4a59de0be",
+      "fractional_limit": 0.001,
+      "passes_correction_gate": true
+    },
+    {
+      "case": "cmfgen_thermal_rel",
+      "last": {
+        "iteration": 75,
+        "reported_percent": 0.0024261817123121935,
+        "raw_percent": 0.00275,
+        "all_level_percent": 0.00275
+      },
+      "outgen_sha256": "36b0eb1e3523a5576745974ae90f57ac5ea704acdc2567514a4752e147608a3e",
+      "fractional_limit": 0.001,
+      "passes_correction_gate": true
+    },
+    {
+      "case": "cmfgen_thermal_tight",
+      "last": {
+        "iteration": 75,
+        "reported_percent": 0.0001356603539275651,
+        "raw_percent": 0.00015400023716036522,
+        "all_level_percent": 0.00015400023716036522
+      },
+      "outgen_sha256": "0a0ddd026878b3e5b42f2d85d0a6d5601d7f26c63c5917217b0ab4c4cf4039b2",
+      "fractional_limit": 0.001,
+      "passes_correction_gate": true
+    },
+    {
+      "case": "cmfgen_transport_frequency",
+      "last": {
+        "iteration": 26,
+        "reported_percent": 47.33395408276125,
+        "raw_percent": 47.275405007363766,
+        "all_level_percent": 47.33395408276125
+      },
+      "outgen_sha256": "ea0cd7eb0981f2e9a1e97bcc63484cb39e9d53bbf483f1f952bb8ce79f72a75b",
+      "fractional_limit": 0.001,
+      "passes_correction_gate": false
+    },
+    {
+      "case": "cmfgen_transport_rel",
+      "last": {
+        "iteration": 26,
+        "reported_percent": 8.936281161769795,
+        "raw_percent": 9.182225133748226,
+        "all_level_percent": 9.182225133748226
+      },
+      "outgen_sha256": "129b7179a140d4d0f10a526258ecddb80d6c752a8e3ed1b23f4126db19d2e51b",
+      "fractional_limit": 0.001,
+      "passes_correction_gate": false
+    },
+    {
+      "case": "cmfgen_transport_standard",
+      "last": {
+        "iteration": 26,
+        "reported_percent": 6.937017400906697,
+        "raw_percent": 7.13520462824084,
+        "all_level_percent": 7.13520462824084
+      },
+      "outgen_sha256": "7c86cb3647cfe4f659e46cb72eb8a3032709d8c39d92b041a08bada998f8bede",
+      "fractional_limit": 0.001,
+      "passes_correction_gate": false
+    },
+    {
+      "case": "cmfgen_zpup_4",
+      "last": {
+        "iteration": 2,
+        "reported_percent": 3.136436979178636,
+        "raw_percent": 6.837606837606838,
+        "all_level_percent": 6.837606837606838
+      },
+      "outgen_sha256": "e6edebc9ed8fb13585f1f290642b07928fce96c25165b7023d7c6203b9371135",
+      "fractional_limit": 0.001,
+      "passes_correction_gate": false
+    }
+  ]
+}

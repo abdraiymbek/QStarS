@@ -103,6 +103,50 @@ def test_nan_luminosity_cannot_pass_zero_correction(tmp_path):
         runner_module().check_completion(tmp_path,0,False)
 
 
+def test_native_stopping_cannot_discard_largest_levels():
+    from qstars.cmfgen_backend import nonlinear_corrections
+    text='''Current great iteration count is 10
+Maximum % increase at depth 81 is 40.3 (LAMBDA)
+Maximum % decrease at depth 84 is 22.1 (LAMBDA)
+Maximm changes as returned by SOLVEBA_V13 is 4.8E-10
+'''
+    q=nonlinear_corrections(text)[0]
+    assert q['iteration']==10
+    assert q['all_level_percent']==40.3
+    assert q['reported_percent']==4.8e-10
+    assert nonlinear_corrections('Maximm changes as returned by SOLVEBA_V13 is 0')[0]['all_level_percent'] is None
+
+
+def test_raw_decrease_normalization_and_three_digit_exponent():
+    from qstars.cmfgen_backend import nonlinear_corrections
+    q=nonlinear_corrections('''Maximum % increase at depth 1 is 1.0-100
+Maximum % decrease at depth 2 is 50.0
+Maximm changes as returned by SOLVEBA_V13 is 1.0E-10''')[0]
+    assert q['all_level_percent']==100.
+
+
+def test_native_moment_failure_rejected_despite_finite_output(tmp_path):
+    for message in ['Error in MOM_J_REL_V9: excessive iteration count.\n',
+                    'Mean intensity blowing up\n',
+                    'You have poor flux accuracy in the inner region of the model\n']:
+        (tmp_path/'OUTGEN').write_text(message)
+        with pytest.raises(RuntimeError,match='radiation iteration failed'):
+            runner_module().check_completion(tmp_path,0,False)
+
+
+def test_long_lived_runner_retains_imported_source_hashes(tmp_path,monkeypatch):
+    mod=runner_module()
+    runner_hash=mod.RUNNER_SOURCE_SHA256;adapter_hash=mod.LOADED_SOURCE_SHA256
+    exe=tmp_path/'native';exe.write_text('unexecuted capacity failure');run=tmp_path/'run';run.mkdir()
+    (run/'MODEL_SPEC').write_text('3000 [NP]\n')
+    # Simulate changed on-disk source hashes after Python imported the code.
+    monkeypatch.setattr(mod,'sha256',lambda path:'changed-on-disk')
+    result=mod.run(run,exe,timeout=1)
+    assert result['status']=='numerical_failure'
+    assert result['runner_sha256']==runner_hash
+    assert result['adapter_sha256']==adapter_hash
+
+
 def test_live_nonfinite_native_run_is_stopped_and_retained(tmp_path):
     exe=tmp_path/'nan_run'
     exe.write_text('#!/bin/sh\nprintf "Luminosity of star is: NaN NaN\\n" > OUTGEN\nsleep 30\n')
@@ -162,3 +206,22 @@ def test_hminus_population_labels_and_charge_energy(tmp_path):
     # Upstream fixed indices can mislabel H0 as hydrogen. Fail closed.
     p.write_text(text.replace('HI populations','H0 populations'))
     with pytest.raises(ValueError,match='ion label mismatch'):read_hhe_populations(p)
+
+
+def test_continuation_guard_requires_attested_inherited_prefix(tmp_path):
+    import json
+    from qstars.cmfgen_backend import sha256
+    mod=runner_module();initial=tmp_path/'initial_inputs';initial.mkdir()
+    old='Mean intensity blowing up\nNaN\n'
+    (initial/'OUTGEN').write_text(old)
+    (tmp_path/'run_manifest.json').write_text(json.dumps({'inputs':{'OUTGEN':sha256(initial/'OUTGEN')}}))
+    (tmp_path/'OUTGEN').write_text(old+'New finite iteration\n')
+    assert mod.current_native_log(tmp_path)=='New finite iteration\n'
+    mod.check_native_finiteness(tmp_path)
+    (tmp_path/'OUTGEN').write_text(old+'New Mean intensity blowing up\n')
+    with pytest.raises(RuntimeError,match='radiation iteration failed'):
+        mod.check_completion(tmp_path,0,False)
+    (initial/'OUTGEN').write_text(old+'New ')
+    # An unverified prefix cannot hide a failure, even if its bytes match.
+    with pytest.raises(RuntimeError,match='Nonfinite native diagnostic'):
+        mod.check_native_finiteness(tmp_path)
