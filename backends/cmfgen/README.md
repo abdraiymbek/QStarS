@@ -161,3 +161,34 @@ returns zero. Continuations retain inherited OUTGEN content; new runs save
 its initial copy, and the campaign report excludes only a hash-verified prefix.
 [Report 15](../../Reports/Report_15.md) documents the remaining numerical
 blocker. A native component completion is never production certification.
+
+## Report 16: rejected shared-face moment experiment
+
+`apply_node_moment.py ROOT OUTPUT` requires `apply_moment_trace.py` first.
+It reconstructs the K/N frequency contribution using distinct left/right node
+weights at one shared spatial face and updates the same native VAR operator.
+The default project physics is not changed. This is a rejected candidate;
+Report 16's full-cycle request with CHK_J/H/XM=NONE still produces negative J.
+Do not use it as a production wind backend or accept the fixed-factor fixture
+as a relaxed non-LTE response.
+
+With the compiler environment initialized:
+
+```sh
+.venv/bin/python backends/cmfgen/apply_moment_trace.py "$QSTARS_CMFGEN_ROOT"
+.venv/bin/python backends/cmfgen/apply_node_moment.py "$QSTARS_CMFGEN_ROOT" results/new_node_patch
+bash backends/cmfgen/build.sh
+.venv/bin/python backends/cmfgen/record_build.py "$QSTARS_CMFGEN_ROOT"
+.venv/bin/python scripts/check_cmfgen_moment_response.py "$QSTARS_CMFGEN_ROOT" results/new_response_probe
+```
+
+The probe links actual MOM/VAR/native variation sources. It tests nonlocal
+eta/chi derivatives over two frequencies with coherent scattering, relativity
+and radiation advection. Formal angular factors are held solely for that
+bounded linearization fixture. A missing compiler or failed native fixture
+leaves its directory intact. Linux linkage is a replay option, not tested
+Linux agreement. The exact read-only seed/edge and rejected N/H patches are in
+Report 16's evidence; their original and changed source hashes are explicit.
+See [Report 16](../../Reports/Report_16.md) for the remaining coupled angular
+realizability/relaxed-response requirement. Native diagnostics and stale
+outputs still fail closed; no changed guard is retroactively assigned to a run.

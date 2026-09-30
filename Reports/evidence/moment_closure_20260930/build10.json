@@ -1,0 +1,23 @@
+{
+  "executable_sha256": "0d56858bb8f3c067b9d467f173a5a9d892102400dfde9483933cbda057d10803",
+  "max_rays": 2048,
+  "explicit_native_capacity_guard": true,
+  "source_hashes": {
+    "plane/mod_space_grid_v2.f": "b9c11f8a90629555e8b964b8f4596de50e44a0c7beb8f2a9500afda4abe4c4ce",
+    "plane/define_grid_v2.f": "51bae5f93bac3073c3050f284f6ccce7745cb25c928806d6455810d92cc015f8",
+    "new_main/cmfgen_sub.f": "b45b58e99a0ff9ac4bfb14471e5612cdb5ee63b7afc3c8639af7158bdc3d0865",
+    "new_main/mod_subs/comp_opac.f": "b36d9a290f83a383f14c0e41600ecb3cb70e1b533f3dda99f06a77fbf678dd86",
+    "new_main/mod_subs/do_var_cont.f": "288b559347d3a91d44335a7a9f8516069d28331968f766a77d088f102d081098",
+    "newsubs/do_h0_ff.f": "9fc1c063ce7b66bf7b29b70c80c232637b0e62bb3a450615d8bbc8bf8a53b219",
+    "new_main/subs/var_op_v10.f": "5636fa9aedc573e8092ea45bc6862e20d890a4ec1a988fcaf50425f4edd7d14f",
+    "newsubs/genopaeta_v10.f": "3b16ad6c812e91ce38aa94742c2c8e9faf25c48ff96b3e2a79fc50aaa5a078e8",
+    "newsubs/comp_free_free_v2.f": "a60e4144d37de9dd9ca9ee03e7aa051278d087c000372564f0c0b55300f1c59d",
+    "new_main/subs/solveba_v13.f": "c166b5f4d7fa9cc80573e333a6a4487d55ec77ed1b83b49a1bfdbf852646f20f",
+    "plane/mom_jrel_v9.f": "9341f9c235cb235ee9d2fbc9de556c48e7173f11239df73fd3163a917a3046d3",
+    "plane/var_jrel_v5.f": "ca785cfdde01b45e10cfa4871b54ef68216ce43ae47ef91fbc0056afbe30fcd2",
+    "new_main/mod_subs/comp_j_blank.f": "dc03e62494fcc615362314de747c5182ce0d0effde5d704b3d84460d36ae37a7"
+  },
+  "scope": "non-dust spherical transfer only; not production certification",
+  "hminus_rayleigh_fixed": true,
+  "hminus_ff_fixed": true
+}

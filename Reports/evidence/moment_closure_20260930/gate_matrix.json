@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "outcome": "NUMERICAL BLOCKER",
+  "self_selected_wind_pass": false,
+  "validated_closure": false,
+  "v1_complete": false,
+  "physical_nonexistence_demonstrated": false,
+  "precise_remaining_requirement": "Realizability-preserving coupled angular/spatial/frequency flux operator and its relaxed formal-factor linearization. Signed prior-frequency H/EPS forcing is reproduced; shared node correction and fixed-factor response alone do not close positivity or equilibrium gates.",
+  "gates": [
+    {
+      "name": "Exact retained negative-J forcing attribution",
+      "status": "PASS",
+      "scope": "Signed preceding-frequency H divergence and K/N terms produce negative forcing at the retained He I edge seed. Independent solve agrees to 1.84e-16. Absolute earliest full-spectrum ancestor remains unresolved.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/seed_analysis_v2/analysis.json",
+        "Reports/evidence/moment_closure_20260930/edge_realizability.json"
+      ]
+    },
+    {
+      "name": "Conservative shared-face node reconstruction",
+      "status": "CONDITIONAL",
+      "scope": "Separate node contributions and shared interior H face flux implemented. Full positivity, frequency/energy/boundary and equilibrium certification fail.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/node_moment_manifest.json",
+        "Reports/evidence/moment_closure_20260930/node_source_replay.json"
+      ]
+    },
+    {
+      "name": "Native nonlocal eta/chi Newton response",
+      "status": "PASS",
+      "scope": "Actual five-depth/two-frequency coherent, relativistic/advection fixture: 3.22e-8 / 8.23e-8 finite-difference errors. Formal factors fixed only in this bounded linearization test.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/native_response_replayed/validation.json"
+      ]
+    },
+    {
+      "name": "Complete relaxed nonlocal response",
+      "status": "FAIL",
+      "scope": "No validated population/T/velocity/boundary/formal-factor response. Bounded fixed-factor derivative pass cannot certify wind eigenvalue input.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/native_response_replayed/validation.json"
+      ]
+    },
+    {
+      "name": "Stable finite nonnegative released cool closure",
+      "status": "FAIL",
+      "scope": "Shared-face full-cycle request rejects gJ=-2.741e-244 at nu=86.1309e15 Hz before edge. Independent solve reproduces sign. Frozen edge candidate still gJ=-5.301. Raw N/H projected representation also rejected.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/seed_analysis_v2/analysis.json",
+        "Reports/evidence/moment_closure_20260930/representation_diagnostic.json"
+      ]
+    },
+    {
+      "name": "Joint cool population temperature radiation electron and energy convergence",
+      "status": "FAIL",
+      "scope": "No fresh synchronized equilibrium or independent radiation-energy certificate. Startup trial does not finish its first transfer/released-temperature cycle.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/campaign_summary.json"
+      ]
+    },
+    {
+      "name": "Two converged spatial and frequency resolutions",
+      "status": "FAIL",
+      "scope": "No converged base solution; no refinement or convergence-order certificate. No endpoint-only claim.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/campaign_summary.json"
+      ]
+    },
+    {
+      "name": "Global mdot/sonic and physical selected wind",
+      "status": "FAIL",
+      "scope": "Prerequisite closure invalid; not attempted. No prescribed component flow accepted as production mdot.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/campaign_summary.json"
+      ]
+    },
+    {
+      "name": "Conservative convective handoff",
+      "status": "FAIL",
+      "scope": "No validated interface; existing Mach-one MLT guard retained.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/campaign_summary.json"
+      ]
+    },
+    {
+      "name": "v1 and QSRD readiness",
+      "status": "FAIL",
+      "scope": "Independent general v1 gates remain open. Evolution, published tracks and QSRD not attempted.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/campaign_summary.json"
+      ]
+    },
+    {
+      "name": "Failure and provenance preservation",
+      "status": "PASS",
+      "scope": "Six native trials, native fixture and metadata/no-op corrections retained; source reapplication and archive verified. Claims bounded to actual executed code.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/execution_notes.json",
+        "Reports/evidence/moment_closure_20260930/node_source_replay.json"
+      ]
+    }
+  ]
+}

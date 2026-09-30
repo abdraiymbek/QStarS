@@ -1,0 +1,6 @@
+{
+  "source": "plane/mom_jrel_v9.f",
+  "original": "bccca927df29db00027397887ee4564940193c4c93cbe754d3cb72785f037fc1",
+  "traced": "413295d8e442baa69ee3f5df8995221565d640dfe5a5d551bd601ec12a86c9d1",
+  "scope": "Read-only capture of first negative raw solution in declared He I edge window; source and native replacement behavior unchanged."
+}

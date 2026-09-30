@@ -1,0 +1,5 @@
+{
+  "original": "413295d8e442baa69ee3f5df8995221565d640dfe5a5d551bd601ec12a86c9d1",
+  "traced": "9341f9c235cb235ee9d2fbc9de556c48e7173f11239df73fd3163a917a3046d3",
+  "scope": "Read-only first-iteration recurrence for 5.94-6.10e15 Hz to find realizability loss before negative J; no source changes."
+}

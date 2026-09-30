@@ -1,0 +1,84 @@
+{
+  "cases": [
+    {
+      "label": "base",
+      "exit": 0,
+      "shape": [
+        5,
+        3
+      ]
+    },
+    {
+      "label": "eta_plus",
+      "exit": 0,
+      "shape": [
+        5,
+        3
+      ]
+    },
+    {
+      "label": "eta_minus",
+      "exit": 0,
+      "shape": [
+        5,
+        3
+      ]
+    },
+    {
+      "label": "chi_plus",
+      "exit": 0,
+      "shape": [
+        5,
+        3
+      ]
+    },
+    {
+      "label": "chi_minus",
+      "exit": 0,
+      "shape": [
+        5,
+        3
+      ]
+    }
+  ],
+  "errors": {
+    "eta": {
+      "fd": [
+        0.003704852241659395,
+        0.01563603289345128,
+        0.20252675356768887,
+        0.04815206128411242,
+        0.02162331835808828
+      ],
+      "analytic": [
+        0.00370485236075286,
+        0.015636033395806524,
+        0.20252676008767104,
+        0.04815206282668143,
+        0.021623319047471213
+      ],
+      "max_relative": 3.2193189543706584e-08
+    },
+    "chi": {
+      "fd": [
+        0.0017852544267546453,
+        0.0031840457929976913,
+        -0.018077038418939928,
+        -0.009908632819799479,
+        -0.005265105057494779
+      ],
+      "analytic": [
+        0.001785254399998563,
+        0.0031840456783275794,
+        -0.018077039906386455,
+        -0.009908633170478246,
+        -0.005265105223149499
+      ],
+      "max_relative": 8.228375094348086e-08
+    }
+  },
+  "probe_sha256": "b90ed76029b38509ac6086c27bdc57ac57147aa1100b3a8b26fea5f88e895dcc",
+  "source_sha256": "12272cbeb258f714e928e9b74eb914e06d708444e78a332a1fb77bd7639ea02c",
+  "scope": "Actual MOM/VAR native two-frequency, five-depth, coherent scattering, relativistic and radiation-advection fixture. Formal angular factors held as a linearization control only; no full-atom or relaxed-factor certification.",
+  "passed": true
+}

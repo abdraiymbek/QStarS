@@ -1,0 +1,10 @@
+{
+  "case": "results/cmfgen_closure_raw_nh",
+  "outcome": "FAIL",
+  "native_reason": "reversed frequency characteristic",
+  "frequency_1e15Hz": 999.6664359048018,
+  "face": 1,
+  "N_over_H": 1.0399201852813285,
+  "W": -0.864364307111726,
+  "scope": "No clipping used. This coordinate representation cannot support a one-way blue-to-red sweep at this state; it is not a conservative production replacement."
+}

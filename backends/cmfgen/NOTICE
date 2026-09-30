@@ -14,3 +14,9 @@ continuum/EHB derivatives, and retains all levels in native stopping.
 Read-only moment/variation/growth traces preserve native failure behavior.
 These native patches remain subject to the upstream GPLv3; component tests
 do not imply upstream endorsement or production wind certification.
+
+Report 16 adds read-only complete moment recurrences and experimental separate
+node K/N face contributions with matching fixed-factor native VAR propagation.
+An unclipped N/H coordinate diagnostic is rejected. These patches and linked
+native probe binaries retain upstream GPLv3 terms. No production closure or
+upstream endorsement is claimed.

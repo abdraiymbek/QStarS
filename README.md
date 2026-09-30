@@ -12,6 +12,12 @@ photospheres, moving cavities, and coupled transonic winds remain open validatio
 Fiacconi–Rossi stationary wind solver now includes radiation enthalpy advection.
 These examples do not establish quasi-star lifetimes or QSRD recovery results.
 
+[Report 16](Reports/Report_16.md) records **NUMERICAL BLOCKER**: signed previous-frequency
+H/K/N forcing is reproduced, and experimental shared-face and unclipped N/H
+repairs are rejected. Actual native fixed-factor nonlocal response passes a
+bounded fixture; cool equilibrium and physical selected wind remain invalid.
+**123 tests pass**, zero skips. QStarS remains development software, not v1.
+
 [Report 15](Reports/Report_15.md) records **NUMERICAL BLOCKER**. H-minus free-free
 entry, opacity and derivative defects are repaired and tested. Fixed-field
 cool populations settle on two meshes, but released radiation/rate closure

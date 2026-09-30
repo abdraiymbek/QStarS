@@ -11,7 +11,8 @@ NAMES={'VADAT','IN_ITS','MODEL_SPEC','RVSIG_COL','RDINR','HYDRO_DEFAULTS','ADJUS
        'component_definition.json','continuation.json','changes.json','failure_attribution.json','termination_reason.txt',
        'cool_control.json','recovery_control.json','debugger.log','debugger_manifest.json',
        'QSTARS_MOM_FAILURE','QSTARS_VAR_FAILURE','QSTARS_MOM_GROWTH','QSTARS_J_FAILURE',
-       'MOM_J_ERRORS','MOM_H_ERRORS'}
+       'MOM_J_ERRORS','MOM_H_ERRORS','QSTARS_MOM_SEED','QSTARS_MOM_EDGE',
+       'QSTARS_NEGATIVE_J','closure_control.json'}
 
 def archive(sources,destination):
     destination.mkdir(parents=True,exist_ok=False);files=[];external=[];omitted=[]

@@ -1,0 +1,114 @@
+{
+  "cases": [
+    {
+      "label": "base",
+      "input": "0 0",
+      "exit_code": 0,
+      "shape": [
+        5,
+        3
+      ]
+    },
+    {
+      "label": "eta_plus",
+      "input": "1 1e-05",
+      "exit_code": 0,
+      "shape": [
+        5,
+        3
+      ]
+    },
+    {
+      "label": "eta_minus",
+      "input": "1 -1e-05",
+      "exit_code": 0,
+      "shape": [
+        5,
+        3
+      ]
+    },
+    {
+      "label": "chi_plus",
+      "input": "2 1e-05",
+      "exit_code": 0,
+      "shape": [
+        5,
+        3
+      ]
+    },
+    {
+      "label": "chi_minus",
+      "input": "2 -1e-05",
+      "exit_code": 0,
+      "shape": [
+        5,
+        3
+      ]
+    }
+  ],
+  "errors": {
+    "eta": {
+      "fd": [
+        0.003704852241659395,
+        0.01563603289345128,
+        0.20252675356768887,
+        0.04815206128411242,
+        0.02162331835808828
+      ],
+      "analytic": [
+        0.00370485236075286,
+        0.015636033395806524,
+        0.20252676008767104,
+        0.04815206282668143,
+        0.021623319047471213
+      ],
+      "max_relative": 3.2193189543706584e-08
+    },
+    "chi": {
+      "fd": [
+        0.0017852544267546453,
+        0.0031840457929976913,
+        -0.018077038418939928,
+        -0.009908632819799479,
+        -0.005265105057494779
+      ],
+      "analytic": [
+        0.001785254399998563,
+        0.0031840456783275794,
+        -0.018077039906386455,
+        -0.009908633170478246,
+        -0.005265105223149499
+      ],
+      "max_relative": 8.228375094348086e-08
+    }
+  },
+  "target_relative": 1e-06,
+  "passed": true,
+  "elapsed_seconds": 0.39428429101826623,
+  "compiler_command": [
+    "gfortran",
+    "-fopenmp",
+    "-ffree-line-length-none",
+    "-fcheck=all",
+    "-I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_12/cur_cmf/mod",
+    "/Users/abraiymbek/Projects/QStarS/results/cmfgen_moment_probe_node_replay2/probe.f90",
+    "-L/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_12/cur_cmf/lib",
+    "-lsubs",
+    "-lmod",
+    "-lsubs",
+    "-framework",
+    "Accelerate",
+    "-o",
+    "/Users/abraiymbek/Projects/QStarS/results/cmfgen_moment_probe_node_replay2/probe"
+  ],
+  "source_sha256": "12272cbeb258f714e928e9b74eb914e06d708444e78a332a1fb77bd7639ea02c",
+  "driver_sha256": "3d3bffd71dd1ca1376ce5a18cb1ebcade8c15e087f69f2f98276a130ffff32d3",
+  "binary_sha256": "112e42526eeb780e10159f3eb2258411153a20fad21a4d4551df47f00914ed93",
+  "native_sources": {
+    "plane/mom_jrel_v9.f": "b8c1fa5fd080b2d5e53d99b47362bd89cb2b09b7fd02662cdf01db4a873e0413",
+    "plane/var_jrel_v5.f": "7c5081bcb394dd98dc8b38aed02c59cc3825f79a0b5bcdb5e44b75c07ce0edc9",
+    "plane/edd_jrel_var_v3.f": "a8a2beb01d24513a944d961b3104e27f42fc3fd7fa8a7c2145b73ada2b7f0c93",
+    "subs/up_tx_tvx.f": "3a70388b31b859ca6e79597f6ac92be93c37e2e635b626f3c9964d7f3ae4704b"
+  },
+  "scope": "Two frequencies, five depths, nonnegative angular fixture, coherent scattering, relativistic and radiation-advection terms. Actual native nonlocal eta/chi response with formal ratios held for this linearization control only. No full relaxed-factor, atomic, thermal, energy or wind certificate."
+}

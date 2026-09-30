@@ -1,0 +1,438 @@
+{
+  "schema_version": 1,
+  "report": "Reports/Report_16.md",
+  "baseline_commit": "9a51d022c2cc4687adcf2c16644c3a80dd6220f4",
+  "outcome": "NUMERICAL BLOCKER",
+  "software_version": "0.1.0",
+  "validated_closure": false,
+  "self_selected_wind_pass": false,
+  "v1_complete": false,
+  "physical_nonexistence_demonstrated": false,
+  "regression": {
+    "passed": 123,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 53.7,
+    "mesa_bridge_abi": 6,
+    "freeeos_enabled": true
+  },
+  "cli": {
+    "rerun": false,
+    "retained_prior_report": 15,
+    "prior_passed": 29,
+    "prior_checks": 31,
+    "prior_failed": 2,
+    "scope": "No Report 16 CLI/science validation claim."
+  },
+  "native_cases": 6,
+  "sum_native_process_wall_seconds": 96.94494225096423,
+  "source_registry_entries": 59,
+  "archive": {
+    "files_verified": 615,
+    "omitted_local_files_verified": 942,
+    "external_links_verified": 4854,
+    "failures": 0
+  },
+  "builds": [
+    {
+      "build": 9,
+      "executable_sha256": "93ba6b4ed1ca7495b8cd0b600a0c8199ea87303515609b5af876454794c87f66",
+      "recorded_sources_verified": 13
+    },
+    {
+      "build": 10,
+      "executable_sha256": "0d56858bb8f3c067b9d467f173a5a9d892102400dfde9483933cbda057d10803",
+      "recorded_sources_verified": 13
+    },
+    {
+      "build": 11,
+      "executable_sha256": "e4eb30cdfcbdaab3ccfeea0077ea241102ce4597d308b19d0f875ab0c61c0eb9",
+      "recorded_sources_verified": 13
+    },
+    {
+      "build": 12,
+      "executable_sha256": "96c020ff63bdd77976eb227573ae7ae4cc08eb6c57b5d0df5803dc5c4345163e",
+      "recorded_sources_verified": 13
+    }
+  ],
+  "analysis_driver_verification": [
+    {
+      "path": "Reports/evidence/moment_closure_20260930/seed_analysis/driver.py",
+      "sha256": "f18f965a6bb3c0801feabfc4cc2204041626879402b03efbf11ad4675595b4df"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/seed_analysis_v2/driver.py",
+      "sha256": "e85c4fcdd73c02394748ad724da49c73576c2c0aac837fd774426dd2fde40088"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/edge_analysis_driver.py",
+      "sha256": "94dfdadc0bfe1d8f4c1309a0132070062151fe915738ea1f9cdb148b184f61a8"
+    }
+  ],
+  "source_snapshot": {
+    "files_verified": 205,
+    "sha256": "8020b1d5c2cf8af558cdbb6128386aecb4f1ca79e8bed77d08abb90d2a797589",
+    "scope": "Final Report 16 project interface, experimental patch/analysis tools, plans, tests, documentation and source registry. External native/atomic/binary assets excluded and separately attested; this final snapshot is not the historical code used by every trial."
+  },
+  "native_response": {
+    "passed": true,
+    "eta_max_relative": 3.2193189543706584e-08,
+    "chi_max_relative": 8.228375094348086e-08,
+    "scope": "Two frequencies, five depths, nonnegative angular fixture, coherent scattering, relativistic and radiation-advection terms. Actual native nonlocal eta/chi response with formal ratios held for this linearization control only. No full relaxed-factor, atomic, thermal, energy or wind certificate."
+  },
+  "artifacts": [
+    {
+      "path": "Reports/evidence/moment_closure_20260930/396eff3745635b4faefc14c6ba5edd6e12ef68ea459295189b35718584aa558b.py",
+      "sha256": "396eff3745635b4faefc14c6ba5edd6e12ef68ea459295189b35718584aa558b"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/71cca780e38007aeb14b07077675705f87d5bc83b6072e7f06b6a944d1822899.py",
+      "sha256": "71cca780e38007aeb14b07077675705f87d5bc83b6072e7f06b6a944d1822899"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/archive.log",
+      "sha256": "7faaf5914eb628e4a9d6c0fbb8165ad4ea493575b4501e4dc7a4bf121d5f2b67"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/build10.json",
+      "sha256": "95b005c7b54850b563745f05e41316cfe3697e7e7d7249379377bb086a33a48a"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/build10.log",
+      "sha256": "ae194e2ef360b7b838a140de27100ae96f76cb467a420583d24cf1c400343f6f"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/build11.json",
+      "sha256": "de5144b230757abd0a124ff236b8b780f30e5e571b1e31b494a95071e1dcb297"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/build11.log",
+      "sha256": "ee9ec02ec282db9429858efd8ad7de1769ab0bda9edf204a8ed0cec39280ebf7"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/build12.json",
+      "sha256": "ffd56d3899c74f23f5436cd823834f806ba92a460bd79072914ef7620d8d2e25"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/build12.log",
+      "sha256": "d557b9bc33e273301497fd9fec328dbe1f30c152b98dc521714c003cbbe01101"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/build9.json",
+      "sha256": "091ad00cb53460e3acc40fdb113d33fa04d8e35ffce70a1dc3110dbd199df0a2"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/build9.log",
+      "sha256": "b7b5a14c80dc6c1adfea78b00538486cd7e2ae61ccaa03bfedd325dbffc1358e"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/campaign_summary.json",
+      "sha256": "34d45735d5d2cafead457550f2050a0a9df81fe80429d138d785b6b532d5c831"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/edge_analysis_driver.py",
+      "sha256": "94dfdadc0bfe1d8f4c1309a0132070062151fe915738ea1f9cdb148b184f61a8"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/edge_realizability.json",
+      "sha256": "0bcb26ade7b5a102d2074ffa7aca1464ffc156a4ce5d5fef99434c82500cead6"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/edge_realizability.log",
+      "sha256": "18dddb577aa4befa3300adb933bb6c8bc5416f5d4dd9d85d3e205067794ce39a"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/edge_trace.patch",
+      "sha256": "1649a7c1dde3fa233f4f08698439dd64e8928cda350159cd0feb01ef944a63b9"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/edge_trace_manifest.json",
+      "sha256": "e9098bbebe62fdb2a5ba5aa2b9847843a501d3fa7b9b4030fee47b4ae8915b98"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/execution_notes.json",
+      "sha256": "a03b13b0106cd045789889fefe3026bc2b49da984bb4afd28cdce751dedc49bb"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/gate_matrix.json",
+      "sha256": "a0496aab9e87f9eddfa3097cc6ab466a6b96a064801646bb8c3f2762949a77a9"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/historical_native_response_driver.py",
+      "sha256": "ce2bbe5ff6334ab2738a6ebb91e90410bec71379e07b85d321407dc87cea7fc6"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/interface_source.zip",
+      "sha256": "8020b1d5c2cf8af558cdbb6128386aecb4f1ca79e8bed77d08abb90d2a797589"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/interface_source_manifest.json",
+      "sha256": "75e31bfc4690fa54190d900a16938e4b7580357422e14239365b79dca1a2a313"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/local_archive_verification.json",
+      "sha256": "e0d89313b0e579cddb41cbfb816788bfa58113b238ffcf50d9a26cc32c41110f"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_node_response/base.txt",
+      "sha256": "04ce18288a71c722197f86bbbdd78ba52d0b5177ec59efabecb073b1b6726a90"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_node_response/chi_minus.txt",
+      "sha256": "f921ec918d04cafaf976dfcc8fe591943ef3d0b6902efdd7790e3e184b931872"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_node_response/chi_plus.txt",
+      "sha256": "6834e74a4ec27734c725bfa4172eb96d16806482e73c171f77d906a1df72e71d"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_node_response/eta_minus.txt",
+      "sha256": "3678fc9954132253cb48467a0b21f286c3f2a620a3b6d86fbd53436217aed0ba"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_node_response/eta_plus.txt",
+      "sha256": "c8a1a2f6aa4b884b0be25f36e5df7b814c7db223e8f46a3108433adcffbdaa15"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_node_response/probe.f90",
+      "sha256": "12272cbeb258f714e928e9b74eb914e06d708444e78a332a1fb77bd7639ea02c"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_node_response/validation.json",
+      "sha256": "b529f944651fc82eb754e9590f73b5568e6d509e8260a37ecc4c839f7cfd91fe"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_manual/MOM_J_ERRORS",
+      "sha256": "5c646169130a555fafc28796d3c0fedf42321e42c629128b09b8b194b27ba487"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_manual/TIMING",
+      "sha256": "9c4610460cb81b8d0d8fbdec1e816482910b3e8e65f939da8b64cdef00d8b14f"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_manual/fort.171",
+      "sha256": "ba059851d1ac661597214b92704a2699176fc829421ad01a27ce19014384d885"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_manual/local_binary.json",
+      "sha256": "a0314452094a8022c907097fb7c6aa1bd2bc6576c0b3b106aa1de82c01f1a3c7"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_manual/probe.f90",
+      "sha256": "12272cbeb258f714e928e9b74eb914e06d708444e78a332a1fb77bd7639ea02c"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_metadata_failure/MOM_J_ERRORS",
+      "sha256": "5c646169130a555fafc28796d3c0fedf42321e42c629128b09b8b194b27ba487"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_metadata_failure/TIMING",
+      "sha256": "260777c4eb136b45321e5a8316696f366368b682ef9db20acade8fc7c9c0f852"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_metadata_failure/base.txt",
+      "sha256": "1b4e62eb5d952d429ed57023e895a535a1070429a27c95ee0ac5feb5a50cec4e"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_metadata_failure/build.log",
+      "sha256": "9e5ccd524469494785300555f130cd3027721f3f93af57acd3d00b2d2097dea5"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_metadata_failure/chi_minus.txt",
+      "sha256": "9bd68a4e3b2dda7769efc6253b225ad4d459d5be5c9446484a000e3a471c457f"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_metadata_failure/chi_plus.txt",
+      "sha256": "67895d4bc50174a3661cb9c2484dae3034956cde29c313b5faf0b28d808763ed"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_metadata_failure/eta_minus.txt",
+      "sha256": "0dc54059ffbbbcfa1c1dde2a85ac3e6d2f03b70d98b6227a4195316451ebfdac"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_metadata_failure/eta_plus.txt",
+      "sha256": "6b271bc5c6ec7a0e0f0d9a943fb6066817d4e4995e2b95ade36f634c02f43b57"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_metadata_failure/fort.171",
+      "sha256": "ba059851d1ac661597214b92704a2699176fc829421ad01a27ce19014384d885"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_metadata_failure/local_binary.json",
+      "sha256": "7e964e9680cea38cddef22f6d44e985cc2e748ca842487b77b6a14981afaf7ee"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_metadata_failure/probe.f90",
+      "sha256": "12272cbeb258f714e928e9b74eb914e06d708444e78a332a1fb77bd7639ea02c"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_replay.log",
+      "sha256": "9be006c2da15a0a02ecdac734cb9bea4de7f7f72d93669f74ce99a7a112dc355"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_replay2.log",
+      "sha256": "6ada4c17d76957a439673f66ddb3ab21bc98d6a68e55bcc78191b6a8e1f9cef6"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_replayed/MOM_J_ERRORS",
+      "sha256": "5c646169130a555fafc28796d3c0fedf42321e42c629128b09b8b194b27ba487"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_replayed/TIMING",
+      "sha256": "9c4610460cb81b8d0d8fbdec1e816482910b3e8e65f939da8b64cdef00d8b14f"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_replayed/base.txt",
+      "sha256": "1b4e62eb5d952d429ed57023e895a535a1070429a27c95ee0ac5feb5a50cec4e"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_replayed/build.log",
+      "sha256": "9e5ccd524469494785300555f130cd3027721f3f93af57acd3d00b2d2097dea5"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_replayed/chi_minus.txt",
+      "sha256": "9bd68a4e3b2dda7769efc6253b225ad4d459d5be5c9446484a000e3a471c457f"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_replayed/chi_plus.txt",
+      "sha256": "67895d4bc50174a3661cb9c2484dae3034956cde29c313b5faf0b28d808763ed"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_replayed/driver.py",
+      "sha256": "3d3bffd71dd1ca1376ce5a18cb1ebcade8c15e087f69f2f98276a130ffff32d3"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_replayed/eta_minus.txt",
+      "sha256": "0dc54059ffbbbcfa1c1dde2a85ac3e6d2f03b70d98b6227a4195316451ebfdac"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_replayed/eta_plus.txt",
+      "sha256": "6b271bc5c6ec7a0e0f0d9a943fb6066817d4e4995e2b95ade36f634c02f43b57"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_replayed/fort.171",
+      "sha256": "ba059851d1ac661597214b92704a2699176fc829421ad01a27ce19014384d885"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_replayed/local_binary.json",
+      "sha256": "2d7648eb09defe5e79ea89389edec393b265339788cb200b0938944ac4e23d69"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_replayed/probe.f90",
+      "sha256": "12272cbeb258f714e928e9b74eb914e06d708444e78a332a1fb77bd7639ea02c"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/native_response_replayed/validation.json",
+      "sha256": "6ada4c17d76957a439673f66ddb3ab21bc98d6a68e55bcc78191b6a8e1f9cef6"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/node_moment.patch",
+      "sha256": "750f2eb2af6c9386bf6d03580b9c879fa0aa8512b2be0ca4348b6c55be156c90"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/node_moment_manifest.json",
+      "sha256": "2a5b42c43d3fdc05a1ef2be0fdce2248038892abe798f43f646c46a035715e32"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/node_source_replay.json",
+      "sha256": "70e468bd479858f5fe740faae0ff033ac5c5dad19ce7792a2ad10295dbac7b1e"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/probe_build.log",
+      "sha256": "9e5ccd524469494785300555f130cd3027721f3f93af57acd3d00b2d2097dea5"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/probe_metadata_failure.json",
+      "sha256": "3a5c225e26c5c186f06be07c6353b630f7d29009879fe08b15c8c54eb34cf126"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/pytest_native.log",
+      "sha256": "4f00b76b1fe17c9ea8e10baf4cc4011d36908105e92233ed3955639d07d65499"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/raw_nh.patch",
+      "sha256": "d38f493513949aa5f8553b5f59b3572c9f5690747c6a7a5d6b1703172eb19c0f"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/raw_nh_manifest.json",
+      "sha256": "d266e01b6aee287bee3eeb29acff81f4af87cbf6d103386e2036f840b768f7b5"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/representation_diagnostic.json",
+      "sha256": "0e9df0adb2da4ee0e66f156c6a530aa9448caa469ea516b1c78f8fb94734e9b1"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/seed_analysis/analysis.json",
+      "sha256": "690f6ff02f414f5c9a16239079ad480903a0b1282aa2b1e068313d3846e7042c"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/seed_analysis/driver.py",
+      "sha256": "f18f965a6bb3c0801feabfc4cc2204041626879402b03efbf11ad4675595b4df"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/seed_analysis/node_failure.npz",
+      "sha256": "41a1231d22958dcb3cf1e93ff95942957f3f6fc42880c9a4fdcf35b4514f5b15"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/seed_analysis/seed.npz",
+      "sha256": "492fddbaea9e31a2045ba0408fedde437986303e6926e333ec726843ec5c679e"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/seed_analysis.log",
+      "sha256": "690f6ff02f414f5c9a16239079ad480903a0b1282aa2b1e068313d3846e7042c"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/seed_analysis_v2/analysis.json",
+      "sha256": "6379bea7bbfef87a7c1cf1cdde650b5fd17615fa1a4d0a66c7b6bf357fcaad16"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/seed_analysis_v2/driver.py",
+      "sha256": "e85c4fcdd73c02394748ad724da49c73576c2c0aac837fd774426dd2fde40088"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/seed_analysis_v2/node_failure.npz",
+      "sha256": "41a1231d22958dcb3cf1e93ff95942957f3f6fc42880c9a4fdcf35b4514f5b15"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/seed_analysis_v2/seed.npz",
+      "sha256": "492fddbaea9e31a2045ba0408fedde437986303e6926e333ec726843ec5c679e"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/seed_analysis_v2.log",
+      "sha256": "6379bea7bbfef87a7c1cf1cdde650b5fd17615fa1a4d0a66c7b6bf357fcaad16"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/seed_trace.patch",
+      "sha256": "86a440f0acd07eddb9a2b3da836c7c6d352cfca6c9fd60815d1e476d39907bd5"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/seed_trace_manifest.json",
+      "sha256": "5c7016febfc08f490c1103e9e0fb612ef31c098fb35750b65a3cb9ff38e6af8b"
+    },
+    {
+      "path": "Reports/evidence/moment_closure_20260930/verify_release.py",
+      "sha256": "c56a48870e7d1906b616dfd32380b069f001aa5313084b61ab7b8a6e9791239e"
+    },
+    {
+      "path": "benchmarks/results/2026-09-30-moment-closure/archive_manifest.json",
+      "sha256": "23ceb56d91595b475b634f7fb7bb22299763707347e6118a46b3240d2424232b"
+    },
+    {
+      "path": "benchmarks/results/2026-09-30-moment-closure/verification.json",
+      "sha256": "6d5d62a66ec8c2140b51dd139f088aeeba6aa88e58b015bd52a7e936967092c2"
+    },
+    {
+      "path": "Reports/evidence/completion_gates.json",
+      "sha256": "e34055609b6b57289bb1d4c1e0ec507f2953db61e2e69679e5b7b0ca3bb524d5"
+    }
+  ],
+  "artifact_hash_scope": "Verification output log excluded because it is still open during this verification; science logs and immutable analysis outputs are hashed.",
+  "limitations": [
+    "The retained seed is decomposed exactly; the absolute earliest full-spectrum ancestor remains open.",
+    "Common-face reconstruction is rejected; interior cancellation is not a global energy certificate.",
+    "Native eta/chi response is fixed-factor only; full relaxed nonlocal response is not validated.",
+    "No jointly converged cool radiation/population/temperature/electron/energy solution or two-resolution gate.",
+    "No physical selected wind, convective handoff or evolutionary track; Mach-one MLT guard remains.",
+    "No universal numerical impossibility, physical nonexistence or Linux/cloud agreement claim."
+  ]
+}

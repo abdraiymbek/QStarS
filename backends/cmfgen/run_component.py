@@ -54,7 +54,7 @@ def check_completion(directory,started_ns,export_required):
     log=current_native_log(directory)
     if re.search(r'Major Error|Major error|cant read BA File',log):
         raise RuntimeError('Native diagnostic reports a fatal error despite process status')
-    if re.search(r'excessive iteration count|(?:RJ|Mean intensity) blowing up|You have poor flux accuracy',log,re.I):
+    if re.search(r'excessive iteration count|(?:RJ|Mean intensity) blowing up|You have poor flux accuracy|QSTARS_(?:RAW_NH|NODE_MOMENT).*?(?:negative J|singular|reversed)',log,re.I):
         raise RuntimeError('Native radiation iteration failed; finite/stale output is not convergence')
     required=['RVTJ','MOD_SUM','OUTGEN']+(['QSTARS_SPECTRAL.bin'] if export_required else [])
     for name in required:

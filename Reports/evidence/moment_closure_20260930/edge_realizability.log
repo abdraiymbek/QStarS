@@ -1,0 +1,20 @@
+{
+  "frames": 124,
+  "first_in_selected_window": {
+    "frequency_1e15Hz": 6.0996488714388315,
+    "face_1based": 4,
+    "neighbour_gJ": [
+      2185.381673034725,
+      4.09827464150849
+    ],
+    "gH": -24.15809648496264,
+    "gK": 727.3056765507779,
+    "gN": 594.1339805584422,
+    "minimum_feasible_gJ": 4216.215940785019,
+    "required_to_maximum_node_ratio": 1.9292812751239836
+  },
+  "input_sha256": "22e35db6533ded05af038f414dfe32c960fa3c92c65fdbf24b1f7959ab295d93",
+  "driver_sha256": "94dfdadc0bfe1d8f4c1309a0132070062151fe915738ea1f9cdb148b184f61a8",
+  "validity_boundary": "Projected staggered face K/N/H cannot be moments of nonnegative angular intensity for any monotone gJ interpolation at the reported face. This does not audit the underlying formal-ray I against its own face interpolation, nor locate the earliest failure outside the selected window.",
+  "production_certified": false
+}

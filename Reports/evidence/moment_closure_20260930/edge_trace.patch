@@ -1,0 +1,13 @@
+--- a/plane/mom_jrel_v9.f
++++ b/plane/mom_jrel_v9.f
+@@ -895,8 +895,8 @@
+ 	  CALL THOMAS(TA,TB,TC,XM,ND,1)
+ 	  QSTARS_RAW=XM
+ ! QSTARS_SEED_TRACE: full native recurrence before any negative-J replacement.
+-	  IF(.NOT. QSTARS_SEED_WRITTEN .AND. FREQ .GT. 5.9_LDP .AND. FREQ .LT. 6.0_LDP .AND. MINVAL(XM) .LT. 0.0_LDP)THEN
+-	    OPEN(NEWUNIT=QSTARS_LU,FILE='QSTARS_MOM_SEED',STATUS='UNKNOWN',POSITION='APPEND')
++	  IF(ICOUNT .EQ. 1 .AND. FREQ .GT. 5.94_LDP .AND. FREQ .LT. 6.10_LDP)THEN
++	    OPEN(NEWUNIT=QSTARS_LU,FILE='QSTARS_MOM_EDGE',STATUS='UNKNOWN',POSITION='APPEND')
+ 	    WRITE(QSTARS_LU,*)'FRAME',ND,FREQ,dLOG_NU,ICOUNT,HBC,NBC,DBB
+ 	    WRITE(QSTARS_LU,*)'R V sigma chi eta esec gam f h n nmidh nmidj kmidj dln P chiJ chiH Q dtauH dtauJ conv psi psip HU HL HS eps epsp prevJ prevH a b c rhs rawJ formalJ W Wprev fprev hprev nprev'
+ 	    DO QSTARS_I=1,ND

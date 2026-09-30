@@ -1,0 +1,39 @@
+{
+  "frequency_1e15Hz": 5.941825295672274,
+  "row_1based": 3,
+  "native_raw_gJ": -14.025742369519364,
+  "independent_relative_difference": 1.8376547799748458e-16,
+  "componentwise_backward_residual": 1.8072719541140486e-16,
+  "seed_row_P_J": 1.001388581570258,
+  "seed_rhs": -76.81998108030227,
+  "rhs_terms": {
+    "local": 0.2110393421431964,
+    "previous_H_divergence": -165.65159432300734,
+    "previous_J": 36.53891736490395,
+    "minus_previous_EPS": 171.14715105186787,
+    "plus_previous_EPS": -119.06549451620991
+  },
+  "previous_face_H": -139.16507608303414,
+  "neighbour_previous_J": [
+    244.76062704353632,
+    189.62128670439063
+  ],
+  "attribution_only_positive_angular_H_replay_min": 3.4334878612095484e-23,
+  "rejected_implicit_J_advection_min": -13.787494024756358,
+  "rejected_node_reconstruction_min": -5.301012827639427,
+  "source_sha256": "6876c583db4d5425b0ba2e4ccde26d861f40e84e4af57ffde18d0e84810e1f6a",
+  "driver_sha256": "e85c4fcdd73c02394748ad724da49c73576c2c0aac837fd774426dd2fde40088",
+  "scaled_variable": "gJ=gamma*r^2*J; all frozen solution minima are in gJ units",
+  "scope": "Frozen failed checkpoint. Exact seed in signed previous-frequency H/EPS forcing; positive J-advection diagonal. Counterfactual H overwrite is not a physical repair. No nonlinear, thermal, energy or full relaxed response claim.",
+  "production_certified": false,
+  "native_node_candidate_failure": {
+    "frequency_1e15Hz": 86.13088369072116,
+    "row_1based": 18,
+    "min_raw_gJ": -2.741366728719652e-244,
+    "min_independent_gJ": -2.7413667287192328e-244,
+    "componentwise_backward_residual": 1.3519147481941615e-16,
+    "seed_row_rhs": -5.004871292502418e-240,
+    "sha256": "c235a971a8ddf0578d7b35af07525efc770aeced99ccfc6c81417f1274107b11",
+    "scope": "Strict unclipped full-cycle request rejects first negative state before reaching the He I edge. Tiny absolute magnitude is retained, not floored or certified away."
+  }
+}

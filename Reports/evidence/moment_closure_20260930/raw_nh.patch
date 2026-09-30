@@ -1,0 +1,69 @@
+--- a/plane/get_moms_rel.f
++++ b/plane/get_moms_rel.f
+@@ -166,6 +166,18 @@
+ 	  NMID_ON_HMID(1:NDM1)=0.0_LDP
+ 	  DO I=1,NDM1
+ 	   NMID_ON_J(I)=RSQ_NNU_MID(I)/(RSQ_JNU(I)+RSQ_JNU(I+1))
++	  END DO
++! QSTARS_RAW_NH: alternate algebraic representation of the same formal N.
++! No bound or floor is applied to N/H. A zero H is a genuine coordinate
++! singularity of this representation, not evidence that a wind is absent.
++	ELSE IF(N_TYPE .EQ. 'N_HRAW')THEN
++	  NMID_ON_J(1:NDM1)=0.0_LDP
++	  DO I=1,NDM1
++	    IF(RSQ_HNU_MID(I) .EQ. 0.0_LDP)THEN
++	      WRITE(6,*)'QSTARS_RAW_NH singular formal H',I,FREQ,RSQ_NNU_MID(I)
++	      STOP
++	    END IF
++	    NMID_ON_HMID(I)=RSQ_NNU_MID(I)/RSQ_HNU_MID(I)
+ 	  END DO
+ 	ELSE IF(N_TYPE .EQ. 'MIXED')THEN
+ 	 NMID_ON_J(1:NDM1)=0.0_LDP
+--- a/plane/mom_jrel_v9.f
++++ b/plane/mom_jrel_v9.f
+@@ -387,7 +387,7 @@
+ 	    WRITE(LUER,*)'This could effect convergence with CMFGEN models'
+ 	  END IF
+ !
+-	  IF(N_TYPE .NE. 'G_ONLY' .AND. N_TYPE .NE. 'N_ON_J' .AND. ND .NE. ND_SM)THEN
++	  IF(N_TYPE .NE. 'G_ONLY' .AND. N_TYPE .NE. 'N_ON_J' .AND. N_TYPE .NE. 'N_HRAW' .AND. ND .NE. ND_SM)THEN
+ 	    LUER=ERROR_LU()
+ 	    WRITE(LUER,*)'Error in MOM_JREL_V9'
+ 	    WRITE(LUER,*)'Cannot use N_TYPE=''MIXED'' when inserting extra points'
+@@ -556,7 +556,7 @@
+ 	END IF
+ !
+ 	DO I=1,ND
+-	  IF(NMID_ON_HMID(I) .GT. 1.0_LDP)NMID_ON_HMID(I)=1.0_LDP
++	  IF(N_TYPE .NE. 'N_HRAW' .AND. NMID_ON_HMID(I) .GT. 1.0_LDP)NMID_ON_HMID(I)=1.0_LDP
+ 	END DO
+ !
+ ! If new frequency, we need to update PREV vectors which refer to the previous
+@@ -693,6 +693,12 @@
+ 	    DELTAH(I)=CON_DELTAH(I)/dLOG_NU/(CHI_H(I)+CHI_H(I+1))
+ 	    W(I)=DELTAH(I)*(1.0_LDP+CON_dNdNUH(I)*NMID_ON_HMID(I))
+ 	    WPREV(I)=DELTAH(I)*(1.0_LDP+CON_dNdNUH(I)*NMID_ON_HMID_PREV(I))
++! QSTARS_RAW_NH: blue-to-red sweep requires the signed frequency coefficient
++! to remain nonnegative. Reject a reversed characteristic, never clip it.
++	    IF(N_TYPE .EQ. 'N_HRAW' .AND. W(I) .LT. 0.0_LDP)THEN
++	      WRITE(6,*)'QSTARS_RAW_NH reversed frequency characteristic',I,FREQ,W(I),NMID_ON_HMID(I)
++	      STOP
++	    END IF
+ 	    EPS(I)=DELTAH(I)*(CON_dNdNUH(I)*NMID_ON_J(I)+
+ 	1            CON_dKdNUH(I)*KMID_ON_J(I))/(P_H(I)+W(I))
+ 	    EPS_PREV(I)=DELTAH(I)*(CON_dNdNUH(I)*NMID_ON_J_PREV(I)+
+@@ -951,6 +957,14 @@
+ 	END IF
+ !
+ ! Check that no negative mean intensities have been computed.
++! QSTARS_RAW_NH strict candidate: no negative radiation state is accepted.
++	IF(N_TYPE .EQ. 'N_HRAW' .AND. MINVAL(XM) .LT. 0.0_LDP)THEN
++	  OPEN(NEWUNIT=QSTARS_LU,FILE='QSTARS_NEGATIVE_J',STATUS='UNKNOWN',POSITION='APPEND')
++	  WRITE(QSTARS_LU,*)FREQ,MINLOC(XM),MINVAL(XM),MAXVAL(XM),ICOUNT
++	  CLOSE(QSTARS_LU)
++	  WRITE(6,*)'QSTARS_RAW_NH negative J, candidate rejected',FREQ,MINVAL(XM)
++	  STOP
++	END IF
+ !
+ 	  RECORDED_ERROR=.FALSE.
+ 	  DO I=1,ND

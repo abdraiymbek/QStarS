@@ -316,3 +316,9 @@ complete published-track stages were not attempted because the joint physical
 closure gate remains open. [Report 12](../Reports/Report_12.md) and
 [its equations/validity domain](self_selected_outer.md) distinguish these controls
 from a production stellar mass-loss model.
+
+Report 16 retains **NUMERICAL BLOCKER**. Exact scaled recurrence attribution and
+native fixed-factor eta/chi response pass their bounded checks; shared-face
+and unclipped N/H candidates fail. No joint cool energy state, two converged
+resolutions or selected wind exists. See [Report 16](../Reports/Report_16.md)
+and its [gate matrix](../Reports/evidence/moment_closure_20260930/gate_matrix.json).

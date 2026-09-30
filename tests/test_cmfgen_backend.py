@@ -225,3 +225,12 @@ def test_continuation_guard_requires_attested_inherited_prefix(tmp_path):
     # An unverified prefix cannot hide a failure, even if its bytes match.
     with pytest.raises(RuntimeError,match='Nonfinite native diagnostic'):
         mod.check_native_finiteness(tmp_path)
+
+
+def test_experimental_moment_failures_cannot_pass_finite_outputs(tmp_path):
+    for message in ['QSTARS_NODE_MOMENT negative J 86.13',
+                    'QSTARS_RAW_NH reversed frequency characteristic',
+                    'QSTARS_RAW_NH singular formal H']:
+        (tmp_path/'OUTGEN').write_text(message+'\n')
+        with pytest.raises(RuntimeError,match='radiation iteration failed'):
+            runner_module().check_completion(tmp_path,0,False)

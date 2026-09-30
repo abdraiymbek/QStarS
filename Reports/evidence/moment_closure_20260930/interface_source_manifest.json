@@ -1,0 +1,1032 @@
+{
+  "scope": "Final Report 16 project interface, experimental patch/analysis tools, plans, tests, documentation and source registry. External native/atomic/binary assets excluded and separately attested; this final snapshot is not the historical code used by every trial.",
+  "baseline_commit": "9a51d022c2cc4687adcf2c16644c3a80dd6220f4",
+  "files": [
+    {
+      "path": ".github/workflows/tests.yml",
+      "sha256": "de3a820e2664c452c2db2cafe48abf574d9056ad5df6a6660dd2ffddb97e177b",
+      "bytes": 415
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "e291fe7dd594d1bc58e2de0727c8f810abaa62cf4d35866536880b43ac1316f2",
+      "bytes": 182
+    },
+    {
+      "path": "CITATION.cff",
+      "sha256": "0826990f5aca2cd853c69de3bfbcb9ac8cc501a66fc286678f0167befe4f720b",
+      "bytes": 318
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "58a7f9aa0dea993d189d2228bfc206712598fab6ad852be497aff62a5ab7a863",
+      "bytes": 1076
+    },
+    {
+      "path": "README.md",
+      "sha256": "351c803689d5cc3f17adb59ea9182fb3dda3031144591c7daca4b35de477a568",
+      "bytes": 9225
+    },
+    {
+      "path": "Reports/Report_16.md",
+      "sha256": "f300aee23549fa50d9741a6d2260f2fa62c1f9b27a34724d7d29b4919089fefd",
+      "bytes": 13648
+    },
+    {
+      "path": "backends/cmfgen/COPYING.CMFGEN",
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986",
+      "bytes": 35149
+    },
+    {
+      "path": "backends/cmfgen/Makefile_definitions.apple",
+      "sha256": "0c4ad7b9562eded808fd0cc1d9f7fc4d7fd7b8c264befc993891ef9385c03c50",
+      "bytes": 722
+    },
+    {
+      "path": "backends/cmfgen/NOTICE",
+      "sha256": "42372b6511e39be1167a3ae6b6125497248d4cb0207672b6d5bc6b6e144cc93c",
+      "bytes": 1511
+    },
+    {
+      "path": "backends/cmfgen/README.md",
+      "sha256": "12f5f8d802a3921caea63f5bde3cad2abed24b3144bd8d210a0448914f14c2a8",
+      "bytes": 11384
+    },
+    {
+      "path": "backends/cmfgen/acquire.py",
+      "sha256": "829160b34b1700b1993bef3d1c14e5ebc287bc8b1db49204a57f441c812a7326",
+      "bytes": 2986
+    },
+    {
+      "path": "backends/cmfgen/apply_export.py",
+      "sha256": "cdbc03628f7cbf571258b714314e1898e4d42f6f24f8217a743eff304729b5d8",
+      "bytes": 1968
+    },
+    {
+      "path": "backends/cmfgen/apply_growth_trace.py",
+      "sha256": "33129ff913ac82a8a623946e58302fc55daf579bef418ba6855d26c6cad63791",
+      "bytes": 3404
+    },
+    {
+      "path": "backends/cmfgen/apply_hminus_ff_repair.py",
+      "sha256": "4b7e1e2d693c69ad68669681a2360dd93b720bcf0ec7bad06c0a53726be93cfd",
+      "bytes": 5838
+    },
+    {
+      "path": "backends/cmfgen/apply_hminus_rayleigh.py",
+      "sha256": "ed590d3fd6a83cdee16d5c9a6a835fb0139a3cf5d80d1afdf24d0233c5a10a89",
+      "bytes": 1660
+    },
+    {
+      "path": "backends/cmfgen/apply_moment_trace.py",
+      "sha256": "75dd714497c7b045bb15416b1972f6312c8df9951acd195ed665d350d4d61847",
+      "bytes": 3475
+    },
+    {
+      "path": "backends/cmfgen/apply_node_moment.py",
+      "sha256": "a99566bd4cf752197f50aee443cda3f168735c6f515fb22dbf2217c71b42fda4",
+      "bytes": 5021
+    },
+    {
+      "path": "backends/cmfgen/apply_population_export.py",
+      "sha256": "ec16e62519f7e1202ee17995ab58d6085141f5b03ebab261210e349443938c8c",
+      "bytes": 2431
+    },
+    {
+      "path": "backends/cmfgen/apply_ray_capacity.py",
+      "sha256": "db8758bbdeab92b478ec776730696e93bce8caa4e6ce5bdf5598cef6feaf8c16",
+      "bytes": 1531
+    },
+    {
+      "path": "backends/cmfgen/build.sh",
+      "sha256": "405713e5dcd93c513ad8f59d7e6fc5ab4492102c1713859986f72cc507cf8a9a",
+      "bytes": 429
+    },
+    {
+      "path": "backends/cmfgen/continue_component.py",
+      "sha256": "97e2c0bb312f30458000ce95bc4561f1885879d27b173dee23c5ece50f5778ed",
+      "bytes": 1922
+    },
+    {
+      "path": "backends/cmfgen/export.patch",
+      "sha256": "f79a2126a5c67709ad4eb0724f65c6fa3809810717d2c82018052ee9af99f032",
+      "bytes": 1160
+    },
+    {
+      "path": "backends/cmfgen/export_patch_manifest.json",
+      "sha256": "eb8cf5d5a6ad35ce1773839a43b905f86a568e8215d9ba58b0ec3efea96f4d38",
+      "bytes": 229
+    },
+    {
+      "path": "backends/cmfgen/growth_trace.patch",
+      "sha256": "0fba0fe6326ae2fceebcf0969f6ee1621e3de988ef1feb1a388851bb540afd15",
+      "bytes": 2859
+    },
+    {
+      "path": "backends/cmfgen/growth_trace_manifest.json",
+      "sha256": "2713c42e35cf03b4814cdeb9e07c38713f9d8879b06214567cfee005d96e5c19",
+      "bytes": 410
+    },
+    {
+      "path": "backends/cmfgen/hminus_ff.patch",
+      "sha256": "9b59af891d8680dbac221539774f0d8b436b8ea9507246c8e3dee3a8e67b69b3",
+      "bytes": 9522
+    },
+    {
+      "path": "backends/cmfgen/hminus_ff_patch_manifest.json",
+      "sha256": "e2e8764ec93005010805570222b1865a0376467cea00a39b56ec94776011817e",
+      "bytes": 1225
+    },
+    {
+      "path": "backends/cmfgen/hminus_rayleigh.patch",
+      "sha256": "22f8b4640c9296093f5783ebd673bd697f03c84d4aed465fc9f10d6e4cd14bc9",
+      "bytes": 1256
+    },
+    {
+      "path": "backends/cmfgen/hminus_rayleigh_patch_manifest.json",
+      "sha256": "1bea39687fc01b942ac66092bd8fed7f5ef99705c5e2e50fa8ad0d6b9ce06f66",
+      "bytes": 632
+    },
+    {
+      "path": "backends/cmfgen/moment_response_probe.f90",
+      "sha256": "12272cbeb258f714e928e9b74eb914e06d708444e78a332a1fb77bd7639ea02c",
+      "bytes": 1997
+    },
+    {
+      "path": "backends/cmfgen/population_export.patch",
+      "sha256": "c19a8a1040f3c3be346567d57f445396b434230f814628d8d8af37a406eab5f4",
+      "bytes": 2821
+    },
+    {
+      "path": "backends/cmfgen/population_export_patch_manifest.json",
+      "sha256": "9676fb71febbdcba96a63a9c685e656dc32bfbe473f3f969649f927305191c3c",
+      "bytes": 266
+    },
+    {
+      "path": "backends/cmfgen/prepare_cool.py",
+      "sha256": "69fadc01355d449ccfe89b15cffc1331ea9d90ac4c6600a24c59451dc46f3c73",
+      "bytes": 4822
+    },
+    {
+      "path": "backends/cmfgen/prepare_hhe.py",
+      "sha256": "7bea30108b7f228985f281da9bcab88ee775fd46a5d1afe081a0c562a96d2d0b",
+      "bytes": 1870
+    },
+    {
+      "path": "backends/cmfgen/prepare_mesh_control.py",
+      "sha256": "37f36eba773392f551ad878f4ceffbe9cbffddbfe80233b57b7f7f366882d092",
+      "bytes": 3174
+    },
+    {
+      "path": "backends/cmfgen/prepare_reference.py",
+      "sha256": "343bc05266906a152b71c630ebe8f99821a752e16e09c9a0c90ef086d351c152",
+      "bytes": 3588
+    },
+    {
+      "path": "backends/cmfgen/ray_capacity.patch",
+      "sha256": "6e9543fe1ab970567b029896a1ba74e34847e9411b18b8108556dcf5db018fe9",
+      "bytes": 800
+    },
+    {
+      "path": "backends/cmfgen/ray_capacity_patch_manifest.json",
+      "sha256": "7ff2354c8138eecfa9fd5b309a3e6e51ab2dca7cfbf2c1e1dace7ddb185113b7",
+      "bytes": 671
+    },
+    {
+      "path": "backends/cmfgen/record_build.py",
+      "sha256": "3d34e52c54d7dcd8c5ff99431a886b2147160f3cf28d5d762a8e2891d0d7a9da",
+      "bytes": 2112
+    },
+    {
+      "path": "backends/cmfgen/recover_cool.py",
+      "sha256": "4f1b36628bc9698aaa1937c3cd4e03ecfc2e509cb19948f6a241ff37ce3b2224",
+      "bytes": 2107
+    },
+    {
+      "path": "backends/cmfgen/run_component.py",
+      "sha256": "cec7cfdf1b99160c4b5564a707042b18fc2f7ca98c59c26a4743ed08878e14be",
+      "bytes": 7502
+    },
+    {
+      "path": "backends/freeeos/interface.f90",
+      "sha256": "1dc3c0eeeebcb9f12cac94d45307c7bf0d84c7022ba08c95da5cac9d04b7acbc",
+      "bytes": 2043
+    },
+    {
+      "path": "backends/mesa/Makefile",
+      "sha256": "f7e2430c8a0346e8feb5c1947064f7a5c7cc28c5e8d2927bd5fd0eff2dd66f44",
+      "bytes": 447
+    },
+    {
+      "path": "backends/mesa/check_microphysics.f90",
+      "sha256": "3bedcbf25c3746a6d866e4087bdf370f22e9c0d49ab0d9e075cf1261599b35e9",
+      "bytes": 426
+    },
+    {
+      "path": "backends/mesa/microphysics.f90",
+      "sha256": "43f83e7309698667f343fe918619913c1a24528317083456e09211e5e56746f6",
+      "bytes": 11218
+    },
+    {
+      "path": "benchmarks/ball2011_polytrope.yaml",
+      "sha256": "4618707df56a7391e1b1bdc8df42e3661fc48560213be6c38be55cf04809495b",
+      "bytes": 62
+    },
+    {
+      "path": "benchmarks/ball2011_table1.csv",
+      "sha256": "ab34da0b7f0e68046bdc4741b5a8002bc33e33f9ece74c430b5a79193575e5c8",
+      "bytes": 471
+    },
+    {
+      "path": "benchmarks/cmfgen_cool_rate_recovery_plan.json",
+      "sha256": "37317d0884db6569c86edcbac5679cc88bd1448d516712e2d2f1d13fa4ba21aa",
+      "bytes": 2156
+    },
+    {
+      "path": "benchmarks/cmfgen_cool_recovery_plan.json",
+      "sha256": "16c577a0f247c381ba600da46764ad1e7f01bf8ca3e9478d071b8592943dc532",
+      "bytes": 1101
+    },
+    {
+      "path": "benchmarks/cmfgen_cool_validation_plan.json",
+      "sha256": "916ff171cf36a1b1027f07c1948955b4c13d8ea83a8bfafc6b860206b2e9d1b6",
+      "bytes": 2900
+    },
+    {
+      "path": "benchmarks/cmfgen_equilibrium_followup_plan.json",
+      "sha256": "ca1dc06bd903d1eaebef5be2348b16fe42af0f7985d5bf21a33c97ffefb8eacc",
+      "bytes": 547
+    },
+    {
+      "path": "benchmarks/cmfgen_frequency_plan.json",
+      "sha256": "511a1ae578d5259f122035417ef47f7ec067d79b85ec46481bc2d79b29020189",
+      "bytes": 897
+    },
+    {
+      "path": "benchmarks/cmfgen_mesh_followup_plan.json",
+      "sha256": "82f45e06770adde7ce865ff08b0bb06988042a4fac3703de40275d3d1fe8f415",
+      "bytes": 415
+    },
+    {
+      "path": "benchmarks/cmfgen_mesh_plan.json",
+      "sha256": "8804ee9968f7f02bce017494f74caf62f2ab9205ee2e6160601dc90a4ae10765",
+      "bytes": 941
+    },
+    {
+      "path": "benchmarks/cmfgen_moment_closure_plan.json",
+      "sha256": "df3608e926d738acd51fc5c35ea854d45b3a8644d2cd6f2dc5aa0b16a32f6966",
+      "bytes": 2521
+    },
+    {
+      "path": "benchmarks/cmfgen_thermal_followup_plan.json",
+      "sha256": "be2bcc1a8d4c32503365a702273be589937db82f3d0bdb7f1006cc211847b123",
+      "bytes": 462
+    },
+    {
+      "path": "benchmarks/cmfgen_transport_plan.json",
+      "sha256": "f8abdbc5d4aa61811fdaa72c04db79225aaab6f858e649d23a81826dd2c03cdc",
+      "bytes": 837
+    },
+    {
+      "path": "benchmarks/cmfgen_validation_plan.json",
+      "sha256": "be3ca7f9adc105668f6e357a0b6b9c276e9578ea3c77838e4ba02896d11dc310",
+      "bytes": 1977
+    },
+    {
+      "path": "benchmarks/corrected_bondi.yaml",
+      "sha256": "75e9ece6caaebe44b2945c6a8ea0bf30ff5a6986ef36f0796a2e77a13f549116",
+      "bytes": 67
+    },
+    {
+      "path": "benchmarks/coughlin2024_saturated.yaml",
+      "sha256": "c8aa7a570e85c4b85b1bd90f8bd622d0a820a85b86b3b5b3643d7fef6f61cfc7",
+      "bytes": 138
+    },
+    {
+      "path": "benchmarks/escaping_followup_plan.json",
+      "sha256": "398f9db515f9390726a58a8a185de3238c3080ca476f4329ad94e36552b0aff3",
+      "bytes": 1084
+    },
+    {
+      "path": "benchmarks/escaping_transport_tolerances.json",
+      "sha256": "d81e5c086ea1b4048a4a82f0e731eae2bd1a4c984cdc1523c5df6a5c12017700",
+      "bytes": 1398
+    },
+    {
+      "path": "benchmarks/fiacconi2016_advective_wind.yaml",
+      "sha256": "9ddbb75daa063a3b226ce80f953a4ed3031b817f134ad3fa83b15487444da648",
+      "bytes": 77
+    },
+    {
+      "path": "benchmarks/fiacconi2016_diffusion_wind.yaml",
+      "sha256": "d02ee608145b45115a3b345cb3270bf49f2e0af48e9a45bd66eb497313ad5b7c",
+      "bytes": 76
+    },
+    {
+      "path": "benchmarks/fiacconi2016_figure4.csv",
+      "sha256": "ae9e6fd3c995e7952c0f406b53af237bc7d8b046d6326fafd19c5dfffba80a13",
+      "bytes": 43770
+    },
+    {
+      "path": "benchmarks/fiacconi2016_figure4.json",
+      "sha256": "22859cbb079567512ade29f9fd73950489c1317eb8001380ed52bed067bd957c",
+      "bytes": 1260
+    },
+    {
+      "path": "benchmarks/grey_continuum_wind.json",
+      "sha256": "db54e4458d4f7d8c41cdee3085e6ec107ab50efd9b398386299fcd15dc2c5dbc",
+      "bytes": 1190
+    },
+    {
+      "path": "benchmarks/hummer1971_table1.csv",
+      "sha256": "68daaabc432acb4bf835a32e086b14b69dca7d0c3e1a4c651e7e8febcec27ee3",
+      "bytes": 193
+    },
+    {
+      "path": "benchmarks/hummer1971_table1_provenance.json",
+      "sha256": "558b83a64f5a4c4555e14ef9446d9fc3f14aa39729d361c9e1fc54bf4d5186c2",
+      "bytes": 675
+    },
+    {
+      "path": "benchmarks/manifest.yaml",
+      "sha256": "2c8bd88b61e122a10ec206107412b3470eec7369b4f06de930469e3dac0c4d09",
+      "bytes": 9785
+    },
+    {
+      "path": "benchmarks/nakauchi2017_figure2.csv",
+      "sha256": "1401f017acdf82f93493b2987fdc6644840c63554b257689bdd9024cc245faa3",
+      "bytes": 282348
+    },
+    {
+      "path": "benchmarks/nakauchi2017_figure2.json",
+      "sha256": "acfaca680bc27764fb7f0572bf5ca17ed15e4b502a8c502c5491fd876fce5fd2",
+      "bytes": 1393
+    },
+    {
+      "path": "benchmarks/outer_candidates.json",
+      "sha256": "9461fbf87e075e94061f892a4aee0b4befb669f988a3bf58a3370bbc62101ef5",
+      "bytes": 14168
+    },
+    {
+      "path": "benchmarks/self_selected_plan.json",
+      "sha256": "c473263a6f83320cd2b3b376b9ba93a9e21845052a3e2b9556a9acb3aee85608",
+      "bytes": 1710
+    },
+    {
+      "path": "benchmarks/self_selected_refinement_plan.json",
+      "sha256": "61a43911c0bbaa302a772dde9a7bb2fcaa81c9d73309067d289f7c4e62d0557e",
+      "bytes": 1283
+    },
+    {
+      "path": "benchmarks/spherical_recombining_wind.yaml",
+      "sha256": "6d1cdd674bc7e35b1a4a4ac93a1395fe2dbcfacd70529d2eb7cf36b2cd694353",
+      "bytes": 371
+    },
+    {
+      "path": "configs/bra_luminosity.yaml",
+      "sha256": "d05d7894779e97f4ca2c6ec14edbce9f39c3c4fe9a55ca40dd29ab50ee529330",
+      "bytes": 245
+    },
+    {
+      "path": "configs/closed_relaxation.yaml",
+      "sha256": "320265d2ecef6d9e2224c28cafd0ab37830b8577a54b4beb558bb14225ae5633",
+      "bytes": 233
+    },
+    {
+      "path": "configs/dotan_launch.yaml",
+      "sha256": "6426dc458c7866cbee328db9949723d7e3e46309f90b857a5781a466dc38e8d4",
+      "bytes": 359
+    },
+    {
+      "path": "configs/hot_accreting.yaml",
+      "sha256": "b08e0dfa5e128a98ea4a17c492620a2d627c165b92eb299eca43bf8d5e10cb1e",
+      "bytes": 411
+    },
+    {
+      "path": "configs/hot_resolved_validation.yaml",
+      "sha256": "46a30a184bde7be32a2c43930bfad770668ce4b82d31a4d244ad44cf136fb5a4",
+      "bytes": 838
+    },
+    {
+      "path": "configs/pressure_confined.yaml",
+      "sha256": "8b33f8c340b0bbe772394e76109b4c0773772ce39e35dc2fd5ff2730c7d964fb",
+      "bytes": 408
+    },
+    {
+      "path": "configs/sweep.yaml",
+      "sha256": "09e6808a8bdad91dc8f8186a5096e1de1c6d47289a0081b6fec622587894e286",
+      "bytes": 102
+    },
+    {
+      "path": "configs/two_stream_pulse.yaml",
+      "sha256": "a75edf53cf812b2b2407c688e42a4d29e30d87cee87911a86ad3be81521edfa3",
+      "bytes": 458
+    },
+    {
+      "path": "docs/atmosphere.md",
+      "sha256": "7ecf0f4a51974dcbbe1733c25c6b75fc1a34dd03a16fbfc94b6fa99d776127d6",
+      "bytes": 10990
+    },
+    {
+      "path": "docs/equations.md",
+      "sha256": "eab147abca292a0f753ca05f0387266476cf50ac2393fa15727545be99821154",
+      "bytes": 12435
+    },
+    {
+      "path": "docs/escaping_radiation.md",
+      "sha256": "aee58cdb7958508e2afa264779126e1ffc0d764f8307ac32e49f18b15752f6b8",
+      "bytes": 10274
+    },
+    {
+      "path": "docs/literature.md",
+      "sha256": "8a195d7e50c10a3e07c62471b59518a5941087ae0738e143cc4a3b5e477dcaa6",
+      "bytes": 3630
+    },
+    {
+      "path": "docs/mesa.md",
+      "sha256": "d085494fdcd82929e8c3ad1859dd586de5adbe8642ab13773e2dddfd64b24b1b",
+      "bytes": 7632
+    },
+    {
+      "path": "docs/model_families.md",
+      "sha256": "5715c9861f91666dd3564d0dc7891d9a4574b061f649e7fb50e7f00c9ae8cf89",
+      "bytes": 8971
+    },
+    {
+      "path": "docs/nlte_backend.md",
+      "sha256": "a039cfbb7743b4395960311a45a85618ccb2a856b62aad7f4b071fb1bf562d99",
+      "bytes": 18788
+    },
+    {
+      "path": "docs/nlte_cool_closure.md",
+      "sha256": "23217be8e4e0b19c520b42f972d83abb57df0aeb8020b8d8f7d8bb9d602042a3",
+      "bytes": 10431
+    },
+    {
+      "path": "docs/performance.md",
+      "sha256": "14b6dd5c3fcc326488c35dbb3e7071b0a78905132ccd8d30b5b9ede3d01dff51",
+      "bytes": 12209
+    },
+    {
+      "path": "docs/self_selected_outer.md",
+      "sha256": "15bb42511ee48fdd6b7a0051b7955aae7290292823dab291372130c6fe71aad3",
+      "bytes": 15098
+    },
+    {
+      "path": "docs/sources.md",
+      "sha256": "77de82e00126b0f6423cc43e231405585852f714e96a4eb9f0ac91ab55319658",
+      "bytes": 46113
+    },
+    {
+      "path": "docs/spherical_wind.md",
+      "sha256": "19e88e565f425bb8e086b45fa9d1c8d6ed10b00a49869419cc8bc7f00ce34378",
+      "bytes": 14433
+    },
+    {
+      "path": "docs/usage.md",
+      "sha256": "b4d92abe2deb8645a5ac442bf6760e51caa3714a43073478ece121dd285dfd65",
+      "bytes": 7243
+    },
+    {
+      "path": "docs/validation.md",
+      "sha256": "efe41686cd800a1ff9d26d0f586f8be56e6574da6d402c8e52cab59b08ec828f",
+      "bytes": 20677
+    },
+    {
+      "path": "docs/validity.md",
+      "sha256": "1c92869de4bfc94547ba3210f56a34555d2fd2df1bcb54d0eb58db0ebaa24ec6",
+      "bytes": 11255
+    },
+    {
+      "path": "pyproject.toml",
+      "sha256": "e546952e7a7c5220692bc7db8fa0b635e0effe775603cfec60d9cdd42114460f",
+      "bytes": 676
+    },
+    {
+      "path": "requirements-lock.txt",
+      "sha256": "9b2d38ec83c6864a175dda755b41eb1685652487abb96bad4e9e3491de900701",
+      "bytes": 460
+    },
+    {
+      "path": "scripts/analyze_cmfgen_campaign.py",
+      "sha256": "87bb2c4ceaf3b094a31274fea71f34220729e24435e0c22f05923da3bf0368bb",
+      "bytes": 6734
+    },
+    {
+      "path": "scripts/analyze_cmfgen_edge.py",
+      "sha256": "94dfdadc0bfe1d8f4c1309a0132070062151fe915738ea1f9cdb148b184f61a8",
+      "bytes": 2343
+    },
+    {
+      "path": "scripts/analyze_cmfgen_moment_failure.py",
+      "sha256": "96d9c64303df6da28087466c0d7f8c8a8c69d5f12e83ccce55afcd046a0a84ac",
+      "bytes": 4717
+    },
+    {
+      "path": "scripts/analyze_cmfgen_seed.py",
+      "sha256": "e85c4fcdd73c02394748ad724da49c73576c2c0aac837fd774426dd2fde40088",
+      "bytes": 5711
+    },
+    {
+      "path": "scripts/analyze_escaping_radiation.py",
+      "sha256": "74c5f3c7abedcc1fbe56d35e62b65ab96cd070b2694c16bd8ae0619b9b35de34",
+      "bytes": 3954
+    },
+    {
+      "path": "scripts/analyze_outer_discrepancy.py",
+      "sha256": "49462dfb5cd3135ea43f9069caa0a908f448c64263a731adebc3f71ca8dca783",
+      "bytes": 6572
+    },
+    {
+      "path": "scripts/analyze_self_selected_outer.py",
+      "sha256": "149844b98e0b8d895daea3727da28721951388a6ef43f74535262f04f7a21c17",
+      "bytes": 5696
+    },
+    {
+      "path": "scripts/archive_cmfgen_components.py",
+      "sha256": "3c88d7dfb796bd20b4bb56634c45ea5c63981542b052334570c69658ff81bf9c",
+      "bytes": 3799
+    },
+    {
+      "path": "scripts/archive_validation.py",
+      "sha256": "231681ed467f0b86d8963779c6a227c9cf5b7b472cb3bf2a229f218643936f49",
+      "bytes": 2541
+    },
+    {
+      "path": "scripts/audit_cmfgen_cool.py",
+      "sha256": "be9434cae0bd308733bb50ecd05bcd8a8a880b9f38f98fb2497a2af47e41dfc5",
+      "bytes": 5954
+    },
+    {
+      "path": "scripts/audit_freeeos.py",
+      "sha256": "ffa5b6fbb616c30011e09f404d358c37830deced6f8de6456943c99d18af4b0c",
+      "bytes": 4305
+    },
+    {
+      "path": "scripts/audit_mesa_data.py",
+      "sha256": "23c33aca5a767fd672a353c48e3e007874c49de8101c45aa09f17447af25d0a2",
+      "bytes": 1644
+    },
+    {
+      "path": "scripts/audit_outer_microphysics.py",
+      "sha256": "787c03dbdf87a66febdc572f4b89550f61c63ea7eb82619694f0146fa773818d",
+      "bytes": 2817
+    },
+    {
+      "path": "scripts/audit_sources.py",
+      "sha256": "299fdbe93ed394006f6e0e4f4efb2e4e8ea5eb69dcf55ef1c353e341371b89c7",
+      "bytes": 1546
+    },
+    {
+      "path": "scripts/benchmark_current.py",
+      "sha256": "71656f304bd1f07d91baba9255e474c95e63b41a7bc5d345c5f2bed589cfc139",
+      "bytes": 1571
+    },
+    {
+      "path": "scripts/build_freeeos.py",
+      "sha256": "f378f912f878211e6ea071275d1ebd87722265570d0e9a25afc0a41c3a78d2d8",
+      "bytes": 3834
+    },
+    {
+      "path": "scripts/build_freeeos_bridge.py",
+      "sha256": "ca8aba953cc03c72d42734cbcf05649d327292c0003bffad7046f01b5eafb8ff",
+      "bytes": 1740
+    },
+    {
+      "path": "scripts/build_mesa_microphysics.py",
+      "sha256": "c83d70636c904479f2017bb8586bf0ee5d9ae7d060f9bdd587e34119aa3fc3b8",
+      "bytes": 2783
+    },
+    {
+      "path": "scripts/build_registry.py",
+      "sha256": "7da6d1726887d167d57e661c298847578e747c4277362b52bf7294b74edf6c83",
+      "bytes": 40112
+    },
+    {
+      "path": "scripts/check_cmfgen_hminus_ff.py",
+      "sha256": "16c0a91b4beaa72c9f07e977e92160e4876bfbda6b9e0a31df3c5b17057a982e",
+      "bytes": 8001
+    },
+    {
+      "path": "scripts/check_cmfgen_moment_response.py",
+      "sha256": "3d3bffd71dd1ca1376ce5a18cb1ebcade8c15e087f69f2f98276a130ffff32d3",
+      "bytes": 3232
+    },
+    {
+      "path": "scripts/check_cmfgen_rayleigh.py",
+      "sha256": "6b4fbad8ac923a671c105e942dd5376572cac7acb77c462be26656757f341567",
+      "bytes": 3895
+    },
+    {
+      "path": "scripts/check_freeeos_upstream.py",
+      "sha256": "57915c9aa96001a774db1ffc4ce48ec28e7215cfd305782316902c6694cfa602",
+      "bytes": 2454
+    },
+    {
+      "path": "scripts/compare_cmfgen_export.py",
+      "sha256": "e708b29e6a828fce586f2e0da33709adff186ca65d0c44c46c28189b5337d1fc",
+      "bytes": 1931
+    },
+    {
+      "path": "scripts/compare_cmfgen_resolution.py",
+      "sha256": "518269ee658194ccb5e9815115da5b63a114cfba091fe7158d3ab2c3aa027857",
+      "bytes": 1994
+    },
+    {
+      "path": "scripts/compare_cmfgen_thermal.py",
+      "sha256": "81c2e15377ddb1e1c55bcde578b5b676601c2b41109438e85fdce103e8c82dd8",
+      "bytes": 1913
+    },
+    {
+      "path": "scripts/digitize_nakauchi_reference.py",
+      "sha256": "18be3197be1c3f1b97e98265f19e73d5039f1b8d9b097c07ba30fc1a76e83cc9",
+      "bytes": 2524
+    },
+    {
+      "path": "scripts/digitize_wind_reference.py",
+      "sha256": "39243c9f8d518df858f3dc3eccaa017f0de63abf61927f7bac04e958cf0cdd82",
+      "bytes": 3344
+    },
+    {
+      "path": "scripts/plot_atmosphere_validation.py",
+      "sha256": "89849adbb6982ff81798f4bf8b4c4a18c7fe2cb56df74ee94ac509af20ad99dc",
+      "bytes": 1671
+    },
+    {
+      "path": "scripts/plot_spatial_validation.py",
+      "sha256": "86b43b348e5824b26c492cd02be86a2c7373440ae3af474d38126b4f971f7d64",
+      "bytes": 2826
+    },
+    {
+      "path": "scripts/plot_spherical_validation.py",
+      "sha256": "5ac793d1b59c923a23bf0da412146659bff79417e0a62cd407961a0985416760",
+      "bytes": 3004
+    },
+    {
+      "path": "scripts/plot_validation.py",
+      "sha256": "a4480c3f7e9632b4352cbeb2e02a74a43370208e9d2eb9918f54f413ac6d99c5",
+      "bytes": 2585
+    },
+    {
+      "path": "scripts/register_outer_candidates.py",
+      "sha256": "fa7170208b2569bc80ad47e16214ebb37b825a4415a5be08aebf370d862ce50f",
+      "bytes": 12215
+    },
+    {
+      "path": "scripts/report_cmfgen_cool.py",
+      "sha256": "2fe51a0070353f7d9d4b96e9e1a2adf7b9d96a40b1b2256bfc9151874ca7bae7",
+      "bytes": 5075
+    },
+    {
+      "path": "scripts/report_cmfgen_rate_recovery.py",
+      "sha256": "fcd3779272e582fdce39a8992acec2d46223caf757239c65b84f52ffe5e95923",
+      "bytes": 4157
+    },
+    {
+      "path": "scripts/report_cmfgen_validation.py",
+      "sha256": "92a0c998a233a566063dc9e299ba6643f6243dbed8e643f635c7fbde6377b481",
+      "bytes": 17024
+    },
+    {
+      "path": "scripts/run_examples.py",
+      "sha256": "a67305e2f3d772f027b348b77e553fa4e82435199753241ebce3d384d81e032f",
+      "bytes": 1257
+    },
+    {
+      "path": "scripts/run_mesa_reference.py",
+      "sha256": "4fe0d99deecc455e1ddcb6188a78b75fbd84f663a03a412067c368d63338e1de",
+      "bytes": 5150
+    },
+    {
+      "path": "scripts/validate_atmosphere_reference.py",
+      "sha256": "2adc4b79e5989bc5adbc967a13ce43169216de9ad14459fa723211f0107432a1",
+      "bytes": 4885
+    },
+    {
+      "path": "scripts/validate_cmfgen_component.py",
+      "sha256": "c2cb16d49af7f6933feb94bd9a998cd17bcdbc7a02a46d64391da9d083a3e32c",
+      "bytes": 7056
+    },
+    {
+      "path": "scripts/validate_escaping_extent.py",
+      "sha256": "ddbd75fe27a3f6e0ea7d7e67ca78704510c98a6f94bbb1681016082b26d71aee",
+      "bytes": 5290
+    },
+    {
+      "path": "scripts/validate_escaping_radiation.py",
+      "sha256": "d7abba45e45797cd6056b3ab8cf7f996e9c30202ea50ddfa6c9cbda7ccb8fd43",
+      "bytes": 14522
+    },
+    {
+      "path": "scripts/validate_mesa_microphysics.py",
+      "sha256": "dedc559da38d2c87fe98347ba1cd6027b528d70f86a9b078ca3226a70327db58",
+      "bytes": 2503
+    },
+    {
+      "path": "scripts/validate_outer_discrepancy.py",
+      "sha256": "c8e67b8a74a5936dee02f2f775f975144c8a0e572f090f5f0f18cebad5d5360d",
+      "bytes": 12273
+    },
+    {
+      "path": "scripts/validate_outer_transport.py",
+      "sha256": "887dcb20dd6f9587f74936636381d61fdc66a2d544f8e0788f88642cea51d17e",
+      "bytes": 5207
+    },
+    {
+      "path": "scripts/validate_robustness.py",
+      "sha256": "bd6e0028961847fb2bdc5cd83c5177157c70263f747edca0468568772a999f65",
+      "bytes": 3301
+    },
+    {
+      "path": "scripts/validate_self_selected_outer.py",
+      "sha256": "53cab10d092c0d8a8923ec679ece272fc7b002bc35986f25dd5306503f31f314",
+      "bytes": 11119
+    },
+    {
+      "path": "scripts/validate_self_selected_refinement.py",
+      "sha256": "2abf1ff85ff5d922998508fa4bdd06f6f6fcd83d4e727fe9829dd00b3769527e",
+      "bytes": 5110
+    },
+    {
+      "path": "scripts/validate_spatial.py",
+      "sha256": "df942f695fa5a7d8ad3f193bd992b29151589a2abd2dbafd29e2c718ca5bd582",
+      "bytes": 5178
+    },
+    {
+      "path": "scripts/validate_spherical_wind.py",
+      "sha256": "5d5b6e843d63b57e2648121bbe90096b94a7fa9dd6ec1f2f4da901d35c75802d",
+      "bytes": 11002
+    },
+    {
+      "path": "scripts/validate_time_methods.py",
+      "sha256": "2b7e707a2303b4f78f8c8bb1ac34d9d86ca62d6a203c1ccebba218c2af8cca2b",
+      "bytes": 1376
+    },
+    {
+      "path": "scripts/validate_wind.py",
+      "sha256": "7ea19e8a5cbb67ea813a1c7d9e01962e939a0cbd230c629ef7401620cc882f87",
+      "bytes": 3907
+    },
+    {
+      "path": "sources/acquisition.json",
+      "sha256": "34ef61a3a2333164b7381b82ce50b20dd80f0dbffdcf141beec4b06fe4890fc1",
+      "bytes": 5607
+    },
+    {
+      "path": "src/qstars/__init__.py",
+      "sha256": "c75def8f86a835f26aa1a2381a1ab3090ede41ebd429078335ea03ce4a990abf",
+      "bytes": 94
+    },
+    {
+      "path": "src/qstars/__main__.py",
+      "sha256": "79ee6f134c5c5193377cf9b189cbdcc3e2095e49ba9cec310114441c15a917c4",
+      "bytes": 47
+    },
+    {
+      "path": "src/qstars/atmosphere_reference.py",
+      "sha256": "a19e47f62931b07126f35adf991123f6d1d5a9df8e6a63bec404625b4be5eeca",
+      "bytes": 5558
+    },
+    {
+      "path": "src/qstars/cli.py",
+      "sha256": "7ccfb9d62f363e80dc76dface7b860382e9eece989add977466ca2a47338da85",
+      "bytes": 3824
+    },
+    {
+      "path": "src/qstars/cmfgen_backend.py",
+      "sha256": "396eff3745635b4faefc14c6ba5edd6e12ef68ea459295189b35718584aa558b",
+      "bytes": 13216
+    },
+    {
+      "path": "src/qstars/config.py",
+      "sha256": "d2e1b4e7ae924cd4ffcb4587f9c7e0f55e118ea8b03cf0a2b39878624927d49c",
+      "bytes": 9933
+    },
+    {
+      "path": "src/qstars/constants.py",
+      "sha256": "26e57b2c15a958d8e526320ecb45c9f1bf630f257b208a1a7e0361d530447e14",
+      "bytes": 340
+    },
+    {
+      "path": "src/qstars/continuum_wind.py",
+      "sha256": "845644d7c584c7e9cf74577c6c3ffa420ec5d48efbe5b4e1256eddc56b91a3c2",
+      "bytes": 7074
+    },
+    {
+      "path": "src/qstars/controls.py",
+      "sha256": "685ec6506826dc50de2715602b9a90196618ad667b36da133789114a07312107",
+      "bytes": 1017
+    },
+    {
+      "path": "src/qstars/data/sources.json",
+      "sha256": "1dba165d2ab13ffe55b64f229bd16a6a8991d71d8ead4d96c874ce66e24d0c73",
+      "bytes": 57214
+    },
+    {
+      "path": "src/qstars/engine.py",
+      "sha256": "0665baa488a087d11448d0b03b5206e8108dc80bee69f27eba7571672e91de0a",
+      "bytes": 1291
+    },
+    {
+      "path": "src/qstars/eos.py",
+      "sha256": "27591d9985ccc8140524495ccaecb7453cf3ab8fc2f560b60eadc49373f6d50a",
+      "bytes": 3124
+    },
+    {
+      "path": "src/qstars/evolution.py",
+      "sha256": "dba052d7cb50469acc256de7c21edb4072771c8c4e958a29bb93e80629982d8c",
+      "bytes": 9803
+    },
+    {
+      "path": "src/qstars/freeeos_reference.py",
+      "sha256": "2a9b6fcdd3d61c4ca362af796348851103bf46a590805fe417b2202ddaeb566d",
+      "bytes": 3274
+    },
+    {
+      "path": "src/qstars/grey_transfer.py",
+      "sha256": "af9d9cab8fd361ee21266cf3a96e408c821f8a93f3785f56bd7b0afd485f1b05",
+      "bytes": 19486
+    },
+    {
+      "path": "src/qstars/io.py",
+      "sha256": "ccd9f91d3ed39aa3145a96ad2e4e6e6240f1718e5efdc781f54ce5bfde063cd3",
+      "bytes": 10337
+    },
+    {
+      "path": "src/qstars/ledger.py",
+      "sha256": "ec483e0cd00ad7742209ce3b2ab59bbfc6adaec54490891783234b57d68215c1",
+      "bytes": 2039
+    },
+    {
+      "path": "src/qstars/mass_transport.py",
+      "sha256": "e7749199ec1bab70779624a1811524c9b66b65e5c0cb9a997177ee6bd41869e2",
+      "bytes": 4089
+    },
+    {
+      "path": "src/qstars/material_wind.py",
+      "sha256": "d9a9bf97133bbd0343788015307921c6d181aee3ac6144eb88530ee5a16fc8f4",
+      "bytes": 7762
+    },
+    {
+      "path": "src/qstars/mesa_microphysics.py",
+      "sha256": "78461a53c221b6659c116bddfbf75525f9a005c065921057ce017eeb02be033f",
+      "bytes": 14672
+    },
+    {
+      "path": "src/qstars/mesh.py",
+      "sha256": "3a49174a2b7cb960b5cbc0bbf221ed78e32a6d76c117c5f6531f4cde7cdc4b2b",
+      "bytes": 3001
+    },
+    {
+      "path": "src/qstars/nlte_material.py",
+      "sha256": "d6cc9d65d557b86fa2413d314cc04f99ef0d7e2579f8bf9e27ce0d15b4b74f72",
+      "bytes": 5314
+    },
+    {
+      "path": "src/qstars/nonlinear.py",
+      "sha256": "9db2baf0b75924355c5de6017bee3915e27c3ff5f4a23520080d550434526a44",
+      "bytes": 3218
+    },
+    {
+      "path": "src/qstars/numerics.py",
+      "sha256": "2c9d64f5e39159632a65a28e20e07576828cb14edd3b834432e417ae48d6cd8a",
+      "bytes": 5426
+    },
+    {
+      "path": "src/qstars/opacity.py",
+      "sha256": "5203afd302845bc7702fdc8ecfd5fe7a1e8e95bc5f09a2ea06774b1e50737716",
+      "bytes": 1941
+    },
+    {
+      "path": "src/qstars/outer_interface.py",
+      "sha256": "ffb90a3fa147f92f3a43c76b0dff44fef963018d452a76a9957804da5d2865a0",
+      "bytes": 5427
+    },
+    {
+      "path": "src/qstars/plotting.py",
+      "sha256": "23d1d63d6d2a325d82dbcddb384ba4d61b579479cccbecacd8e40b34033b4e64",
+      "bytes": 3757
+    },
+    {
+      "path": "src/qstars/reference.py",
+      "sha256": "5021e80f080000e79046bf39db24bd5a8befeb37f178af1e2b9b8120bf9744e8",
+      "bytes": 6734
+    },
+    {
+      "path": "src/qstars/spherical_wind.py",
+      "sha256": "3dab032fd6b5c194486f62765c8414e9d67ba0e23b9dac20a4c32d0f29cb9732",
+      "bytes": 27352
+    },
+    {
+      "path": "src/qstars/state.py",
+      "sha256": "f61c4a94edcd3ed5d9fdb354ec3cacecf9f932cf00900a53772227a381a2f25a",
+      "bytes": 1493
+    },
+    {
+      "path": "src/qstars/structure.py",
+      "sha256": "608b7a88d7814cbb18f2c839d081a0f7be292281443f5c6488284f996319b4b8",
+      "bytes": 6794
+    },
+    {
+      "path": "src/qstars/thermal_transfer.py",
+      "sha256": "c8af11079100d427198818c9e9e3c1977843ac90ab6899c3e8d8b022cf4b6cb1",
+      "bytes": 9604
+    },
+    {
+      "path": "src/qstars/transport.py",
+      "sha256": "afd04dd7d1af51e73a6baf1492ae34bfcad5763060340df46c122227f1df4258",
+      "bytes": 5186
+    },
+    {
+      "path": "src/qstars/validation.py",
+      "sha256": "a64510c5054121f6dc95c0737da0b8a28eaacf9b55440f845de7ccda70e4009d",
+      "bytes": 7279
+    },
+    {
+      "path": "src/qstars/validation_metrics.py",
+      "sha256": "1f8eccbef75d8bfc5871707e12c227cc297d0d366421ba3bc52ddf2bac7aa39f",
+      "bytes": 1833
+    },
+    {
+      "path": "src/qstars/validity.py",
+      "sha256": "02863c4c575a3b67d40f1fa8474f119e36baca523198f7e1b4dcaa31da185229",
+      "bytes": 6633
+    },
+    {
+      "path": "src/qstars/wind_reference.py",
+      "sha256": "d77bda1d4eb4750acc1480e2f9af8605e08e3b60ac9ac0212dc2df71a7fc1476",
+      "bytes": 8015
+    },
+    {
+      "path": "src/qstars/winds.py",
+      "sha256": "d0ef0bbcdbc976fb08bc4b86e185d1b6f6c5cd272f74f55b4f20f234e91c94e5",
+      "bytes": 891
+    },
+    {
+      "path": "tests/test_cmfgen_backend.py",
+      "sha256": "adbd4a962b61cfe34bb190beaceb9fab79024b8bb93c8ca5e080c9afe051ee54",
+      "bytes": 11579
+    },
+    {
+      "path": "tests/test_convergence.py",
+      "sha256": "24ba4d0cef687fb47ea52ef3cd84fc837d5722fbc0ee10125611ff3dfef79008",
+      "bytes": 7941
+    },
+    {
+      "path": "tests/test_freeeos_atmosphere.py",
+      "sha256": "e1ecdac8895c7a6b12c5c302505ad154e6a63517425856bc1d3ef185c0667237",
+      "bytes": 3610
+    },
+    {
+      "path": "tests/test_grey_transfer.py",
+      "sha256": "6ca18eac2c4001a5e2a998126f06184be3e44a9e6b3df885bf79674f7e46a78a",
+      "bytes": 4621
+    },
+    {
+      "path": "tests/test_interface.py",
+      "sha256": "e05abb0fe5699b67f15523bc29f8ac65723f6e256c6240ea213aa57b48f06074",
+      "bytes": 858
+    },
+    {
+      "path": "tests/test_material_wind.py",
+      "sha256": "76ac76aa71dd8fd6c2f2834a3124dda359d35e498150ec28dc25cad8e141a51a",
+      "bytes": 4361
+    },
+    {
+      "path": "tests/test_mesa.py",
+      "sha256": "950e6dd8c6a0147350e0a1c1265e538b1a4ac6f1272be4f572077b5d9257dad7",
+      "bytes": 5031
+    },
+    {
+      "path": "tests/test_nlte_material.py",
+      "sha256": "ead37e95fbc7d7af3ca2ee15ef9171d58a6e8b0b0b8211c0779f40060cd1f288",
+      "bytes": 4289
+    },
+    {
+      "path": "tests/test_outer_thermal.py",
+      "sha256": "af566a33a4978b247956c6788d2f3bc344923f4a40dcdfbb77158fb13ee70340",
+      "bytes": 7089
+    },
+    {
+      "path": "tests/test_physics.py",
+      "sha256": "491fab6ea678843a5603da192fbd2a3f81a3f9bff19528e3cdd3e6e3387fb0ef",
+      "bytes": 9427
+    },
+    {
+      "path": "tests/test_spherical_wind.py",
+      "sha256": "69c8af6c007c246e3c3f237255ca6850a6d84260f3585517cb834745bb8065cc",
+      "bytes": 9479
+    },
+    {
+      "path": "tests/test_wind_moving_boundary.py",
+      "sha256": "1dabe20607b85bc2b59299ae11ebaddaed6bd092cd3e3d2a38145ce9a6f5a065",
+      "bytes": 2923
+    },
+    {
+      "path": "tests/test_wind_reference.py",
+      "sha256": "4b5028b9aece9b6b7f830f82b1f86df7927866ef10a29535a5efe39d33da0c84",
+      "bytes": 1381
+    }
+  ],
+  "files_verified": 205
+}

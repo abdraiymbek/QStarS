@@ -156,3 +156,10 @@ wind critical formula does not include the full nonlocal CMF force response.
 The production entry point refuses coupling. Supersonic MLT, physical wind
 selection, coupled evolution and QSRD gates are unchanged. See
 [the exact interface contract](nlte_backend.md).
+
+Report 16's common-face moment reconstruction is experimental and rejected for
+production. Its native fixed-formal-factor derivative fixture does not validate
+relaxed atomic/thermal response. Signed projected H/K/N propagation remains a
+numerical blocker; no claim of physical wind nonexistence follows. Unclipped
+N/H is also rejected as a general one-way representation. The Mach-one MLT
+guard is unchanged. See [Report 16](../Reports/Report_16.md).

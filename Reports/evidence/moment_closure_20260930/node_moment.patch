@@ -1,0 +1,162 @@
+--- a/plane/mom_jrel_v9.f
++++ b/plane/mom_jrel_v9.f
+@@ -63,7 +63,7 @@
+ 	REAL(KIND=LDP), ALLOCATABLE :: VdJdR_TERM(:),VdHdR_TERM(:)
+ 	REAL(KIND=LDP), ALLOCATABLE :: DELTA(:),DELTAH(:),W(:),WPREV(:)
+ 	REAL(KIND=LDP), ALLOCATABLE :: PSI(:),PSIPREV(:)
+-	REAL(KIND=LDP), ALLOCATABLE :: EPS(:),EPS_PREV(:)
++	REAL(KIND=LDP), ALLOCATABLE :: EPS(:),EPS_PREV(:),EPS_R(:),EPS_PREV_R(:)
+ !
+ 	REAL(KIND=LDP) FREQ_SAVE
+ 	REAL(KIND=LDP) IN_NBC_SAVE
+@@ -169,6 +169,7 @@
+ 	  IF(IOS .EQ. 0)ALLOCATE (PSIPREV(ND),STAT=IOS)
+ 	  IF(IOS .EQ. 0)ALLOCATE (EPS(ND),STAT=IOS)
+ 	  IF(IOS .EQ. 0)ALLOCATE (EPS_PREV(ND),STAT=IOS)
++	  IF(IOS .EQ. 0)ALLOCATE (EPS_R(ND),EPS_PREV_R(ND),STAT=IOS)
+ 	  IF(IOS .NE. 0)THEN
+ 	    WRITE(LUER,*)'Unable to allocate memory(3) in ALLOC_MOD_J_REL'
+ 	    WRITE(LUER,*)'STAT=',IOS
+@@ -469,6 +470,7 @@
+ 	  GAM_RSQHNU_PREV(:)=0.0_LDP
+ 	  EPS(:)=0.0_LDP
+ 	  EPS_PREV(:)=0.0_LDP
++	  EPS_R(:)=0.0_LDP;EPS_PREV_R(:)=0.0_LDP
+ !
+ ! Assume (1)	SIGMAd+1/2 = 0.5*( SIGMAd+1+SIGMAd )
+ ! 	 (2)	Vd+1/2=0.5*( Vd + Vd+1 )
+@@ -693,10 +695,19 @@
+ 	    DELTAH(I)=CON_DELTAH(I)/dLOG_NU/(CHI_H(I)+CHI_H(I+1))
+ 	    W(I)=DELTAH(I)*(1.0_LDP+CON_dNdNUH(I)*NMID_ON_HMID(I))
+ 	    WPREV(I)=DELTAH(I)*(1.0_LDP+CON_dNdNUH(I)*NMID_ON_HMID_PREV(I))
+-	    EPS(I)=DELTAH(I)*(CON_dNdNUH(I)*NMID_ON_J(I)+
+-	1            CON_dKdNUH(I)*KMID_ON_J(I))/(P_H(I)+W(I))
+-	    EPS_PREV(I)=DELTAH(I)*(CON_dNdNUH(I)*NMID_ON_J_PREV(I)+
+-	1            CON_dKdNUH(I)*KMID_ON_J_PREV(I))/(P_H(I)+W(I))
++! QSTARS_NODE_MOMENT: one shared face, distinct node contributions.
++	    IF(N_TYPE .NE. 'N_ON_J')THEN
++	      WRITE(6,*)'QSTARS_NODE_MOMENT requires N_ON_J'
++	      STOP
++	    END IF
++	    EPS(I)=0.5_LDP*DELTAH(I)*(CON_dNdNUH(I)*N_ON_J(I)+
++	1       CON_dKdNUH(I)*K_ON_J(I))/(P_H(I)+W(I))
++	    EPS_R(I)=0.5_LDP*DELTAH(I)*(CON_dNdNUH(I)*N_ON_J(I+1)+
++	1       CON_dKdNUH(I)*K_ON_J(I+1))/(P_H(I)+W(I))
++	    EPS_PREV(I)=0.5_LDP*DELTAH(I)*(CON_dNdNUH(I)*N_ON_J_PREV(I)+
++	1       CON_dKdNUH(I)*K_ON_J_PREV(I))/(P_H(I)+W(I))
++	    EPS_PREV_R(I)=0.5_LDP*DELTAH(I)*(CON_dNdNUH(I)*N_ON_J_PREV(I+1)+
++	1       CON_dKdNUH(I)*K_ON_J_PREV(I+1))/(P_H(I)+W(I))
+ 	  END DO
+ !
+ 	  DO I=2,ND
+@@ -758,9 +769,9 @@
+ !
+ 	  DO I=2,ND-1
+ 	    TA(I)=-HL(I-1)-EPS(I-1)
+-	    TC(I)=-HU(I)+EPS(I)
++	    TC(I)=-HU(I)+EPS_R(I)
+ 	    TB(I)=DTAUONQ(I)*(P_J(I)-COH_VEC(I)) + PSI(I) + HL(I) +
+-	1             HU(I-1)-EPS(I-1)+EPS(I)
++	1             HU(I-1)-EPS_R(I-1)+EPS(I)
+ 	    VB(I)=-HS(I-1)
+ 	    VC(I)=HS(I)
+ 	    XM(I)=DTAUONQ(I)*SOURCE(I)*R(I)*R(I)
+@@ -769,8 +780,8 @@
+ 	  DO I=2,ND-1
+ 	    XM(I)=XM(I) + VB(I)*GAM_RSQHNU_PREV(I-1) + VC(I)*GAM_RSQHNU_PREV(I)
+ 	1          + PSIPREV(I)*GAM_RSQJNU_PREV(I)
+-	1          - EPS_PREV(I-1)*(GAM_RSQJNU_PREV(I-1)+GAM_RSQJNU_PREV(I))
+-	1          + EPS_PREV(I)*(GAM_RSQJNU_PREV(I)+GAM_RSQJNU_PREV(I+1))
++	1          - (EPS_PREV(I-1)*GAM_RSQJNU_PREV(I-1)+EPS_PREV_R(I-1)*GAM_RSQJNU_PREV(I))
++	1          + (EPS_PREV(I)*GAM_RSQJNU_PREV(I)+EPS_PREV_R(I)*GAM_RSQJNU_PREV(I+1))
+ 	  END DO
+ !
+ 	  IF(XM_CHK_OPTION .EQ. 'SET_POS')THEN
+@@ -783,8 +794,8 @@
+ 	1           DTAUONQ(I)*SOURCE(I)*R(I)*R(I),
+ 	1           VB(I)*GAM_RSQHNU_PREV(I-1) + VC(I)*GAM_RSQHNU_PREV(I),
+ 	1           PSIPREV(I)*GAM_RSQJNU_PREV(I),
+-	1           EPS_PREV(I-1)*(GAM_RSQJNU_PREV(I-1)+GAM_RSQJNU_PREV(I)),
+-	1           EPS_PREV(I)*(GAM_RSQJNU_PREV(I)+GAM_RSQJNU_PREV(I+1))
++	1           (EPS_PREV(I-1)*GAM_RSQJNU_PREV(I-1)+EPS_PREV_R(I-1)*GAM_RSQJNU_PREV(I)),
++	1           (EPS_PREV(I)*GAM_RSQJNU_PREV(I)+EPS_PREV_R(I)*GAM_RSQJNU_PREV(I+1))
+ 	        END IF
+ !
+ 	        T1=0.5_LDP*T1
+@@ -792,8 +803,8 @@
+                 XM(I)=DTAUONQ(I)*SOURCE(I)*R(I)*R(I)
+ 	1              + T1*(VB(I)*GAM_RSQHNU_PREV(I-1) + VC(I)*GAM_RSQHNU_PREV(I))
+ 	1              + PSIPREV(I)*GAM_RSQJNU_PREV(I)
+-	1              - EPS_PREV(I-1)*(GAM_RSQJNU_PREV(I-1)+GAM_RSQJNU_PREV(I))
+-	1              + EPS_PREV(I)*(GAM_RSQJNU_PREV(I)+GAM_RSQJNU_PREV(I+1))
++	1              - (EPS_PREV(I-1)*GAM_RSQJNU_PREV(I-1)+EPS_PREV_R(I-1)*GAM_RSQJNU_PREV(I))
++	1              + (EPS_PREV(I)*GAM_RSQJNU_PREV(I)+EPS_PREV_R(I)*GAM_RSQJNU_PREV(I+1))
+               END DO
+ 	    END DO
+ !
+@@ -922,8 +933,8 @@
+ 	1          dlnGRSQJdlnR(I),P_J(I),QSTARS_OPERATOR(I,:),QSTARS_RAW(I),
+ 	1          DTAUONQ(I)*SOURCE(I)*R(I)*R(I),VB(I)*GAM_RSQHNU_PREV(I-1)+VC(I)*GAM_RSQHNU_PREV(I),
+ 	1          PSIPREV(I)*GAM_RSQJNU_PREV(I),
+-	1          -EPS_PREV(I-1)*(GAM_RSQJNU_PREV(I-1)+GAM_RSQJNU_PREV(I)),
+-	1          EPS_PREV(I)*(GAM_RSQJNU_PREV(I)+GAM_RSQJNU_PREV(I+1))
++	1          -(EPS_PREV(I-1)*GAM_RSQJNU_PREV(I-1)+EPS_PREV_R(I-1)*GAM_RSQJNU_PREV(I)),
++	1          (EPS_PREV(I)*GAM_RSQJNU_PREV(I)+EPS_PREV_R(I)*GAM_RSQJNU_PREV(I+1))
+ 	      ELSE
+ 	        WRITE(QSTARS_LU,'(19ES25.16)')R(I),V(I),CHI(I),ETA(I),ESEC(I),K_ON_J(I),H_ON_J(I),
+ 	1          dlnGRSQJdlnR(I),P_J(I),QSTARS_OPERATOR(I,:),QSTARS_RAW(I),0.0_LDP,0.0_LDP,0.0_LDP,0.0_LDP,0.0_LDP
+@@ -951,6 +962,17 @@
+ 	END IF
+ !
+ ! Check that no negative mean intensities have been computed.
++	IF(MINVAL(XM) .LT. 0.0_LDP)THEN
++	  WRITE(6,*)'QSTARS_NODE_MOMENT negative J',FREQ,MINLOC(XM),MINVAL(XM)
++	  OPEN(NEWUNIT=QSTARS_LU,FILE='QSTARS_NEGATIVE_J',STATUS='UNKNOWN',POSITION='APPEND')
++	  WRITE(QSTARS_LU,*)'FRAME',ND,FREQ,dLOG_NU,ICOUNT
++	  WRITE(QSTARS_LU,*)'a b c rhs rawJ'
++	  DO QSTARS_I=1,ND
++	    WRITE(QSTARS_LU,'(5ES25.16)')QSTARS_OPERATOR(QSTARS_I,:),QSTARS_RAW(QSTARS_I)
++	  END DO
++	  CLOSE(QSTARS_LU)
++	  STOP
++	END IF
+ !
+ 	  RECORDED_ERROR=.FALSE.
+ 	  DO I=1,ND
+@@ -986,8 +1008,8 @@
+ !
+ 	  DO I=1,ND-1
+ 	    GAM_RSQHNU(I)=HU(I)*XM(I+1)-HL(I)*XM(I)+HS(I)*GAM_RSQHNU_PREV(I) +
+-	1        ( EPS_PREV(I)*(GAM_RSQJNU_PREV(I)+GAM_RSQJNU_PREV(I+1)) -
+-	1          EPS(I)*(XM(I)+XM(I+1)) )
++	1        ( (EPS_PREV(I)*GAM_RSQJNU_PREV(I)+EPS_PREV_R(I)*GAM_RSQJNU_PREV(I+1)) -
++	1          (EPS(I)*XM(I)+EPS_R(I)*XM(I+1)) )
+ 	  END DO
+ !
+ ! Make sure H satisfies the basic requirement that it is less than J.
+--- a/plane/var_jrel_v5.f
++++ b/plane/var_jrel_v5.f
+@@ -313,14 +313,15 @@
+ 	    DELTAH(I)=CON_DELTAH(I)/dLOG_NU/(CHI_H(I)+CHI_H(I+1))
+ 	    W(I)=DELTAH(I)*(1.0_LDP+CON_dNdNUH(I)*NMID_ON_HMID(I))
+ 	    WPREV(I)=DELTAH(I)*(1.0_LDP+CON_dNdNUH(I)*NMID_ON_HMID_PREV(I))
+-	    EPS_A(I)=DELTAH(I)*(CON_dNdNUH(I)*NMID_ON_J(I)+
+-	1            CON_dKdNUH(I)*KMID_ON_J(I))/(P_H(I)+W(I))
+-	    EPS_B(I)=EPS_A(I)*GAM_RSQ(I+1)
+-	    EPS_A(I)=EPS_A(I)*GAM_RSQ(I)
+-	    EPS_PREV_A(I)=DELTAH(I)*(CON_dNdNUH(I)*NMID_ON_J_PREV(I)+
+-	1            CON_dKdNUH(I)*KMID_ON_J_PREV(I))/(P_H(I)+W(I))
+-	    EPS_PREV_B(I)=EPS_PREV_A(I)*GAM_RSQ(I+1)
+-	    EPS_PREV_A(I)=EPS_PREV_A(I)*GAM_RSQ(I)
++! QSTARS_NODE_MOMENT: identical shared face and separate node weights.
++	    EPS_A(I)=0.5_LDP*DELTAH(I)*(CON_dNdNUH(I)*N_ON_J(I)+
++	1       CON_dKdNUH(I)*K_ON_J(I))/(P_H(I)+W(I))*GAM_RSQ(I)
++	    EPS_B(I)=0.5_LDP*DELTAH(I)*(CON_dNdNUH(I)*N_ON_J(I+1)+
++	1       CON_dKdNUH(I)*K_ON_J(I+1))/(P_H(I)+W(I))*GAM_RSQ(I+1)
++	    EPS_PREV_A(I)=0.5_LDP*DELTAH(I)*(CON_dNdNUH(I)*N_ON_J_PREV(I)+
++	1       CON_dKdNUH(I)*K_ON_J_PREV(I))/(P_H(I)+W(I))*GAM_RSQ(I)
++	    EPS_PREV_B(I)=0.5_LDP*DELTAH(I)*(CON_dNdNUH(I)*N_ON_J_PREV(I+1)+
++	1       CON_dKdNUH(I)*K_ON_J_PREV(I+1))/(P_H(I)+W(I))*GAM_RSQ(I+1)
+ 	  END DO
+ !
+ 	  DO I=2,ND

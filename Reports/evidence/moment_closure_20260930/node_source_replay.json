@@ -1,0 +1,8 @@
+{
+  "matches": {
+    "mom_jrel_v9.f": true,
+    "var_jrel_v5.f": true
+  },
+  "driver_sha256": "a99566bd4cf752197f50aee443cda3f168735c6f515fb22dbf2217c71b42fda4",
+  "scope": "Source-only reapplication reproduces compiled candidate sources exactly."
+}

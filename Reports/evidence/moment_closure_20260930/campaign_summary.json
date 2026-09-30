@@ -1,0 +1,79 @@
+{
+  "cases": [
+    {
+      "case": "cmfgen_closure_edge",
+      "status": "numerical_failure",
+      "error": "Native radiation iteration failed; finite/stale output is not convergence",
+      "native_diagnostic": "Native radiation iteration failed; finite/stale output is not convergence",
+      "seconds": 22.2436624999973,
+      "executable_sha256": "0d56858bb8f3c067b9d467f173a5a9d892102400dfde9483933cbda057d10803",
+      "source_code": {
+        "runner": "71cca780e38007aeb14b07077675705f87d5bc83b6072e7f06b6a944d1822899",
+        "adapter": "396eff3745635b4faefc14c6ba5edd6e12ef68ea459295189b35718584aa558b"
+      }
+    },
+    {
+      "case": "cmfgen_closure_node",
+      "status": "numerical_failure",
+      "error": "Native run did not produce fresh RVTJ",
+      "native_diagnostic": "QSTARS_NODE_MOMENT negative J   86.130883690721163               18  -2.7413667287196519E-244",
+      "seconds": 6.4164864589693025,
+      "executable_sha256": "96c020ff63bdd77976eb227573ae7ae4cc08eb6c57b5d0df5803dc5c4345163e",
+      "source_code": {
+        "runner": "71cca780e38007aeb14b07077675705f87d5bc83b6072e7f06b6a944d1822899",
+        "adapter": "396eff3745635b4faefc14c6ba5edd6e12ef68ea459295189b35718584aa558b"
+      }
+    },
+    {
+      "case": "cmfgen_closure_raw_nh",
+      "status": "numerical_failure",
+      "error": "Native run did not produce fresh RVTJ",
+      "native_diagnostic": "QSTARS_RAW_NH reversed frequency characteristic           1   999.66643590480180      -0.86436430711172596        1.0399201852813285",
+      "seconds": 0.7231464170035906,
+      "executable_sha256": "e4eb30cdfcbdaab3ccfeea0077ea241102ce4597d308b19d0f875ab0c61c0eb9",
+      "source_code": {
+        "runner": "71cca780e38007aeb14b07077675705f87d5bc83b6072e7f06b6a944d1822899",
+        "adapter": "396eff3745635b4faefc14c6ba5edd6e12ef68ea459295189b35718584aa558b"
+      }
+    },
+    {
+      "case": "cmfgen_closure_seed",
+      "status": "numerical_failure",
+      "error": "Native radiation iteration failed; finite/stale output is not convergence",
+      "native_diagnostic": "Native radiation iteration failed; finite/stale output is not convergence",
+      "seconds": 23.374511209025513,
+      "executable_sha256": "93ba6b4ed1ca7495b8cd0b600a0c8199ea87303515609b5af876454794c87f66",
+      "source_code": {
+        "runner": "71cca780e38007aeb14b07077675705f87d5bc83b6072e7f06b6a944d1822899",
+        "adapter": "396eff3745635b4faefc14c6ba5edd6e12ef68ea459295189b35718584aa558b"
+      }
+    },
+    {
+      "case": "cmfgen_closure_seed_fresh",
+      "status": "numerical_failure",
+      "error": "Native radiation iteration failed; finite/stale output is not convergence",
+      "native_diagnostic": "Native radiation iteration failed; finite/stale output is not convergence",
+      "seconds": 22.40449704101775,
+      "executable_sha256": "93ba6b4ed1ca7495b8cd0b600a0c8199ea87303515609b5af876454794c87f66",
+      "source_code": {
+        "runner": "71cca780e38007aeb14b07077675705f87d5bc83b6072e7f06b6a944d1822899",
+        "adapter": "396eff3745635b4faefc14c6ba5edd6e12ef68ea459295189b35718584aa558b"
+      }
+    },
+    {
+      "case": "cmfgen_closure_seed_fresh_vadat",
+      "status": "numerical_failure",
+      "error": "Native radiation iteration failed; finite/stale output is not convergence",
+      "native_diagnostic": "Native radiation iteration failed; finite/stale output is not convergence",
+      "seconds": 21.782638624950778,
+      "executable_sha256": "93ba6b4ed1ca7495b8cd0b600a0c8199ea87303515609b5af876454794c87f66",
+      "source_code": {
+        "runner": "71cca780e38007aeb14b07077675705f87d5bc83b6072e7f06b6a944d1822899",
+        "adapter": "396eff3745635b4faefc14c6ba5edd6e12ef68ea459295189b35718584aa558b"
+      }
+    }
+  ],
+  "sum_process_wall_seconds": 96.94494225096423,
+  "scope": "Six native diagnostic/candidate trials, not equilibria. Sum differs from campaign elapsed time. The IN_ITS COMP_F placement was a no-op; its VADAT replacement is the actual fresh-factor control.",
+  "production_certified": false
+}

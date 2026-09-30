@@ -1,0 +1,13 @@
+{
+  "sources": {
+    "plane/mom_jrel_v9.f": {
+      "original": "413295d8e442baa69ee3f5df8995221565d640dfe5a5d551bd601ec12a86c9d1",
+      "patched": "b8c1fa5fd080b2d5e53d99b47362bd89cb2b09b7fd02662cdf01db4a873e0413"
+    },
+    "plane/var_jrel_v5.f": {
+      "original": "ca785cfdde01b45e10cfa4871b54ef68216ce43ae47ef91fbc0056afbe30fcd2",
+      "patched": "7c5081bcb394dd98dc8b38aed02c59cc3825f79a0b5bcdb5e44b75c07ce0edc9"
+    }
+  },
+  "scope": "Experimental shared midpoint flux reconstruction; fixed-factor VAR propagation updated. Full relaxed formal-factor response and energy/convergence certification still required."
+}

@@ -1,0 +1,45 @@
+{
+  "campaign": "Report 16: He I edge moment closure",
+  "baseline_commit": "9a51d02",
+  "targets": {
+    "nonlinear_fraction": 0.001,
+    "electron_balance_fraction": 0.01,
+    "global_and_cumulative_radiation_energy_fraction": 0.001,
+    "cool_temperature_K": [
+      3000,
+      12000
+    ],
+    "neutral_H_fraction": [
+      0.1,
+      0.9
+    ],
+    "minimum_cool_partial_cells": 3,
+    "internal_profile_refinement_fraction": 0.01,
+    "material_derivative_relative": 1e-06
+  },
+  "requirements": [
+    "All 1/30/69/30 H-/HI/HeI/HeII levels, two-photon, Rayleigh, native rates, dissolution, radiation advection and relativistic terms retained in final candidates.",
+    "Fixed-J or fixed-T stages are initialization only. Final validation requires both released and independent population/rate, electron and radiation-energy checks.",
+    "Numerical damping or stencil changes must converge to the same equations under refinement; no fitted physical coefficients or production prescribed mdot.",
+    "Frozen failure operators and source-level derivative checks precede claiming native repairs.",
+    "Stop downstream work if no valid cool closure; no inference of physical nonexistence."
+  ],
+  "stages": [
+    "Rate initialization with the bootstrap cool radiation field held fixed, MAX_LAM=10 numerical population-step limit; release radiation and T after populations settle.",
+    "Capture radiation-moment and variation failures with read-only native diagnostics. Compare operator and derivative consistency; test targeted numerical repair if evidence supports it.",
+    "Require final cool closure and quantitative internal mesh/frequency/response convergence before global mdot/sonic coupling.",
+    "Only after nonlocal material response and convective handoff gates, attach a physical envelope and attempt conservative selected wind/evolution."
+  ],
+  "primary_numerical_reference": "Pinned CMFGEN full_descr.pdf sections 4.2/4.3 initialization and convergence; https://doi.org/10.1111/j.1365-2966.2012.21192.x",
+  "physical_inputs_changed_for_convergence": false,
+  "tolerances_relaxed": false,
+  "production_certified": false,
+  "first_diagnostic": "Read-only complete recurrence at the first negative raw moment solution in 5.9-6.0e15 Hz; no changes to physics/stencil; original checkpoints diagnostic only.",
+  "forbidden_bypasses": [
+    "J or flux clipping",
+    "removing He I",
+    "disabling radiation advection",
+    "frozen radiation accepted as closure",
+    "weaker convergence criteria"
+  ]
+}

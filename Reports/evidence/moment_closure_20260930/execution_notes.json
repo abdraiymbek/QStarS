@@ -1,0 +1,9 @@
+{
+  "noop_trial": "cmfgen_closure_seed_fresh",
+  "reason": "COMP_F belongs in VADAT. IN_ITS extra COMP_F was ignored; do not interpret this as a fresh-factor experiment.",
+  "corrected_trial": "cmfgen_closure_seed_fresh_vadat",
+  "metadata_failure": "results/cmfgen_moment_probe_node_replay",
+  "completed_replay": "results/cmfgen_moment_probe_node_replay2",
+  "historical_scaled_variable_label": "seed_analysis original native_raw_J and min_raw_J are gamma*r^2*J; seed_analysis_v2 makes units explicit. Original analysis and driver remain intact.",
+  "runner_scope": "All native trials loaded Report 15 runner/adapter code. New explicit diagnostic rejection tested later; original native failure records remain unchanged."
+}

@@ -5,8 +5,14 @@ controls. This document defines the implemented material differential and the
 remaining physical coupling requirements. **It does not authorize a production
 wind.** Numerical results and release decisions are in
 [Report 14](../Reports/Report_14.md) and
-[Report 15](../Reports/Report_15.md). Report 15 repairs native H-minus FF
-initialization/Jacobian defects; the joint cool closure still fails.
+[Report 15](../Reports/Report_15.md) and
+[Report 16](../Reports/Report_16.md). Report 15 repairs native H-minus FF
+initialization/Jacobian defects. Report 16 identifies the signed previous-frequency
+H/K/N forcing of a retained negative-J seed and tests a shared-face reconstruction
+with a matching native nonlocal eta/chi response. That response passes only a
+fixed-formal-factor fixture; the cool reconstruction remains negative and is
+rejected. No relaxed population/temperature/formal-factor response or joint cool
+closure has passed.
 
 ## Component definition and reference boundary
 

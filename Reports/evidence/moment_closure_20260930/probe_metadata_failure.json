@@ -1,0 +1,6 @@
+{
+  "directory": "results/cmfgen_moment_probe_node_replay",
+  "scope": "All five native invocations completed; metadata audit failed because driver looked for UP_TX_TVX in plane instead of subs. No scientific result is certified from this incomplete record; corrected driver uses a fresh directory.",
+  "failed_driver_sha256": "ce2bbe5ff6334ab2738a6ebb91e90410bec71379e07b85d321407dc87cea7fc6",
+  "native_outputs_preserved": true
+}

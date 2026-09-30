@@ -1,5 +1,14 @@
 # Apple Silicon performance report
 
+Report 16 adds six narrow native closure trials, totaling **96.94 s** of process
+wall time on the same Apple M5 / 16 GiB MacBook. Rejected candidate trials take
+**0.72 / 6.42 s**; read-only diagnostic repeats take about **22–23 s**. The final
+123-test native-enabled suite takes **53.70 s**, zero skips. None measures a
+physical selected wind or ends through resource exhaustion. No cloud/Linux
+result is claimed; more compute does not repair the independently reproduced
+signed forcing. See [Report 16](../Reports/Report_16.md) and
+[the measurements](../Reports/evidence/moment_closure_20260930/campaign_summary.json).
+
 Report 15 measures 12 native recovery trials plus one untimed debugger crash.
 Repaired fixed-J/T initialization at 84 / 167 radii takes **20.43 / 43.37 s**,
 with **115.88 / 172.00 MiB** peak footprint. Released full-cycle cases fail

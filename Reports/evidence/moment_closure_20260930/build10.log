@@ -1,0 +1,174 @@
+(cd tools; make )
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+rm -f *.o
+(cd blas; make)
+rm -f *.o
+(cd dust; make)
+gfortran -fopenmp -c  -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ dust_mod.f 
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libmod.a dust_mod.o
+r - dust_mod.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+gfortran -fopenmp -c  -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ comp_dust_opac.f 
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libsubs.a comp_dust_opac.o
+r - comp_dust_opac.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+gfortran -fopenmp -c  -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ rd_dust_cntrl_file.f 
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libsubs.a rd_dust_cntrl_file.o
+r - rd_dust_cntrl_file.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+gfortran -fopenmp -c  -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ rd_dust_file.f 
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libsubs.a rd_dust_file.o
+r - rd_dust_file.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+gfortran -fopenmp -c  -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ set_ejecta_dust_properties.f 
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libsubs.a set_ejecta_dust_properties.o
+r - set_ejecta_dust_properties.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+rm -f *.o
+(cd lpack; make)
+rm -f *.o
+(cd new_main/subs; make )
+Makefile:195: warning: overriding commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libmod.a(mod_cmfgen.o)'
+Makefile:183: warning: ignoring old commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libmod.a(mod_cmfgen.o)'
+Makefile:195: warning: overriding commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libmod.a(control_variable_mod.o)'
+Makefile:186: warning: ignoring old commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libmod.a(control_variable_mod.o)'
+Makefile:195: warning: overriding commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libmod.a(steq_data_mod.o)'
+Makefile:180: warning: ignoring old commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libmod.a(steq_data_mod.o)'
+(cd ../mod_subs ; make)
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+rm -f *.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/  update_ba_for_line.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libsubs.a update_ba_for_line.o
+r - update_ba_for_line.o
+(make -f Make_nuc)
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+rm -f *.o
+(cd auto; make)
+rm -f *.o
+(cd chg; make)
+rm -f *.o
+(cd two; make)
+rm -f *.o
+(cd non_therm; make)
+rm -f *.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+rm -f *.o
+(cd stark; make )
+(cd ../obs;  make mod_freq)
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ mod_freq_obs.f
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ 
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/  set_prof_v6.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libsubs.a set_prof_v6.o
+r - set_prof_v6.o
+rm -f *.o
+cp /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file  jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+(cd unix; make )
+rm -f *.o
+(cd subs; make )
+(cd ../unix; make)
+rm -f *.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+rm -f *.o
+(cd plane; make )
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ mom_jrel_v9.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libsubs.a mom_jrel_v9.o
+r - mom_jrel_v9.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+rm -f *.o
+(cd newsubs; make ) 
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+rm -f *.o
+(cd pgplt; make ) 
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+rm -f *.o
+make: Nothing to be done for `OBJ_FILES'.
+(cd new_main; make )
+(cd mod_subs ; make )
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+rm -f *.o
+(cd ../tools; make )
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+rm -f *.o
+(cd ../subs; make )
+(cd ../unix; make)
+rm -f *.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+rm -f *.o
+(cd ../newsubs; make )
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+rm -f *.o
+(cd ../stark; make )
+(cd ../obs;  make mod_freq)
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ mod_freq_obs.f
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ 
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/  set_prof_v6.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libsubs.a set_prof_v6.o
+r - set_prof_v6.o
+rm -f *.o
+cp /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file  jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+(cd subs; make )
+Makefile:195: warning: overriding commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libmod.a(mod_cmfgen.o)'
+Makefile:183: warning: ignoring old commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libmod.a(mod_cmfgen.o)'
+Makefile:195: warning: overriding commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libmod.a(control_variable_mod.o)'
+Makefile:186: warning: ignoring old commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libmod.a(control_variable_mod.o)'
+Makefile:195: warning: overriding commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libmod.a(steq_data_mod.o)'
+Makefile:180: warning: ignoring old commands for target `/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libmod.a(steq_data_mod.o)'
+(cd ../mod_subs ; make)
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+rm -f *.o
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/  update_ba_for_line.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/libsubs.a update_ba_for_line.o
+r - update_ba_for_line.o
+(make -f Make_nuc)
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+rm -f *.o
+(cd auto; make)
+rm -f *.o
+(cd chg; make)
+rm -f *.o
+(cd two; make)
+rm -f *.o
+(cd non_therm; make)
+rm -f *.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+rm -f *.o
+(cd gam_transport; make )
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+rm -f *.o
+(cd ../pgplt; make )
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+rm -f *.o
+(cd  mod_subs; make)
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/mod/
+rm -f *.o
+gfortran -fopenmp cmfgen.o cmfgen_sub.o \
+              -L/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/lib/ -lsubs -lpgplt -lmod \
+               -framework Accelerate   \
+              -o /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_10/cur_cmf/exe/cmfgen_dev.exe

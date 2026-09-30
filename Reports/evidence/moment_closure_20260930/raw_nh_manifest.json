@@ -1,0 +1,14 @@
+{
+  "sources": {
+    "plane/get_moms_rel.f": {
+      "original": "7e4fc1af4da16361ce5e278496222db88903b9ff98801c879ddd240f26ab49e5",
+      "patched": "f8287e08f10f75b0128e6ed398cdb0df0ed3d5725cf24fb04c0891ca047778f4"
+    },
+    "plane/mom_jrel_v9.f": {
+      "original": "413295d8e442baa69ee3f5df8995221565d640dfe5a5d551bd601ec12a86c9d1",
+      "patched": "b47b81d4816b721b3cc8ceaf3c15c8977673fbc9ab789547cf1cd79a9b59989a"
+    }
+  },
+  "unchanged_VAR_sha256": "ca785cfdde01b45e10cfa4871b54ef68216ce43ae47ef91fbc0056afbe30fcd2",
+  "scope": "Unclipped N/H representation diagnostic; exact formal N at a converged moment/angle state, existing fixed-factor VAR response. Not a certified conservative replacement or relaxed Newton closure. Singular/reversed/negative states fail closed."
+}

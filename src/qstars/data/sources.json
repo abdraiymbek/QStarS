@@ -742,6 +742,32 @@
       "implementation_interpretation": "Lazy initialization from cooling and opacity; correct last-depth selection; analytic T/ne/ground-H partials and EHB consistency; all-level stopping; no coefficient or rate fit",
       "implementation": "backends/cmfgen/hminus_ff.patch; scripts/check_cmfgen_hminus_ff.py; Reports/Report_15.md",
       "inspected_utc": "2026-09-30"
+    },
+    {
+      "id": "cmfgen_common_face_moment_experiment",
+      "title": "CMFGEN 2025 native moment/VAR common-face reconstruction audit",
+      "url": "https://sites.pitt.edu/~hillier/web/CMFGEN.htm",
+      "reference_location": "MOM_JREL_V9; GET_MOMS_REL; VAR_JREL_V5; EDD_JREL_VAR_V3; UP_TX_TVX",
+      "status": "experimental_replacement_rejected",
+      "assumptions": "Same formal angular moments, atomic data, relativistic and advection equations; common midpoint weights for each node contribution; no J/H/XM clipping in the requested full-cycle candidate.",
+      "validity": "Bounded native fixed-factor two-frequency eta/chi response only. Released cool transfer candidate fails positivity; no full relaxed response or wind certification.",
+      "variables_units": "gJ=gamma*r^2*J; gH=gamma*r_mid^2*H; native nu in 1e15 Hz and radius in 1e10 cm",
+      "implementation_interpretation": "Distinct left/right K/N node coefficients preserve a shared spatial flux and its native VAR propagation. This is a numerical approximation tested and rejected, not an upstream bug allegation or supported model family.",
+      "implementation": "backends/cmfgen/apply_node_moment.py; scripts/check_cmfgen_moment_response.py; Reports/Report_16.md",
+      "inspected_utc": "2026-09-30"
+    },
+    {
+      "id": "hauschildt_baron_2004_frequency_discretization",
+      "title": "Hauschildt & Baron (2004): improved CMF wavelength derivative discretization",
+      "url": "https://arxiv.org/abs/astro-ph/0401164",
+      "reference_location": "Sections 2.1.1-2.1.4 and 3.3; wavelength characteristic discretization",
+      "status": "primary_numerical_reference_only",
+      "assumptions": "Stationary spherical relativistic characteristic transfer, monotone velocities in the recursive case.",
+      "validity": "Reference for implicit angular frequency transport and its response; does not independently establish the mechanism in CMFGEN or validate QStarS.",
+      "variables_units": "Specific intensity per wavelength; coefficients and frequency conventions must be transformed before any native implementation.",
+      "implementation_interpretation": "Supports investigating a conservative angular upwind replacement. No mixing parameter is fitted or used in Report 16.",
+      "implementation": "Reports/Report_16.md; benchmarks/cmfgen_moment_closure_plan.json",
+      "inspected_utc": "2026-09-30"
     }
   ]
 }

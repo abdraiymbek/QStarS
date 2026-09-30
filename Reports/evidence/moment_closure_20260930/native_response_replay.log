@@ -1,0 +1,14 @@
+Traceback (most recent call last):
+  File "/Users/abraiymbek/Projects/QStarS/scripts/check_cmfgen_moment_response.py", line 44, in <module>
+    r=check(**vars(p.parse_args()));raise SystemExit(0 if r['passed'] else 2)
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/abraiymbek/Projects/QStarS/scripts/check_cmfgen_moment_response.py", line 36, in check
+    binary_sha256=sha256(output/'probe'),native_sources={n:sha256(root/n) for n in ['plane/mom_jrel_v9.f','plane/var_jrel_v5.f','plane/edd_jrel_var_v3.f','plane/up_tx_tvx.f']},
+                                                           ^^^^^^^^^^^^^^
+  File "/Users/abraiymbek/Projects/QStarS/src/qstars/cmfgen_backend.py", line 16, in sha256
+    with Path(path).open('rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/abraiymbek/.local/share/uv/python/cpython-3.12.14-macos-aarch64-none/lib/python3.12/pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_12/cur_cmf/plane/up_tx_tvx.f'
