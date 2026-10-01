@@ -1,0 +1,13 @@
+{
+  "base_build": "build_13 (Report 17 state)",
+  "patched_build": "build_14",
+  "source_hashes": {
+    "new_main/subs/fiddle_pop_corrections_v2.f": {
+      "base": "cbc62393d3233e8f15d7d7d149aeefbd0546365a26cc805bba1106190cd60289",
+      "patched": "039c992ea534b5726041a61425daf7ce933630f98fc68cf475ab50bb8485cca4"
+    }
+  },
+  "patch_sha256": "dd797c652b8ae7974a0b7a54ff9f2d7f68eeefe58ea73251d4ba8a337f85076d",
+  "patch": "scale_trace.patch",
+  "scope": "read-only step-scale trace; no behavioural change"
+}

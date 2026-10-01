@@ -1,0 +1,21 @@
+{
+ "base_release": "build_15",
+ "build": "build_16",
+ "files": [
+  "new_main/subs/cmf_blkband_v3.f",
+  "new_main/cmfgen_sub.f"
+ ],
+ "source_hashes": {
+  "new_main/subs/cmf_blkband_v3.f": {
+   "base": "793a9262dd26346e6a98f6142e958434dff065943af1a4791514532b9e6c8fa1",
+   "patched": "f405540f3a8babea75e5f7d046134bc9927629ef0d3a48313ca54cd56351bc01"
+  },
+  "new_main/cmfgen_sub.f": {
+   "base": "5b23bf55d89c445dc8b63824c6abfcd0bea2e8ab219141608ac4e2adeb349a58",
+   "patched": "d4be91eda58090fa763ac76e9309fb2d70a45a533f8b0fc17ccaa41a3c5828c7"
+  }
+ },
+ "patch_file": "jac_check.patch",
+ "patch_sha256": "075180c06bd379b41ef15d1049b47d6a1cd1393d6191e0eb7e4684d6d5170f37",
+ "scope": "QSTARS_RESID_TRACE.bin: raw assembled residual dump (int32 cnt,NT,ND + POPS,STEQ f8 column-major) written from STEQ_STORE after each WR2D_V2 call site in CMF_BLKBAND_V3, i.e. after per-depth GENERATE_FULL_MATRIX_V3 assembly and before ROW_SF/COL_SF equilibration and the solve. QSTARS_PERTURB_FILE/QSTARS_PERTURB_EPS one-shot first-iteration hook in cmfgen_sub (POPS*(1-eps*s), raw f8 NT*ND column-major s) with POPTOION/POPION/COMP_LEV_DIS_BLK/SUP_TO_FULL_V4 derived-state refresh; writes QSTARS_PERTURB_APPLIED or QSTARS_PERTURB_FAILURE. Read-only diagnostics; residual physics unchanged."
+}

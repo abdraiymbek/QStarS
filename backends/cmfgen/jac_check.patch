@@ -1,0 +1,185 @@
+--- a/cur_cmf/new_main/subs/cmf_blkband_v3.f
++++ b/cur_cmf/new_main/subs/cmf_blkband_v3.f
+@@ -316,6 +316,7 @@
+           FLAG=.TRUE.
+           DEALLOCATE (C_MAT,D_MAT,ORIG_POPS,RUB)
+ 	  CALL WR2D_V2(STEQ_STORE,N,ND,'STEQ_ARRAY','*',L_TRUE,16)
++	  CALL QSTARS_WR_RESID(STEQ_STORE,POPS,N,ND)
+ !
+ 	  RETURN
+ 	END IF
+@@ -414,6 +415,7 @@
+           FLAG=.TRUE.
+           DEALLOCATE (C_MAT,RUB)
+ 	  CALL WR2D_V2(STEQ_STORE,N,ND,'STEQ_ARRAY','*',L_TRUE,16)
++	  CALL QSTARS_WR_RESID(STEQ_STORE,POPS,N,ND)
+ 	  RETURN
+ 	END IF
+ !
+@@ -545,6 +547,7 @@
+ 	  DEALLOCATE (B_MAT,C_MAT,D_MAT)
+ 	  DEALLOCATE (ORIG_POPS,RUB)
+ 	  CALL WR2D_V2(STEQ_STORE,N,ND,'STEQ_ARRAY','*',L_TRUE,16)
++	  CALL QSTARS_WR_RESID(STEQ_STORE,POPS,N,ND)
+ !
+ 	  RETURN
+ 	END IF
+@@ -720,6 +723,7 @@
+ C
+ !
+ 	CALL WR2D_V2(STEQ_STORE,N,ND,'STEQ_ARRAY','*',L_TRUE,16)
++	  CALL QSTARS_WR_RESID(STEQ_STORE,POPS,N,ND)
+ ! 
+ !**************************************************************************
+ !
+@@ -761,5 +765,31 @@
+ 100	FORMAT(1x,'depth=',I3,10x,'IFAIL=',I3)
+ 	FLAG=.FALSE.
+ 	RETURN
++C
++	END
++
++C
++C QSTARS JAC_CHECK: dump the raw assembled residual (SE equation RHS as
++C passed to the linear solve, before ROW_SF/COL_SF equilibration and
++C solution), in the same record format as QSTARS_STEQ_TRACE.bin:
++C int32 call count, int32 N, int32 ND, then POPS and STEQ_RES as
++C float64 column-major. Read-only diagnostic; all output paths of
++C CMF_BLKBAND_V3 call this once with the saved pre-solve STEQ_STORE.
++C
++	SUBROUTINE QSTARS_WR_RESID(STEQ_RES,POPS,N,ND)
++	USE SET_KIND_MODULE
++	IMPLICIT NONE
++	INTEGER N,ND
++	REAL(KIND=LDP) STEQ_RES(N,ND)
++	REAL(KIND=LDP) POPS(N,ND)
++	INTEGER, SAVE :: QS_RES_CNT=0
++	INTEGER, PARAMETER :: LU_QS_BIN=98
+ C
++	QS_RES_CNT=QS_RES_CNT+1
++	OPEN(UNIT=LU_QS_BIN,FILE='QSTARS_RESID_TRACE.bin',STATUS='UNKNOWN',
++	1       ACCESS='STREAM',FORM='UNFORMATTED',POSITION='APPEND')
++	WRITE(LU_QS_BIN)INT(QS_RES_CNT,KIND=4),INT(N,KIND=4),INT(ND,KIND=4),
++	1       REAL(POPS(1:N,1:ND),KIND=8),REAL(STEQ_RES(1:N,1:ND),KIND=8)
++	CLOSE(LU_QS_BIN)
++	RETURN
+ 	END
+--- a/cur_cmf/new_main/cmfgen_sub.f
++++ b/cur_cmf/new_main/cmfgen_sub.f
+@@ -198,6 +198,16 @@
+ !
+ 	INTEGER MAIN_COUNTER,NITSF,NUM_ITS_RD,NUM_ITS_TO_DO
+ 	LOGICAL LST_ITERATION
++!
++! QSTARS JAC_CHECK: locals for the one-shot perturbation hook.
++!
++	CHARACTER*512 QS_PFILE
++	CHARACTER*64 QS_ESTR
++	INTEGER QS_PLEN,QS_IOS,QS_I2,QS_J2,QS_NBAD
++	INTEGER(KIND=8) QS_FSIZE
++	REAL(KIND=LDP) QS_EPS,QS_MAXP,QS_MINP,QS_FAC
++	REAL(KIND=LDP), ALLOCATABLE :: QS_S(:,:)
++	LOGICAL QS_LEX
+ !
+ ! Functions called
+ !
+@@ -1300,7 +1310,99 @@
+ 	NUM_ITS_TO_DO=NUM_ITS_TO_DO-1
+ 	IF(NUM_ITS_TO_DO .EQ. 0)LST_ITERATION=.TRUE.
+ 	MAIN_COUNTER=MAIN_COUNTER+1
++!
++! QSTARS JAC_CHECK: one-shot population perturbation hook (diagnostic
++! only). On the first iteration of this run, if QSTARS_PERTURB_FILE and
++! QSTARS_PERTURB_EPS are set, replace POPS(i,d) by
++! POPS(i,d)*(1-eps*s(i,d)) where s is a raw float64 NT-by-ND
++! column-major array, then rebuild all POPS-derived state
++! (XzV/DXzV/ED/T via POPTOION, POPION, level-dissolution constants, and
++! the full-atom arrays via SUP_TO_FULL_V4), exactly as done at the end
++! of a normal iteration. Nothing before this point in the iteration
++! reads POPS-derived data.
++!
++	IF(MAIN_COUNTER .EQ. NITSF+1)THEN
++	  CALL GET_ENVIRONMENT_VARIABLE('QSTARS_PERTURB_FILE',QS_PFILE,
++	1      LENGTH=QS_PLEN,STATUS=QS_IOS)
++	  IF(QS_PLEN .GT. 0)THEN
++	    CALL GET_ENVIRONMENT_VARIABLE('QSTARS_PERTURB_EPS',QS_ESTR,
++	1        LENGTH=QS_I2,STATUS=QS_IOS)
++	    IF(QS_IOS .EQ. 0 .AND. QS_I2 .GT. 0)THEN
++	      READ(QS_ESTR,*,IOSTAT=QS_IOS)QS_EPS
++	    END IF
++	    INQUIRE(FILE=QS_PFILE(1:QS_PLEN),EXIST=QS_LEX,SIZE=QS_FSIZE)
++	    IF(QS_IOS .NE. 0 .OR. .NOT. QS_LEX .OR.
++	1        QS_FSIZE .NE. INT(NT*ND*8,KIND=8))THEN
++	      OPEN(UNIT=97,FILE='QSTARS_PERTURB_FAILURE',STATUS='UNKNOWN')
++	      WRITE(97,*)'Bad perturbation input: exist=',QS_LEX,
++	1          ' size=',QS_FSIZE,' expect=',NT*ND*8,' ios=',QS_IOS
++	      CLOSE(97)
++	      WRITE(LUER,*)'Error in QSTARS perturbation hook: bad input'
++	      STOP
++	    END IF
++	    ALLOCATE(QS_S(NT,ND),STAT=QS_IOS)
++	    IF(QS_IOS .NE. 0)THEN
++	      OPEN(UNIT=97,FILE='QSTARS_PERTURB_FAILURE',STATUS='UNKNOWN')
++	      WRITE(97,*)'Unable to allocate QS_S',NT,ND
++	      CLOSE(97)
++	      STOP
++	    END IF
++	    OPEN(UNIT=97,FILE=QS_PFILE(1:QS_PLEN),STATUS='OLD',
++	1        ACCESS='STREAM',FORM='UNFORMATTED',IOSTAT=QS_IOS)
++	    IF(QS_IOS .EQ. 0)READ(97,IOSTAT=QS_IOS)QS_S
++	    CLOSE(97)
++	    IF(QS_IOS .NE. 0)THEN
++	      OPEN(UNIT=97,FILE='QSTARS_PERTURB_FAILURE',STATUS='UNKNOWN')
++	      WRITE(97,*)'Unable to read ',QS_PFILE(1:QS_PLEN)
++	      CLOSE(97)
++	      STOP
++	    END IF
++	    QS_MAXP=0.0_LDP
++	    QS_NBAD=0
++	    DO QS_I2=1,NT
++	      DO QS_J2=1,ND
++	        QS_FAC=1.0_LDP-QS_EPS*QS_S(QS_I2,QS_J2)
++	        QS_MAXP=MAX(QS_MAXP,ABS(QS_EPS*QS_S(QS_I2,QS_J2)))
++	        IF(POPS(QS_I2,QS_J2)*QS_FAC .LE. 0.0_LDP)QS_NBAD=QS_NBAD+1
++	      END DO
++	    END DO
++	    IF(QS_NBAD .GT. 0)THEN
++	      OPEN(UNIT=97,FILE='QSTARS_PERTURB_FAILURE',STATUS='UNKNOWN')
++	      WRITE(97,*)'Perturbed POPS nonpositive at',QS_NBAD,
++	1          ' locations; eps=',QS_EPS,' max|eps*s|=',QS_MAXP
++	      CLOSE(97)
++	      WRITE(LUER,*)'Error in QSTARS perturbation hook:',
++	1          ' perturbed POPS nonpositive'
++	      STOP
++	    END IF
++	    POPS=POPS*(1.0_LDP-QS_EPS*QS_S)
++	    QS_MINP=MINVAL(POPS)
++!
++! Recompute all POPS-derived state (mirrors the end-of-iteration block).
++!
++	    DO ID=1,NUM_IONS-1
++	      CALL POPTOION(POPS, ATM(ID)%XzV, ATM(ID)%DXzV,ED,T,
++	1        ATM(ID)%EQXzV, ATM(ID)%NXzV, NT, ND, ATM(ID)%XzV_PRES)
++	    END DO
++	    DO J=1,ND
++	      POPION(J)=0.0_LDP
++	      DO I=1,NT
++	        IF(Z_POP(I) .GT. 0.01_LDP)POPION(J)=POPION(J)+POPS(I,J)
++	      END DO
++	    END DO
++	    CALL COMP_LEV_DIS_BLK(ED,POPION,T,DO_LEV_DISSOLUTION,ND)
++	    CALL SUP_TO_FULL_V4(POPS,Z_POP,DO_LEV_DISSOLUTION,ND,NT)
+ !
++	    OPEN(UNIT=97,FILE='QSTARS_PERTURB_APPLIED',STATUS='UNKNOWN')
++	    WRITE(97,*)'eps=',QS_EPS
++	    WRITE(97,*)'max|eps*s|=',QS_MAXP
++	    WRITE(97,*)'min POPS after=',QS_MINP
++	    WRITE(97,*)'file=',QS_PFILE(1:QS_PLEN)
++	    CLOSE(97)
++	    DEALLOCATE(QS_S)
++	  END IF
++	END IF
++!
+ 	WRITE(LUER,'(A)')' '
+ 	WRITE(LUER,'(X,80A)')('*',I=1,80)
+ 	WRITE(LUER,'(X,80A)')('*',I=1,80)

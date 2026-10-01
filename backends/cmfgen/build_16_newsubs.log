@@ -1,0 +1,5 @@
+(cd newsubs; make ) 
+f77   -c -o ave_level_energy.o ave_level_energy.f
+make[1]: f77: No such file or directory
+make[1]: *** [ave_level_energy.o] Error 1
+make: *** [d_newsubs] Error 2

@@ -1,0 +1,170 @@
+--- a/cur_cmf/new_main/subs/cmf_blkband_v3.f
++++ b/cur_cmf/new_main/subs/cmf_blkband_v3.f
+@@ -288,6 +288,7 @@
+ 	    FIRST_MATRIX=.FALSE.
+ !
+ 	    STEQ_STORE(:,K)=STEQ(:,K)
++	    CALL QSTARS_KRYLOV_RHS(STEQ(1,K),N,ND,K)
+ !
+ ! Correct STEQ for the eqilibrization of C
+ !
+@@ -355,6 +356,7 @@
+ 	    FIRST_MATRIX=.FALSE.
+ !
+ 	    STEQ_STORE(:,K)=STEQ(:,K)
++	    CALL QSTARS_KRYLOV_RHS(STEQ(1,K),N,ND,K)
+ !
+ !	  WRITE(TMP_STR,'(I2)')K; TMP_STR='BA_ASCI_N_D'//ADJUSTL(TMP_STR)
+ !	  OPEN(UNIT=96,FILE=TMP_STR,STATUS='UNKNOWN')
+@@ -486,6 +488,7 @@
+ 	    FIRST_MATRIX=.FALSE.
+ !
+ 	    STEQ_STORE(:,K)=STEQ(:,K)
++	    CALL QSTARS_KRYLOV_RHS(STEQ(1,K),N,ND,K)
+ !
+ ! Computes phi[k]' (i.e. ' denotes not yet multiplied by m[k]^{-1} )
+ ! Stored in L[k].
+@@ -630,6 +633,7 @@
+ 	  CALL TUNE(2,'TRI_GEN')
+ !
+ 	  STEQ_STORE(:,K)=STEQ(:,K)
++	  CALL QSTARS_KRYLOV_RHS(STEQ(1,K),N,ND,K)
+ C
+ C Computes phi[k]' (i.e. ' denotes not yet multiplied by m[k]^{-1} )
+ C Stored in L[k].
+@@ -793,3 +797,104 @@
+ 	CLOSE(LU_QS_BIN)
+ 	RETURN
+ 	END
++
++C
++C QSTARS JFNK: Krylov RHS hook. When QSTARS_KRYLOV_R0 is set (path to a raw
++C float64 N-by-ND column-major array R0) replace the assembled residual
++C column VEC (depth K) by (VEC-R0(:,K))/eps, where eps is
++C QSTARS_PERTURB_EPS (the same eps used by the population perturbation).
++C Called once per depth immediately after STEQ_STORE saves the raw residual,
++C i.e. before ROW_SF/COL_SF equilibration and before the solve consumes VEC.
++C
++	SUBROUTINE QSTARS_KRYLOV_RHS(VEC,N,ND,K)
++	USE SET_KIND_MODULE
++	IMPLICIT NONE
++	INTEGER N,ND,K
++	REAL(KIND=LDP) VEC(N)
++	REAL(KIND=LDP), ALLOCATABLE, SAVE :: QS_R0(:,:)
++	REAL(KIND=LDP), SAVE :: QS_EPS
++	LOGICAL, SAVE :: QS_KRY=.FALSE.,QS_INIT=.FALSE.
++	CHARACTER*512 QS_PF
++	CHARACTER*64 QS_ES
++	INTEGER QS_L,QS_IOS
++	INTEGER(KIND=8) QS_SZ
++	LOGICAL QS_EX
++	INTEGER LUER,ERROR_LU
++	LOGICAL QSTARS_KRYLOV_ON
++	EXTERNAL ERROR_LU,QSTARS_KRYLOV_ON
++C
++	IF(.NOT. QS_INIT)THEN
++	  QS_INIT=.TRUE.
++	  QS_KRY=QSTARS_KRYLOV_ON()
++	  IF(QS_KRY)THEN
++	    LUER=ERROR_LU()
++	    CALL GET_ENVIRONMENT_VARIABLE('QSTARS_PERTURB_EPS',QS_ES,
++	1        LENGTH=QS_L,STATUS=QS_IOS)
++	    IF(QS_IOS .EQ. 0 .AND. QS_L .GT. 0)READ(QS_ES,*,IOSTAT=QS_IOS)QS_EPS
++	    CALL GET_ENVIRONMENT_VARIABLE('QSTARS_KRYLOV_R0',QS_PF,
++	1        LENGTH=QS_L,STATUS=QS_IOS)
++	    INQUIRE(FILE=QS_PF(1:QS_L),EXIST=QS_EX,SIZE=QS_SZ)
++	    IF(QS_IOS .NE. 0 .OR. .NOT. QS_EX .OR.
++	1        QS_SZ .NE. INT(N*ND*8,KIND=8))THEN
++	      OPEN(UNIT=97,FILE='QSTARS_KRYLOV_FAILURE',STATUS='UNKNOWN')
++	      WRITE(97,*)'Bad Krylov R0 input: exist=',QS_EX,' size=',QS_SZ,
++	1          ' expect=',N*ND*8,' ios=',QS_IOS
++	      CLOSE(97)
++	      WRITE(LUER,*)'Error in QSTARS Krylov hook: bad R0 input'
++	      STOP
++	    END IF
++	    ALLOCATE(QS_R0(N,ND),STAT=QS_IOS)
++	    IF(QS_IOS .NE. 0)THEN
++	      OPEN(UNIT=97,FILE='QSTARS_KRYLOV_FAILURE',STATUS='UNKNOWN')
++	      WRITE(97,*)'Unable to allocate QS_R0',N,ND
++	      CLOSE(97)
++	      STOP
++	    END IF
++	    OPEN(UNIT=97,FILE=QS_PF(1:QS_L),STATUS='OLD',
++	1        ACCESS='STREAM',FORM='UNFORMATTED',IOSTAT=QS_IOS)
++	    IF(QS_IOS .EQ. 0)READ(97,IOSTAT=QS_IOS)QS_R0
++	    CLOSE(97)
++	    IF(QS_IOS .NE. 0)THEN
++	      OPEN(UNIT=97,FILE='QSTARS_KRYLOV_FAILURE',STATUS='UNKNOWN')
++	      WRITE(97,*)'Unable to read Krylov R0 file'
++	      CLOSE(97)
++	      STOP
++	    END IF
++	  END IF
++	END IF
++	IF(QS_KRY)VEC(1:N)=(VEC(1:N)-QS_R0(1:N,K))/QS_EPS
++	RETURN
++	END
++C
++C QSTARS JFNK: returns .TRUE. iff QSTARS_KRYLOV_R0 is set.
++C
++	LOGICAL FUNCTION QSTARS_KRYLOV_ON()
++	IMPLICIT NONE
++	CHARACTER*512 QS_PF
++	INTEGER QS_L,QS_IOS
++	CALL GET_ENVIRONMENT_VARIABLE('QSTARS_KRYLOV_R0',QS_PF,
++	1    LENGTH=QS_L,STATUS=QS_IOS)
++	QSTARS_KRYLOV_ON=(QS_IOS .EQ. 0 .AND. QS_L .GT. 0)
++	RETURN
++	END
++C
++C QSTARS JFNK: dump the raw solve output (fractional Newton step) plus POPS
++C to QSTARS_SOL_TRACE.bin, same record format as QSTARS_STEQ_TRACE.bin.
++C
++	SUBROUTINE QSTARS_WR_SOL(SOL,POPS,N,ND)
++	USE SET_KIND_MODULE
++	IMPLICIT NONE
++	INTEGER N,ND
++	REAL(KIND=LDP) SOL(N,ND)
++	REAL(KIND=LDP) POPS(N,ND)
++	INTEGER, SAVE :: QS_SOL_CNT=0
++	INTEGER, PARAMETER :: LU_QS_BIN=98
++C
++	QS_SOL_CNT=QS_SOL_CNT+1
++	OPEN(UNIT=LU_QS_BIN,FILE='QSTARS_SOL_TRACE.bin',STATUS='UNKNOWN',
++	1       ACCESS='STREAM',FORM='UNFORMATTED',POSITION='APPEND')
++	WRITE(LU_QS_BIN)INT(QS_SOL_CNT,KIND=4),INT(N,KIND=4),INT(ND,KIND=4),
++	1       REAL(POPS(1:N,1:ND),KIND=8),REAL(SOL(1:N,1:ND),KIND=8)
++	CLOSE(LU_QS_BIN)
++	RETURN
++	END
+--- a/cur_cmf/new_main/subs/solveba_v13.f
++++ b/cur_cmf/new_main/subs/solveba_v13.f
+@@ -53,6 +53,8 @@
+ 	LOGICAL WR_PRT_INV
+ 	LOGICAL LAMBDA_IT
+ 	LOGICAL SET_POPS_D2_EQ_D1
++	LOGICAL QSTARS_KRYLOV_ON
++	EXTERNAL QSTARS_KRYLOV_ON
+ !
+ 	INTEGER ERROR_LU,LUER
+ 	EXTERNAL ERROR_LU
+@@ -108,6 +110,19 @@
+ !
+ 	  CALL TUNE(ITWO,'BLKBAND')
+ !
++! QSTARS JFNK: dump the raw block-solve solution (fractional Newton step,
++! after COL_SF unscaling inside CMF_BLKBAND but before any clipping or
++! D2=zeroing), then stop when in Krylov-RHS mode (no population update).
++!
++	  CALL QSTARS_WR_SOL(STEQ,POPS,NT,ND)
++	  IF(QSTARS_KRYLOV_ON())THEN
++	    OPEN(UNIT=97,FILE='QSTARS_KRYLOV_DONE',STATUS='UNKNOWN')
++	    WRITE(97,*)'Krylov RHS solve complete; iteration',MAIN_COUNTER
++	    CLOSE(97)
++	    WRITE(LUER,*)'QSTARS_KRYLOV_R0 set: solution dumped, stopping'
++	    STOP
++	  END IF
++!
+ 	ELSE
+ 	  WRITE(LUER,*)'Error - invalid solution method in SOLVEBA'
+ 	  WRITE(LUER,*)'Solution method is ',METH_SOL

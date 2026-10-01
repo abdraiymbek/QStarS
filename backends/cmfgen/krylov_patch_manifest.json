@@ -1,0 +1,21 @@
+{
+ "base_release": "build_16",
+ "build": "build_17",
+ "files": [
+  "new_main/subs/cmf_blkband_v3.f",
+  "new_main/subs/solveba_v13.f"
+ ],
+ "source_hashes": {
+  "new_main/subs/cmf_blkband_v3.f": {
+   "base": "f405540f3a8babea75e5f7d046134bc9927629ef0d3a48313ca54cd56351bc01",
+   "patched": "bd3292b80083c6f99fbe671653610558773ed1c03277e45c6b0576b8aa4c4245"
+  },
+  "new_main/subs/solveba_v13.f": {
+   "base": "e2ead3a339afc9f06ab2e15c962e4402b1b70902787da5c7d2b2299a1c8003ad",
+   "patched": "bca3b3deaf843881ea85915cf1b0af4db71e9d3065a1ff7963f8b19fedd47ae5"
+  }
+ },
+ "patch_file": "krylov.patch",
+ "patch_sha256": "bcf08d7e4186da6dba73270ebaca2692489fdaf5e271a2cbeb4c2f69d0cdfb06",
+ "scope": "QSTARS_KRYLOV_R0+QSTARS_PERTURB_EPS: per-depth RHS replacement STEQ(:,K)=(STEQ(:,K)-R0(:,K))/eps inside CMF_BLKBAND_V3 after the raw residual is saved to STEQ_STORE (QSTARS_RESID_TRACE stays raw). QSTARS_SOL_TRACE.bin: raw block-solve solution + POPS written after CMF_BLKBAND_V3 returns in SOLVEBA_V13 (before D2 zeroing/clipping); in Krylov mode writes QSTARS_KRYLOV_DONE and stops before the population update. Read-only/JFNK diagnostics."
+}

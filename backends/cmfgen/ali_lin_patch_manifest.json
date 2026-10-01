@@ -1,0 +1,31 @@
+{
+ "base_release": "build_14",
+ "build": "build_15",
+ "files": [
+  "plane/mod_ray_mom_store.f",
+  "plane/var_jrel_v5.f",
+  "new_main/mod_subs/rd_control_variables.f",
+  "new_main/cmfgen_sub.f"
+ ],
+ "source_hashes": {
+  "plane/mod_ray_mom_store.f": {
+   "base": "c72b3056efd565b69530a1fd71fb88b45ce1a19d18e6bd354e093f77623388df",
+   "patched": "ec0af1aedc1c831ba876ac09b4d79345fad294ef7c216d406c4c6031942c75ea"
+  },
+  "plane/var_jrel_v5.f": {
+   "base": "1e681869711bb2580689bde0fdb2e6bcb18eaef094d9bb4a9b2b7d80e4c3a2ca",
+   "patched": "fa5870d84f5bf4aa85c29750dda83aa826376a3083b357eeefb8eb290468b9dd"
+  },
+  "new_main/mod_subs/rd_control_variables.f": {
+   "base": "6bbc31a81bbd4d58970d7d983d853116a9e5ce77b5611b77c59b137b6fa0f919",
+   "patched": "cc0648207a0772861e1902c48008a5cb0ffd098499d99ab4594d8e3e1698c258"
+  },
+  "new_main/cmfgen_sub.f": {
+   "base": "b45b58e99a0ff9ac4bfb14471e5612cdb5ee63b7afc3c8639af7158bdc3d0865",
+   "patched": "5b23bf55d89c445dc8b63824c6abfcd0bea2e8ab219141608ac4e2adeb349a58"
+  }
+ },
+ "patch_file": "ali_lin.patch",
+ "patch_sha256": "2aab65709d7702ddcfc88d4808c1b15c951e39c801b6fc912cfd91c3e8ab26bd",
+ "scope": "QS_ALI_LIN local formal-solution ALI response (approximate Jacobian) replacing the moment recursion in VAR_JREL_V5; drives Newton only; valid only with QS_FRM_ALI. QS_LIN_FAC (diagnostic, default 1.0) rescales the response. Read-only trapping diagnostic QSTARS_ALI_LIN_Q written once per iteration after the frequency loop."
+}

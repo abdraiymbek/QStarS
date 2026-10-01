@@ -1,0 +1,43 @@
+{
+  "base_build": "build_7 (Report 15 FF/stopping repairs, read-only traces)",
+  "source_hashes": {
+    "plane/mod_ray_mom_store.f": {
+      "base": "48f12d9f4fc41f84e24f9eb621045facd864dbe54b3356296dfc58423a7f8952",
+      "patched": "c72b3056efd565b69530a1fd71fb88b45ce1a19d18e6bd354e093f77623388df"
+    },
+    "plane/solve_cmf_formal_v2.f": {
+      "base": "f8a4f06c8e2b4f84ec994320db58eafcf8fece5d7f755ba751e023966bc284b8",
+      "patched": "1100babab2f58a5fc999cac37a767531bddae22551ab72dd441b6e2e26afb2b0"
+    },
+    "plane/cmf_formal_rel_v4.f": {
+      "base": "6e53ff6f18fd2999e43f09f9d59c220c99e83250df6657feda7592299c93928e",
+      "patched": "af892a8702874af36ae49ba523af87782996a185eed8a8b268de41f7d6e4de25"
+    },
+    "plane/var_jrel_v5.f": {
+      "base": "ca785cfdde01b45e10cfa4871b54ef68216ce43ae47ef91fbc0056afbe30fcd2",
+      "patched": "1e681869711bb2580689bde0fdb2e6bcb18eaef094d9bb4a9b2b7d80e4c3a2ca"
+    },
+    "plane/mom_jrel_v9.f": {
+      "base": "3fb68e07f7101776bb6fae6b160c4e1c9db9101be57809f720d69bd068b00a2c",
+      "patched": "9caf3078692074c38939f41b18448f93007942b1fee76328c96d5d94d0545ccd"
+    },
+    "new_main/mod_subs/comp_j_blank.f": {
+      "base": "3e2370668508592df67356861d1988ba8bb60299f4767e2103da87e94fe28a81",
+      "patched": "108608e78959e31cc45c09e384e15c61e65bc240b109b49e54fcd5c3fb3eeeb1"
+    },
+    "new_main/mod_subs/rd_control_variables.f": {
+      "base": "1f065997994a61681abc8e34426aa4f4cb95f5aaaaa8ec4518f27a9bbedc8e88",
+      "patched": "6bbc31a81bbd4d58970d7d983d853116a9e5ce77b5611b77c59b137b6fa0f919"
+    },
+    "newsubs/do_h0_ff.f": {
+      "base": "9fc1c063ce7b66bf7b29b70c80c232637b0e62bb3a450615d8bbc8bf8a53b219",
+      "patched": "c3aaacb1af6a32f6143d76eb28e3241248b23fcd26f9afff3e1212f15c4b3802"
+    },
+    "new_main/subs/solveba_v13.f": {
+      "base": "c166b5f4d7fa9cc80573e333a6a4487d55ec77ed1b83b49a1bfdbf852646f20f",
+      "patched": "e2ead3a339afc9f06ab2e15c962e4402b1b70902787da5c7d2b2299a1c8003ad"
+    }
+  },
+  "patch_sha256": "8f2fcde05de7dba231b730f21876c0627f14d2104901082f855a6b1506c507bb",
+  "scope": "QS_FRM_ALI transfer: J from the nonnegative linear short-characteristic relativistic CMF formal solution; coherent scattering by local ALI + Ng; moment operator retained only as the linearized response about the formal field (QS_FORMAL_MOM_STATE supplies its ratio state). H0 free-free: thread-local interpolation scalars and serialized table load. SOLVEBA: nonfinite Newton correction stops explicitly."
+}

@@ -1,0 +1,631 @@
+--- a/plane/mod_ray_mom_store.f
++++ b/plane/mod_ray_mom_store.f
+@@ -57,4 +57,15 @@
+ !
+ 	LOGICAL HN_DEF_ON_NODES
+ !
++! QStarS formal-solution ALI transfer (QS_FRM_ALI). J is defined by the
++! nonnegative characteristic solution; coherent scattering is converged with a
++! local approximate operator. QS_LS_P/M hold dI(point)/d(eta(point)) per ray.
++!
++	LOGICAL :: QS_FRM_ALI=.FALSE.
++	REAL(KIND=LDP) :: QS_ALI_TOL=1.0E-10_LDP
++	INTEGER :: QS_ALI_MAX=500
++	REAL(KIND=LDP), ALLOCATABLE :: QS_LS_P(:,:)
++	REAL(KIND=LDP), ALLOCATABLE :: QS_LS_M(:,:)
++	REAL(KIND=LDP), ALLOCATABLE :: QS_LSTAR(:)
++!
+ 	END MODULE MOD_RAY_MOM_STORE
+--- a/plane/solve_cmf_formal_v2.f
++++ b/plane/solve_cmf_formal_v2.f
+@@ -35,6 +35,7 @@
+ !--------------------------------------------------------------------
+ !
+       USE MOD_SPACE_GRID_V2
++      USE MOD_RAY_MOM_STORE, ONLY: QS_FRM_ALI,QS_LS_P,QS_LS_M
+       IMPLICIT NONE
+ !
+ ! Grid size variables
+@@ -72,6 +73,7 @@
+ !
+       integer ist,iend,imid
+       integer k
++      REAL(KIND=LDP) cloc,cnext,cprev
+ !
+       integer :: iz
+       integer :: nzz
+@@ -118,6 +120,8 @@
+ !---------------------------------------------------------------
+ !
+       nzz=ray(ip)%nz
++      cprev=0.0_LDP
++      if(QS_FRM_ALI)QS_LS_M(1,ip)=0.0_LDP
+       do iz=2,ray(ip)%nz-1
+ !
+         t1=dtau_loc(iz-1)
+@@ -137,12 +141,27 @@
+         alpha=e0+(e2-(dtau_loc(iz)+2.0_LDP*dtau_loc(iz-1))*e1)/(dtau_loc(iz-1)*(dtau_loc(iz)+dtau_loc(iz-1)))
+         beta=((dtau_loc(iz)+dtau_loc(iz-1))*e1-e2)/(dtau_loc(iz-1)*dtau_loc(iz))
+         gamma=(e2-dtau_loc(iz-1)*e1)/(dtau_loc(iz)*(dtau_loc(iz)+dtau_loc(iz-1)))
++!
++! QS_FRM_ALI uses the linear short characteristic: nonnegative weights for any
++! interval optical depth, and a map that is linear in the source. The native
++! parabolic form switches branch on the sign of its result, which makes the
++! scattering fixed-point map piecewise and can produce limit cycles.
++!
++        if(QS_FRM_ALI)then
++          t1=(e0-e1/dtau_loc(iz-1))*source_prime(iz-1)+
++     1       (e1/dtau_loc(iz-1))*source_prime(iz)
++          cloc=e1/dtau_loc(iz-1); cnext=0.0_LDP
++        else
+      	t1=alpha*source_prime(iz-1)+beta*source_prime(iz)+gamma*source_prime(iz+1)
++        cloc=beta; cnext=gamma
+         if(t1 .lt. 0.0_LDP)then
+ 	  t1=source_prime(iz)+dtau_loc(iz)*(source_prime(iz)-source_prime(iz-1))/dtau_loc(iz-1)
+      	  t1=alpha*source_prime(iz-1)+beta*source_prime(iz)+gamma*t1
+ 	end if
++        end if
+ 	ray(ip)%I_m(iz)=ray(ip)%I_m(iz-1)*ee+t1
++        if(QS_FRM_ALI)QS_LS_M(iz,ip)=(cloc+ee*cprev)/chi_tau(iz)
++        cprev=cnext
+ !
+       end do
+ !
+@@ -167,6 +186,7 @@
+       beta=e1/dtau_loc(nzz-1)
+       ray(ip)%I_m(nzz)=ray(ip)%I_m(nzz-1)*ee+
+      *     alpha*source_prime(nzz-1)+beta*source_prime(nzz)
++      if(QS_FRM_ALI)QS_LS_M(nzz,ip)=(beta+ee*cprev)/chi_tau(nzz)
+ !
+ ! If we are using the holow boundary condition, we need to store the
+ ! intensity at the inner boundary. This flux will be used to compute
+@@ -243,6 +263,14 @@
+ !
+ !---------------------------------------------------------------
+ !
++      if(QS_FRM_ALI)then
++        if(ip .gt. nc .or. INNER_BND_METH .eq. 'ZERO_FLUX')then
++          QS_LS_P(nzz,ip)=QS_LS_M(nzz,ip)
++        else
++          QS_LS_P(nzz,ip)=0.0_LDP
++        end if
++      end if
++      cprev=0.0_LDP
+       do iz=nzz-1,3,-1
+ !
+         t1=dtau_loc(iz)
+@@ -263,12 +291,21 @@
+      *       (dtau_loc(iz-1)*(dtau_loc(iz)+dtau_loc(iz-1)))
+         beta=((dtau_loc(iz)+dtau_loc(iz-1))*e1-e2)/(dtau_loc(iz-1)*dtau_loc(iz))
+         gamma=e0+(e2-(dtau_loc(iz-1)+2.0_LDP*dtau_loc(iz))*e1)/(dtau_loc(iz)*(dtau_loc(iz)+dtau_loc(iz-1)))
++        if(QS_FRM_ALI)then
++          t1=(e1/dtau_loc(iz))*source_prime(iz)+
++     1       (e0-e1/dtau_loc(iz))*source_prime(iz+1)
++          cloc=e1/dtau_loc(iz); cnext=0.0_LDP
++        else
+         t1=alpha*source_prime(iz-1)+beta*source_prime(iz)+gamma*source_prime(iz+1)
++        cloc=beta; cnext=alpha
+         if(t1 .lt. 0.0_LDP)then
+ 	  t1=source_prime(iz)+dtau_loc(iz-1)*(source_prime(iz)-source_prime(iz+1))/dtau_loc(iz)
+      	  t1=alpha*t1+beta*source_prime(iz)+gamma*source_prime(iz+1)
+ 	end if
++        end if
+         ray(ip)%I_p(iz)=ray(ip)%I_p(iz+1)*ee+t1
++        if(QS_FRM_ALI)QS_LS_P(iz,ip)=(cloc+ee*cprev)/chi_tau(iz)
++        cprev=cnext
+ !
+       end do
+ !
+@@ -293,6 +330,8 @@
+         beta=e1/dtau_loc(iz)
+         gamma=e0-e1/dtau_loc(iz)
+         ray(ip)%I_p(iz)=ray(ip)%I_p(iz+1)*ee+beta*source_prime(iz)+gamma*source_prime(iz+1)
++        if(QS_FRM_ALI)QS_LS_P(iz,ip)=(beta+ee*cprev)/chi_tau(iz)
++        cprev=0.0_LDP
+        end do
+ !     if(ip .le. nc)write(166,*)freq,ray(ip)%I_p(nzz),ray(ip)%I_m(nzz)
+ !
+--- a/plane/cmf_formal_rel_v4.f
++++ b/plane/cmf_formal_rel_v4.f
+@@ -496,6 +496,19 @@
+ 	dBdTAU=DBB/CHI(ND)			!dB/dTAU
+ 	IPLUS=0.0_LDP
+ !
++	IF(QS_FRM_ALI)THEN
++	  J=0
++	  DO IP=1,NP
++	    J=MAX(J,RAY(IP)%NZ)
++	  END DO
++	  IF(ALLOCATED(QS_LS_P))THEN
++	    IF(SIZE(QS_LS_P,1) .LT. J .OR. SIZE(QS_LS_P,2) .LT. NP)DEALLOCATE(QS_LS_P,QS_LS_M)
++	  END IF
++	  IF(.NOT. ALLOCATED(QS_LS_P))ALLOCATE(QS_LS_P(J,NP),QS_LS_M(J,NP))
++	  IF(.NOT. ALLOCATED(QS_LSTAR))ALLOCATE(QS_LSTAR(ND))
++	  QS_LS_P=0.0_LDP; QS_LS_M=0.0_LDP
++	END IF
++!
+ 	IF(RAY_POINTS_INSERTED)THEN
+ !$OMP PARALLEL DO SCHEDULE(DYNAMIC) PRIVATE(NRAY,I,K,T1,T2,CHI_RAY,ETA_RAY)
+ 	  DO IP=1,NP_LIMIT
+@@ -569,6 +582,16 @@
+ 	END DO
+ 	CALL TUNE(2,'JVAL')
+ !
++	IF(QS_FRM_ALI)THEN
++	  QS_LSTAR=0.0_LDP
++	  DO IP=1,NP_LIMIT
++	    DO ID=1,MIN(ND,NP-IP+1)
++	      QS_LSTAR(ID)=QS_LSTAR(ID)+QS_LS_P(RAY(IP)%LNK(ID),IP)*Jqw_p(ID,IP)
++	1                              +QS_LS_M(RAY(IP)%LNK(ID),IP)*Jqw_m(ID,IP)
++	    END DO
++	  END DO
++	END IF
++!
+ 	ID=ND
+ 	DO IP=1,NC+1
+ 	  T1=RAY(IP)%I_P(RAY(IP)%LNK(ID))
+--- a/plane/var_jrel_v5.f
++++ b/plane/var_jrel_v5.f
+@@ -109,6 +109,8 @@
+         REAL(KIND=LDP) RSQ_JP,RSQ_HP,RSQ_NP
+         REAL(KIND=LDP) FMIN,FPLUS,HMIN,NMIN
+ 	REAL(KIND=LDP) RHS_JNU
++	REAL(KIND=LDP) QS_RSQH(ND)
++	LOGICAL, SAVE :: QS_VAR_NONFINITE_SEEN=.FALSE.
+ !
+ 	INTEGER LUER,ERROR_LU
+         EXTERNAL ERROR_LU
+@@ -502,7 +504,12 @@
+ !
+ 	TA_SAV=TA; TB_SAV=TB; TC_SAV=TC; XM_SAV=XM
+ 	CALL THOMAS(TA,TB,TC,XM,ND,1)
++!
++! With QS_FRM_ALI the radiation field is the formal solution (COMP_J_BLANK);
++! this moment operator only supplies the linearized response about it.
+ !
++	IF(QS_FRM_ALI)XM(1:ND)=JNU_STORE(1:ND)
++!
+ 	DO I=1,ND
+ 	  IF(XM(I) .GT. 1.0E+20_LDP)THEN
+ ! QSTARS_FAILURE_TRACE: native fatal state and unmodified operator.
+@@ -548,11 +555,19 @@
+ ! Store J and evaluate GAM.R^2.H
+ !
+ 	JNU(1:ND)=XM(1:ND)
++	IF(QS_FRM_ALI)THEN
++	  CALL GET_RSQH_REL(QS_RSQH,R,V,FREQ,ND)
++	  DO I=1,ND-1
++	    T1=0.5_LDP*(BETA(I)+BETA(I+1))
++	    GAM_RSQHNU(I)=QS_RSQH(I)/SQRT(1.0_LDP-T1*T1)
++	  END DO
++	ELSE
+ 	DO I=1,ND-1
+ 	  GAM_RSQHNU(I)=HU(I)*XM(I+1)-HL(I)*XM(I)+HS(I)*GAM_RSQHNU_PREV(I) +
+ 	1              (EPS_PREV_A(I)*JNU_PREV(I)  -EPS_A(I)*XM(I)) +
+ 	1              (EPS_PREV_B(I)*JNU_PREV(I+1)-EPS_B(I)*XM(I+1))
+ 	END DO
++	END IF
+ !
+ ! Make sure H satisfies that basic requirement that it is less than J.
+ ! We use TA as a temporary vector for Gam. R^2. J
+@@ -702,6 +717,24 @@
+ 	JNU_PREV(:)=JNU(:)
+ 	GAM_RSQHNU_PREV(:)=GAM_RSQHNU(:)
+ !
++	IF(QS_FRM_ALI .AND. .NOT. QS_VAR_NONFINITE_SEEN)THEN
++	  IF(ANY(.NOT. (ABS(TX) .LE. HUGE(T1))) .OR. ANY(.NOT. (ABS(TVX) .LE. HUGE(T1))) .OR.
++	1      ANY(.NOT. (ABS(JNU) .LE. HUGE(T1))) .OR. ANY(.NOT. (ABS(GAM_RSQHNU) .LE. HUGE(T1))))THEN
++	    QS_VAR_NONFINITE_SEEN=.TRUE.
++	    OPEN(NEWUNIT=QSTARS_LU,FILE='QSTARS_VAR_NONFINITE',STATUS='UNKNOWN',POSITION='APPEND')
++	    WRITE(QSTARS_LU,*)'FREQ',FREQ,dLOG_NU,INIT
++	    WRITE(QSTARS_LU,*)'nonfinite TX',COUNT(.NOT. (ABS(TX) .LE. HUGE(T1))),
++	1         ' TVX',COUNT(.NOT. (ABS(TVX) .LE. HUGE(T1))),' TX_DIF',COUNT(.NOT. (ABS(TX_DIF_d_T) .LE. HUGE(T1)))
++	    WRITE(QSTARS_LU,*)'I R chi eta esec J K/J H/J N/J dlnGJ Q DTAU_H GAM_RSQHNU'
++	    DO QSTARS_I=1,ND
++	      WRITE(QSTARS_LU,'(I4,12ES14.5)')QSTARS_I,R(QSTARS_I),CHI(QSTARS_I),ETA(QSTARS_I),ESEC(QSTARS_I),
++	1        JNU(QSTARS_I),K_ON_J(QSTARS_I),H_ON_J(QSTARS_I),N_ON_J(QSTARS_I),dlnGRSQJdlnR(QSTARS_I),
++	1        Q(QSTARS_I),DTAU_H(QSTARS_I),GAM_RSQHNU(QSTARS_I)
++	    END DO
++	    CLOSE(QSTARS_LU)
++	  END IF
++	END IF
++!
+ ! Zero variation in J and H where we have fudged values to physically correct.
+ !
+ !	DO I=1,ND
+--- a/plane/mom_jrel_v9.f
++++ b/plane/mom_jrel_v9.f
+@@ -1051,7 +1051,89 @@
+ 	HFLUX_AT_IB=IN_HBC_SAVE/R_SM(ND_SM)/R_SM(ND_SM)
+ 	IF(OUTER_BND_METH .EQ. 'HONJ')THEN
+ 	  HFLUX_AT_OB=HBC*JNU_SM(1)
++	END IF
++!
++	RETURN
++	END
++!
++! QStarS QS_FRM_ALI: moment-ratio state for the linearized response operator
++! (VAR_JREL_V5) when J is the formal solution and MOM_JREL_V9 is not called.
++! Reproduces MOM_JREL_V9's ratio bookkeeping (INIT zeroing, N/H bound,
++! PREV/SAVE rotation, inner-boundary saves) and sets dln(gam r^2 J)/dlnR from
++! the formal J, the value to which MOM_JREL_V9's advection iteration converges.
++!
++	SUBROUTINE QS_FORMAL_MOM_STATE(R,V,FREQ,N_TYPE,DBB,CHI_IB,INNER_BND_METH,INIT,ND)
++	USE SET_KIND_MODULE
++	USE MOD_JREL_V9, ONLY: FREQ_SAVE,IN_NBC_SAVE,IN_NBC_PREV
++	USE MOD_RAY_MOM_STORE
++	IMPLICIT NONE
++	INTEGER ND
++	REAL(KIND=LDP) R(ND),V(ND)
++	REAL(KIND=LDP) FREQ,DBB,CHI_IB
++	CHARACTER(LEN=*) N_TYPE,INNER_BND_METH
++	LOGICAL INIT
++	REAL(KIND=LDP) GRSQJ(ND),DGRSQJ(ND)
++	INTEGER I
++!
++	IF(ND .NE. ND_STORE)THEN
++	  WRITE(6,*)'Error in QS_FORMAL_MOM_STATE: ND differs from formal-solution grid'
++	  STOP
++	END IF
++	CALL GET_MOMS_REL(R,V,FREQ,N_TYPE,ND)
++	IF(INIT)THEN
++	  H_ON_J(1:ND)=0.0_LDP
++	  N_ON_J(1:ND)=0.0_LDP
++	  KMID_ON_J(1:ND)=0.0_LDP
++	  NMID_ON_J(1:ND)=0.0_LDP
++	  H_ON_J_PREV(:)=0.0_LDP
++	  K_ON_J_PREV(:)=0.0_LDP
++	  N_ON_J_PREV(:)=0.0_LDP
++	  NMID_ON_HMID_PREV(:)=0.0_LDP
++	  NMID_ON_J_PREV(:)=0.0_LDP
++	  KMID_ON_J_PREV(:)=0.0_LDP
++	END IF
++	DO I=1,ND
++	  IF(NMID_ON_HMID(I) .GT. 1.0_LDP)NMID_ON_HMID(I)=1.0_LDP
++	END DO
++	IF(FREQ .NE. FREQ_SAVE .AND. .NOT. INIT)THEN
++	  K_ON_J_PREV(:)=K_ON_J_SAVE(:)
++	  NMID_ON_HMID_PREV(:)=NMID_ON_HMID_SAVE(:)
++	  H_ON_J_PREV(:)=H_ON_J_SAVE(:)
++	  N_ON_J_PREV(:)=N_ON_J_SAVE(:)
++	  NMID_ON_J_PREV(:)=NMID_ON_J_SAVE(:)
++	  KMID_ON_J_PREV(:)=KMID_ON_J_SAVE(:)
++	  HBC_PREV=HBC_SAVE
++	  NBC_PREV=NBC_SAVE
++	  IN_HBC_PREV=IN_HBC_SAVE
++	  IN_NBC_PREV=IN_NBC_SAVE
+ 	END IF
+ !
++	IF(INIT)THEN
++	  dlnGRSQJdlnR(1:ND)=0.0_LDP
++	ELSE
++	  GRSQJ(1:ND)=GAM_REL_STORE(1:ND)*R(1:ND)*R(1:ND)*JNU_STORE(1:ND)
++	  CALL DERIVCHI(DGRSQJ,GRSQJ,R,ND,'LINMON')
++	  dlnGRSQJdlnR(1:ND)=R(1:ND)*DGRSQJ(1:ND)/GRSQJ(1:ND)
++	END IF
++!
++	FREQ_SAVE=FREQ
++	K_ON_J_SAVE(:)=K_ON_J(:)
++	NMID_ON_HMID_SAVE(:)=NMID_ON_HMID(:)
++	H_ON_J_SAVE(:)=H_ON_J(:)
++	N_ON_J_SAVE(:)=N_ON_J(:)
++	NMID_ON_J_SAVE(:)=NMID_ON_J(:)
++	KMID_ON_J_SAVE(:)=KMID_ON_J(:)
++	HBC_SAVE=HBC
++	NBC_SAVE=NBC
++	IF(INNER_BND_METH .EQ. 'DIFFUSION')THEN
++	  IN_HBC_SAVE=DBB*R(ND)*R(ND)/3.0_LDP/CHI_IB
++	  IN_NBC_SAVE=DBB*R(ND)*R(ND)/5.0_LDP/CHI_IB
++	ELSE IF(INNER_BND_METH .EQ. 'ZERO_FLUX')THEN
++	  IN_HBC_SAVE=0.0_LDP
++	  IN_NBC_SAVE=0.0_LDP
++	ELSE
++	  WRITE(6,*)'Error in QS_FORMAL_MOM_STATE: inner boundary not supported: ',TRIM(INNER_BND_METH)
++	  STOP
++	END IF
+ 	RETURN
+ 	END
+--- a/new_main/mod_subs/comp_j_blank.f
++++ b/new_main/mod_subs/comp_j_blank.f
+@@ -34,6 +34,8 @@
+ 	USE OPAC_MOD
+ 	USE RADIATION_MOD
+ 	USE CONTROL_VARIABLE_MOD
++	USE MOD_RAY_MOM_STORE, ONLY: QS_FRM_ALI,QS_ALI_TOL,QS_ALI_MAX,
++	1                            QS_LSTAR
+ 	IMPLICIT NONE
+ !
+ ! Altered : 09-Jun-2019 : Added POINT srce options - osiris (added to IBIS 17-Aug-2019)
+@@ -95,6 +97,17 @@
+ 	INTEGER J_IT_COUNTER
+ 	LOGICAL NEW_FREQ
+ !
++	LOGICAL QS_CONV
++	REAL(KIND=LDP) QS_RES
++	REAL(KIND=LDP), SAVE :: QS_MAX_RES
++	INTEGER, SAVE :: QS_MAX_IT,QS_N_UNCONV,QS_N_PLAIN
++	INTEGER QS_LU
++	LOGICAL, SAVE :: QS_TRACE_ON=.TRUE.
++	INTEGER QS_IOS,QS_N_HIST
++	INTEGER, SAVE :: QS_N_NG
++	REAL(KIND=LDP) QS_NG(ND,4)
++	REAL(KIND=LDP) QS_A11,QS_A12,QS_A22,QS_C1,QS_C2,QS_Q1,QS_Q2,QS_Q3,QS_NA,QS_NB
++!
+ ! See COMP_J_CONT.INC to see earlier changes to this routine.
+ !
+ ! 
+@@ -600,6 +613,151 @@
+ C
+ C We will do this twice, so that F is of higher accuracy.
+ C
++	  IF(QS_FRM_ALI .AND. USE_FORMAL_REL .AND. .NOT. PLANE_PARALLEL
++	1           .AND. .NOT. PLANE_PARALLEL_NO_V)THEN
++!
++! QStarS formal-solution transfer. The radiation field is the nonnegative
++! characteristic solution of the relativistic comoving-frame equation; the
++! blue-to-red coupling is carried by the stored ray intensities only. Coherent
++! scattering is converged with a local accelerated Lambda iteration, which
++! alters the iteration path but not its fixed point J = Lambda[eta + sigma J].
++!
++	    IF(FIRST_FREQ)THEN
++	      QS_MAX_RES=0.0_LDP; QS_MAX_IT=0; QS_N_UNCONV=0; QS_N_PLAIN=0; QS_N_NG=0
++	      IF(FREQ_INDX .EQ. 1)WRITE(LUER,*)'Using QStarS formal-solution ALI transfer (QS_FRM_ALI)'
++	    END IF
++	    IF(COHERENT_ES)THEN
++	      READ(LU_EDD,REC=ACCESS_F,IOSTAT=QS_IOS)(QS_NG(I,1),I=1,ND),T1
++	      IF(QS_IOS .EQ. 0 .AND. ABS(T1/FL-1.0_LDP) .LT. 1.0E-10_LDP)THEN
++	        IF(ALL(QS_NG(1:ND,1) .GT. 0.0_LDP))RJ(1:ND)=QS_NG(1:ND,1)
++	      END IF
++	    END IF
++	    QS_N_HIST=0
++	    J_IT_COUNTER=0
++	    QS_CONV=.FALSE.
++	    DO WHILE(.NOT. QS_CONV)
++	      IF(COHERENT_ES)THEN
++	        TA(1:ND)=ETA_CLUMP(1:ND)+CHI_SCAT_CLUMP(1:ND)*RJ(1:ND)
++	      ELSE
++	        TA(1:ND)=ETA_CLUMP(1:ND)+CHI_SCAT_CLUMP(1:ND)*RJ_ES(1:ND)
++	      END IF
++	      CALL TUNE(IONE,'FG_J_CMF')
++	      CALL CMF_FORMAL_REL_V4
++	1                 (TA,CHI_CLUMP,CHI_SCAT_CLUMP,V,SIGMA,R,P,
++	1                  TC,FEDD,HFLUX_AT_IB,HFLUX_AT_OB,IPLUS,
++	1                  FL,dLOG_NU,BNUE,DBB,
++	1                  INNER_BND_METH,THK_CONT,
++	1                  VDOP_VEC,DELV_FRAC_FG,REXT_FAC,
++	1                  METHOD,FIRST_FREQ,NEW_FREQ,NC,NP,ND)
++	      CALL TUNE(ITWO,'FG_J_CMF')
++	      NEW_FREQ=.FALSE.
++	      FG_COUNT=FG_COUNT+1
++	      J_IT_COUNTER=J_IT_COUNTER+1
++!
++	      QS_RES=0.0_LDP
++	      DO I=1,ND
++	        IF(.NOT. (TC(I) .GE. 0.0_LDP) .OR. TC(I) .GT. HUGE(T1))THEN
++	          OPEN(NEWUNIT=QS_LU,FILE='QSTARS_ALI_FAILURE',STATUS='UNKNOWN',POSITION='APPEND')
++	          WRITE(QS_LU,*)'Invalid formal J',FREQ_INDX,FL,I,TC(I),J_IT_COUNTER
++	          WRITE(QS_LU,'(ES25.16)')R(1:ND),ETA_CLUMP(1:ND),CHI_CLUMP(1:ND),CHI_SCAT_CLUMP(1:ND),TC(1:ND)
++	          CLOSE(QS_LU)
++	          WRITE(LUER,*)'Error in COMP_J_BLANK: invalid formal-solution J (QS_FRM_ALI)'
++	          STOP
++	        END IF
++	        T2=MAX(TC(I),RJ(I))
++	        IF(T2 .GT. 0.0_LDP)QS_RES=MAX(QS_RES,ABS(TC(I)-RJ(I))/T2)
++	      END DO
++	      IF(QS_TRACE_ON .AND. J_IT_COUNTER .GT. QS_ALI_MAX-6)THEN
++	        OPEN(NEWUNIT=QS_LU,FILE='QSTARS_ALI_TRACE',STATUS='UNKNOWN',POSITION='APPEND')
++	        WRITE(QS_LU,*)'FREQ',FREQ_INDX,FL,J_IT_COUNTER,QS_RES,dLOG_NU
++	        DO I=1,ND
++	          WRITE(QS_LU,'(I4,7ES16.7)')I,R(I),RJ(I),TC(I),QS_LSTAR(I),
++	1           CHI_SCAT_CLUMP(I)/CHI_CLUMP(I),CHI_CLUMP(I)*R(I),ETA_CLUMP(I)
++	        END DO
++	        CLOSE(QS_LU)
++	        IF(J_IT_COUNTER .EQ. QS_ALI_MAX)QS_TRACE_ON=.FALSE.
++	      END IF
++!
++	      IF(.NOT. COHERENT_ES .OR. QS_RES .LT. QS_ALI_TOL .OR.
++	1                J_IT_COUNTER .GE. QS_ALI_MAX)THEN
++	        IF(COHERENT_ES .AND. QS_RES .GE. QS_ALI_TOL)THEN
++	          QS_N_UNCONV=QS_N_UNCONV+1
++	          WRITE(LUER,*)'QS_FRM_ALI: scattering not converged',FL,QS_RES
++	        END IF
++	        IF(COHERENT_ES)QS_MAX_RES=MAX(QS_MAX_RES,QS_RES)
++	        RJ(1:ND)=TC(1:ND)
++	        QS_CONV=.TRUE.
++	      ELSE
++	        DO I=1,ND
++	          T1=CHI_SCAT_CLUMP(I)*QS_LSTAR(I)
++	          IF(T1 .GT. 0.0_LDP .AND. T1 .LT. 1.0_LDP)THEN
++	            T2=(TC(I)-T1*RJ(I))/(1.0_LDP-T1)
++	            IF(T2 .LT. 0.0_LDP)THEN
++	              T2=TC(I)
++	              QS_N_PLAIN=QS_N_PLAIN+1
++	            END IF
++	          ELSE
++	            T2=TC(I)
++	          END IF
++	          RJ(I)=T2
++	        END DO
++!
++! Ng (1974) extrapolation of the ALI sequence, Auer (1987) form. Rejected if
++! any component is nonpositive, so the scattering source stays nonnegative.
++!
++	        QS_N_HIST=QS_N_HIST+1
++	        QS_NG(1:ND,1:3)=QS_NG(1:ND,2:4)
++	        QS_NG(1:ND,4)=RJ(1:ND)
++	        IF(QS_N_HIST .GE. 4 .AND. J_IT_COUNTER .GE. 5)THEN
++	          QS_N_HIST=0
++	          QS_A11=0.0_LDP; QS_A12=0.0_LDP; QS_A22=0.0_LDP
++	          QS_C1=0.0_LDP; QS_C2=0.0_LDP
++	          DO I=1,ND
++	            T1=1.0_LDP/QS_NG(I,4)**2
++	            QS_Q1=QS_NG(I,4)-2.0_LDP*QS_NG(I,3)+QS_NG(I,2)
++	            QS_Q2=QS_NG(I,4)-QS_NG(I,3)-QS_NG(I,2)+QS_NG(I,1)
++	            QS_Q3=QS_NG(I,4)-QS_NG(I,3)
++	            QS_A11=QS_A11+T1*QS_Q1*QS_Q1
++	            QS_A12=QS_A12+T1*QS_Q1*QS_Q2
++	            QS_A22=QS_A22+T1*QS_Q2*QS_Q2
++	            QS_C1=QS_C1+T1*QS_Q1*QS_Q3
++	            QS_C2=QS_C2+T1*QS_Q2*QS_Q3
++	          END DO
++	          T1=QS_A11*QS_A22-QS_A12*QS_A12
++	          IF(T1 .GT. 0.0_LDP)THEN
++	            QS_NA=(QS_C1*QS_A22-QS_C2*QS_A12)/T1
++	            QS_NB=(QS_C2*QS_A11-QS_C1*QS_A12)/T1
++	            TA(1:ND)=(1.0_LDP-QS_NA-QS_NB)*QS_NG(1:ND,4)+
++	1                    QS_NA*QS_NG(1:ND,3)+QS_NB*QS_NG(1:ND,2)
++	            IF(ALL(TA(1:ND) .GT. 0.0_LDP))THEN
++	              RJ(1:ND)=TA(1:ND)
++	              QS_N_NG=QS_N_NG+1
++	            END IF
++	          END IF
++	        END IF
++	      END IF
++	    END DO
++	    QS_MAX_IT=MAX(QS_MAX_IT,J_IT_COUNTER)
++!
++	    CALL QS_FORMAL_MOM_STATE(R,V,FL,N_TYPE,DBB,CHI_CLUMP(ND),INNER_BND_METH,FIRST_FREQ,ND)
++	    CALL GET_RSQH_REL(RSQHNU,R,V,FL,ND)
++	    IF(LST_ITERATION)THEN
++	      DO I=1,ND
++	        TA(I)=RJ(I)*R(I)*R(I)
++	      END DO
++	      T1=HFLUX_AT_IB*R(ND)*R(ND)
++	      T2=HFLUX_AT_OB/RJ(1)
++	      CALL OUT_JH(TA,RSQHNU,T1,T2,FL,NCF,R,V,ND,FIRST_FREQ,'NORMAL')
++	    END IF
++	    IF(FREQ_INDX .EQ. NCF)THEN
++	      OPEN(NEWUNIT=QS_LU,FILE='QSTARS_ALI_STATS',STATUS='UNKNOWN',POSITION='APPEND')
++	      WRITE(QS_LU,'(A,I8,A,ES12.4,A,I6,A,I8,A,I10,A,ES12.4,A,I10,A,I10)')
++	1          'NCF',NCF,' tol',QS_ALI_TOL,' max_it',QS_MAX_IT,
++	1          ' unconverged',QS_N_UNCONV,' plain_steps',QS_N_PLAIN,
++	1          ' max_res',QS_MAX_RES,' formal_solutions',FG_COUNT,' ng_steps',QS_N_NG
++	      CLOSE(QS_LU)
++	    END IF
++	  ELSE
+ 	  INACCURATE=.TRUE.
+ 	  J_IT_COUNTER=0
+ 	  DO WHILE(INACCURATE)
+@@ -796,6 +954,7 @@
+ 	      	 INACCURATE=.FALSE.
+ 	      END IF
+ 	    END DO
++	  END IF
+ C
+ 	    IF(COHERENT_ES)THEN
+ 	      SOURCE(1:ND)=ZETA(1:ND)+THETA(1:ND)*RJ(1:ND)
+--- a/new_main/mod_subs/rd_control_variables.f
++++ b/new_main/mod_subs/rd_control_variables.f
+@@ -2,6 +2,7 @@
+ 	USE SET_KIND_MODULE
+ 	USE MOD_CMFGEN
+ 	USE CONTROL_VARIABLE_MOD
++	USE MOD_RAY_MOM_STORE, ONLY: QS_FRM_ALI,QS_ALI_TOL,QS_ALI_MAX
+ 	IMPLICIT NONE
+ !
+ ! Altered : 13-Jan-2024 : Added MAX_NO_GREY_ITERATIONS
+@@ -1084,6 +1085,16 @@
+ 	  CALL RD_STORE_LOG(USE_J_REL,'USE_J_REL',L_FALSE,'Use MOM_J_REL_VN to solve the moment equations?')
+ 	  IF(USE_DJDT_RTE .OR. USE_J_REL)USE_FORMAL_REL=.TRUE.
+ 	  CALL RD_STORE_LOG(USE_FORMAL_REL,'USE_FRM_REL',L_FALSE,'Use CMF_FORMAL_REL to compute F etc?')
++	  QS_FRM_ALI=.FALSE.
++	  CALL RD_STORE_LOG(QS_FRM_ALI,'QS_FRM_ALI',L_FALSE,'J from nonnegative formal solution + ALI (QStarS)?')
++	  IF(QS_FRM_ALI)THEN
++	    CALL RD_STORE_DBLE(QS_ALI_TOL,'QS_ALI_TOL',L_FALSE,'Relative scattering fixed-point tolerance')
++	    CALL RD_STORE_INT(QS_ALI_MAX,'QS_ALI_MAX',L_FALSE,'Maximum formal solutions per frequency')
++	    IF(.NOT. USE_FORMAL_REL .OR. .NOT. USE_J_REL)THEN
++	      WRITE(LUER,*)'Error: QS_FRM_ALI requires USE_J_REL (response operator) and USE_FRM_REL'
++	      STOP
++	    END IF
++	  END IF
+ 	  CALL RD_STORE_LOG(INCL_REL_TERMS,'INCL_REL',USE_J_REL,'Include relativistic terms in the transfer equaton?')
+ 	  IF(INCL_REL_TERMS .AND. .NOT. USE_J_REL)THEN
+ 	    WRITE(LUER,*)'Error in control parameters in VADAT'
+--- a/newsubs/do_h0_ff.f
++++ b/newsubs/do_h0_ff.f
+@@ -14,10 +14,8 @@
+ 	REAL(KIND=LDP), SAVE, ALLOCATABLE :: LOG_T_TAB(:)
+ 	REAL(KIND=LDP), SAVE, ALLOCATABLE :: LOG_NU_TAB(:)
+ !
+-	REAL(KIND=LDP) LOG_NU
+-	REAL(KIND=LDP) LOG_T
+-	INTEGER T_INDX
+-	INTEGER NU_INDX
++! Interpolation scalars are local to each entry point: the entry points are
++! called concurrently from OpenMP frequency loops.
+ !
+ 	END MODULE H0_FF_DATA
+ !
+@@ -40,9 +38,10 @@
+ 	REAL(KIND=LDP) CONT_FREQ
+ !
+ 	REAL(KIND=LDP) T1,T2,T3
++	REAL(KIND=LDP) LOG_NU,LOG_T
++	INTEGER T_INDX,NU_INDX
+ 	INTEGER I,J
+ 	CHARACTER(LEN=200) STRING
+-	LOGICAL, SAVE :: FIRST_TIME=.TRUE.
+ 	REAL(KIND=LDP) BOLTZMANN_CONSTANT
+ 	EXTERNAL BOLTZMANN_CONSTANT
+ !
+@@ -114,6 +113,8 @@
+ 	REAL(KIND=LDP) CONT_FREQ
+ !
+ 	REAL(KIND=LDP) T1,T2,T3
++	REAL(KIND=LDP) LOG_NU,LOG_T
++	INTEGER T_INDX,NU_INDX
+ 	INTEGER I,J
+ !
+ 	CALL INIT_H0_FF_DATA(7)
+@@ -173,6 +174,11 @@
+ 	EXTERNAL BOLTZMANN_CONSTANT
+ 	CHARACTER(LEN=200) STRING
+ 	LOGICAL, SAVE :: FIRST_TIME=.TRUE.
++!
++! Entry points are reached inside OpenMP opacity loops; the table load must
++! complete before any thread reads the tables.
++!
++!$OMP CRITICAL (QSTARS_H0_FF_INIT)
+ 	IF(FIRST_TIME)THEN
+ 	  WRITE(6,*)'Opening H- free-free file'
+ 	  OPEN(UNIT=LUIN,FILE='H0_FF',STATUS='OLD',ACTION='READ')
+@@ -240,6 +246,7 @@
+ 	  WRITE(6,'(A)')' '
+ !
+ 	END IF
++!$OMP END CRITICAL (QSTARS_H0_FF_INIT)
+ !
+ 	END
+ !
+--- a/new_main/subs/solveba_v13.f
++++ b/new_main/subs/solveba_v13.f
+@@ -120,6 +120,29 @@
+ 	  STEQ(:,2)=0.0_LDP
+ 	END IF
+ !
++! QSTARS_NONFINITE_CORRECTION: NaN compares false below and would be reported
++! as a zero correction.
++!
++	IF(ANY(.NOT. (ABS(STEQ(1:NT,1:ND)) .LE. HUGE(T1))))THEN
++	  K=0
++	  DO I=1,ND
++	    DO J=1,NT
++	      IF(.NOT. (ABS(STEQ(J,I)) .LE. HUGE(T1)))K=K+1
++	    END DO
++	  END DO
++	  LU_SUM=7
++	  OPEN(UNIT=LU_SUM,FILE='QSTARS_NONFINITE_CORRECTION',STATUS='UNKNOWN',POSITION='APPEND')
++	  WRITE(LU_SUM,*)'Iteration',MAIN_COUNTER,' nonfinite entries',K,' NT',NT,' ND',ND
++	  DO I=1,ND
++	    DO J=1,NT
++	      IF(.NOT. (ABS(STEQ(J,I)) .LE. HUGE(T1)))WRITE(LU_SUM,*)J,I,STEQ(J,I)
++	    END DO
++	  END DO
++	  CLOSE(LU_SUM)
++	  WRITE(LUER,*)'Error in SOLVEBA_V13: nonfinite Newton correction (see QSTARS_NONFINITE_CORRECTION)'
++	  STOP
++	END IF
++!
+ ! 
+ !
+ ! Lambda iterations (for Ne fixed) should generally have corrections < unity.

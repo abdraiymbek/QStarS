@@ -1,0 +1,188 @@
+--- a/plane/mod_ray_mom_store.f
++++ b/plane/mod_ray_mom_store.f
+@@ -62,10 +62,20 @@
+ ! local approximate operator. QS_LS_P/M hold dI(point)/d(eta(point)) per ray.
+ !
+ 	LOGICAL :: QS_FRM_ALI=.FALSE.
++	LOGICAL :: QS_ALI_LIN=.FALSE.
++	REAL(KIND=LDP) :: QS_LIN_FAC=1.0_LDP
+ 	REAL(KIND=LDP) :: QS_ALI_TOL=1.0E-10_LDP
+ 	INTEGER :: QS_ALI_MAX=500
+ 	REAL(KIND=LDP), ALLOCATABLE :: QS_LS_P(:,:)
+ 	REAL(KIND=LDP), ALLOCATABLE :: QS_LS_M(:,:)
+ 	REAL(KIND=LDP), ALLOCATABLE :: QS_LSTAR(:)
+ !
++! QSTARS QS_ALI_LIN trapping diagnostic (read-only): per-depth statistics of
++! q = QS_LIN_FAC*Psi*(CHI-sig) accumulated over the frequency sweep.
++	REAL(KIND=LDP), ALLOCATABLE :: QS_QMAX(:)
++	REAL(KIND=LDP), ALLOCATABLE :: QS_QFREQ(:)
++	REAL(KIND=LDP), ALLOCATABLE :: QS_QDEN(:)
++	INTEGER, ALLOCATABLE :: QS_QN99(:)
++	INTEGER, ALLOCATABLE :: QS_QN999(:)
++!
+ 	END MODULE MOD_RAY_MOM_STORE
+--- a/plane/var_jrel_v5.f
++++ b/plane/var_jrel_v5.f
+@@ -110,6 +110,7 @@
+         REAL(KIND=LDP) FMIN,FPLUS,HMIN,NMIN
+ 	REAL(KIND=LDP) RHS_JNU
+ 	REAL(KIND=LDP) QS_RSQH(ND)
++	REAL(KIND=LDP) QS_SIG,QS_DEN,QS_PSI,QS_SRC,QS_Q
+ 	LOGICAL, SAVE :: QS_VAR_NONFINITE_SEEN=.FALSE.
+ !
+ 	INTEGER LUER,ERROR_LU
+@@ -659,11 +660,76 @@
+ ! each K.
+ !
+ 	CALL TUNE(1,'UP_TX')
++!
++! QSTARS QS_ALI_LIN: local formal-solution ALI response (approximate Jacobian; drives Newton only).
++! The moment recursion is not used. For each depth i,
++!   sig_i = THETA(i)*CHI(i)   (coherent-scattering opacity; THETA=ES_COH_VEC, 0 if incoherent)
++!   Psi_i = L*_i/(1-sig_i*L*_i)  with L*_i=QS_LSTAR(i) = dJ_i/d(total emissivity)
++!                            from the last formal solve at this frequency
++!   S_i   = (ETA(i)+sig_i*J_i)/CHI(i)   (total source function; J_i is the formal JNU)
++! giving the diagonal response TX(i,i,2)=dJ/dETA=Psi_i, TX(i,i,1)=dJ/dCHI=-Psi_i*S_i.
++! QS_LIN_FAC (VADAT, default 1) rescales Psi for diagnostics only; it scales both entries.
++!
++	IF(QS_ALI_LIN)THEN
++	  TX(:,:,:)=0.0_LDP
++	  TVX(:,:,:)=0.0_LDP
++	  TX_DIF_d_T(:)=0.0_LDP
++	  TX_DIF_d_dTdR(:)=0.0_LDP
++	  TVX_DIF_d_T(:)=0.0_LDP
++	  TVX_DIF_d_dTdR(:)=0.0_LDP
++	  IF(.NOT. ALLOCATED(QS_LSTAR) .OR. SIZE(QS_LSTAR) .LT. ND)THEN
++	    OPEN(NEWUNIT=QSTARS_LU,FILE='QSTARS_ALI_LIN_FAILURE',STATUS='UNKNOWN',POSITION='APPEND')
++	    WRITE(QSTARS_LU,*)'QS_LSTAR unavailable',FREQ,dLOG_NU
++	    CLOSE(QSTARS_LU)
++	    WRITE(LUER,*)'Error in VAR_JREL_V5: QS_ALI_LIN set but QS_LSTAR not computed'
++	    STOP
++	  END IF
++	  IF(INIT .OR. .NOT. ALLOCATED(QS_QMAX) .OR. SIZE(QS_QMAX) .NE. ND)THEN
++	    IF(ALLOCATED(QS_QMAX))THEN
++	      DEALLOCATE(QS_QMAX,QS_QFREQ,QS_QDEN,QS_QN99,QS_QN999)
++	    END IF
++	    ALLOCATE(QS_QMAX(ND),QS_QFREQ(ND),QS_QDEN(ND),QS_QN99(ND),QS_QN999(ND))
++	    QS_QMAX(:)=0.0_LDP; QS_QFREQ(:)=0.0_LDP; QS_QDEN(:)=0.0_LDP
++	    QS_QN99(:)=0; QS_QN999(:)=0
++	  END IF
++	  DO I=1,ND
++	    QS_SIG=THETA(I)*CHI(I)
++	    QS_DEN=1.0_LDP-QS_SIG*QS_LSTAR(I)
++	    IF(.NOT. (QS_DEN .GT. 0.0_LDP) .OR. .NOT. (ABS(QS_LSTAR(I)) .LE. HUGE(T1)))THEN
++	      OPEN(NEWUNIT=QSTARS_LU,FILE='QSTARS_ALI_LIN_FAILURE',STATUS='UNKNOWN',POSITION='APPEND')
++	      WRITE(QSTARS_LU,*)'FREQ',FREQ,dLOG_NU
++	      WRITE(QSTARS_LU,*)'I QS_LSTAR THETA*CHI 1-sig*L ETA CHI JNU'
++	      DO QSTARS_I=1,ND
++	        WRITE(QSTARS_LU,'(I4,7ES16.7)')QSTARS_I,QS_LSTAR(QSTARS_I),
++	1          THETA(QSTARS_I)*CHI(QSTARS_I),
++	2          1.0_LDP-THETA(QSTARS_I)*CHI(QSTARS_I)*QS_LSTAR(QSTARS_I),
++	3          ETA(QSTARS_I),CHI(QSTARS_I),JNU(QSTARS_I)
++	      END DO
++	      CLOSE(QSTARS_LU)
++	      WRITE(LUER,*)'Error in VAR_JREL_V5: invalid ALI local response (QS_ALI_LIN)'
++	      STOP
++	    END IF
++	    QS_PSI=QS_LIN_FAC*QS_LSTAR(I)/QS_DEN
++	    QS_SRC=(ETA(I)+QS_SIG*JNU(I))/CHI(I)
++	    IF(DO_THIS_TX_MATRIX(1))TX(I,I,1)=-QS_PSI*QS_SRC
++	    IF(DO_THIS_TX_MATRIX(2))TX(I,I,2)=QS_PSI
++! QSTARS diagnostic only: accumulate trapping measure q = Psi*(CHI-sig) per
++! depth over the frequency sweep; written once per iteration to
++! QSTARS_ALI_LIN_Q from CMFGEN_SUB after the 10000 frequency loop.
++	    QS_Q=QS_PSI*(CHI(I)-QS_SIG)
++	    IF(QS_Q .GT. QS_QMAX(I))THEN
++	      QS_QMAX(I)=QS_Q; QS_QFREQ(I)=FREQ; QS_QDEN(I)=QS_DEN
++	    END IF
++	    IF(QS_Q .GT. 0.99_LDP)QS_QN99(I)=QS_QN99(I)+1
++	    IF(QS_Q .GT. 0.999_LDP)QS_QN999(I)=QS_QN999(I)+1
++	  END DO
++	ELSE
+ 	CALL UP_TX_TVX(TX,TVX,KI,TA,TB,TC,PSIPREV_MOD,
+ 	1                       VB,VC,HU,HL,HS,RHS_dHdCHI,
+ 	1                       EPS_A,EPS_B,EPS_PREV_A,EPS_PREV_B,
+ 	1                       WORKMAT,ND,NM,NM_KI,
+ 	1                       INIT,DO_THIS_TX_MATRIX)
++	END IF
+ 	CALL TUNE(2,'UP_TX')
+ !
+ ! 
+@@ -675,7 +741,7 @@
+ 	  TX_OLD_d_T(I)=TX_DIF_d_T(I)
+ 	  TX_OLD_d_dTdR(I)=TX_DIF_d_dTDR(I)
+ 	END DO
+-	IF(INNER_BND_METH .EQ. 'DIFFUSION')THEN
++	IF(INNER_BND_METH .EQ. 'DIFFUSION' .AND. .NOT. QS_ALI_LIN)THEN
+ 	  TX_DIF_d_T(1)=PSIPREV(1)*TX_DIF_d_T(1)
+ 	  TX_DIF_d_dTdR(1)=PSIPREV(1)*TX_DIF_d_dTdR(1)
+ 	  DO I=2,ND-1
+--- a/new_main/mod_subs/rd_control_variables.f
++++ b/new_main/mod_subs/rd_control_variables.f
+@@ -2,7 +2,7 @@
+ 	USE SET_KIND_MODULE
+ 	USE MOD_CMFGEN
+ 	USE CONTROL_VARIABLE_MOD
+-	USE MOD_RAY_MOM_STORE, ONLY: QS_FRM_ALI,QS_ALI_TOL,QS_ALI_MAX
++	USE MOD_RAY_MOM_STORE, ONLY: QS_FRM_ALI,QS_ALI_LIN,QS_LIN_FAC,QS_ALI_TOL,QS_ALI_MAX
+ 	IMPLICIT NONE
+ !
+ ! Altered : 13-Jan-2024 : Added MAX_NO_GREY_ITERATIONS
+@@ -1094,7 +1094,15 @@
+ 	      WRITE(LUER,*)'Error: QS_FRM_ALI requires USE_J_REL (response operator) and USE_FRM_REL'
+ 	      STOP
+ 	    END IF
++	  END IF
++	  QS_ALI_LIN=.FALSE.
++	  CALL RD_STORE_LOG(QS_ALI_LIN,'QS_ALI_LIN',L_FALSE,'Local formal-solution ALI response in VAR_JREL (QStarS)?')
++	  IF(QS_ALI_LIN .AND. .NOT. QS_FRM_ALI)THEN
++	    WRITE(LUER,*)'Error: QS_ALI_LIN requires QS_FRM_ALI (formal-solution J and QS_LSTAR)'
++	    STOP
+ 	  END IF
++	  QS_LIN_FAC=1.0_LDP
++	  CALL RD_STORE_DBLE(QS_LIN_FAC,'QS_LIN_FAC',L_FALSE,'Diagnostic scale on QS_ALI_LIN response (QStarS)')
+ 	  CALL RD_STORE_LOG(INCL_REL_TERMS,'INCL_REL',USE_J_REL,'Include relativistic terms in the transfer equaton?')
+ 	  IF(INCL_REL_TERMS .AND. .NOT. USE_J_REL)THEN
+ 	    WRITE(LUER,*)'Error in control parameters in VADAT'
+--- a/new_main/cmfgen_sub.f
++++ b/new_main/cmfgen_sub.f
+@@ -39,6 +39,7 @@
+ 	USE UPDATE_KEYWORD_INTERFACE
+ 	USE VAR_RAD_MOD
+ 	USE EDDFAC_REC_DEFS_MOD
++	USE MOD_RAY_MOM_STORE, ONLY: QS_ALI_LIN,QS_QMAX,QS_QFREQ,QS_QDEN,QS_QN99,QS_QN999
+ 	IMPLICIT NONE
+ !
+ ! Altered 11-Aug-2024 : Fixed bug with Copper - species abbreviation incorrect (24-Jan-2025)
+@@ -400,6 +401,7 @@
+ 	LOGICAL FIRST_FREQ
+ 	LOGICAL RAT_TOO_BIG
+ 	LOGICAL NEW_FREQ
++	INTEGER QSTARS_LUQ
+ !
+ ! 
+ !
+@@ -2875,6 +2877,23 @@
+ 	END IF
+ !
+ 10000	CONTINUE
++!
++! QSTARS QS_ALI_LIN trapping diagnostic (read-only): q = QS_LIN_FAC*Psi*(CHI-sig)
++! per depth accumulated over the frequency sweep in VAR_JREL_V5; written once
++! per iteration here, after the 10000 loop.
++!
++	IF(QS_ALI_LIN .AND. COMPUTE_BA .AND. .NOT. LAMBDA_ITERATION .AND.
++	1      ALLOCATED(QS_QMAX))THEN
++	  OPEN(NEWUNIT=QSTARS_LUQ,FILE='QSTARS_ALI_LIN_Q',STATUS='UNKNOWN',
++	1       POSITION='APPEND')
++	  WRITE(QSTARS_LUQ,'(A,I6)')'# iteration ',MAIN_COUNTER
++	  WRITE(QSTARS_LUQ,'(A)')'# depth  max_q  freq(1e15Hz)  1-sig*L  n_q>0.99  n_q>0.999'
++	  DO I=1,ND
++	    WRITE(QSTARS_LUQ,'(I4,3ES16.8,2I6)')I,QS_QMAX(I),QS_QFREQ(I),
++	1          QS_QDEN(I),QS_QN99(I),QS_QN999(I)
++	  END DO
++	  CLOSE(QSTARS_LUQ)
++	END IF
+ 	IF(LST_ITERATION .AND. VERBOSE_OUTPUT)THEN
+ 	  WRITE(199,'(I10,2ES18.8,3X,A)')ML,STEQ_T(DPTH_INDX),BA_T(VAR_INDX,DIAG_INDX,DPTH_INDX),'End cont loop'
+ 	  CALL WR2D_V2(STEQ_T_EHB,IONE,ND,'After continuum loop','&',L_TRUE,LU_T_EHB)

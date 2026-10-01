@@ -1,0 +1,7 @@
+(cd plane; make )
+gfortran -fopenmp -c -O2 -ffixed-line-length-none -fno-backslash -fd-lines-as-comments -fbacktrace -fallow-argument-mismatch -I/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_13/cur_cmf/mod/ -J/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_13/cur_cmf/mod/ mom_jrel_v9.f
+ar ruv /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_13/cur_cmf/lib/libsubs.a mom_jrel_v9.o
+r - mom_jrel_v9.o
+cp -f /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_13/cur_cmf/perm_mod_file jnk.mod
+mv -f *.mod /Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_13/cur_cmf/mod/
+rm -f *.o

@@ -1,0 +1,23 @@
+    Calculating characteristic rays.....
+RESULT error_moment_1   6.901766271649471E-10
+RESULT krylov_vs_dense_1   1.147244289361332E-15
+RESULT dropped_history_error_1   3.847805079014588E-02
+RESULT error_moment_2   1.030196663353319E-09
+RESULT krylov_vs_dense_2   1.483108659395629E-15
+RESULT dropped_history_error_2   4.343489342469221E-02
+RESULT error_moment_3   1.024786705128342E-09
+RESULT krylov_vs_dense_3   1.163830111408705E-15
+RESULT dropped_history_error_3   4.381530484852529E-02
+RESULT error_moment_4   1.156121429096648E-09
+RESULT krylov_vs_dense_4   1.411233815025739E-15
+RESULT dropped_history_error_4   5.011307710324575E-02
+RESULT error_moment_5   8.035863080327275E-10
+RESULT krylov_vs_dense_5   2.060997904313539E-15
+RESULT dropped_history_error_5   9.994102215156285E-02
+RESULT scattering_tangent_closure    2.737233217664245E-13
+RESULT primal_replay_error    2.122116882437623E-15
+RESULT scattering_fixed_point_error    2.063608349378815E-14
+RESULT max_ray_points       20
+RESULT max_scattering_krylov_products        6
+RESULT total_scattering_krylov_products       96
+RESULT ray_points_inserted F

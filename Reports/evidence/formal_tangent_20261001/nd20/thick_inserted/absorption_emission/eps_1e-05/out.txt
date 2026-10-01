@@ -1,0 +1,27 @@
+    Using thick boundary condition in CMF_FORM_REL
+        R(1)=  3.00000000E+01   RMAX=  4.50000000E+01
+        V(1)=  9.67033000E+02   VMAX=  9.78021285E+02
+    Using depth 1 and   3 to extrapolate opacities
+    Calculating characteristic rays.....
+RESULT error_moment_1   5.862293312084748E-10
+RESULT krylov_vs_dense_1   2.409908706380117E-16
+RESULT dropped_history_error_1   1.893893152286334E-02
+RESULT error_moment_2   2.354283460286912E-10
+RESULT krylov_vs_dense_2   1.299006749434362E-16
+RESULT dropped_history_error_2   1.076972070504988E-02
+RESULT error_moment_3   7.767572960078009E-10
+RESULT krylov_vs_dense_3   1.107031670574020E-16
+RESULT dropped_history_error_3   1.258712875950490E-02
+RESULT error_moment_4   3.269631608822622E-10
+RESULT krylov_vs_dense_4   1.092762460206331E-16
+RESULT dropped_history_error_4   9.437079359238631E-03
+RESULT error_moment_5   9.881811701585753E-10
+RESULT krylov_vs_dense_5   5.075494585909370E-16
+RESULT dropped_history_error_5   5.776228884361827E-02
+RESULT scattering_tangent_closure    2.399726099305645E-14
+RESULT primal_replay_error    6.964938245672612E-15
+RESULT scattering_fixed_point_error    9.466781964663564E-14
+RESULT max_ray_points       55
+RESULT max_scattering_krylov_products        6
+RESULT total_scattering_krylov_products      144
+RESULT ray_points_inserted T

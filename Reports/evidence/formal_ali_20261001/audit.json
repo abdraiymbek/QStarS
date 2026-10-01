@@ -1,0 +1,196 @@
+{
+  "seed": {
+    "file": "Reports/evidence/moment_closure_20260930/seed_analysis_v2/seed.npz",
+    "sha256": "492fddbaea9e31a2045ba0408fedde437986303e6926e333ec726843ec5c679e",
+    "outer_depths_formal_gJ": [
+      7.262869080955087e+99,
+      6.104759592764513e+99,
+      4.230696800060005e+99,
+      1.621917322545632e+99
+    ],
+    "outer_depths_moment_gJ": [
+      25.931124802716557,
+      0.06001218398351371,
+      -14.025742369519364,
+      34.28485609787691
+    ],
+    "max_formal_over_moment": 1.0172533621575221e+101,
+    "min_sigma_plus_one": 0.010100499949242003,
+    "velocity_monotone": true,
+    "previous_face_H_over_J_min": -1.040181335883762,
+    "lag_weight_HS_outer": [
+      0.9075705434707793,
+      0.8850684336337433,
+      0.8644930537795356,
+      0.8641497922444629,
+      0.8617377766211591,
+      0.8445483392628204,
+      0.7937728450983693
+    ],
+    "interpretation": "Formal-ray J at the outer four depths is ~1e99 while the moment J is ~1e2: the captured frame is downstream of an already corrupted restart state (Report 15 runaway), so its signed forcing is a symptom, not an origin. Velocity is monotone (sigma+1>0), so per-ray blue-to-red transport is well posed there."
+  },
+  "stale_export": {
+    "fixed_J_settled": {
+      "directory": "results/cmfgen_recovery_T9_fixedJ_ff",
+      "electron_density_from_scattering_min": 15032.036200390092,
+      "electron_density_from_scattering_max": 15032.036200390092,
+      "outer_log_chi_std_over_nu_20000_30000": 2.958238745884936e-05
+    },
+    "transfer_active": {
+      "directory": "results/cmfgen_recovery_T9_refined_full_ff_bootstrap",
+      "electron_density_from_scattering_min": 214279.20165006968,
+      "electron_density_from_scattering_max": 42421592677331.77,
+      "outer_log_chi_std_over_nu_20000_30000": 1.0402456759427807
+    },
+    "interpretation": "USE_FIXED_J=T exports stale opacity buffers (constant n_e, frequency-independent chi). That export is not a material state and must not be used for transfer analysis."
+  },
+  "operator_fixtures": {
+    "results/formal_ali_probe/nd157/out.txt": {
+      "native_min_moment_J": [
+        2.235057741431086e-06
+      ],
+      "native_worst_frequency": [
+        2.995839841027051
+      ],
+      "native_frequencies_with_negative_J": [
+        0.0
+      ],
+      "ali_min_J": [
+        3.096837852264824e-06
+      ],
+      "ali_min_ray_intensity": [
+        0.0
+      ],
+      "ali_max_rel_fixed_point_error_vs_direct": [
+        4.342368983613037e-09
+      ],
+      "lambda_min_entry_over_max": [
+        0.0
+      ],
+      "lambda_min_affine_part": [
+        0.0
+      ],
+      "lstar_over_diag_min_max": [
+        0.5019405141247798,
+        1.000000000000002
+      ],
+      "ali_max_formal_solutions": [
+        10.0
+      ],
+      "ng_steps": [
+        1002.0
+      ]
+    },
+    "results/formal_ali_probe/nd313/out.txt": {},
+    "results/formal_ali_probe/nd40/out.txt": {
+      "native_min_moment_J": [
+        3.323840186745801e-06
+      ],
+      "native_worst_frequency": [
+        2.993761925406168
+      ],
+      "native_frequencies_with_negative_J": [
+        0.0
+      ],
+      "ali_min_J": [
+        2.535311483079505e-06
+      ],
+      "ali_min_ray_intensity": [
+        0.0
+      ],
+      "ali_max_rel_fixed_point_error_vs_direct": [
+        5.350190728823178e-10
+      ],
+      "lambda_min_entry_over_max": [
+        0.0
+      ],
+      "lambda_min_affine_part": [
+        0.0
+      ],
+      "lstar_over_diag_min_max": [
+        0.5025289225451917,
+        1.000000000000001
+      ],
+      "ali_max_formal_solutions": [
+        10.0
+      ],
+      "ng_steps": [
+        1001.0
+      ]
+    },
+    "results/formal_ali_probe/nd79/out.txt": {
+      "native_min_moment_J": [
+        2.557795092453508e-06
+      ],
+      "native_worst_frequency": [
+        2.993761925406168
+      ],
+      "native_frequencies_with_negative_J": [
+        0.0
+      ],
+      "ali_min_J": [
+        2.779960423750221e-06
+      ],
+      "ali_min_ray_intensity": [
+        0.0
+      ],
+      "ali_max_rel_fixed_point_error_vs_direct": [
+        1.428485364046103e-09
+      ],
+      "lambda_min_entry_over_max": [
+        0.0
+      ],
+      "lambda_min_affine_part": [
+        0.0
+      ],
+      "lstar_over_diag_min_max": [
+        0.502205355631801,
+        1.000000000000001
+      ],
+      "ali_max_formal_solutions": [
+        10.0
+      ],
+      "ng_steps": [
+        1001.0
+      ]
+    }
+  },
+  "operator_resolution": {
+    "40": {
+      "formal_ali_max_rel_error_vs_313": 0.0633246433247302,
+      "native_moment_max_rel_error_vs_313": 0.1298543055520025
+    },
+    "79": {
+      "formal_ali_max_rel_error_vs_313": 0.022793410257030078,
+      "native_moment_max_rel_error_vs_313": 0.0627003467086159
+    },
+    "157": {
+      "formal_ali_max_rel_error_vs_313": 0.007325838251459937,
+      "native_moment_max_rel_error_vs_313": 0.019743126529201516
+    },
+    "formal_vs_moment_at_313_max_rel": 0.036045782254495284
+  },
+  "response_fixture": {
+    "jacobian_d20.txt": {
+      "eta_max_abs_error_over_max": 2.4930153669677804,
+      "eta_local_rel_error": 0.7251917531968209,
+      "chi_max_abs_error_over_max": 0.2242705745948389,
+      "chi_sign_disagreements": 20
+    },
+    "jacobian_d35.txt": {
+      "eta_max_abs_error_over_max": 0.4484590759812678,
+      "eta_local_rel_error": 0.4484590759812678,
+      "chi_max_abs_error_over_max": 0.33871074969340154,
+      "chi_sign_disagreements": 0
+    },
+    "jacobian_d5.txt": {
+      "eta_max_abs_error_over_max": 35.06608706672963,
+      "eta_local_rel_error": 0.7442455292424899,
+      "chi_max_abs_error_over_max": 0.9252387791451909,
+      "chi_sign_disagreements": 35
+    },
+    "interpretation": "VAR_JREL_V5 is a fixed-Eddington-factor linearization. About the formal field it differs from the exact discrete formal-ALI response at O(1) in optically thin, frequency-coupled layers (including sign errors in dJ/dchi inside the opacity front). It can serve as an approximate Newton operator; it is not a 1e-6 nonlocal response."
+  },
+  "driver_sha256": "5eb9e4f72da83faed1152c23f2050c8c5d5f7a0702000d5e60d3aa28b79ffec4",
+  "production_certified": false
+}

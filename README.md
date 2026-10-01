@@ -12,6 +12,16 @@ photospheres, moving cavities, and coupled transonic winds remain open validatio
 Fiacconi–Rossi stationary wind solver now includes radiation enthalpy advection.
 These examples do not establish quasi-star lifetimes or QSRD recovery results.
 
+[Report 19](Reports/Report_19.md) records **TRANSFER COMPONENT PASS; cool closure
+still blocked**. An analytic formal-transfer tangent carries radiation changes
+across depth and frequency and passes the 1e-6 fixture target, including coherent
+scattering and face flux. Its native population/rate adapter remains open; no
+released cool state, physical resolution pair or selected wind is certified.
+**101 tests pass, 23 optional integration tests skip** with the native tangent
+compiler initialized. [Report 18](Reports/Report_18.md) retains the measured
+failure of the existing population Jacobians and the costly exact-residual
+Newton–Krylov experiment.
+
 [Report 16](Reports/Report_16.md) records **NUMERICAL BLOCKER**: signed previous-frequency
 H/K/N forcing is reproduced, and experimental shared-face and unclipped N/H
 repairs are rejected. Actual native fixed-factor nonlocal response passes a

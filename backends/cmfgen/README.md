@@ -192,3 +192,47 @@ Report 16's evidence; their original and changed source hashes are explicit.
 See [Report 16](../../Reports/Report_16.md) for the remaining coupled angular
 realizability/relaxed-response requirement. Native diagnostics and stale
 outputs still fail closed; no changed guard is retroactively assigned to a run.
+
+## Report 19: analytic formal-transfer tangent component
+
+`formal_tangent.f90` differentiates the build-17 `QS_FRM_ALI` map on its current
+native geometry, including optical-depth/source weights, limited log
+interpolation, thick outer extrapolation, coherent scattering and blue-side
+ray history. `tangent_map` returns J/H/K/N and their directional changes;
+`tangent_scattering` solves the implicit scattering tangent, with either a
+dense analytic reference or matrix-free GMRES; `tangent_rsqh` differentiates
+the native midpoint r²H interpolation. This CMFGEN adaptation carries GPLv3
+provenance; the license text is in `formal_tangent.LICENSE`.
+
+Call after the primal formal/scattering solve at the current frequency. Supply
+thermal emissivity to `tangent_scattering`, total extinction, scattering,
+their directional changes, and independent B/DBB changes. Include a scattering
+change in total dCHI when appropriate. The `prev_p`/`prev_m` arrays hold the
+previous frequency's derivatives and stay fixed through the current solve.
+They have shape `(maximum native ray length, NP)`; initialize them to zero
+at the first frequency and advance them to `out_p`/`out_m` after closure.
+Native geometry and coefficient shapes are checked. All geometry and velocity
+are held fixed; DIFFUSION and ZERO_FLUX are supported, HOLLOW is rejected.
+The component does not modify the native primal ray buffers.
+
+With the compiler environment initialized and recorded formal-ALI libraries:
+
+```sh
+.venv/bin/python scripts/audit_formal_tangent.py \
+  --cmf-root backends/cmfgen/build_17/cur_cmf --nd 20 --output results/new_tangent_nd20
+.venv/bin/python scripts/audit_formal_tangent.py \
+  --cmf-root backends/cmfgen/build_17/cur_cmf --nd 39 --output results/new_tangent_nd39
+```
+
+The oracle reruns native transfer, rather than finite-differencing the tangent
+implementation. The audit retains three standard step sizes and additional
+face-limiter probes in the strong-absorption case. Its declared gate-step table
+resolves weak signals and stays within the near-zero-H interpolation branch;
+it does not select the lowest measured error. The complete larger-step and
+roundoff failures are retained. [Report 19](../../Reports/Report_19.md) explains
+the limits and remaining native integration work.
+
+This is a component library/probe, not build 18 or a replacement for
+`VAR_JREL_V5`. TX/TVX population and continuum/line-history integration remains
+open. Neither these fixture grids nor their fast radiation-only products
+certify a cool release, a full-model Jacobian, a wind response or an mdot.

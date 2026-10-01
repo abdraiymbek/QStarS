@@ -1,0 +1,90 @@
+--- a/new_main/subs/fiddle_pop_corrections_v2.f
++++ b/new_main/subs/fiddle_pop_corrections_v2.f
+@@ -62,10 +62,30 @@
+ 	INTEGER, PARAMETER :: IZERO=0
+ 	INTEGER, PARAMETER :: IONE=1
+ !
++! QSTARS: read-only diagnostic trace of the population step scaling.
++! It records which variable sets SCALE at each depth; POPS, STEQ and
++! all control flow are unchanged (no behavioural change).
++!
++	INTEGER JDEC,JINC
++	INTEGER, SAVE :: QS_CALL_CNT=0
++	REAL(KIND=LDP) QS_PINC,QS_PDEC
++	INTEGER, PARAMETER :: LU_QS_FMT=97
++	INTEGER, PARAMETER :: LU_QS_BIN=98
++!
+ 	BIG_LIM=(CHANGE_LIM-1.0_LDP)/CHANGE_LIM
+         LIT_LIM=1.0_LDP-CHANGE_LIM
+ 	MIN_SCALE=1.0E+20_LDP
+ !
++! QSTARS: once per call, before any update, append the call counter and
++! the full POPS/STEQ arrays to the binary stream (column-major float64).
++!
++	QS_CALL_CNT=QS_CALL_CNT+1
++	OPEN(UNIT=LU_QS_BIN,FILE='QSTARS_STEQ_TRACE.bin',STATUS='UNKNOWN',
++	1        ACCESS='STREAM',FORM='UNFORMATTED',POSITION='APPEND')
++	WRITE(LU_QS_BIN)INT(QS_CALL_CNT,KIND=4),INT(NT,KIND=4),INT(ND,KIND=4),
++	1        REAL(POPS(1:NT,1:ND),KIND=8),REAL(STEQ(1:NT,1:ND),KIND=8)
++	CLOSE(LU_QS_BIN)
++!
+ ! Set default parameters.
+ !
+ 	L_ST=1; L_END=ND
+@@ -148,14 +168,28 @@
+ 	IF(LAMBDA_IT)POP_LIM(1:ND)=100.0_LDP*CHANGE_LIM
+ !
+ 	IF(SCALE_OPT(1:5) .EQ. 'MAJOR')THEN
++!
++! QSTARS: open the formatted scale trace once per call; one line per
++! depth is appended just before the POPS update of that depth.
++!
++	  OPEN(UNIT=LU_QS_FMT,FILE='QSTARS_SCALE_TRACE',STATUS='UNKNOWN',
++	1        POSITION='APPEND')
+ 	  DO I=1,ND
+ !
+ 	    T1=BIG_LIM                  !Prevents division by zero and insures
+ 	    T2=LIT_LIM                  !SCALE=1 if small changes.
++	    JDEC=0                      !QSTARS: J achieving max STEQ; 0 if T1 stays at BIG_LIM
++	    JINC=0                      !QSTARS: J achieving min STEQ; 0 if T2 stays at LIT_LIM
+ 	    DO J=1,NT-1
+ 	      IF(POPS(J,I) .GT. 1.0E-10_LDP*POPS(NT-1,I))THEN
+-	        T1=MAX(T1,STEQ(J,I))            !Note + means decrease
+-	        T2=MIN(T2,STEQ(J,I))            !Note - means increase
++	        IF(STEQ(J,I) .GT. T1)THEN       !QSTARS: equivalent to T1=MAX(T1,STEQ(J,I))
++	          T1=STEQ(J,I)                !Note + means decrease
++	          JDEC=J
++	        END IF
++	        IF(STEQ(J,I) .LT. T2)THEN       !QSTARS: equivalent to T2=MIN(T2,STEQ(J,I))
++	          T2=STEQ(J,I)                !Note - means increase
++	          JINC=J
++	        END IF
+ 	      END IF
+ 	    END DO
+ 	    SCALE=MIN( BIG_LIM/T1, LIT_LIM/T2 )
+@@ -177,6 +211,17 @@
+ !
+ 	    IF(SCALE .EQ. 1.0_LDP)SCALE=RELAX_PARAM(I)
+ !
++! QSTARS: SCALE is final for depth I; record it before the POPS update.
++! T1/T2 still hold the major-species extrema at this point.
++!
++	    QS_PINC=0.0_LDP
++	    QS_PDEC=0.0_LDP
++	    IF(JINC .GT. 0)QS_PINC=POPS(JINC,I)
++	    IF(JDEC .GT. 0)QS_PDEC=POPS(JDEC,I)
++	    WRITE(LU_QS_FMT,'(I8,1X,L1,1X,I4,2(1X,ES14.6),1X,I6,1X,ES14.6,1X,I6,4(1X,ES14.6))')
++	1        QS_CALL_CNT,LAMBDA_IT,I,SCALE,T1,JDEC,T2,JINC,QS_PINC,QS_PDEC,
++	2        POPS(NT-1,I),STEQ(NT,I)
++!
+ ! Ensure population change doesn't change population by too large an amount.
+ ! POP_LIM allows us to force smaller corrections at some depths even while
+ ! CMFGEN is running.
+@@ -191,6 +236,7 @@
+ 	      POPS(J,I)=POPS(J,I)*(1.0_LDP-T1)
+ 	    END DO
+ 	  END DO
++	  CLOSE(LU_QS_FMT)            !QSTARS
+ 	  WRITE(6,'(A,ES12.4)')' The minimum value of scale for Major species is:',MIN_SCALE
+ 	END IF
+ !
