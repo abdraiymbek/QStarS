@@ -1,0 +1,20 @@
+registered       dt=       1 zones=173 m/s=1/0 it=4 delta=0.01857 profile_dlnT=0.01857 maxcell=-6 dlnT@orig166..170=[ 0.0150  0.0186  0.0169  0.0068 -0.0002] dlnTeff=6.49e-05 dlnL=1.37e-05
+none             dt=       1 zones=174 m/s=0/0 it=2 delta=2.419e-05 profile_dlnT=2.419e-05 maxcell=-7 dlnT@orig166..170=[-2.1125e-05 -2.4190e-05 -1.4852e-05 -9.0189e-06 -5.6393e-06] dlnTeff=1.48e-06 dlnL=7.13e-08
+merge 168+169    dt=       1 zones=173 m/s=1/0 it=4 delta=0.01857 profile_dlnT=0.01857 maxcell=-6 dlnT@orig166..170=[ 0.0150  0.0186  0.0169  0.0068 -0.0002] dlnTeff=6.49e-05 dlnL=1.37e-05
+merge 169+170    dt=       1 zones=173 m/s=1/0 it=5 delta=0.02374 profile_dlnT=0.02374 maxcell=-6 dlnT@orig166..170=[0.0190 0.0237 0.0164 0.0137 0.0037] dlnTeff=8.34e-05 dlnL=1.76e-05
+merge 167+168    dt=       1 zones=173 m/s=1/0 it=4 delta=0.007648 profile_dlnT=0.007648 maxcell=-6 dlnT@orig166..170=[ 4.4987e-03  1.0929e-02  1.5824e-02 -1.2006e-04 -7.5154e-05] dlnTeff=1.98e-05 dlnL=4.01e-06
+merge 150+151    dt=       1 zones=173 m/s=1/0 it=3 delta=0.0003417 profile_dlnT=0.0003417 maxcell=-23 dlnT@orig166..170=[-2.4154e-04 -2.7783e-04 -1.7110e-04 -1.0417e-04 -6.5347e-05] dlnTeff=1.75e-05 dlnL=1.01e-05
+merge 140+141    dt=       1 zones=173 m/s=1/0 it=3 delta=0.0006213 profile_dlnT=0.0006213 maxcell=-7 dlnT@orig166..170=[-0.0005 -0.0006 -0.0004 -0.0002 -0.0001] dlnTeff=4.19e-05 dlnL=7.36e-05
+split 168,169    dt=       1 zones=176 m/s=0/2 it=8 delta=0.007716 profile_dlnT=0.007716 maxcell=-8 dlnT@orig166..170=[-6.5941e-03 -7.6580e-03 -1.8570e-03 -2.9682e-04  9.4290e-05] dlnTeff=2.49e-05 dlnL=5.61e-06
+split 164..173   dt=1 FAIL StepRejected: Quasi-static solve failed (pass 1, residual 4.08007e-12): Newton line search or iteration limit
+split 150..173   dt=1 FAIL StepRejected: Quasi-static solve failed (pass 1, residual 2.26208e-12): Newton line search or iteration limit
+registered       dt=   172.1 zones=173 m/s=1/0 it=4 delta=0.01525 profile_dlnT=0.01525 maxcell=-6 dlnT@orig166..170=[ 0.0123  0.0152  0.0145  0.0052 -0.0011] dlnTeff=2.81e-04 dlnL=1.96e-05
+none             dt=   172.1 zones=174 m/s=0/0 it=10 delta=0.003585 profile_dlnT=0.003585 maxcell=-174 dlnT@orig166..170=[-0.0032 -0.0036 -0.0022 -0.0013 -0.0008] dlnTeff=2.20e-04 dlnL=1.95e-05
+merge 168+169    dt=   172.1 zones=173 m/s=1/0 it=4 delta=0.01525 profile_dlnT=0.01525 maxcell=-6 dlnT@orig166..170=[ 0.0123  0.0152  0.0145  0.0052 -0.0011] dlnTeff=2.81e-04 dlnL=1.96e-05
+merge 169+170    dt=   172.1 zones=173 m/s=1/0 it=6 delta=0.01934 profile_dlnT=0.01934 maxcell=-6 dlnT@orig166..170=[0.0155 0.0193 0.0133 0.0118 0.0027] dlnTeff=2.95e-04 dlnL=1.96e-05
+merge 167+168    dt=   172.1 zones=173 m/s=1/0 it=4 delta=0.004197 profile_dlnT=0.004197 maxcell=-173 dlnT@orig166..170=[ 0.0015  0.0076  0.0132 -0.0014 -0.0009] dlnTeff=2.38e-04 dlnL=1.95e-05
+merge 150+151    dt=   172.1 zones=173 m/s=1/0 it=4 delta=0.003826 profile_dlnT=0.003826 maxcell=-173 dlnT@orig166..170=[-0.0034 -0.0038 -0.0023 -0.0014 -0.0009] dlnTeff=2.35e-04 dlnL=1.96e-05
+merge 140+141    dt=   172.1 zones=173 m/s=1/0 it=4 delta=0.00426 profile_dlnT=0.00426 maxcell=-173 dlnT@orig166..170=[-0.0038 -0.0043 -0.0026 -0.0016 -0.0010] dlnTeff=2.61e-04 dlnL=2.09e-05
+split 168,169    dt=   172.1 zones=176 m/s=0/2 it=6 delta=0.01118 profile_dlnT=0.01118 maxcell=-9 dlnT@orig166..170=[-0.0098 -0.0112 -0.0039 -0.0016 -0.0007] dlnTeff=1.95e-04 dlnL=1.94e-05
+split 164..173   dt=172.1 FAIL StepRejected: Quasi-static solve failed (pass 1, residual 6.39766e-12): Newton line search or iteration limit
+split 150..173   dt=172.1 FAIL StepRejected: Quasi-static solve failed (pass 1, residual 5.17295e-12): Newton line search or iteration limit

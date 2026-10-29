@@ -1,0 +1,21 @@
+{
+ "base_release": "build_30",
+ "build": "build_31",
+ "files": [
+  "new_main/qs_jv.f90",
+  "new_main/formal_tangent_lin.f90"
+ ],
+ "source_hashes": {
+  "new_main/qs_jv.f90": {
+   "base": "ddcd995499aafcea60c21d305c64a77ef2e9914cd673e5ff711071259d9f692b",
+   "patched": "5d30854bc8bfdbfc5096753ff83cc6331ff6e79d4f0855ae2f7eb703341553a4"
+  },
+  "new_main/formal_tangent_lin.f90": {
+   "base": "05b462b896d0218cff0ac16ef5c88f52b7df112c8995dbfa792b797ee1a079c1",
+   "patched": "bf1eb917d1ea827924732963e451b0104fedff132ae651667c78944e0544f714"
+  }
+ },
+ "patch_file": "jv_batch.patch",
+ "patch_sha256": "604b17bb4467684a96647cea20e1b4dac762e9cb0c2e7feaba76ead28a59a85a",
+ "scope": "Tangent work layout only. With the explicit scattering operator, directions run in min(nv,threads) blocks, each making ONE forcing and ONE final ray sweep for all its directions (lin_scattering_multi: lin_apply_multi = the statements of the serial lin_apply with the direction index innermost; per-direction GMRES = the asig branch of gmres_scat verbatim); lin_setup ray loop in parallel (primal moments still summed serially in ray order); explicit-operator column blocks sized to fill 2x threads. QSTARS_JV_NOBATCH / QSTARS_JV_NOSETUP_OMP restore build 30 behaviour. Same linear map, algorithm, preconditioner and tolerance; summation/contraction order only."
+}

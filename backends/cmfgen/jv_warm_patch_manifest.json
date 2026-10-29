@@ -1,0 +1,21 @@
+{
+ "base_release": "build_22",
+ "build": "build_23",
+ "files": [
+  "new_main/mod_subs/comp_j_blank.f",
+  "new_main/qs_jv.f90"
+ ],
+ "source_hashes": {
+  "new_main/mod_subs/comp_j_blank.f": {
+   "base": "7904c5684ea69b2ddec1290fe0c43aa3b73e4657c40b1d4ddab024532a4c840d",
+   "patched": "d43785b5121c3f863bdc35c09fdc69035c96bd25e74a14961208b881b41ec780"
+  },
+  "new_main/qs_jv.f90": {
+   "base": "44edc370f319a3f0e03a9b4878bf2938ee957a807df02157bf35247854900ec2",
+   "patched": "3a6f5e4bdfccf7dbc4da731bc856660cf0dae8db5f5d3f36994cc65028ab20ae"
+  }
+ },
+ "patch_file": "jv_warm.patch",
+ "patch_sha256": "3d00118b5fccf8e13eb0e11d397b711823117cb9ed7939ab746660a9953124ea",
+ "scope": "QSTARS_ALI_WARM: ALI starting guess from a stored converged J (same frequency grid). Iteration count only; scattering fixed point and EDDFACTOR (two-photon lag) unchanged."
+}

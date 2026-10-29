@@ -1,0 +1,248 @@
+--- a/cur_cmf/new_main/qs_jv.f90	2026-10-06 13:09:55
++++ b/cur_cmf/new_main/qs_jv.f90	2026-10-06 13:15:01
+@@ -31,6 +31,10 @@
+ real(kind=ldp) :: st_closure=0,st_replay=0,st_maxdj=0,st_lincheck=0,st_closure_fl=0
+ integer :: st_products=0,st_maxprod=0,st_nfreq=0,st_negfloor=0
+ logical :: jv_dual=.false.,jv_checklin=.false.
++! Build 30 (Report 22): explicit per-frequency scattering operator for the GMRES of every direction
++! (lin_em_build) when nv >= jv_asig_min; QSTARS_JV_NOASIG disables it, QSTARS_JV_ASIG_MIN sets the minimum.
++logical :: jv_asig=.true.
++integer :: jv_asig_min=4,st_asig=0
+ ! Build 25: level-dissolution derivatives of the bound-free opacity/emissivity (occupation
+ ! probabilities W in the LTE populations and the dissolved fraction below each edge), which
+ ! the native VCHI/VETA hold constant. dis_l*: d ln(B,A,X)_LEV_DIS per depth and direction.
+@@ -116,6 +120,11 @@
+ jv_dual=((ios==0.or.ios==-1).and.plen>0)
+ call get_environment_variable('QSTARS_JV_CHECKLIN',path,length=plen,status=ios)
+ jv_checklin=((ios==0.or.ios==-1).and.plen>0)
++call get_environment_variable('QSTARS_JV_NOASIG',path,length=plen,status=ios)
++jv_asig=.not.((ios==0.or.ios==-1).and.plen>0)
++call get_environment_variable('QSTARS_JV_ASIG_MIN',path,length=plen,status=ios)
++if(ios==0.and.plen>0)read(path(1:plen),*,iostat=ios)jv_asig_min
++st_asig=0
+ call get_environment_variable('QSTARS_JV_DIRS',path,length=plen,status=ios)
+ if(jv_export)then
+  open(newunit=jv_lu_exp,file='QSTARS_JV_SPECTRAL.bin',status='replace',access='stream',form='unformatted')
+@@ -344,7 +353,7 @@
+ use set_kind_module
+ use qs_jv_state
+ use qs_formal_tangent, only: tangent_scattering
+-use qs_formal_tangent_lin, only: lin_setup,lin_scattering
++use qs_formal_tangent_lin, only: lin_setup,lin_scattering,lin_em_build
+ use omp_lib, only: omp_get_max_threads
+ use mod_space_grid_v2, only: ray
+ use mod_cmfgen, only: atm,num_ions,ion_id,t,ed,pop_atom,clump_fac
+@@ -479,6 +488,10 @@
+  call lin_setup(eta_clump(1:nd)+chi_scat_clump(1:nd)*rj(1:nd),chi_clump(1:nd),chi_scat_clump(1:nd),&
+                 bnue,dbb,dlog_nu,nc,bnd,pm)
+  st_replay=max(st_replay,maxval(abs(pm(1,:)-rj(1:nd)))/max(maxval(abs(rj(1:nd))),tiny(1.0_ldp)))
++ if(jv_asig.and.nv>=jv_asig_min)then
++  call lin_em_build()
++  st_asig=st_asig+1
++ endif
+ endif
+ lindiff=0
+ ! Directions in parallel only when they can occupy every thread. Otherwise the directions run in
+@@ -678,6 +691,7 @@
+   ' max_tangent_closure',st_closure,' max_primal_replay_rel',st_replay,' scattering_products',st_products,&
+   ' max_products',st_maxprod,' max_rel_dJ',st_maxdj,' neg_floor_cells',st_negfloor,' lin_vs_dual',st_lincheck,' closure_freq',st_closure_fl
+ write(lu,'(A,L2,A,ES12.4,A,L2)')'dissolution_derivatives',jv_dis,' max|W_formula-W_native|',st_dis_wdiff,' VCHI_ALL',jv_vall
++write(lu,'(A,L2,A,I6,A,I8)')'explicit_scattering_operator',jv_asig,' min_dirs',jv_asig_min,' freqs_built',st_asig
+ close(lu)
+ end subroutine qs_jv_two_post
+ 
+--- a/cur_cmf/new_main/formal_tangent_lin.f90	2026-10-01 19:35:11
++++ b/cur_cmf/new_main/formal_tangent_lin.f90	2026-10-06 13:15:01
+@@ -18,7 +18,7 @@
+ use mod_ray_mom_store, only: qs_lstar
+ implicit none
+ private
+-public :: lin_setup,lin_apply,lin_scattering,lin_ready
++public :: lin_setup,lin_apply,lin_scattering,lin_ready,lin_apply_multi,lin_em_build,asig_ok
+ type ray_lin
+  integer :: n=0
+  integer,allocatable :: kk(:)          ! interval index, or -node when coincident
+@@ -33,6 +33,12 @@
+ integer,save :: s_nc=0,s_nray=0,s_nd=0
+ character(len=12),save :: s_bnd=' '
+ logical,save :: lin_ready=.false.
++! Build 30 (Report 22): explicit scattering operator of the current frequency, A(:,j) = J response of the
++! linear formal map to the emissivity s_scat(j) at node j (exactly the GMRES product of lin_scattering
++! applied to e_j). Built once per frequency by lin_em_build and shared by all directions; invalidated by
++! lin_setup. When asig_ok, gmres_scat uses A*v instead of a ray sweep (same map; summation order only).
++real(kind=ldp),allocatable,save :: asig(:,:)
++logical,save :: asig_ok=.false.
+ contains
+ 
+ subroutine dweights(t,ee,wu,wd,dee,dwu,dwd)
+@@ -111,6 +117,7 @@
+ if(boundary/='DIFFUSION'.and.boundary/='ZERO_FLUX')error stop 'lin_setup: unsupported inner boundary'
+ if(nd_ext/=nd+nd_add)error stop 'lin_setup: inconsistent native grid'
+ allocate(zero(nd));zero=0
++asig_ok=.false.
+ call nodes(eta,chi,scat,zero,zero,zero,ce,et,cc,ec)
+ nuon=0;if(dlnu>0)nuon=1.0_ldp/dlnu
+ s_nuon=nuon;s_b=b;s_dbb=dbb;s_chind=chi(nd);s_nc=nc;s_bnd=boundary;s_nd=nd
+@@ -322,9 +329,14 @@
+ tolerance=tl*beta
+ nused=nd
+ do jj=1,nd
+- call lin_apply(scat*basis(:,jj),zero,zero,0.0_ldp,0.0_ldp,p0,p0,mm,o2p,o2m,.true.)
++ if(asig_ok)then
++  w=matmul(asig,basis(:,jj))
++ else
++  call lin_apply(scat*basis(:,jj),zero,zero,0.0_ldp,0.0_ldp,p0,p0,mm,o2p,o2m,.true.)
++  w=mm(1,:)
++ endif
+  count=count+1
+- w=(basis(:,jj)-mm(1,:))/diag
++ w=(basis(:,jj)-w)/diag
+  do pass=1,2
+   do ii=1,jj
+    proj=dot_product(basis(:,ii),w);h(ii,jj)=h(ii,jj)+proj
+@@ -353,4 +365,145 @@
+ solution=matmul(basis(:,1:nused),y(1:nused))
+ end subroutine
+ end subroutine
++
++! Build 30 (Report 22): m directional derivatives in ONE ray sweep. Exactly the statements of lin_apply
++! with the direction index innermost (coefficients read once per point, recurrences vectorized across
++! directions); moments are accumulated over rays in the order ir = 1..s_nray, i.e. the serial (direction-
++! parallel mode) order of lin_apply, so each direction's result equals a serial lin_apply bit for bit.
++! noprev: previous-frequency ray derivatives are zero (prev_p/prev_m not referenced).
++! jonly: only J moments; out_p/out_m not referenced.
++subroutine lin_apply_multi(m,deta,dchi,dscat,db,ddbb,noprev,prev_p,prev_m,dmoms,out_p,out_m,jonly)
++integer,intent(in)::m
++real(kind=ldp),intent(in)::deta(:,:),dchi(:,:),dscat(:,:),db(:),ddbb(:),prev_p(:,:,:),prev_m(:,:,:)
++logical,intent(in)::noprev,jonly
++real(kind=ldp),intent(out)::dmoms(:,:,:),out_p(:,:,:),out_m(:,:,:)
++type(dual)::ce(nd_ext),et(nd_ext),cc(nd_ext,4),ec(nd_ext,4)
++real(kind=ldp),allocatable::ced(:,:),etd(:,:),ccd(:,:,:),ecd(:,:,:),dcr(:,:),der(:,:),dsrc(:,:),dim_(:,:),dip(:,:),&
++  dm(:,:,:)
++real(kind=ldp)::ddt(m),dgrad(m),nuon,z,bm,bp
++integer::nd,np,ir,n,i,k,kk,c,nz
++if(.not.lin_ready)error stop 'lin_apply_multi before lin_setup'
++nd=size(deta,1);np=np_sav
++if(nd/=s_nd)error stop 'lin_apply_multi: size mismatch'
++nz=maxval(rl(1:s_nray)%n)
++allocate(ced(m,nd_ext),etd(m,nd_ext),ccd(m,nd_ext,4),ecd(m,nd_ext,4),dcr(m,nz),der(m,nz),dsrc(m,nz),dim_(m,nz),&
++  dip(m,nz),dm(m,4,nd))
++do c=1,m
++ call nodes(s_eta,s_chi,s_scat,deta(:,c),dchi(:,c),dscat(:,c),ce,et,cc,ec)
++ do i=1,nd_ext
++  ced(c,i)=ce(i)%d;etd(c,i)=et(i)%d
++  do k=1,4
++   ccd(c,i,k)=cc(i,k)%d;ecd(c,i,k)=ec(i,k)%d
++  enddo
++ enddo
++ dgrad(c)=ddbb(c)/s_chind-s_dbb*dchi(nd,c)/(s_chind*s_chind)
++enddo
++nuon=s_nuon
++dm=0
++do ir=1,s_nray
++ associate(a=>rl(ir))
++ n=a%n
++ do i=1,n
++  kk=a%kk(i)
++  if(kk<0)then
++   dcr(:,i)=ced(:,-kk);der(:,i)=etd(:,-kk)
++  else
++   z=a%z(i)
++   dcr(:,i)=a%crv(i)*(((ccd(:,kk,1)*z+ccd(:,kk,2))*z+ccd(:,kk,3))*z+ccd(:,kk,4))
++   der(:,i)=a%erv(i)*(((ecd(:,kk,1)*z+ecd(:,kk,2))*z+ecd(:,kk,3))*z+ecd(:,kk,4))
++  endif
++ enddo
++ ! Minus direction.
++ if(noprev)then
++  do i=1,n
++   dsrc(:,i)=(der(:,i)+nuon*ray(ir)%b_m(i)*0.0_ldp-a%srcm(i)*dcr(:,i))/a%ctm(i)
++  enddo
++ else
++  do i=1,n
++   bm=nuon*ray(ir)%b_m(i)
++   dsrc(:,i)=(der(:,i)+bm*prev_m(:,i,ir)-a%srcm(i)*dcr(:,i))/a%ctm(i)
++  enddo
++ endif
++ dim_(:,1)=0
++ do i=1,n-1
++  ddt=a%dsm(i)*(dcr(:,i)+dcr(:,i+1))
++  dim_(:,i+1)=dim_(:,i)*a%eem(i)+a%imv(i)*a%deem(i)*ddt+a%dwum(i)*ddt*a%srcm(i)+a%wum(i)*dsrc(:,i)&
++           +a%dwdm(i)*ddt*a%srcm(i+1)+a%wdm(i)*dsrc(:,i+1)
++ enddo
++ ! Plus direction.
++ if(noprev)then
++  do i=1,n
++   dsrc(:,i)=(der(:,i)+nuon*ray(ir)%b_p(i)*0.0_ldp-a%srcp(i)*dcr(:,i))/a%ctp(i)
++  enddo
++ else
++  do i=1,n
++   bp=nuon*ray(ir)%b_p(i)
++   dsrc(:,i)=(der(:,i)+bp*prev_p(:,i,ir)-a%srcp(i)*dcr(:,i))/a%ctp(i)
++  enddo
++ endif
++ if(ir>s_nc.or.s_bnd=='ZERO_FLUX')then
++  dip(:,n)=dim_(:,n)
++ else
++  dip(:,n)=db(1:m)+ray(ir)%mu_p(n)*dgrad
++ endif
++ do i=n-1,1,-1
++  ddt=a%dsp(i)*(dcr(:,i)+dcr(:,i+1))
++  dip(:,i)=dip(:,i+1)*a%eep(i)+a%ipv(i+1)*a%deep(i)*ddt+a%dwup(i)*ddt*a%srcp(i+1)+a%wup(i)*dsrc(:,i+1)&
++        +a%dwdp(i)*ddt*a%srcp(i)+a%wdp(i)*dsrc(:,i)
++ enddo
++ if(.not.jonly)then
++  do i=1,n
++   out_p(:,i,ir)=dip(:,i);out_m(:,i,ir)=dim_(:,i)
++  enddo
++ endif
++ do i=1,min(nd,np-ir+1)
++  k=ray(ir)%lnk(i)
++  dm(:,1,i)=dm(:,1,i)+dip(:,k)*jqw_p(i,ir)+dim_(:,k)*jqw_m(i,ir)
++  if(.not.jonly)then
++   dm(:,2,i)=dm(:,2,i)+dip(:,k)*hqw_p(i,ir)+dim_(:,k)*hqw_m(i,ir)
++   dm(:,3,i)=dm(:,3,i)+dip(:,k)*kqw_p(i,ir)+dim_(:,k)*kqw_m(i,ir)
++   dm(:,4,i)=dm(:,4,i)+dip(:,k)*nqw_p(i,ir)+dim_(:,k)*nqw_m(i,ir)
++  endif
++ enddo
++ end associate
++enddo
++do c=1,m
++ do i=1,nd
++  dmoms(1:4,i,c)=dm(c,1:4,i)
++ enddo
++enddo
++end subroutine
++
++! Build 30 (Report 22): explicit scattering operator of the current frequency (see asig). Columns in blocks
++! of up to 16 with lin_apply_multi (unit emissivity s_scat(j) at node j, no previous-frequency term, J only);
++! blocks run in parallel in a top-level region (never nested). Called after lin_setup, before directions.
++subroutine lin_em_build()
++integer,parameter::mb=16
++integer::nb,jb,j0,j1,m,j,nd
++real(kind=ldp),allocatable::de(:,:),z0(:,:),dm(:,:,:),zz(:),pa(:,:,:),pb(:,:,:),oa(:,:,:),ob(:,:,:)
++if(.not.lin_ready)error stop 'lin_em_build before lin_setup'
++nd=s_nd
++if(allocated(asig))then
++ if(size(asig,1)/=nd)deallocate(asig)
++endif
++if(.not.allocated(asig))allocate(asig(nd,nd))
++nb=(nd+mb-1)/mb
++!$omp parallel do schedule(dynamic) default(shared) private(jb,j0,j1,m,j,de,z0,dm,zz,pa,pb,oa,ob) &
++!$omp if(.not.omp_in_parallel())
++do jb=1,nb
++ j0=(jb-1)*mb+1;j1=min(nd,jb*mb);m=j1-j0+1
++ allocate(de(nd,m),z0(nd,m),dm(4,nd,m),zz(m),pa(1,1,1),pb(1,1,1),oa(1,1,1),ob(1,1,1))
++ de=0;z0=0;zz=0;pa=0;pb=0
++ do j=j0,j1
++  de(j,j-j0+1)=s_scat(j)
++ enddo
++ call lin_apply_multi(m,de,z0,z0,zz,zz,.true.,pa,pb,dm,oa,ob,.true.)
++ do j=j0,j1
++  asig(:,j)=dm(1,:,j-j0+1)
++ enddo
++ deallocate(de,z0,dm,zz,pa,pb,oa,ob)
++enddo
++!$omp end parallel do
++asig_ok=.true.
++end subroutine
+ end module

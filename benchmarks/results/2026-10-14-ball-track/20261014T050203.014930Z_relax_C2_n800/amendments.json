@@ -1,0 +1,87 @@
+[
+  {
+    "path": "benchmarks/ball2011_track_plan_amendment_3.json",
+    "sha256": "758ffefb5ad78ebfb70a0912ce624d82ac14c28efae8e9290ee368c7a8c5ae4b",
+    "registration": "benchmarks/ball2011_track_plan_amendment_3.registration.json",
+    "registration_sha256": "082f2eac6a24353a8bce0f3f70d8b48ca2a56610958f718c7b67d850d48fedb0",
+    "registered_utc": "2026-10-14T04:46:59Z",
+    "preserved_failing_run": [
+      "benchmarks/results/2026-10-14-ball-track/20261014T020025.865518Z_relax_C1_n200",
+      "benchmarks/results/2026-10-14-ball-track/20261014T020030.687587Z_relax_C0_n400",
+      "benchmarks/results/2026-10-14-ball-track/20261014T020038.145624Z_relax_C2_n800",
+      "benchmarks/results/2026-10-14-ball-track/20261014T044627.755459Z_relax_C1_n200",
+      "benchmarks/results/2026-10-14-ball-track/20261014T044632.432313Z_relax_C0_n400",
+      "benchmarks/results/2026-10-14-ball-track/20261014T044638.756520Z_relax_C2_n800"
+    ],
+    "settings": {
+      "replication": {
+        "seed_surface": "grey",
+        "seed_radii_rsun": [
+          2000,
+          6000,
+          1000,
+          12000,
+          3464,
+          1414,
+          8485
+        ]
+      }
+    }
+  },
+  {
+    "path": "benchmarks/ball2011_track_plan_amendment_4.json",
+    "sha256": "41f6453eaf94c90e13af821264276fb7d75690d8ba21e01fc48cd8154fe3e17b",
+    "registration": "benchmarks/ball2011_track_plan_amendment_4.registration.json",
+    "registration_sha256": "b07154619fab44a76ab7f4da80871a523ad09d1cdb02522f5dec8cff1357976b",
+    "registered_utc": "2026-10-14T04:50:13Z",
+    "preserved_failing_run": [
+      "benchmarks/results/2026-10-14-ball-track/20261014T044710.123385Z_relax_C1_n200",
+      "benchmarks/results/2026-10-14-ball-track/20261014T044730.764425Z_relax_C0_n400",
+      "benchmarks/results/2026-10-14-ball-track/20261014T044749.499555Z_relax_C2_n800"
+    ],
+    "settings": {
+      "quasistatic": {
+        "photosphere_bracket": "scan"
+      }
+    }
+  },
+  {
+    "path": "benchmarks/ball2011_track_plan_amendment_2.json",
+    "sha256": "9cf0bc0e212beb6fac109519fbe599aa5dbf4a70ef4e5762b16c94f4d3121bbd",
+    "registration": "benchmarks/ball2011_track_plan_amendment_2.registration.json",
+    "registration_sha256": "6c74a3ab70e25e6f190dd43ecffe9fb84845b67ad82280a350d8de2328866412",
+    "registered_utc": "2026-10-14T04:56:55Z",
+    "preserved_failing_run": [
+      "benchmarks/results/2026-10-14-ball-track/20261014T045015.140344Z_relax_C1_n200",
+      "benchmarks/results/2026-10-14-ball-track/20261014T045048.449968Z_relax_C0_n400",
+      "benchmarks/results/2026-10-14-ball-track/20261014T045156.738149Z_relax_C2_n800"
+    ],
+    "settings": {
+      "relaxation": {
+        "mesh_cycles": 40,
+        "mesh_tolerance": 1e-05,
+        "cycle_dt_years": 1000000.0
+      }
+    }
+  },
+  {
+    "path": "benchmarks/ball2011_track_plan_amendment_1.json",
+    "sha256": "dac5fcb59515e284f119bfb9e30278dad7e1eaac3ab3544e1ad5e5920f8b132e",
+    "registration": "benchmarks/ball2011_track_plan_amendment_1.registration.json",
+    "registration_sha256": "931e43bcbb9ec2c47cef83e684b8dce3806a7587c165aadb0810f006de8e3054",
+    "registered_utc": "2026-10-14T04:57:52Z",
+    "preserved_failing_run": [
+      "benchmarks/results/2026-10-14-ball-track/20261014T045735.539052Z_smoke_C1_n200",
+      "benchmarks/results/2026-10-14-ball-track/20261014T045737.939477Z_smoke_C1_n200"
+    ],
+    "settings": {
+      "quasistatic": {
+        "base": "fixed_mass",
+        "base_mass_fraction": 0.05
+      },
+      "stepcontrol": {
+        "metric": "mapped"
+      }
+    }
+  }
+]

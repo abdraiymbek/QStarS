@@ -1,0 +1,5 @@
+ne    column: ||fd - BA|| / ||fd|| = 1.650e+00  worst depths [84, 83, 82, 81, 80, 79]
+hii   column: ||fd - BA|| / ||fd|| = 3.980e-01  worst depths [84, 83, 82, 81, 80, 79]
+he2g  column: ||fd - BA|| / ||fd|| = 1.000e+00  worst depths [84, 83, 82, 81, 80, 79]
+T     column: ||fd - BA|| / ||fd|| = 6.264e-02  worst depths [84, 83, 82, 81, 80, 79]
+missing(HII)/x_HII vs missing(HeII g)/x_HeIIg: rel diff 1.543e-09

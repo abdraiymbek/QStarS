@@ -1,0 +1,189 @@
+--- a/new_main/mod_subs/comp_j_blank.f	2026-10-06 13:09:55
++++ b/new_main/mod_subs/comp_j_blank.f	2026-10-21 23:13:10
+@@ -111,6 +111,17 @@
+ 	INTEGER, SAVE :: QS_N_NG
+ 	REAL(KIND=LDP) QS_NG(ND,4)
+ 	REAL(KIND=LDP) QS_A11,QS_A12,QS_A22,QS_C1,QS_C2,QS_Q1,QS_Q2,QS_Q3,QS_NA,QS_NB
++	! QSTARS build 36: Newton fallback for the coherent-scattering fixed point.
++	REAL(KIND=LDP), ALLOCATABLE, SAVE :: QSN_A(:,:),QSN_M(:,:)
++	REAL(KIND=LDP) QSN_J(ND),QSN_TC0(ND),QSN_DJ(ND)
++	REAL(KIND=LDP) QSN_H,QSN_LAM,QSN_RES,QSN_RES0,QSN_ALB
++	REAL(KIND=LDP), PARAMETER :: QSN_STEP=1.0E-6_LDP
++	INTEGER, PARAMETER :: QSN_MAXIT=10
++	INTEGER QSN_PIV(ND),QSN_IT,QSN_NIT,QSN_K,QSN_INFO,QSN_LEN,QSN_NAMP
++	INTEGER, SAVE :: QS_N_NEWTON,QS_N_NEWTON_FAIL
++	LOGICAL QSN_OK
++	LOGICAL, SAVE :: QSN_INIT=.FALSE.,QSN_OFF=.FALSE.,QSN_DUMP=.FALSE.
++	CHARACTER(LEN=10) QSN_FAIL
+ !
+ ! See COMP_J_CONT.INC to see earlier changes to this routine.
+ !
+@@ -629,6 +640,7 @@
+ !
+ 	    IF(FIRST_FREQ)THEN
+ 	      QS_MAX_RES=0.0_LDP; QS_MAX_IT=0; QS_N_UNCONV=0; QS_N_PLAIN=0; QS_N_NG=0
++	      QS_N_NEWTON=0; QS_N_NEWTON_FAIL=0
+ 	      IF(FREQ_INDX .EQ. 1)WRITE(LUER,*)'Using QStarS formal-solution ALI transfer (QS_FRM_ALI)'
+ 	    END IF
+ 	    IF(COHERENT_ES)THEN
+@@ -714,8 +726,146 @@
+ 	      IF(.NOT. COHERENT_ES .OR. QS_RES .LT. QS_ALI_TOL .OR.
+ 	1                J_IT_COUNTER .GE. QS_ALI_MAX)THEN
+ 	        IF(COHERENT_ES .AND. QS_RES .GE. QS_ALI_TOL)THEN
+-	          QS_N_UNCONV=QS_N_UNCONV+1
+-	          WRITE(LUER,*)'QS_FRM_ALI: scattering not converged',FL,QS_RES
++!
++! QSTARS build 36: Newton solution of the scattering fixed point J = Phi(ETA + CHI_SCAT*J)
++! where the local ALI has not converged after QS_ALI_MAX formal solutions. With an
++! inverted line the negative-opacity floor (SRCE_CHK/ESEC_CHK) can leave CHI < CHI_SCAT
++! (net absorption CHI - CHI_SCAT < 0); CHI_SCAT*L* then exceeds 1 and the local ALI has
++! no contracting step. dPhi/dJ is assembled from one-sided differences of the same
++! formal solution (ND+1 formal solutions per Newton step) and solved densely. Opacities,
++! emissivities and the fixed point are unchanged. The result is used only if every
++! formal J is finite and nonnegative, every iterate positive, and the relative residual
++! below QS_ALI_TOL; otherwise TC and the ray store are recomputed from the last ALI
++! iterate (the build-35 result). QSTARS_ALI_NO_NEWTON (non-empty) turns it off.
++! QSTARS_ALI_NEWTON_DUMP (non-empty): diagnostic dump of the first Newton Jacobian of each
++! fallback frequency (QSTARS_ALI_NEWTON_DUMP.bin, stream: FREQ_INDX, ND, FL, J, Phi(J), dPhi/dJ, CHI, CHI_SCAT, ETA).
++!
++	          QSN_OK=.FALSE.
++	          IF(.NOT. QSN_INIT)THEN
++	            CALL GET_ENVIRONMENT_VARIABLE('QSTARS_ALI_NO_NEWTON',LENGTH=QSN_LEN)
++	            QSN_OFF=QSN_LEN .GT. 0
++	            CALL GET_ENVIRONMENT_VARIABLE('QSTARS_ALI_NEWTON_DUMP',LENGTH=QSN_LEN)
++	            QSN_DUMP=QSN_LEN .GT. 0
++	            QSN_INIT=.TRUE.
++	          END IF
++	          IF(.NOT. QSN_OFF)THEN
++	            IF(.NOT. ALLOCATED(QSN_A))ALLOCATE(QSN_A(ND,ND),QSN_M(ND,ND))
++	            QSN_RES0=QS_RES
++	            QSN_ALB=MAXVAL(CHI_SCAT_CLUMP(1:ND)/MAX(CHI_CLUMP(1:ND),TINY(T1)))
++	            QSN_NAMP=COUNT(CHI_SCAT_CLUMP(1:ND) .GT. CHI_CLUMP(1:ND))
++	            QSN_J(1:ND)=TC(1:ND)
++	            QSN_RES=QS_RES
++	            QSN_NIT=0
++	            QSN_FAIL='start'
++	            IF(ALL(QSN_J(1:ND) .GT. 0.0_LDP))THEN
++	              QSN_FAIL='none'
++	              DO QSN_IT=1,QSN_MAXIT
++	                TA(1:ND)=ETA_CLUMP(1:ND)+CHI_SCAT_CLUMP(1:ND)*QSN_J(1:ND)
++	                CALL TUNE(IONE,'FG_J_CMF')
++	                CALL CMF_FORMAL_REL_V4
++	1                 (TA,CHI_CLUMP,CHI_SCAT_CLUMP,V,SIGMA,R,P,
++	1                  TC,FEDD,HFLUX_AT_IB,HFLUX_AT_OB,IPLUS,
++	1                  FL,dLOG_NU,BNUE,DBB,
++	1                  INNER_BND_METH,THK_CONT,
++	1                  VDOP_VEC,DELV_FRAC_FG,REXT_FAC,
++	1                  METHOD,FIRST_FREQ,NEW_FREQ,NC,NP,ND)
++	                CALL TUNE(ITWO,'FG_J_CMF')
++	                FG_COUNT=FG_COUNT+1
++	                QSN_NIT=QSN_IT
++	                IF(.NOT. ALL(TC(1:ND) .GE. 0.0_LDP .AND. TC(1:ND) .LE. HUGE(T1)))THEN
++	                  QSN_FAIL='formal J'
++	                  EXIT
++	                END IF
++	                QSN_RES=0.0_LDP
++	                DO I=1,ND
++	                  T2=MAX(TC(I),QSN_J(I))
++	                  IF(T2 .GT. 0.0_LDP)QSN_RES=MAX(QSN_RES,ABS(TC(I)-QSN_J(I))/T2)
++	                END DO
++	                IF(QSN_RES .LT. QS_ALI_TOL)THEN
++	                  QSN_OK=.TRUE.
++	                  EXIT
++	                END IF
++	                IF(QSN_IT .EQ. QSN_MAXIT)THEN
++	                  QSN_FAIL='iterations'
++	                  EXIT
++	                END IF
++	                QSN_TC0(1:ND)=TC(1:ND)
++	                DO QSN_K=1,ND
++	                  QSN_H=QSN_STEP*QSN_J(QSN_K)
++	                  IF(CHI_SCAT_CLUMP(QSN_K) .LE. 0.0_LDP)THEN
++	                    QSN_A(1:ND,QSN_K)=0.0_LDP
++	                    CYCLE
++	                  END IF
++	                  TA(1:ND)=ETA_CLUMP(1:ND)+CHI_SCAT_CLUMP(1:ND)*QSN_J(1:ND)
++	                  TA(QSN_K)=ETA_CLUMP(QSN_K)+CHI_SCAT_CLUMP(QSN_K)*(QSN_J(QSN_K)+QSN_H)
++	                  CALL TUNE(IONE,'FG_J_CMF')
++	                  CALL CMF_FORMAL_REL_V4
++	1                 (TA,CHI_CLUMP,CHI_SCAT_CLUMP,V,SIGMA,R,P,
++	1                  TC,FEDD,HFLUX_AT_IB,HFLUX_AT_OB,IPLUS,
++	1                  FL,dLOG_NU,BNUE,DBB,
++	1                  INNER_BND_METH,THK_CONT,
++	1                  VDOP_VEC,DELV_FRAC_FG,REXT_FAC,
++	1                  METHOD,FIRST_FREQ,NEW_FREQ,NC,NP,ND)
++	                  CALL TUNE(ITWO,'FG_J_CMF')
++	                  FG_COUNT=FG_COUNT+1
++	                  QSN_A(1:ND,QSN_K)=(TC(1:ND)-QSN_TC0(1:ND))/QSN_H
++	                END DO
++	                IF(QSN_DUMP .AND. QSN_IT .EQ. 1)THEN
++	                  OPEN(NEWUNIT=QS_LU,FILE='QSTARS_ALI_NEWTON_DUMP.bin',STATUS='UNKNOWN',POSITION='APPEND',
++	1                      ACCESS='STREAM',FORM='UNFORMATTED')
++	                  WRITE(QS_LU)FREQ_INDX,ND,FL,QSN_J(1:ND),QSN_TC0(1:ND),QSN_A(1:ND,1:ND),
++	1                      CHI_CLUMP(1:ND),CHI_SCAT_CLUMP(1:ND),ETA_CLUMP(1:ND)
++	                  CLOSE(QS_LU)
++	                END IF
++	                QSN_M(1:ND,1:ND)=-QSN_A(1:ND,1:ND)
++	                DO I=1,ND
++	                  QSN_M(I,I)=QSN_M(I,I)+1.0_LDP
++	                END DO
++	                QSN_DJ(1:ND)=QSN_TC0(1:ND)-QSN_J(1:ND)
++	                CALL DGESV(ND,1,QSN_M,ND,QSN_PIV,QSN_DJ,ND,QSN_INFO)
++	                IF(QSN_INFO .NE. 0)THEN
++	                  QSN_FAIL='singular'
++	                  EXIT
++	                END IF
++	                QSN_LAM=1.0_LDP
++	                DO WHILE(ANY(QSN_J(1:ND)+QSN_LAM*QSN_DJ(1:ND) .LE. 0.0_LDP) .AND. QSN_LAM .GT. 1.0E-3_LDP)
++	                  QSN_LAM=0.5_LDP*QSN_LAM
++	                END DO
++	                IF(ANY(QSN_J(1:ND)+QSN_LAM*QSN_DJ(1:ND) .LE. 0.0_LDP))THEN
++	                  QSN_FAIL='positivity'
++	                  EXIT
++	                END IF
++	                QSN_J(1:ND)=QSN_J(1:ND)+QSN_LAM*QSN_DJ(1:ND)
++	              END DO
++	            END IF
++	            OPEN(NEWUNIT=QS_LU,FILE='QSTARS_ALI_NEWTON',STATUS='UNKNOWN',POSITION='APPEND')
++	            WRITE(QS_LU,'(A,I8,ES24.16,A,I6,A,ES12.4,A,ES12.4,A,I5,A,I3,A,ES12.4,A,L2,1X,A)')
++	1        'FREQ',FREQ_INDX,FL,' ali_it',J_IT_COUNTER,' ali_res',QSN_RES0,
++	1        ' max_scat_over_chi',QSN_ALB,' n_scat_gt_chi',QSN_NAMP,' newton_it',QSN_NIT,
++	1        ' newton_res',QSN_RES,' ok',QSN_OK,TRIM(QSN_FAIL)
++	            CLOSE(QS_LU)
++	            IF(QSN_OK)THEN
++	              QS_N_NEWTON=QS_N_NEWTON+1
++	              QS_RES=QSN_RES
++	            ELSE
++	              QS_N_NEWTON_FAIL=QS_N_NEWTON_FAIL+1
++	              TA(1:ND)=ETA_CLUMP(1:ND)+CHI_SCAT_CLUMP(1:ND)*RJ(1:ND)
++	              CALL TUNE(IONE,'FG_J_CMF')
++	              CALL CMF_FORMAL_REL_V4
++	1                 (TA,CHI_CLUMP,CHI_SCAT_CLUMP,V,SIGMA,R,P,
++	1                  TC,FEDD,HFLUX_AT_IB,HFLUX_AT_OB,IPLUS,
++	1                  FL,dLOG_NU,BNUE,DBB,
++	1                  INNER_BND_METH,THK_CONT,
++	1                  VDOP_VEC,DELV_FRAC_FG,REXT_FAC,
++	1                  METHOD,FIRST_FREQ,NEW_FREQ,NC,NP,ND)
++	              CALL TUNE(ITWO,'FG_J_CMF')
++	              FG_COUNT=FG_COUNT+1
++	            END IF
++	          END IF
++	          IF(.NOT. QSN_OK)THEN
++	            QS_N_UNCONV=QS_N_UNCONV+1
++	            WRITE(LUER,*)'QS_FRM_ALI: scattering not converged',FL,QS_RES
++	          END IF
+ 	        END IF
+ 	        IF(COHERENT_ES)QS_MAX_RES=MAX(QS_MAX_RES,QS_RES)
+ 	        RJ(1:ND)=TC(1:ND)
+@@ -790,6 +940,11 @@
+ 	1          ' unconverged',QS_N_UNCONV,' plain_steps',QS_N_PLAIN,
+ 	1          ' max_res',QS_MAX_RES,' formal_solutions',FG_COUNT,' ng_steps',QS_N_NG
+ 	      CLOSE(QS_LU)
++	      IF(QS_N_NEWTON+QS_N_NEWTON_FAIL .GT. 0)THEN
++	        OPEN(NEWUNIT=QS_LU,FILE='QSTARS_ALI_NEWTON',STATUS='UNKNOWN',POSITION='APPEND')
++	        WRITE(QS_LU,'(A,I8,A,I8,A,I8)')'NCF',NCF,' newton_converged',QS_N_NEWTON,' newton_failed',QS_N_NEWTON_FAIL
++	        CLOSE(QS_LU)
++	      END IF
+ 	    END IF
+ 	  ELSE
+ 	  INACCURATE=.TRUE.

@@ -1,0 +1,4 @@
+DRYRUN grid old=gamma new=gamma brute_roots=0 : 90
+DRYRUN grid old=gamma new=root brute_roots=1 : 41
+DRYRUN grid old=root new=root brute_roots=1 : 63
+DRYRUN anomalies: 0

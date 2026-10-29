@@ -1,0 +1,8 @@
+23:30  up 23 days, 42 mins, 1 user, load averages: 7.88 8.89 10.25
+DRYRUN probe N=200 control_stop accepted 100 attempts 100 rejections 0 wall 21.2 s = 0.212 s/accepted; median dt 46.84 yr; M_BH 5.934; residual median 1.53e-13 max 4.47e-13
+    deep Knudsen max 0.0952 (limit 0.1); row-0 max_density_inversion 9.070e-03; causes {'total': 0, 'causes': {}, 'controller_metric': {}, 'newton_failures_at_tolerance_floor': 0, 'newton_failure_residuals': []}
+DRYRUN probe N=400 control_stop accepted 100 attempts 100 rejections 0 wall 41.4 s = 0.414 s/accepted; median dt 46.76 yr; M_BH 5.933; residual median 3.76e-13 max 9.38e-13
+    deep Knudsen max 0.0954 (limit 0.1); row-0 max_density_inversion 5.362e-03; causes {'total': 0, 'causes': {}, 'controller_metric': {}, 'newton_failures_at_tolerance_floor': 0, 'newton_failure_residuals': []}
+DRYRUN probe N=800 control_stop accepted 60 attempts 65 rejections 5 wall 67.4 s = 1.123 s/accepted; median dt 33.38 yr; M_BH 5.407; residual median 7.63e-13 max 9.62e-13
+    deep Knudsen max 0.0955 (limit 0.1); row-0 max_density_inversion 2.749e-03; causes {'total': 5, 'causes': {'newton_failure': 5}, 'controller_metric': {}, 'newton_failures_at_tolerance_floor': 5, 'newton_failure_residuals': [1.91236e-12, 1.19972e-12, 1.02739e-12, 1.12611e-12, 1.32808e-12]}
+23:32  up 23 days, 44 mins, 1 user, load averages: 8.97 8.90 10.04

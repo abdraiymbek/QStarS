@@ -1,0 +1,217 @@
+{
+  "campaign": "Gate 4: self-selected CMFGEN-based mdot and sonic-point wind (Report 23)",
+  "registered_utc": "2026-10-07T03:30:00Z",
+  "registration": "Pre-registered before any result it governs. When written, no hydro step had been evaluated on any CMFGEN state and the spectral/native g_rad audit had not been run. Definitions below were informed only by source code (cmfgen_backend.py, hydro_terms_v5.f, cmfgen_sub.f) and by the Gate-4 survey of non-converged iterates, which is not evidence.",
+  "production_certified": false,
+  "implementation": "src/qstars/cmfgen_wind.py; tests/test_cmfgen_wind.py; docs/cmfgen_selected_wind.md",
+  "references": {
+    "sander2017": "src/qstars/data/sources.json (audited_not_replicated); hydrodynamically consistent PoWR iteration, inner optical depth as a matching constraint",
+    "constraint_counting": "docs/self_selected_outer.md:53-82,135",
+    "global_formulation_requirement": "docs/nlte_backend.md:87-105; docs/nlte_cool_closure.md:162-191",
+    "native_momentum_diagnostic": "backends/cmfgen/build_31/cur_cmf/subs/hydro_terms_v5.f:141,195,202,214,221"
+  },
+  "equations": {
+    "continuity": "mdot = 4 pi r^2 rho v, constant",
+    "momentum": "(v^2 - a^2) dlnv/dlnr = N, N = 2 a^2 - d a^2/dlnr - G M (1 - Gamma)/r",
+    "sound_speed": "a^2 = P_gas/rho = (n_nuclei + n_e) k T / rho_clump from the CMFGEN populations (RVTJ Atom Density, Electron density, Temperature, Mass Density). Isothermal-type: T is a frozen function of the coordinate, NOT the adiabatic speed of material_wind.continuum_coefficients",
+    "radiative_force": "Gamma = r^2 g_rad/(G M), g_rad = SpectralSnapshot.moments(coherent_scattering=True)['radiative_acceleration'] (local comoving force over mean density)",
+    "optical_depth": "dtau_R/dr = -kappa_R rho, kappa_R = chi_Rosseland/rho_clump from RVTJ; tau_R of the state integrated independently (trapezoid in ln r of chi_R f r, outer power-law tail tau = chi r/(p-1))",
+    "critical_point": "v_c = a_c and N(r_c) = 0; branch slope from spherical_wind.regular_sonic_slope in (ln r, ln v, ln tau) with dlnTau/dlnr supplied; unique positive slope with D increasing outward required",
+    "frozen_representations": {
+      "tau": "PRIMARY. a^2, Gamma and kappa_R frozen as functions of ln tau_R; r da^2/dr = (da^2/dlntau)(dlntau/dlnr) depends on mdot and v",
+      "radius": "CROSS-CHECK and existence proof. a^2, Gamma, kappa_R frozen as functions of ln r; N is then independent of v and mdot, every critical point is enumerated by sign changes of N on the whole domain, and mdot follows linearly from the base optical depth"
+    },
+    "interpolation": "Monotone PCHIP of ln a^2, Gamma and ln kappa_R on the frozen coordinate. Evaluation outside the table raises; no extrapolation and no clipping. A trial that leaves the table is a rejected local trial, never a physical result"
+  },
+  "unknowns_and_constraints": {
+    "unknowns": [
+      "mdot",
+      "integration constant of ln v",
+      "integration constant of tau_R"
+    ],
+    "constraints": [
+      "regular accelerating critical crossing (fixes the ln v constant)",
+      "outer: tau_R(r_o) = tau_o at the outer condition depth",
+      "base: tau_R(R_b) = tau_b (primary) or rho(R_b) = rho_b (rematch cross-check)"
+    ],
+    "count": "3 unknowns, 3 constraints; sonic radius and mdot are outputs; no velocity or mdot input",
+    "not_constrained_here": "Material first law and population/transfer response are not solved by the hydro step; they are imposed by re-converging the CMFGEN T-released closure on the new flow (outer fixed point)"
+  },
+  "inputs": {
+    "mass": {
+      "value_Msun": 1000000.0,
+      "provenance": "CMFGEN component input VADAT [MASS] (backends/cmfgen/prepare_cool.py), declared explicitly to every call; not physically sourced. mdot is exponentially sensitive to it",
+      "sourced_from_envelope": false
+    },
+    "luminosity": "comoving luminosity of the converged state at the base depth (moments luminosity_comoving); used for the photon-tiring classification and the MLT guard flux",
+    "base_radius_and_tau": "R_b and tau_b of the converged first closure at 1-based depth ND-2, held fixed for the whole outer iteration; later to be supplied by the QStarS envelope (Gate 5)",
+    "outer_radius_and_tau": "r_o and tau_o at 1-based depth 2 of the same state, held fixed",
+    "table_depths": "1-based depths 1..ND-1. Depth ND (diffusion inner boundary) is excluded from source tables; depths 1 and ND-1 are interpolation margins only",
+    "composition": "H/He from the CMFGEN state (H/He = 9.3333 by number, X = 0.7015); the Mach-one guard EOS/opacity must use the same X within 1e-4",
+    "density_convention": "mean density rho = rho_clump f; f = 1 in all current T9 states",
+    "forbidden": "VTURB (line width), the prescribed beta-law, a fitted or tuned force multiplier, any density/temperature floor"
+  },
+  "classification_order": [
+    {
+      "rule": 1,
+      "name": "reduction_invalid",
+      "when": "input checks fail: |v|/c >= 0.01 anywhere, spectral/RVTJ material state differ by more than 1e-3, guard composition mismatch",
+      "physical": false
+    },
+    {
+      "rule": 2,
+      "name": "mach_one_mlt_exit",
+      "when": "existing Mach-one MLT guard trips (convective Mach >= 1) at any subsonic CMFGEN depth with tau_R >= 2/3, for either guard opacity",
+      "physical": false,
+      "semantics": "structured domain exit, never clipped, never a pass (docs/validity.md:105-111)"
+    },
+    {
+      "rule": 3,
+      "name": "reduction_invalid",
+      "when": "guard Mach < 1 everywhere but MLT would carry more than 1% of the flux at a guarded depth (CMFGEN carries no convective flux)",
+      "physical": false
+    },
+    {
+      "rule": 4,
+      "name": "reduction_invalid",
+      "when": "radius mode: N(R_b) >= 0 (no accelerating subsonic base), or N changes sign but no admissible X-type crossing, or N touches zero without a sign change (|max N| r/(G M) <= 1e-6)",
+      "physical": false
+    },
+    {
+      "rule": 5,
+      "name": "hydrostatic_no_wind",
+      "when": "radius mode: N r/(G M) < -1e-6 at every point of the whole base-to-outer domain (32 samples per table interval). Every regular stationary solution is then subsonic and accelerating and mdot < mdot_bound = 4 pi r_o^2 P_hs(r_o)/a(r_o), P_hs the frozen-source hydrostatic pressure normalized by the same base condition",
+      "physical": false,
+      "note": "scoped to that frozen state; must be confirmed on a re-converged structure before being reported as an outcome"
+    },
+    {
+      "rule": 6,
+      "name": "multiple_admissible_branches",
+      "when": "radius mode has more than one admissible X-type crossing",
+      "physical": false,
+      "note": "requires continuation and branch retention"
+    },
+    {
+      "rule": 7,
+      "name": "numerical_failure",
+      "when": "radius- or tau-mode integration failure, nonconvergent tau-mode root, exhausted evaluation or outer-iteration budget",
+      "physical": false
+    },
+    {
+      "rule": 8,
+      "name": "photon_tiring_exit",
+      "when": "mdot G M/(R_b L) >= 1 for the tau-mode mdot",
+      "physical": false
+    },
+    {
+      "rule": 9,
+      "name": "reduction_invalid",
+      "when": "a screen at the tau-mode critical point fails (thermal relaxation, photon trapping, nonrelativistic profile, shell-mass fraction, GENCOOL channel closure)",
+      "physical": false
+    },
+    {
+      "rule": 10,
+      "name": "stationary_transonic_wind",
+      "when": "none of the above",
+      "physical": false,
+      "note": "component result only; certification requires the outer fixed point and every acceptance threshold"
+    }
+  ],
+  "acceptance_thresholds": {
+    "hydro_step_base_condition_log_residual": 1e-08,
+    "critical_regularity_relative": 1e-06,
+    "hydro_step_independent_momentum_integral_relative": 1e-06,
+    "hydro_step_profile_refinement_max_abs_log": 0.001,
+    "base_rematch_ln_mdot": 1e-05,
+    "momentum_residual_relative_all_depths_except_ND": 0.001,
+    "spectral_vs_native_grad_relative_L_corrected_except_ND": 0.001,
+    "spectral_vs_rvtj_material_state_relative": 0.001,
+    "thermal_relaxation_over_flow_time_at_rc": 0.01,
+    "photon_trapping_v_tau_over_c_at_rc": 0.01,
+    "nonrelativistic_v_over_c": 0.01,
+    "point_mass_shell_mass_fraction": 0.01,
+    "convective_flux_fraction_at_guarded_depths": 0.01,
+    "guard_composition_X_absolute": 0.0001,
+    "base_to_outer_total_energy_flux_relative": 0.001,
+    "tau_vs_radius_mode_ln_mdot_at_fixed_point": 0.001,
+    "outer_fixed_point_ln_mdot": 0.0003,
+    "outer_fixed_point_ln_sonic_radius": 0.0003,
+    "restart_x3_and_x1over3_ln_mdot_and_ln_sonic_radius": 0.001,
+    "resolution_167_333_and_doubled_frequency_max_abs_log": 0.001,
+    "inherited": "benchmarks/cmfgen_validation_plan.json and benchmarks/cmfgen_cool_validation_plan.json thresholds apply unchanged at every accepted closure (electron balance 1%, global/cumulative radiation energy 0.1%, last native correction 0.1% all levels, populations/charge 1e-6, spectral material temperature 0.1%, internal profile refinement 1%)",
+    "definitions": {
+      "momentum_residual_relative": "|v dv/dr + rho^-1 dP_gas/dr + G M/r^2 - g_rad| / (|v dv/dr| + |rho^-1 dP_gas/dr| + G M/r^2 + |g_rad|); v dv/dr = v^2 (sigma+1)/r from the CMFGEN velocity law, dlnP/dlnr from PCHIP in ln r; native HYDRO % error reported alongside",
+      "spectral_vs_native_grad": "native g_RAD uses the inner comoving luminosity L(ND) (hydro_terms_v5.f:214), the export uses local force; compare g_spec with g_RAD L_comoving(r)/L_comoving(r_ND). The raw ratio is reported but is a definitional difference, not an error",
+      "thermal_relaxation_time": "(translational + resolved atomic energy density from hhe_material) / (0.5 sum over GENCOOL channel rows of |rate|); per-channel nets underestimate gross exchange, so the screen is conservative. Translational-only energy is a lower bound and does not pass the screen",
+      "flow_time": "H_rho/v_c with H_rho = r_c/|2 + s_c|, s_c the critical slope",
+      "base_rematch": "move the base to another subsonic depth with tau_b (or rho_b) read from the solution; recovered mdot",
+      "resolution_threshold_basis": "Existing completion_gates.json 'spherical wind component profile refinement' (1e-3 max |dlog|) applied unchanged to ln mdot, ln r_s and the wind v, rho profiles at shared radii",
+      "gencool_channel_closure_relative": "|sum of GENCOOL channel rows - native net| / sum |rows|; rows with 'Ratio of' or 'Net Cooling' are not channels"
+    },
+    "gencool_channel_closure_relative": 0.01
+  },
+  "outer_fixed_point_policy": {
+    "variable": "x = ln mdot of the flow written to the CMFGEN closure; G_k = xhat_k - x_k with xhat_k from the tau-mode hydro step on converged closure k",
+    "closure_settings": "nk167_hot settings at the time of the first converged closure (PTC, --split, approved ultra weight, convergence 1e-3); recorded per iterate, never changed mid-iteration",
+    "first_step": "x_1 = x_0 + 0.5 G_0",
+    "later_steps": "secant x_{k+1} = x_k - G_k (x_k - x_{k-1})/(G_k - G_{k-1}) if G_k != G_{k-1} and the secant point lies inside the latest sign-change bracket when one exists; otherwise x_{k+1} = x_k + 0.5 G_k",
+    "trust_region": "|x_{k+1} - x_k| <= ln 10; a truncated step is recorded as truncated, never silent",
+    "flow_written": "hydro-step velocity law vhat_k(r) on the regenerated radius grid with mdot = exp(x_{k+1}); density from continuity; RVSIG_COL sigma = dlnv/dlnr - 1; VTURB unchanged",
+    "converged_when": "|G_k| <= 3e-4 and |ln rhat_s,k - ln r_s,k| <= 3e-4 and closure-k momentum residual passes",
+    "budget": "12 outer iterations; exhaustion is numerical_failure (not a physical statement)",
+    "preservation": "every closure, hydro step, trial and rejected iterate is kept"
+  },
+  "repeat_criteria": {
+    "restart": "outer fixed point repeated from 3 x and 1/3 x the converged mdot",
+    "base_rematch": "hydro step on the converged closure with the base moved to two other subsonic depths",
+    "resolution": "final structure re-converged at 333 radii (nested transfer) and with doubled frequency; one hydro step each, no further outer iteration",
+    "numerical": "hydro step repeated with rtol/10 and tables oversampled; profile refinement threshold above",
+    "guard": "Mach-one MLT guard with Henyey alpha=2 and ML1 alpha=2 (existing guard models)"
+  },
+  "pending_user_approval": [
+    {
+      "item": "Mach-one guard opacity on non-LTE CMFGEN structure",
+      "proposal": "evaluate with both CMFGEN Rosseland mean and MESA LTE opacity and trip if either trips",
+      "why_pending": "The existing guard (atmosphere_reference.py:78-93) uses MESA LTE opacity with FreeEOS on LTE structures; applying it to a non-LTE structure is a new application of an existing gate. Default applied meanwhile: 'both' (cannot weaken the guard)"
+    },
+    {
+      "item": "relaxing the resolution criterion on ln mdot from 1e-3 to the CMFGEN internal-profile 1%",
+      "proposal": "not applied; recorded only so that any later relaxation is visibly a user decision",
+      "why_pending": "would change how the existing spherical-wind profile refinement gate is applied"
+    },
+    {
+      "item": "thermal-relaxation screen: wording and gross-exchange estimate (amendment 2026-10-07T04:25Z)",
+      "proposal": "(a) acceptance_thresholds.definitions.thermal_relaxation_time is a gross-exchange PROXY, not a conservative bound: the relaxation rate that matters, T dLambda_net/dT, can be well below the per-process gross exchange, so 'the screen is conservative' is withdrawn. (b) Drop the two GENCOOL 'Adiabatic cooling rate' rows (V term, dTdR term; flow work present under INC_AD T, verified on results/nk167_hot/it26_trial_l1/GENCOOL) from the gross-exchange estimate; they stay in the gencool_channel_closure_relative sum",
+      "why_pending": "(b) changes a pre-registered definition, and the adiabatic rows shorten t_th and so bias t_th/t_flow toward passing. Default applied meanwhile: the screen must pass with BOTH the registered all-channel estimate and the radiative-only one (stricter; cannot weaken the screen). No threshold value changes"
+    },
+    {
+      "item": "rule-7 tolerances applied by classify (amendment 2026-10-07T04:25Z)",
+      "proposal": "a transonic step is a nonconvergent root (rule 7) when |base_log_residual| > hydro_step_base_condition_log_residual (1e-8), when the tau-mode outer residual |ln tau(r_o) - ln tau_o| exceeds the same 1e-8, or when regularity_relative > critical_regularity_relative (1e-6); a 'passed' Mach-one guard counts only if it guarded at least one depth (tau_R >= 2/3, subsonic) with both opacities, otherwise rule 1",
+      "why_pending": "the base and regularity thresholds were declared but not enforced by classify; applying the base-condition tolerance to the outer condition, and refusing a vacuous guard pass, are stricter applications of rules 1 and 7. Default applied meanwhile: enforced (cannot weaken any gate). Requiring both guard opacities only enforces the default already declared above"
+    }
+  ],
+  "not_in_scope": [
+    "Coupled characteristic analysis when the isothermal-type reduction fails its screens (docs/nlte_backend.md:93 then applies)",
+    "Convective handoff to the QStarS envelope and physically sourced base data (Gate 5)",
+    "Non-nested state transfer and the restart writer for a new radius/velocity grid",
+    "Opening cmfgen_backend.production_outer or a winds.rate 'cmfgen_selected' mode before every criterion passes"
+  ],
+  "no_fitted_physics_coefficients": true,
+  "solver_failure_is_never_physics": true,
+  "classification_rule": "First matching rule in classification_order; all diagnostics are reported regardless",
+  "amendments": [
+    {
+      "utc": "2026-10-07T04:25:00Z",
+      "previous_sha256": "9be87a98f4c109c6350aba7cd6832d73a5f707135967f52a69e5ea391af39905",
+      "before_any_governed_result": "no converged T-released closure exists and no hydro step has been evaluated on one; Reports/evidence/report23/grad_input_audit.json (an input audit on archived non-converged states) cites the previous sha",
+      "threshold_values_changed": false,
+      "changes": [
+        "Two pending_user_approval items added (thermal screen; rule-7/guard enforcement), each with a non-weakening default",
+        "Implementation, no gate change: tau mode solves (ln mdot, ln(tau_c - tau_o)) with mdot only in logs, so tau_c - tau_o << tau_o and mdot below the float range are resolved (tests at R_b = r_c/40 and r_c/7000 against the radius mode and an independent Parker quadrature); the Newton stop uses the reported ln-tau/outer forms",
+        "Implementation, no gate change: a radius-mode critical-point candidate whose branch stalls at |v^2/a^2 - 1| < 1e-3 (the D -> 0, N != 0 fold; the only singularity of the step's ODE) is a rejected crossing, as a sonic re-encounter already was; any other integration failure leaves the candidate unresolved and the whole step numerical_failure (rule 7) after the enumeration completes",
+        "Implementation, no gate change: outer_fixed_point_policy.converged_when is enforced in full (|G_k|, |d ln r_s| and the closure momentum criterion); mdot and r_s at the fixed point with the momentum criterion failing is reported as not converged",
+        "Implementation, no gate change: rule-9 screens read the state at the step's own critical point (ln tau_R = ln tau_c in tau mode, ln r = ln r_c in radius mode) and raise outside the state table"
+      ]
+    }
+  ]
+}

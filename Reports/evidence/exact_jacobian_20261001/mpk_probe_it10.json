@@ -1,0 +1,12 @@
+{
+ "driver_directions_all": 0.6166877865451752,
+ "driver_first_pass": 0.7348526201210721,
+ "moment_alone": 0.9981957545181839,
+ "first_pass_plus_moment": 0.733175309192299,
+ "fac1_alone": 0.9999985913171364,
+ "first_pass_plus_fac1": 0.7346976162742772,
+ "fac0.5_alone": 0.9952823878558885,
+ "first_pass_plus_fac0.5": 0.7343927570274562,
+ "first_pass_plus_all_new": 0.7326035914346077,
+ "all_plus_all_new": 0.6111087643726231
+}

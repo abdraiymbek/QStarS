@@ -4,10 +4,27 @@
   "reference": "Martins et al. 2026, arXiv:2605.12141, Table 1 and Appendices A/C",
   "scope": "Primordial H/He stress controls at published luminosity/radius/mdot scales, NOT reproductions of the metal-bearing published models. The unpublished base scale height is not fitted.",
   "cases": {
-    "T9": {"inner_flux_temperature_K": 9000, "radius_Rsun": 41360, "luminosity_Lsun": 10000000000, "mdot_Msun_yr": 0.15},
-    "T6": {"inner_flux_temperature_K": 6000, "radius_Rsun": 93061, "luminosity_Lsun": 10000000000, "mdot_Msun_yr": 0.30}
+    "T9": {
+      "inner_flux_temperature_K": 9000,
+      "radius_Rsun": 41360,
+      "luminosity_Lsun": 10000000000,
+      "mdot_Msun_yr": 0.15
+    },
+    "T6": {
+      "inner_flux_temperature_K": 6000,
+      "radius_Rsun": 93061,
+      "luminosity_Lsun": 10000000000,
+      "mdot_Msun_yr": 0.3
+    }
   },
-  "prescribed_control_flow": {"base_velocity_km_s": 0.01, "terminal_velocity_km_s": 200, "beta": 1, "outer_radius_ratio": 100, "initial_radii": 84, "core_rays": 15},
+  "prescribed_control_flow": {
+    "base_velocity_km_s": 0.01,
+    "terminal_velocity_km_s": 200,
+    "beta": 1,
+    "outer_radius_ratio": 100,
+    "initial_radii": 84,
+    "core_rays": 15
+  },
   "physics": "H-/HI/HII/HeI/HeII/HeIII, native full levels, two-photon and Rayleigh enabled, coherent electron scattering, native level dissolution; no metals, molecules, clumping, X-rays or imposed temperature floor. Initial radiative-equilibrium controls omit material and population advection, which must be restored and validated before wind use.",
   "thresholds": {
     "inherited_component_plan": "benchmarks/cmfgen_validation_plan.json",
@@ -16,8 +33,8 @@
     "recombination_neutral_fraction_min": 0.1,
     "recombination_neutral_fraction_max": 0.9,
     "minimum_recombining_depths": 3,
-    "material_derivative_relative": 0.000001,
-    "finite_difference_step_ln": 0.00001,
+    "material_derivative_relative": 1e-06,
+    "finite_difference_step_ln": 1e-05,
     "cumulative_radiation_energy_relative": 0.001,
     "population_advection_energy_relative": 0.001
   },
@@ -30,5 +47,52 @@
     "Keep Mach-one MLT guard; no convective flux may be discarded at matching",
     "Stop downstream production work if the component remains invalid; preserve all trials"
   ],
-  "justification": "Retain Report 13 tolerances. Require at least three partially recombined cool cells to prevent labeling an ionized control a recombination validation. Derivative identities have no discretization error except finite differences and floating-point/printed-state precision. A 0.1% integrated and cumulative luminosity budget is needed before QStarS can accept a radiative source. These controls establish no quantitative published-model agreement."
+  "justification": "Retain Report 13 tolerances. Require at least three partially recombined cool cells to prevent labeling an ionized control a recombination validation. Derivative identities have no discretization error except finite differences and floating-point/printed-state precision. A 0.1% integrated and cumulative luminosity budget is needed before QStarS can accept a radiative source. These controls establish no quantitative published-model agreement.",
+  "closing_phase": {
+    "status": "declared 2026-10-06 before any converged T-released closure state exists (results/nk167_hot/history.json: iterates 0-25, none converged); floating_point_floor re-declared 2026-10-06 ~23:00, still before any converged state (iterate 26 step max|s| 0.37); the floor-exemption question below is pending_user_approval",
+    "plan_sha256_before_addition": "916ff171cf36a1b1027f07c1948955b4c13d8ea83a8bfafc6b860206b2e9d1b6",
+    "applies_to": [
+      "results/nk167_hot (167 radii)",
+      "the 333-radius T-released solve",
+      "the 167-radius doubled-frequency solve (benchmarks/cmfgen_cool_frequency_plan.json)"
+    ],
+    "gates_unchanged": "Every threshold of benchmarks/cmfgen_validation_plan.json and of this plan's thresholds block applies unchanged, including last_nonlinear_correction <= iteration_max_fractional_correction (1e-3) on ALL levels with no discarded levels, and spectral_material_temperature <= 1e-3. Nothing here raises, waives or reclassifies a gate result.",
+    "why": "The Newton-Krylov test (exact Newton step < 1e-3 over variables holding > 1e-10 of their element, plus n_e and T) is not the audit quantity. The verify pass reports CMFGEN's native fixed-J correction y = M^-1 R (QS_ALI_LIN=T, QS_LIN_FAC=0, native n_e/T columns), which at it23 amplified the exact T step 16x (median) to 8.3e5x, and which on ultra-trace levels is slaved to the significant native correction (amplification up to ~4e7 for He III at the cool front, it24).",
+    "procedure": [
+      "1. Newton-Krylov CONVERGED with the converged stage's arguments unchanged (--tol 1e-3, PTC delta 0, full Krylov budget).",
+      "2. At that base run scripts/native_correction_check.py BASE --replace TABLE --predict-cleanup. Criterion C: in after_structural_cleanup, class 'all' (every active variable: significant incl. n_e and T, and every trace class) has audit_normalized <= iteration_max_fractional_correction (1e-3). If any variable exceeds 1e-3, run the identical-state pairs of floating_point_floor at this base and repeat with --noise-pair P1 P2: C then holds if every variable above 1e-3 is FAIL-at-floor under that MEASURED floor (counted and listed, never exempted from the gate).",
+      "3. If C fails: pure Newton continuation from that base with scripts/cool_newton_krylov.py and the converged stage's arguments, except --start-base BASE --start-k NEXT, no --t-homotopy (PTC off) and --eta 0.05; --tol, --sig-frac, --trace-weight, --ultra-frac and --ultra-weight unchanged. Repeat step 2 at every accepted base.",
+      "4. Stop the continuation when C holds; or when every variable above 1e-3 is FAIL-at-floor under the floor measured at that base (floating_point_floor; no Newton iterate lowers a floor); or at the budget: 8 accepted continuation iterates, or 3 consecutive accepted iterates without a factor-2 decrease of the predicted significant-class audit_normalized value. A budget stop is recorded as 'closing phase not converged at budget' (numerical, never physics); every pass is preserved.",
+      "5. In every case then run scripts/post_convergence.sh RUN BASE X0 REPLACE (PAIRING=structural, EXE build 31): trace cleanup to max trace step < 1e-4, one complete verify iteration, audit_cmfgen_cool.py. The gate result is the audit's (validation.json, cool_validation.json); native_correction_check values are predictions reported beside it and never substituted for it."
+    ],
+    "trace_cleanup": "scripts/trace_cleanup.py --pairing structural: CMFGEN's equation-variable pairing from generate_full_matrix_v3.f (own SE rows; a trace top ion or replaced ground solved with the ionization-equation row C_ION linking it to a significant or already paired adjacent ion; conservation rows never used; variables without a row of their own held fixed and listed as unpaired), one sparse system over all depths with the native tridiagonal blocks. At it24 all 12393 trace variables are paired (12317 own rows; 76 He III with C_ION(He II), whose ground equation is replaced at all 167 depths).",
+    "floating_point_floor": {
+      "definition": "MEASURED at the base where it is used: per variable, floor = max over identical-state pairs (BASE, P) of |M^-1 (R_BASE - R_P)|, M = BASE's own native blocks (QSTARS_BA_TRACE.bin): scripts/native_correction_check.py BASE --noise-pair P1 P2 (measured_floor). The tool refuses a P whose POPS, active rows or equation selection differ from BASE. A floor is never carried to another state; BASE's floor serves BASE's predictions including after_structural_cleanup.",
+      "pairs": "At least 2 passes re-running BASE exactly (scripts/bench_pass.py BASE DEST --x0 X0 --exe EXE --threads N): P1 the same executable at another thread count, P2 an exact repeat (same executable and thread count). The output's floor.composition.as_declared must be true; otherwise its FAIL-at-floor counts are diagnostic only and no variable is FAIL-at-floor. Cost: two base passes per floor (~6 min each at build 30 speed, Report 22).",
+      "classification": "A variable whose predicted correction has audit_normalized > 1e-3 and whose floor, audit-normalized the same way (fl/(1-fl)), also exceeds 1e-3 is FAIL-at-floor: counted and listed (classes.all.fail_at_floor) beside the unchanged all-level gate value. It remains a FAIL of last_nonlinear_correction. Only the measured floor is used for FAIL-at-floor, criterion C and the step-4 floor stop.",
+      "noise_model": "native_correction_check --noise-eps EPS (random-sign model: r = EPS x row l1 of the native blocks x (+-1) through M) is REPORT ONLY (model_floor_max), at most an upper-bound estimate, never used for classification or stopping. No fallback EPS: the earlier 3.2e-12 is Report 22's residual_rowwise_max_rel, normalized by max_depth|R_row| (scripts/bench_pass.py rowwise), not by the row l1.",
+      "exemption": "pending_user_approval",
+      "exemption_question": "May FAIL-at-floor variables be excluded from iteration_max_fractional_correction? That would change how the declared all-level gate is applied, so it is NOT adopted here; it needs the user's decision before any converged audit is read.",
+      "pre_result_evidence": "it14 identical-state passes on disk (Reports/evidence/report23/native_correction/it14_trial_l1_noise_pairs.json, floor_pairs_it14.py/.txt; it14_trial_l1 build 28 2 threads; results/bench22/matched/base_b28_t8, base_b30_t8, base_b30_t2): eps_row_l1 6.9e-11 (build 28, 2 vs 8 threads), 4.7e-10 (build 30, 8 vs 2), 1.4e-9 (build 28 vs 30). Measured |M^-1 dR| at it14: T 1.5e-12 to 9.5e-12, n_e <= 4.3e-12, significant <= 1.9e-10, all <= 1.7e-4, no variable above 1e-3. The random-sign model at it14 with EPS 3.2e-12 gives T 5.0e-4 and 418 variables above 1e-3; being linear in EPS it gives T 1.2e-2 to 0.24 at it24 with the measured EPS. Measured pattern (dR / row l1 at it14) rescaled to it24's row l1 through it24's M: T <= 7e-12, significant <= 2.3e-10, all <= 2.0e-2, at most 93 variables above 1e-3 (He II/He III trace; demoted / ionization-paired); same-build pairs only: <= 1.3e-3 on 1 variable. No exact repeat exists on disk (composition not as declared; prediction only)."
+    },
+    "revisions": [
+      {
+        "superseded_declaration_sha256": "8c9b07958d84928021c7902f15daef0cf34348a57e9b1bbf555b97f01df65bdd",
+        "date": "2026-10-06",
+        "change": "floating_point_floor re-declared: the random-sign model with a 3.2e-12 fallback is replaced by the floor measured from identical-state pairs; procedure steps 2 and 4 refer to it. No threshold, gate or exemption changed.",
+        "reason": "The 3.2e-12 fallback was in the wrong unit (max_depth-normalized, not row l1) and the model overstated the measured floor by orders of magnitude (T 5e-4 modelled vs <= 1e-11 measured at it14), which would have labelled a numerical stall FAIL-at-floor and triggered the step-4 stop. Floor fields of Reports/evidence/report23/native_correction/it23_trial_l1.json, it24_trial_l1.json and it24_trial_l1_noise1e-15.json come from the withdrawn model.",
+        "superseded_procedure_step_2": "2. At that base run scripts/native_correction_check.py BASE --replace TABLE --predict-cleanup --noise-eps EPS (EPS below). Criterion C: in after_structural_cleanup, class 'all' (every active variable: significant incl. n_e and T, and every trace class) has audit_normalized <= iteration_max_fractional_correction (1e-3), except variables that are FAIL-at-floor (counted and listed, never exempted).",
+        "superseded_procedure_step_4": "4. Stop the continuation when C holds; or when every variable above 1e-3 is FAIL-at-floor (no Newton iterate lowers a floor); or at the budget: 8 accepted continuation iterates, or 3 consecutive accepted iterates without a factor-2 decrease of the predicted significant-class audit_normalized value. A budget stop is recorded as 'closing phase not converged at budget' (numerical, never physics); every pass is preserved.",
+        "superseded_floating_point_floor": {
+          "model": "native_correction_check.noise_floor: per variable, max over 8 sign realizations (seed 0) of |M^-1 r| with r = EPS x (row l1 of the native blocks) x (+-1) on active rows, through the full native M, so significant-row noise slaved into trace levels is included.",
+          "eps": "EPS = max over active rows of |R_1 - R_2| / (row l1) between two identical base passes at the final state, measured once and recorded before the audit is read; until measured, the Report 22 build-to-build bound 3.2e-12 per row.",
+          "reporting": "A variable above 1e-3 whose floor also exceeds 1e-3 is FAIL-at-floor: listed and counted separately beside the unchanged all-level gate value. It remains a FAIL of last_nonlinear_correction.",
+          "exemption": "pending_user_approval",
+          "exemption_question": "May FAIL-at-floor variables be excluded from iteration_max_fractional_correction? That would change how the declared all-level gate is applied, so it is NOT adopted here; it needs the user's decision before any converged audit is read.",
+          "pre_result_evidence": "it24 (unconverged; prediction only): EPS 1e-15 gives floors > 1e-3 on 34 variables (He II excited levels and He III, depths 20-21, fraction <= 6.5e-39; max 5.4e-3); EPS 3.2e-12 gives floors > 1e-3 on 531 variables (rows 103-132, depths 8-40, fraction <= 6.1e-28; max 17) and 5.4e-4 on T. The significant class and the other trace levels stay below 1e-3 at both."
+        }
+      }
+    ],
+    "declaration_sha256": "df711bafa94ef7e95e0c33fd658bb1d827908d3ec3e1c3d8264cad8a7b65a882"
+  }
 }

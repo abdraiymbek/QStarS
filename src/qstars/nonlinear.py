@@ -71,3 +71,65 @@ def flux_jacobian(fun,x):
                     support=np.r_[n+j,n+j+1,2*n+j]
                 rows.extend(support);cols.extend([offset+j]*len(support));values.extend(derivative[support])
     return csc_matrix((values,(rows,cols)),shape=(len(x),len(x)))
+
+
+_COLOURINGS={}
+
+def _structure(pattern):
+    """Canonical CSC structure (sorted, deduplicated, explicit zeros dropped)."""
+    from scipy.sparse import issparse
+    p=csc_matrix(pattern.tocsc(copy=True) if issparse(pattern) else np.asarray(pattern),dtype=float)
+    p.data=(p.data!=0).astype(float);p.eliminate_zeros();p.sum_duplicates();p.sort_indices()
+    return p
+
+def colouring(pattern):
+    """Greedy distance-2 column colouring of a declared sparsity pattern.
+
+    Columns sharing a structural row never share a colour, so one complex
+    step per colour recovers every declared entry. Columns are visited in
+    natural order, so the colouring is deterministic; it is cached per
+    pattern (key: shape and CSC index arrays). Returns a read-only array.
+    """
+    import hashlib
+    p=_structure(pattern)
+    key=hashlib.sha256(np.array(p.shape,dtype=np.int64).tobytes()+p.indptr.astype(np.int64).tobytes()
+                       +p.indices.astype(np.int64).tobytes()).hexdigest()
+    if key in _COLOURINGS:
+        _COLOURINGS[key]=_COLOURINGS.pop(key)
+        return _COLOURINGS[key]
+    rows=p.tocsr()
+    colour=np.full(p.shape[1],-1,dtype=np.int64)
+    for j in range(p.shape[1]):
+        r=p.indices[p.indptr[j]:p.indptr[j+1]]
+        neighbours=np.concatenate([rows.indices[rows.indptr[i]:rows.indptr[i+1]] for i in r]) if len(r) else np.zeros(0,int)
+        used=colour[neighbours];used=used[used>=0]
+        free=np.ones(len(used)+1,bool);free[used[used<len(free)]]=False
+        colour[j]=int(np.argmax(free))
+    colour.flags.writeable=False
+    _COLOURINGS[key]=colour
+    while len(_COLOURINGS)>32:_COLOURINGS.pop(next(iter(_COLOURINGS)))
+    return colour
+
+def pattern_jacobian(fun,x,pattern,step=1e-25,strict=False):
+    """Complex-step Jacobian on a declared sparsity pattern, one evaluation per colour.
+
+    Returns a CSC matrix with exactly the pattern's structure. With strict,
+    a derivative in a row no column of that colour declares raises
+    ValueError instead of being dropped.
+    """
+    p=_structure(pattern)
+    x=np.asarray(x)
+    if p.shape[1]!=len(x):raise ValueError("Pattern columns must match the number of unknowns")
+    colour=colouring(p)
+    entry_colour=np.repeat(colour,np.diff(p.indptr))
+    values=np.zeros(p.nnz)
+    for c in range(int(colour.max())+1 if len(colour) else 0):
+        xx=x.astype(complex);xx[colour==c]+=step*1j
+        derivative=np.asarray(fun(xx)).imag/step
+        entries=entry_colour==c
+        values[entries]=derivative[p.indices[entries]]
+        if strict:
+            outside=np.ones(len(derivative),bool);outside[p.indices[entries]]=False
+            if np.any(derivative[outside]!=0):
+                raise ValueError(f"Jacobian entries outside the declared pattern in rows {np.flatnonzero(outside&(derivative!=0))[:8]}")
+    return csc_matrix((values,p.indices.copy(),p.indptr.copy()),shape=p.shape)

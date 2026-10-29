@@ -1,0 +1,22 @@
+{
+ "build25_nodis": {
+  "dchi_cells_off_more_than_1e-3": 841314,
+  "cells": 3638376,
+  "deta_rel_L2": 0.07479070697891169
+ },
+ "build25": {
+  "dchi_cells_off_more_than_1e-3": 89586,
+  "cells": 3638376,
+  "deta_rel_L2": 0.00014621249580117188
+ },
+ "build26": {
+  "dchi_cells_off_more_than_1e-3": 89586,
+  "cells": 3638376,
+  "deta_rel_L2": 6.749974475411874e-05
+ },
+ "build27": {
+  "dchi_cells_off_more_than_1e-3": 160,
+  "cells": 3638376,
+  "deta_rel_L2": 6.749974475411874e-05
+ }
+}

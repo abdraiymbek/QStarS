@@ -1,0 +1,586 @@
+FFFFF.FFF...F........FFFFF.F                                             [100%]
+=================================== FAILURES ===================================
+__ test_a_trial_density_with_gamma_ph_above_one_is_not_a_missing_photosphere ___
+
+    def test_a_trial_density_with_gamma_ph_above_one_is_not_a_missing_photosphere():
+        """Final review item 2: kappa_ph depends on the trial rho_ph, so Gamma_ph >= 1 at a trial density says
+        nothing about the root. Here the root has Gamma_ph = 0.92 while the third point of the bracket scan from
+        the default guess (rho = 1e-12 e^3.5) has Gamma_ph > 1. The registered solve (bracket 'doubling', the
+        default) lets that trial's DomainError out ("Gamma_ph >= 1; no Ball surface exists"): that is the
+        registered behaviour and stays the default. The option bracket='scan' (plan amendment 4) uses that the
+        row is continuous through Gamma_ph = 1, so such a trial is an upper bound of the bracket."""
+        M,R=100*MSUN,150*RSUN;opacity=rising_opacity(1e-11)
+        L=.7*4*PI*G*C*M/KAPPA
+        scan=1e-12*np.exp([0.,.5,1.5,3.5])
+        assert [photosphere.evaluate(x,L,R,M,EOS,opacity)['residual']<0 for x in scan[:3]]==[True]*3
+        with pytest.raises(DomainError,match='Gamma_ph >= 1'):photosphere.evaluate(scan[3],L,R,M,EOS,opacity)
+        # Registered default: the false 'Gamma_ph >= 1' (no surface reported although a root exists).
+>       assert photosphere.BRACKETS==('doubling','scan')
+               ^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'qstars.photosphere' has no attribute 'BRACKETS'
+
+tests/test_photosphere.py:87: AttributeError
+____ test_gamma_ph_above_one_at_every_admissible_density_is_the_domain_exit ____
+
+    def test_gamma_ph_above_one_at_every_admissible_density_is_the_domain_exit():
+        """A true Gamma_ph >= 1 case with a density-dependent opacity: kappa_ph >= kappa_es at every density,
+        so L = 1.2 L_Edd(kappa_es) has no Ball surface. With a bounded microphysics domain, a root that lies
+        outside it is 'not bracketed' as long as some admissible density has Gamma_ph < 1."""
+        M,R=100*MSUN,150*RSUN;opacity=rising_opacity(1e-11);edd=4*PI*G*C*M/KAPPA
+        for guess in (None,1e-16,1e-8):
+            with pytest.raises(DomainError,match='Gamma_ph >= 1.*at every admissible'):
+>               photosphere.solve(1.2*edd,R,M,EOS,opacity,guess=guess,bracket='scan')
+E               TypeError: solve() got an unexpected keyword argument 'bracket'
+
+tests/test_photosphere.py:111: TypeError
+__ test_photosphere_bracket_option_reaches_every_solve_and_is_off_by_default ___
+
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a244e60>
+
+    def test_photosphere_bracket_option_reaches_every_solve_and_is_off_by_default(monkeypatch):
+        """quasistatic.photosphere_bracket (plan amendment 4; registered 'doubling') is the bracket rule of every
+        photosphere.solve of the Ball path: the seed's outer pressure, the predictor of a step from a state
+        without a photospheric density (the first step from a seed) and the frozen-entropy problem of fold.py
+        for such a state. Where the registered rule brackets the root (here: electron scattering) both rules
+        give the same seed and the same step, bitwise."""
+        from qstars import fold
+        solve=photosphere.solve;calls=[]
+        def traced(*args,**kwargs):
+            calls.append(kwargs.get('bracket'));return solve(*args,**kwargs)
+        monkeypatch.setattr(photosphere,'solve',traced)
+        out={}
+        for bracket in ('doubling','scan'):
+            _,c=toy(48,'cell',radius=300.)
+            c['quasistatic']=dict(c.get('quasistatic') or {},photosphere_bracket=bracket)
+            calls.clear()
+>           s,_=quasistatic.seed(c,EOS,OPACITY,48,MSUN,100*MSUN,300*RSUN)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_quasistatic.py:751: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/qstars/quasistatic.py:241: in seed
+    s=s or settings(config)
+           ^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+config = {'schema_version': 1, 'name': 'hot_envelope', 'fidelity': 'exploratory', 'initial': {'envelope_mass_msun': 10000.0, 'bh_mass_msun': 100.0, 'radius_cm': 100000000000000.0, 'inner_radius_cm': 1000000000000.0, ...}, ...}
+
+    def settings(config):
+        """Quasi-static and cavity settings: module defaults updated by config['cavity'] and config['quasistatic']."""
+        out={}
+        for section,defaults in DEFAULTS.items():
+            given=config.get(section) or {}
+            unknown=set(given)-set(defaults)
+>           if unknown:raise ValueError(f'Unknown {section} settings {sorted(unknown)}')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           ValueError: Unknown quasistatic settings ['photosphere_bracket']
+
+src/qstars/quasistatic.py:152: ValueError
+_______ test_fallback_f1_ends_on_the_registered_equations_and_tolerance ________
+
+stable_cell = (State(time=169423574925312.0, bh_mass=1.98847e+33, dm=array([2.18573559e+32, 4.89651711e+32, 9.01458342e+32, 1.334708..._msun': 10000.0, 'bh_mass_msun': 100.0, 'radius_cm': 100000000000000.0, 'inner_radius_cm': 1000000000000.0, ...}, ...})
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x106c53c50>
+
+    def test_fallback_f1_ends_on_the_registered_equations_and_tolerance(stable_cell,monkeypatch):
+        """Fallback F1: when the damped Newton solve fails, the system is restarted from the predictor with
+        pseudo-transient continuation and the plain Newton solve takes over. The accepted unknowns satisfy the
+        registered residual (no pseudo-time term) to the registered 1e-12, and they are the solution the plain
+        solve finds; without the switch the same failure is a step rejection, as registered. (A 100 yr step of
+        the 64-zone toy. The continuation is not attracting at every step solution: at 10 yr on this toy it
+        stalls where Newton converges in two iterations, which is then reported as a failed fallback.)"""
+        s,_,c=stable_cell;s=zero_time(s)
+        on=copy.deepcopy(c);on['quasistatic']=dict(ptc=True)
+        reference,d0=quasistatic.bondi_step(s,100*YEAR,EOS,OPACITY,c)
+        newton=quasistatic.newton;calls=[];failed=[]
+        def first_fails(fun,x,*a,**k):
+            calls.append(1)
+            if len(calls)>1:return newton(fun,x,*a,**k)
+            _,info=newton(fun,x,*a,**k);failed.append(info['iterations'])
+            return x,dict(info,success=False,message='Newton line search or iteration limit (forced by the test)')
+        monkeypatch.setattr(quasistatic,'newton',first_fails)
+        with pytest.raises(StepRejected,match='Quasi-static solve failed') as rejected:quasistatic.bondi_step(s,100*YEAR,EOS,OPACITY,c)
+        assert 'F1' not in str(rejected.value)
+        # The solve itself: P0-P2 as in bondi_step, then Problem.solve with the fallback.
+        S=quasistatic.settings(on);predicted=quasistatic.predict(s,100*YEAR,EOS,on,'evolve',None,S)
+        cut,_=cavity.slice_base(s,predicted['swept'],EOS)
+        post,_=quasistatic.remesh_base(s,cut,EOS,on['numerics']['zones'])
+        problem=quasistatic.Problem(s,post,100*YEAR,EOS,OPACITY,on,'evolve',None,predicted,S)
+        calls.clear();x,info=problem.solve()
+        assert info['success'] and info['ptc_entered'] and info['ptc_handover'] and info['ptc_iterations']>=1 and len(calls)==2
+        assert info['residual']<=1e-12 and np.max(abs(problem.evaluate(x)))<=1e-12  # the registered residual, pseudo-time removed
+        assert 'forced by the test' in info['newton_message'] and info['nfev']>info['ptc_iterations']
+        # Second review: a rescued step reports every nonlinear iteration it needed (the failed Newton solve, the
+        # pseudo-time iterations, the final Newton solve), so the registered controller rule 'extra factor 0.8
+        # if Newton needed more than 8 iterations' sees them; before, only the final Newton iterations (1 here).
+>       assert info['iterations']==failed[-1]+info['ptc_iterations']+info['final_newton_iterations']>info['final_newton_iterations']
+                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'final_newton_iterations'
+
+tests/test_quasistatic.py:867: KeyError
+____ test_fallback_f1_is_off_by_default_and_never_changes_a_converging_step ____
+
+stable_cell = (State(time=169423574925312.0, bh_mass=1.98847e+33, dm=array([2.18573559e+32, 4.89651711e+32, 9.01458342e+32, 1.334708..._msun': 10000.0, 'bh_mass_msun': 100.0, 'radius_cm': 100000000000000.0, 'inner_radius_cm': 1000000000000.0, ...}, ...})
+
+    def test_fallback_f1_is_off_by_default_and_never_changes_a_converging_step(stable_cell):
+        """quasistatic.ptc False (default) is the registered solve; with ptc True a step whose Newton solve
+        converges is bitwise the same, and relaxation steps never use the fallback."""
+        s,_,c=stable_cell;s=zero_time(s)
+        assert quasistatic.settings(c)['quasistatic']['ptc'] is False and quasistatic.DEFAULTS['quasistatic']['ptc'] is False
+        # The photosphere bracket is the registered one unless amended (plan amendment 4: 'scan').
+>       assert quasistatic.DEFAULTS['quasistatic']['photosphere_bracket']=='doubling'==quasistatic.settings(c)['quasistatic']['photosphere_bracket']
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'photosphere_bracket'
+
+tests/test_quasistatic.py:819: KeyError
+____ test_amendments_are_verified_and_limited_to_numerical_method_settings _____
+
+tmp_path = PosixPath('/private/var/folders/nk/5wlz1lmd63z6h9x2yh8pcgxm0000gn/T/pytest-of-abraiymbek/pytest-254/test_amendments_are_verified_a0')
+
+    def test_amendments_are_verified_and_limited_to_numerical_method_settings(tmp_path):
+        sha=vbt.verify_registration()['plan_sha256'];failing_run(tmp_path)
+        verify=lambda path:vbt.verify_amendment(path,sha,root=tmp_path)
+        path=amendment(tmp_path,{'stepcontrol':{'metric':'mapped'},'quasistatic':{'base':'fixed_mass','base_mass_fraction':.05}})
+        record,settings=verify(path)
+        c=vbt.build_config(PLAN,'C0','lib','mesa',[(record,settings)])
+        assert c['stepcontrol']['metric']=='mapped' and c['quasistatic']['base']=='fixed_mass' and c['replication']['amendments']==[str(path)]
+        assert c['stepcontrol']['delta_target']==.005 and c['relaxation']['mesh_cycles']==0  # untouched
+        assert record['preserved_failing_run']==[FAILED_SMOKE]
+        path.write_text(path.read_text().replace('mapped','lagrangian'))
+        with pytest.raises(vbt.Refused,match='differs from its registered sha256'):verify(path)
+        with pytest.raises(vbt.Refused,match='another plan'):verify(amendment(tmp_path,{'stepcontrol':{'metric':'mapped'}},'0'*64))
+        for bad in ({'stepcontrol':{'delta_target':.01}},{'cavity':{'profile':'none'}},{'quasistatic':{'tolerance':1e-8}},
+                    {'relaxation':{'tolerance':1e-8}},{}):
+            with pytest.raises(vbt.Refused):verify(amendment(tmp_path,bad))
+        lone=tmp_path/'lone.json';lone.write_text('{}')
+        with pytest.raises(vbt.Refused,match='no registration record'):verify(lone)
+        # The relaxation mesh cycles are off unless an amendment sets them, and they enter the row-0 signature.
+        relax_record,relax_settings=verify(amendment(tmp_path,{'relaxation':{'mesh_cycles':40,'mesh_tolerance':1e-5}}))
+        amended=vbt.build_config(PLAN,'C0','lib','mesa',[(relax_record,relax_settings)])
+        assert amended['relaxation']['mesh_cycles']==40 and vbt.signature(amended)!=vbt.signature(vbt.build_config(PLAN,'C0','lib','mesa'))
+        # Amendment 3: the seed surface and the seed radii (plan initial_model.seed, not an immutable section) are
+        # amendable and enter the row-0 signature; nothing else of the replication section is.
+        radii=[2000,6000,1000,12000,3464,1414,8485]
+        seed_record,seed_settings=verify(amendment(tmp_path,{'replication':{'seed_surface':'grey','seed_radii_rsun':radii}}))
+        seeded=vbt.build_config(PLAN,'C1','lib','mesa',[(seed_record,seed_settings)])
+        plain=vbt.build_config(PLAN,'C1','lib','mesa')
+        assert (plain['replication']['seed_surface'],plain['replication']['seed_radii_rsun'])==('eos',[2000,6000,1000,12000])
+        assert (seeded['replication']['seed_surface'],seeded['replication']['seed_radii_rsun'])==('grey',radii)
+        assert vbt.signature(seeded)!=vbt.signature(plain)
+        for bad in ({'replication':{'total_mass_msun':1e5}},{'replication':{'policy':'production'}},{'replication':{'landings_msun':[50]}},
+                    {'replication':{'seed_surface':'grey','initial_bh_mass_msun':10.}},{'quasistatic':{'ptc':True}}):
+            with pytest.raises(vbt.Refused):verify(amendment(tmp_path,bad))
+        with pytest.raises(ValueError,match='seed_surface'):  # an unknown seed surface does not resolve
+            vbt.build_config(PLAN,'C1','lib','mesa',[(seed_record,{'replication':{'seed_surface':'hot'}})])
+        # Amendment 4: the bracket rule of photosphere.solve (registered: 'doubling'; 'scan' only when amended). It
+        # changes which seeds can be built and the first step from a seed, so it enters the row-0 signature.
+>       bracket_record,bracket_settings=verify(amendment(tmp_path,{'quasistatic':{'photosphere_bracket':'scan'}}))
+                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_validate_ball_track.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_validate_ball_track.py:59: in <lambda>
+    verify=lambda path:vbt.verify_amendment(path,sha,root=tmp_path)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = PosixPath('/private/var/folders/nk/5wlz1lmd63z6h9x2yh8pcgxm0000gn/T/pytest-of-abraiymbek/pytest-254/test_amendments_are_verified_a0/ball2011_track_plan_amendment_1.json')
+plan_sha256 = 'a10b4166222342acee53da9622885845ff7744914fb38316d8ea4f48fce8cc0e'
+root = PosixPath('/private/var/folders/nk/5wlz1lmd63z6h9x2yh8pcgxm0000gn/T/pytest-of-abraiymbek/pytest-254/test_amendments_are_verified_a0')
+
+    def verify_amendment(path,plan_sha256,root=ROOT):
+        """An amendment JSON and its <stem>.registration.json (amendment_sha256, plan_sha256).
+    
+        Its 'settings' mapping may name only AMENDABLE numerical-method keys, its
+        status must not be a draft, and preserved_failing_run (a path, or a list)
+        must name run directories under <root>/benchmarks/results/<date>-ball-track/
+        whose record shows the failure (plan registration.amendment_rule).
+        Returns (record, settings).
+        """
+        path=Path(path);registration=path.with_name(path.stem+'.registration.json')
+        if not registration.exists():raise Refused(f'Refusing to run: amendment {path} has no registration record {registration.name}')
+        record=json.loads(registration.read_text());digest=sha256(path)
+        if digest!=record.get('amendment_sha256'):raise Refused(f'Refusing to run: amendment {path} differs from its registered sha256')
+        if record.get('plan_sha256')!=plan_sha256:raise Refused(f'Refusing to run: amendment {path} was registered against another plan')
+        amendment=json.loads(path.read_text());settings=amendment.get('settings')
+        status=amendment.get('status')
+        if not isinstance(status,str) or status.strip().upper().startswith('DRAFT'):
+            raise Refused(f'Refusing to run: amendment {path} is a draft or has no status ({status!r})')
+        runs=amendment.get('preserved_failing_run');runs=[runs] if isinstance(runs,str) else runs
+        if not runs or not isinstance(runs,list):raise Refused(f'Refusing to run: amendment {path} cites no preserved failing run')
+        for run in runs:
+            failure=preserved_failure(run,root)
+            if failure is not True:raise Refused(f'Refusing to run: amendment {path} preserved_failing_run {run!r}: {failure}')
+        if not isinstance(settings,dict) or not settings:raise Refused(f'Refusing to run: amendment {path} has no machine-readable settings')
+        for section,values in settings.items():
+            if section not in AMENDABLE or not isinstance(values,dict) or set(values)-AMENDABLE[section]:
+>               raise Refused(f'Refusing to run: amendment {path} changes {section} {sorted(values) if isinstance(values,dict) else values}, '
+                              'which is not an amendable numerical-method setting')
+E               validate_ball_track.Refused: Refusing to run: amendment /private/var/folders/nk/5wlz1lmd63z6h9x2yh8pcgxm0000gn/T/pytest-of-abraiymbek/pytest-254/test_amendments_are_verified_a0/ball2011_track_plan_amendment_1.json changes quasistatic ['photosphere_bracket'], which is not an amendable numerical-method setting
+
+scripts/validate_ball_track.py:177: Refused
+_____ test_amendments_must_be_registered_and_cite_a_preserved_failing_run ______
+
+tmp_path = PosixPath('/private/var/folders/nk/5wlz1lmd63z6h9x2yh8pcgxm0000gn/T/pytest-of-abraiymbek/pytest-254/test_amendments_must_be_regist0')
+
+    def test_amendments_must_be_registered_and_cite_a_preserved_failing_run(tmp_path):
+        """Plan registration.amendment_rule: no draft, and the cited run directory exists and records a failure."""
+        sha=vbt.verify_registration()['plan_sha256'];settings={'stepcontrol':{'metric':'mapped'}}
+        verify=lambda path:vbt.verify_amendment(path,sha,root=tmp_path)
+        failing_run(tmp_path)
+        placeholder='TO BE FILLED BY STAGE 7: benchmarks/results/<date>-ball-track/<smoke run, registered numerics>'
+        with pytest.raises(vbt.Refused,match='draft'):verify(amendment(tmp_path,settings,status='DRAFT, not registered'))
+        with pytest.raises(vbt.Refused,match='draft or has no status'):verify(amendment(tmp_path,settings,status=None))
+        with pytest.raises(vbt.Refused,match='not a run directory'):verify(amendment(tmp_path,settings,run=placeholder))
+        with pytest.raises(vbt.Refused,match='cites no preserved failing run'):verify(amendment(tmp_path,settings,run=None))
+        outside='benchmarks/results/elsewhere/run';(tmp_path/outside).mkdir(parents=True);(tmp_path/outside/'smoke.json').write_text('{}')
+        with pytest.raises(vbt.Refused,match='not a run directory'):verify(amendment(tmp_path,settings,run=outside))
+        empty='benchmarks/results/2026-10-08-ball-track/empty';(tmp_path/empty).mkdir(parents=True)
+        with pytest.raises(vbt.Refused,match='no smoke.json'):verify(amendment(tmp_path,settings,run=empty))
+        passed=failing_run(tmp_path,'benchmarks/results/2026-10-08-ball-track/passed_smoke',data=dict(passed=True))
+        with pytest.raises(vbt.Refused,match='records no failure'):verify(amendment(tmp_path,settings,run=passed))
+        unique=failing_run(tmp_path,'benchmarks/results/2026-10-08-ball-track/relax_ok','relax.json',dict(status='converged_unique'))
+        with pytest.raises(vbt.Refused,match='records no failure'):verify(amendment(tmp_path,settings,run=unique))
+        blocked=failing_run(tmp_path,'benchmarks/results/2026-10-08-ball-track/relax_bad','relax.json',dict(status='not_unique'))
+        assert verify(amendment(tmp_path,settings,run=[FAILED_SMOKE,blocked]))[0]['preserved_failing_run']==[FAILED_SMOKE,blocked]
+        # An interrupted or requested stop (control_stop) shows no defect: it cannot back an amendment.
+        for name,record,data in (('relax_stop','relax.json',dict(status='control_stop')),
+                                 ('smoke_stop','smoke.json',dict(status='control_stop',passed=False)),
+                                 ('track_stop','termination.json',dict(status='control_stop'))):
+            stopped=failing_run(tmp_path,f'benchmarks/results/2026-10-08-ball-track/{name}',record,data)
+>           with pytest.raises(vbt.Refused,match='records no failure'):verify(amendment(tmp_path,settings,run=stopped))
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           Failed: DID NOT RAISE Refused
+
+tests/test_validate_ball_track.py:128: Failed
+_ test_amendment_drafts_are_refused_until_registered_and_stay_inside_the_amendable_settings _
+
+    def test_amendment_drafts_are_refused_until_registered_and_stay_inside_the_amendable_settings():
+        """The four drafts in benchmarks/: each is a DRAFT (refused by the driver even with a registration
+        record), names the registered plan, changes only AMENDABLE settings that resolve, and the preserved
+        failing runs Amendment 3 cites are the registered relax runs that ended relaxation_blocker. Amendments
+        4, 2 and 1 cite runs Stage 7 has yet to make (placeholders the driver refuses)."""
+        sha=vbt.verify_registration()['plan_sha256']
+        for n,sections in ((1,{'quasistatic','stepcontrol'}),(2,{'relaxation'}),(3,{'replication'}),(4,{'quasistatic'})):
+            path=ROOT/f'benchmarks/ball2011_track_plan_amendment_{n}.draft.json'
+            draft=json.loads(path.read_text())
+            assert draft['amendment_id']==f'ball2011_track_plan_amendment_{n}' and draft['plan_sha256']==sha
+            assert draft['status'].startswith('DRAFT') and set(draft['settings'])==sections
+>           assert all(set(values)<=vbt.AMENDABLE[section] for section,values in draft['settings'].items())
+E           assert False
+E            +  where False = all(<generator object test_amendment_drafts_are_refused_until_registered_and_stay_inside_the_amendable_settings.<locals>.<genexpr> at 0x10b1c4e40>)
+
+tests/test_validate_ball_track.py:149: AssertionError
+__________ test_cells_of_a_row_outside_the_enforced_domain_never_pass __________
+
+    def test_cells_of_a_row_outside_the_enforced_domain_never_pass():
+        """Final review item 4: cells() looked only at the report-only flags, so a row 0 that violates an
+        always-enforced screen (plan replication_mode.always_enforced; quasistatic.run ends such a run at its
+        start row) could pass all its cells. Its cells are not evaluable (passed None) and name the screen:
+        the plan's FAIL rule needs a cell outside tolerance, which such a row does not show (first review of
+        the unblock: passed False made the verdict FAIL where it is INCONCLUSIVE), and it can never be PASS."""
+        assert set(vbt._enforceable(PLAN))&set(vbt._report_only(PLAN))==set()
+        assert {'radiation_knudsen_deep','free_streaming_deep','photosphere_gas_pressure','eos_temperature_domain','flow_mach',
+                'compactness','mesa_first_law','mesa_ideal_backstop','mesa_dilute_gas','omitted_conduction','nonfinite_state'}<=set(vbt._enforceable(PLAN))
+        assert 'outer_face_knudsen' not in vbt._enforceable(PLAN)  # replaced by the Eddington-relation check
+        rows=printed_rows();rows[0]['screen_radiation_knudsen_deep_violated']='True';rows[0]['screen_radiation_knudsen_outer_violated']='True'
+        out=vbt.cells(PLAN,TARGETS,rows)
+        row0=[c for c in out if c['row']==0];rest=[c for c in out if c['row']>0]
+>       assert len(row0)==8 and all(c['passed'] is None and c['enforced_screens_fired']==['radiation_knudsen_deep'] for c in row0)
+E       AssertionError: assert (8 == 8 and False)
+E        +  where 8 = len([{'row': 0, 'bh_mass_msun': 5.0, 'observable': 'Mdot_BH', 'kind': 'ratio', ...}, {'row': 0, 'bh_mass_msun': 5.0, 'obse...vable': 'Teff', 'kind': 'ratio', ...}, {'row': 0, 'bh_mass_msun': 5.0, 'observable': 'r_B', 'kind': 'ratio', ...}, ...])
+E        +  and   False = all(<generator object test_cells_of_a_row_outside_the_enforced_domain_never_pass.<locals>.<genexpr> at 0x10b170860>)
+
+tests/test_validate_ball_track.py:268: AssertionError
+____________ test_restart_check_and_compare_on_an_analytic_toy_run _____________
+
+tmp_path = PosixPath('/private/var/folders/nk/5wlz1lmd63z6h9x2yh8pcgxm0000gn/T/pytest-of-abraiymbek/pytest-254/test_restart_check_and_compare0')
+
+    def test_restart_check_and_compare_on_an_analytic_toy_run(tmp_path):
+        sys.path.insert(0,str(ROOT/'tests'))
+        from test_quasistatic import toy,EOS,OPACITY
+        from test_ball_restart import POLICY
+        from qstars import quasistatic
+        from qstars.constants import MSUN
+        s,c=toy(128,'face',eta=4e-4)
+        s,_=quasistatic.relax(s,EOS,OPACITY,c,dict(mesh_cycles=0));s=quasistatic.zero_time(s,EOS)
+        c['stepcontrol']=dict(metric='mapped',delta_target=.03,dt_initial_years=100.)
+        run=lambda state,path,**k:quasistatic.run(state,EOS,OPACITY,c,tmp_path/path,policy=POLICY,landings=[1.05*MSUN],**k)
+        run(s,'c0',stop_after_steps=22,restart_masses=[1.03*MSUN],segment_steps=5)
+        state,_=quasistatic.load_checkpoint(tmp_path/'c0'/'restart_bh1.03msun.npz')
+        run(state,'r1',stop_after_steps=5)
+        check=vbt.restart_check(tmp_path/'c0',tmp_path/'r1','R1')
+        assert check['passed'] and check['rows']==5 and check['crossed']['base_slice'] and check['crossed']['landing']
+        # rejected_step counts only the rejections the segment itself replayed, and they equal C0's.
+        replayed=[json.loads(x)['step'] for x in open(tmp_path/'r1'/'events.jsonl') if json.loads(x)['event']=='rejected']
+        assert check['crossed']['rejected_step']==bool(replayed) and check['rejections_replayed']==len(replayed)
+        assert check['rejections_equal_c0']
+        # must_cross over the segments together, with the landing inside R2's segment.
+        crossing=vbt.must_cross({'R1':check})
+        assert crossing['unmet'][-1]=='landing (restart point 2)' and not crossing['passed']
+        assert vbt.must_cross({'R2':check})['unmet']==[k for k in vbt.MUST_CROSS if not check['crossed'][k]]
+        rows=(tmp_path/'r1'/'history.csv').read_text().splitlines();rows[-1]=rows[-1].replace(',step,',',landing,',1)
+        (tmp_path/'r1'/'history.csv').write_text('\n'.join(rows)+'\n')
+        assert not vbt.restart_check(tmp_path/'c0',tmp_path/'r1','R1')['passed']
+        # compare() on a partial campaign: every product is written and the verdict cannot be PASS.
+        (tmp_path/'c0'/'track.json').write_text(json.dumps(dict(final_bh_mass_msun=1.05,final_time_years=1e5,label='control_stop')))
+        comparison,campaign=vbt.compare(PLAN,{'C0':str(tmp_path/'c0')},{'R1':str(tmp_path/'r1')},tmp_path,
+                                        dict(plan_sha256=vbt.verify_registration()['plan_sha256']))
+        assert (tmp_path/'comparison.json').exists() and (tmp_path/'campaign.json').exists()
+        assert comparison['cell_count']==44 and campaign['verdict'] in ('FAIL','INCONCLUSIVE') and not campaign['restarts_bitwise']
+        assert campaign['conservation']['C0']['passed'] and campaign['conservation']['C0']['accepted_steps']==22
+        assert campaign['conservation']['C0']['missing']['reconstruction_event']==0
+        assert 0<campaign['conservation']['C0']['worst']['reconstruction_event']<=1e-12  # split/merge events occurred
+        assert 'R1' in campaign['restarts'] and 'restart_must_cross' in campaign
+        # These library-made directories carry no driver provenance, so no common code is established: the
+        # comparisons between runs do not hold and the verdict is INCONCLUSIVE whatever C0 shows on its own.
+        sc=campaign['source_consistency'];assert set(sc['runs'])=={'C0','restart R1'} and not sc['one_package'] and not sc['all_snapshots_verified']
+>       assert not sc['one_code'] and not campaign['one_code'] and not campaign['c0_one_code'] and campaign['verdict']=='INCONCLUSIVE'
+                   ^^^^^^^^^^^^^^
+E       KeyError: 'one_code'
+
+tests/test_validate_ball_track.py:476: KeyError
+________________ test_relax_and_track_paths_on_an_analytic_toy _________________
+
+tmp_path = PosixPath('/private/var/folders/nk/5wlz1lmd63z6h9x2yh8pcgxm0000gn/T/pytest-of-abraiymbek/pytest-254/test_relax_and_track_paths_on_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a0ffef0>
+
+    def test_relax_and_track_paths_on_an_analytic_toy(tmp_path,monkeypatch):
+        """The MESA-only subcommand paths with the Ball physics replaced by the analytic cavity toy: seed
+        relaxation and uniqueness, a track that ends on a stop rule, a restart segment, and a track whose
+        termination trigger fires and is classified by the frozen-entropy continuation."""
+        sys.path.insert(0,str(ROOT/'tests'))
+        from test_quasistatic import toy,EOS,OPACITY
+        from test_ball_restart import POLICY
+        from qstars import quasistatic
+        from qstars.constants import MSUN
+        _,base=toy(48,'cell')
+        cycles=dict(mesh_cycles=40)  # as an amendment would set them; registered: none
+        def build(plan,run_id,library='',mesa_dir='',amendments=()):
+            c=copy.deepcopy(base);c['name']=f'toy_{run_id}'
+            c['relaxation']=dict(vbt.RELAXATION,**cycles)
+            c['stepcontrol']=dict(dt_initial_years=1e-9 if run_id=='C3' else 100.)
+            c['replication']=dict(run=run_id,kind='convergence_campaign',plan_text='toy',policy='toy',opacity='toy',total_mass_msun=100.,
+                                  initial_bh_mass_msun=1.,landings_msun=[1.01],amendments=[])
+            return c
+        monkeypatch.setattr(vbt,'build_config',build);monkeypatch.setattr(vbt,'physics',lambda config:(EOS,OPACITY))
+        monkeypatch.setattr(vbt,'track_options',lambda plan,config:dict(landings=[1.01*MSUN],policy=POLICY,max_wall_seconds=600.,
+                                                                        max_accepted_steps=12,dt_floor=None))
+        registration=vbt.verify_registration()
+        config=build(PLAN,'C0')
+        path=vbt.run_directory(tmp_path,'relax','C0',config,registration,[])
+        out=vbt.relax_seeds(PLAN,config,EOS,OPACITY,path,[150.,300.,100.],48,log=lambda *a:None)
+        assert out['status']=='converged_unique' and len(out['seeds'])==2 and max(out['uniqueness']['max_abs_dln'].values())<=1e-6
+        assert json.loads((path/'relax.json').read_text())['row0_checkpoint']=='row0_150rsun.npz'
+        assert out['relaxation']['mesh_cycles']==40 and all(len(e['mesh_cycles'])>=1 for e in out['seeds'])
+        row0=path/'row0_150rsun.npz'
+        # relax.json vouches for its row-0 model: sha256, cell count and the screens of row 0 under the plan policy.
+        assert out['row0_sha256']==vbt.sha256(row0)==out['seeds'][0]['row0_sha256'] and out['seeds'][0]['row0_zones']==48
+        assert out['seeds'][0]['row0_screens']['policy']=='published_assumption'
+        assert out['row0_enforced_screen_errors']==out['seeds'][0]['row0_screens']['enforced_screen_errors']
+        # Final review item 3: a row-0 checkpoint is used only when its relax run ended converged_unique, names it
+        # and recorded its sha256 (before: any t = 0 checkpoint with a matching configuration was accepted).
+        def refuse(checkpoint,match):
+            with pytest.raises(vbt.Refused,match=match):vbt.track(None,PLAN,registration,[],'lib','mesa',tmp_path,run_id='C0',row0=checkpoint)
+        assert vbt.row0_record(row0)[1] is None and vbt.row0_for(config,[row0]) is not None
+        refuse(path/'row0_300rsun.npz',"names 'row0_150rsun.npz' as the row-0 checkpoint")  # the other seed: unique, not designated
+        stray=tmp_path/'stray';stray.mkdir();shutil.copy(row0,stray/row0.name)
+        refuse(stray/row0.name,'no relax.json next to it')
+        record=json.loads((path/'relax.json').read_text())
+        for change,match in ((dict(status='not_unique'),"ended 'not_unique', not 'converged_unique'"),
+                             (dict(status='relaxation_blocker'),"ended 'relaxation_blocker'"),
+                             (dict(row0_sha256='0'*64),'sha256 differs'),(dict(row0_sha256=None),'sha256 differs')):
+            (stray/'relax.json').write_text(json.dumps(dict(record,**change)))
+            refuse(stray/row0.name,match)
+            assert vbt.row0_for(config,[stray/row0.name]) is None and vbt.row0_for(config,[stray/row0.name,row0]) is not None
+        (stray/'relax.json').write_text(json.dumps(record))
+        # First review of the unblock: a relax.json alone (hand-written, or a dry run's) used to vouch for a row 0.
+        # The directory must be a relax run directory made under the registered plan with the same registered
+        # amendments, and, for registered output, a registered run directory under benchmarks/results.
+>       reasons=[];assert vbt.row0_for(config,[stray/row0.name],reasons) is None and 'no run.json of kind relax' in reasons[0]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert (State(time=0.0, bh_mass=1.98847e+33, dm=array([8.07850581e+32, 1.30532860e+33, 2.10863055e+33, 3.14615944e+33,\n       ...28e-04]), cavity_mass=5.960945392945269e+31, photosphere_density=1.0401902879091037e-10, kinetic_tracked=False, aux={}) is None)
+E        +  where State(time=0.0, bh_mass=1.98847e+33, dm=array([8.07850581e+32, 1.30532860e+33, 2.10863055e+33, 3.14615944e+33,\n       ...28e-04]), cavity_mass=5.960945392945269e+31, photosphere_density=1.0401902879091037e-10, kinetic_tracked=False, aux={}) = <function row0_for at 0x10b08cf40>({'schema_version': 1, 'name': 'toy_C0', 'fidelity': 'exploratory', 'initial': {'envelope_mass_msun': 10000.0, 'bh_mass_msun': 100.0, 'radius_cm': 100000000000000.0, 'inner_radius_cm': 1000000000000.0, ...}, ...}, [PosixPath('/private/var/folders/nk/5wlz1lmd63z6h9x2yh8pcgxm0000gn/T/pytest-of-abraiymbek/pytest-254/test_relax_and_track_paths_on_0/stray/row0_150rsun.npz')], [])
+E        +    where <function row0_for at 0x10b08cf40> = vbt.row0_for
+
+tests/test_validate_ball_track.py:534: AssertionError
+----------------------------- Captured stdout call -----------------------------
+/private/var/folders/nk/5wlz1lmd63z6h9x2yh8pcgxm0000gn/T/pytest-of-abraiymbek/pytest-254/test_relax_and_track_paths_on_0/20261014T042812.445184Z_relax_C0_n48
+___________ test_relaxation_errors_fail_the_seed_and_keep_the_record ___________
+
+tmp_path = PosixPath('/private/var/folders/nk/5wlz1lmd63z6h9x2yh8pcgxm0000gn/T/pytest-of-abraiymbek/pytest-254/test_relaxation_errors_fail_th0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10a0f0500>
+capsys = <_pytest.capture.CaptureFixture object at 0x10a0f0ec0>
+
+    def test_relaxation_errors_fail_the_seed_and_keep_the_record(tmp_path,monkeypatch,capsys):
+        """An error inside a relaxation that is not a step rejection (the P0 predictor on an accepted state, the
+        mesh cycles, an EOS inversion outside a step) is that seed's failure: the fallback seeds are still tried,
+        relax.json records the blocker, and the preserved directory can back an amendment."""
+        sys.path.insert(0,str(ROOT/'tests'))
+        from test_quasistatic import toy,EOS,OPACITY
+        from qstars import quasistatic
+        _,base=toy(48,'cell')
+        def build(plan,run_id,library='',mesa_dir='',amendments=()):
+            c=copy.deepcopy(base);c['name']=f'toy_{run_id}';c['relaxation']=dict(vbt.RELAXATION)
+            c['replication']=dict(run=run_id,kind='convergence_campaign',plan_text='toy',policy='toy',total_mass_msun=100.,
+                                  initial_bh_mass_msun=1.,seed_radii_rsun=[150.,300.],landings_msun=[1.01],amendments=[])
+            return c
+        registration=vbt.verify_registration();config=build(PLAN,'C0')
+        parent=tmp_path/'benchmarks/results/2026-10-08-ball-track'
+        relax=quasistatic.relax;calls=[]
+        def first_fails(*args,**kwargs):
+            calls.append(1)
+            if len(calls)==1:raise ValueError('Equidistributed faces are not increasing')
+            return relax(*args,**kwargs)
+        monkeypatch.setattr(quasistatic,'relax',first_fails)
+        path=vbt.run_directory(parent,'relax','C0',config,registration,[])
+        out=vbt.relax_seeds(PLAN,config,EOS,OPACITY,path,[150.,300.,200.],48,log=lambda *a:None)
+        assert [e['status'] for e in out['seeds']]==['failed','converged','converged'] and len(calls)==3
+        assert out['seeds'][0]['reason']=='ValueError: Equidistributed faces are not increasing'
+        assert out['seeds'][0]['domain_exit_evidence']==dict(domain_exit=False,domain_trials=[])
+        assert out['status'] in ('converged_unique','not_unique') and out['row0_checkpoint']=='row0_300rsun.npz'
+        assert out['uniqueness']['seeds']==[300.,200.] and json.loads((path/'relax.json').read_text())['status']==out['status']
+        assert not (path/'relaxed_150rsun.npz').exists() and (path/'row0_300rsun.npz').exists()
+        # Every seed errors: a numerical relaxation blocker (never a domain exit), recorded and citable.
+        def broken(*args,**kwargs):raise RuntimeError('MESA temperature inversion failed')
+        monkeypatch.setattr(quasistatic,'relax',broken)
+        path=vbt.run_directory(parent,'relax','C0',config,registration,[])
+        out=vbt.relax_seeds(PLAN,config,EOS,OPACITY,path,[150.,300.],48,log=lambda *a:None)
+        assert out['status']=='relaxation_blocker' and out['classification']=='numerical relaxation blocker'
+        assert [e['reason'] for e in out['seeds']]==['RuntimeError: MESA temperature inversion failed']*2
+        assert out['domain_trials']=={'150.0':[],'300.0':[]} and json.loads((path/'relax.json').read_text())['status']=='relaxation_blocker'
+        assert vbt.preserved_failure(str(path.relative_to(tmp_path)),tmp_path) is True
+        # First review of the unblock: an exception outside those types escaped relax_seeds and relax.json was lost
+        # (a KeyError inside quasistatic.relax; a ValueError while saving the profile of a converged seed). Each is
+        # now that seed's failure with its traceback, never a converged seed, and the next seed is tried.
+        def key_error(*args,**kwargs):raise KeyError('step_dt')
+        monkeypatch.setattr(quasistatic,'relax',key_error)
+        path=vbt.run_directory(parent,'relax','C0',config,registration,[])
+>       out=vbt.relax_seeds(PLAN,config,EOS,OPACITY,path,[150.,300.],48,log=lambda *a:None)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_validate_ball_track.py:727: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+scripts/validate_ball_track.py:391: in relax_seeds
+    state,record=quasistatic.relax(state,eos,opacity,config,config['relaxation'],
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+args = (State(time=0.0, bh_mass=1.98847e+33, dm=array([2.82960900e+32, 9.15440364e+32, 1.66315451e+33, 2.55012527e+33,
+      ... ...}, ...}, {'dt_years': 0.01, 'dt_max_years': 100000000.0, 'converged_dt_years': 1000000.0, 'tolerance': 1e-10, ...})
+kwargs = {'log': <function relax_seeds.<locals>.<lambda> at 0x10b29c540>}
+
+>   def key_error(*args,**kwargs):raise KeyError('step_dt')
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'step_dt'
+
+tests/test_validate_ball_track.py:724: KeyError
+----------------------------- Captured stdout call -----------------------------
+/private/var/folders/nk/5wlz1lmd63z6h9x2yh8pcgxm0000gn/T/pytest-of-abraiymbek/pytest-254/test_relaxation_errors_fail_th0/benchmarks/results/2026-10-08-ball-track/20261014T042819.381646Z_relax_C0_n48
+/private/var/folders/nk/5wlz1lmd63z6h9x2yh8pcgxm0000gn/T/pytest-of-abraiymbek/pytest-254/test_relaxation_errors_fail_th0/benchmarks/results/2026-10-08-ball-track/20261014T042823.032572Z_relax_C0_n48
+/private/var/folders/nk/5wlz1lmd63z6h9x2yh8pcgxm0000gn/T/pytest-of-abraiymbek/pytest-254/test_relaxation_errors_fail_th0/benchmarks/results/2026-10-08-ball-track/20261014T042823.678618Z_relax_C0_n48
+__________ test_source_consistency_is_enforced_between_compared_runs ___________
+
+tmp_path = PosixPath('/private/var/folders/nk/5wlz1lmd63z6h9x2yh8pcgxm0000gn/T/pytest-of-abraiymbek/pytest-254/test_source_consistency_is_enf0')
+
+    def test_source_consistency_is_enforced_between_compared_runs(tmp_path):
+        """First review of the unblock: the code of each run was reported, not enforced, so a campaign made across
+        source edits could pass. Comparisons between runs now hold only between runs made with one established
+        code: the Ball import closure digest, the driver and the MESA library, a verified snapshot and no qstars
+        module loaded outside the closure. C0 must share it with the relax run of its row-0 model."""
+>       relax=code_run(tmp_path,'relax');row0=str(relax/'row0_6000rsun.npz')
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_validate_ball_track.py:785: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+tmp_path = PosixPath('/private/var/folders/nk/5wlz1lmd63z6h9x2yh8pcgxm0000gn/T/pytest-of-abraiymbek/pytest-254/test_source_consistency_is_enf0')
+name = 'relax'
+closure = 'cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc'
+driver = b'driver'
+library = 'llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll'
+verified = True, outside = (), row0 = None
+
+    def code_run(tmp_path,name,closure='c'*64,driver=b'driver',library='l'*64,verified=True,outside=(),row0=None):
+        """A run directory with the records source_consistency reads (as run_directory and finish() write them)."""
+        d=tmp_path/name;d.mkdir(parents=True)
+        (d/'metadata.json').write_text(json.dumps(dict(process_package_sha256='p'*64,source_snapshot_verified=verified)))
+        (d/'run.json').write_text(json.dumps(dict(kind='track',library_sha256=library,row0=row0)))
+        (d/'driver.py').write_bytes(driver)
+>       (d/'code_closure.json').write_text(json.dumps(dict(modules=list(vbt.BALL_MODULES),sha256=closure,missing=[],
+                                                                        ^^^^^^^^^^^^^^^^
+                                                           loaded_outside_closure=list(outside))))
+E       AttributeError: module 'validate_ball_track' has no attribute 'BALL_MODULES'
+
+tests/test_validate_ball_track.py:776: AttributeError
+______________ test_rejection_causes_are_counted_from_the_events _______________
+
+tmp_path = PosixPath('/private/var/folders/nk/5wlz1lmd63z6h9x2yh8pcgxm0000gn/T/pytest-of-abraiymbek/pytest-254/test_rejection_causes_are_coun0')
+
+    def test_rejection_causes_are_counted_from_the_events(tmp_path):
+        events=[dict(event='rejected',kind='numerical',message='delta_actual 0.0188 exceeds 2 x delta_target (profile_dlnr)'),
+                dict(event='rejected',kind='numerical',message='delta_actual 0.012 exceeds 2 x delta_target (profile_dlnr)'),
+                dict(event='rejected',kind='numerical',domain_exit=False,
+                     message='Quasi-static solve failed (pass 1, residual 1.91e-12): Newton line search or iteration limit'),
+                dict(event='rejected',kind='numerical',domain_exit=False,
+                     message='Quasi-static solve failed (pass 2, residual 0.404835): Newton line search or iteration limit'),
+                dict(event='rejected',kind='numerical',domain_exit=True,
+                     message='Quasi-static solve failed (pass 1, residual inf): Starting point outside the model domain'),
+                dict(event='rejected',kind='screen',message='Enforced screens: Newtonian compactness limit exceeded'),
+                dict(event='rejected',kind='numerical',message='Per-step conservation budget exceeded: energy 1e-12 (limit 5e-13), mass 0 (limit 1e-14)'),
+                dict(event='rejected',kind='numerical',domain_exit=True,message='P3 predictor left the model domain (pass 1): Gamma_ph >= 1'),
+                dict(event='rejected',kind='numerical',message='P2 base remesh failed (pass 1): EOS inversion'),
+                dict(event='accepted',step=1)]
+        (tmp_path/'events.jsonl').write_text(''.join(json.dumps(e)+'\n' for e in events))
+>       out=vbt.rejection_causes(tmp_path)
+            ^^^^^^^^^^^^^^^^^^^^
+E       AttributeError: module 'validate_ball_track' has no attribute 'rejection_causes'
+
+tests/test_validate_ball_track.py:819: AttributeError
+___________________ test_quasi_static_settings_are_validated ___________________
+
+tmp_path = PosixPath('/private/var/folders/nk/5wlz1lmd63z6h9x2yh8pcgxm0000gn/T/pytest-of-abraiymbek/pytest-254/test_quasi_static_settings_are0')
+capsys = <_pytest.capture.CaptureFixture object at 0x10a0fb5c0>
+
+    def test_quasi_static_settings_are_validated(tmp_path,capsys):
+        bad=dict(cavity=[dict(profile='r-2'),dict(profile=['r-3/2']),dict(profile={'r-3/2':1}),dict(boundary_state='edge'),dict(b=0.),dict(active=1)],
+                 quasistatic=[dict(inertia='midpoint'),dict(momentum='centred'),dict(base='ale'),dict(base_mass_fraction=.5),
+                              dict(base_mass_fraction='a'),dict(base_mass_fraction=True),dict(tolerance=0.),
+                              dict(max_iterations=0),dict(polish_iterations=-1),dict(max_passes=1.5),dict(pass_fraction=1.),dict(remesh=1),
+                              dict(split=1.),dict(merge=1.),dict(split=1.5,merge=.8),dict(energy_per_step=0.),dict(mass_per_step=float('nan')),
+                              dict(ptc=1),dict(ptc='F1'),dict(photosphere_bracket='bisect'),dict(photosphere_bracket=True)],
+                 stepcontrol=[dict(metric='eulerian'),dict(delta_target=0.),dict(safety=1.5),dict(max_factor=.9),dict(reject_ratio=1.),
+                              dict(hold_steps=-1),dict(retry_factor=1.),dict(max_retries=0),dict(max_retries=True),dict(dt_initial_years=0.),
+                              dict(dt_initial_years=10.,dt_max_years=1.)],
+                 relaxation=[dict(dt_years=0.),dict(dt_years=1.,dt_max_years=.5),dict(converged_dt_years=1e9),dict(tolerance=-1.),
+                             dict(max_steps=0),dict(max_retries=-1),dict(mesh_cycles=-1),dict(mesh_cycles=1.5),dict(mesh_tolerance=0.)],
+                 replication=[dict(policy='lenient'),dict(plan=1),dict(total_mass_msun=0.),dict(initial_bh_mass_msun=1e4),dict(seed_radii_rsun=[]),
+                              dict(seed_radii_rsun=[2000.,-1.]),dict(seed_radii_rsun=2000.),dict(landings_msun=[200.,100.]),
+                              dict(landings_msun=[5.,100.]),dict(end_bh_mass_msun=5.),dict(end_bh_mass_msun=-1.),dict(amendments=[1]),
+                              dict(seed_surface='hot'),dict(seed_surface=True)])
+        for section,cases in bad.items():
+            for values in cases:
+                with pytest.raises(ValueError,match='|'.join(values)):resolve(quasi(**{section:values}))  # the error names the key
+        assert resolve(quasi(replication=dict(landings_msun=[],end_bh_mass_msun=6.)))['replication']['end_bh_mass_msun']==6.
+        # Options that are off unless a registered amendment or fallback switches them on: the grey seed surface
+        # (plan amendment 3; it is the grey relation of the Ball photosphere) and fallback F1.
+>       c=resolve(QUASI);assert (c['replication']['seed_surface'],c['quasistatic']['ptc'],c['quasistatic']['photosphere_bracket'])==('eos',False,'doubling')
+                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'photosphere_bracket'
+
+tests/test_ball_integration.py:157: KeyError
+=========================== short test summary info ============================
+FAILED tests/test_photosphere.py::test_a_trial_density_with_gamma_ph_above_one_is_not_a_missing_photosphere
+FAILED tests/test_photosphere.py::test_gamma_ph_above_one_at_every_admissible_density_is_the_domain_exit
+FAILED tests/test_quasistatic.py::test_photosphere_bracket_option_reaches_every_solve_and_is_off_by_default
+FAILED tests/test_quasistatic.py::test_fallback_f1_ends_on_the_registered_equations_and_tolerance
+FAILED tests/test_quasistatic.py::test_fallback_f1_is_off_by_default_and_never_changes_a_converging_step
+FAILED tests/test_validate_ball_track.py::test_amendments_are_verified_and_limited_to_numerical_method_settings
+FAILED tests/test_validate_ball_track.py::test_amendments_must_be_registered_and_cite_a_preserved_failing_run
+FAILED tests/test_validate_ball_track.py::test_amendment_drafts_are_refused_until_registered_and_stay_inside_the_amendable_settings
+FAILED tests/test_validate_ball_track.py::test_cells_of_a_row_outside_the_enforced_domain_never_pass
+FAILED tests/test_validate_ball_track.py::test_restart_check_and_compare_on_an_analytic_toy_run
+FAILED tests/test_validate_ball_track.py::test_relax_and_track_paths_on_an_analytic_toy
+FAILED tests/test_validate_ball_track.py::test_relaxation_errors_fail_the_seed_and_keep_the_record
+FAILED tests/test_validate_ball_track.py::test_source_consistency_is_enforced_between_compared_runs
+FAILED tests/test_validate_ball_track.py::test_rejection_causes_are_counted_from_the_events
+FAILED tests/test_ball_integration.py::test_quasi_static_settings_are_validated
+15 failed, 13 passed in 21.50s

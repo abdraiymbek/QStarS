@@ -1,0 +1,40 @@
+{
+  "status": "termination_trigger",
+  "reason": "timestep 0.0625 yr below the dynamical time 0.0913 yr (Ball's criterion)",
+  "accepted_steps_this_run": 0,
+  "attempts": 4,
+  "rejections": 4,
+  "final_step": 0,
+  "final_time_years": 0.0,
+  "final_bh_mass_msun": 5.0,
+  "final_dynamical_time_years": 0.09130493227823429,
+  "final_dt_years": 0.0625,
+  "landed_msun": [],
+  "last_rejection": {
+    "step": 0,
+    "dt_years": 0.125,
+    "landing_target_msun": null,
+    "kind": "numerical",
+    "message": "delta_actual 0.01815 exceeds 2 x delta_target (profile_dlnr)",
+    "domain_exit": false,
+    "domain_trials": 0,
+    "domain_message": null
+  },
+  "runtime_seconds": 0.9856503329938278,
+  "restarted": false,
+  "start_row_screen_errors": [],
+  "conservation": {
+    "mass_residual_g": 0.0,
+    "mass_residual_relative": 0.0,
+    "energy_residual_erg": 0.0,
+    "energy_residual_relative": 0.0,
+    "energy_residual_relative_to_binding": 0.0,
+    "energy_residual_relative_to_throughput": 0.0,
+    "engine_conversion_residual_erg": 0.0,
+    "internal": 2.1992519061129512e+53,
+    "gravity": -2.2730023783165283e+53,
+    "kinetic": 0.0,
+    "total": -7.375047220357708e+51
+  },
+  "v1_validated": false
+}

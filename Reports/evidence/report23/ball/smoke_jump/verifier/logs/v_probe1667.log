@@ -1,0 +1,25 @@
+step 1667 Mbh 55.011419968882535 zones 174 merge setting 0.0
+ 158 T=  10067.4 rho=3.925e-11 kap=1.909 dlnT=-0.1925 dlnkap=-0.264 Gamma=4.410
+ 159 T=   8304.1 rho=7.836e-11 kap=1.466 dlnT=-0.1682 dlnkap=-2.249 Gamma=3.387
+ 160 T=   7018.4 rho=1.268e-10 kap=0.155 dlnT=-0.0342 dlnkap=-0.521 Gamma=0.357
+ 161 T=   6782.4 rho=1.294e-10 kap=0.092 dlnT=-0.0216 dlnkap=-0.330 Gamma=0.212
+ 162 T=   6637.6 rho=1.288e-10 kap=0.066 dlnT=-0.0153 dlnkap=-0.236 Gamma=0.153
+ 163 T=   6536.8 rho=1.272e-10 kap=0.052 dlnT=-0.0115 dlnkap=-0.179 Gamma=0.120
+ 164 T=   6461.8 rho=1.251e-10 kap=0.044 dlnT=-0.0090 dlnkap=-0.140 Gamma=0.101
+ 165 T=   6403.8 rho=1.229e-10 kap=0.038 dlnT=-0.0072 dlnkap=-0.113 Gamma=0.088
+ 166 T=   6357.6 rho=1.208e-10 kap=0.034 dlnT=-0.0059 dlnkap=-0.092 Gamma=0.078
+ 167 T=   6320.1 rho=1.187e-10 kap=0.031 dlnT=-0.0049 dlnkap=-0.076 Gamma=0.071
+ 168 T=   6289.1 rho=1.168e-10 kap=0.029 dlnT=-0.0041 dlnkap=-0.064 Gamma=0.066
+ 169 T=   6263.2 rho=1.151e-10 kap=0.027 dlnT=-0.0049 dlnkap=-0.077 Gamma=0.062
+ 170 T=   6232.4 rho=1.128e-10 kap=0.025 dlnT=-0.0069 dlnkap=-0.107 Gamma=0.057
+ 171 T=   6189.6 rho=1.092e-10 kap=0.022 dlnT=-0.0059 dlnkap=-0.093 Gamma=0.052
+ 172 T=   6152.9 rho=1.057e-10 kap=0.020 dlnT=-0.0046 dlnkap=-0.072 Gamma=0.047
+ 173 T=   6124.6 rho=1.028e-10 kap=0.019 dlnT=+0.0000 dlnkap=+0.000 Gamma=0.044
+dt= 0.001 ok it=5 m/s=0/0 delta=2.905e-07 roundoff_exit=False cell=2
+dt=  0.01 ok it=4 m/s=0/0 delta=2.807e-06 roundoff_exit=False cell=159
+dt=   0.1 ok it=4 m/s=0/0 delta=2.83e-05 roundoff_exit=False cell=159
+dt=   0.3 ok it=10 m/s=0/0 delta=8.557e-05 roundoff_exit=False cell=159
+dt=   0.5 ok it=15 m/s=0/0 delta=0.0001434 roundoff_exit=False cell=159
+dt=   0.7 ok it=19 m/s=0/0 delta=0.0002017 roundoff_exit=False cell=159
+dt=     1 ok it=23 m/s=0/0 delta=0.0002901 roundoff_exit=False cell=159
+dt=     2 ok it=40 m/s=0/0 delta=0.000594 roundoff_exit=False cell=159

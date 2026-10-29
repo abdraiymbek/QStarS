@@ -1,0 +1,27 @@
+DIAGNOSTIC tolerance 3e-10
+refine x4 at dt=1e-4 yr: zones 204 it=7 delta=0.04665
+  dt=  0.5 coarse ok it=12 delta=0.0001434 m/s=0/0
+  dt=  0.5 fine   FAIL Quasi-static solve failed (pass 1, residual 0.373028): Newton line search or iteration limit
+  dt=    1 coarse ok it=22 delta=0.0002901 m/s=0/0
+  dt=    1 fine   ok it=34 delta=0.104 m/s=0/0
+  dt=    2 coarse ok it=39 delta=0.000594 m/s=0/0
+  dt=    2 fine   FAIL Quasi-static solve failed (pass 1, residual 104.327): Newton line search or iteration limit
+  dt=    5 coarse FAIL Quasi-static solve failed (pass 1, residual 3.22203e-05): Newton line search or iteration limit
+  dt=    5 fine   FAIL Quasi-static solve failed (pass 1, residual 168.014): Newton line search or iteration limit
+  dt=   10 coarse FAIL Quasi-static solve failed (pass 1, residual 5.57611e-05): Newton line search or iteration limit
+  dt=   10 fine   FAIL Quasi-static solve failed (pass 1, residual 2.39703e+10): Newton line search or iteration limit
+  dt=   30 coarse FAIL Quasi-static solve failed (pass 1, residual 0.000170516): Newton line search or iteration limit
+  dt=   30 fine   FAIL Quasi-static solve failed (pass 1, residual 3.73178e+10): Newton line search or iteration limit
+refine x8 at dt=1e-4 yr: zones 244 it=11 delta=0.04862
+  dt=  0.5 coarse ok it=12 delta=0.0001434 m/s=0/0
+  dt=  0.5 fine   FAIL Quasi-static solve failed (pass 1, residual 0.404436): Newton line search or iteration limit
+  dt=    1 coarse ok it=22 delta=0.0002901 m/s=0/0
+  dt=    1 fine   FAIL Quasi-static solve failed (pass 1, residual 0.000610464): Newton line search or iteration limit
+  dt=    2 coarse ok it=39 delta=0.000594 m/s=0/0
+  dt=    2 fine   FAIL Quasi-static solve failed (pass 1, residual 1497.7): Newton line search or iteration limit
+  dt=    5 coarse FAIL Quasi-static solve failed (pass 1, residual 3.22203e-05): Newton line search or iteration limit
+  dt=    5 fine   FAIL Quasi-static solve failed (pass 1, residual 6.61278e+06): Newton line search or iteration limit
+  dt=   10 coarse FAIL Quasi-static solve failed (pass 1, residual 5.57611e-05): Newton line search or iteration limit
+  dt=   10 fine   FAIL Quasi-static solve failed (pass 1, residual 208765): Newton line search or iteration limit
+  dt=   30 coarse FAIL Quasi-static solve failed (pass 1, residual 0.000170516): Newton line search or iteration limit
+  dt=   30 fine   FAIL Quasi-static solve failed (pass 1, residual 1.13248e+10): Newton line search or iteration limit

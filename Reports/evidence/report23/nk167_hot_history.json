@@ -1,0 +1,1052 @@
+[
+ {
+  "it": 0,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/start_base",
+  "merit": 4.451245399155371,
+  "max_frozen_correction": 1287525.1722099308,
+  "resid_norm": 72822645758.35654,
+  "gmres": [
+   1.0,
+   0.1302985809276949
+  ],
+  "products": 1,
+  "max_step": 3.331020690287072,
+  "max_step_significant": 2.402599220521321,
+  "lam": 1.0,
+  "ptc_delta": 0.03932260342968907,
+  "lm_trust": 0.25,
+  "lm": {
+   "r0.25": {
+    "mu": 0.0,
+    "predicted_merit": 0.0,
+    "max_sT": 0.06742591613556194,
+    "max_s": 3.331020690287072
+   },
+   "r0.0625": {
+    "mu": 3.3937119560124183,
+    "predicted_merit": 4.0726637101665295,
+    "max_sT": 0.06249999999853683,
+    "max_s": 13.914925055019191
+   }
+  },
+  "limited_components": 241,
+  "trials": {
+   "r0.25": 6.208807059907863,
+   "r0.0625": 4.163920739644624
+  },
+  "accepted": "r0.0625",
+  "merit_new": 4.163920739644624,
+  "lm_rho_top": -0.3948471726780085,
+  "lm_trust_next": 0.0625
+ },
+ {
+  "it": 1,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it01_trial_r0.0625",
+  "merit": 4.219608067465131,
+  "max_frozen_correction": 1379071.6386325685,
+  "resid_norm": 869514029653758.4,
+  "gmres": [
+   1.0,
+   0.17005581442468212
+  ],
+  "products": 1,
+  "max_step": 1.6766887541569437,
+  "max_step_significant": 1.6766887541569437,
+  "lam": 1.0,
+  "ptc_delta": 0.03657687299057777,
+  "lm_trust": 0.0625,
+  "lm": {
+   "r0.0625": {
+    "mu": 0.0,
+    "predicted_merit": 0.0,
+    "max_sT": 0.05186705629761886,
+    "max_s": 1.6766887541569437
+   },
+   "r0.03125": {
+    "mu": 6.468988186228095,
+    "predicted_merit": 3.917455401593134,
+    "max_sT": 0.031249999999999993,
+    "max_s": 0.08720035071543225
+   },
+   "r0.01562": {
+    "mu": 16.391650578216087,
+    "predicted_merit": 4.092017882730755,
+    "max_sT": 0.015624999999999998,
+    "max_s": 0.03649952339287595
+   }
+  },
+  "limited_components": 0,
+  "trials": {
+   "r0.0625": 2.568625218728495,
+   "r0.03125": 3.9519548068072665,
+   "r0.01562": 4.100958602406067
+  },
+  "accepted": "r0.0625",
+  "merit_new": 2.568625218728495,
+  "lm_rho_top": 0.3912645019015808,
+  "lm_trust_next": 0.0625
+ },
+ {
+  "it": 2,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it02_trial_r0.0625",
+  "merit": 2.3613466705215855,
+  "max_frozen_correction": 4537291.227945445,
+  "resid_norm": 539686687473789.2,
+  "gmres": [
+   1.0,
+   0.3232464849560143,
+   0.20111713940276638
+  ],
+  "products": 2,
+  "max_step": 41.30180126065092,
+  "max_step_significant": 0.5629403092208424,
+  "lam": 1.0,
+  "ptc_delta": 0.03657687299057777,
+  "lm_trust": 0.0625,
+  "lm": {
+   "r0.0625": {
+    "mu": 0.0,
+    "predicted_merit": 8.07230257143799e-15,
+    "max_sT": 0.05314167536927819,
+    "max_s": 41.30180126065092
+   },
+   "r0.03125": {
+    "mu": 0.17306560998221357,
+    "predicted_merit": 1.5153024075443615,
+    "max_sT": 0.031249999992496585,
+    "max_s": 33.75314013050716
+   },
+   "r0.01562": {
+    "mu": 5.325932889535669,
+    "predicted_merit": 2.270110432804817,
+    "max_sT": 0.015624999999296417,
+    "max_s": 5.716783110425721
+   }
+  },
+  "limited_components": 74,
+  "trials": {
+   "r0.0625": 0.16203926395441168,
+   "r0.03125": 1.5456948518399203,
+   "r0.01562": 2.2758799305813446
+  },
+  "accepted": "r0.0625",
+  "merit_new": 0.16203926395441168,
+  "lm_rho_top": 0.9313784519751976,
+  "lm_trust_next": 0.125
+ },
+ {
+  "it": 3,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it03_trial_r0.0625",
+  "merit": 1.466238417720987,
+  "max_frozen_correction": 2518804.8644820806,
+  "resid_norm": 1.1952686091019596e+16,
+  "gmres": [
+   1.0,
+   0.23822090012112976
+  ],
+  "products": 1,
+  "max_step": 6.988300420224145,
+  "max_step_significant": 0.5905103592228413,
+  "lam": 1.0,
+  "ptc_delta": 0.03657687299057777,
+  "lm_trust": 0.125,
+  "lm": {
+   "r0.125": {
+    "mu": 0.0,
+    "predicted_merit": 5.029200678208057e-17,
+    "max_sT": 0.04096647453404269,
+    "max_s": 6.988300420224145
+   },
+   "r0.03125": {
+    "mu": 0.06216213466899451,
+    "predicted_merit": 0.3232884897730663,
+    "max_sT": 0.031249999999999986,
+    "max_s": 3.3425635626507746
+   }
+  },
+  "limited_components": 55,
+  "trials": {
+   "r0.125": 0.2765872107621261,
+   "r0.03125": 0.2633750185882831
+  },
+  "accepted": "r0.03125",
+  "merit_new": 0.2633750185882831,
+  "lm_rho_top": 0.8113627310406769,
+  "lm_trust_next": 0.03125
+ },
+ {
+  "it": 4,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it04_trial_r0.03125",
+  "merit": 2.770080140361143,
+  "max_frozen_correction": 8145648.090692807,
+  "resid_norm": 1.3069971293747648e+16,
+  "gmres": [
+   1.0,
+   0.34035251008110945,
+   0.30876636371123106,
+   0.2612459869432836
+  ],
+  "products": 3,
+  "max_step": 9.126598350633257,
+  "max_step_significant": 0.8648600906589899,
+  "lam": 1.0,
+  "ptc_delta": 0.03657687299057777,
+  "lm_trust": 0.03125,
+  "lm": {
+   "r0.03125": {
+    "mu": 0.5120783935642395,
+    "predicted_merit": 2.603399918988776,
+    "max_sT": 0.031249996207748154,
+    "max_s": 1.8404454431069257
+   },
+   "r0.01562": {
+    "mu": 15.220212333171542,
+    "predicted_merit": 2.755461952957261,
+    "max_sT": 0.015624999983174348,
+    "max_s": 0.2415116206500715
+   },
+   "r0.007812": {
+    "mu": 46.76795203832302,
+    "predicted_merit": 2.7649934774083915,
+    "max_sT": 0.007812499873892875,
+    "max_s": 0.08405260748061531
+   }
+  },
+  "limited_components": 0,
+  "trials": {
+   "r0.03125": 2.6282666031047954,
+   "r0.01562": 2.758584214319388,
+   "r0.007812": 2.7655264949336806
+  },
+  "accepted": "r0.03125",
+  "merit_new": 2.6282666031047954,
+  "lm_rho_top": 0.8508120284981707,
+  "lm_trust_next": 0.0625
+ },
+ {
+  "it": 5,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it05_trial_r0.03125",
+  "merit": 3.367480551494568,
+  "max_frozen_correction": 2519037.9615093768,
+  "resid_norm": 5.131814183779688e+16,
+  "gmres": [
+   1.0,
+   0.22107175105378962
+  ],
+  "products": 1,
+  "max_step": 6.223423882509419,
+  "max_step_significant": 0.8912350369247226,
+  "lam": 1.0,
+  "ptc_delta": 0.035205902644536574,
+  "lm_trust": 0.0625,
+  "lm": {
+   "r0.0625": {
+    "mu": 0.0,
+    "predicted_merit": 1.9989236830555599e-16,
+    "max_sT": 0.04524571453047781,
+    "max_s": 6.223423882509419
+   },
+   "r0.03125": {
+    "mu": 0.005043594030102124,
+    "predicted_merit": 0.8338552010039715,
+    "max_sT": 0.03124999999999973,
+    "max_s": 4.092552480744237
+   },
+   "r0.01562": {
+    "mu": 3.032075603047629,
+    "predicted_merit": 3.239827453649325,
+    "max_sT": 0.015624999999999983,
+    "max_s": 0.21650891525828977
+   }
+  },
+  "limited_components": 49,
+  "trials": {
+   "r0.0625": 0.37136046994384175,
+   "r0.03125": 0.7691706586753166,
+   "r0.01562": 3.2521653728417297
+  },
+  "accepted": "r0.0625",
+  "merit_new": 0.37136046994384175,
+  "lm_rho_top": 0.8897215695042328,
+  "lm_trust_next": 0.125
+ },
+ {
+  "it": 6,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it06_trial_r0.0625",
+  "merit": 1.9097074647779388,
+  "max_frozen_correction": 8116709.598550398,
+  "resid_norm": 9.887656380825686e+16,
+  "gmres": [
+   1.0,
+   0.23827449033000403
+  ],
+  "products": 1,
+  "max_step": 0.9837283305712008,
+  "max_step_significant": 0.9837283305712008,
+  "lam": 1.0,
+  "ptc_delta": 0.03369448712047427,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.5964540223090375,
+   "l0.5": 1.0969458101634848,
+   "l0.25": 1.4695899915330037
+  },
+  "accepted": "l1",
+  "merit_new": 0.5964540223090375,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 7,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it07_trial_l1",
+  "merit": 1.6105964924667542,
+  "max_frozen_correction": 5146967.662214572,
+  "resid_norm": 1.1039444743351381e+17,
+  "gmres": [
+   1.0,
+   0.22668705710204023
+  ],
+  "products": 1,
+  "max_step": 0.9946138231233408,
+  "max_step_significant": 0.9946138231233408,
+  "lam": 1.0,
+  "ptc_delta": 0.032490883867422035,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.4890437247083701,
+   "l0.5": 0.9323637273104856,
+   "l0.25": 1.2416372792653005
+  },
+  "accepted": "l1",
+  "merit_new": 0.4890437247083701,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 8,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it08_trial_l1",
+  "merit": 2.294738700671604,
+  "max_frozen_correction": 3799060.978007661,
+  "resid_norm": 1.0595698618519302e+17,
+  "gmres": [
+   1.0,
+   0.6216723974038144,
+   0.4598995629458938,
+   0.374455040661354
+  ],
+  "products": 3,
+  "max_step": 2.068742245062667,
+  "max_step_significant": 0.8059461814895453,
+  "lam": 1.0,
+  "ptc_delta": 0.03218867753923528,
+  "lm_trust": 0.125,
+  "lm": {
+   "r0.125": {
+    "mu": 0.0,
+    "predicted_merit": 1.944146082784119e-13,
+    "max_sT": 0.04983016465439505,
+    "max_s": 2.068742245062667
+   },
+   "r0.03125": {
+    "mu": 0.6172554978579249,
+    "predicted_merit": 2.259318478589443,
+    "max_sT": 0.031249997283111952,
+    "max_s": 0.1334559534879386
+   }
+  },
+  "limited_components": 0,
+  "trials": {
+   "r0.125": 0.10255063381281251,
+   "r0.03125": 2.2665589376256654
+  },
+  "accepted": "r0.125",
+  "merit_new": 0.10255063381281251,
+  "lm_rho_top": 0.9553105398089059,
+  "lm_trust_next": 0.25
+ },
+ {
+  "it": 9,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it09_trial_r0.125",
+  "merit": 2.374755067692892,
+  "max_frozen_correction": 2206535.4587860825,
+  "resid_norm": 7.72190592181567e+16,
+  "gmres": [
+   1.0,
+   0.11075846087732273
+  ],
+  "products": 1,
+  "max_step": 1.1424098121213462,
+  "max_step_significant": 1.1424098121213462,
+  "lam": 1.0,
+  "ptc_delta": 0.03218867753923528,
+  "limited_components": 0,
+  "trials": {
+   "l1": 1.6112171707270082,
+   "l0.5": 1.0620446938832668,
+   "l0.25": 1.74827686018278
+  },
+  "accepted": "l0.5",
+  "merit_new": 1.0620446938832668,
+  "accepted_lam": 0.5
+ },
+ {
+  "it": 10,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it10_trial_l0.5",
+  "merit": 1.217481275573229,
+  "max_frozen_correction": 3648433.5634238273,
+  "resid_norm": 2.2948420147930836e+16,
+  "gmres": [
+   1.0,
+   0.22637206010271327
+  ],
+  "products": 1,
+  "max_step": 0.9893500978047296,
+  "max_step_significant": 0.9893500978047296,
+  "lam": 1.0,
+  "ptc_delta": 0.03218867753923528,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.3661822938835238,
+   "l0.5": 0.6954292907406273,
+   "l0.25": 0.9360450199703835
+  },
+  "accepted": "l1",
+  "merit_new": 0.3661822938835238,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 11,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it11_trial_l1",
+  "merit": 1.4960792511325183,
+  "max_frozen_correction": 2135230.7993528014,
+  "resid_norm": 1.0365476192581646e+17,
+  "gmres": [
+   1.0,
+   0.1475552502414516
+  ],
+  "products": 1,
+  "max_step": 0.9940489847468159,
+  "max_step_significant": 0.9940489847468159,
+  "lam": 1.0,
+  "ptc_delta": 0.03148335960858902,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.508894445685027,
+   "l0.5": 0.8862339778853261,
+   "l0.25": 1.1589954358664385
+  },
+  "accepted": "l1",
+  "merit_new": 0.508894445685027,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 12,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it12_trial_l1",
+  "merit": 0.6096421369145696,
+  "max_frozen_correction": 2041581.6701258426,
+  "resid_norm": 2.8972855836915546e+17,
+  "gmres": [
+   1.0,
+   0.5508801563726897,
+   0.5173932520339459,
+   0.4814884225263418
+  ],
+  "products": 3,
+  "max_step": 1.160626309234394,
+  "max_step_significant": 0.2656206912143087,
+  "lam": 1.0,
+  "ptc_delta": 0.03148335960858902,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.058706899374656556,
+   "l0.5": 0.3053047295476486,
+   "l0.25": 0.45729659545186474
+  },
+  "accepted": "l1",
+  "merit_new": 0.058706899374656556,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 13,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it13_trial_l1",
+  "merit": 0.8543563653258922,
+  "max_frozen_correction": 2162951.057962893,
+  "resid_norm": 7089394543760604.0,
+  "gmres": [
+   1.0,
+   0.3789496228954247,
+   0.37201612850501614,
+   0.3643969856037908
+  ],
+  "products": 3,
+  "max_step": 0.41650471291851937,
+  "max_step_significant": 0.41650471291851937,
+  "lam": 1.0,
+  "ptc_delta": 0.03148335960858902,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.09796376121553783,
+   "l0.5": 0.41580275035552733,
+   "l0.25": 0.6379656056813618
+  },
+  "accepted": "l1",
+  "merit_new": 0.09796376121553783,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 14,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it14_trial_l1",
+  "merit": 0.4650531497952475,
+  "max_frozen_correction": 1989581.4058611079,
+  "resid_norm": 1.5256331070882498e+16,
+  "gmres": [
+   1.0,
+   0.4858179319334181,
+   0.46302411484372974,
+   0.4583897584755262
+  ],
+  "products": 3,
+  "max_step": 0.29600440200494094,
+  "max_step_significant": 0.29600440200494094,
+  "lam": 1.0,
+  "ptc_delta": 0.03121459765918516,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.020594881064029732,
+   "l0.5": 0.232859113623382,
+   "l0.25": 0.34894876227234417
+  },
+  "accepted": "l1",
+  "merit_new": 0.020594881064029732,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 15,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it15_trial_l1",
+  "merit": 0.2350087565020835,
+  "max_frozen_correction": 1808619.0296201606,
+  "resid_norm": 2.4696157145919876e+16,
+  "gmres": [
+   1.0,
+   0.1923379119264779
+  ],
+  "products": 1,
+  "max_step": 0.09287140099147818,
+  "max_step_significant": 0.09287140099147818,
+  "products_reused": 0,
+  "lam": 1.0,
+  "ptc_delta": 0.031190593311871507,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.19478097734228852,
+   "l0.5": 0.1396091950631076,
+   "l0.25": 0.18015726327607387
+  },
+  "accepted": "l0.5",
+  "merit_new": 0.1396091950631076,
+  "accepted_lam": 0.5
+ },
+ {
+  "it": 16,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it16_trial_l0.5",
+  "merit": 0.6890190771459863,
+  "max_frozen_correction": 5207419.4162706435,
+  "resid_norm": 1.919337895445557e+16,
+  "gmres": [
+   1.0,
+   0.08059318253710163
+  ],
+  "products": 1,
+  "max_step": 0.32774765807279943,
+  "max_step_significant": 0.32774765807279943,
+  "products_reused": 0,
+  "lam": 1.0,
+  "ptc_delta": 0.031190593311871507,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.1057934893046134,
+   "l0.5": 0.3648506235644576,
+   "l0.25": 0.5209368898544396
+  },
+  "accepted": "l1",
+  "merit_new": 0.1057934893046134,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 17,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it17_trial_l1",
+  "merit": 1.1676359152845475,
+  "max_frozen_correction": 70965726.38928932,
+  "resid_norm": 7.1147685564641416e+16,
+  "gmres": [
+   1.0,
+   0.09245137770221795
+  ],
+  "products": 1,
+  "max_step": 0.5332388529238212,
+  "max_step_significant": 0.5332388529238212,
+  "products_reused": 0,
+  "lam": 1.0,
+  "ptc_delta": 0.031190593311871507,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.23598853944094636,
+   "l0.5": 0.5319721246420723,
+   "l0.25": 0.863171499455039
+  },
+  "accepted": "l1",
+  "merit_new": 0.23598853944094636,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 18,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it18_trial_l1",
+  "merit": 0.6043503440430619,
+  "max_frozen_correction": 633164423.2284795,
+  "resid_norm": 1.0582667065508131e+17,
+  "gmres": [
+   1.0,
+   0.3534895495003562,
+   0.3320471580423198,
+   0.32930393903622673
+  ],
+  "products": 3,
+  "max_step": 1.549293526071039,
+  "max_step_significant": 0.20033026791482406,
+  "products_reused": 0,
+  "lam": 1.0,
+  "ptc_delta": 0.031190593311871507,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.03753067273781501,
+   "l0.5": 0.30420227962146934,
+   "l0.25": 0.45391056602898855
+  },
+  "accepted": "l1",
+  "merit_new": 0.03753067273781501,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 19,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it19_trial_l1",
+  "merit": 0.5394074226532386,
+  "max_frozen_correction": 178972868.64117748,
+  "resid_norm": 4.116810413071677e+16,
+  "gmres": [
+   1.0,
+   0.28209509724223814,
+   0.26969611320821707,
+   0.26660333935743413
+  ],
+  "products": 3,
+  "max_step": 1.4988748582311913,
+  "max_step_significant": 0.22413057518427779,
+  "products_reused": 0,
+  "lam": 1.0,
+  "ptc_delta": 0.030115074553385923,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.04993048528923371,
+   "l0.5": 0.2801173436102487,
+   "l0.25": 0.40724167603478933
+  },
+  "accepted": "l1",
+  "merit_new": 0.04993048528923371,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 20,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it20_trial_l1",
+  "merit": 0.2138327896033098,
+  "max_frozen_correction": 187912840.11048505,
+  "resid_norm": 9714642365413858.0,
+  "gmres": [
+   1.0,
+   0.6261541228642868,
+   0.6207325462390278,
+   0.6185762463713991
+  ],
+  "products": 3,
+  "max_step": 0.20930459650469718,
+  "max_step_significant": 0.06573621342280836,
+  "products_reused": 0,
+  "lam": 1.0,
+  "ptc_delta": 0.030115074553385923,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.00344748403030064,
+   "l0.5": 0.10642252652745333,
+   "l0.25": 0.1602340059978356
+  },
+  "accepted": "l1",
+  "merit_new": 0.00344748403030064,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 21,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it21_trial_l1",
+  "merit": 0.22516495745213325,
+  "max_frozen_correction": 214609892.15879136,
+  "resid_norm": 1.950440077566946e+16,
+  "gmres": [
+   1.0,
+   0.6755507941674208,
+   0.6709154332789179,
+   0.6646741354331024
+  ],
+  "products": 3,
+  "max_step": 0.1618535116366159,
+  "max_step_significant": 0.10666911601932884,
+  "products_reused": 0,
+  "lam": 1.0,
+  "ptc_delta": 0.030115074553385923,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.0036323355534480972,
+   "l0.5": 0.11252050877214677,
+   "l0.25": 0.16883695463773168
+  },
+  "accepted": "l1",
+  "merit_new": 0.0036323355534480972,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 22,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it22_trial_l1",
+  "merit": 0.1673795111849087,
+  "max_frozen_correction": 185308920.4157941,
+  "resid_norm": 3.3700987744313964e+16,
+  "gmres": [
+   1.0,
+   0.7159977295568745,
+   0.7109504296361336,
+   0.677694660560354
+  ],
+  "products": 3,
+  "max_step": 0.2157763948146169,
+  "max_step_significant": 0.06590761315638739,
+  "products_reused": 0,
+  "lam": 1.0,
+  "ptc_delta": 0.030044991434722876,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.018846958246998145,
+   "l0.5": 0.0828799913383725,
+   "l0.25": 0.1253274302592036
+  },
+  "accepted": "l1",
+  "merit_new": 0.018846958246998145,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 23,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it23_trial_l1",
+  "merit": 0.34081210187210104,
+  "max_frozen_correction": 161609147.14234623,
+  "resid_norm": 2.3319731315041092e+16,
+  "gmres": [
+   1.0,
+   0.4493142871769958,
+   0.4427130318398267,
+   0.43482803891672633
+  ],
+  "products": 3,
+  "max_step": 0.19671909418367645,
+  "max_step_significant": 0.19671909418367645,
+  "products_reused": 0,
+  "lam": 1.0,
+  "ptc_delta": 0.030044991434722876,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.01822217862917947,
+   "l0.5": 0.16651050845036208,
+   "l0.25": 0.2546448279380675
+  },
+  "accepted": "l1",
+  "merit_new": 0.01822217862917947,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 24,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it24_trial_l1",
+  "merit": 0.22405832125852895,
+  "max_frozen_correction": 168810807.03471267,
+  "resid_norm": 2.195496692077099e+16,
+  "gmres": [
+   1.0,
+   0.6124163935738121,
+   0.6071651487621835,
+   0.6060289615254962
+  ],
+  "products": 3,
+  "max_step": 0.18535352217739107,
+  "max_step_significant": 0.11264785671729807,
+  "products_reused": 0,
+  "lam": 1.0,
+  "ptc_delta": 0.030044991434722876,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.008670035777223655,
+   "l0.5": 0.11052115728483757,
+   "l0.25": 0.16766314634173413
+  },
+  "accepted": "l1",
+  "merit_new": 0.008670035777223655,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 25,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it25_trial_l1",
+  "merit": 0.14378166703260706,
+  "max_frozen_correction": 167271500.8077292,
+  "resid_norm": 1.3169238030703778e+16,
+  "gmres": [
+   1.0,
+   0.17773450193941515
+  ],
+  "products": 1,
+  "max_step": 0.04543995756125902,
+  "max_step_significant": 0.04543995756125902,
+  "products_reused": 0,
+  "lam": 1.0,
+  "ptc_delta": 0.030044991434722876,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.07527642303393031,
+   "l0.5": 0.07719334729980357,
+   "l0.25": 0.10865789121813231
+  },
+  "accepted": "l1",
+  "merit_new": 0.07527642303393031,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 26,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it26_trial_l1",
+  "merit": 0.8249157805135439,
+  "max_frozen_correction": 661166364.3197863,
+  "resid_norm": 1.2632394288666588e+16,
+  "gmres": [
+   1.0,
+   0.049527005234382825
+  ],
+  "products": 1,
+  "max_step": 0.37122006024270504,
+  "max_step_significant": 0.37122006024270504,
+  "products_reused": 0,
+  "lam": 1.0,
+  "ptc_delta": 0.030044991434722876,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.11315125524009124,
+   "l0.5": 0.3867763261913566,
+   "l0.25": 0.6122938796097772
+  },
+  "accepted": "l1",
+  "merit_new": 0.11315125524009124,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 27,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it27_trial_l1",
+  "merit": 0.46318251587578774,
+  "max_frozen_correction": 3287876794.40236,
+  "resid_norm": 2.171093549782944e+16,
+  "gmres": [
+   1.0,
+   0.10768089330802201
+  ],
+  "products": 1,
+  "max_step": 0.1613610613187791,
+  "max_step_significant": 0.1613610613187791,
+  "products_reused": 0,
+  "lam": 1.0,
+  "ptc_delta": 0.030044991434722876,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.024817721169069412,
+   "l0.5": 0.22668505600739844,
+   "l0.25": 0.34607530765475203
+  },
+  "accepted": "l1",
+  "merit_new": 0.024817721169069412,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 28,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it28_trial_l1",
+  "merit": 0.3377806692036072,
+  "max_frozen_correction": 6533549010.071764,
+  "resid_norm": 2.6595359892743148e+16,
+  "gmres": [
+   1.0,
+   0.21019175595830306
+  ],
+  "products": 1,
+  "max_step": 0.1244993862452148,
+  "max_step_significant": 0.1244993862452148,
+  "products_reused": 0,
+  "lam": 1.0,
+  "ptc_delta": 0.030044991434722876,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.013855378134721439,
+   "l0.5": 0.16585829992328444,
+   "l0.25": 0.25252794113986105
+  },
+  "accepted": "l1",
+  "merit_new": 0.013855378134721439,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 29,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it29_trial_l1",
+  "merit": 0.2914518774775168,
+  "max_frozen_correction": 9236086570.76632,
+  "resid_norm": 2.9227602117880524e+16,
+  "gmres": [
+   1.0,
+   0.3548961761634751,
+   0.30784277033707563,
+   0.29435649165104444
+  ],
+  "products": 3,
+  "max_step": 0.3661237929962669,
+  "max_step_significant": 0.08107863940164813,
+  "products_reused": 0,
+  "lam": 1.0,
+  "ptc_delta": 0.030044991434722876,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.006210476321237608,
+   "l0.5": 0.14631500883834658,
+   "l0.25": 0.21870182258380697
+  },
+  "accepted": "l1",
+  "merit_new": 0.006210476321237608,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 30,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it30_trial_l1",
+  "merit": 0.29353233820385416,
+  "max_frozen_correction": 8003191146.467115,
+  "resid_norm": 1.520558763245353e+16,
+  "gmres": [
+   1.0,
+   0.23712864606702722
+  ],
+  "products": 1,
+  "max_step": 0.18495306764176506,
+  "max_step_significant": 0.12180820949545318,
+  "products_reused": 0,
+  "lam": 1.0,
+  "base_ali": {
+   "unconverged": 1.0,
+   "max_res": 2.2266e-08,
+   "max_it": 2000.0
+  },
+  "ptc_delta": 0.030044991434722876,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.008961839362559804,
+   "l0.5": 0.14536989542257223,
+   "l0.25": 0.21978973496687532
+  },
+  "accepted": "l1",
+  "merit_new": 0.008961839362559804,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 31,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it31_trial_l1",
+  "merit": 0.2227245731476908,
+  "max_frozen_correction": 11094566519.120152,
+  "resid_norm": 1.4571544848109338e+16,
+  "gmres": [
+   1.0,
+   0.14693492253130713
+  ],
+  "products": 1,
+  "max_step": 0.09563771244189272,
+  "max_step_significant": 0.09563771244189272,
+  "products_reused": 0,
+  "lam": 1.0,
+  "base_ali": {
+   "unconverged": 1.0,
+   "max_res": 1.2039e-08,
+   "max_it": 2000.0
+  },
+  "ptc_delta": 0.030044991434722876,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.008269811417440147,
+   "l0.5": 0.1117782590041962,
+   "l0.25": 0.16709661607916704
+  },
+  "accepted": "l1",
+  "merit_new": 0.008269811417440147,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 32,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it32_trial_l1",
+  "merit": 0.28197065297394464,
+  "max_frozen_correction": 17700267618.093655,
+  "resid_norm": 1.5872364108663406e+16,
+  "gmres": [
+   1.0,
+   0.1512674700198436
+  ],
+  "products": 1,
+  "max_step": 0.12051210203802602,
+  "max_step_significant": 0.12051210203802602,
+  "products_reused": 0,
+  "lam": 1.0,
+  "base_ali": {
+   "unconverged": 0.0,
+   "max_res": 9.9999e-11,
+   "max_it": 518.0
+  },
+  "ptc_delta": 0.030044991434722876,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.006802943413067333,
+   "l0.5": 0.1391622526782033,
+   "l0.25": 0.21089380378412736
+  },
+  "accepted": "l1",
+  "merit_new": 0.006802943413067333,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 33,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it33_trial_l1",
+  "merit": 1.3351489305442596,
+  "max_frozen_correction": 25495340129.60859,
+  "resid_norm": 2.006543710792373e+16,
+  "gmres": [
+   1.0,
+   0.3575923002739702,
+   0.19452428021874837
+  ],
+  "products": 2,
+  "max_step": 0.9053402884496753,
+  "max_step_significant": 0.09010373241896638,
+  "products_reused": 0,
+  "lam": 1.0,
+  "base_ali": {
+   "unconverged": 0.0,
+   "max_res": 1e-10,
+   "max_it": 457.0
+  },
+  "ptc_delta": 0.030044991434722876,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.12230146070713191,
+   "l0.5": 0.6638126318289169,
+   "l0.25": 1.0004786652467317
+  },
+  "accepted": "l1",
+  "merit_new": 0.12230146070713191,
+  "accepted_lam": 1.0
+ }
+]

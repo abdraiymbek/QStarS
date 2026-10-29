@@ -1,0 +1,48 @@
+{
+ "label": "numerical_failure",
+ "reason": "no fold of the frozen-entropy problem within the search range: direction +1: lambda limit; direction -1: lambda limit",
+ "points": [
+  {
+   "direction": 1,
+   "bh_mass_msun": 55.21901178167595,
+   "t_lambda": 0.8668599858332586,
+   "det_sign": -1,
+   "min_singular": 0.00019323614958482248
+  },
+  {
+   "direction": 1,
+   "bh_mass_msun": 56.26856824099642,
+   "t_lambda": 0.9330872675235677,
+   "det_sign": -1,
+   "min_singular": 0.00019317354436626603
+  },
+  {
+   "direction": 1,
+   "bh_mass_msun": 57.3293558687035,
+   "t_lambda": 0.933759177412514,
+   "det_sign": -1,
+   "min_singular": 0.0001931129175289976
+  },
+  {
+   "direction": 1,
+   "bh_mass_msun": 58.9563866099386,
+   "t_lambda": 0.93158684876884,
+   "det_sign": -1,
+   "min_singular": 0.00019302180713702357
+  },
+  {
+   "direction": -1,
+   "bh_mass_msun": 55.21901178167595,
+   "t_lambda": -0.8668599858332586,
+   "det_sign": -1,
+   "min_singular": 0.00019323614958482248
+  },
+  {
+   "direction": -1,
+   "bh_mass_msun": 54.04529050075632,
+   "t_lambda": -0.8179656656154833,
+   "det_sign": -1,
+   "min_singular": 0.0001933034477224539
+  }
+ ]
+}

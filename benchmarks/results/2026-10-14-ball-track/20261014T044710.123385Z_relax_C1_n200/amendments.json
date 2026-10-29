@@ -1,0 +1,31 @@
+[
+  {
+    "path": "benchmarks/ball2011_track_plan_amendment_3.json",
+    "sha256": "758ffefb5ad78ebfb70a0912ce624d82ac14c28efae8e9290ee368c7a8c5ae4b",
+    "registration": "benchmarks/ball2011_track_plan_amendment_3.registration.json",
+    "registration_sha256": "082f2eac6a24353a8bce0f3f70d8b48ca2a56610958f718c7b67d850d48fedb0",
+    "registered_utc": "2026-10-14T04:46:59Z",
+    "preserved_failing_run": [
+      "benchmarks/results/2026-10-14-ball-track/20261014T020025.865518Z_relax_C1_n200",
+      "benchmarks/results/2026-10-14-ball-track/20261014T020030.687587Z_relax_C0_n400",
+      "benchmarks/results/2026-10-14-ball-track/20261014T020038.145624Z_relax_C2_n800",
+      "benchmarks/results/2026-10-14-ball-track/20261014T044627.755459Z_relax_C1_n200",
+      "benchmarks/results/2026-10-14-ball-track/20261014T044632.432313Z_relax_C0_n400",
+      "benchmarks/results/2026-10-14-ball-track/20261014T044638.756520Z_relax_C2_n800"
+    ],
+    "settings": {
+      "replication": {
+        "seed_surface": "grey",
+        "seed_radii_rsun": [
+          2000,
+          6000,
+          1000,
+          12000,
+          3464,
+          1414,
+          8485
+        ]
+      }
+    }
+  }
+]

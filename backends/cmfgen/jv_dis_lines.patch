@@ -1,0 +1,91 @@
+--- a/cur_cmf/new_main/qs_jv.f90	2026-10-03 21:16:49
++++ b/cur_cmf/new_main/qs_jv.f90	2026-10-03 21:24:48
+@@ -36,6 +36,9 @@
+ ! the native VCHI/VETA hold constant. dis_l*: d ln(B,A,X)_LEV_DIS per depth and direction.
+ logical :: jv_dis=.true.,dis_valid=.false.,jv_vall=.false.
+ real(kind=ldp),allocatable :: dis_lb(:,:),dis_la(:,:),dis_lx(:,:),dchidis(:,:),detadis(:,:)
++! d ln W(row,depth) = dis_cwb*dlnB + dis_cwa*dlnA + dis_cwx*dlnX for levels of dissolving ions
++! (one-to-one super levels); used for the line-opacity ratio L_STAR_RATIO = W_up/W_low.
++real(kind=ldp),allocatable :: dis_cwb(:,:),dis_cwa(:,:),dis_cwx(:,:)
+ real(kind=ldp) :: st_dis_wdiff=0,st_dis_rel=0
+ end module qs_jv_state
+ 
+@@ -131,7 +134,7 @@
+ use set_kind_module
+ use qs_jv_state
+ use mod_cmfgen, only: atm,num_ions
+-use mod_lev_dis_blk, only: a_lev_dis,mod_do_lev_dis
++use mod_lev_dis_blk, only: a_lev_dis,b_lev_dis,x_lev_dis,mod_do_lev_dis
+ implicit none
+ integer,intent(in)::nt,nd
+ real(kind=ldp),intent(in)::pops(nt,nd)
+@@ -144,8 +147,11 @@
+ call get_environment_variable('QSTARS_JV_VALL',buf,length=plen,status=ios)
+ jv_vall=((ios==0.or.ios==-1).and.plen>0)
+ if(allocated(dis_lb))deallocate(dis_lb,dis_la,dis_lx,dchidis,detadis)
++if(allocated(dis_cwb))deallocate(dis_cwb,dis_cwa,dis_cwx)
+ allocate(dis_lb(nd,nv),dis_la(nd,nv),dis_lx(nd,nv),dchidis(nd,nv),detadis(nd,nv))
++allocate(dis_cwb(nt,nd),dis_cwa(nt,nd),dis_cwx(nt,nd))
+ dis_lb=0;dis_la=0;dis_lx=0;dchidis=0;detadis=0;dis_valid=.false.
++dis_cwb=0;dis_cwa=0;dis_cwx=0
+ st_dis_wdiff=0;st_dis_rel=0
+ if(.not.mod_do_lev_dis)jv_dis=.false.
+ if(.not.jv_dis)return
+@@ -168,6 +174,44 @@
+   dis_lx(l,k)=3.15_ldp*a_lev_dis(l)/(1.0_ldp+a_lev_dis(l))*dis_la(l,k)
+  enddo
+ enddo
++! occupation-probability coefficients per level row (OCCUPATION_PROB, as written)
++do id=1,num_ions-1
++ if(.not.atm(id)%xzv_pres)cycle
++ if(atm(id)%zxzv<=0.0_ldp)cycle
++ if(atm(id)%nxzv_f/=atm(id)%nxzv)then
++  stop 'QSTARS_JV: dissolution line derivatives require one-to-one super levels'
++ endif
++ call dis_w_coef(id)
++enddo
++contains
++ subroutine dis_w_coef(id)
++ integer,intent(in)::id
++ real(kind=ldp)::zion,tw,neff,rk,beta,a4,y,f,w,q
++ integer::i,l,row
++ zion=atm(id)%zxzv
++ do i=1,atm(id)%nxzv_f
++  row=atm(id)%eqxzv+atm(id)%f_to_s_xzv(i)-1
++  tw=3.289395_ldp*zion*zion/atm(id)%edgexzv_f(i)
++  neff=0.0_ldp
++  if(tw>0.0_ldp.and.tw<961.0_ldp)neff=sqrt(tw)
++  if(neff<=2.01_ldp*zion)cycle
++  rk=16.0_ldp*neff/(1+neff)/(1+neff)/3.0_ldp
++  if(neff<=3.0_ldp)rk=1.0_ldp
++  rk=(rk/zion*(zion/neff)**4)**1.5_ldp
++  do l=1,nd
++   beta=rk*b_lev_dis(l)
++   a4=4.0_ldp*(zion-1.0_ldp)*a_lev_dis(l)
++   y=1.091_ldp*(x_lev_dis(l)+a4)
++   f=y*beta*beta/(7.782_ldp+x_lev_dis(l)*beta)
++   w=f/(1.0_ldp+f)
++   if(w>0.99999999_ldp)cycle
++   q=x_lev_dis(l)*beta/(7.782_ldp+x_lev_dis(l)*beta)
++   dis_cwb(row,l)=(1.0_ldp-w)*(2.0_ldp-q)
++   dis_cwa(row,l)=(1.0_ldp-w)*a4/(x_lev_dis(l)+a4)
++   dis_cwx(row,l)=(1.0_ldp-w)*(x_lev_dis(l)/(x_lev_dis(l)+a4)-q)
++  enddo
++ enddo
++ end subroutine dis_w_coef
+ end subroutine qs_jv_dis_begin
+ 
+ ! Build 25: directional change of the bound-free opacity/emissivity through level dissolution
+@@ -393,6 +437,12 @@
+   do l=1,nd
+    dchil(l)=dchil(l)+line_prof_sim(l,sim)*line_opac_con(sim)*&
+         (l_star_ratio(l,sim)*dpop(nl,l,k)-gldgu(sim)*u_star_ratio(l,sim)*dpop(nup,l,k))
++   if(jv_dis)then
++    ! L_STAR_RATIO = W(up)/W(low) (SET_LINE_OPAC, one-to-one super levels)
++    dchil(l)=dchil(l)+line_prof_sim(l,sim)*line_opac_con(sim)*l_star_ratio(l,sim)*jv_pops(nl,l)*&
++         ((dis_cwb(nup,l)-dis_cwb(nl,l))*dis_lb(l,k)+(dis_cwa(nup,l)-dis_cwa(nl,l))*dis_la(l,k)+&
++          (dis_cwx(nup,l)-dis_cwx(nl,l))*dis_lx(l,k))
++   endif
+    detal(l)=detal(l)+line_prof_sim(l,sim)*line_emis_con(sim)*u_star_ratio(l,sim)*dpop(nup,l,k)
+   enddo
+   if(include_dsldt)then

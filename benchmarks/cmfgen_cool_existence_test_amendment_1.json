@@ -1,0 +1,10 @@
+{
+ "amends": "benchmarks/cmfgen_cool_existence_test.json (sha256 c55b1f139889bd5899b9edf07f740fffb6ab5f2d195e666c36d419be1c5d787f)",
+ "amendment": 1,
+ "registered_utc": "2026-10-07T06:34:43+00:00",
+ "reason": "Attempt 1 (T pinned at depths 30-41, T free elsewhere, no PTC; results/nk167_pin/attempt1_free_T_outside_window, kept) did not converge: only a step/16 trial decreased the merit and the free front-adjacent T took large steps (the cold-branch pull of Report 21). This is a numerical failure of that configuration and makes no existence statement.",
+ "change": "T is pinned at EVERY depth (--pin-all): the start-base T profile, multiplied by theta on depths 30-41 only. Populations and n_e are Newton-Krylov converged to statistical equilibrium with the unmodified residual and test; the native residual keeps every depth's RE imbalance. Outside the front the start base satisfies |RE net/gross| <= 1e-3, so the surroundings are near radiative equilibrium; they are held, not re-balanced.",
+ "start_base": "results/nk167_hot/it29_trial_l1",
+ "interpretation": "Majority sign of RE net/gross over depths 30-41 at the converged state, per theta. A sign change between consecutive theta brackets a coupled (nonlocal J, statistical-equilibrium populations) root of the front RE balance with near-RE surroundings held fixed: the closure failure is then numerical. Persistent heating through theta = 1.5 means no such root below 1.5 x the current front T with these surroundings. Neither outcome is a statement about re-balanced surroundings beyond that.",
+ "theta_schedule": "unchanged (1.0; then 1.15/1.30/1.50 if heating, 0.90/0.80 if cooling)"
+}

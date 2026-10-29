@@ -1,0 +1,16 @@
+{
+ "base_release": "build_25",
+ "build": "build_26",
+ "files": [
+  "new_main/qs_jv.f90"
+ ],
+ "source_hashes": {
+  "new_main/qs_jv.f90": {
+   "base": "5f3460a2ebb0f81359a43b3f1ffcc666948115281b807e78b67f55b542c3314c",
+   "patched": "9c3df328546a1c130883262644c33d063086699e52cbd380039fafbd30a5d2ad"
+  }
+ },
+ "patch_file": "jv_vall.patch",
+ "patch_sha256": "bc27112debea58997c39380aac78080d64f444273eabc71878d7199318457ec2",
+ "scope": "Dissolution terms moved from CONT_FREQ to FL exactly as COMP_VAR_OPAC moves VCHI/VETA; QSTARS_JV_VALL uses the complete variation VCHI_ALL/VETA_ALL (important and not-important variables) instead of VCHI/VETA."
+}

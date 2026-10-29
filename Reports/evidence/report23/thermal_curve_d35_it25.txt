@@ -1,0 +1,6 @@
+f= 1.00 T=  9468.6 K  RE/gross=+1.472e-03  ne=1.180e+06  neutral H=0.9903  local step 5.1e-07 (5 its)
+f= 1.15 T= 10888.8 K  RE/gross=-1.211e-03  ne=1.600e+06  neutral H=0.9868  local step 3.2e-07 (5 its)
+f= 1.30 T=     nan K  RE/gross=+nan  ne=nan  neutral H=nan  local step inf (1 its)
+f= 1.50 T=     nan K  RE/gross=+nan  ne=nan  neutral H=nan  local step inf (1 its)
+f= 1.75 T=     nan K  RE/gross=+nan  ne=nan  neutral H=nan  local step inf (1 its)
+f= 2.00 T=     nan K  RE/gross=+nan  ne=nan  neutral H=nan  local step inf (1 its)

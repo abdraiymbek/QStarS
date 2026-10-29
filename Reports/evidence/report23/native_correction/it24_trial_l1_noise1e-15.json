@@ -1,0 +1,125 @@
+{
+ "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it24_trial_l1",
+ "nt": 134,
+ "nd": 167,
+ "sig_frac": 1e-10,
+ "threshold": 0.001,
+ "classes": {
+  "significant": {
+   "n": 9985,
+   "max_abs": 1.0797865164836908,
+   "audit_normalized": 3.5623754945085513,
+   "row": 134,
+   "depth": 1,
+   "frac": 1.0,
+   "n_above_threshold": 4673,
+   "floor_max": 1.6798660119576826e-07,
+   "n_fail_at_floor": 0,
+   "n_fail_above_floor": 4673
+  },
+  "ne": {
+   "n": 167,
+   "max_abs": 0.29250615535791996,
+   "audit_normalized": 0.29250615535791996,
+   "row": 133,
+   "depth": 30,
+   "frac": 1.0,
+   "n_above_threshold": 37,
+   "floor_max": 2.233988652764955e-09,
+   "n_fail_at_floor": 0,
+   "n_fail_above_floor": 37
+  },
+  "T": {
+   "n": 167,
+   "max_abs": 1.0797865164836908,
+   "audit_normalized": 1.0797865164836908,
+   "row": 134,
+   "depth": 1,
+   "frac": 1.0,
+   "n_above_threshold": 130,
+   "floor_max": 1.6798660119576826e-07,
+   "n_fail_at_floor": 0,
+   "n_fail_above_floor": 130
+  },
+  "trace_l1_kept": {
+   "n": 8905,
+   "max_abs": 1815.154518096196,
+   "audit_normalized": 100000.0,
+   "row": 131,
+   "depth": 46,
+   "frac": 1.0254092866254325e-42,
+   "n_above_threshold": 8679,
+   "floor_max": 2.2992757075210485e-07,
+   "n_fail_at_floor": 0,
+   "n_fail_above_floor": 8679
+  },
+  "trace_l1_demoted": {
+   "n": 3488,
+   "max_abs": 141379381.28390336,
+   "audit_normalized": 141379381.28390336,
+   "row": 132,
+   "depth": 36,
+   "frac": 1.086800094186456e-33,
+   "n_above_threshold": 3480,
+   "floor_max": 0.005392334276253914,
+   "n_fail_at_floor": 34,
+   "n_fail_above_floor": 3446
+  },
+  "trace_paired_own": {
+   "n": 12317,
+   "max_abs": 100820722.86733438,
+   "audit_normalized": 100820722.86733438,
+   "row": 131,
+   "depth": 36,
+   "frac": 9.939636339264218e-46,
+   "n_above_threshold": 12083,
+   "floor_max": 0.005041177783072849,
+   "n_fail_at_floor": 32,
+   "n_fail_above_floor": 12051
+  },
+  "trace_paired_ionization": {
+   "n": 76,
+   "max_abs": 141379381.28390336,
+   "audit_normalized": 141379381.28390336,
+   "row": 132,
+   "depth": 36,
+   "frac": 1.086800094186456e-33,
+   "n_above_threshold": 76,
+   "floor_max": 0.005392334276253914,
+   "n_fail_at_floor": 2,
+   "n_fail_above_floor": 74
+  },
+  "trace_unpaired": {
+   "n": 0
+  },
+  "all": {
+   "n": 22378,
+   "max_abs": 141379381.28390336,
+   "audit_normalized": 141379381.28390336,
+   "row": 132,
+   "depth": 36,
+   "frac": 1.086800094186456e-33,
+   "n_above_threshold": 16832,
+   "floor_max": 0.005392334276253914,
+   "n_fail_at_floor": 34,
+   "n_fail_above_floor": 16798
+  }
+ },
+ "noise_model": {
+  "eps_row_relative": 1e-15,
+  "samples": 8,
+  "seed": 0
+ },
+ "prediction_only": "native fixed-J correction of the next complete iteration at this state; the gate is judged on the verify pass, never on this prediction",
+ "below_threshold": {
+  "significant": false,
+  "ne": false,
+  "T": false,
+  "trace_l1_kept": false,
+  "trace_l1_demoted": false,
+  "trace_paired_own": false,
+  "trace_paired_ionization": false,
+  "trace_unpaired": true,
+  "all": false
+ }
+}

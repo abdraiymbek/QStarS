@@ -1,5 +1,10 @@
-"""Opt-in compiled MESA integration tests; no mocked microphysics."""
+"""Opt-in compiled MESA integration tests; no mocked microphysics.
+
+The memo unit test needs no library and runs in the default suite.
+"""
 import os
+import types
+from collections import OrderedDict
 import numpy as np
 import pytest
 from qstars.eos import Composition
@@ -12,6 +17,60 @@ def mesa():
     library=os.environ.get('QSTARS_MESA_LIBRARY');directory=os.environ.get('MESA_DIR')
     if not library or not directory:pytest.skip('Set QSTARS_MESA_LIBRARY and MESA_DIR for compiled MESA tests')
     return MesaMicrophysics(Composition(),library,directory)
+
+
+def test_lru_memo_hits_order_eviction_and_failures():
+    # Only the memo of MesaMicrophysics._cached; no microphysics is involved.
+    calls=[]
+    def native(key):
+        def call():
+            calls.append(key);return [key]
+        return call
+    def failing():
+        calls.append('failed');raise ValueError('native failure')
+    host=types.SimpleNamespace(cache_entries=8)
+    cache=OrderedDict();memo=lambda key,f=None:MesaMicrophysics._cached(host,cache,key,f or native(key))
+    stored=[memo(k) for k in range(9)]
+    assert calls==list(range(9)) and list(cache)==list(range(1,9))
+    # The ninth distinct key evicts the oldest; a hit returns the stored object.
+    assert memo(8) is stored[8] and memo(1) is stored[1] and calls==list(range(9))
+    assert list(cache)==[2,3,4,5,6,7,8,1]
+    memo(9)
+    assert list(cache)==[3,4,5,6,7,8,1,9] and calls[-1]==9
+    assert memo(0) is not stored[0] and calls[-1]==0 and 3 not in cache
+    before=list(cache);n=len(calls)
+    with pytest.raises(ValueError,match='native failure'):memo('bad',failing)
+    assert list(cache)==before and 'bad' not in cache and calls[n:]==['failed']
+    assert memo('bad')==['bad'] and calls[-1]=='bad' and list(cache)==before[1:]+['bad']
+
+
+def test_raw_lru_memo_is_bitwise_neutral(mesa):
+    # Any bridge ABI: raw() is shared by every MesaMicrophysics user.
+    rng=np.random.default_rng(7)
+    sets=[(10**rng.uniform(-12,-2,40),np.maximum(10**rng.uniform(3.7,6.5,40),7000.)) for _ in range(11)]
+    def call(k,complex_step):
+        rho,T=sets[k]
+        return mesa.raw(rho,T*np.exp(1e-30j) if complex_step else T)
+    reference={}
+    for k in range(len(sets)):
+        for c in (False,True):
+            mesa._cache.clear();reference[(k,c)]=call(k,c).copy()
+    mesa._cache.clear()
+    order=[0,1,0,2,0,1,3,4,5,6,7,8,9,10,0,1,10,9,0]
+    for k in order:
+        for c in (False,True):
+            got=call(k,c);want=reference[(k,c)]
+            assert got.dtype==want.dtype and got.tobytes()==want.tobytes()
+        assert len(mesa._cache)<=mesa.cache_entries==8
+    # Least recently used entry is the one evicted; a hit returns the stored arrays.
+    keys=list(mesa._cache)
+    mesa.raw(*sets[order[-1]])
+    assert list(mesa._cache)[-1]==keys[-1]
+    first=mesa.raw(*sets[2]);oldest=list(mesa._cache)[0]
+    assert np.shares_memory(first,mesa.raw(*sets[2]))
+    assert oldest in mesa._cache and len(mesa._cache)==8
+    mesa.raw(*sets[3]);mesa.raw(*sets[4])
+    assert oldest not in mesa._cache
 
 
 def test_mesa_ionization_and_thermodynamic_consistency(mesa):

@@ -1,0 +1,26 @@
+{
+ "plan_id": "cmfgen_cool_closure_stop_rule",
+ "plan_version": 1,
+ "registered_utc": "2026-10-07T04:57:21+00:00",
+ "scope": "167-radius T-released cool closure results/nk167_hot (PTC on T, build 31, ultra-trace weight 1e-12 since iterate 25), written before any result it governs.",
+ "evidence_at_registration": {
+  "iterate": 28,
+  "front_depths": "33-38",
+  "front_T_K": "10.2-10.3 kK (peak 10335 K), rising 150-250 K per iterate",
+  "RE_row_net_over_gross_front": "+7.1e-3 to +8.6e-3 (heating), slowly rising with T",
+  "GENCOOL_net_cooling_front": "+0.4e-9 to +2.4e-9 erg/cm3/s, ~200% of total, dominated by H I collisional cooling: GENCOOL and the RE row disagree, so the front populations are not in statistical equilibrium",
+  "frozen_J_local_root_d35_it25": "between 9469 K (+1.47e-3) and 10889 K (-1.21e-3), Reports/evidence/report23/thermal_curve_d35_it25.json",
+  "outside_front_RE": "|net/gross| <= 9.7e-4"
+ },
+ "stop_rule": {
+  "continue_while_any": [
+   "front max T rises by >= 1% over the last 4 accepted iterates",
+   "front max RE net/gross falls by >= 10% over the last 4 accepted iterates",
+   "max significant Newton step falls by >= 2x over the last 4 accepted iterates"
+  ],
+  "budget": "until 2026-10-08 18:00 local (about 42 h after registration) or 80 more iterates, whichever first",
+  "on_convergence": "apply benchmarks/cmfgen_cool_validation_plan.json closing_phase, then scripts/post_convergence.sh (Gate 1)",
+  "on_stop_without_convergence": "record 'numerical non-convergence at budget' (never a physical claim) with the front diagnostics; the physical existence question is then answered only by an explicit coupled existence test (front T pinned at several values, everything else Newton-converged, RE net read at the pinned depths), declared separately before it runs"
+ },
+ "not_changed": "physics, products, convergence test (max significant Newton step < 1e-3 at PTC delta 0), audit thresholds"
+}

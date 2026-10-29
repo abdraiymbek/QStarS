@@ -1,0 +1,37 @@
+$SCRATCH/final_fix/DRYRUN_out/DRYRUN_relax_A3+A4+A2/20261014T042323.151722Z_relax_C1_n200
+DRYRUN relax C1 [A3+A4+A2] photosphere_bracket=scan wall 43.4 s
+status converged_unique 
+   seed 2000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric densit
+   seed 6000: converged acc 94 rej 1 cycles 18 
+   seed 1000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric densit
+   seed 12000: seed_failed acc None rej None cycles None ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8
+   seed 3464: converged acc 100 rej 1 cycles 19 
+   uniqueness seeds [6000, 3464] max|dln| 3.8686073649001614e-08 (R*)
+$SCRATCH/final_fix/DRYRUN_out/20261014T042408.273297Z_smoke_C1_n200
+DRYRUN smoke [A3,A4,A2] fallbacks [] wall 2.4 s -> 20261014T042408.273297Z_smoke_C1_n200
+    {'status': 'termination_trigger', 'reason': "timestep 0.0625 yr below the dynamical time 0.0913 yr (Ball's criterion)", 'accepted_steps': 0, 'attempts': 4, 'rejections': 4, 'median_dt_years': None, 'passed': False, 'rejection_causes': {'total': 4, 'causes': {'controller_metric': 4}, 'controller_metric': {'profile_dlnr': 4}, 'newton_failures_at_tolerance_floor': 0, 'newton_failure_residuals': []}}
+    code_closure loaded_outside [] sha 10c69c8a8ea3f89b
+DRYRUN fold.classify on the smoke end state: numerical_failure | no fold of the frozen-entropy problem within the search range: direction +1: lambda limit; direction -1: lambda limit | 16.1 s
+$SCRATCH/final_fix/DRYRUN_out/20261014T042427.900688Z_smoke_C1_n200
+DRYRUN smoke [A3,A4,A2] fallbacks ['F1'] wall 2.6 s -> 20261014T042427.900688Z_smoke_C1_n200
+    {'status': 'termination_trigger', 'reason': "timestep 0.0625 yr below the dynamical time 0.0913 yr (Ball's criterion)", 'accepted_steps': 0, 'attempts': 4, 'rejections': 4, 'median_dt_years': None, 'passed': False, 'rejection_causes': {'total': 4, 'causes': {'controller_metric': 4}, 'controller_metric': {'proDRYRUN relax C0 [A3+A4+A2+A1] photosphere_bracket=scan wall 108.8 s
+status converged_unique 
+   seed 2000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric densit
+   seed 6000: converged acc 82 rej 3 cycles 5 
+   seed 1000: seed_failed acc None rej NonDRYRUN relax C1 [A3+A4+A2+A1] photosphere_bracket=scan wall 108.9 s
+status converged_unique 
+   seed 2000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric densit
+   seed 6000: converged acc 215 rej 1 cycles 7 
+   seed 1000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric densit
+   seed 12000: seed_failed acc None rej None cycles None ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8
+   seed 3464: converged acc 220 rej 7 cycles 7 
+   uniqueness seeds [6000, 3464] max|dln| 5.4741322584484435e-11 (R*)
+$SCRATCH/final_fix/DRYRUN_out/DRYRUN_relax_A3+A4+A2+A1/20261014T042621.808457Z_relax_C0_n400
+DRYRUN relax C0 [A3+A4+A2+A1] photosphere_bracket=scan wall 93.1 s
+status converged_unique 
+   seed 2000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric densit
+   seed 6000: converged acc 82 rej 3 cycles 5 
+   seed 1000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric densit
+   seed 12000: seed_failed acc None rej None cycles None ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8
+   seed 3464: converged acc 82 rej 2 cycles 5 
+   uniqueness seeds [6000, 3464] max|dln| 6.025979715036892e-11 (R*)

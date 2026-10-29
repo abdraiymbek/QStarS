@@ -1,0 +1,16 @@
+{
+ "base_release": "build_26",
+ "build": "build_27",
+ "files": [
+  "new_main/qs_jv.f90"
+ ],
+ "source_hashes": {
+  "new_main/qs_jv.f90": {
+   "base": "9c3df328546a1c130883262644c33d063086699e52cbd380039fafbd30a5d2ad",
+   "patched": "27a103ce242a3436406910cc56ea6f1df87e0659c0d430b956d45f0eec842ef3"
+  }
+ },
+ "patch_file": "jv_dis_lines.patch",
+ "patch_sha256": "6f22a9171528366eef0037d8c3dfd94932d8c5f5c7b67ed886ba6fe85bbdfbf1",
+ "scope": "Level-dissolution derivative of the line opacity: L_STAR_RATIO = W(up)/W(low) (SET_LINE_OPAC, one-to-one super levels)."
+}

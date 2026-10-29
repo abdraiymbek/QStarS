@@ -1,0 +1,182 @@
+--- a/cur_cmf/new_main/qs_jv.f90	2026-10-13 20:26:50
++++ b/cur_cmf/new_main/qs_jv.f90	2026-10-14 03:33:31
+@@ -49,6 +49,14 @@
+ ! (one-to-one super levels); used for the line-opacity ratio L_STAR_RATIO = W_up/W_low.
+ real(kind=ldp),allocatable :: dis_cwb(:,:),dis_cwa(:,:),dis_cwx(:,:)
+ real(kind=ldp) :: st_dis_wdiff=0,st_dis_rel=0
++! Build 34: temperature derivative of the ion free-free Gaunt factor. GENOPAETA_V10 (residual) evaluates
++! g = GFF_VEC(CONT_FREQ,T,Z) at the current T; VAR_OP_V10 (native VCHI/VETA) differentiates the ion free-free
++! opacity/emissivity with g held fixed. gff_dchi/gff_deta: the missing d(CHI)/dT, d(ETA)/dT (per unit dT, T in
++! 1e4 K) at CONT_FREQ, summed over the ions of COMP_VAR_OPAC. QSTARS_JV_NOGFF disables the term (build 33).
++logical :: jv_gff=.true.,gff_valid=.false.
++real(kind=ldp),allocatable :: gff_dchi(:),gff_deta(:)
++real(kind=ldp) :: st_gff_gdiff=0
++integer :: st_gff_nfreq=0,st_gff_nion=0,st_gff_nres=0
+ end module qs_jv_state
+ 
+ ! Build 32 (Report 23): conjugate-frequency J of the two-photon USE_RAD method from a QStarS stored-J file
+@@ -119,6 +127,13 @@
+  dpop(:,:,k)=pops*sdir(:,:,k)
+ enddo
+ call qs_jv_dis_begin(pops,nt,nd)
++! build 34: Gaunt-factor temperature derivative of the ion free-free continuum (QSTARS_JV_NOGFF: off)
++call get_environment_variable('QSTARS_JV_NOGFF',path,length=plen,status=ios)
++jv_gff=.not.((ios==0.or.ios==-1).and.plen>0)
++if(allocated(gff_dchi))deallocate(gff_dchi,gff_deta)
++allocate(gff_dchi(nd),gff_deta(nd))
++gff_dchi=0;gff_deta=0;gff_valid=.false.
++st_gff_gdiff=0;st_gff_nfreq=0;st_gff_nion=0;st_gff_nres=0
+ nsim=size(znet_sim,2);jv_maxsim=nsim;jv_ntwo=max(n_two,1)
+ allocate(djrec(nd,nv),djphot(nd,nv),dsteq_t(nd,nv),dznet(nd,nsim,nv))
+ allocate(ddown(nd,jv_ntwo,nv),dup2(nd,jv_ntwo,nv),dfull(nt,nd,nv))
+@@ -374,6 +389,113 @@
+ enddo
+ if(allocated(alpha))deallocate(alpha)
+ end subroutine qs_jv_dis_freq
++
++! Build 34: the free-free Gaunt factor of GFF_VEC (subs/gff.f) and its temperature derivative. Same table, the
++! same statements for U, GB, the cell (IU, IGB) and the weights (DU, DGB), so G equals GFF_VEC to the bit (checked
++! at run time). Inside the cell G is bilinear in (DU, DGB), and U = log10(4.7994 nu) - log10 T,
++! GB = log10(15.789 Z^2) - log10 T, DU = 2U + 9 - IU, DGB = 2GB + 7 - IGB, so
++!   dG/dlog10T = -2 dG/dDU [U not clamped] - 2 dG/dDGB [GB not clamped],  dG/dT = dG/dlog10T / (T ln 10).
++! A clamped argument (U outside (-3.99999999, 1.499999), GB outside (-2.99999999, 1.999999)) does not vary with T.
++! On a cell boundary (2U+9 or 2GB+7 an integer) G is continuous but not differentiable; the slope of the cell
++! GFF_VEC selects there (the one at larger U, GB) is returned.
++subroutine qs_gff_dt_vec(g,dgdt,rnu,t,zion,nd)
++use set_kind_module
++implicit none
++integer,intent(in)::nd
++real(kind=ldp),intent(in)::rnu,t(nd),zion
++real(kind=ldp),intent(out)::g(nd),dgdt(nd)
++real(kind=ldp),save::a(12,11)
++data a &
++ / 5.53_ldp,4.91_ldp,4.29_ldp,3.64_ldp,3.00_ldp,2.41_ldp,1.87_ldp,1.33_ldp,0.90_ldp,0.55_ldp,0.33_ldp,0.19_ldp &
++ , 5.49_ldp,4.87_ldp,4.25_ldp,3.61_ldp,2.98_ldp,2.41_ldp,1.89_ldp,1.39_ldp,0.95_ldp,0.59_ldp,0.36_ldp,0.21_ldp &
++ , 5.46_ldp,4.84_ldp,4.22_ldp,3.59_ldp,2.97_ldp,2.41_ldp,1.91_ldp,1.44_ldp,1.00_ldp,0.63_ldp,0.39_ldp,0.24_ldp &
++ , 5.43_ldp,4.80_ldp,4.18_ldp,3.56_ldp,2.95_ldp,2.41_ldp,1.93_ldp,1.49_ldp,1.08_ldp,0.72_ldp,0.46_ldp,0.28_ldp &
++ , 5.40_ldp,4.77_ldp,4.15_ldp,3.54_ldp,2.94_ldp,2.41_ldp,1.95_ldp,1.55_ldp,1.17_ldp,0.86_ldp,0.59_ldp,0.38_ldp &
++ , 5.25_ldp,4.63_ldp,4.02_ldp,3.41_ldp,2.81_ldp,2.32_ldp,1.90_ldp,1.56_ldp,1.30_ldp,1.01_ldp,0.76_ldp,0.53_ldp &
++ , 5.00_ldp,4.40_ldp,3.80_ldp,3.22_ldp,2.65_ldp,2.19_ldp,1.80_ldp,1.51_ldp,1.32_ldp,1.14_ldp,0.97_ldp,0.76_ldp &
++ , 4.69_ldp,4.13_ldp,3.57_ldp,2.97_ldp,2.44_ldp,2.02_ldp,1.68_ldp,1.42_ldp,1.30_ldp,1.18_ldp,1.09_ldp,0.96_ldp &
++ , 4.48_ldp,3.87_ldp,3.27_ldp,2.70_ldp,2.21_ldp,1.84_ldp,1.52_ldp,1.33_ldp,1.20_ldp,1.15_ldp,1.13_ldp,1.08_ldp &
++ , 4.16_ldp,3.52_ldp,2.98_ldp,2.45_ldp,2.01_ldp,1.67_ldp,1.41_ldp,1.25_ldp,1.15_ldp,1.11_ldp,1.10_ldp,1.09_ldp &
++ , 3.85_ldp,3.27_ldp,2.70_ldp,2.20_ldp,1.81_ldp,1.50_ldp,1.30_ldp,1.17_ldp,1.11_ldp,1.08_ldp,1.08_ldp,1.09_ldp/
++integer::i,iu,igb
++real(kind=ldp)::u,u0,gb,gb0,du,dgb,a1,a2,logt,gdu,gdgb,cu,cg
++a1=4.7994_ldp; a1=log10(a1*rnu)
++a2=15.789_ldp; a2=log10(a2*zion*zion)
++do i=1,nd
++ logt=log10(t(i))
++ u0=a1-logt
++ u=max(-3.99999999_ldp,u0)
++ u=min(1.499999_ldp,u)
++ gb0=a2-logt
++ gb=max(-2.99999999_ldp,gb0)
++ gb=min(1.999999_ldp,gb)
++ iu=int(u*2+9.0_ldp)
++ igb=int(gb*2+7.0_ldp)
++ du=2*u+9.0_ldp-iu
++ dgb=2*gb+7.0_ldp-igb
++ g(i)=((1.0_ldp-du)*a(iu,igb)+du*a(iu+1,igb))*(1.0_ldp-dgb) &
++      +((1.0_ldp-du)*a(iu,igb+1)+du*a(iu+1,igb+1))*dgb
++ gdu=(a(iu+1,igb)-a(iu,igb))*(1.0_ldp-dgb)+(a(iu+1,igb+1)-a(iu,igb+1))*dgb
++ gdgb=((1.0_ldp-du)*a(iu,igb+1)+du*a(iu+1,igb+1))-((1.0_ldp-du)*a(iu,igb)+du*a(iu+1,igb))
++ cu=0.0_ldp; if(u0>-3.99999999_ldp.and.u0<1.499999_ldp)cu=1.0_ldp
++ cg=0.0_ldp; if(gb0>-2.99999999_ldp.and.gb0<1.999999_ldp)cg=1.0_ldp
++ dgdt(i)=-2.0_ldp*(cu*gdu+cg*gdgb)/(t(i)*log(10.0_ldp))
++enddo
++end subroutine qs_gff_dt_vec
++
++! Build 34: d(CHI)/dT and d(ETA)/dT of the ion free-free continuum through the Gaunt factor, at the continuum
++! evaluation frequency NU (= CONT_FREQ), for the ions and the variable set of COMP_VAR_OPAC/VAR_OP_V10:
++! every ion with XzV_PRES and N_XzV_PHOT >= 1 and charge Z > 0 (H0, Z = 0, is H-minus free-free, whose
++! DO_H0_FF_VAR already differentiates its table in T); POP_SUM = sum of the populations of ATM(ID+1);
++! counted in VCHI/VETA only when IMP_VAR(EQION) (else VCHI_NOT_IMP), so here only then, or always with VCHI_ALL.
++! GENOPAETA_V10: CHI += CHIFF Z^2/nu^3 ED POP_SUM g/sqrt(T) (1-exp(-h nu/kT)), ETA += CHIFF Z^2 2h/c^2 ED POP_SUM
++! g/sqrt(T) exp(-h nu/kT). VAR_OP_V10 has every term of their T derivative except the one through g:
++!   dCHI/dT += CHIFF Z^2/nu^3 ED POP_SUM (dg/dT)/sqrt(T) (1-exp(-h nu/kT)),  dETA/dT += CHIFF Z^2 2h/c^2 ED
++!   POP_SUM (dg/dT)/sqrt(T) exp(-h nu/kT).
++! FF_RES_GAUNT (free-free resonances, added to g in GENOPAETA_V10 for ION_LEV = 1) is absent from VAR_OP_V10 in
++! every column; it is not added here (count in st_gff_nres; zero for the H/He models).
++subroutine qs_jv_gff_freq(nu)
++use set_kind_module
++use qs_jv_state
++use mod_cmfgen, only: atm,num_ions,t,ed,imp_var
++use phot_data_mod, only: pd
++implicit none
++real(kind=ldp),intent(in)::nu
++real(kind=ldp)::chibf,chiff,hdkt,twohcsq
++common /constants/ chibf,chiff,hdkt,twohcsq
++real(kind=ldp)::g(jv_nd),gref(jv_nd),dgdt(jv_nd),pop_sum(jv_nd),z,tchi1,teta1,emh,al
++integer::id,l,nd,eqion,nion
++nd=jv_nd
++gff_dchi=0;gff_deta=0
++gff_valid=.true.
++st_gff_nfreq=st_gff_nfreq+1
++nion=0
++do id=1,num_ions
++ if(.not.atm(id)%xzv_pres)cycle
++ if(atm(id)%n_xzv_phot<1)cycle
++ z=atm(id)%zxzv
++ if(z==0.0_ldp)cycle
++ eqion=atm(id+1)%eqxzv+(atm(id)%xzv_ion_lev_id(1)-1)
++ if(.not.(jv_vall.or.imp_var(eqion)))cycle
++ nion=nion+1
++ if(pd(id)%num_ff>0.and.atm(id)%xzv_ion_lev_id(1)==1)st_gff_nres=max(st_gff_nres,pd(id)%num_ff)
++ call qs_gff_dt_vec(g,dgdt,nu,t(1:nd),z,nd)
++ call gff_vec(gref,nu,t,z,nd)
++ st_gff_gdiff=max(st_gff_gdiff,maxval(abs(g-gref)))
++ do l=1,nd
++  pop_sum(l)=sum(atm(id+1)%xzv(:,l))
++ enddo
++ tchi1=chiff*z*z/(nu**3)
++ teta1=chiff*z*z*twohcsq
++ do l=1,nd
++  emh=exp(-hdkt*nu/t(l))
++  al=ed(l)*pop_sum(l)*dgdt(l)/sqrt(t(l))
++  gff_dchi(l)=gff_dchi(l)+tchi1*al*(1.0_ldp-emh)
++  gff_deta(l)=gff_deta(l)+teta1*al*emh
++ enddo
++enddo
++st_gff_nion=max(st_gff_nion,nion)
++end subroutine qs_jv_gff_freq
+ 
+ ! Per-frequency directional products. Call after DO_VAR_CONT (VCHI/VETA valid),
+ ! and before UPDATE_BA_FOR_LINE (QFV_R/QFV_P still as set by EVALSE_QWVJ_V8).
+@@ -445,6 +567,7 @@
+ dbdt=bnue*x/t(nd)/den
+ ! ---------------- phase 1: material directional changes (all directions) ----------
+ if(jv_dis.and.(new_cross.or.first_freq.or..not.dis_valid))call qs_jv_dis_freq(cont_freq)
++if(jv_gff.and.(new_cross.or.first_freq.or..not.gff_valid))call qs_jv_gff_freq(cont_freq)
+ do k=1,nv
+  do l=1,nd
+   if(jv_vall)then
+@@ -465,6 +588,19 @@
+    else
+     dchi_abs(l)=dchi_abs(l)+dchidis(l,k)
+     deta_c(l)=deta_c(l)+detadis(l,k)
++   endif
++  endif
++  if(jv_gff.and.dpop(nt,l,k)/=0.0_ldp)then
++   ! build 34: Gaunt-factor T term at CONT_FREQ, moved to FL as COMP_VAR_OPAC moves VCHI/VETA (and as the
++   ! dissolution terms above). Only where this direction changes T: other products are unchanged to the bit.
++   t1=gff_deta(l)*dpop(nt,l,k)
++   if(cont_freq/=fl)then
++    t4=(fl/cont_freq)**3*exp(-hdkt*(fl-cont_freq)/t(l))
++    deta_c(l)=deta_c(l)+t1*t4
++    dchi_abs(l)=dchi_abs(l)+gff_dchi(l)*dpop(nt,l,k)+t1/(twohcsq*cont_freq**3)-t1*t4/(twohcsq*fl**3)
++   else
++    dchi_abs(l)=dchi_abs(l)+gff_dchi(l)*dpop(nt,l,k)
++    deta_c(l)=deta_c(l)+t1
+    endif
+   endif
+   desec(l)=esec(l)/ed(l)*dpop(nt-1,l,k)
+@@ -776,6 +912,8 @@
+ write(lu,'(A,L2,A,I8,A,I4)')'batched_direction_sweeps',jv_batch,' freqs_batched',st_batch,' blocks',&
+   max(1,min(nv,omp_get_max_threads()))
+ write(lu,'(A,A,A,L2,A,I12)')'two_photon_method ',trim(two_method),' stored_J',tpj_on,' conj_J_evaluations',tpj_ncall
++write(lu,'(A,L2,A,ES12.4,A,I8,A,I4,A,I4)')'ff_gaunt_dT',jv_gff,' max|g-GFF_VEC|',st_gff_gdiff,' cont_evaluations',&
++  st_gff_nfreq,' ions',st_gff_nion,' ff_resonances_not_differentiated',st_gff_nres
+ close(lu)
+ end subroutine qs_jv_two_post
+ 

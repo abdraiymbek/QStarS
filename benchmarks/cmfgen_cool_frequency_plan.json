@@ -1,0 +1,73 @@
+{
+  "scope": "Doubled-frequency refinement of the converged 167-radius T-released cool H/He closure (Gate 3), and the force/heating/luminosity profile criteria used for both the frequency and the 167/333 spatial pair. Extends the frozen-state scope of benchmarks/cmfgen_frequency_plan.json ('frozen-state relativistic/advection transport only') to converged non-LTE equilibria: each state is solved and audited on its own grid; no frozen-state or endpoint-only claim.",
+  "declared": "2026-10-06, before any 167-radius doubled-frequency pass exists (results/nk167_dfreq absent) and before any converged 167-radius state exists; production_certified false",
+  "recipe_source": {
+    "file": "benchmarks/cmfgen_frequency_plan.json",
+    "keys": "settings (all nine, lines 4-15)",
+    "sha256": "511a1ae578d5259f122035417ef47f7ec067d79b85ec46481bc2d79b29020189"
+  },
+  "settings": {
+    "V_CROSS": 375.0,
+    "FRAC_DOP": 0.5,
+    "dV_CMF_PROF": 50.0,
+    "dV_CMF_WING": 100.0,
+    "FRAC_SP": 1.0488088481701516,
+    "AMP_FAC": 1.02469507659596,
+    "MAX_BF": 0.05,
+    "dV_LEV": 100.0,
+    "AMP_DIS": 1.1832159566199232
+  },
+  "frequencies": {
+    "baseline_NCF": 43314,
+    "expected_NCF": 85359,
+    "source": "baseline: OUTGEN/QSTARS_ALI_STATS of results/cmfgen_ali_lambda167; expected: CONT_FREQ of results/cmfgen_recovery_T9_frequency2 (full recipe, same MIN_CF/MAX_CF/VINF/SIG_GAU_KMS/MAX_DOP); the start_base OUTGEN must report it"
+  },
+  "not_used": "Report 20's subset (results/nk_dfreq: 84 radii, build 23, INC_AD/INC_ADV=F, V_CROSS 750 and AMP_DIS 1.4 kept; 84,776 frequencies) is superseded and is not the Gate 3 recipe.",
+  "unchanged": [
+    "photoionization smoothing width",
+    "turbulent/Doppler widths",
+    "atomic tables",
+    "density/velocity/temperature/populations",
+    "inner luminosity",
+    "frequency endpoints",
+    "radius grid (167 radii) and core rays",
+    "x0 restart results/cmfgen_ali_lambda167 and equation table results/nk167_adv/transfer/replace_167.txt",
+    "INC_AD=T, INC_ADV=T and every other VADAT/IN_ITS control",
+    "executable (build 31) and every solver argument of the converged 167 stage, including --ultra-frac/--ultra-weight",
+    "convergence test (--tol 1e-3 over variables holding > 1e-10 of their element plus n_e and T) and the closing_phase of benchmarks/cmfgen_cool_validation_plan.json"
+  ],
+  "start": "--start-step <final cleaned 167-radius state>/QSTARS_STEP.bin with the same --x0 (state dimensions NT x ND are frequency independent; no interpolation)",
+  "per_state_prerequisites": "Both states pass every per-state audit (benchmarks/cmfgen_cool_validation_plan.json requirements[0]: electron balance, global and cumulative radiation energy, last native correction on all levels, populations/charge, spectral material temperature, recombination coverage) before any differencing. Otherwise the pair is reported as not comparable, never as a pass.",
+  "refinement_profile_criteria": {
+    "applies_to": [
+      "frequency pair: 167 radii vs 167 radii doubled frequency (all radii shared)",
+      "spatial pair: 167 vs 333 radii (shared radii: 333[::2] = 167, exact)"
+    ],
+    "inputs": "profiles.npz written by validate_cmfgen_component.audit in each state's verify_<state>_audit directory; radii matched to relative 1e-9 and compared at the coarser run's radii; b = the finer run",
+    "state": "scripts/compare_resolution.py base-pass mode: T and n_e relative, dominant H I/He I/He II/He III fractions absolute where both exceed 0.01, against benchmarks/cmfgen_validation_plan.json profile_refinement_relative (0.01); unchanged",
+    "thresholds": {
+      "E_comoving": 0.01,
+      "F_comoving": 0.01,
+      "P_comoving": 0.01,
+      "radiative_acceleration": 0.01,
+      "kappa_flux": 0.01,
+      "luminosity_lab_over_Lscale": 0.01,
+      "cumulative_heating_over_Lscale": 0.01
+    },
+    "definitions": {
+      "E_comoving, F_comoving, P_comoving, radiative_acceleration, kappa_flux": "max over shared radii of |a - b| / |b|; points where either value is non-finite are counted and fail the metric (radiation_profile_relative of benchmarks/cmfgen_frequency_plan.json and limits.profile_relative of benchmarks/cmfgen_mesh_plan.json)",
+      "Lscale": "max(|L_b(inner)|, |L_b(outer)|) of luminosity_lab, the normalization of the audit's cumulative radiation-energy ledger (scripts/audit_cmfgen_cool.py)",
+      "luminosity_lab_over_Lscale": "max over shared radii of |L_a(r) - L_b(r)| / Lscale; the emergent |L_a(outer) - L_b(outer)| / |L_b(outer)| is reported",
+      "cumulative_heating_over_Lscale": "Q(r) = 4 pi integral from the inner radius to r of r'^2 heating_comoving dr' (trapezoid on each run's own grid, evaluated at the shared radii); max over shared radii of |Q_a - Q_b| / Lscale. Net heating is a near-cancelling difference, so pointwise heating_comoving differences, normalized by max |heating_comoving| of b, are reported and not gated"
+    },
+    "status": {
+      "E_comoving, F_comoving, P_comoving, radiative_acceleration, kappa_flux": "existing thresholds",
+      "luminosity_lab_over_Lscale": "pending_user_approval",
+      "cumulative_heating_over_Lscale": "pending_user_approval"
+    },
+    "pending_reason": "Luminosity and heating normalizations are new metric definitions for an existing requirement ('force and heating response must converge under mesh/frequency refinement', benchmarks/cmfgen_cool_validation_plan.json requirements[1]); declared before any result, but they define how that requirement is applied, so they need the user's approval before a PASS relies on them."
+  },
+  "failure_handling": "A failed pair is retained; thresholds are never raised. A further 4x frequency grid (each recipe key refined once more in the same way) may be declared, in a new file and before it runs, only to establish a convergence trend. A frequency-resolution failure is numerical, never physics.",
+  "known_open_check": "Two-photon USE_RAD reads the conjugate-frequency J from the in-place EDDFACTOR copied from the 43,314-frequency restart (subs/two/get_j_for_two_phot.f); its effect on the doubled-grid residual is unquantified and is to be measured (A/B base pass at x0) before the doubled solve is accepted.",
+  "declaration_sha256": "5f37287b206284d46738bb0f83d0357b438e2d4f21f97225ee7160034247d52a"
+}

@@ -1,0 +1,121 @@
+{
+  "zones": 400,
+  "relaxation": {
+    "dt_years": 0.01,
+    "dt_max_years": 100000000.0,
+    "converged_dt_years": 1000000.0,
+    "tolerance": 1e-10,
+    "luminosity_tolerance": 1e-06,
+    "max_steps": 400,
+    "max_retries": 20,
+    "mesh_cycles": 0,
+    "mesh_tolerance": 1e-05,
+    "cycle_dt_years": 1000000.0
+  },
+  "seeds": [
+    {
+      "seed_radius_rsun": 2000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists",
+      "seed_domain_error": true
+    },
+    {
+      "seed_radius_rsun": 6000,
+      "seed": {
+        "xi0": 0.006044367680743365,
+        "xi_s": 8.281434125873119,
+        "alpha": 50404313269350.68,
+        "rho_c": 6.133049259095394e-06,
+        "K": 1.784878407767961e+17,
+        "external_pressure": 281.25223012015994,
+        "law_luminosity": 1.523008263412213e+41,
+        "hydrostatic_residual": 1.6930901125519305e-12,
+        "envelope_mass": 1.9874756197049602e+37,
+        "mass_defect": 0.0
+      },
+      "status": "failed",
+      "reason": "relaxation failed in mesh cycle 0",
+      "accepted_steps": 0,
+      "rejections": 21,
+      "mesh_cycles": [],
+      "final_rejection_streak": 21,
+      "final_rejections_all_domain_exits": true,
+      "domain_exit_evidence": {
+        "final_rejections": 21,
+        "final_rejections_photosphere": true,
+        "domain_trials": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "last_eddington_factors": [],
+        "eddington_factor_rising_to_boundary": false,
+        "domain_exit": false
+      }
+    },
+    {
+      "seed_radius_rsun": 1000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists",
+      "seed_domain_error": true
+    },
+    {
+      "seed_radius_rsun": 12000,
+      "status": "seed_failed",
+      "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+      "seed_domain_error": false
+    }
+  ],
+  "status": "relaxation_blocker",
+  "classification": "numerical relaxation blocker",
+  "domain_exit_rule": {
+    "domain_message": "Gamma_ph >= 1",
+    "last_accepted_steps": 5,
+    "eddington_factor": 0.99,
+    "converged_seeds": 0,
+    "note": "a row-0 model exists when any seed converged; thresholds are driver choices"
+  },
+  "domain_trials": {
+    "6000": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

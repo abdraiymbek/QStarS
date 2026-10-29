@@ -1,0 +1,34 @@
+{
+ "archived": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it14_from_it14_trial_l1/jv00",
+ "dest": "/Users/abraiymbek/Projects/QStarS/results/bench22/after/prod8_b30_check",
+ "exe": "backends/cmfgen/build_30/cur_cmf/exe/cmfgen_dev.exe",
+ "threads": 4,
+ "ndirs": 8,
+ "wall_s": 3325.5573840141296,
+ "real": 3318.63,
+ "user": 4341.64,
+ "sys": 602.26,
+ "formal_solutions": 43314,
+ "agreement": {
+  "products_max_rel_per_dir": [
+   2.803682540344626e-17,
+   8.211365099199025e-17,
+   4.974860009412801e-14,
+   2.735590405678761e-14,
+   2.614448880527017e-18,
+   1.476213255979353e-16,
+   1.0108118133750224e-14,
+   3.723501084693735e-15
+  ],
+  "products_rowwise_max_rel_per_dir": [
+   1.0390833825872903e-12,
+   3.7841377292530037e-13,
+   1.614560915493017e-13,
+   1.8516450994964755e-13,
+   3.8423739709981435e-13,
+   2.908925129856208e-13,
+   1.648793915436408e-13,
+   2.2334883403005244e-13
+  ]
+ }
+}

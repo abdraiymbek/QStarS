@@ -1,0 +1,36 @@
+$SCRATCH/final_fix/DRYRUN_out/20261014T041340.927763Z_DRYRUN_relax_A3+A4_C1_n200
+DRYRUN relax C1 [A3+A4] photosphere_bracket=scan wall 18.2 s
+status not_unique 
+   seed 2000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric densit
+   seed 6000: converged acc 30 rej 1 cycles 0 
+   seed 1000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric densit
+   seed 12000: seed_failed acc None rej None cycles None ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8
+   seed 3464: converged acc 30 rej 1 cycles 0 
+   uniqueness seeds [6000, 3464] max|dln| 0.015022035187080679 (M_cav)
+$SCRATCH/final_fix/DRYRUN_out/20261014T041400.322037Z_DRYRUN_relax_A3+A4_C0_n400
+DRYRUN relax C0 [A3+A4] photosphere_bracket=scan wall 38.4 s
+status not_unique 
+   seed 2000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric densit
+   seed 6000: converged acc 30 rej 1 cycles 0 
+   seed 1000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric densit
+   seed 12000: seed_failed acc None rej None cycles None ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8
+   seed 3464: converged acc 30 rej 1 cycles 0 
+   uniqueness seeds [6000, 3464] max|dln| 0.0031408670416929875 (M_cav)
+$SCRATCH/final_fix/DRYRUN_out/20261014T041439.903660Z_DRYRUN_relax_A3+A4_C2_n800
+DRYRUN relax C2 [A3+A4] photosphere_bracket=scan wall 196.2 s
+status not_unique 
+   seed 2000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric densit
+   seed 6000: converged acc 37 rej 8 cycles 0 
+   seed 1000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric densit
+   seed 12000: seed_failed acc None rej None cycles None ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8
+   seed 3464: converged acc 36 rej 7 cycles 0 
+   uniqueness seeds [6000, 3464] max|dln| 0.0006507662717030985 (R*)
+$SCRATCH/final_fix/DRYRUN_out/20261014T041757.604521Z_DRYRUN_relax_A3+A4+A2_C1_n200
+DRYRUN relax C1 [A3+A4+A2] photosphere_bracket=scan wall 41.8 s
+status converged_unique 
+   seed 2000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric densit
+   seed 6000: converged acc 94 rej 1 cycles 18 
+   seed 1000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric densit
+   seed 12000: seed_failed acc None rej None cycles None ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8
+   seed 3464: converged acc 100 rej 1 cycles 19 
+   uniqueness seeds [6000, 3464] max|dln| 3.8686073649001614e-08 (R*)

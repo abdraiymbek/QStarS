@@ -1,0 +1,18 @@
+rho=2.3e-11 ln kappa: max|d/dlnT|=15.59  max|second difference|/median=4.28  at T=7944
+rho=2.3e-11 ln p    : max|d/dlnT|=3.503  max|second difference|/median=2.87  at T=8709
+rho=2.3e-11 u       : max|d/dlnT|=5.677e+13  max|second difference|/median=1.76  at T=12625
+rho=2.3e-11 grad_ad : max|d/dlnT|=0.8269  max|second difference|/median=2.79  at T=9926
+rho=2.3e-11 cp      : max|d/dlnT|=7.033e+10  max|second difference|/median=3.01  at T=8269
+   clamp flags any: False
+rho=3.66e-11 ln kappa: max|d/dlnT|=15.64  max|second difference|/median=4.14  at T=8913
+rho=3.66e-11 ln p    : max|d/dlnT|=3.402  max|second difference|/median=2.64  at T=8948
+rho=3.66e-11 u       : max|d/dlnT|=4.001e+13  max|second difference|/median=1.64  at T=9120
+rho=3.66e-11 grad_ad : max|d/dlnT|=0.8921  max|second difference|/median=2.68  at T=10284
+rho=3.66e-11 cp      : max|d/dlnT|=3.8e+10  max|second difference|/median=4.04  at T=8318
+   clamp flags any: False
+rho=5e-11 ln kappa: max|d/dlnT|=15.62  max|second difference|/median=3.95  at T=8913
+rho=5e-11 ln p    : max|d/dlnT|=3.335  max|second difference|/median=2.34  at T=9120
+rho=5e-11 u       : max|d/dlnT|=3.829e+13  max|second difference|/median=1.74  at T=9236
+rho=5e-11 grad_ad : max|d/dlnT|=0.9279  max|second difference|/median=2.65  at T=10472
+rho=5e-11 cp      : max|d/dlnT|=3.093e+10  max|second difference|/median=4.01  at T=8437
+   clamp flags any: False

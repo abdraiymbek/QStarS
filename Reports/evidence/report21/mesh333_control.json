@@ -1,0 +1,21 @@
+{
+ "purpose": "333-radius restart nesting the 167/84 cool grids; Report 21 spatial resolution check",
+ "bootstrap": "/Users/abraiymbek/Projects/QStarS/results/cmfgen_recovery_T9_mesh333_bootstrap",
+ "controls_from": "/Users/abraiymbek/Projects/QStarS/results/cmfgen_ali_lambda167",
+ "physical_inputs_changed": false,
+ "plan_sha256": "916ff171cf36a1b1027f07c1948955b4c13d8ea83a8bfafc6b860206b2e9d1b6",
+ "vadat_sha256": "6e707efdc0ed4f887d8b46336b955b6a5531792b60fdba3afa49c7ce48673381",
+ "nesting": {
+  "radius": {
+   "nd": 333,
+   "vs167": 0.0,
+   "vs84": 0.0
+  },
+  "velocity": {
+   "nd": 333,
+   "vs167": 0.0,
+   "vs84": 0.0
+  }
+ },
+ "nested": true
+}

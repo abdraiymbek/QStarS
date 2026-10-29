@@ -1,0 +1,25 @@
+{
+ "delta": 0.03485457241294185,
+ "history": [
+  {
+   "it": 0,
+   "delta": 0.13850732044574776,
+   "re_net_gross_old": 0.010154828440114394,
+   "re_net_gross_new": 0.01068095651744087
+  },
+  {
+   "delta": 0.035,
+   "reason": "reset on restart"
+  },
+  {
+   "it": 1,
+   "delta": 0.03485457241294185,
+   "re_net_gross_old": 0.010674435914183657,
+   "re_net_gross_new": 0.01063008284394918
+  }
+ ],
+ "lam": 1.0,
+ "lam_done": 1.0,
+ "dlam": 0.0,
+ "stage_iters": 0
+}

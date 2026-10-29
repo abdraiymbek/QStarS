@@ -1,0 +1,16 @@
+{
+ "base_release": "build_20",
+ "build": "build_21",
+ "files": [
+  "new_main/mod_subs/do_var_cont.f"
+ ],
+ "source_hashes": {
+  "new_main/mod_subs/do_var_cont.f": {
+   "base": "ffb1b29fdbee5dbfecfa2b60eb08281ad5618a5d79f1b82b90ec7e93449b5321",
+   "patched": "eff8091d4d2b9cddf67275941f956949e339a76f077c5a2f238c0ad2bb22d6db"
+  }
+ },
+ "patch_file": "jv_fast.patch",
+ "patch_sha256": "c56f86f7f67cb22b73d4d53476cad033c84f2635d79cd07d69551492810d6c66",
+ "scope": "QS_ALI_LIN with QS_LIN_FAC=0: TX/TVX (identically zero) are no longer zeroed/propagated per frequency; VJ/dJ_LOC set to zero directly; DO_THIS_TX_MATRIX set as in the native branch. BA must equal build 19/20 to rounding."
+}

@@ -1,0 +1,41 @@
+{
+ "base_release": "build_17",
+ "build": "build_18",
+ "files": [
+  "new_main/cmfgen_sub.f",
+  "new_main/subs/generate_full_matrix_v3.f",
+  "new_main/subs/solveba_v13.f",
+  "new_main/Makefile",
+  "new_main/qs_jv.f90",
+  "new_main/formal_tangent.f90"
+ ],
+ "source_hashes": {
+  "new_main/cmfgen_sub.f": {
+   "base": "d4be91eda58090fa763ac76e9309fb2d70a45a533f8b0fc17ccaa41a3c5828c7",
+   "patched": "e4ccb73fd42bc2806a1bcf9f46537e9e686ac4047b3834a19191fde8c5b85367"
+  },
+  "new_main/subs/generate_full_matrix_v3.f": {
+   "base": "4b754d2bad82604c29aa70850f1b6bfc0f721dc62af6463fc8107a7b2f834065",
+   "patched": "b116f3d8205e4e29086f48ad0db020e20dbb8ea6628432b518ca7ee80f896525"
+  },
+  "new_main/subs/solveba_v13.f": {
+   "base": "bca3b3deaf843881ea85915cf1b0af4db71e9d3065a1ff7963f8b19fedd47ae5",
+   "patched": "6de0a41532c0ed67ab408b4c0d3ed3e017ca39e9048aabee6df541142749154f"
+  },
+  "new_main/Makefile": {
+   "base": "f632ea5c62a0d18d65f32f796ccaf885273468472768d51ac1e6c58c1d826f0a",
+   "patched": "151673c651d6b2139163a906eff8df4b63899707413b98ae0a7ab099ff1bc5aa"
+  },
+  "new_main/qs_jv.f90": {
+   "base": null,
+   "patched": "760d3c548dfaca6771055167753e48d67886f01a1a92ee14787c5c4ccb437ad1"
+  },
+  "new_main/formal_tangent.f90": {
+   "base": null,
+   "patched": "345151ae29c1137908564699c88672ef7f0b4ce128762373e9a45ef533a4c08b"
+  }
+ },
+ "patch_file": "jv.patch",
+ "patch_sha256": "ce3c5e9b9b9cf75a523d927f9fc4beeba01353af8ee5d671403b13e906939d62",
+ "scope": "QSTARS_JV_DIRS: exact matrix-free radiation part of the rate/RE Jacobian action (analytic formal tangent with blue-ray history; native dSTEQ/dJ coefficients for bound-free QFV, low-T recombination, line ZNET, RE row, two-photon) per direction; QSTARS_BA_DUMP: full assembled blocks after REPLACE/FIXPOP/POPS scaling; QSTARS_REPLACE_FORCE/TRACE: fixed equation selection; QSTARS_JV_STOP: stop after the solve dump; QSTARS_JV_EXPORT: per-frequency dchi/deta/dscat/dJ. Primal state, residual and native step unchanged."
+}

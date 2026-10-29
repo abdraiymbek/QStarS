@@ -1,0 +1,263 @@
+{
+ "label": "Diagnosis of the 2026-10-14 smoke-gate stop at step 1255 (M_BH = 46.0 Msun). Scratch computations only. Nothing was written under benchmarks/results and src/qstars and the driver are unchanged; the code-freeze sha256 check passed before the work.",
+ "run": "benchmarks/results/2026-10-14-ball-track/20261014T051036.115106Z_smoke_C1_n200",
+ "inputs": "checkpoint.npz (last accepted state, step 1255) with its stored configuration (Amendments 3, 4, 2, 1; N = 200; mapped metric; fixed-mass base) and backends/mesa/build_ball_abi7. Single thread, nice 15.",
+ "reproduction_registered_code": {
+  "measured_delta_actual_by_dt_years": {
+   "1e-08": 0.0017837544431645945,
+   "1e-07": 0.0013773208603117379,
+   "1e-06": 0.002250235016651761,
+   "1e-05": 0.005311766027943445,
+   "0.0001": 0.008527410627304874,
+   "0.001": 0.012858399439157195,
+   "0.01": 0.016818883658470864,
+   "0.1": 0.018346521531446936,
+   "1.0": 0.018568958025628298,
+   "10.0": 0.018402463823562313,
+   "30.0": 0.01800423810310343,
+   "100.0": 0.016643578629544842,
+   "172.1438701239381": 0.015245625699921472
+  },
+  "pre_event_mesh_profile_dlnT_by_dt_years": {
+   "1e-08": 1.9400442278406628e-05,
+   "1e-07": 1.9399701751176234e-05,
+   "1e-06": 1.939233888579137e-05,
+   "1e-05": 1.9322104410697335e-05,
+   "0.0001": 1.883507000519972e-05,
+   "0.001": 1.7696882397516327e-05,
+   "0.01": 1.6501271578789598e-05,
+   "0.1": 1.6356733049067523e-05,
+   "1.0": 2.4190188059675665e-05,
+   "10.0": 0.00022868038274168528,
+   "30.0": 0.0006553002726728422,
+   "100.0": 0.0021037035292483055,
+   "172.1438701239381": 0.003585111000413662
+  },
+  "event_dlnT_cell167_by_dt_years": {
+   "1e-08": 4.400744451566362e-05,
+   "1e-07": 0.0003999383066850687,
+   "1e-06": 0.0022502993775801454,
+   "1e-05": 0.005311907569203322,
+   "0.0001": 0.008527695918838962,
+   "0.001": 0.012858808299343629,
+   "0.01": 0.01681934667046411,
+   "0.1": 0.018349055368291334,
+   "1.0": 0.018593148213688168,
+   "10.0": 0.018631144206303907,
+   "30.0": 0.018659538375776184,
+   "100.0": 0.018747282158793177,
+   "172.1438701239381": 0.018830736700334978
+  },
+  "newton_iterations_event_mesh": {
+   "1e-08": 4,
+   "1e-07": 3,
+   "1e-06": 5,
+   "1e-05": 4,
+   "0.0001": 4,
+   "0.001": 4,
+   "0.01": 4,
+   "0.1": 4,
+   "1.0": 4,
+   "10.0": 4,
+   "30.0": 4,
+   "100.0": 4,
+   "172.1438701239381": 4
+  },
+  "note": "At dt = 172.144 yr, delta_actual 0.015246 equals the run's first rejection (0.01525). Every attempt merges premesh cells 168 and 169 of 174. The jump in cell 167 grows from 4e-5 at dt = 1e-8 yr to 0.0186 by about 0.01-0.1 yr, then stays at 0.0186-0.0188 up to 172 yr."
+ },
+ "location": {
+  "merge": "premesh cells 168 and 169 (of 174). dm 0.006897 and 0.006108 Msun against STARS-Q targets 0.010417 and 0.012284 (dm/target 0.662 and 0.497 < merge 0.5). Merged cell dm 0.013005 Msun, centre 0.0497 Msun below the surface. T 7558 and 7251 K, remapped to 7427 K. rho 5.0e-11 and 5.5e-11.",
+  "largest_change": "cell 167 of the event mesh (the remesh leaves it untouched): 0.0601 Msun below the surface, 9949 Msun above the base, optical depth about 2.8 to the surface. At dt = 1 yr: T 8189.6 -> 8343.1 K (+1.86%), rho 3.66e-11 -> 3.31e-11, kappa 1.067 -> 1.204, local Eddington factor kappa L/(4 pi c G m) 2.48 -> 2.80. Cells 166/165/164 change by +1.50%/+0.80%/+0.44%; the merged cell by +0.23% against its remapped T.",
+  "unknowns": "T jumps. r changes by at most 1.2e-4 at 1 yr (profile_dlnr). Face L changes by at most 1.4e-5 at the surface; L is 3.032e8 Lsun everywhere outside. rho_ph changes by +0.1%. The 33-cell base region does not change.",
+  "regime": "Outer hydrogen opacity peak with a density inversion (rho 6.2e-12 at cell 156 -> 5.7e-11 at cell 170). Local Eddington factor > 1 in cells 158-168 (max 3.43, cell 166). Every outer face is Schwarzschild-unstable with ML1 efficiency 5e-9 to 2e-3, so nabla = nabla_rad. No opacity clamp. T >= 6500 K, above the STARS OPAL/AF94 blend (log T 3.75-3.76). Gamma_ph = 0.098."
+ },
+ "excluded": {
+  "microphysics": "ln kappa, ln p, u, grad_ad and cp scanned on 4001 points over 6400-13500 K at rho = 2.3e-11, 3.66e-11 and 5.0e-11: max |second difference|/median <= 4.3, so no isolated jump. dlnkappa/dlnT is at most 15.6. No clamp flags.",
+  "mlt_switch": "No interior face changes Schwarzschild regime in the whole profile: accepted state 155 of 173 faces convective; the pre-event solution at 1 yr is identical face by face; the event solution at 1 yr is identical on all faces shared with the pre-event mesh (scripts/regimes.py).",
+  "photosphere": "rho_ph 4.73754e-11 -> 4.74235e-11.",
+  "base_region": "33 cells before and after; the event is 9949 Msun above the base.",
+  "fold_or_branch": "The step's solution on the event mesh is continuous in dt from 1e-8 yr (where it equals the predictor to within 4e-5 in cell 167) to 172 yr, with 3-5 Newton iterations. Scaled Jacobian sigma_min is 4.91e-4 with and without the merge at 1 yr, and 3.77e-3 against 3.61e-3 at 172 yr. Its smallest right vector at 1 yr lies in L at face 53 and the piston, not in the merge region.",
+  "fold_classify_step1255": "registered fold.classify in scratch: label numerical_failure, 'no fold of the frozen-entropy problem within the search range'. Arc points span M_BH 44.83-49.21 Msun with sigma_min 1.88e-4-1.89e-4, det sign -1 throughout and t_lambda 0.73-0.95. Wall time 1.2 s. See data/fold_classify_step1255.json.",
+  "controller_metric_choice": "The registered Lagrangian metric shows the same jump (lagrangian_max_dlnT = 0.01857 at 1 yr), so the cause is not Amendment 1's mapped metric."
+ },
+ "truncation_error_scale": {
+  "outer_x2": "Outer 34 cells (140-173) split in two with log-linear T and rho, then a dt ladder 1e-7 -> 1 yr. T at 0.0601 Msun below the surface: 8188.3 K at N = 174, 8046.6 K with x2 (-1.74%), 8342.2 K on the merged mesh (+1.86% against N = 174).",
+  "finer": "Refining by 3, 4 or 8, from cell 140 or 155 and with or without the outer cells, failed in Newton from the scratch start at every dt tried. Not established."
+ },
+ "earlier_events_in_the_run": "The run made 22 earlier merges, all accepted, with step_mapped_max_dlnT 0.0013-0.0023 up to step 1170, 0.0058 at step 1208 and 0.0018 at step 1243. There were no splits; zones went from 200 to 174. Teff fell from 7441 K (step 900) to 6464 K and Gamma_ph from 0.83 to 0.098.",
+ "classification": "(a) numerical-method defect. A registered split/merge event in the Lagrangian envelope changes the discrete solution by the change of its truncation error, at every dt. The registered and amended controller metrics count that jump as a timestep error, so halving dt can never succeed and the termination trigger fires. This is the same defect class that Amendment 1 removed from the base region. The physics is continuous: the pre-event step is proportional to dt and there is no fold.",
+ "fix": {
+  "patch": "amendment5_mesh_event_controller.patch",
+  "setting": "stepcontrol.events = 'counterfactual'",
+  "draft": "benchmarks/ball2011_track_plan_amendment_5.draft.json",
+  "patched_reproduction": [
+   {
+    "events": "measured",
+    "dt_years": 0.001,
+    "delta_actual": 0.012858399439157195,
+    "limiting": "profile_dlnT",
+    "rejected": true,
+    "measured_mapped_dlnT": 0.012858399439157195,
+    "event_free_mapped_dlnT": 1.7696882397516327e-05,
+    "merges": 1,
+    "dln_luminosity": 0.0022985000482924883,
+    "dln_radius": 1.6106983681679726e-05,
+    "dln_teff": 0.0005665715202322737
+   },
+   {
+    "events": "measured",
+    "dt_years": 1.0,
+    "delta_actual": 0.018568958025628298,
+    "limiting": "profile_dlnT",
+    "rejected": true,
+    "measured_mapped_dlnT": 0.018568958025628298,
+    "event_free_mapped_dlnT": 2.4190188059675665e-05,
+    "merges": 1,
+    "dln_luminosity": 1.3652836285057842e-05,
+    "dln_radius": 0.00012305630510088785,
+    "dln_teff": 6.49413616215926e-05
+   },
+   {
+    "events": "measured",
+    "dt_years": 10.0,
+    "delta_actual": 0.018402463823562313,
+    "limiting": "profile_dlnT",
+    "rejected": true,
+    "measured_mapped_dlnT": 0.018402463823562313,
+    "event_free_mapped_dlnT": 0.00022868038274168528,
+    "merges": 1,
+    "dln_luminosity": 2.843238153036251e-06,
+    "dln_radius": 0.0001489200042836631,
+    "dln_teff": 7.517081168004457e-05
+   },
+   {
+    "events": "measured",
+    "dt_years": 100.0,
+    "delta_actual": 0.016643578629544842,
+    "limiting": "profile_dlnT",
+    "rejected": true,
+    "measured_mapped_dlnT": 0.016643578629544842,
+    "event_free_mapped_dlnT": 0.0021037035292483055,
+    "merges": 1,
+    "dln_luminosity": 1.159885283643298e-05,
+    "dln_radius": 0.0003746983816303569,
+    "dln_teff": 0.00019024890402432042
+   },
+   {
+    "events": "measured",
+    "dt_years": 172.1438701239381,
+    "delta_actual": 0.015245625699921472,
+    "limiting": "profile_dlnT",
+    "rejected": true,
+    "measured_mapped_dlnT": 0.015245625699921472,
+    "event_free_mapped_dlnT": 0.003585111000413662,
+    "merges": 1,
+    "dln_luminosity": 1.9599930793957833e-05,
+    "dln_radius": 0.0005530766443560907,
+    "dln_teff": 0.0002814383048764412
+   },
+   {
+    "events": "measured",
+    "dt_years": 300.0,
+    "delta_actual": 0.012760430151310361,
+    "limiting": "profile_dlnT",
+    "rejected": true,
+    "measured_mapped_dlnT": 0.012760430151310361,
+    "event_free_mapped_dlnT": 0.006201557706326068,
+    "merges": 1,
+    "dln_luminosity": 3.389987627660703e-05,
+    "dln_radius": 0.0008685339105216741,
+    "dln_teff": 0.0004427419243299214
+   },
+   {
+    "events": "counterfactual",
+    "dt_years": 0.001,
+    "delta_actual": 3.079001029504751e-05,
+    "limiting": "dln_inner_radius",
+    "rejected": false,
+    "measured_mapped_dlnT": 0.012858399439157195,
+    "event_free_mapped_dlnT": 1.7696882397516327e-05,
+    "merges": 1,
+    "dln_luminosity": 1.5191355640843891e-07,
+    "dln_radius": 1.0927888840701308e-07,
+    "dln_teff": 1.6661055007878022e-08
+   },
+   {
+    "events": "counterfactual",
+    "dt_years": 1.0,
+    "delta_actual": 2.4190188059675665e-05,
+    "limiting": "profile_dlnT",
+    "rejected": false,
+    "measured_mapped_dlnT": 0.018568958025628298,
+    "event_free_mapped_dlnT": 2.4190188059675665e-05,
+    "merges": 1,
+    "dln_luminosity": 7.126578614712736e-08,
+    "dln_radius": 2.922197470739763e-06,
+    "dln_teff": 1.4789151818987691e-06
+   },
+   {
+    "events": "counterfactual",
+    "dt_years": 10.0,
+    "delta_actual": 0.00022868038274168528,
+    "limiting": "profile_dlnT",
+    "rejected": false,
+    "measured_mapped_dlnT": 0.018402463823562313,
+    "event_free_mapped_dlnT": 0.00022868038274168528,
+    "merges": 1,
+    "dln_luminosity": 1.3194374625526614e-06,
+    "dln_radius": 2.7373167732451897e-05,
+    "dln_teff": 1.4016443231858506e-05
+   },
+   {
+    "events": "counterfactual",
+    "dt_years": 100.0,
+    "delta_actual": 0.0021037035292483055,
+    "limiting": "profile_dlnT",
+    "rejected": false,
+    "measured_mapped_dlnT": 0.016643578629544842,
+    "event_free_mapped_dlnT": 0.0021037035292483055,
+    "merges": 1,
+    "dln_luminosity": 1.1424700397344962e-05,
+    "dln_radius": 0.0002522227243797367,
+    "dln_teff": 0.00012896753728927252
+   },
+   {
+    "events": "counterfactual",
+    "dt_years": 172.1438701239381,
+    "delta_actual": 0.003585111000413662,
+    "limiting": "profile_dlnT",
+    "rejected": false,
+    "measured_mapped_dlnT": 0.015245625699921472,
+    "event_free_mapped_dlnT": 0.003585111000413662,
+    "merges": 1,
+    "dln_luminosity": 1.9491113216876246e-05,
+    "dln_radius": 0.00043002264828273843,
+    "dln_teff": 0.00021988410244556535
+   },
+   {
+    "events": "counterfactual",
+    "dt_years": 300.0,
+    "delta_actual": 0.006201557706326068,
+    "limiting": "profile_dlnT",
+    "rejected": false,
+    "measured_mapped_dlnT": 0.012760430151310361,
+    "event_free_mapped_dlnT": 0.006201557706326068,
+    "merges": 1,
+    "dln_luminosity": 3.382963822866129e-05,
+    "dln_radius": 0.0007445010398361555,
+    "dln_teff": 0.0003807079294752591
+   }
+  ],
+  "tests": {
+   "before": "test_registered_rule_counts_a_mesh_event_jump_at_every_dt passed; test_mesh_event_jump_is_not_a_timestep_error and test_smoke_step_1255_merge_is_measured_on_the_pre_event_mesh failed (ValueError: Unknown stepcontrol settings ['events'])",
+   "after": "all three passed (11.2 s, MESA opt-in enabled)",
+   "regression_without_mesa": "144 passed, 6 skipped (113 s): test_quasistatic, test_validate_ball_track, test_ball_restart, test_ball_core, test_ball_integration, test_fold, test_photosphere, test_mlt_ml1, test_ball_tables",
+   "regression_with_mesa": "156 passed, 2 skipped (166 s), with QSTARS_MESA_LIBRARY (build_ball_abi7) and MESA_DIR set: the same files plus test_mesa_abi7. The skips are the sources/cache text check and the ABI-6 compatibility check (data/regression_patched_mesa.log)."
+  }
+ },
+ "dryrun": {
+  "amendment5": "DRYRUN_amendment5_from_step1255/: 343 accepted steps in 355 attempts (12 rejected), median dt 127.2 yr, 7 more outer merges accepted. Measured profile changes on those merges: 0.0153, 0.0308, 0.0059, 0.0038, 0.0584, 0.0366, 0.0027; event-free: 0.0036-0.0038. Reached M_BH 53.745 at t = 0.2506 Myr (step 1598), then termination_trigger (dt 0.483 < t_dyn 0.954 yr) after Newton failures at every dt from 77 to 0.97 yr. 290 s.",
+  "second_stop_step1598": "Merge of premesh cells 161 and 162 (dm/target 0.877, 0.499; 0.12 Msun below the surface; T 7134, 6871 K). The event jump is +8.8% in T of cell 160 for dt 0.1-77 yr. The event-mesh solution exists and is continuous in dt (continuation from 1e-3 to 77 yr; sigma_min 2.4e-4-5e-3). Newton from the registered predictor stalls at residual 2.65 on the transport row of face 160 for dt >= 1 yr; F1 fails ('Pseudo-time step collapsed'). On the pre-event mesh the same step converges at 1 and 30.9 yr and fails at 77 yr from the predictor (it converges by continuation). See data/probe1598_dt_continuation.json.",
+  "exploratory_ladder": "DRYRUN_exploratory_ladder_from_step1598/ adds the amendment-5 controller plus a dt-continuation Newton start (scripts/ladder_proto.py, not proposed). 26 accepted steps in 32 attempts, through the 1598 merge and one more at step 1613 (dt up to 554 yr), then rising Newton counts and failures at steps 1622 and 1624, ending with termination_trigger at M_BH 55.22 (dt 0.88 < t_dyn 0.979 yr). At step 1624, continuing the step in dt converges to 0.476 yr and becomes singular by 0.699 yr: sigma_min 3.8e-4 -> 8.8e-9, with the vector on ln T of cell 160 (transport row of face 161). fold.classify at step 1624 finds no frozen-entropy fold (sigma_min 1.93e-4 over M_BH 54.0-59.0). Not classified."
+ }
+}

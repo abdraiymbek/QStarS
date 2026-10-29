@@ -1,0 +1,7 @@
+{
+ "state_identical": true,
+ "residual_bitwise_identical": true,
+ "ba_bitwise_identical": true,
+ "residual_max_abs_diff": 0.0,
+ "ba_max_abs_diff": 0.0
+}

@@ -1,0 +1,88 @@
+schema_version: 1
+name: ball2011_C0_n400
+# Gate 6: Ball, Tout, Zytkow & Eldridge 2011 (MNRAS 414, 2751) fiducial quasi-star track,
+# production run C0 of the sha256-registered plan benchmarks/ball2011_track_plan.json, in the
+# qstars configuration schema (numerics.mechanics quasi_static).
+#
+# Registered runs execute only through scripts/validate_ball_track.py. It verifies the plan
+# registration, generates every run (C0-C7, S1, S2, S4, V1-V3) from the plan, and refuses
+# unless this file equals its C0 mapping, MESA paths aside (it substitutes --library and
+# --mesa-dir). `qstars run` refuses this file because replication.plan names a registered plan.
+# Editing this file never changes a registered run; a mismatch stops the driver.
+composition: {X: 0.7, Y: 0.3, Z: 0.0}
+eos: mesa
+mesa:
+  library_path: ../backends/mesa/build_ball_abi7/libqstars_mesa.dylib
+  mesa_dir: /Users/abraiymbek/qsrd-runtime/mesa
+opacity:
+  model: mesa
+  tables: stars2004_switch            # OPAL Type 1 above log T 3.76, AF94 below 3.75; STARS nearest-value rule off table
+engine:
+  model: ball2012_eq3_15              # thesis eq 3.15 (16 pi)
+  coupling: 0.1                       # eta
+  efficiency: 0.1                     # epsilon
+transport:
+  convection: mlt_ml1
+  mixing_length_alpha: 2.0
+boundary:
+  inner: bondi_cavity                 # r0 = r_B/b at the face state (thesis 3.2-3.4)
+  thermal: stars_photosphere          # tau = 2/3 face, thesis 2.15-2.16
+  pressure_cgs: 0.0
+numerics:
+  zones: 400
+  mechanics: quasi_static
+  conservation_tolerance: 1.0e-8      # plan conservation.energy_cumulative_over_initial_internal_energy
+validity:
+  min_temperature_K: 3000.0
+  max_temperature_K: 1.0e8
+  max_mach: 0.2
+  max_compactness: 1.0e-3
+  require_optically_thick: true
+evolution:
+  max_steps: 20000                    # plan stop_rules.max_accepted_steps
+  max_wall_seconds: 86400.0           # plan stop_rules.per_track_wall_hours
+cavity:
+  active: true
+  profile: r-3/2                      # M_cav = (8 pi/3) rho_b r0^3 (thesis 3.7)
+  b: 1.0
+  boundary_state: face
+quasistatic:
+  tolerance: 1.0e-12
+  polish_iterations: 1
+  roundoff_residual: 1.0e-10
+  roundoff_step: 1.0e-13
+  max_passes: 3
+  split: 2.0
+  merge: 0.5
+  base: lagrangian
+  energy_per_step: 5.0e-13            # 1e-8 cumulative over the 2e4-step stop rule
+  mass_per_step: 1.0e-14
+stepcontrol:
+  delta_target: 0.005
+  dt_initial_years: 1.0
+  dt_max_years: 20000.0
+  max_retries: 12
+  metric: lagrangian
+relaxation:                           # plan initial_model; no STARS-Q mesh cycles unless amended
+  dt_years: 0.01
+  dt_max_years: 1.0e8
+  converged_dt_years: 1.0e6
+  tolerance: 1.0e-10
+  luminosity_tolerance: 1.0e-6
+  max_steps: 400
+  max_retries: 20
+  mesh_cycles: 0
+  mesh_tolerance: 1.0e-5
+  cycle_dt_years: 1.0e6
+replication:
+  plan: ball2011_track_plan
+  run: C0
+  kind: convergence_campaign
+  plan_text: "production: N = 400, delta_target = 0.005, tolerance 1e-12, face boundary state, split/merge 2.0/0.5"
+  policy: published_assumption
+  total_mass_msun: 10000.0
+  initial_bh_mass_msun: 5.0
+  seed_radii_rsun: [2000.0, 6000.0, 1000.0, 12000.0]
+  landings_msun: [100.0, 200.0, 500.0, 1000.0]
+  end_bh_mass_msun: 0.0
+  amendments: []

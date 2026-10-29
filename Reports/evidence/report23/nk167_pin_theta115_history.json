@@ -1,0 +1,64 @@
+[
+ {
+  "it": 0,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_pin/theta1.00/it03_trial_l1",
+  "merit": 5.199679312321261,
+  "max_frozen_correction": 15263562070.685982,
+  "resid_norm": 106818895849588.77,
+  "gmres": [
+   1.0,
+   0.12342390617675462
+  ],
+  "products": 1,
+  "max_step": 1.591970001787025,
+  "max_step_significant": 1.591970001787025,
+  "products_reused": 0,
+  "lam": 1.0,
+  "base_ali": {
+   "unconverged": 1.0,
+   "max_res": 8.2503e-10,
+   "max_it": 2000.0
+  },
+  "limited_components": 0,
+  "trials": {
+   "l1": 2.13289831340943,
+   "l0.5": 2.6078708112580395,
+   "l0.25": 3.8870478023834845
+  },
+  "accepted": "l1",
+  "merit_new": 2.13289831340943,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 1,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_pin/theta1.15/it01_trial_l1",
+  "merit": 8.702316547886305,
+  "max_frozen_correction": 5649583644365.715,
+  "resid_norm": 1069252739056168.4,
+  "gmres": [
+   1.0,
+   0.5693972159634424,
+   0.42118296248503406,
+   0.41263279621914134
+  ],
+  "products": 3,
+  "max_step": 5.394321974260417,
+  "max_step_significant": 3.7906934613894556,
+  "products_reused": 0,
+  "lam": 1.0,
+  "base_ali": {
+   "unconverged": 0.0,
+   "max_res": 9.9992e-11,
+   "max_it": 1353.0
+  },
+  "limited_components": 29,
+  "trials": {
+   "l1": 20.71875183376338,
+   "l0.5": 7.199417300893876,
+   "l0.25": 2.90188891257213
+  },
+  "accepted": "l0.25",
+  "merit_new": 2.90188891257213,
+  "accepted_lam": 0.25
+ }
+]

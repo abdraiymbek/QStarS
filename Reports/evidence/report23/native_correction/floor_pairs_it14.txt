@@ -1,0 +1,22 @@
+base_b28_t8 active equal True
+base_b30_t8 active equal True
+base_b30_t2 active equal True
+it14 vs base_b28_t8: eps_row_l1 6.92e-11; bench rowwise 2.31e-12
+   direct |M^-1 dR| (it14 M) {'significant': '1.6e-11', 'ne': '1.1e-12', 'T': '1.5e-12', 'trace_l1_kept': '1.1e-09', 'trace_l1_demoted': '8.9e-06', 'trace_paired_own': '5.4e-06', 'trace_paired_ionization': '8.9e-06', 'trace_unpaired': '0', 'all': '8.9e-06'} n>1e-3 all: 0 audit-norm >1e-3: 0
+it14 vs base_b30_t8: eps_row_l1 1.44e-09; bench rowwise 3.21e-12
+   direct |M^-1 dR| (it14 M) {'significant': '1.9e-10', 'ne': '4.2e-12', 'T': '9.5e-12', 'trace_l1_kept': '9.6e-09', 'trace_l1_demoted': '0.00017', 'trace_paired_own': '0.0001', 'trace_paired_ionization': '0.00017', 'trace_unpaired': '0', 'all': '0.00017'} n>1e-3 all: 0 audit-norm >1e-3: 0
+it14 vs base_b30_t2: eps_row_l1 1.44e-09; bench rowwise 3.01e-12
+   direct |M^-1 dR| (it14 M) {'significant': '1.8e-10', 'ne': '4.3e-12', 'T': '2.7e-12', 'trace_l1_kept': '1.1e-08', 'trace_l1_demoted': '0.00017', 'trace_paired_own': '0.0001', 'trace_paired_ionization': '0.00017', 'trace_unpaired': '0', 'all': '0.00017'} n>1e-3 all: 0 audit-norm >1e-3: 0
+base_b28_t8 vs base_b30_t8: eps_row_l1 1.47e-09; bench rowwise 2.91e-12
+   direct |M^-1 dR| (it14 M) {'significant': '2.1e-10', 'ne': '3.4e-12', 'T': '1.1e-11', 'trace_l1_kept': '9.5e-09', 'trace_l1_demoted': '0.00018', 'trace_paired_own': '0.00011', 'trace_paired_ionization': '0.00018', 'trace_unpaired': '0', 'all': '0.00018'} n>1e-3 all: 0 audit-norm >1e-3: 0
+base_b28_t8 vs base_b30_t2: eps_row_l1 1.47e-09; bench rowwise 3.78e-12
+   direct |M^-1 dR| (it14 M) {'significant': '2e-10', 'ne': '3.2e-12', 'T': '4.2e-12', 'trace_l1_kept': '1.1e-08', 'trace_l1_demoted': '0.00018', 'trace_paired_own': '0.00011', 'trace_paired_ionization': '0.00018', 'trace_unpaired': '0', 'all': '0.00018'} n>1e-3 all: 0 audit-norm >1e-3: 0
+base_b30_t8 vs base_b30_t2: eps_row_l1 4.68e-10; bench rowwise 2.18e-12
+   direct |M^-1 dR| (it14 M) {'significant': '9.5e-12', 'ne': '2.4e-12', 'T': '6.8e-12', 'trace_l1_kept': '3.4e-09', 'trace_l1_demoted': '3.3e-06', 'trace_paired_own': '2e-06', 'trace_paired_ionization': '3.3e-06', 'trace_unpaired': '0', 'all': '3.3e-06'} n>1e-3 all: 0 audit-norm >1e-3: 0
+model eps 3.2e-12 {'significant': '0.0005', 'ne': '7.1e-06', 'T': '0.0005', 'trace_l1_kept': '0.00073', 'trace_l1_demoted': '19', 'trace_paired_own': '18', 'trace_paired_ionization': '19', 'trace_unpaired': '0', 'all': '19'} n>1e-3 all: 418 audit-norm >1e-3: 418
+it24 transfer ('it14', 'base_b28_t8') {'significant': '1.7e-11', 'ne': '8e-13', 'T': '1.1e-12', 'trace_l1_kept': '1.1e-09', 'trace_l1_demoted': '0.0013', 'trace_paired_own': '0.00069', 'trace_paired_ionization': '0.0013', 'trace_unpaired': '0', 'all': '0.0013'} n>1e-3 1
+it24 transfer ('it14', 'base_b30_t8') {'significant': '2.1e-10', 'ne': '4.5e-12', 'T': '6.1e-12', 'trace_l1_kept': '1.5e-08', 'trace_l1_demoted': '0.019', 'trace_paired_own': '0.0098', 'trace_paired_ionization': '0.019', 'trace_unpaired': '0', 'all': '0.019'} n>1e-3 91
+it24 transfer ('it14', 'base_b30_t2') {'significant': '2e-10', 'ne': '3.9e-12', 'T': '1.6e-12', 'trace_l1_kept': '1.4e-08', 'trace_l1_demoted': '0.017', 'trace_paired_own': '0.0091', 'trace_paired_ionization': '0.017', 'trace_unpaired': '0', 'all': '0.017'} n>1e-3 90
+it24 transfer ('base_b28_t8', 'base_b30_t8') {'significant': '2.3e-10', 'ne': '3.7e-12', 'T': '7.1e-12', 'trace_l1_kept': '1.6e-08', 'trace_l1_demoted': '0.02', 'trace_paired_own': '0.011', 'trace_paired_ionization': '0.02', 'trace_unpaired': '0', 'all': '0.02'} n>1e-3 93
+it24 transfer ('base_b28_t8', 'base_b30_t2') {'significant': '2.2e-10', 'ne': '3.2e-12', 'T': '2.6e-12', 'trace_l1_kept': '1.5e-08', 'trace_l1_demoted': '0.019', 'trace_paired_own': '0.0098', 'trace_paired_ionization': '0.019', 'trace_unpaired': '0', 'all': '0.019'} n>1e-3 90
+it24 transfer ('base_b30_t8', 'base_b30_t2') {'significant': '1.3e-11', 'ne': '1.8e-12', 'T': '4.4e-12', 'trace_l1_kept': '3.3e-09', 'trace_l1_demoted': '0.0013', 'trace_paired_own': '0.00071', 'trace_paired_ionization': '0.0013', 'trace_unpaired': '0', 'all': '0.0013'} n>1e-3 1

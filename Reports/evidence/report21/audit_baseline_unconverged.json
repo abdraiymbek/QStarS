@@ -1,0 +1,494 @@
+{
+  "component": {
+    "scope": "component only; prescribed flow, no wind eigenvalue",
+    "backend": "CMFGEN 18-Jun-2025",
+    "checks": [
+      {
+        "name": "spectral_J",
+        "value": 3.8231517462338776e-08,
+        "limit": 1e-06,
+        "status": "PASS",
+        "scope": "native printed vs independently integrated spectral moment"
+      },
+      {
+        "name": "spectral_H",
+        "value": 4.1654823791769194e-08,
+        "limit": 1e-06,
+        "status": "PASS",
+        "scope": "native printed vs independently integrated spectral moment"
+      },
+      {
+        "name": "spectral_K",
+        "value": 3.9414139270270405e-08,
+        "limit": 1e-06,
+        "status": "PASS",
+        "scope": "native printed vs independently integrated spectral moment"
+      },
+      {
+        "name": "spectral_flux_mean",
+        "value": 6.081802258585829e-08,
+        "limit": 2e-06,
+        "status": "PASS",
+        "scope": "independent extinction-force quadrature"
+      },
+      {
+        "name": "spectral_material_temperature",
+        "value": 0.050535965865178514,
+        "limit": 0.001,
+        "status": "FAIL",
+        "scope": "state synchronization"
+      },
+      {
+        "name": "mass_flux_uniformity",
+        "value": 7.687150452232982e-08,
+        "limit": 1e-06,
+        "status": "PASS",
+        "scope": "prescribed-flow input consistency only"
+      },
+      {
+        "name": "electron_balance",
+        "value": 1.5894,
+        "limit": 0.01,
+        "status": "FAIL",
+        "scope": "electron heating/cooling; not total material energy"
+      },
+      {
+        "name": "global_radiation_energy",
+        "value": 0.6630908904647631,
+        "limit": 0.001,
+        "status": "FAIL",
+        "scope": "independent trapezoid volume four-force vs lab luminosity; mesh error and transfer approximations included"
+      },
+      {
+        "name": "last_nonlinear_correction",
+        "value": 100000.0,
+        "limit": 0.001,
+        "status": "FAIL",
+        "scope": "largest raw and returned native corrections; no discarded levels"
+      },
+      {
+        "name": "population_hydrogen",
+        "value": 2.0405043121174415e-05,
+        "limit": 1e-06,
+        "status": "FAIL",
+        "scope": "atomic conservation on native output"
+      },
+      {
+        "name": "population_helium",
+        "value": 0.00014274066441688493,
+        "limit": 1e-06,
+        "status": "FAIL",
+        "scope": "atomic conservation on native output"
+      },
+      {
+        "name": "population_charge",
+        "value": 0.00019622699727528392,
+        "limit": 1e-06,
+        "status": "FAIL",
+        "scope": "atomic conservation on native output"
+      }
+    ],
+    "metrics": {
+      "nonlinear_corrections": [
+        {
+          "iteration": 1,
+          "reported_percent": 4.433387626008184e+20,
+          "raw_percent": 4.43e+20,
+          "all_level_percent": 4.433387626008184e+20
+        },
+        {
+          "iteration": 2,
+          "reported_percent": 341809717061.07666,
+          "raw_percent": 342000000000.0,
+          "all_level_percent": 342000000000.0
+        },
+        {
+          "iteration": 3,
+          "reported_percent": 1915849855.8434908,
+          "raw_percent": 1920000000.0,
+          "all_level_percent": 1920000000.0
+        },
+        {
+          "iteration": 4,
+          "reported_percent": 140296732.0277225,
+          "raw_percent": 140000000.0,
+          "all_level_percent": 140296732.0277225
+        },
+        {
+          "iteration": 5,
+          "reported_percent": 14029583.273661599,
+          "raw_percent": 14000000.0,
+          "all_level_percent": 14029583.273661599
+        },
+        {
+          "iteration": 6,
+          "reported_percent": 1402868.3273308726,
+          "raw_percent": 1400000.0,
+          "all_level_percent": 1402868.3273308726
+        },
+        {
+          "iteration": 7,
+          "reported_percent": 140196.83273277074,
+          "raw_percent": 140000.0,
+          "all_level_percent": 140196.83273277074
+        },
+        {
+          "iteration": 8,
+          "reported_percent": 13929.683273270663,
+          "raw_percent": 13900.0,
+          "all_level_percent": 13929.683273270663
+        },
+        {
+          "iteration": 9,
+          "reported_percent": 1302.9683273270637,
+          "raw_percent": 1300.0,
+          "all_level_percent": 1302.9683273270637
+        },
+        {
+          "iteration": 10,
+          "reported_percent": 40.29683273270619,
+          "raw_percent": 40.3,
+          "all_level_percent": 40.3
+        },
+        {
+          "iteration": 11,
+          "reported_percent": 5.080333363159829e-10,
+          "raw_percent": 5.08e-10,
+          "all_level_percent": 5.080333363159829e-10
+        },
+        {
+          "iteration": 12,
+          "reported_percent": 3.9366622352835406e-10,
+          "raw_percent": 3.94e-10,
+          "all_level_percent": 3.94e-10
+        },
+        {
+          "iteration": 13,
+          "reported_percent": 343121232.52553993,
+          "raw_percent": 343000000.0,
+          "all_level_percent": 343121232.52553993
+        },
+        {
+          "iteration": 14,
+          "reported_percent": 9489293440498360.0,
+          "raw_percent": 9490000000000000.0,
+          "all_level_percent": 9490000000000000.0
+        },
+        {
+          "iteration": 15,
+          "reported_percent": 9029186600649738.0,
+          "raw_percent": 9030000000000000.0,
+          "all_level_percent": 9030000000000000.0
+        },
+        {
+          "iteration": 16,
+          "reported_percent": 8615836362250302.0,
+          "raw_percent": 8620000000000000.0,
+          "all_level_percent": 8620000000000000.0
+        },
+        {
+          "iteration": 17,
+          "reported_percent": 1774976419119833.5,
+          "raw_percent": 1770000000000000.0,
+          "all_level_percent": 1774976419119833.5
+        },
+        {
+          "iteration": 18,
+          "reported_percent": 2398430572558.333,
+          "raw_percent": 2400000000000.0,
+          "all_level_percent": 2400000000000.0
+        },
+        {
+          "iteration": 19,
+          "reported_percent": 2530847594.4546204,
+          "raw_percent": 2530000000.0,
+          "all_level_percent": 2530847594.4546204
+        },
+        {
+          "iteration": 20,
+          "reported_percent": 2520262.387194635,
+          "raw_percent": 2520000.0,
+          "all_level_percent": 2520262.387194635
+        },
+        {
+          "iteration": 21,
+          "reported_percent": 2381.4995384319623,
+          "raw_percent": 2380.0,
+          "all_level_percent": 2381.4995384319623
+        },
+        {
+          "iteration": 22,
+          "reported_percent": 128.14855822418843,
+          "raw_percent": 128.31050228310502,
+          "all_level_percent": 128.31050228310502
+        },
+        {
+          "iteration": 23,
+          "reported_percent": 73.76207993259636,
+          "raw_percent": 73.91304347826087,
+          "all_level_percent": 73.91304347826087
+        },
+        {
+          "iteration": 24,
+          "reported_percent": 64.01683521655593,
+          "raw_percent": 63.9344262295082,
+          "all_level_percent": 64.01683521655593
+        },
+        {
+          "iteration": 25,
+          "reported_percent": 55.750282570581376,
+          "raw_percent": 55.763239875389395,
+          "all_level_percent": 55.763239875389395
+        },
+        {
+          "iteration": 26,
+          "reported_percent": 45.31845817055017,
+          "raw_percent": 45.348837209302324,
+          "all_level_percent": 45.348837209302324
+        },
+        {
+          "iteration": 27,
+          "reported_percent": 34.00026602141405,
+          "raw_percent": 34.048257372654156,
+          "all_level_percent": 34.048257372654156
+        },
+        {
+          "iteration": 28,
+          "reported_percent": 23.563260692768647,
+          "raw_percent": 23.60939431396786,
+          "all_level_percent": 23.60939431396786
+        },
+        {
+          "iteration": 29,
+          "reported_percent": 15.412854634589717,
+          "raw_percent": 15.473441108545035,
+          "all_level_percent": 15.473441108545035
+        },
+        {
+          "iteration": 30,
+          "reported_percent": 14.720303800210054,
+          "raw_percent": 14.678899082568806,
+          "all_level_percent": 14.720303800210054
+        },
+        {
+          "iteration": 31,
+          "reported_percent": 14.07991985685734,
+          "raw_percent": 14.025085518814139,
+          "all_level_percent": 14.07991985685734
+        },
+        {
+          "iteration": 32,
+          "reported_percent": 13.483261077482057,
+          "raw_percent": 13.507377979568673,
+          "all_level_percent": 13.507377979568673
+        },
+        {
+          "iteration": 33,
+          "reported_percent": 12.92302654508119,
+          "raw_percent": 12.866817155756209,
+          "all_level_percent": 12.92302654508119
+        },
+        {
+          "iteration": 34,
+          "reported_percent": 12.39319837433897,
+          "raw_percent": 12.359550561797754,
+          "all_level_percent": 12.39319837433897
+        },
+        {
+          "iteration": 35,
+          "reported_percent": 11.888946957493207,
+          "raw_percent": 11.856823266219239,
+          "all_level_percent": 11.888946957493207
+        },
+        {
+          "iteration": 36,
+          "reported_percent": 11.40648249534565,
+          "raw_percent": 11.358574610244988,
+          "all_level_percent": 11.40648249534565
+        },
+        {
+          "iteration": 37,
+          "reported_percent": 10.942888939270729,
+          "raw_percent": 10.938540048812957,
+          "all_level_percent": 10.942888939270729
+        },
+        {
+          "iteration": 38,
+          "reported_percent": 10.495977445933903,
+          "raw_percent": 10.497237569060774,
+          "all_level_percent": 10.497237569060774
+        },
+        {
+          "iteration": 39,
+          "reported_percent": 10.305903366413762,
+          "raw_percent": 10.302228105007721,
+          "all_level_percent": 10.305903366413762
+        },
+        {
+          "iteration": 40,
+          "reported_percent": 10.256160255527195,
+          "raw_percent": 10.253583241455349,
+          "all_level_percent": 10.256160255527195
+        },
+        {
+          "iteration": 41,
+          "reported_percent": 11.623459473399663,
+          "raw_percent": 11.607142857142858,
+          "all_level_percent": 11.623459473399663
+        },
+        {
+          "iteration": 42,
+          "reported_percent": 14.831402080176924,
+          "raw_percent": 14.810562571756602,
+          "all_level_percent": 14.831402080176924
+        },
+        {
+          "iteration": 43,
+          "reported_percent": 18.437432673571774,
+          "raw_percent": 18.48341232227488,
+          "all_level_percent": 18.48341232227488
+        },
+        {
+          "iteration": 44,
+          "reported_percent": 22.37099774308539,
+          "raw_percent": 22.399020807833537,
+          "all_level_percent": 22.399020807833537
+        },
+        {
+          "iteration": 45,
+          "reported_percent": 26.452409382548407,
+          "raw_percent": 26.422250316055628,
+          "all_level_percent": 26.452409382548407
+        },
+        {
+          "iteration": 46,
+          "reported_percent": 33.34743316730427,
+          "raw_percent": 33.333333333333336,
+          "all_level_percent": 33.34743316730427
+        },
+        {
+          "iteration": 47,
+          "reported_percent": 39.50888340961451,
+          "raw_percent": 39.47001394700139,
+          "all_level_percent": 39.50888340961451
+        },
+        {
+          "iteration": 48,
+          "reported_percent": 42.65298412794867,
+          "raw_percent": 42.65335235378032,
+          "all_level_percent": 42.65335235378032
+        },
+        {
+          "iteration": 49,
+          "reported_percent": 40.9044093293923,
+          "raw_percent": 40.84507042253521,
+          "all_level_percent": 40.9044093293923
+        },
+        {
+          "iteration": 50,
+          "reported_percent": 37.65936550167533,
+          "raw_percent": 37.74104683195593,
+          "all_level_percent": 37.74104683195593
+        },
+        {
+          "iteration": 51,
+          "reported_percent": 44.61049243807587,
+          "raw_percent": 44.50867052023121,
+          "all_level_percent": 44.61049243807587
+        },
+        {
+          "iteration": 52,
+          "reported_percent": 50.33119737011647,
+          "raw_percent": 50.37593984962406,
+          "all_level_percent": 50.37593984962406
+        },
+        {
+          "iteration": 53,
+          "reported_percent": 10000000.0,
+          "raw_percent": 10000000.0,
+          "all_level_percent": 10000000.0
+        }
+      ],
+      "radii": 84,
+      "frequencies": 43314,
+      "temperature_min": 3987.1931,
+      "temperature_max": 20949.882999999998,
+      "luminosity_lab_inner": 3.7385215345554715e+43,
+      "luminosity_lab_outer": 3.1443701917441416e+43,
+      "volume_energy_to_matter": -1.8848282305587504e+43,
+      "prescribed_mdot": 9.461679979732087e+24,
+      "heating_max_abs": 0.14343155879700936,
+      "warnings": "\n Reading in atomic data\n\n Warning -- FORMAT Date not found in oscilator file:HI_F_OSCDAT\n Warning -- FORMAT Date not found in oscilator file:He2_F_OSCDAT\n\n\n Checking whether some low ionization stages may be omitted from the model.\n   H0      may not need to be include in model. Its maximum fractional abundance of 1.10E-12 < 1.00E-10\n Checking whether some high ionization stages may be omitted from the model.\n   He2    may not need to be include in model. Its maximum fractional abundance is 1.40E-05 < 1.00E-04\n \n Checking whether lower ionization stages need to be included in model\n \n                   Temperature (10^4 K) is  2.095E+00\n           Atom/ion density (per cm^3)) is  4.244E+13\n                 Electrons per atom/ion is  9.999E-01\n Total thermal kinetic energy (ev/atom) is  5.416E+00\n  Approximate internal energy (ev/atom) is  1.466E+01\n App. missing internal energy (ev/atom) is  0.000E+00\n             Radiation energy (ev/atom) is  6.733E+01\n ST_IREC, IREC+2, NCF, ND, NU in OUT_JH\n           6           6       43314          84   1000.0000000000000     \n\n Begin COMP_GREY_V4    84    15    99\n \n\n\n  Equation selection in generate_full_matrix_v3.f\n\n HI      g.s. eq. replaced by ionization eq. at  39 depths.\n HeI     g.s. eq. replaced by ionization eq. at  37 depths.\n He2     g.s. eq. replaced by ionization eq. at  84 depths.\n \n\n\n Checking whether some low ionization stages may be omitted from the model.\n   H0      may not need to be include in model. Its maximum fractional abundance of 1.14E-12 < 1.00E-10\n Checking whether some high ionization stages may be omitted from the model.\n   He2    may not need to be include in model. Its maximum fractional abundance is 1.40E-05 < 1.00E-04\n \n Checking whether lower ionization stages need to be included in model\n \n                   Temperature (10^4 K) is  2.095E+00\n           Atom/ion density (per cm^3)) is  4.244E+13\n                 Electrons per atom/ion is  9.999E-01\n Total thermal kinetic energy (ev/atom) is  5.416E+00\n  Approximate internal energy (ev/atom) is  1.466E+01\n App. missing internal energy (ev/atom) is  0.000E+00\n             Radiation energy (ev/atom) is  6.733E+01\n",
+      "energy_gauge": "neutral_H_He_ground",
+      "material_derivatives_available": false,
+      "neutral_hydrogen_fraction_range": [
+        7.182571623742092e-07,
+        0.9947158919166909
+      ]
+    },
+    "all_requested_component_gates_pass": false,
+    "production_certified": false,
+    "wind_eigenvalue_solved": false,
+    "unperformed_in_this_run": [
+      "radial/frequency convergence",
+      "export invariance",
+      "cool recombination regime",
+      "full coupled energy/population response"
+    ],
+    "this_run_checks_pass": false,
+    "passed": 5,
+    "failed": 7,
+    "input_hashes": {
+      "RVTJ": "e6f67203440f1e8f2766a06d8b631d1fc4327efe23e3363ddfbff95a8c614c49",
+      "MODEL": "4bf53e56c8e42bb4ff85de6735d62d31de51ff9222327bff0f616a43bbc01669",
+      "GENCOOL": "b2fe5914f28dfc9194d37913360eb3d27fdab08a1bc8b62fbd0f4609ae0682f6",
+      "OUTGEN": "5eac104d65f52daed66ff3577e97dc9861d6b351fca3febdbee113b8c9e5a1e7",
+      "QSTARS_SPECTRAL.bin": "e9dd0653d83ea043d16496613038719d5e6dcb6f4706cc7ecf4f19e76cddf3da"
+    },
+    "plan_sha256": "be3ca7f9adc105668f6e357a0b6b9c276e9578ea3c77838e4ba02896d11dc310",
+    "source_snapshot_verified": true
+  },
+  "additional_checks": [
+    {
+      "name": "cool_partial_recombination_coverage",
+      "value": 6,
+      "minimum": 3,
+      "status": "PASS"
+    },
+    {
+      "name": "native_Hminus_Rayleigh_repair",
+      "value": true,
+      "status": "PASS"
+    },
+    {
+      "name": "extended_material_directional_derivatives",
+      "value": 2.8847355461075718e-11,
+      "limit": 1e-06,
+      "status": "PASS"
+    },
+    {
+      "name": "cumulative_radiation_energy",
+      "value": 0.6630908847077215,
+      "limit": 0.001,
+      "status": "FAIL"
+    }
+  ],
+  "derivative_normalization": "absolute directional error divided by P or u; no relaxed-response claim",
+  "derivative_errors": {
+    "pressure": 2.8847355461075718e-11,
+    "internal_energy": 1.4181936506960175e-11
+  },
+  "cool_depths": 6,
+  "hminus_fraction_max": 1.139359583446051e-12,
+  "material_firstlaw_cumulative_fraction_max": 0.5061323278312456,
+  "material_radiation_synchronized_to_component_tolerance": false,
+  "material_firstlaw_scope": "prescribed flow diagnostic only; final spectrum precedes the final material update. Do not interpret mixed-iteration gas/heat defects physically when nonlinear convergence fails. Radiative-equilibrium controls omit gas/population advection.",
+  "atomic_advected_energy_fraction_max": 2.761900551352991e-06,
+  "radiation_cumulative_fraction_max": 0.6630908847077215,
+  "equilibrium_response_validated": false,
+  "global_wind_eigenvalue_solved": false,
+  "published_cool_reference_reproduced": false,
+  "production_certified": false,
+  "plan_sha256": "916ff171cf36a1b1027f07c1948955b4c13d8ea83a8bfafc6b860206b2e9d1b6",
+  "driver_sha256": "be9434cae0bd308733bb50ecd05bcd8a8a880b9f38f98fb2497a2af47e41dfc5"
+}

@@ -1,0 +1,24 @@
+{
+ "plan_id": "cmfgen_cool_existence_test",
+ "plan_version": 1,
+ "registered_utc": "2026-10-07T05:10:25+00:00",
+ "question": "Does the 167-radius T-released H/He cool closure have a coupled finite-temperature radiative-equilibrium root at the H I front, or does the front heat without bound (no equilibrium in the H/He-only model)?",
+ "method": "scripts/cool_newton_krylov.py --t-homotopy --hom-mode frontpin: T at native depths 30-41 pinned at theta x T(start base) by the pin row c*(T - T_fix)/T_fix (RE row and its radiation response removed only there); all populations, n_e and T at every other depth Newton-Krylov converged with the unmodified residual and the usual test (max significant Newton step < 1e-3). The exact products include the nonlocal radiation response, so this is the COUPLED balance, not frozen J. Result per pinned depth: RE net/gross of the native residual at the converged state (positive = net heating).",
+ "start_base": "results/nk167_hot/it29_trial_l1",
+ "window": {
+  "depths": [
+   30,
+   41
+  ],
+  "basis": "every depth with front RE net/gross >= 3e-4 at iterate 28 (Reports/evidence/report23)"
+ },
+ "theta_schedule": "theta_1 = 1.0. If the converged pinned depths are net heating (majority sign +), the next theta is 1.15, then 1.30, then 1.50; if net cooling, 0.90 then 0.80. Stop at the first sign change of the majority sign, or at the end of the schedule.",
+ "solver_settings": "identical to results/nk167_hot from iterate 25 except: no PTC, frontpin instead, threads 4 (machine shared)",
+ "decision_rules": {
+  "coupled_root_bracketed": "majority sign of RE net/gross over the pinned depths changes between consecutive converged theta values: a coupled finite-T root exists between them (the closure failure so far is numerical); the bracket seeds a free solve",
+  "no_root_in_range": "net heating at every pinned depth persists through theta = 1.5 on converged states and GENCOOL of the converged state agrees with the RE row in sign: no coupled root below 1.5 x the current front temperature in the H/He-only model; stated as such, with the range, never extrapolated",
+  "inconclusive": "a pinned solve that does not converge (by the unmodified test) gives no existence statement; it is recorded as numerical"
+ },
+ "not_changed": "physics, residual outside the pinned T rows, products, convergence test",
+ "budget": "each theta at most 25 iterates; whole test within the closure stop-rule budget (benchmarks/cmfgen_cool_closure_stop_rule.json)"
+}

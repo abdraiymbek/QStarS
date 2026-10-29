@@ -1,0 +1,39 @@
+{
+  "kind": "relax",
+  "run": "C1",
+  "replication": {
+    "plan": "ball2011_track_plan",
+    "run": "C1",
+    "kind": "convergence_campaign",
+    "plan_text": "N = 200",
+    "policy": "published_assumption",
+    "total_mass_msun": 10000.0,
+    "initial_bh_mass_msun": 5.0,
+    "seed_radii_rsun": [
+      2000,
+      6000,
+      1000,
+      12000
+    ],
+    "seed_surface": "eos",
+    "landings_msun": [
+      100,
+      200,
+      500,
+      1000
+    ],
+    "end_bh_mass_msun": 0.0,
+    "amendments": []
+  },
+  "track_config": {
+    "path": "benchmarks/ball2011_track.yaml",
+    "sha256": "585846d851c88935f4ec4f3f51bb6c89c6cd14c649791aa04ffbf7ed6627da86"
+  },
+  "threads": {
+    "OMP_NUM_THREADS": "1",
+    "VECLIB_MAXIMUM_THREADS": "1",
+    "OPENBLAS_NUM_THREADS": "1"
+  },
+  "library": "/Users/abraiymbek/Projects/QStarS/backends/mesa/build_ball_abi7/libqstars_mesa.dylib",
+  "library_sha256": "f6bfdc287470febf7efc73fe1d726e0094269a6901282a878e687a430894aecd"
+}

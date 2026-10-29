@@ -1,0 +1,740 @@
+{
+ "amendment_id": "ball2011_track_plan_amendment_3",
+ "status": "registered 2026-10-14T04:46:59Z",
+ "plan": "benchmarks/ball2011_track_plan.json",
+ "plan_sha256": "a10b4166222342acee53da9622885845ff7744914fb38316d8ea4f48fce8cc0e",
+ "kind": "numerical-method bug fix (plan registration.amendment_rule): construction of the initial guess of the row-0 relaxation (plan initial_model.seed and the seed radii; initial_model is not an immutable section). Untouched: the relaxation itself (M_BH frozen, dt from 0.01 yr doubling to 1e8 yr, L_BH from the accretion law), its convergence criterion, the 1e-6 uniqueness test between two seeds, every tolerance, the primary physics and microphysics, the targets and every immutable section (model, replication_mode, comparison, endpoint, qualitative_checks, conservation, restart, convergence_campaign.thresholds, verdict_rules). The relaxed model, not the seed, defines row 0, and its independence of the seed is tested by the registered uniqueness criterion. With this amendment alone the registered photosphere solve still blocks the relaxation (a false Gamma_ph >= 1 at the 3464 Rsun seed at every N and at the first step from the 6000 Rsun seed at N = 400): expected_relax_result_with_this_amendment_alone. That defect is not a seed property; Amendment 4 addresses it, citing those runs.",
+ "settings": {
+  "replication": {
+   "seed_surface": "grey",
+   "seed_radii_rsun": [
+    2000,
+    6000,
+    1000,
+    12000,
+    3464,
+    1414,
+    8485
+   ]
+  }
+ },
+ "settings_note": "Applied by scripts/validate_ball_track.py --amendment to config['replication'] after it verifies this file against its registration record. Both keys enter the row-0 signature, so a row-0 model made with other seed settings is never reused. The driver accepts only replication.seed_surface and replication.seed_radii_rsun of the replication section (AMENDABLE); every other replication key (masses, landings, policy) is refused. seed_surface 'eos' is the registered seed and stays the default of quasistatic.seed and of every configuration.",
+ "preserved_failing_run": [
+  "benchmarks/results/2026-10-14-ball-track/20261014T020025.865518Z_relax_C1_n200",
+  "benchmarks/results/2026-10-14-ball-track/20261014T020030.687587Z_relax_C0_n400",
+  "benchmarks/results/2026-10-14-ball-track/20261014T020038.145624Z_relax_C2_n800",
+  "benchmarks/results/2026-10-14-ball-track/20261014T044627.755459Z_relax_C1_n200",
+  "benchmarks/results/2026-10-14-ball-track/20261014T044632.432313Z_relax_C0_n400",
+  "benchmarks/results/2026-10-14-ball-track/20261014T044638.756520Z_relax_C2_n800"
+ ],
+ "relax_result": [
+  {
+   "run": "benchmarks/results/2026-10-14-ball-track/20261014T020025.865518Z_relax_C1_n200",
+   "kind": "relax",
+   "zones": 200,
+   "status": "relaxation_blocker",
+   "classification": "numerical relaxation blocker",
+   "seed_spread": null,
+   "seeds": [
+    {
+     "seed_radius_rsun": 2000,
+     "status": "seed_failed",
+     "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists",
+     "accepted": null,
+     "rejections": null
+    },
+    {
+     "seed_radius_rsun": 6000,
+     "status": "failed",
+     "reason": "relaxation failed in mesh cycle 0",
+     "accepted": 0,
+     "rejections": 21
+    },
+    {
+     "seed_radius_rsun": 1000,
+     "status": "seed_failed",
+     "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists",
+     "accepted": null,
+     "rejections": null
+    },
+    {
+     "seed_radius_rsun": 12000,
+     "status": "seed_failed",
+     "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+     "accepted": null,
+     "rejections": null
+    }
+   ]
+  },
+  {
+   "run": "benchmarks/results/2026-10-14-ball-track/20261014T020030.687587Z_relax_C0_n400",
+   "kind": "relax",
+   "zones": 400,
+   "status": "relaxation_blocker",
+   "classification": "numerical relaxation blocker",
+   "seed_spread": null,
+   "seeds": [
+    {
+     "seed_radius_rsun": 2000,
+     "status": "seed_failed",
+     "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists",
+     "accepted": null,
+     "rejections": null
+    },
+    {
+     "seed_radius_rsun": 6000,
+     "status": "failed",
+     "reason": "relaxation failed in mesh cycle 0",
+     "accepted": 0,
+     "rejections": 21
+    },
+    {
+     "seed_radius_rsun": 1000,
+     "status": "seed_failed",
+     "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists",
+     "accepted": null,
+     "rejections": null
+    },
+    {
+     "seed_radius_rsun": 12000,
+     "status": "seed_failed",
+     "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+     "accepted": null,
+     "rejections": null
+    }
+   ]
+  },
+  {
+   "run": "benchmarks/results/2026-10-14-ball-track/20261014T020038.145624Z_relax_C2_n800",
+   "kind": "relax",
+   "zones": 800,
+   "status": "relaxation_blocker",
+   "classification": "numerical relaxation blocker",
+   "seed_spread": null,
+   "seeds": [
+    {
+     "seed_radius_rsun": 2000,
+     "status": "seed_failed",
+     "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists",
+     "accepted": null,
+     "rejections": null
+    },
+    {
+     "seed_radius_rsun": 6000,
+     "status": "failed",
+     "reason": "relaxation failed in mesh cycle 0",
+     "accepted": 0,
+     "rejections": 21
+    },
+    {
+     "seed_radius_rsun": 1000,
+     "status": "seed_failed",
+     "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists",
+     "accepted": null,
+     "rejections": null
+    },
+    {
+     "seed_radius_rsun": 12000,
+     "status": "seed_failed",
+     "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+     "accepted": null,
+     "rejections": null
+    }
+   ]
+  },
+  {
+   "run": "benchmarks/results/2026-10-14-ball-track/20261014T044627.755459Z_relax_C1_n200",
+   "kind": "relax",
+   "zones": 200,
+   "status": "relaxation_blocker",
+   "classification": "numerical relaxation blocker",
+   "seed_spread": null,
+   "seeds": [
+    {
+     "seed_radius_rsun": 2000,
+     "status": "seed_failed",
+     "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists",
+     "accepted": null,
+     "rejections": null
+    },
+    {
+     "seed_radius_rsun": 6000,
+     "status": "failed",
+     "reason": "relaxation failed in mesh cycle 0",
+     "accepted": 0,
+     "rejections": 21
+    },
+    {
+     "seed_radius_rsun": 1000,
+     "status": "seed_failed",
+     "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists",
+     "accepted": null,
+     "rejections": null
+    },
+    {
+     "seed_radius_rsun": 12000,
+     "status": "seed_failed",
+     "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+     "accepted": null,
+     "rejections": null
+    }
+   ]
+  },
+  {
+   "run": "benchmarks/results/2026-10-14-ball-track/20261014T044632.432313Z_relax_C0_n400",
+   "kind": "relax",
+   "zones": 400,
+   "status": "relaxation_blocker",
+   "classification": "numerical relaxation blocker",
+   "seed_spread": null,
+   "seeds": [
+    {
+     "seed_radius_rsun": 2000,
+     "status": "seed_failed",
+     "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists",
+     "accepted": null,
+     "rejections": null
+    },
+    {
+     "seed_radius_rsun": 6000,
+     "status": "failed",
+     "reason": "relaxation failed in mesh cycle 0",
+     "accepted": 0,
+     "rejections": 21
+    },
+    {
+     "seed_radius_rsun": 1000,
+     "status": "seed_failed",
+     "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists",
+     "accepted": null,
+     "rejections": null
+    },
+    {
+     "seed_radius_rsun": 12000,
+     "status": "seed_failed",
+     "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+     "accepted": null,
+     "rejections": null
+    }
+   ]
+  },
+  {
+   "run": "benchmarks/results/2026-10-14-ball-track/20261014T044638.756520Z_relax_C2_n800",
+   "kind": "relax",
+   "zones": 800,
+   "status": "relaxation_blocker",
+   "classification": "numerical relaxation blocker",
+   "seed_spread": null,
+   "seeds": [
+    {
+     "seed_radius_rsun": 2000,
+     "status": "seed_failed",
+     "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists",
+     "accepted": null,
+     "rejections": null
+    },
+    {
+     "seed_radius_rsun": 6000,
+     "status": "failed",
+     "reason": "relaxation failed in mesh cycle 0",
+     "accepted": 0,
+     "rejections": 21
+    },
+    {
+     "seed_radius_rsun": 1000,
+     "status": "seed_failed",
+     "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists",
+     "accepted": null,
+     "rejections": null
+    },
+    {
+     "seed_radius_rsun": 12000,
+     "status": "seed_failed",
+     "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+     "accepted": null,
+     "rejections": null
+    }
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "section": "initial_model.seed",
+   "registered": "n = 3 loaded polytrope on the small-xi0 branch for M_BH/M* = 5e-4 (paper eqs 24-33, reference.ball_loaded), scaled to R_seed; T from the MESA EOS at (rho, p)",
+   "amended": "The same loaded polytrope on the same mesh: radii, cell masses, densities, the cavity mass and the temperature of every cell but the last are unchanged, and so is the outer pressure (the photospheric pressure at the engine-law luminosity L_seed of the continuum base state). The last cell alone takes the temperature of the grey surface relation of the step at L_seed, T^4 = 3 L_seed (tau_half + 4/3)/(4 pi R_seed^2 a c) with tau_half = kappa(rho_N, T) dm_N/(8 pi R_seed^2): the lowest root at or above Teff(L_seed, R_seed), found by marching ln T upward in steps of 0.01 and refining with Brent's method (quasistatic.seed surface='grey', quasistatic.surface_temperature). The seed's surface luminosity L_N then equals L_seed and its photosphere is the one whose pressure closed the polytrope.",
+   "defect": "The polytrope carries no information about the photosphere. Read through the grey surface relation that defines L_N in the step, the EOS temperature of its last cell (19 900 K at 6000 Rsun, optical depth about 8) implies L_N = 3.1e42 erg/s, 20.5 times the luminosity the seed's outer pressure was evaluated at and above the Eddington luminosity of the photospheric opacity at every admissible photospheric density, so no Ball photosphere exists for the seed and the predictor of the first relaxation step leaves the model domain at every dt. The seed is inconsistent with itself (outer pressure at L_seed, surface cell at 20 L_seed); this is a property of the seed construction, not of the model: the relaxed dry-run models have Gamma_ph = 0.92. The analytic toys used in Stages 4-6 (electron scattering, reduced coupling) stay sub-Eddington under the same inconsistency (L_N/L_seed 0.67 to 3.1), which is why they relaxed."
+  },
+  {
+   "section": "initial_model.seed_radii_rsun and fallback_seed_radii_rsun",
+   "registered": "[2000, 6000] with fallbacks [1000, 12000], tried in the order 2000, 6000, 1000, 12000",
+   "amended": "[2000, 6000, 1000, 12000, 3464, 1414, 8485]: the registered radii in the registered order, then three further fallbacks. The first two seeds that converge are compared, as registered.",
+   "rule": "The appended radii are the geometric means of neighbouring radii of the registered set sorted by size {1000, 2000, 6000, 12000}, rounded to the nearest Rsun: first the mean of the registered primary pair, sqrt(2000 x 6000) = 3464, then the means that involve a registered fallback radius, in the registered fallback order, sqrt(1000 x 2000) = 1414 and sqrt(6000 x 12000) = 8485. The rule uses the registered radii only; it does not refer to Table 1, to thesis Table 3.1 or to any relaxed model. Order of events (scratch file times, local): the first grey-surface relaxation (6000 Rsun, N = 200) ended at 21:11:52 and its log printed the relaxed L*, R* and r0 of that seed; the appended radii were first built and relaxed at 21:12:15-21:12:29. The rule was therefore written down after that one relaxed model had been printed, and the order of the two events cannot be verified beyond the record of the round that proposed it (which states those values were used for no choice and were never compared with a table). The safeguard against a seed choice that steers row 0 is the registered 1e-6 uniqueness test between two seeds, not the timing.",
+   "defect": "Only one registered radius admits a seed at all, under either seed surface: at 2000 and 1000 Rsun the engine-law luminosity of the polytrope base (it scales as R_seed^-3/2) exceeds the Eddington luminosity of the photospheric opacity at every admissible photospheric density (a true Gamma_ph >= 1: it holds also under the bracket scan of Amendment 4, which finds every ordinary root), and at 12000 Rsun its effective temperature (2713 K) is below the 3000 K MESA floor. The uniqueness test needs two converged seeds, so it cannot be evaluated with the registered list."
+  }
+ ],
+ "not_amended": {
+  "relaxation": "Unchanged text and method: M_BH frozen; dt starts at 0.01 yr and doubles up to 1e8 yr; injected L_BH dt booked as relaxation_injected_energy; converged when dt >= 1e6 yr and two consecutive accepted steps change ln T and ln r by <= 1e-10 with |L*/L_BH - 1| <= 1e-6; uniqueness <= 1e-6 between two seeds; repeated at N = 200, 400, 800. The STARS-Q mesh cycles are not part of this amendment: they are Amendment 2, whose evidence is the not_unique outcome of the relax runs made with this amendment and Amendment 4 (dry_run_evidence.uniqueness).",
+  "options_considered_and_not_used": [
+   "A surface layer of several cells on a grey T(tau) stratification, T_k = min(T_EOS, T_grey(tau_k)): not needed, the single-cell change already gives relaxations that start, converge and are seed-independent at N = 200, 400 and 800; a layer would change more of the seed and add a rule for where it ends.",
+   "A seed surface luminosity fixed by the photosphere condition instead of the accretion law (for example the luminosity the polytrope interior carries, about 0.96 L_Edd of the interior opacity): it needs a free parameter or a second root solve, leaves the outer pressure and the surface cell on different luminosities unless the polytrope is rebuilt, and near 0.96 L_Edd a photosphere exists only for a narrow range of photospheric opacity.",
+   "A pre-relaxation at frozen luminosity: an extra relaxation stage with its own stopping rule, which the registered relaxation makes unnecessary once the seed admits a first step.",
+   "Radii chosen from the window in which a seed can be built (about 2400 to 10 900 Rsun by the continuum estimate of the final review): rejected because locating the window is itself an outcome-driven choice; the geometric-mean rule uses the registered radii only."
+  ],
+  "photosphere_solve": "Not part of this amendment: the registered photosphere.solve (bracket 'doubling') is used by every seed and first step made with this amendment. Its bracket scan is the option of Amendment 4 (quasistatic.photosphere_bracket 'scan'), off unless that amendment is registered and applied."
+ },
+ "fallback_F1": "Not part of this amendment (F1 is in the registered plan, stop_rules.fallbacks_in_order). It is implemented as quasistatic.ptc (default false) and switched on by the driver's --fallback F1 for smoke, track and campaign; the relaxation never uses it and it is outside the row-0 signature. It acts only on a failed Newton solve, never on a controller rejection, and a step it rescues reports as its Newton iterations the failed Newton, pseudo-time and final Newton iterations together. See Reports/evidence/report23/ball/stage7_unblock_approaches.json and stage7_unblock_dryruns.json.",
+ "tests_failed_before_pass_after": [
+  "tests/test_quasistatic.py::test_grey_seed_surface_changes_only_the_last_cell_temperature (analytic toy: registered seed L_N/L_seed 0.67 and 3.1; grey: 1 to 1e-12, every other array bitwise)",
+  "tests/test_quasistatic.py::test_grey_surface_temperature_is_the_lowest_root_of_the_grey_relation",
+  "tests/test_quasistatic.py::test_registered_and_grey_seeds_relax_to_the_same_row0 (seed independence of the relaxed model on the toy)",
+  "tests/test_validate_ball_track.py::test_amendments_are_verified_and_limited_to_numerical_method_settings (replication.seed_surface and seed_radii_rsun amendable, in the row-0 signature; other replication keys refused)"
+ ],
+ "dry_run_evidence": {
+  "label": "DRYRUN, scratch output only (Reports/evidence/report23/ball/stage7_unblock_dryruns.json and stage7_final_fix.json; scripts in dryrun_scripts/ and dryrun_scripts_final/). The driver's own relax_seeds and smoke functions were called with the settings of the drafts and a scratch output root; nothing was written under benchmarks/results. No row-0 observable was compared with Table 1 or thesis Table 3.1, and no setting was chosen from such a comparison: only seed-to-seed differences, step counts and wall times were read. 10 cores shared with CMFGEN jobs, single thread, nice 15. The runs of the first unblock round were made with the bracket scan unconditional; they are listed under the amendments they correspond to (3 and 4), and the final round reproduced them to the printed digits with the scan as Amendment 4's option.",
+  "registered_seed_with_current_source": {
+   "status": "relaxation_blocker",
+   "seeds": {
+    "2000": "seed_failed",
+    "6000": "failed",
+    "1000": "seed_failed",
+    "12000": "seed_failed"
+   },
+   "row0_max_abs_dln_between_the_two_seeds": null,
+   "worst_observable": null,
+   "wall_seconds_both_seeds": 4.1,
+   "final_round_check": "Final code, registered numerics, C1 (DRYRUN, 3.4 s): relaxation_blocker; relax.json seed reasons, the 6000 Rsun rejection log (21 records) and every state array of relaxed_6000rsun.npz equal the preserved 2026-10-14 C1 run exactly (the resolved configuration differs only by the new default keys quasistatic.ptc false, quasistatic.photosphere_bracket 'doubling' and replication.seed_surface 'eos'). Reports/evidence/report23/ball/dryrun_logs_final/log_relax_registered_C1.txt"
+  },
+  "seed_construction_N200_grey_surface": {
+   "2000": "cannot be built: Gamma_ph >= 1 at every admissible rho_ph at the seed-law luminosity",
+   "6000": "built and relaxed",
+   "1000": "cannot be built: Gamma_ph >= 1",
+   "12000": "cannot be built: Teff 2713 K < 3000 K (MESA floor)",
+   "3464": "built and relaxed with Amendment 4's bracket scan; with the registered photosphere solve: cannot be built (false Gamma_ph >= 1 at the seed-law luminosity)",
+   "1414": "cannot be built: Gamma_ph >= 1",
+   "8485": "built; every relaxation step rejected in P2 (Teff 4007 K, splitting the grey last cell asks the EOS for T < 3000 K): failed seed, same at N = 400 and 800; reached by the driver only when 6000 or 3464 Rsun does not converge (with this amendment alone)"
+  },
+  "amendment_3_alone": {
+   "note": "Final round, registered photosphere solve (bracket 'doubling'), driver relax_seeds, scratch output (stage7_final_fix.json).",
+   "N200": {
+    "status": "relaxation_blocker",
+    "classification": "numerical relaxation blocker",
+    "seeds": {
+     "2000": "seed_failed (Gamma_ph >= 1, true)",
+     "6000": "converged, 30 accepted / 1 rejected",
+     "1000": "seed_failed (true)",
+     "12000": "seed_failed (below 3000 K)",
+     "3464": "seed_failed (Gamma_ph >= 1, false)",
+     "1414": "seed_failed (true)",
+     "8485": "failed, 0 accepted / 21 rejected"
+    },
+    "wall_seconds": 11.1
+   },
+   "N400": {
+    "status": "relaxation_blocker",
+    "classification": "numerical relaxation blocker",
+    "seeds": {
+     "6000": "failed, 0 accepted / 21 rejected, each 'P3 predictor left the model domain' with the false Gamma_ph >= 1",
+     "3464": "seed_failed (false Gamma_ph >= 1)",
+     "8485": "failed, 0 / 21",
+     "2000, 1000, 1414, 12000": "seed_failed as at N = 200"
+    },
+    "wall_seconds": 6.5
+   },
+   "N800": {
+    "status": "relaxation_blocker",
+    "classification": "numerical relaxation blocker",
+    "seeds": {
+     "6000": "converged, 37 / 8",
+     "3464": "seed_failed (false Gamma_ph >= 1)",
+     "8485": "failed, 0 / 21",
+     "2000, 1000, 1414, 12000": "seed_failed as at N = 200"
+    },
+    "wall_seconds": 82.6
+   }
+  },
+  "amendments_3_and_4": {
+   "N200": {
+    "status": "not_unique",
+    "seeds": {
+     "2000": "seed_failed",
+     "6000": {
+      "accepted": 30,
+      "rejected": 1,
+      "mesh_cycles": 0,
+      "final_cells": 224,
+      "enforced_screen_errors": [],
+      "report_only_screens": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     "1000": "seed_failed",
+     "12000": "seed_failed",
+     "3464": {
+      "accepted": 30,
+      "rejected": 1,
+      "mesh_cycles": 0,
+      "final_cells": 200,
+      "enforced_screen_errors": [],
+      "report_only_screens": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    },
+    "row0_max_abs_dln_between_the_two_seeds": 0.015022035187080679,
+    "worst_observable": "M_cav",
+    "wall_seconds_both_seeds": 20.0
+   },
+   "N400": {
+    "status": "not_unique",
+    "seeds": {
+     "2000": "seed_failed",
+     "6000": {
+      "accepted": 30,
+      "rejected": 1,
+      "mesh_cycles": 0,
+      "final_cells": 445,
+      "enforced_screen_errors": [],
+      "report_only_screens": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     "1000": "seed_failed",
+     "12000": "seed_failed",
+     "3464": {
+      "accepted": 30,
+      "rejected": 1,
+      "mesh_cycles": 0,
+      "final_cells": 401,
+      "enforced_screen_errors": [],
+      "report_only_screens": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    },
+    "row0_max_abs_dln_between_the_two_seeds": 0.0031408670416929875,
+    "worst_observable": "M_cav",
+    "wall_seconds_both_seeds": 56.5
+   },
+   "N800": {
+    "status": "not_unique",
+    "seeds": {
+     "2000": "seed_failed",
+     "6000": {
+      "accepted": 37,
+      "rejected": 8,
+      "mesh_cycles": 0,
+      "final_cells": 894,
+      "enforced_screen_errors": [],
+      "report_only_screens": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     "1000": "seed_failed",
+     "12000": "seed_failed",
+     "3464": {
+      "accepted": 36,
+      "rejected": 7,
+      "mesh_cycles": 0,
+      "final_cells": 806,
+      "enforced_screen_errors": [],
+      "report_only_screens": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    },
+    "row0_max_abs_dln_between_the_two_seeds": 0.0006507662717030985,
+    "worst_observable": "R*",
+    "wall_seconds_both_seeds": 207.4
+   },
+   "note": "First unblock round (scan unconditional); reproduced by the final round with Amendment 4's option: N = 200 0.015022035187080679, N = 400 0.0031408670416929875, N = 800 0.0006507662717030985."
+  },
+  "amendments_3_4_and_2": {
+   "N200": {
+    "status": "converged_unique",
+    "seeds": {
+     "2000": "seed_failed",
+     "6000": {
+      "accepted": 94,
+      "rejected": 1,
+      "mesh_cycles": 18,
+      "final_cells": 200,
+      "enforced_screen_errors": [],
+      "report_only_screens": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     "1000": "seed_failed",
+     "12000": "seed_failed",
+     "3464": {
+      "accepted": 100,
+      "rejected": 1,
+      "mesh_cycles": 19,
+      "final_cells": 200,
+      "enforced_screen_errors": [],
+      "report_only_screens": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    },
+    "row0_max_abs_dln_between_the_two_seeds": 3.8686073649001614e-08,
+    "worst_observable": "R*",
+    "wall_seconds_both_seeds": 31.7
+   },
+   "N400": {
+    "status": "converged_unique",
+    "seeds": {
+     "2000": "seed_failed",
+     "6000": {
+      "accepted": 65,
+      "rejected": 1,
+      "mesh_cycles": 10,
+      "final_cells": 400,
+      "enforced_screen_errors": [],
+      "report_only_screens": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     "1000": "seed_failed",
+     "12000": "seed_failed",
+     "3464": {
+      "accepted": 65,
+      "rejected": 1,
+      "mesh_cycles": 10,
+      "final_cells": 400,
+      "enforced_screen_errors": [],
+      "report_only_screens": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    },
+    "row0_max_abs_dln_between_the_two_seeds": 3.62374241790352e-10,
+    "worst_observable": "M_cav",
+    "wall_seconds_both_seeds": 65.6
+   },
+   "N800": {
+    "status": "converged_unique",
+    "seeds": {
+     "2000": "seed_failed",
+     "6000": {
+      "accepted": 60,
+      "rejected": 8,
+      "mesh_cycles": 7,
+      "final_cells": 800,
+      "enforced_screen_errors": [],
+      "report_only_screens": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     "1000": "seed_failed",
+     "12000": "seed_failed",
+     "3464": {
+      "accepted": 59,
+      "rejected": 7,
+      "mesh_cycles": 7,
+      "final_cells": 800,
+      "enforced_screen_errors": [],
+      "report_only_screens": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    },
+    "row0_max_abs_dln_between_the_two_seeds": 4.2311254509000456e-10,
+    "worst_observable": "M_cav",
+    "wall_seconds_both_seeds": 168.9
+   },
+   "note": "First unblock round (scan unconditional); N = 200 reproduced by the final round with Amendments 3, 4 and 2: 3.8686073649001614e-08."
+  },
+  "amendments_3_4_2_and_1": {
+   "N200": {
+    "status": "converged_unique",
+    "seeds": {
+     "2000": "seed_failed",
+     "6000": {
+      "accepted": 215,
+      "rejected": 1,
+      "mesh_cycles": 7,
+      "final_cells": 200,
+      "enforced_screen_errors": [],
+      "report_only_screens": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     "1000": "seed_failed",
+     "12000": "seed_failed",
+     "3464": {
+      "accepted": 220,
+      "rejected": 7,
+      "mesh_cycles": 7,
+      "final_cells": 200,
+      "enforced_screen_errors": [],
+      "report_only_screens": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    },
+    "row0_max_abs_dln_between_the_two_seeds": 5.4741322584484435e-11,
+    "worst_observable": "R*",
+    "wall_seconds_both_seeds": 110.7
+   },
+   "N400": {
+    "status": "converged_unique",
+    "seeds": {
+     "2000": "seed_failed",
+     "6000": {
+      "accepted": 82,
+      "rejected": 3,
+      "mesh_cycles": 5,
+      "final_cells": 400,
+      "enforced_screen_errors": [],
+      "report_only_screens": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     "1000": "seed_failed",
+     "12000": "seed_failed",
+     "3464": {
+      "accepted": 82,
+      "rejected": 2,
+      "mesh_cycles": 5,
+      "final_cells": 400,
+      "enforced_screen_errors": [],
+      "report_only_screens": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    },
+    "row0_max_abs_dln_between_the_two_seeds": 6.025979715036892e-11,
+    "worst_observable": "R*",
+    "wall_seconds_both_seeds": 47.1
+   },
+   "note": "First unblock round (scan unconditional)."
+  },
+  "uniqueness": "With Amendments 3 and 4 both seeds converge by the registered criterion (30 to 37 accepted steps, 1 to 8 rejected) but on different meshes (the split/merge history depends on the seed): max |dln| of the row-0 observables between the 6000 and 3464 Rsun seeds is 1.5e-2, 3.1e-3 and 6.5e-4 at N = 200, 400, 800, far above the registered 1e-6, so the registered relax ends not_unique. With the mesh cycles of Amendment 2 the same seeds agree to 3.9e-8, 3.6e-10 and 4.2e-10 on exactly N cells.",
+  "row0_screens": "No always-enforced screen is violated by the relaxed row-0 models at N = 200, 400, 800; radiation_knudsen_outer (report-only) fires. The deep radiation Knudsen screen (enforced, limit 0.1 at tau >= 10) stands at 0.087, 0.095 and 0.095.",
+  "other_row0_configurations": {
+   "note": "C5 (tolerance 1e-10), C6 (cell boundary state) and C7 (split/merge 1.5/0.67) need their own row-0 models; the same two seeds converge for each (first unblock round; settings of Amendments 3, 4, 2 and, where named, 1).",
+   "runs": {
+    "C5 N400 A3+A2+A1": {
+     "status": "converged_unique",
+     "row0_max_abs_dln_between_the_two_seeds": 6.030487220516599e-11,
+     "seeds": {
+      "6000": {
+       "accepted": 82,
+       "rejected": 3,
+       "mesh_cycles": 5
+      },
+      "3464": {
+       "accepted": 82,
+       "rejected": 2,
+       "mesh_cycles": 5
+      }
+     }
+    },
+    "C6 N400 A3+A2+A1": {
+     "status": "converged_unique",
+     "row0_max_abs_dln_between_the_two_seeds": 6.890688019940597e-11,
+     "seeds": {
+      "6000": {
+       "accepted": 115,
+       "rejected": 2,
+       "mesh_cycles": 5
+      },
+      "3464": {
+       "accepted": 114,
+       "rejected": 1,
+       "mesh_cycles": 5
+      }
+     }
+    },
+    "C7 N400 A3+A2+A1": {
+     "status": "converged_unique",
+     "row0_max_abs_dln_between_the_two_seeds": 2.354744177701336e-10,
+     "seeds": {
+      "6000": {
+       "accepted": 82,
+       "rejected": 4,
+       "mesh_cycles": 5
+      },
+      "3464": {
+       "accepted": 81,
+       "rejected": 2,
+       "mesh_cycles": 5
+      }
+     }
+    },
+    "C5 N400 A3+A2": {
+     "status": "converged_unique",
+     "row0_max_abs_dln_between_the_two_seeds": 3.6223946071511367e-10,
+     "seeds": {
+      "6000": {
+       "accepted": 65,
+       "rejected": 1,
+       "mesh_cycles": 10
+      },
+      "3464": {
+       "accepted": 65,
+       "rejected": 1,
+       "mesh_cycles": 10
+      }
+     }
+    },
+    "C6 N400 A3+A2": {
+     "status": "converged_unique",
+     "row0_max_abs_dln_between_the_two_seeds": 9.873994226592617e-09,
+     "seeds": {
+      "6000": {
+       "accepted": 82,
+       "rejected": 1,
+       "mesh_cycles": 14
+      },
+      "3464": {
+       "accepted": 81,
+       "rejected": 0,
+       "mesh_cycles": 14
+      }
+     }
+    },
+    "C7 N400 A3+A2": {
+     "status": "converged_unique",
+     "row0_max_abs_dln_between_the_two_seeds": 2.8778747204527052e-09,
+     "seeds": {
+      "6000": {
+       "accepted": 62,
+       "rejected": 3,
+       "mesh_cycles": 9
+      },
+      "3464": {
+       "accepted": 62,
+       "rejected": 2,
+       "mesh_cycles": 9
+      }
+     }
+    }
+   }
+  }
+ },
+ "consequences_for_registered_runs": [
+  "Every relax run directory records replication.seed_surface and seed_radii_rsun in config.yaml, each seed's surface record (surface_temperature, surface_polytrope_temperature, surface_effective_temperature) in relax.json, and this amendment's sha256 in amendments.json.",
+  "The registered radii 2000, 1000 and 12000 Rsun are still tried first and still fail to build; their failures are recorded per seed and never count as domain-exit evidence.",
+  "With this amendment alone (registered photosphere solve) the relax runs are expected to end relaxation_blocker at N = 200, 400 and 800 (amendment_3_alone); those preserved runs are the evidence Amendment 4 cites. With Amendments 3 and 4 the two seeds 6000 and 3464 Rsun converge on different meshes and the runs are expected to end not_unique (dry runs: max |dln| 1.5e-2, 3.1e-3 and 6.5e-4; final cell counts 224/200, 445/401, 894/806); those are the evidence Amendment 2 cites. The 2026-10-14 seed-failure runs must not be cited for Amendments 4, 2 or 1.",
+  "Row-0 models are accepted by smoke, track and campaign only from a registered relax run that ended converged_unique, made with the same --amendment flags in the same order and spelling (they enter the row-0 signature through replication.amendments, and their sha256 must equal the relax run's amendments.json)."
+ ],
+ "seed_caveats": [
+  "Exactly two of the seven radii are expected to give converged seeds: 6000 Rsun (with this amendment) and 3464 Rsun (with this amendment and Amendment 4). 2000, 1000 and 1414 Rsun have a true Gamma_ph >= 1 at the seed-law luminosity, 12000 Rsun is below the 3000 K floor, and 8485 Rsun builds but every first relaxation step is rejected (splitting its cool grey last cell asks the EOS for T < 3000 K). A failure of either of the two in any registered relax run is a numerical relaxation blocker of that run; no radius is added after a registered outcome has been seen.",
+  "One-sided seeds: both converging seeds start above the relaxed photospheric radius (the registered pair 2000 and 6000 Rsun would have bracketed it). The uniqueness test therefore probes the relaxation from one side only; this is stated in the report with the result.",
+  "Narrow basin of the relaxation start (second review, scratch DRYRUN, N = 200): with Amendments 3, 4 and 2, grey seeds at 2800 to 6000 Rsun converge to the same row 0 (1.4e-8 to 3.9e-8) and 6600 to 8000 Rsun get no accepted step; a uniform temperature change of 5% of either seed gets none; with Amendment 1 as well, 4500 Rsun fails. Row 0 itself never moved by more than 1.9e-7 among the starts that converged. These probes are not registered runs and select nothing.",
+  "Untested configurations: C1, C0, C2, C5, C6 and C7 relax with these two seeds in dry runs; S1, S2, S4 and V1-V3 do not have a dry-run relax, and V3 (1e5 Msun) almost certainly needs other radii. A seed failure there is a numerical relaxation blocker of that run, and any change of radii would need its own amendment with its own preserved failing run."
+ ],
+ "driver_fixes_in_force": [
+  {
+   "routine": "scripts/validate_ball_track.py (row0_record, relax_seeds, cells, track, smoke, compare) and quasistatic.run (start row)",
+   "nature": "Record keeping and plan compliance of the driver, in force for every run including the registered-numerics ones; not a numerical method, no amendment setting.",
+   "defect": "Final review items 3-5 and the first review of the unblock: a row-0 checkpoint of a not_unique relax run, or one vouched for by any relax.json, could be tracked; enforced-screen violations of the start row were only logged; a run could lose track.json, smoke.json or relax.json; the code each run was made with was reported, not enforced.",
+   "fix": "A row-0 checkpoint is used only when the relax.json next to it has status converged_unique, names the file and records its sha256, the directory is a relax run directory made under the registered plan with the same registered amendments (sha256, in order) and, for registered output, lies under benchmarks/results/<date>-ball-track/; every run records that relax directory and the sha256 of its relax.json. quasistatic.run ends at a start row that violates an always-enforced screen without attempting a step: a model_domain_exit of row 0 (an applicability exit the plan does not define; endpoint INCONCLUSIVE), a numerical_failure for a nonfinite state, an exit of the restart row for a restart segment. cells() marks every cell of such a row not evaluable (passed None), so it can be neither PASS nor, through those cells, FAIL. relax.json, track.json and smoke.json are always written (an unexpected error fails one seed with its traceback; an interrupt is recorded as control_stop, which no amendment may cite). compare enforces one code: comparisons between runs hold only between runs with the same Ball import-closure digest, driver and MESA library (code_closure.json), and C0 must share it with the relax run of its row 0."
+  }
+ ],
+ "tests_failed_before_pass_after_note": "Each failed against the pre-change source snapshot (preserved in the 2026-10-14 relax runs), as checked by the round that wrote them and again by the first review of the unblock (19 of the new tests failed there, these among them).",
+ "tests_asserting_the_registered_defect": [
+  "tests/test_ball_integration.py::test_registered_seed_blocker_and_the_grey_seed_surface_on_the_compiled_bridge (MESA opt-in, registered C1, N = 200: asserts in the current code that the registered 6000 Rsun seed has L_N > 10 L_seed, no photosphere at L_N and every relaxation step rejected at the predictor, and that with the grey surface L_N = L_seed and steps are accepted; it was not run against the pre-change source)"
+ ]
+}

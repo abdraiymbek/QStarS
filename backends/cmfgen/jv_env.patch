@@ -1,0 +1,110 @@
+--- a/cur_cmf/new_main/qs_jv.f90
++++ b/cur_cmf/new_main/qs_jv.f90
+@@ -28,7 +28,7 @@
+  real(kind=ldp),allocatable :: steq(:,:,:)
+ end type
+ type(dse_t),allocatable :: dse(:)
+-real(kind=ldp) :: st_closure=0,st_replay=0,st_maxdj=0,st_lincheck=0
++real(kind=ldp) :: st_closure=0,st_replay=0,st_maxdj=0,st_lincheck=0,st_closure_fl=0
+ integer :: st_products=0,st_maxprod=0,st_nfreq=0,st_negfloor=0
+ logical :: jv_dual=.false.,jv_checklin=.false.
+ end module qs_jv_state
+@@ -50,6 +50,7 @@
+ integer(kind=8)::fsize
+ jv_active=.false.
+ call get_environment_variable('QSTARS_JV_DIRS',path,length=plen,status=ios)
++if(ios==-1)stop 'QSTARS_JV_DIRS: path longer than 512 characters'
+ if(ios/=0.or.plen==0)return
+ if(.not.compute_ba.or.lambda_it)then
+  open(newunit=lu,file='QSTARS_JV_FAILURE',status='unknown',position='append')
+@@ -100,11 +101,11 @@
+ enddo
+ st_closure=0;st_replay=0;st_maxdj=0;st_products=0;st_maxprod=0;st_nfreq=0;st_negfloor=0;st_lincheck=0
+ call get_environment_variable('QSTARS_JV_EXPORT',path,length=plen,status=ios)
+-jv_export=(ios==0.and.plen>0)
++jv_export=((ios==0.or.ios==-1).and.plen>0)
+ call get_environment_variable('QSTARS_JV_DUAL',path,length=plen,status=ios)
+-jv_dual=(ios==0.and.plen>0)
++jv_dual=((ios==0.or.ios==-1).and.plen>0)
+ call get_environment_variable('QSTARS_JV_CHECKLIN',path,length=plen,status=ios)
+-jv_checklin=(ios==0.and.plen>0)
++jv_checklin=((ios==0.or.ios==-1).and.plen>0)
+ call get_environment_variable('QSTARS_JV_DIRS',path,length=plen,status=ios)
+ if(jv_export)then
+  open(newunit=jv_lu_exp,file='QSTARS_JV_SPECTRAL.bin',status='replace',access='stream',form='unformatted')
+@@ -263,7 +264,9 @@
+ enddo
+ !$omp end parallel do
+ do k=1,nv
+- if(maxval(abs(dj(:,k)))>1.0e-200_ldp*maxval(rj(1:nd)))st_closure=max(st_closure,cerr_k(k))
++ if(maxval(abs(dj(:,k)))>1.0e-200_ldp*maxval(rj(1:nd)).and.cerr_k(k)>st_closure)then
++  st_closure=cerr_k(k);st_closure_fl=fl
++ endif
+ enddo
+ st_products=st_products+sum(nprod_k);st_maxprod=max(st_maxprod,maxval(nprod_k))
+ st_lincheck=max(st_lincheck,maxval(lindiff))
+@@ -404,9 +407,9 @@
+  close(jv_lu_exp);jv_lu_exp=-1
+ endif
+ open(newunit=lu,file='QSTARS_JV_STATS',status='unknown',position='append')
+-write(lu,'(A,I8,A,I4,A,ES12.4,A,ES12.4,A,I12,A,I6,A,ES12.4,A,I8,A,ES12.4)')'freqs',st_nfreq,' dirs',nv,&
++write(lu,'(A,I8,A,I4,A,ES12.4,A,ES12.4,A,I12,A,I6,A,ES12.4,A,I8,A,ES12.4,A,ES16.8)')'freqs',st_nfreq,' dirs',nv,&
+   ' max_tangent_closure',st_closure,' max_primal_replay_rel',st_replay,' scattering_products',st_products,&
+-  ' max_products',st_maxprod,' max_rel_dJ',st_maxdj,' neg_floor_cells',st_negfloor,' lin_vs_dual',st_lincheck
++  ' max_products',st_maxprod,' max_rel_dJ',st_maxdj,' neg_floor_cells',st_negfloor,' lin_vs_dual',st_lincheck,' closure_freq',st_closure_fl
+ close(lu)
+ end subroutine qs_jv_two_post
+ 
+@@ -471,7 +474,7 @@
+ if(first)then
+  first=.false.
+  call get_environment_variable('QSTARS_BA_DUMP',flag,length=plen,status=ios)
+- on=(ios==0.and.plen>0)
++ on=((ios==0.or.ios==-1).and.plen>0)
+  if(on)then
+   open(newunit=lu,file='QSTARS_BA_TRACE.bin',status='replace',access='stream',form='unformatted')
+   close(lu)
+@@ -497,7 +500,7 @@
+ if(first)then
+  first=.false.
+  call get_environment_variable('QSTARS_REPLACE_FORCE',path,length=plen,status=ios)
+- force=(ios==0.and.plen>0)
++ force=((ios==0.or.ios==-1).and.plen>0)
+  if(force)then
+   allocate(forced(nion,nd))
+   open(newunit=lu,file=path(1:plen),status='old',iostat=ios)
+@@ -522,7 +525,7 @@
+ character(len=8)::flag
+ integer::plen,ios
+ call get_environment_variable('QSTARS_JV_STOP',flag,length=plen,status=ios)
+-qs_jv_stop_on=(ios==0.and.plen>0)
++qs_jv_stop_on=((ios==0.or.ios==-1).and.plen>0)
+ end function qs_jv_stop_on
+ 
+ ! Stored converged J per frequency (base pass) and its replay.
+@@ -538,7 +541,7 @@
+ if(first)then
+  first=.false.
+  call get_environment_variable('QSTARS_RJ_STORE',path,length=plen,status=ios)
+- on=(ios==0.and.plen>0)
++ on=((ios==0.or.ios==-1).and.plen>0)
+ endif
+ if(.not.on)return
+ if(ml==1)then
+@@ -566,6 +569,7 @@
+ logical,save::opened=.false.
+ if(ml==1)then
+  call get_environment_variable('QSTARS_JV_REPLAY',path,length=plen,status=ios)
++ if(ios/=0)stop 'QSTARS_JV_REPLAY: path missing or longer than 512 characters'
+  if(opened)close(lu)
+  open(newunit=lu,file=path(1:plen),status='old',access='stream',form='unformatted',iostat=ios)
+  opened=(ios==0)
+@@ -587,7 +591,7 @@
+ if(first)then
+  first=.false.
+  call get_environment_variable('QSTARS_JV_REPLAY',flag,length=plen,status=ios)
+- on=(ios==0.and.plen>0)
++ on=((ios==0.or.ios==-1).and.plen>0)
+ endif
+ qs_jv_replay_on=on
+ end function qs_jv_replay_on

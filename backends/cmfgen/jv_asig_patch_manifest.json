@@ -1,0 +1,21 @@
+{
+ "base_release": "build_29",
+ "build": "build_30",
+ "files": [
+  "new_main/qs_jv.f90",
+  "new_main/formal_tangent_lin.f90"
+ ],
+ "source_hashes": {
+  "new_main/qs_jv.f90": {
+   "base": "8d69053f695ec9ed539f7e2cbe9f65c7899d22ffd03a80c258b311baa40299e4",
+   "patched": "ddcd995499aafcea60c21d305c64a77ef2e9914cd673e5ff711071259d9f692b"
+  },
+  "new_main/formal_tangent_lin.f90": {
+   "base": "9d4d0906821341fe0d36d083506224d2c62a57d53af4381bd631f7d5f390b15a",
+   "patched": "05b462b896d0218cff0ac16ef5c88f52b7df112c8995dbfa792b797ee1a079c1"
+  }
+ },
+ "patch_file": "jv_asig.patch",
+ "patch_sha256": "13dd1bedeaf6cbc0643ab15227f81bc2f40f362d5b6e4a5793a46d68c6270bb4",
+ "scope": "Explicit per-frequency scattering operator A (lin_em_build, batched lin_apply_multi) shared by all tangent directions; GMRES products A*v instead of ray sweeps when nv >= QSTARS_JV_ASIG_MIN (default 4); QSTARS_JV_NOASIG restores build 29 behaviour. Same linear map, same GMRES algorithm/preconditioner/tolerance; summation order only."
+}

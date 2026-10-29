@@ -1,0 +1,8 @@
+probe cells [164, 165, 166, 167, 168, 169, 170, 171] mass below surface [0.0885 0.0778 0.0684 0.0601 0.0528 0.0463 0.0381 0.0259]
+none                         zones=174 ok it=2 last_step=2.35e-08 dlnT@probe=[-0.0000 -0.0000 -0.0000 -0.0000 -0.0000 -0.0000 -0.0000 -0.0000]
+registered (merge 168+169)   zones=173 ok it=4 last_step=3.93e-13 dlnT@probe=[ 0.0044  0.0080  0.0150  0.0186  0.0169  0.0068 -0.0002 -0.0001]
+x2 cells 164..173            zones=184 FAIL residual 4.08e-12 last_step 5e-13 it 13 last_step=5.00e-13 dlnT@probe=[-0.0050 -0.0083 -0.0152 -0.0188 -0.0084 -0.0046 -0.0022 -0.0005]
+x2 cells 150..173            zones=198 FAIL residual 2.26e-12 last_step 5.92e-13 it 16 last_step=5.92e-13 dlnT@probe=[-0.0048 -0.0080 -0.0146 -0.0182 -0.0081 -0.0044 -0.0021 -0.0004]
+x4 cells 160..173            zones=216 FAIL residual 1e-11 last_step 3.49e-13 it 11 last_step=3.49e-13 dlnT@probe=[-0.0055 -0.0089 -0.0176 -0.0241 -0.0108 -0.0059 -0.0031 -0.0010]
+x8 cells 160..173            zones=272 FAIL residual 2.47e-11 last_step 2.82e-13 it 12 last_step=2.82e-13 dlnT@probe=[-0.0057 -0.0091 -0.0182 -0.0255 -0.0115 -0.0062 -0.0033 -0.0011]
+x2 160..173 + merge          zones=185 FAIL residual 2.09e-12 last_step 2.84e-13 it 14 last_step=2.84e-13 dlnT@probe=[-0.0010 -0.0008 -0.0011 -0.0039  0.0019 -0.0012 -0.0023 -0.0006]

@@ -1,0 +1,41 @@
+{
+ "status": "termination_trigger",
+ "reason": "timestep 0.5035 yr below the dynamical time 0.9744 yr (Ball's criterion)",
+ "accepted_steps_this_run": 412,
+ "attempts": 432,
+ "rejections": 20,
+ "final_step": 1667,
+ "final_time_years": 257481.91862904196,
+ "final_bh_mass_msun": 55.011419968882535,
+ "final_dynamical_time_years": 0.9743955175479115,
+ "final_dt_years": 0.5035402641618556,
+ "landed_msun": [],
+ "last_rejection": {
+  "step": 1667,
+  "dt_years": 1.0070805283237112,
+  "landing_target_msun": null,
+  "kind": "numerical",
+  "message": "Quasi-static solve failed (pass 1, residual 1.34003e-12): Newton line search or iteration limit",
+  "domain_exit": false,
+  "domain_trials": 0,
+  "domain_message": null
+ },
+ "runtime_seconds": 518.2198828329565,
+ "restarted": true,
+ "start_row_screen_errors": [],
+ "conservation": {
+  "mass_residual_g": -2.3611832414348226e+21,
+  "mass_residual_relative": -1.1874371961532347e-16,
+  "energy_residual_erg": -8.480017690984212e+39,
+  "energy_residual_relative": -3.8538590039273214e-14,
+  "energy_residual_relative_to_binding": -1.1492001236501716e-12,
+  "energy_residual_relative_to_throughput": -4.2708952563348074e-16,
+  "engine_conversion_residual_erg": -2.3139200950623816e+40,
+  "internal": 3.2093583977751315e+52,
+  "gravity": -3.2877630190600005e+52,
+  "kinetic": 0.0,
+  "total": -7.840462128486899e+50
+ },
+ "v1_validated": false,
+ "wall_seconds": 518.2329559326172
+}

@@ -1,0 +1,17 @@
+=== (d) row-0 enforced screens
+d6a run() tightened compactness: model_domain_exit | enforced screens violated at the start row (row 0: model_domain_exit of row 0): Newtonian compactness limit exceeded | attempts 0 | start_row_screen_errors ['Newtonian compactness limit exceeded']
+d6b smoke: {'status': 'model_domain_exit', 'accepted_steps': 0, 'attempts': 0, 'passed': False, 'start_row_screen_errors': ['Radiation gradient scale is outside the diffusion limit (Kn>0.1) at tau>=10']} | files ['amendments.json', 'events.jsonl', 'history.csv', 'metadata.json', 'plan_registration.json', 'run.json', 'screen_violations.json', 'smoke.json', 'source_prescriptions.json', 'termination.json', 'validity_warnings.json']
+d6b track: {'status': 'model_domain_exit', 'label': 'model_domain_exit of row 0 (enforced screen)', 'attempts': 0, 'start_row_screen_errors': ['Radiation gradient scale is outside the diffusion limit (Kn>0.1) at tau>=10']} | fold.json False | track.json True
+    endpoint(): {'label': 'model_domain_exit of row 0 (enforced screen)', 'outcome': 'INCONCLUSIVE', 'reason': 'termination classified as model_domain_exit of row 0 (enforced screen)'}
+=== (h) numerical defects at the start row
+h1 start row flagged Nonfinite model state -> label: model_domain_exit of row 0 (enforced screen) | status model_domain_exit
+h2 start row flagged MESA first-law defect -> label: model_domain_exit of row 0 (enforced screen) | status model_domain_exit
+h3 start row raises Conservation tolerance exceeded -> label: numerical_failure | status numerical_failure | StepRejected: Conservation tolerance exceeded
+=== (e) records of failing runs
+e1 track, run raises KeyError: numerical_failure numerical_failure | files ['amendments.json', 'driver_error.json', 'metadata.json', 'plan_registration.json', 'run.json', 'source_prescriptions.json', 'track.json']
+e2 smoke, run raises KeyError: numerical_failure False | files ['amendments.json', 'driver_error.json', 'metadata.json', 'plan_registration.json', 'run.json', 'smoke.json', 'source_prescriptions.json']
+e3 smoke, run raises SystemExit: | files ['amendments.json', 'metadata.json', 'plan_registration.json', 'run.json', 'smoke.json', 'source_prescriptions.json'] | smoke.json status control_stop
+e4 smoke, registered numerics (no accepted step, so history_row never fails here): termination_trigger
+e5 track, termination trigger then fold.classify raises IndexError: termination_trigger | label numerical_failure | fold classification failed: IndexError: injected in fold | files ['amendments.json', 'events.jsonl', 'fold_error.json', 'history.csv', 'metadata.json', 'plan_registration.json', 'run.json', 'screen_violations.json', 'source_prescriptions.json', 'termination.json', 'track.json', 'validity_warnings.json']
+e6 relax, quasistatic.relax raises KeyError -> relax_seeds raised KeyError | relax.json written: False | files ['amendments.json', 'metadata.json', 'plan_registration.json', 'relax_6000rsun.jsonl', 'run.json', 'source_prescriptions.json']
+e7 relax, save_profile of a converged seed raises ValueError -> relax_seeds raised ValueError | relax.json written: False | files ['amendments.json', 'metadata.json', 'plan_registration.json', 'relax_6000rsun.jsonl', 'run.json', 'source_prescriptions.json']

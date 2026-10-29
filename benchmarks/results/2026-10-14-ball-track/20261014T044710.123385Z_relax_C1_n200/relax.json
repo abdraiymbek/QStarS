@@ -1,0 +1,183 @@
+{
+  "zones": 200,
+  "relaxation": {
+    "dt_years": 0.01,
+    "dt_max_years": 100000000.0,
+    "converged_dt_years": 1000000.0,
+    "tolerance": 1e-10,
+    "luminosity_tolerance": 1e-06,
+    "max_steps": 400,
+    "max_retries": 20,
+    "mesh_cycles": 0,
+    "mesh_tolerance": 1e-05,
+    "cycle_dt_years": 1000000.0
+  },
+  "seeds": [
+    {
+      "seed_radius_rsun": 2000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists",
+      "seed_domain_error": true
+    },
+    {
+      "seed_radius_rsun": 6000,
+      "seed": {
+        "xi0": 0.006044367680743365,
+        "xi_s": 8.281434125873119,
+        "alpha": 50404313269350.68,
+        "rho_c": 6.133049259095394e-06,
+        "K": 1.784878407767961e+17,
+        "external_pressure": 281.25223012015994,
+        "law_luminosity": 1.523008263412213e+41,
+        "hydrostatic_residual": 5.353495424741072e-13,
+        "envelope_mass": 1.9874756197049602e+37,
+        "mass_defect": 0.0,
+        "surface": "grey",
+        "surface_temperature": 10720.172237888184,
+        "surface_polytrope_temperature": 19910.343901534245,
+        "surface_effective_temperature": 5918.116878281528
+      },
+      "status": "converged",
+      "reason": null,
+      "accepted_steps": 30,
+      "rejections": 1,
+      "mesh_cycles": [],
+      "final_rejection_streak": null,
+      "final_rejections_all_domain_exits": null,
+      "row0": {
+        "Mdot_BH": 0.00021264768443285794,
+        "M_cav": 0.0005369377253915687,
+        "L*": 349544683.7950508,
+        "rho0": 8.799243458238568e-05,
+        "T0": 4109805.379471935,
+        "Teff": 13893.630993676008,
+        "r_B": 1.6263137641320276,
+        "R*": 3226.807007118502
+      },
+      "row0_checkpoint": "row0_6000rsun.npz",
+      "row0_sha256": "f0b4087777992f679938f7e7f763ad190afd7492e18b658254034246bb6a5442",
+      "row0_zones": 224,
+      "row0_screens": {
+        "policy": "published_assumption",
+        "enforced_screen_errors": [],
+        "report_only": [
+          "radiation_knudsen_outer"
+        ]
+      }
+    },
+    {
+      "seed_radius_rsun": 1000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists",
+      "seed_domain_error": true
+    },
+    {
+      "seed_radius_rsun": 12000,
+      "status": "seed_failed",
+      "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+      "seed_domain_error": false
+    },
+    {
+      "seed_radius_rsun": 3464,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists",
+      "seed_domain_error": true
+    },
+    {
+      "seed_radius_rsun": 1414,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists",
+      "seed_domain_error": true
+    },
+    {
+      "seed_radius_rsun": 8485,
+      "seed": {
+        "xi0": 0.006044367680743365,
+        "xi_s": 8.281434125873119,
+        "alpha": 71280099681740.1,
+        "rho_c": 2.168576084793728e-06,
+        "K": 1.7848784077679606e+17,
+        "external_pressure": 8313.80345535234,
+        "law_luminosity": 6.40398310506543e+40,
+        "hydrostatic_residual": 2.8270052964840612e-11,
+        "envelope_mass": 1.98747561970496e+37,
+        "mass_defect": 2.3611832414348226e+21,
+        "surface": "grey",
+        "surface_temperature": 4033.52195930965,
+        "surface_polytrope_temperature": 45130.68194931307,
+        "surface_effective_temperature": 4007.469439940672
+      },
+      "status": "failed",
+      "reason": "relaxation failed in mesh cycle 0",
+      "accepted_steps": 0,
+      "rejections": 21,
+      "mesh_cycles": [],
+      "final_rejection_streak": 21,
+      "final_rejections_all_domain_exits": false,
+      "domain_exit_evidence": {
+        "final_rejections": 21,
+        "final_rejections_photosphere": false,
+        "domain_trials": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "last_eddington_factors": [],
+        "eddington_factor_rising_to_boundary": false,
+        "domain_exit": false
+      }
+    }
+  ],
+  "status": "relaxation_blocker",
+  "classification": "numerical relaxation blocker",
+  "domain_exit_rule": {
+    "domain_message": "Gamma_ph >= 1",
+    "last_accepted_steps": 5,
+    "eddington_factor": 0.99,
+    "converged_seeds": 1,
+    "note": "a row-0 model exists when any seed converged; thresholds are driver choices"
+  },
+  "domain_trials": {
+    "8485": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

@@ -18,6 +18,14 @@ def sparse_polytrope(dm,bh_mass,r0,R,pext,continuum):
     n=len(dm);mass=np.r_[0,np.cumsum(dm)/dm.sum()];mass[-1]=1.
     z=np.linspace(np.log(r0/R),0,30001)
     qm=continuum.sol(z)[0];qm[0]=0.;qm[-1]=1.
+    if np.any(np.diff(qm)<=0):
+        # Within the BVP tolerance m/M can overshoot 1 (or stall) next to a
+        # boundary. The seed only needs a monotone table: keep the interior
+        # nodes strictly inside (0, 1) that rise above every earlier node.
+        interior=np.flatnonzero((qm[1:-1]>0)&(qm[1:-1]<1))+1
+        rising=qm[interior]>np.maximum.accumulate(np.r_[0.,qm[interior][:-1]])
+        keep=np.r_[0,interior[rising],len(qm)-1]
+        z,qm=z[keep],qm[keep]
     seed=PchipInterpolator(qm,np.exp(z)*R)(mass);seed[0]=r0;seed[-1]=R
     enclosed=bh_mass+np.cumsum(dm)
     weights=.5*np.r_[dm[:-1]+dm[1:],dm[-1]]

@@ -1,0 +1,243 @@
+{
+ "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it24_trial_l1",
+ "nt": 134,
+ "nd": 167,
+ "sig_frac": 1e-10,
+ "threshold": 0.001,
+ "classes": {
+  "significant": {
+   "n": 9985,
+   "max_abs": 1.0797865164836908,
+   "audit_normalized": 3.5623754945085513,
+   "row": 134,
+   "depth": 1,
+   "frac": 1.0,
+   "n_above_threshold": 4673,
+   "floor_max": 0.0005375571238264583,
+   "n_fail_at_floor": 0,
+   "n_fail_above_floor": 4673
+  },
+  "ne": {
+   "n": 167,
+   "max_abs": 0.29250615535791996,
+   "audit_normalized": 0.29250615535791996,
+   "row": 133,
+   "depth": 30,
+   "frac": 1.0,
+   "n_above_threshold": 37,
+   "floor_max": 7.148763688847857e-06,
+   "n_fail_at_floor": 0,
+   "n_fail_above_floor": 37
+  },
+  "T": {
+   "n": 167,
+   "max_abs": 1.0797865164836908,
+   "audit_normalized": 1.0797865164836908,
+   "row": 134,
+   "depth": 1,
+   "frac": 1.0,
+   "n_above_threshold": 130,
+   "floor_max": 0.0005375571238264583,
+   "n_fail_at_floor": 0,
+   "n_fail_above_floor": 130
+  },
+  "trace_l1_kept": {
+   "n": 8905,
+   "max_abs": 1815.154518096196,
+   "audit_normalized": 100000.0,
+   "row": 131,
+   "depth": 46,
+   "frac": 1.0254092866254325e-42,
+   "n_above_threshold": 8679,
+   "floor_max": 0.000735768226406734,
+   "n_fail_at_floor": 0,
+   "n_fail_above_floor": 8679
+  },
+  "trace_l1_demoted": {
+   "n": 3488,
+   "max_abs": 141379381.28390336,
+   "audit_normalized": 141379381.28390336,
+   "row": 132,
+   "depth": 36,
+   "frac": 1.086800094186456e-33,
+   "n_above_threshold": 3480,
+   "floor_max": 17.255469684012525,
+   "n_fail_at_floor": 531,
+   "n_fail_above_floor": 2949
+  },
+  "trace_paired_own": {
+   "n": 12317,
+   "max_abs": 100820722.86733438,
+   "audit_normalized": 100820722.86733438,
+   "row": 131,
+   "depth": 36,
+   "frac": 9.939636339264218e-46,
+   "n_above_threshold": 12083,
+   "floor_max": 16.131768905833116,
+   "n_fail_at_floor": 509,
+   "n_fail_above_floor": 11574
+  },
+  "trace_paired_ionization": {
+   "n": 76,
+   "max_abs": 141379381.28390336,
+   "audit_normalized": 141379381.28390336,
+   "row": 132,
+   "depth": 36,
+   "frac": 1.086800094186456e-33,
+   "n_above_threshold": 76,
+   "floor_max": 17.255469684012525,
+   "n_fail_at_floor": 22,
+   "n_fail_above_floor": 54
+  },
+  "trace_unpaired": {
+   "n": 0
+  },
+  "all": {
+   "n": 22378,
+   "max_abs": 141379381.28390336,
+   "audit_normalized": 141379381.28390336,
+   "row": 132,
+   "depth": 36,
+   "frac": 1.086800094186456e-33,
+   "n_above_threshold": 16832,
+   "floor_max": 17.255469684012525,
+   "n_fail_at_floor": 531,
+   "n_fail_above_floor": 16301
+  }
+ },
+ "noise_model": {
+  "eps_row_relative": 3.2e-12,
+  "samples": 8,
+  "seed": 0
+ },
+ "after_structural_cleanup": {
+  "trace_solved": 12393,
+  "unpaired": 0,
+  "max_trace_step": 170681023.09686658,
+  "backward_error": 2.3402364004934896e-13,
+  "classes": {
+   "significant": {
+    "n": 9985,
+    "max_abs": 1.0797865164836908,
+    "audit_normalized": 3.5623754945085513,
+    "row": 134,
+    "depth": 1,
+    "frac": 1.0,
+    "n_above_threshold": 4673,
+    "floor_max": 0.0005375571238264583,
+    "n_fail_at_floor": 0,
+    "n_fail_above_floor": 4673
+   },
+   "ne": {
+    "n": 167,
+    "max_abs": 0.29250615535791996,
+    "audit_normalized": 0.29250615535791996,
+    "row": 133,
+    "depth": 30,
+    "frac": 1.0,
+    "n_above_threshold": 37,
+    "floor_max": 7.148763688847857e-06,
+    "n_fail_at_floor": 0,
+    "n_fail_above_floor": 37
+   },
+   "T": {
+    "n": 167,
+    "max_abs": 1.0797865164836908,
+    "audit_normalized": 1.0797865164836908,
+    "row": 134,
+    "depth": 1,
+    "frac": 1.0,
+    "n_above_threshold": 130,
+    "floor_max": 0.0005375571238264583,
+    "n_fail_at_floor": 0,
+    "n_fail_above_floor": 130
+   },
+   "trace_l1_kept": {
+    "n": 8905,
+    "max_abs": 82.71340316818419,
+    "audit_normalized": 100000.0,
+    "row": 131,
+    "depth": 46,
+    "frac": 1.0254092866254325e-42,
+    "n_above_threshold": 6955,
+    "floor_max": 0.000735768226406734,
+    "n_fail_at_floor": 0,
+    "n_fail_above_floor": 6955
+   },
+   "trace_l1_demoted": {
+    "n": 3488,
+    "max_abs": 30995782.7231607,
+    "audit_normalized": 100004.15666566952,
+    "row": 132,
+    "depth": 33,
+    "frac": 3.5942916832542865e-34,
+    "n_above_threshold": 3351,
+    "floor_max": 17.255469684012525,
+    "n_fail_at_floor": 531,
+    "n_fail_above_floor": 2820
+   },
+   "trace_paired_own": {
+    "n": 12317,
+    "max_abs": 24290609.627681553,
+    "audit_normalized": 100004.15666566952,
+    "row": 131,
+    "depth": 33,
+    "frac": 1.2627326685141265e-46,
+    "n_above_threshold": 10230,
+    "floor_max": 16.131768905833116,
+    "n_fail_at_floor": 509,
+    "n_fail_above_floor": 9721
+   },
+   "trace_paired_ionization": {
+    "n": 76,
+    "max_abs": 30995782.7231607,
+    "audit_normalized": 100000.0,
+    "row": 132,
+    "depth": 33,
+    "frac": 3.5942916832542865e-34,
+    "n_above_threshold": 76,
+    "floor_max": 17.255469684012525,
+    "n_fail_at_floor": 22,
+    "n_fail_above_floor": 54
+   },
+   "trace_unpaired": {
+    "n": 0
+   },
+   "all": {
+    "n": 22378,
+    "max_abs": 30995782.7231607,
+    "audit_normalized": 100004.15666566952,
+    "row": 132,
+    "depth": 33,
+    "frac": 3.5942916832542865e-34,
+    "n_above_threshold": 14979,
+    "floor_max": 17.255469684012525,
+    "n_fail_at_floor": 531,
+    "n_fail_above_floor": 14448
+   }
+  }
+ },
+ "prediction_only": "native fixed-J correction of the next complete iteration at this state; the gate is judged on the verify pass, never on this prediction",
+ "below_threshold": {
+  "significant": false,
+  "ne": false,
+  "T": false,
+  "trace_l1_kept": false,
+  "trace_l1_demoted": false,
+  "trace_paired_own": false,
+  "trace_paired_ionization": false,
+  "trace_unpaired": true,
+  "all": false
+ },
+ "below_threshold_after_cleanup": {
+  "significant": false,
+  "ne": false,
+  "T": false,
+  "trace_l1_kept": false,
+  "trace_l1_demoted": false,
+  "trace_paired_own": false,
+  "trace_paired_ionization": false,
+  "trace_unpaired": true,
+  "all": false
+ }
+}

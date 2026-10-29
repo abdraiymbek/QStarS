@@ -1,0 +1,5 @@
+# ff_repro_toy.py before (pre-round tree, FF_BEFORE=$SCRATCH/final_fix/before_round) and after (current tree); analytic toy only
+[before] e7 save_profile error in a converged seed: relax_seeds raised ValueError: injected: profile of a converged seed; relax.json written: False
+[before] h1 nonfinite start row: status model_domain_exit attempts 0 reason enforced screens violated at the start row (row 0: model_domain_exit of row 0): Nonfinite 
+[after] e7 save_profile error in a converged seed: relax_seeds returned relaxation_blocker; relax.json written: True
+[after] h1 nonfinite start row: status numerical_failure attempts 0 reason nonfinite model state at the start row: Nonfinite model state; Fully ionized EOS fails He

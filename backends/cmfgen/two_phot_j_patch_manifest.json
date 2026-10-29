@@ -1,0 +1,31 @@
+{
+ "base_release": "build_31",
+ "build": "build_32",
+ "files": [
+  "new_main/qs_jv.f90",
+  "new_main/mod_subs/comp_opac.f",
+  "new_main/subs/two/two_phot_opac_v3.f",
+  "new_main/cmfgen_sub.f"
+ ],
+ "source_hashes": {
+  "new_main/qs_jv.f90": {
+   "base": "5d30854bc8bfdbfc5096753ff83cc6331ff6e79d4f0855ae2f7eb703341553a4",
+   "patched": "c921297639e150b0fdb190b26c3db274472459a5526ebd9797d3fadecc7de38c"
+  },
+  "new_main/mod_subs/comp_opac.f": {
+   "base": "b36d9a290f83a383f14c0e41600ecb3cb70e1b533f3dda99f06a77fbf678dd86",
+   "patched": "ef29b3d8ffd934cdb412b8878ab8776b85f0d41e520226e70ea830377b42afef"
+  },
+  "new_main/subs/two/two_phot_opac_v3.f": {
+   "base": "f348f07d197737508cb22db87c6a550e2885d2046be05b4166da2e965cfe281e",
+   "patched": "1af01d6e6b2fa1bdb04f235d319cfb12b35a9db92b27c95cfbbee01264a568ef"
+  },
+  "new_main/cmfgen_sub.f": {
+   "base": "c9be84ef656b6910a2a92159175e227b26756dde95c5a09d457904861d09c8d7",
+   "patched": "488f5dd4aed1d4c8957ece7f063f3978c04e104a0dea5f03185ccbc11f665a10"
+  }
+ },
+ "patch_file": "two_phot_j.patch",
+ "patch_sha256": "7db909cebccfb6743451309debf64f0571a7265ba7966cacadf75d0e2c927309",
+ "scope": "QSTARS_TWO_PHOT_J (env) = a QStarS stored-J file (QSTARS_RJ.bin, this model's radius and frequency grid): the two-photon method TWO_METH=USE_RAD is kept in COMP_F=T passes (COMP_OPAC no longer substitutes OLD_DEFAULT) and the conjugate-frequency J of TWO_PHOT_OPAC_V3 is interpolated from that file with the statements of GET_J_FOR_TWO_PHOT (qs_two_phot_get_j) instead of EDDFACTOR. The file is fixed (lagged) data; it is loaded and verified once (qs_two_phot_j_init: QSRJ0001 header, ND, NCF, every FL to 1e-14, J > 0) and any mismatch, INC_TWO=F or TWO_METH /= USE_RAD stops with QSTARS_TWO_PHOT_J_FAILURE. The tangent (qs_jv_freq) follows the module TWO_METHOD of the residual, so its existing non-OLD_DEFAULT branch applies with PHOT_OC_TWO held fixed; code there is unchanged apart from a consistency stop and a QSTARS_JV_STATS line. Unset: the native OLD_DEFAULT substitution and all arithmetic are those of build 31."
+}

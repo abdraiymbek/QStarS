@@ -1,0 +1,428 @@
+--- a/cur_cmf/plane/var_jrel_v5.f	2026-09-30 21:00:16
++++ b/cur_cmf/plane/var_jrel_v5.f	2026-10-13 22:20:16
+@@ -113,6 +113,17 @@
+ 	REAL(KIND=LDP) QS_SIG,QS_DEN,QS_PSI,QS_SRC,QS_Q
+ 	LOGICAL, SAVE :: QS_VAR_NONFINITE_SEEN=.FALSE.
+ !
++! QSTARS build 33: fast local-ALI path. QS_ALI_DIAG is set by DO_VAR_CONT for the duration
++! of this call only. With it (and QS_ALI_LIN, QS_FRM_ALI) TX is known to be zero off its
++! diagonal and TVX to be zero everywhere, and they are kept so: the moment operator, whose
++! results the local response discards, is not assembled, and only the diagonal of TX is
++! zeroed, set and checked. The statements that define the response are the same ones.
++!
++	LOGICAL QS_ALI_DIAG
++	COMMON/QS_ALI_FAST/QS_ALI_DIAG
++	LOGICAL QS_DIAG,QS_NONFIN
++	INTEGER QS_M
++!
+ 	INTEGER LUER,ERROR_LU
+         EXTERNAL ERROR_LU
+ 	INTEGER I,J
+@@ -122,6 +133,7 @@
+ ! 
+ !
+ 	IF(INIT)CALL ALLOC_MOD_VAR_JREL_V2(ND)
++	QS_DIAG=QS_ALI_DIAG .AND. QS_ALI_LIN .AND. QS_FRM_ALI
+ !
+ ! Zero relevant vectors and matrices.
+ !
+@@ -220,6 +232,13 @@
+ 	JNU(:)=0.0_LDP
+ 	GAM_RSQHNU(:)=0.0_LDP
+ !
++! QSTARS build 33: with QS_DIAG the radiation field is the stored formal solution and the
++! response is local, so nothing computed from here to the THOMAS solution is used.
++!
++	IF(QS_DIAG)THEN
++	  XM(1:ND)=JNU_STORE(1:ND)
++	ELSE
++!
+ 	IF(INCL_ADVEC_TERMS)THEN
+ 	  VdHdR_TERM(1:ND)=H_ON_J(1:ND)*BETA(1:ND)
+ 	ELSE
+@@ -510,11 +529,16 @@
+ ! this moment operator only supplies the linearized response about it.
+ !
+ 	IF(QS_FRM_ALI)XM(1:ND)=JNU_STORE(1:ND)
++	END IF				!.NOT. QS_DIAG
+ !
+ 	DO I=1,ND
+ 	  IF(XM(I) .GT. 1.0E+20_LDP)THEN
+ ! QSTARS_FAILURE_TRACE: native fatal state and unmodified operator.
+ 	    OPEN(NEWUNIT=QSTARS_LU,FILE='QSTARS_VAR_FAILURE',STATUS='UNKNOWN',POSITION='APPEND')
++	    IF(QS_DIAG)THEN
++	      WRITE(QSTARS_LU,*)'QSTARS fast local-ALI path: moment operator not assembled (a b c rhs = 0)'
++	      TA_SAV=0.0_LDP; TB_SAV=0.0_LDP; TC_SAV=0.0_LDP; XM_SAV=0.0_LDP
++	    END IF
+ 	    WRITE(QSTARS_LU,*)'FRAME',ND,FREQ,dLOG_NU
+ 	    WRITE(QSTARS_LU,*)'R V chi eta scattering K/J H/J dlnGJ a b c rhs rawJ'
+ 	    DO QSTARS_I=1,ND
+@@ -606,7 +630,7 @@
+ !
+ ! NB: A & C are d[dx/dr]/dx where x=gam.r^2.J
+ !
+-	IF(INCL_ADVEC_TERMS)THEN
++	IF(INCL_ADVEC_TERMS .AND. .NOT. QS_DIAG)THEN
+ 	  TC(1:ND)=GAM_RSQ(1:ND)*XM(1:ND)
+ 	  CALL DERIVCHI(TB,TC,R,ND,'LINMON')
+ 	  CALL d_DERIVCHI_dCHI(TB,TC,R,ND,'LINMON')
+@@ -638,11 +662,13 @@
+ !
+ ! Compute d{non-radiation field}/dchi matrix.
+ !
++	IF(.NOT. QS_DIAG)THEN
+ 	CALL TUNE(1,'EDD_JREL_V3')
+ 	CALL EDD_JREL_VAR_V3(KI,RHS_dHdCHI,
+ 	1          R,SIGMA,CHI,ESEC,K_ON_J,dIBCHI_A,dIBCHI_B,RHS_JNU,
+ 	1          IB_STAB_FACTOR,DBB,INNER_BND_METH,METHOD,ND,NM_KI)
+ 	CALL TUNE(2,'EDD_JREL_V3')
++	END IF
+ !
+ !	IF( ABS(FREQ-9.487047E-01) .LT. 1.0D-05)THEN
+ !	  OPEN(UNIT=7,FILE='KI_TEST',STATUS='UNKNOWN')
+@@ -671,8 +697,22 @@
+ ! QS_LIN_FAC (VADAT, default 1) rescales Psi for diagnostics only; it scales both entries.
+ !
+ 	IF(QS_ALI_LIN)THEN
++	  IF(QS_DIAG)THEN
++!
++! Everything off the diagonal of TX, every matrix not selected by DO_THIS_TX_MATRIX (an
++! unused line slot, zeroed when it was released) and all of TVX are already zero.
++!
++	    DO QS_M=1,NM
++	      IF(DO_THIS_TX_MATRIX(QS_M))THEN
++	        DO I=1,ND
++	          TX(I,I,QS_M)=0.0_LDP
++	        END DO
++	      END IF
++	    END DO
++	  ELSE
+ 	  TX(:,:,:)=0.0_LDP
+ 	  TVX(:,:,:)=0.0_LDP
++	  END IF
+ 	  TX_DIF_d_T(:)=0.0_LDP
+ 	  TX_DIF_d_dTdR(:)=0.0_LDP
+ 	  TVX_DIF_d_T(:)=0.0_LDP
+@@ -784,11 +824,27 @@
+ 	GAM_RSQHNU_PREV(:)=GAM_RSQHNU(:)
+ !
+ 	IF(QS_FRM_ALI .AND. .NOT. QS_VAR_NONFINITE_SEEN)THEN
+-	  IF(ANY(.NOT. (ABS(TX) .LE. HUGE(T1))) .OR. ANY(.NOT. (ABS(TVX) .LE. HUGE(T1))) .OR.
+-	1      ANY(.NOT. (ABS(JNU) .LE. HUGE(T1))) .OR. ANY(.NOT. (ABS(GAM_RSQHNU) .LE. HUGE(T1))))THEN
++	  IF(QS_DIAG)THEN
++!
++! Only TX(I,I,1) and TX(I,I,2) can be non-zero here (see above); TVX is zero.
++!
++	    QS_NONFIN=ANY(.NOT. (ABS(JNU) .LE. HUGE(T1))) .OR. ANY(.NOT. (ABS(GAM_RSQHNU) .LE. HUGE(T1)))
++	    DO I=1,ND
++	      IF(.NOT. (ABS(TX(I,I,1)) .LE. HUGE(T1)) .OR.
++	1         .NOT. (ABS(TX(I,I,2)) .LE. HUGE(T1)))QS_NONFIN=.TRUE.
++	    END DO
++	  ELSE
++	    QS_NONFIN=ANY(.NOT. (ABS(TX) .LE. HUGE(T1))) .OR. ANY(.NOT. (ABS(TVX) .LE. HUGE(T1))) .OR.
++	1      ANY(.NOT. (ABS(JNU) .LE. HUGE(T1))) .OR. ANY(.NOT. (ABS(GAM_RSQHNU) .LE. HUGE(T1)))
++	  END IF
++	  IF(QS_NONFIN)THEN
+ 	    QS_VAR_NONFINITE_SEEN=.TRUE.
+ 	    OPEN(NEWUNIT=QSTARS_LU,FILE='QSTARS_VAR_NONFINITE',STATUS='UNKNOWN',POSITION='APPEND')
+ 	    WRITE(QSTARS_LU,*)'FREQ',FREQ,dLOG_NU,INIT
++	    IF(QS_DIAG)THEN
++	      WRITE(QSTARS_LU,*)'QSTARS fast local-ALI path: Q and DTAU_H not computed (written as 0)'
++	      Q(1:ND)=0.0_LDP; DTAU_H(1:ND)=0.0_LDP
++	    END IF
+ 	    WRITE(QSTARS_LU,*)'nonfinite TX',COUNT(.NOT. (ABS(TX) .LE. HUGE(T1))),
+ 	1         ' TVX',COUNT(.NOT. (ABS(TVX) .LE. HUGE(T1))),' TX_DIF',COUNT(.NOT. (ABS(TX_DIF_d_T) .LE. HUGE(T1)))
+ 	    WRITE(QSTARS_LU,*)'I R chi eta esec J K/J H/J N/J dlnGJ Q DTAU_H GAM_RSQHNU'
+--- a/cur_cmf/new_main/mod_subs/do_var_cont.f	2026-10-01 19:08:41
++++ b/cur_cmf/new_main/mod_subs/do_var_cont.f	2026-10-13 22:21:33
+@@ -36,7 +36,7 @@
+ 	USE RADIATION_MOD
+ 	USE VAR_RAD_MOD
+ 	USE CONTROL_VARIABLE_MOD
+-	USE MOD_RAY_MOM_STORE, ONLY: QS_ALI_LIN,QS_LIN_FAC
++	USE MOD_RAY_MOM_STORE, ONLY: QS_ALI_LIN,QS_LIN_FAC,QS_FRM_ALI
+ 	IMPLICIT NONE
+ !
+ ! Altered 26-Jun-2020 : Fixed bug related when H- is present.
+@@ -88,6 +88,28 @@
+ 	LOGICAL LST_DEPTH_ONLY
+ 	REAL(KIND=LDP), SAVE :: FL_OLD
+ !
++! QSTARS build 33: fast local-ALI linearization (QS_ALI_LIN with QS_LIN_FAC /= 0).
++! The local response of VAR_JREL_V5 is diagonal in depth and local in frequency:
++! every frequency it zeroes TX and TVX and sets only TX(I,I,1) and TX(I,I,2), and the
++! statements below then combine elements of equal depth indices only. Off its diagonal
++! TX is therefore zero, and TVX is zero everywhere, at every frequency. With QS_FAST the
++! same statements are applied to the diagonal alone (cost ND per matrix instead of ND*ND)
++! and the moment operator that the local response discards is not assembled (QS_ALI_DIAG
++! tells VAR_JREL_V5). TX, TVX, dJ_LOC and VJ are the same numbers as on the full path.
++! QSTARS_ALI_LIN_SLOW (environment, non-empty) selects the full path of builds <= 32.
++! QSTARS_ALI_LIN_HASH=n writes hashes of TX, TVX, dJ_LOC and VJ every n-th frequency to
++! QSTARS_ALI_LIN_HASH.bin (diagnostic; either path).
++!
++	LOGICAL QS_ALI_DIAG
++	COMMON/QS_ALI_FAST/QS_ALI_DIAG
++	LOGICAL QS_FAST
++	LOGICAL, SAVE :: QS_FAST_ALLOWED=.TRUE.
++	LOGICAL, SAVE :: QS_FAST_ENV_READ=.FALSE.
++	LOGICAL, SAVE :: QS_PATH_WRITTEN=.FALSE.
++	INTEGER, SAVE :: QS_HASH_STRIDE=0
++	INTEGER QS_LEN,QS_STAT,QS_LU
++	CHARACTER(LEN=32) QS_STR
++!
+ ! Constants for opacity etc. These are set in CMFGEN.
+ !
+         COMMON/CONSTANTS/ CHIBF,CHIFF,HDKT,TWOHCSQ
+@@ -169,6 +191,34 @@
+ !
+ 	LST_DEPTH_ONLY=.FALSE.
+ !
++	IF(.NOT. QS_FAST_ENV_READ)THEN
++	  QS_FAST_ENV_READ=.TRUE.
++	  CALL GET_ENVIRONMENT_VARIABLE('QSTARS_ALI_LIN_SLOW',QS_STR,LENGTH=QS_LEN,STATUS=QS_STAT)
++	  QS_FAST_ALLOWED=(QS_LEN .EQ. 0)
++	  QS_STR=' '
++	  CALL GET_ENVIRONMENT_VARIABLE('QSTARS_ALI_LIN_HASH',QS_STR,LENGTH=QS_LEN,STATUS=QS_STAT)
++	  IF(QS_LEN .GT. 0 .AND. QS_LEN .LE. LEN(QS_STR))THEN
++	    READ(QS_STR,*,IOSTAT=QS_STAT)QS_HASH_STRIDE
++	    IF(QS_STAT .NE. 0 .OR. QS_HASH_STRIDE .LT. 0)QS_HASH_STRIDE=0
++	  END IF
++	END IF
++	QS_FAST=QS_FAST_ALLOWED .AND. QS_ALI_LIN .AND. QS_FRM_ALI .AND.
++	1         QS_LIN_FAC .NE. 0.0_LDP .AND. CONT_VEL .AND. .NOT. ACCURATE .AND.
++	1         USE_J_REL .AND. .NOT. PLANE_PARALLEL .AND. .NOT. PLANE_PARALLEL_NO_V .AND.
++	1         SECTION .EQ. 'CONTINUUM' .AND. NM .GT. TX_OFFSET .AND. TX_OFFSET .GE. 6
++	IF(QS_ALI_LIN .AND. QS_LIN_FAC .NE. 0.0_LDP .AND. SECTION .EQ. 'CONTINUUM'
++	1         .AND. .NOT. QS_PATH_WRITTEN)THEN
++	  QS_PATH_WRITTEN=.TRUE.
++	  OPEN(NEWUNIT=QS_LU,FILE='QSTARS_ALI_LIN_PATH',STATUS='UNKNOWN')
++	  IF(QS_FAST)THEN
++	    WRITE(QS_LU,'(A)')'fast: diagonal TX, moment operator not assembled (build 33)'
++	  ELSE
++	    WRITE(QS_LU,'(A,L2)')'full: TX and TVX (ND,ND,NM) every frequency; QSTARS_ALI_LIN_SLOW set:',
++	1          .NOT. QS_FAST_ALLOWED
++	  END IF
++	  CLOSE(QS_LU)
++	END IF
++!
+ ! Solve for the perturbations to J in terms of the perturbations
+ ! to CHI and ETA. F2DA is the dCHI matrix ; FC the dETA matrix
+ ! and FA is the d(diffusion approx) vector for the boundary
+@@ -230,6 +280,11 @@
+ 	      dRSQH_DIF_d_T=0.0_LDP
+ 	      dRSQH_DIF_d_dTdR=0.0_LDP
+ 	      FL_OLD=FL
++	    ELSE IF(QS_FAST)THEN
++!
++! The local response does not use the matrices of the previous frequency (VAR_JREL_V5
++! zeroes them), so they are not rescaled to this frequency.
++!
+ 	    ELSE
+ 	      RAT_TOO_BIG=.FALSE.
+ 	      DO L=1,ND
+@@ -356,6 +411,7 @@
+ 	     dRSQH_DIF_d_T(:)=0.0_LDP
+ 	     dRSQH_DIF_d_dTdR(:)=0.0_LDP
+            ELSE IF(USE_J_REL)THEN
++	     QS_ALI_DIAG=QS_FAST
+              CALL VAR_JREL_V5(TA,CHI_CLUMP,CHI_SCAT_CLUMP,ES_COH_VEC,V,SIGMA,R,
+ 	1                  TX,TVX,dJ_DIF_d_T,dJ_DIF_d_dTdR,
+ 	1                  dRSQH_DIF_d_T,dRSQH_DIF_d_dTdR,KI,WM,RHS_dHdCHI,
+@@ -365,6 +421,7 @@
+ 	1                  dTdR,DBB,dDBBdT,IC,
+ 	1                  INCL_ADVEC_TERMS_IN_TRANS_EQ,INCL_REL_TERMS,
+ 	1                  DO_THIS_TX_MATRIX,METHOD,ND,NM,NM_KI)
++	     QS_ALI_DIAG=.FALSE.
+ 	   ELSE IF (USE_LAM_ES)THEN
+ 	   ELSE IF(USE_DJDT_RTE)THEN
+ 	     CALL VAR_MOM_J_DDT_V6(TA,CHI_CLUMP,CHI_SCAT_CLUMP,ES_COH_VEC,V,R,
+@@ -388,6 +445,70 @@
+ 	1           METHOD,ND,NM,NM_KI)
+ 	   END IF
+ 	   CALL TUNE(2,'VAR_MOM_J')
++!
++	   IF(QS_FAST)THEN
++!
++! QSTARS build 33: the statements of the full path below (ELSE branch), for K=J only.
++! TVX is zero and stays zero. The order of the line loop (SIM_INDX) is kept, since
++! several lines can share a level slot.
++!
++	    IF(DO_CLUMP_MODEL)THEN
++	      DO J=1,ND
++	        TX(J,J,1)=TX(J,J,1)*CLUMP_FAC(J)
++	        TX(J,J,2)=TX(J,J,2)*CLUMP_FAC(J)
++	      END DO
++	    END IF
++	    IF(DO_SRCE_VAR_ONLY)THEN
++	      DO J=1,ND
++	        T1=-ETA_CLUMP(J)/CHI_CLUMP(J)
++	        TX(J,J,1)=TX(J,J,2)*T1
++	      END DO
++	    END IF
++	    IF(COHERENT_ES)THEN
++	      TB(1:ND)=RJ(1:ND)
++	    ELSE
++	      TB(1:ND)=RJ_ES(1:ND)
++	    END IF
++	    DO J=1,ND
++	      TX(J,J,3)=TX(J,J,3) + TX(J,J,1)
++	      TX(J,J,4)=TX(J,J,4) + TX(J,J,2)
++	      TX(J,J,5)=TX(J,J,5) + TX(J,J,1) + TX(J,J,2)*TB(J)
++	    END DO
++	    CALL TUNE(1,'TX_TVX_VC')
++	    DO SIM_INDX=1,MAX_SIM
++	      LOW=LOW_POINTER(SIM_INDX);    UP=UP_POINTER(SIM_INDX)
++	      IF(.NOT. WEAK_LINE(SIM_INDX) .AND. RESONANCE_ZONE(SIM_INDX))THEN
++	        DO J=1,ND
++	          OPAC_FAC=LINE_OPAC_CON(SIM_INDX)*LINE_PROF_SIM(J,SIM_INDX)*NEG_OPAC_FAC(J)
++	          STIM_FAC=OPAC_FAC*U_STAR_RATIO(J,SIM_INDX)*GLDGU(SIM_INDX)
++	          OPAC_FAC=OPAC_FAC*L_STAR_RATIO(J,SIM_INDX)
++	          EMIS_FAC=LINE_EMIS_CON(SIM_INDX)*LINE_PROF_SIM(J,SIM_INDX)*U_STAR_RATIO(J,SIM_INDX)
++	          TX(J,J,LOW)=TX(J,J,LOW) + OPAC_FAC*TX(J,J,1)
++	          TX(J,J,UP)=TX(J,J,UP) + ( EMIS_FAC*TX(J,J,2) - STIM_FAC*TX(J,J,1) )
++	        END DO
++	      END IF
++	    END DO
++	    CALL TUNE(2,'TX_TVX_VC')
++	    IF(INCLUDE_dSLdT)THEN
++	      DO SIM_INDX=1,MAX_SIM
++	        NL=SIM_NL(SIM_INDX)
++	        NUP=SIM_NUP(SIM_INDX)
++	        IF(.NOT. WEAK_LINE(SIM_INDX) .AND. RESONANCE_ZONE(SIM_INDX))THEN
++	          DO J=1,ND
++	            OPAC_FAC=LINE_OPAC_CON(SIM_INDX)*LINE_PROF_SIM(J,SIM_INDX)*NEG_OPAC_FAC(J)*
++	1              (dL_RAT_dT(J,SIM_INDX)*POPS(NL,J)-GLDGU(SIM_INDX)*dU_RAT_dT(J,SIM_INDX)*POPS(NUP,J))
++	            EMIS_FAC=LINE_EMIS_CON(SIM_INDX)*LINE_PROF_SIM(J,SIM_INDX)*dU_RAT_dT(J,SIM_INDX)*POPS(NUP,J)
++	            TX(J,J,6)=TX(J,J,6) + (OPAC_FAC*TX(J,J,1)+EMIS_FAC*TX(J,J,2))
++	          END DO
++	        END IF
++	      END DO
++	    END IF
++	    DO J=1,ND
++	      TX(J,J,1)=0.0_LDP
++	      TX(J,J,2)=0.0_LDP
++	    END DO
++!
++	   ELSE
+ !
+ ! Correcting for clumping this way does it for both the continuum and lines.
+ !
+@@ -543,6 +664,8 @@
+ !
+ 	    TX(:,:,1:2)=0.0_LDP
+ 	    TVX(:,:,1:2)=0.0_LDP
++!
++	   END IF			!QS_FAST
+ !
+ ! 
+ !
+@@ -808,6 +931,20 @@
+ !	  DO X_INDX=4,NM
+ !
+ 	  dJ_LOC=0.0_LDP
++	  IF(QS_FAST)THEN
++!
++! QSTARS build 33: TX is zero off its diagonal, so only the band of the local depth
++! (L=K) is copied; the other bands of dJ_LOC keep the zero just assigned.
++!
++	    DO X_INDX=3,NM
++	      IF(DO_THIS_TX_MATRIX(X_INDX))THEN
++	        DO K=1,ND
++	          J=(NUM_BNDS/ND)*(K-DIAG_INDX)+DIAG_INDX
++	          dJ_LOC(X_INDX,J,K)=TX(K,K,X_INDX)
++	        END DO
++	      END IF
++	    END DO
++	  ELSE
+ 	  DO X_INDX=3,NM
+ 	    IF(DO_THIS_TX_MATRIX(X_INDX))THEN
+ 	      DO K=1,ND
+@@ -818,6 +955,7 @@
+ 	      END DO
+ 	    END IF
+ 	  END DO
++	  END IF
+ !
+ ! Compute VJ which gives the variation of J with respect to the atomic
+ ! populations. NB: Electron scattering cross-section (6.65D-15) was replaced
+@@ -926,6 +1064,80 @@
+ 	  END IF
+ 	END IF
+ !
++	IF(QS_HASH_STRIDE .GT. 0 .AND. CONT_VEL .AND. .NOT. ACCURATE .AND. QS_ALI_LIN
++	1       .AND. SECTION .EQ. 'CONTINUUM')THEN
++	  IF(FIRST_FREQ .OR. MOD(FREQ_INDX,QS_HASH_STRIDE) .EQ. 0)THEN
++	    CALL QS_ALI_LIN_HASH(FREQ_INDX,FL,FIRST_FREQ,TX,TVX,dJ_LOC,VJ,
++	1            ND,NM,NUM_BNDS,NT)
++	  END IF
++	END IF
++!
+ 	FL_OLD=FL
++	RETURN
++	END
++!
++! QSTARS build 33 diagnostic (read only): order-sensitive 64-bit hashes of the bit
++! patterns of TX, TVX, dJ_LOC and VJ, with the number of non-zero words of each and
++! the number of non-zero words of TX off its diagonal. One record per call:
++! FREQ_INDX (int32), FL (real64), 4 hashes (int64), 5 counts (int64).
++!
++	SUBROUTINE QS_ALI_LIN_HASH(FREQ_INDX,FL,FIRST,TX,TVX,dJ_LOC,VJ,ND,NM,NUM_BNDS,NT)
++	USE SET_KIND_MODULE
++	IMPLICIT NONE
++	INTEGER FREQ_INDX,ND,NM,NUM_BNDS,NT
++	LOGICAL FIRST
++	REAL(KIND=LDP) FL
++	REAL(KIND=LDP) TX(ND,ND,NM)
++	REAL(KIND=LDP) TVX(ND-1,ND,NM)
++	REAL(KIND=LDP) dJ_LOC(NM,NUM_BNDS,ND)
++	REAL(KIND=LDP) VJ(NT,NUM_BNDS,ND)
++	INTEGER(KIND=8) H(4),C(5),W
++	INTEGER I,J,K,LU
++!
++	H(:)=0_8; C(:)=0_8
++	DO K=1,NM
++	  DO J=1,ND
++	    DO I=1,ND
++	      W=TRANSFER(TX(I,J,K),W)
++	      H(1)=IEOR(ISHFTC(H(1),7),W)
++	      IF(W .NE. 0_8)THEN
++	        C(1)=C(1)+1
++	        IF(I .NE. J)C(5)=C(5)+1
++	      END IF
++	    END DO
++	  END DO
++	END DO
++	DO K=1,NM
++	  DO J=1,ND
++	    DO I=1,ND-1
++	      W=TRANSFER(TVX(I,J,K),W)
++	      H(2)=IEOR(ISHFTC(H(2),7),W)
++	      IF(W .NE. 0_8)C(2)=C(2)+1
++	    END DO
++	  END DO
++	END DO
++	DO K=1,ND
++	  DO J=1,NUM_BNDS
++	    DO I=1,NM
++	      W=TRANSFER(dJ_LOC(I,J,K),W)
++	      H(3)=IEOR(ISHFTC(H(3),7),W)
++	      IF(W .NE. 0_8)C(3)=C(3)+1
++	    END DO
++	    DO I=1,NT
++	      W=TRANSFER(VJ(I,J,K),W)
++	      H(4)=IEOR(ISHFTC(H(4),7),W)
++	      IF(W .NE. 0_8)C(4)=C(4)+1
++	    END DO
++	  END DO
++	END DO
++	IF(FIRST)THEN
++	  OPEN(NEWUNIT=LU,FILE='QSTARS_ALI_LIN_HASH.bin',STATUS='REPLACE',ACCESS='STREAM',
++	1       FORM='UNFORMATTED')
++	ELSE
++	  OPEN(NEWUNIT=LU,FILE='QSTARS_ALI_LIN_HASH.bin',STATUS='UNKNOWN',ACCESS='STREAM',
++	1       FORM='UNFORMATTED',POSITION='APPEND')
++	END IF
++	WRITE(LU)FREQ_INDX,FL,H,C
++	CLOSE(LU)
+ 	RETURN
+ 	END

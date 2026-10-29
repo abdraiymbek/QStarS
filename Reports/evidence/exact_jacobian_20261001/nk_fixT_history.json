@@ -1,0 +1,269 @@
+[
+ {
+  "it": 0,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_fixT/it00_base",
+  "merit": 22.027887570048133,
+  "max_frozen_correction": 0.9836409596898654,
+  "resid_norm": 93131198413.13383,
+  "gmres": [
+   1.0,
+   0.12197467701344723,
+   0.0488871959181805
+  ],
+  "products": 2,
+  "max_step": 11.183201141355152,
+  "limited_components": 210,
+  "trials": {
+   "1.0": 11.439739354042148,
+   "0.5": 5.630618620136775,
+   "0.25": 9.678601379101554
+  },
+  "accepted_lam": 0.5,
+  "merit_new": 5.630618620136775
+ },
+ {
+  "it": 1,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_fixT/it01_trial_l0.5",
+  "merit": 29.780939086834504,
+  "max_frozen_correction": 2.141044492282968,
+  "resid_norm": 46732233234.36104,
+  "gmres": [
+   1.0,
+   0.35246929022324414,
+   0.11912701658278463,
+   0.11585668289682527,
+   0.0579251820856515
+  ],
+  "products": 4,
+  "max_step": 1.9378903107171241,
+  "limited_components": 0,
+  "trials": {
+   "1.0": 12.278753089555032,
+   "0.5": 18.35087846114242,
+   "0.25": 23.26516343014913
+  },
+  "accepted_lam": 1.0,
+  "merit_new": 12.278753089555032
+ },
+ {
+  "it": 2,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_fixT/it02_trial_l1",
+  "merit": 70.29259136377168,
+  "max_frozen_correction": 6.394231981032469,
+  "resid_norm": 6587832648.2553625,
+  "gmres": [
+   1.0,
+   0.07568830156254379
+  ],
+  "products": 1,
+  "max_step": 4.638956474519317,
+  "limited_components": 0,
+  "trials": {
+   "1.0": 729.1109028609233,
+   "0.5": 27.993732045350917,
+   "0.25": 44.40993068073555
+  },
+  "accepted_lam": 0.5,
+  "merit_new": 27.993732045350917
+ },
+ {
+  "it": 3,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_fixT/it03_trial_l0.5",
+  "merit": 12.7318870348523,
+  "max_frozen_correction": 1.0051524890231018,
+  "resid_norm": 11349246268.357367,
+  "gmres": [
+   1.0,
+   0.33160857000581895,
+   0.16675590078806796,
+   0.13495935921754157,
+   0.07339289743497115
+  ],
+  "products": 4,
+  "max_step": 1.2268115834357376,
+  "limited_components": 0,
+  "trials": {
+   "1.0": 4.407878547087381,
+   "0.5": 7.615108537696577,
+   "0.25": 9.889130890910511
+  },
+  "accepted_lam": 1.0,
+  "merit_new": 4.407878547087381
+ },
+ {
+  "it": 4,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_fixT/it04_trial_l1",
+  "merit": 11.007969047140966,
+  "max_frozen_correction": 1.0050772432499075,
+  "resid_norm": 56843357189.28577,
+  "gmres": [
+   1.0,
+   0.17957073334733428,
+   0.14088093833805657,
+   0.13471787365822793,
+   0.11335452463588373,
+   0.09640893783098882
+  ],
+  "products": 5,
+  "max_step": 1.4895978614940484,
+  "max_step_significant": 0.8951096057056422,
+  "limited_components": 0,
+  "trials": {
+   "1.0": 4.119371624100455,
+   "0.5": 6.681963835063376,
+   "0.25": 8.580859405620364
+  },
+  "accepted_lam": 1.0,
+  "merit_new": 4.119371624100455
+ },
+ {
+  "it": 5,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_fixT/it05_trial_l1",
+  "merit": 10.437547214572474,
+  "max_frozen_correction": 1.0049374129903408,
+  "resid_norm": 4315157910.263205,
+  "gmres": [
+   1.0,
+   0.45428327564689575,
+   0.18081910246303945,
+   0.16497604642623506,
+   0.14201650118171122,
+   0.06818668800808603
+  ],
+  "products": 5,
+  "max_step": 6.220954842262907,
+  "max_step_significant": 3.8948493096455405,
+  "limited_components": 0,
+  "trials": {
+   "1.0": 174.23188751003778,
+   "0.5": 10.010088031685788,
+   "0.25": 8.18518511494419
+  },
+  "accepted_lam": 0.25,
+  "merit_new": 8.18518511494419
+ },
+ {
+  "it": 6,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_fixT/it06_trial_l0.25",
+  "merit": 0.34259849200529147,
+  "max_frozen_correction": 1.0047864703985379,
+  "resid_norm": 4049017743.0037055,
+  "gmres": [
+   1.0,
+   0.7312775821717249,
+   0.6257295133144861,
+   0.5371932374382019,
+   0.2717392958864228
+  ],
+  "products": 4,
+  "max_step": 1.9157545468839234,
+  "max_step_significant": 1.9157545468839234,
+  "limited_components": 0,
+  "trials": {
+   "1.0": 0.3150915898233399,
+   "0.5": 0.1911031489657539,
+   "0.25": 0.262442408784928
+  },
+  "accepted_lam": 0.5,
+  "merit_new": 0.1911031489657539
+ },
+ {
+  "it": 7,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_fixT/it07_trial_l0.5",
+  "merit": 0.19665406172363836,
+  "max_frozen_correction": 1.0035665260172593,
+  "resid_norm": 3926670516.5071735,
+  "gmres": [
+   1.0,
+   0.6195540529845905,
+   0.5901437580399559,
+   0.5656652927561,
+   0.5349702727999516
+  ],
+  "products": 4,
+  "max_step": 0.6120922990473805,
+  "max_step_significant": 0.17421881734858546,
+  "limited_components": 0,
+  "trials": {
+   "1.0": 0.1114881638980738,
+   "0.5": 0.13756025119432372,
+   "0.25": 0.16407491853814937
+  },
+  "accepted_lam": 1.0,
+  "merit_new": 0.1114881638980738
+ },
+ {
+  "it": 8,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_fixT/it08_trial_l1",
+  "merit": 0.11260013131214484,
+  "max_frozen_correction": 0.9919835133538581,
+  "resid_norm": 3876214451.7107124,
+  "gmres": [
+   1.0,
+   0.43113868266884287,
+   0.30207569604626133,
+   0.25178299234069806,
+   0.21260079342433477
+  ],
+  "products": 4,
+  "max_step": 0.3636007049911815,
+  "max_step_significant": 0.20132937164444964,
+  "limited_components": 0,
+  "trials": {
+   "1.0": 0.025622977851116675,
+   "0.5": 0.06085399221850498,
+   "0.25": 0.08613887707998535
+  },
+  "accepted_lam": 1.0,
+  "merit_new": 0.025622977851116675
+ },
+ {
+  "it": 9,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_fixT/it09_trial_l1",
+  "merit": 0.02667471443109287,
+  "max_frozen_correction": 0.9837930035109649,
+  "resid_norm": 16152689387.302422,
+  "gmres": [
+   1.0,
+   0.8777054385119812,
+   0.8188351217453026,
+   0.6864719414193605,
+   0.540344428126129
+  ],
+  "products": 4,
+  "max_step": 0.5692556946709278,
+  "max_step_significant": 0.5692556946709278,
+  "limited_components": 0,
+  "trials": {
+   "1.0": 0.01641069344043802,
+   "0.5": 0.01825324378643262,
+   "0.25": 0.022145646191070574
+  },
+  "accepted_lam": 1.0,
+  "merit_new": 0.01641069344043802
+ },
+ {
+  "it": 10,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_fixT/it10_trial_l1",
+  "merit": 0.016815178258040898,
+  "max_frozen_correction": 0.9811773475254849,
+  "resid_norm": 11294092097.524437,
+  "gmres": [
+   1.0,
+   0.7348526201210721,
+   0.6751574744313412,
+   0.6166877865451752
+  ],
+  "products": 3,
+  "max_step": 0.22903548935034324,
+  "max_step_significant": 0.1150618822995659,
+  "limited_components": 0,
+  "trials": {
+   "1.0": 0.010472703908533557,
+   "0.5": 0.012355615481401763,
+   "0.25": 0.014371020785961558
+  },
+  "accepted_lam": 1.0,
+  "merit_new": 0.010472703908533557
+ }
+]

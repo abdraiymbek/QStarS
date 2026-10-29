@@ -1,0 +1,13 @@
+{
+ "source": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it08_from_it08_trial_r0.25/jv00",
+ "repeat": "results/jv/race_test/it08_jv00_build28",
+ "directions": 3,
+ "source_exe": "/Users/abraiymbek/Projects/QStarS/backends/cmfgen/build_27/cur_cmf/exe/cmfgen_dev.exe",
+ "repeat_exe": "backends/cmfgen/build_28/cur_cmf/exe/cmfgen_dev.exe",
+ "max_rel_diff": [
+  8.544325108494462e-17,
+  6.134648449435626e-17,
+  1.1583004477880482e-16
+ ],
+ "bitwise_identical": false
+}

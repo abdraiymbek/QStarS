@@ -1,0 +1,26 @@
+{
+  "rule": "Before C0, an N = 200 run must reach M_BH = 100 with median dt >= 50 yr and <= 20% rejected attempts; otherwise apply the fallbacks in order",
+  "reached_bh_mass_100": false,
+  "status": "termination_trigger",
+  "reason": "timestep 0.0625 yr below the dynamical time 0.0913 yr (Ball's criterion)",
+  "accepted_steps": 0,
+  "attempts": 4,
+  "rejections": 4,
+  "median_dt_years": null,
+  "history_written": true,
+  "rejected_fraction": 1.0,
+  "passed": false,
+  "fallbacks": [],
+  "start_row_screen_errors": [],
+  "rejection_causes": {
+    "total": 4,
+    "causes": {
+      "controller_metric": 4
+    },
+    "controller_metric": {
+      "profile_dlnr": 4
+    },
+    "newton_failures_at_tolerance_floor": 0,
+    "newton_failure_residuals": []
+  }
+}

@@ -1,0 +1,1194 @@
+{
+  "acceptance": {
+    "criterion": "every state inside the EOS query rectangle (rho 1e-14..1e3 g/cm3, T 3000..1e8 K), MESA neutral-ideal fraction exactly 0 and first-law defect <= 1% (spec Stage 1)",
+    "accepted": true,
+    "states": 3628,
+    "errors": 0,
+    "max_frac_ideal": 0.0,
+    "max_first_law_defect": 0.00015869071796281972
+  },
+  "minimum_logR": {
+    "value": -6.365362023638703,
+    "family": "photosphere",
+    "case": "seed_1000rsun",
+    "rho": 6.680395128062626e-12,
+    "T": 24929.949078525435,
+    "design_estimate": -6.2
+  },
+  "opacity_domain": {
+    "rectangle": {
+      "logR": [
+        -7.0,
+        1.0
+      ],
+      "T": [
+        3000.0,
+        10000000.0
+      ]
+    },
+    "states_needing_clamp": 0,
+    "states_with_T_outside": 0,
+    "cases_with_T_outside": [],
+    "note": "reported only: the replication-mode STARS clamp acts in log R at fixed T; off-table T is always an error"
+  },
+  "always_enforced_screens": {
+    "limit": 0.01,
+    "maxima": {
+      "dilute_gas_defect": 4.207439527892376e-05,
+      "conduction_fraction": 1.1510963293659415e-09
+    },
+    "exceeded": []
+  },
+  "photospheres_missing": [],
+  "base_gamma1_mesa_over_ideal": {
+    "paper_row0": 0.9999413091849954,
+    "paper_row1": 0.999949681301264,
+    "paper_row2": 0.999952104058935,
+    "paper_row3": 0.9999575312960094,
+    "paper_row4": 0.999960416326323,
+    "paper_row5": 0.9999569823930123,
+    "thesis_row0": 0.9999412964672971,
+    "thesis_row1": 0.9999499747120173,
+    "thesis_row2": 0.999952104058935,
+    "thesis_row3": 0.9999576898904433,
+    "thesis_row4": 0.9999608057567424,
+    "thesis_row5": 0.9999566657760662
+  },
+  "families": {
+    "base": {
+      "states": 12,
+      "errors": 0,
+      "rho_range": [
+        3.71e-10,
+        8.71e-05
+      ],
+      "T_range": [
+        71000.0,
+        4079999.9999999995
+      ],
+      "logR_range": [
+        -6.0259129883816485,
+        -5.891119142625417
+      ],
+      "max_frac_ideal": 0.0,
+      "max_first_law_defect": 2.0037037069578646e-07,
+      "max_dilute_gas_defect": 4.207439527892376e-05,
+      "max_conduction_fraction": 1.1281064971058186e-10,
+      "opacity_T_outside_domain": 0,
+      "opacity_clamped_low": 0,
+      "opacity_clamped_high": 0,
+      "kappa_stars_over_default": [
+        0.9999999999999999,
+        1.0
+      ]
+    },
+    "polytrope": {
+      "states": 3600,
+      "errors": 0,
+      "rho_range": [
+        1.0891834495750955e-13,
+        0.0013247386407299745
+      ],
+      "T_range": [
+        4525.067946879501,
+        9898322.996498652
+      ],
+      "logR_range": [
+        -5.9297742809239224,
+        -5.8645546598311356
+      ],
+      "max_frac_ideal": 0.0,
+      "max_first_law_defect": 3.8422081308407394e-05,
+      "max_dilute_gas_defect": 1.6953225400628824e-05,
+      "max_conduction_fraction": 1.1510963293659415e-09,
+      "opacity_T_outside_domain": 0,
+      "opacity_clamped_low": 0,
+      "opacity_clamped_high": 0,
+      "kappa_stars_over_default": [
+        0.9370544870036537,
+        1.0079687253691305
+      ]
+    },
+    "photosphere": {
+      "states": 16,
+      "errors": 0,
+      "rho_range": [
+        1.0236930463870758e-12,
+        9.156750113134656e-10
+      ],
+      "T_range": [
+        4483.473993147495,
+        24929.949078525435
+      ],
+      "logR_range": [
+        -6.365362023638703,
+        -2.011188654450301
+      ],
+      "max_frac_ideal": 0.0,
+      "max_first_law_defect": 0.00015869071796281972,
+      "max_dilute_gas_defect": 0.0,
+      "max_conduction_fraction": 4.440892098500626e-16,
+      "opacity_T_outside_domain": 0,
+      "opacity_clamped_low": 0,
+      "opacity_clamped_high": 0,
+      "kappa_stars_over_default": [
+        0.8998118456914613,
+        1.0015654169154842
+      ]
+    }
+  },
+  "cases": {
+    "paper_row0": {
+      "states": 402,
+      "errors": 0,
+      "rho_range": [
+        2.4168266523119726e-12,
+        8.71e-05
+      ],
+      "T_range": [
+        14321.881537639365,
+        4079999.9999999995
+      ],
+      "logR_range": [
+        -6.084754729903928,
+        -5.864554666350557
+      ],
+      "max_frac_ideal": 0.0,
+      "max_first_law_defect": 7.881201220189846e-06,
+      "max_dilute_gas_defect": 1.0982976956341872e-05,
+      "max_conduction_fraction": 1.1281064971058186e-10,
+      "opacity_T_outside_domain": 0,
+      "opacity_clamped_low": 0,
+      "opacity_clamped_high": 0,
+      "kappa_stars_over_default": [
+        0.9999999999999997,
+        1.0
+      ]
+    },
+    "paper_row1": {
+      "states": 402,
+      "errors": 0,
+      "rho_range": [
+        1.9137479739485867e-13,
+        1.5591638692263162e-07
+      ],
+      "T_range": [
+        5219.1424463653775,
+        487838.9375827925
+      ],
+      "logR_range": [
+        -5.90902245974393,
+        -2.5155653183582203
+      ],
+      "max_frac_ideal": 0.0,
+      "max_first_law_defect": 3.8422081308407394e-05,
+      "max_dilute_gas_defect": 1.4565201583272014e-05,
+      "max_conduction_fraction": 5.866418462119327e-13,
+      "opacity_T_outside_domain": 0,
+      "opacity_clamped_low": 0,
+      "opacity_clamped_high": 0,
+      "kappa_stars_over_default": [
+        0.8998118456914613,
+        1.0079687253691305
+      ]
+    },
+    "paper_row2": {
+      "states": 402,
+      "errors": 0,
+      "rho_range": [
+        1.4302973281494233e-13,
+        7.811803962393364e-08
+      ],
+      "T_range": [
+        4769.9566004082335,
+        390023.9574777039
+      ],
+      "logR_range": [
+        -5.930971236837646,
+        -2.1355761797766775
+      ],
+      "max_frac_ideal": 0.0,
+      "max_first_law_defect": 3.6786986133232584e-05,
+      "max_dilute_gas_defect": 1.9387320605801506e-05,
+      "max_conduction_fraction": 3.398392678377604e-13,
+      "opacity_T_outside_domain": 0,
+      "opacity_clamped_low": 0,
+      "opacity_clamped_high": 0,
+      "kappa_stars_over_default": [
+        0.9108307925695245,
+        1.0078049646718852
+      ]
+    },
+    "paper_row3": {
+      "states": 402,
+      "errors": 0,
+      "rho_range": [
+        1.15536640026731e-13,
+        3.8837842109154736e-08
+      ],
+      "T_range": [
+        4547.9086428154405,
+        316338.601222062
+      ],
+      "logR_range": [
+        -5.987739556920825,
+        -2.01169383384012
+      ],
+      "max_frac_ideal": 0.0,
+      "max_first_law_defect": 3.46572094714403e-05,
+      "max_dilute_gas_defect": 3.256705313292585e-05,
+      "max_conduction_fraction": 1.9340085088970227e-13,
+      "opacity_T_outside_domain": 0,
+      "opacity_clamped_low": 0,
+      "opacity_clamped_high": 0,
+      "kappa_stars_over_default": [
+        0.9289827158080888,
+        1.0072381011422653
+      ]
+    },
+    "paper_row4": {
+      "states": 402,
+      "errors": 0,
+      "rho_range": [
+        1.0891834495750955e-13,
+        4.506945403054051e-09
+      ],
+      "T_range": [
+        4487.125531419203,
+        155241.23364670784
+      ],
+      "logR_range": [
+        -6.021203319650134,
+        -2.0149145943631908
+      ],
+      "max_frac_ideal": 0.0,
+      "max_first_law_defect": 3.3618821778050084e-05,
+      "max_dilute_gas_defect": 4.087087870474626e-05,
+      "max_conduction_fraction": 3.697042672001771e-14,
+      "opacity_T_outside_domain": 0,
+      "opacity_clamped_low": 0,
+      "opacity_clamped_high": 0,
+      "kappa_stars_over_default": [
+        0.9340447508666703,
+        1.0071101100081323
+      ]
+    },
+    "paper_row5": {
+      "states": 2,
+      "errors": 0,
+      "rho_range": [
+        3.71e-10,
+        8.691593475040781e-10
+      ],
+      "T_range": [
+        4503.218507859682,
+        71000.0
+      ],
+      "logR_range": [
+        -5.984401136542182,
+        -2.021469656497217
+      ],
+      "max_frac_ideal": 0.0,
+      "max_first_law_defect": 2.213592877486937e-06,
+      "max_dilute_gas_defect": 3.176203453780779e-05,
+      "max_conduction_fraction": 5.551115123125783e-15,
+      "opacity_T_outside_domain": 0,
+      "opacity_clamped_low": 0,
+      "opacity_clamped_high": 0,
+      "kappa_stars_over_default": [
+        0.9328387980941377,
+        1.0
+      ]
+    },
+    "thesis_row0": {
+      "states": 2,
+      "errors": 0,
+      "rho_range": [
+        2.3273062803635267e-12,
+        8.41e-05
+      ],
+      "T_range": [
+        14113.804402004289,
+        4029999.9999999995
+      ],
+      "logR_range": [
+        -6.082078741758309,
+        -5.891119142625417
+      ],
+      "max_frac_ideal": 0.0,
+      "max_first_law_defect": 4.94548386818014e-07,
+      "max_dilute_gas_defect": 1.0803150068294798e-05,
+      "max_conduction_fraction": 1.0955791829303507e-10,
+      "opacity_T_outside_domain": 0,
+      "opacity_clamped_low": 0,
+      "opacity_clamped_high": 0,
+      "kappa_stars_over_default": [
+        0.9999999999999999,
+        0.9999999999999999
+      ]
+    },
+    "thesis_row1": {
+      "states": 2,
+      "errors": 0,
+      "rho_range": [
+        4.337426538537529e-10,
+        5.48e-08
+      ],
+      "T_range": [
+        5219.1424463653775,
+        355000.0
+      ],
+      "logR_range": [
+        -5.911904500680915,
+        -2.5155653183582203
+      ],
+      "max_frac_ideal": 0.0,
+      "max_first_law_defect": 8.971758032561352e-06,
+      "max_dilute_gas_defect": 1.519038633879255e-05,
+      "max_conduction_fraction": 2.5290880500961066e-13,
+      "opacity_T_outside_domain": 0,
+      "opacity_clamped_low": 0,
+      "opacity_clamped_high": 0,
+      "kappa_stars_over_default": [
+        0.8998118456914613,
+        0.9999999999999999
+      ]
+    },
+    "thesis_row2": {
+      "states": 2,
+      "errors": 0,
+      "rho_range": [
+        7.942680682504061e-10,
+        1.3e-08
+      ],
+      "T_range": [
+        4769.9566004082335,
+        223000.0
+      ],
+      "logR_range": [
+        -5.930971236837646,
+        -2.1355761797766775
+      ],
+      "max_frac_ideal": 0.0,
+      "max_first_law_defect": 8.3017975445145e-07,
+      "max_dilute_gas_defect": 1.9387320605801506e-05,
+      "max_conduction_fraction": 8.171241461241152e-14,
+      "opacity_T_outside_domain": 0,
+      "opacity_clamped_low": 0,
+      "opacity_clamped_high": 0,
+      "kappa_stars_over_default": [
+        0.9108307925695245,
+        1.0
+      ]
+    },
+    "thesis_row3": {
+      "states": 2,
+      "errors": 0,
+      "rho_range": [
+        9.102232619586351e-10,
+        2.41e-09
+      ],
+      "T_range": [
+        4550.26080736837,
+        133000.0
+      ],
+      "logR_range": [
+        -5.989537880326388,
+        -2.0149609392202095
+      ],
+      "max_frac_ideal": 0.0,
+      "max_first_law_defect": 9.470786802192246e-07,
+      "max_dilute_gas_defect": 3.300262670191678e-05,
+      "max_conduction_fraction": 2.2093438190040615e-14,
+      "opacity_T_outside_domain": 0,
+      "opacity_clamped_low": 0,
+      "opacity_clamped_high": 0,
+      "kappa_stars_over_default": [
+        0.928836996908639,
+        0.9999999999999999
+      ]
+    },
+    "thesis_row4": {
+      "states": 2,
+      "errors": 0,
+      "rho_range": [
+        6.42e-10,
+        8.783251334362877e-10
+      ],
+      "T_range": [
+        4483.473993147495,
+        88000.0
+      ],
+      "logR_range": [
+        -6.0259129883816485,
+        -2.011188654450301
+      ],
+      "max_frac_ideal": 0.0,
+      "max_first_law_defect": 1.4091545905076527e-06,
+      "max_dilute_gas_defect": 4.207439527892376e-05,
+      "max_conduction_fraction": 8.215650382226158e-15,
+      "opacity_T_outside_domain": 0,
+      "opacity_clamped_low": 0,
+      "opacity_clamped_high": 0,
+      "kappa_stars_over_default": [
+        0.9342735732992796,
+        0.9999999999999999
+      ]
+    },
+    "thesis_row5": {
+      "states": 2,
+      "errors": 0,
+      "rho_range": [
+        3.74e-10,
+        8.604073290759593e-10
+      ],
+      "T_range": [
+        4507.088918400492,
+        71000.0
+      ],
+      "logR_range": [
+        -5.980903443956748,
+        -2.026984277372989
+      ],
+      "max_frac_ideal": 0.0,
+      "max_first_law_defect": 2.3077007099677545e-06,
+      "max_dilute_gas_defect": 3.0922388764453856e-05,
+      "max_conduction_fraction": 5.329070518200751e-15,
+      "opacity_T_outside_domain": 0,
+      "opacity_clamped_low": 0,
+      "opacity_clamped_high": 0,
+      "kappa_stars_over_default": [
+        0.9326135092979404,
+        0.9999999999999999
+      ]
+    },
+    "seed_1000rsun": {
+      "states": 401,
+      "errors": 0,
+      "rho_range": [
+        6.680395128062626e-12,
+        0.0013247386407299745
+      ],
+      "T_range": [
+        24929.949078525435,
+        9898322.996498652
+      ],
+      "logR_range": [
+        -6.365362023638703,
+        -5.8645546598311356
+      ],
+      "max_frac_ideal": 0.0,
+      "max_first_law_defect": 9.668027293047301e-06,
+      "max_dilute_gas_defect": 0.0,
+      "max_conduction_fraction": 1.1510963293659415e-09,
+      "opacity_T_outside_domain": 0,
+      "opacity_clamped_low": 0,
+      "opacity_clamped_high": 0,
+      "kappa_stars_over_default": [
+        0.9999999999999997,
+        1.0
+      ]
+    },
+    "seed_2000rsun": {
+      "states": 401,
+      "errors": 0,
+      "rho_range": [
+        4.176110269413226e-12,
+        0.0001655923300912468
+      ],
+      "T_range": [
+        17628.136048060656,
+        4949161.518209643
+      ],
+      "logR_range": [
+        -6.117847223160858,
+        -5.864554665085755
+      ],
+      "max_frac_ideal": 0.0,
+      "max_first_law_defect": 9.564912422380813e-06,
+      "max_dilute_gas_defect": 0.0,
+      "max_conduction_fraction": 1.976536712078314e-10,
+      "opacity_T_outside_domain": 0,
+      "opacity_clamped_low": 0,
+      "opacity_clamped_high": 0,
+      "kappa_stars_over_default": [
+        0.9999999999999997,
+        1.0
+      ]
+    },
+    "seed_6000rsun": {
+      "states": 401,
+      "errors": 0,
+      "rho_range": [
+        1.0236930463870758e-12,
+        6.133049262638771e-06
+      ],
+      "T_range": [
+        10177.609092659166,
+        1649720.508803756
+      ],
+      "logR_range": [
+        -6.012767545415755,
+        -5.86455466724486
+      ],
+      "max_frac_ideal": 0.0,
+      "max_first_law_defect": 1.253299327759516e-05,
+      "max_dilute_gas_defect": 0.0,
+      "max_conduction_fraction": 1.1968204205459188e-11,
+      "opacity_T_outside_domain": 0,
+      "opacity_clamped_low": 0,
+      "opacity_clamped_high": 0,
+      "kappa_stars_over_default": [
+        0.9999999999999997,
+        1.0
+      ]
+    },
+    "seed_12000rsun": {
+      "states": 401,
+      "errors": 0,
+      "rho_range": [
+        5.093639117097241e-13,
+        7.666311578298464e-07
+      ],
+      "T_range": [
+        7196.656405685161,
+        824860.25461117
+      ],
+      "logR_range": [
+        -5.869191008891487,
+        -5.236774513598775
+      ],
+      "max_frac_ideal": 0.0,
+      "max_first_law_defect": 0.00015869071796281972,
+      "max_dilute_gas_defect": 0.0,
+      "max_conduction_fraction": 2.0692336732963668e-12,
+      "opacity_T_outside_domain": 0,
+      "opacity_clamped_low": 0,
+      "opacity_clamped_high": 0,
+      "kappa_stars_over_default": [
+        0.9999999999999997,
+        1.0015654169154842
+      ]
+    }
+  },
+  "polytropes": [
+    {
+      "status": "built",
+      "bh_fraction": 0.0005,
+      "xi0": 0.006044367680823243,
+      "xi1": 8.281434127504474,
+      "r0_over_R": 0.0007298696805120459,
+      "alpha_cm": 8400718876570.261,
+      "rho_base": 0.0013247386407299745,
+      "p_base": 25968622196312.652,
+      "rho_outer": 2.145567545097088e-11,
+      "p_outer": 1064.138666661255,
+      "truncation_teff": 24929.949078525435,
+      "label": "seed_1000rsun",
+      "role": "registered fallback seed",
+      "radius_rsun": 1000.0,
+      "total_mass_msun": 10000.0,
+      "T_base": 9898322.996498652,
+      "T_outer": 25064.24341273733,
+      "temperature_failures": 0
+    },
+    {
+      "status": "built",
+      "bh_fraction": 0.0005,
+      "xi0": 0.006044367680823243,
+      "xi1": 8.281434127504474,
+      "r0_over_R": 0.0007298696805120459,
+      "alpha_cm": 16801437753140.521,
+      "rho_base": 0.0001655923300912468,
+      "p_base": 1623038887269.541,
+      "rho_outer": 7.49919660173607e-12,
+      "p_outer": 261.9961774354984,
+      "truncation_teff": 17628.136048060656,
+      "label": "seed_2000rsun",
+      "role": "registered seed",
+      "radius_rsun": 2000.0,
+      "total_mass_msun": 10000.0,
+      "T_base": 4949161.518209643,
+      "T_outer": 17655.63217995928,
+      "temperature_failures": 0
+    },
+    {
+      "status": "built",
+      "bh_fraction": 0.0005,
+      "xi0": 0.006044367680823243,
+      "xi1": 8.281434127504474,
+      "r0_over_R": 0.0007298696805120459,
+      "alpha_cm": 50404313259421.56,
+      "rho_base": 6.133049262638771e-06,
+      "p_base": 20037517126.784466,
+      "rho_outer": 1.44926250140381e-12,
+      "p_outer": 29.27327928389463,
+      "truncation_teff": 10177.609092659166,
+      "label": "seed_6000rsun",
+      "role": "registered seed",
+      "radius_rsun": 6000.0,
+      "total_mass_msun": 10000.0,
+      "T_base": 1649720.508803756,
+      "T_outer": 10216.111470357208,
+      "temperature_failures": 0
+    },
+    {
+      "status": "built",
+      "bh_fraction": 0.0005,
+      "xi0": 0.006044367680823243,
+      "xi1": 8.281434127504474,
+      "r0_over_R": 0.0007298696805120459,
+      "alpha_cm": 100808626518843.12,
+      "rho_base": 7.666311578298464e-07,
+      "p_base": 1252344820.4240294,
+      "rho_outer": 5.093639117097241e-13,
+      "p_outer": 7.260717371600402,
+      "truncation_teff": 7196.656405685161,
+      "label": "seed_12000rsun",
+      "role": "registered fallback seed",
+      "radius_rsun": 12000.0,
+      "total_mass_msun": 10000.0,
+      "T_base": 824860.25461117,
+      "T_outer": 7223.367768824856,
+      "temperature_failures": 0
+    },
+    {
+      "status": "built",
+      "bh_fraction": 0.0005,
+      "xi0": 0.006044367680823243,
+      "xi1": 8.281434127504474,
+      "r0_over_R": 0.0007298696805120459,
+      "alpha_cm": 25454178196007.89,
+      "rho_base": 4.762141752857675e-05,
+      "p_base": 308090561777.2425,
+      "rho_outer": 4.037708761832204e-12,
+      "p_outer": 114.75949350304026,
+      "truncation_teff": 14321.881537639365,
+      "label": "paper_row0",
+      "role": "printed row",
+      "radius_rsun": 3030.0,
+      "total_mass_msun": 10000.0,
+      "T_base": 3266773.2825175878,
+      "T_outer": 14363.902736500779,
+      "temperature_failures": 0,
+      "printed_rho0": 8.71e-05,
+      "printed_T0": 4079999.9999999995
+    },
+    {
+      "status": "built",
+      "bh_fraction": 0.010010566709304265,
+      "xi0": 0.11704675887657318,
+      "xi1": 8.391350554860352,
+      "r0_over_R": 0.013948500674754739,
+      "alpha_cm": 173275206475293.94,
+      "rho_base": 1.5591638692263162e-07,
+      "p_base": 153042471.62275708,
+      "rho_outer": 1.9137479739485867e-13,
+      "p_outer": 2.01126492459983,
+      "truncation_teff": 5219.1424463653775,
+      "label": "paper_row1",
+      "role": "printed row",
+      "radius_rsun": 20900.0,
+      "total_mass_msun": 9989.444444444445,
+      "T_base": 487838.9375827925,
+      "T_outer": 5269.704145175936,
+      "temperature_failures": 0,
+      "printed_rho0": 5.47e-08,
+      "printed_T0": 354000.0
+    },
+    {
+      "status": "built",
+      "bh_fraction": 0.02004342742608986,
+      "xi0": 0.22546051495464386,
+      "xi1": 8.502818380574718,
+      "r0_over_R": 0.02651597445262669,
+      "alpha_cm": 220913809507129.2,
+      "rho_base": 7.811803962393364e-08,
+      "p_base": 62445909.920011885,
+      "rho_outer": 1.4302973281494233e-13,
+      "p_outer": 1.398741047554985,
+      "truncation_teff": 4769.9566004082335,
+      "label": "paper_row2",
+      "role": "printed row",
+      "radius_rsun": 27000.0,
+      "total_mass_msun": 9978.333333333334,
+      "T_base": 390023.9574777039,
+      "T_outer": 4813.919653365702,
+      "temperature_failures": 0,
+      "printed_rho0": 1.3e-08,
+      "printed_T0": 223000.0
+    },
+    {
+      "status": "built",
+      "bh_fraction": 0.05027652086475616,
+      "xi0": 0.49268340666913185,
+      "xi1": 8.444153704342428,
+      "r0_over_R": 0.05834609647332309,
+      "alpha_cm": 291654804759594.8,
+      "rho_base": 3.8837842109154736e-08,
+      "p_base": 26903206.857344408,
+      "rho_outer": 1.15536640026731e-13,
+      "p_outer": 1.1510395325603127,
+      "truncation_teff": 4547.9086428154405,
+      "label": "paper_row3",
+      "role": "printed row",
+      "radius_rsun": 35400.0,
+      "total_mass_msun": 9945.0,
+      "T_base": 316338.601222062,
+      "T_outer": 4587.543882029675,
+      "temperature_failures": 0,
+      "printed_rho0": 2.42e-09,
+      "printed_T0": 133000.0
+    },
+    {
+      "status": "built",
+      "bh_fraction": 0.10111791472389191,
+      "xi0": 0.9515822479530107,
+      "xi1": 4.680646170873751,
+      "r0_over_R": 0.203301470184698,
+      "alpha_cm": 604937629684457.6,
+      "rho_base": 4.506945403054051e-09,
+      "p_base": 1558624.114164992,
+      "rho_outer": 1.0891834495750955e-13,
+      "p_outer": 1.089012938669221,
+      "truncation_teff": 4487.125531419203,
+      "label": "paper_row4",
+      "role": "printed row",
+      "radius_rsun": 40700.0,
+      "total_mass_msun": 9889.444444444445,
+      "T_base": 155241.23364670784,
+      "T_outer": 4525.067946879501,
+      "temperature_failures": 0,
+      "printed_rho0": 6.49e-10,
+      "printed_T0": 88000.0
+    },
+    {
+      "status": "no_loaded_polytrope",
+      "bh_fraction": 0.12099852495749401,
+      "reason": "M_BH/M* = 0.121 exceeds the n = 3 loaded-polytrope maximum 0.10152",
+      "label": "paper_row5",
+      "role": "printed row",
+      "radius_rsun": 39600.0,
+      "total_mass_msun": 9867.888888888889
+    }
+  ],
+  "photospheres": [
+    {
+      "label": "paper_row0",
+      "role": "printed row",
+      "teff": 14321.881537639365,
+      "gravity": 29.8672682895403,
+      "luminosity": 1.3321440000000001e+42,
+      "total_mass_msun": 10000.0,
+      "radius": 210797100000000.0,
+      "roots": [
+        {
+          "rho": 2.4168266523119726e-12,
+          "logR": -6.084754729903928,
+          "kappa": 0.3464379870241646,
+          "clamp_flag": 0,
+          "gamma_ph": 0.9230417515660151,
+          "gas_pressure": 4.423172860487694,
+          "relative_residual": -5.440092820663267e-15
+        }
+      ],
+      "exists": true,
+      "gamma_on_grid": [
+        0.8454648813792413,
+        7648.449521208837
+      ],
+      "note": null
+    },
+    {
+      "label": "paper_row1",
+      "role": "printed row",
+      "teff": 5219.1424463653775,
+      "gravity": 0.6270894925386552,
+      "luminosity": 1.1177760000000001e+42,
+      "total_mass_msun": 9989.444444444445,
+      "radius": 1454013000000000.0,
+      "roots": [
+        {
+          "rho": 4.337426538537529e-10,
+          "logR": -2.5155653183582203,
+          "kappa": 0.0028663010183088795,
+          "clamp_flag": 0,
+          "gamma_ph": 0.006414752560920146,
+          "gas_pressure": 144.9177562836896,
+          "relative_residual": -5.551115123125783e-16
+        }
+      ],
+      "exists": true,
+      "gamma_on_grid": [
+        0.003861804116536908,
+        0.2506553390311666
+      ],
+      "note": null
+    },
+    {
+      "label": "paper_row2",
+      "role": "printed row",
+      "teff": 4769.9566004082335,
+      "gravity": 0.37532823762961376,
+      "luminosity": 1.30152e+42,
+      "total_mass_msun": 9978.333333333334,
+      "radius": 1878390000000000.0,
+      "roots": [
+        {
+          "rho": 7.942680682504061e-10,
+          "logR": -2.1355761797766775,
+          "kappa": 0.001029394688573122,
+          "clamp_flag": 0,
+          "gamma_ph": 0.002685464574128455,
+          "gas_pressure": 242.4209820256501,
+          "relative_residual": 9.969802761133906e-14
+        }
+      ],
+      "exists": true,
+      "gamma_on_grid": [
+        0.0012582518222219472,
+        0.07263729235474173
+      ],
+      "note": null
+    },
+    {
+      "label": "paper_row3",
+      "role": "printed row",
+      "teff": 4547.9086428154405,
+      "gravity": 0.21761008747528135,
+      "luminosity": 1.8489240000000003e+42,
+      "total_mass_msun": 9945.0,
+      "radius": 2462778000000000.0,
+      "roots": [
+        {
+          "rho": 9.156750113134656e-10,
+          "logR": -2.0116938338401162,
+          "kappa": 0.0005433689021146429,
+          "clamp_flag": 0,
+          "gamma_ph": 0.0020204761020293314,
+          "gas_pressure": 266.44931972711817,
+          "relative_residual": -2.3314683517128287e-15
+        }
+      ],
+      "exists": true,
+      "gamma_on_grid": [
+        0.0009144597660126846,
+        0.046348342588160604
+      ],
+      "note": null
+    },
+    {
+      "label": "paper_row4",
+      "role": "printed row",
+      "teff": 4487.125531419203,
+      "gravity": 0.16370571340691192,
+      "luminosity": 2.3159400000000003e+42,
+      "total_mass_msun": 9889.444444444445,
+      "radius": 2831499000000000.0,
+      "roots": [
+        {
+          "rho": 8.729513965461071e-10,
+          "logR": -2.014914594363187,
+          "kappa": 0.000434582057498497,
+          "clamp_flag": 0,
+          "gamma_ph": 0.0020355035615538257,
+          "gas_pressure": 250.62008739249669,
+          "relative_residual": 6.439293542825908e-15
+        }
+      ],
+      "exists": true,
+      "gamma_on_grid": [
+        0.0009506415636647875,
+        0.0459551297103502
+      ],
+      "note": null
+    },
+    {
+      "label": "paper_row5",
+      "role": "printed row",
+      "teff": 4503.218507859682,
+      "gravity": 0.1725498710297429,
+      "luminosity": 2.2240680000000002e+42,
+      "total_mass_msun": 9867.888888888889,
+      "radius": 2754972000000000.0,
+      "roots": [
+        {
+          "rho": 8.691593475040781e-10,
+          "logR": -2.021469656497217,
+          "kappa": 0.0004583991214677149,
+          "clamp_flag": 0,
+          "gamma_ph": 0.0020663898197656534,
+          "gas_pressure": 250.42705896630287,
+          "relative_residual": 8.881784197001252e-16
+        }
+      ],
+      "exists": true,
+      "gamma_on_grid": [
+        0.0009630982523029462,
+        0.04716962641297372
+      ],
+      "note": null
+    },
+    {
+      "label": "thesis_row0",
+      "role": "printed row",
+      "teff": 14113.804402004289,
+      "gravity": 28.169009229068102,
+      "luminosity": 1.3321440000000001e+42,
+      "total_mass_msun": 10000.0,
+      "radius": 217058400000000.0,
+      "roots": [
+        {
+          "rho": 2.3273062803635267e-12,
+          "logR": -6.082078741758309,
+          "kappa": 0.34628509304821614,
+          "clamp_flag": 0,
+          "gamma_ph": 0.922634384219912,
+          "gas_pressure": 4.195604120558899,
+          "relative_residual": -5.10702591327572e-15
+        }
+      ],
+      "exists": true,
+      "gamma_on_grid": [
+        0.8444381173227328,
+        6870.216070170166
+      ],
+      "note": null
+    },
+    {
+      "label": "thesis_row1",
+      "role": "printed row",
+      "teff": 5219.1424463653775,
+      "gravity": 0.6270894925386552,
+      "luminosity": 1.1177760000000001e+42,
+      "total_mass_msun": 9989.444444444445,
+      "radius": 1454013000000000.0,
+      "roots": [
+        {
+          "rho": 4.337426538537529e-10,
+          "logR": -2.5155653183582203,
+          "kappa": 0.0028663010183088795,
+          "clamp_flag": 0,
+          "gamma_ph": 0.006414752560920146,
+          "gas_pressure": 144.9177562836896,
+          "relative_residual": -5.551115123125783e-16
+        }
+      ],
+      "exists": true,
+      "gamma_on_grid": [
+        0.003861804116536908,
+        0.2506553390311666
+      ],
+      "note": null
+    },
+    {
+      "label": "thesis_row2",
+      "role": "printed row",
+      "teff": 4769.9566004082335,
+      "gravity": 0.37532823762961376,
+      "luminosity": 1.30152e+42,
+      "total_mass_msun": 9978.333333333334,
+      "radius": 1878390000000000.0,
+      "roots": [
+        {
+          "rho": 7.942680682504061e-10,
+          "logR": -2.1355761797766775,
+          "kappa": 0.001029394688573122,
+          "clamp_flag": 0,
+          "gamma_ph": 0.002685464574128455,
+          "gas_pressure": 242.4209820256501,
+          "relative_residual": 9.969802761133906e-14
+        }
+      ],
+      "exists": true,
+      "gamma_on_grid": [
+        0.0012582518222219472,
+        0.07263729235474173
+      ],
+      "note": null
+    },
+    {
+      "label": "thesis_row3",
+      "role": "printed row",
+      "teff": 4550.26080736837,
+      "gravity": 0.21761008747528135,
+      "luminosity": 1.8527520000000003e+42,
+      "total_mass_msun": 9945.0,
+      "radius": 2462778000000000.0,
+      "roots": [
+        {
+          "rho": 9.102232619586351e-10,
+          "logR": -2.0149609392202095,
+          "kappa": 0.0005463321394284147,
+          "clamp_flag": 0,
+          "gamma_ph": 0.002035700668630792,
+          "gas_pressure": 265.00008914224725,
+          "relative_residual": -1.1102230246251565e-15
+        }
+      ],
+      "exists": true,
+      "gamma_on_grid": [
+        0.00092310480029999,
+        0.04686701078502742
+      ],
+      "note": null
+    },
+    {
+      "label": "thesis_row4",
+      "role": "printed row",
+      "teff": 4483.473993147495,
+      "gravity": 0.16290421784975465,
+      "luminosity": 2.3197680000000003e+42,
+      "total_mass_msun": 9889.444444444445,
+      "radius": 2838456000000000.0,
+      "roots": [
+        {
+          "rho": 8.783251334362877e-10,
+          "logR": -2.011188654450301,
+          "kappa": 0.00043016641550823356,
+          "clamp_flag": 0,
+          "gamma_ph": 0.002018151778551673,
+          "gas_pressure": 251.957454218716,
+          "relative_residual": -1.2212453270876722e-15
+        }
+      ],
+      "exists": true,
+      "gamma_on_grid": [
+        0.0009411468922727286,
+        0.04535869245833155
+      ],
+      "note": null
+    },
+    {
+      "label": "thesis_row5",
+      "role": "printed row",
+      "teff": 4507.088918400492,
+      "gravity": 0.1725498710297429,
+      "luminosity": 2.2317240000000002e+42,
+      "total_mass_msun": 9867.888888888889,
+      "radius": 2754972000000000.0,
+      "roots": [
+        {
+          "rho": 8.604073290759593e-10,
+          "logR": -2.026984277372989,
+          "kappa": 0.00046265160927772974,
+          "clamp_flag": 0,
+          "gamma_ph": 0.0020927385597474327,
+          "gas_pressure": 248.11869350239812,
+          "relative_residual": -6.328271240363392e-15
+        }
+      ],
+      "exists": true,
+      "gamma_on_grid": [
+        0.000978367356369125,
+        0.04806516352797046
+      ],
+      "note": null
+    },
+    {
+      "label": "seed_1000rsun",
+      "role": "registered fallback seed",
+      "teff": 24929.949078525435,
+      "gravity": 274.20840343944053,
+      "luminosity": 1.3321440000000001e+42,
+      "total_mass_msun": 10000.0,
+      "radius": 69570000000000.0,
+      "roots": [
+        {
+          "rho": 6.680395128062626e-12,
+          "logR": -6.365362023638703,
+          "kappa": 0.35956418044298943,
+          "clamp_flag": 0,
+          "gamma_ph": 0.9580148925566457,
+          "gas_pressure": 21.345599119637487,
+          "relative_residual": 2.6645352591003757e-15
+        }
+      ],
+      "exists": true,
+      "gamma_on_grid": [
+        0.8846999143018168,
+        146915.00824314627
+      ],
+      "note": null
+    },
+    {
+      "label": "seed_2000rsun",
+      "role": "registered seed",
+      "teff": 17628.136048060656,
+      "gravity": 68.55210085986013,
+      "luminosity": 1.3321440000000001e+42,
+      "total_mass_msun": 10000.0,
+      "radius": 139140000000000.0,
+      "roots": [
+        {
+          "rho": 4.176110269413226e-12,
+          "logR": -6.117847223160858,
+          "kappa": 0.34837010278371777,
+          "clamp_flag": 0,
+          "gamma_ph": 0.9281896382924261,
+          "gas_pressure": 9.420538902400025,
+          "relative_residual": 3.1086244689504383e-15
+        }
+      ],
+      "exists": true,
+      "gamma_on_grid": [
+        0.8595240748620231,
+        30662.36047573036
+      ],
+      "note": null
+    },
+    {
+      "label": "seed_6000rsun",
+      "role": "registered seed",
+      "teff": 10177.609092659166,
+      "gravity": 7.616900095540014,
+      "luminosity": 1.3321440000000001e+42,
+      "total_mass_msun": 10000.0,
+      "radius": 417420000000000.0,
+      "roots": [
+        {
+          "rho": 1.0236930463870758e-12,
+          "logR": -6.012767545415755,
+          "kappa": 0.3431427320248733,
+          "clamp_flag": 0,
+          "gamma_ph": 0.9142619466360482,
+          "gas_pressure": 1.268778510923862,
+          "relative_residual": -3.6637359812630166e-15
+        }
+      ],
+      "exists": true,
+      "gamma_on_grid": [
+        0.7769878037840707,
+        466.79031735002354
+      ],
+      "note": null
+    },
+    {
+      "label": "seed_12000rsun",
+      "role": "registered fallback seed",
+      "teff": 7196.656405685161,
+      "gravity": 1.9042250238850036,
+      "luminosity": 1.3321440000000001e+42,
+      "total_mass_msun": 10000.0,
+      "radius": 834840000000000.0,
+      "roots": [
+        {
+          "rho": 2.1608160230087842e-12,
+          "logR": -5.236774513598775,
+          "kappa": 0.2632119308519373,
+          "clamp_flag": 0,
+          "gamma_ph": 0.7012960783359433,
+          "gas_pressure": 1.4406628669256563,
+          "relative_residual": 3.1086244689504383e-15
+        }
+      ],
+      "exists": true,
+      "gamma_on_grid": [
+        0.5824257342329137,
+        14.701510197638278
+      ],
+      "note": null
+    }
+  ],
+  "runtime_seconds": 4.744718333007768
+}

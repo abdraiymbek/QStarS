@@ -1,0 +1,103 @@
+{
+  "amendment_id": "ball2011_track_plan_amendment_2",
+  "status": "DRAFT, not registered. Under plan registration.amendment_rule it may be registered (saved as benchmarks/ball2011_track_plan_amendment_2.json with its sha256 record benchmarks/ball2011_track_plan_amendment_2.registration.json: amendment_sha256, plan_sha256, registered_utc) only after Stage 7 has run 'relax' without mesh cycles and preserved that run under benchmarks/results/<date>-ball-track/ with relax.json status not_unique. The registered seed admits no relaxation (the 2026-10-14 relax runs; Amendment 3's evidence) and with Amendment 3 alone the registered photosphere solve still blocks it (Amendment 4's evidence); neither may be cited here. The runs to cite are 'relax --run C1', 'C0' and 'C2' with Amendments 3 and 4 (in that order), expected not_unique. Fill in preserved_failing_run and relax_result from those runs, set status to 'registered', and change nothing else without new evidence. If such a run ends converged_unique instead, this amendment has no evidence and must not be registered.",
+  "plan": "benchmarks/ball2011_track_plan.json",
+  "plan_sha256": "a10b4166222342acee53da9622885845ff7744914fb38316d8ea4f48fce8cc0e",
+  "kind": "numerical-method bug fix (plan registration.amendment_rule). Untouched: tolerances (the 1e-6 uniqueness and the 1e-10 / 1e-6 convergence criteria), primary physics, microphysics, targets, and every immutable section.",
+  "settings": {
+    "relaxation": {
+      "mesh_cycles": 40,
+      "mesh_tolerance": 1e-05,
+      "cycle_dt_years": 1000000.0
+    }
+  },
+  "settings_note": "Applied by scripts/validate_ball_track.py --amendment to config['relaxation'] (which enters the row-0 signature, so row-0 models relaxed without it are never reused); the driver refuses any relaxation key other than mesh_cycles, mesh_tolerance and cycle_dt_years.",
+  "preserved_failing_run": "TO BE FILLED BY STAGE 7 (a list): benchmarks/results/<date>-ball-track/<relax runs with Amendments 3 and 4, status not_unique>",
+  "relax_result": "TO BE FILLED BY STAGE 7: per resolution, the row-0 max |dln| between the two converged seeds of the relax runs with Amendments 3 and 4",
+  "changes": [
+    {
+      "section": "initial_model.relaxation (method; text unchanged)",
+      "registered": "M_BH frozen; dt starts at 0.01 yr and doubles up to 1e8 yr; injected L_BH dt is booked as relaxation_injected_energy",
+      "amended": "The same relaxation, then mesh cycles: the converged model is remapped conservatively (mesh.remap overlap shares; E and V conserved, T by EOS inversion, defect booked to remap_energy_defect) onto N cells equally spaced in the STARS-Q target count of itself (quasistatic.equidistribute) and relaxed again from dt = 1e6 yr, until the remap moves no face by more than 1e-5 of its cell mass or the equidistributed faces move by less than that between consecutive cycles (at most 40 cycles; with the fixed-mass base of Amendment 1 the relaxed mesh is a fixed point of the cycle). The relaxed model is then the same discrete model whatever the seed mesh.",
+      "defect": "Each seed relaxes on its own Lagrangian mesh (built from the seed's STARS Q targets and then carried by the relaxation), so two seeds converge to discrete models that differ by the truncation error of their meshes, at least 1e-5 relative in r0 on the 48-zone analytic toy, while initial_model.uniqueness requires agreement to 1e-6 on every row-0 observable. The registered relaxation therefore cannot pass its own uniqueness test except by accident; this is a property of the numerical method, not of the model."
+    }
+  ],
+  "tests_failed_before_pass_after": [
+    "tests/test_ball_restart.py::test_relaxation_mesh_cycles_reach_the_stars_q_fixed_point (without cycles the two seeds differ by >= 1e-5 in ln r0; with cycles all row-0 observables agree to <= 1e-8 and the cavity mass to 1e-8)",
+    "tests/test_validate_ball_track.py::test_relax_and_track_paths_on_an_analytic_toy (relax_seeds: registered numerics give not_unique; with the amended cycles converged_unique, max |dln| <= 1e-6)"
+  ],
+  "toy_evidence": "Analytic microphysics toys only (Stage 5): seeds agree to <= 1e-8 with the registered Lagrangian base and about 5e-11 with the fixed-mass base after the cycles; the cycles contract by about 0.5 per cycle, slowest at the base. Not the registered Ball configuration (MESA, N = 200/400/800).",
+  "consequences_for_registered_runs": [
+    "Every relax run directory records config['relaxation'] (mesh_cycles, mesh_tolerance, cycle_dt_years) and each seed's mesh-cycle record; row-0 checkpoints carry it in their configuration, and track refuses a row-0 model relaxed with other relaxation settings.",
+    "Applied after Amendments 3 and 4 on every command: --amendment <3> --amendment <4> --amendment <2> [...], the same flags in the same order and spelling."
+  ],
+  "mesa_dry_run_evidence": {
+    "label": "DRYRUN, scratch output only (Reports/evidence/report23/ball/stage7_unblock_dryruns.json and stage7_final_fix.json): the driver's relax_seeds called with the draft settings and a scratch output root. Not registered runs; row-0 observables were compared between seeds only, never with the published tables. The first unblock round made these runs with the photosphere bracket scan unconditional; the final round reproduced without_mesh_cycles at N = 200, 400 and 800 and with_mesh_cycles at N = 200 to the printed digits with the scan as Amendment 4's option.",
+    "seeds": "6000 and 3464 Rsun with the grey seed surface of Amendment 3 and the photosphere bracket scan of Amendment 4 (the registered 2000, 1000 and 12000 Rsun seeds cannot be built; without Amendment 4 the 3464 Rsun seed cannot be built either)",
+    "without_mesh_cycles": {
+      "N200": {
+        "status": "not_unique",
+        "max_abs_dln": 0.015022035187080679,
+        "final_cells": [
+          224,
+          200
+        ]
+      },
+      "N400": {
+        "status": "not_unique",
+        "max_abs_dln": 0.0031408670416929875,
+        "final_cells": [
+          445,
+          401
+        ]
+      },
+      "N800": {
+        "status": "not_unique",
+        "max_abs_dln": 0.0006507662717030985,
+        "final_cells": [
+          894,
+          806
+        ]
+      }
+    },
+    "with_mesh_cycles": {
+      "N200": {
+        "status": "converged_unique",
+        "max_abs_dln": 3.8686073649001614e-08,
+        "mesh_cycles": [
+          18,
+          19
+        ],
+        "final_cells": [
+          200,
+          200
+        ]
+      },
+      "N400": {
+        "status": "converged_unique",
+        "max_abs_dln": 3.62374241790352e-10,
+        "mesh_cycles": [
+          10,
+          10
+        ],
+        "final_cells": [
+          400,
+          400
+        ]
+      },
+      "N800": {
+        "status": "converged_unique",
+        "max_abs_dln": 4.2311254509000456e-10,
+        "mesh_cycles": [
+          7,
+          7
+        ],
+        "final_cells": [
+          800,
+          800
+        ]
+      }
+    },
+    "note": "Without the cycles each seed keeps the mesh its own split/merge history left it with (different cell counts, none equal to N except by accident), and the driver's row-0 check also requires exactly N cells. The seed-to-seed difference falls roughly as 1/N^2.3, the truncation error of two different meshes; with the cycles it is at the level of the 1e-5 mesh tolerance times the truncation error."
+  }
+}

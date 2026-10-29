@@ -1,0 +1,57 @@
+--- a/cur_cmf/new_main/mod_subs/comp_j_blank.f
++++ b/cur_cmf/new_main/mod_subs/comp_j_blank.f
+@@ -634,6 +634,12 @@
+ 	        IF(ALL(QS_NG(1:ND,1) .GT. 0.0_LDP))RJ(1:ND)=QS_NG(1:ND,1)
+ 	      END IF
+ 	    END IF
++!
++! QSTARS build 23: optional ALI starting guess from a stored converged J of a
++! nearby state (QSTARS_ALI_WARM). Changes only the iteration count, not the
++! scattering fixed point; EDDFACTOR (read by the two-photon rates) is untouched.
++!
++	    IF(COHERENT_ES)CALL QS_WARM_READ(FREQ_INDX,FL,RJ,ND)
+ 	    QS_N_HIST=0
+ 	    J_IT_COUNTER=0
+ 	    QS_CONV=.FALSE.
+--- a/cur_cmf/new_main/qs_jv.f90
++++ b/cur_cmf/new_main/qs_jv.f90
+@@ -595,3 +595,39 @@
+ endif
+ qs_jv_replay_on=on
+ end function qs_jv_replay_on
++
++! Optional ALI warm start (build 23): stored J of a nearby state, same grid.
++subroutine qs_warm_read(ml,fl,rj,nd)
++use set_kind_module
++implicit none
++integer,intent(in)::ml,nd
++real(kind=ldp),intent(in)::fl
++real(kind=ldp),intent(inout)::rj(nd)
++character(len=512)::path
++character(len=8)::tag
++integer::plen,ios,mm,n4
++real(kind=ldp)::ff,tmp(nd)
++integer,save::lu=0
++logical,save::first=.true.,on=.false.,opened=.false.
++if(first)then
++ first=.false.
++ call get_environment_variable('QSTARS_ALI_WARM',path,length=plen,status=ios)
++ if(ios==-1)stop 'QSTARS_ALI_WARM: path longer than 512 characters'
++ on=(ios==0.and.plen>0)
++ if(on)then
++  open(newunit=lu,file=path(1:plen),status='old',access='stream',form='unformatted',iostat=ios)
++  if(ios/=0)stop 'QSTARS_ALI_WARM: cannot open'
++  read(lu,iostat=ios)tag,n4
++  if(ios/=0.or.tag/='QSRJ0001'.or.n4/=nd)stop 'QSTARS_ALI_WARM: bad header'
++  opened=.true.
++ endif
++endif
++if(.not.on)return
++if(ml==1)then
++ rewind(lu)
++ read(lu)tag,n4
++endif
++read(lu,iostat=ios)mm,ff,tmp
++if(ios/=0.or.mm/=ml.or.abs(ff/fl-1.0_ldp)>1.0e-14_ldp)stop 'QSTARS_ALI_WARM: stored J does not match frequency'
++if(all(tmp>0.0_ldp))rj=tmp
++end subroutine qs_warm_read

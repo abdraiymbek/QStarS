@@ -1,0 +1,6 @@
+DRYRUN dt 0.125 yr: Newton converges, ptc off vs on bitwise equal: True | residual 1.1894626495408696e-13 | extra keys with ptc on: ['ptc_entered', 'ptc_iterations'] | differing diag keys: []
+DRYRUN dt 1.0 yr: Newton converges, ptc off vs on bitwise equal: True | residual 1.4390447727175768e-13 | extra keys with ptc on: ['ptc_entered', 'ptc_iterations'] | differing diag keys: []
+DRYRUN dt 0.125 forced Newton failure -> F1 entered True handover True ptc iterations 4 final residual 2.2243115850048643e-13 | vs plain Newton solution max|dln r| 5.5733195836181306e-14 max|dln T| 5.229150445984624e-14 | newton_iterations reported 8 (plain: 3 ) | step mass/energy residual change 0.0 5.021019120272715e-16
+   ptc off, same forced failure -> rejected as registered: Quasi-static solve failed (pass 1, residual 1.18946e-13): forced failure (review)
+DRYRUN dt 1.0 forced Newton failure -> F1 entered True handover True ptc iterations 7 final residual 1.0394703972451147e-13 | vs plain Newton solution max|dln r| 6.572520305780711e-14 max|dln T| 5.118128143522103e-14 | newton_iterations reported 12 (plain: 4 ) | step mass/energy residual change 0.0 -5.157810418576159e-16
+   ptc off, same forced failure -> rejected as registered: Quasi-static solve failed (pass 1, residual 1.43904e-13): forced failure (review)

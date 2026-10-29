@@ -8,8 +8,11 @@ from qstars.cmfgen_backend import sha256
 def prepare_continuation(source,destination,iterations=40):
     source=source.resolve()
     if not (source/'MOD_SUM').is_file():raise ValueError('Source has no final material summary')
+    # QSTARS_*TRACE* are appended-to outputs of the run that made the source; a copied record would be read
+    # first (record 0) by every QStarS reader (Report 23: 333-radius restart). bootstrap_traces: such files kept.
     shutil.copytree(source,destination,symlinks=True,ignore=shutil.ignore_patterns(
-        'run_manifest.json','run_result.json','native.log','QSTARS_SPECTRAL.bin','initial_inputs'))
+        'run_manifest.json','run_result.json','native.log','QSTARS_SPECTRAL.bin','initial_inputs',
+        'QSTARS_*TRACE*','bootstrap_traces'))
     # These are numerical controls; composition, atomic data and flow are unchanged.
     keyword(destination/'IN_ITS','NUM_ITS',str(iterations))
     keyword(destination/'IN_ITS','DO_LAM_IT','F')

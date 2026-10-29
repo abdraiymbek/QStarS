@@ -6,6 +6,7 @@ composition, density and temperature. One instance per process; not threaded.
 """
 import ctypes as ct
 import hashlib,json,os
+from collections import OrderedDict
 from pathlib import Path
 import numpy as np
 from .constants import A,KB,MU,C,PI
@@ -14,6 +15,10 @@ from .eos import IdealGasRadiation
 class MesaMicrophysics(IdealGasRadiation):
     source='mesa_24_08_1'
     _loaded_library=None
+    # Bounded LRU memo of native calls, keyed by the exact real input bytes.
+    # Several state sets (cells, boundary, photosphere) can then alternate
+    # without evicting each other; a hit returns the identical stored arrays.
+    cache_entries=8
     def __init__(self,composition,library_path,mesa_dir):
         super().__init__(composition)
         if composition.Z != 0: raise ValueError('MESA interface currently requires Z=0; isotope abundances are explicit H1 and He4')
@@ -30,7 +35,7 @@ class MesaMicrophysics(IdealGasRadiation):
         self.lib=ct.CDLL(str(path))
         self.lib.qstars_api_version.restype=ct.c_int
         self.abi_version=self.lib.qstars_api_version()
-        if self.abi_version not in (3,4,5,6):raise ValueError('Incompatible QStarS/MESA bridge ABI')
+        if self.abi_version not in (3,4,5,6,7):raise ValueError('Incompatible QStarS/MESA bridge ABI')
         self.lib.qstars_constants.argtypes=[ct.POINTER(ct.c_double)]
         arad=ct.c_double();self.lib.qstars_constants(ct.byref(arad));self.radiation_constant=arad.value
         self.lib.qstars_init.argtypes=[ct.POINTER(ct.c_int)]
@@ -40,8 +45,18 @@ class MesaMicrophysics(IdealGasRadiation):
         if err.value:raise RuntimeError(f'MESA initialization error {err.value}')
         type(self)._loaded_library=identity
         self.manifest=manifest
-        self._cache=None
+        self._cache=OrderedDict()
+        self._stars_cache=OrderedDict()
         self._mlt_cache=None
+
+    def _cached(self,cache,key,native):
+        if key in cache:
+            cache.move_to_end(key)
+            return cache[key]
+        value=native()
+        cache[key]=value
+        if len(cache)>self.cache_entries:cache.popitem(last=False)
+        return value
 
     def raw(self,rho,T):
         rho,T=np.broadcast_arrays(rho,T)
@@ -52,15 +67,14 @@ class MesaMicrophysics(IdealGasRadiation):
         # Deliberately bounded interface; these limits do not certify every point.
         if min(rr)<1e-14 or max(rr)>1e3 or min(tt)<3e3 or max(tt)>1e8:
             raise ValueError('MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8')
-        key=(rr.tobytes(),tt.tobytes())
-        if self._cache is None or key!=self._cache[0]:
+        def native():
             out=np.empty((21,len(rr)),order='F');dr=np.empty_like(out);dt=np.empty_like(out)
             ierr=ct.c_int()
             self.lib.qstars_eval(len(rr),rr,tt,self.composition.X,out,dr,dt,ct.byref(ierr))
             if ierr.value:raise ValueError(f'MESA EOS/opacity evaluation error {ierr.value}')
             if not np.all(np.isfinite(out)):raise ValueError('MESA returned nonfinite microphysics')
-            self._cache=(key,out,dr,dt)
-        _,out,dr,dt=self._cache
+            return out,dr,dt
+        out,dr,dt=self._cached(self._cache,(rr.tobytes(),tt.tobytes()),native)
         if np.iscomplexobj(rho) or np.iscomplexobj(T):
             out=out+1j*(dr*(rho.imag.ravel()/rr)+dt*(T.imag.ravel()/tt))
         return out.reshape((21,)+rho.shape)
@@ -146,6 +160,46 @@ class MesaMicrophysics(IdealGasRadiation):
         if not np.all(np.isfinite(kap)) or np.any(kap<=0) or not np.allclose(fracs,target,atol=1e-12,rtol=0):
             raise ValueError('Paper opacity has unexpected table blend or invalid value')
         return kap.reshape(rho.shape)
+
+    def opacity_stars(self,rho,T,clamp=False,flags=False):
+        """Ball et al. 2011 replication opacity (ABI 7); X=.7, Z=0 only.
+
+        Eldridge & Tout 2004 STARS switch (Ball thesis 2.1.2) through one MESA
+        handle: OPAL Type1 gs98 above log T 3.76, AF94 below 3.75, MESA blend
+        between, inside log R in [-7,1] and T in [3000,1e7] K. MESA's analytic
+        table derivatives carry complex steps. clamp=True applies the STARS
+        nearest-table-value rule (log R moved to the edge at fixed T; flag 1
+        below, 2 above) and must be reported by the caller; otherwise an
+        off-table state raises. Off-table T always raises. flags=True also
+        returns the per-state clamp flags.
+        """
+        if self.abi_version<7:raise ValueError('STARS opacity switch requires MESA bridge ABI 7')
+        if self.composition.X!=.7:raise ValueError('STARS opacity supports X=.7, Z=0 only')
+        rho,T=np.broadcast_arrays(rho,T)
+        rr=np.ascontiguousarray(rho.real.ravel(),dtype=np.float64)
+        tt=np.ascontiguousarray(T.real.ravel(),dtype=np.float64)
+        if np.any(~np.isfinite(rr)) or np.any(~np.isfinite(tt)) or np.any(rr<=0) or np.any(tt<=0):
+            raise ValueError('STARS opacity requires finite positive states')
+        def native():
+            kap=np.empty(len(rr));dkd=np.empty_like(kap);dkt=np.empty_like(kap)
+            code=np.empty(len(rr),dtype=np.int32);err=ct.c_int()
+            array=np.ctypeslib.ndpointer(dtype=np.float64,flags='F_CONTIGUOUS')
+            f=self.lib.qstars_opacity_stars
+            f.argtypes=[ct.c_int,array,array,ct.c_double,ct.c_int,array,array,array,
+                        np.ctypeslib.ndpointer(dtype=np.int32,flags='F_CONTIGUOUS'),ct.POINTER(ct.c_int)]
+            f(len(rr),rr,tt,self.composition.X,int(bool(clamp)),kap,dkd,dkt,code,ct.byref(err))
+            if err.value:raise ValueError(f'STARS opacity table/domain error {err.value}')
+            if not (np.all(np.isfinite(kap)) and np.all(np.isfinite(dkd)) and np.all(np.isfinite(dkt))) or np.any(kap<=0):
+                raise ValueError('STARS opacity returned an invalid value')
+            if np.any((code!=0)&(code!=1)&(code!=2)) or (not clamp and np.any(code)):
+                raise ValueError('STARS opacity returned unexpected clamp flags')
+            return kap,dkd,dkt,code
+        kap,dkd,dkt,code=self._cached(self._stars_cache,(bool(clamp),rr.tobytes(),tt.tobytes()),native)
+        out=kap.copy()
+        if np.iscomplexobj(rho) or np.iscomplexobj(T):
+            out=out+1j*(kap*(dkd*(rho.imag.ravel()/rr)+dkt*(T.imag.ravel()/tt)))
+        out=out.reshape(rho.shape)
+        return (out,code.reshape(rho.shape).copy()) if flags else out
 
     def opacity_external_eos(self,rho,T,free_e,eta):
         """MESA opacity reference with caller-supplied EOS state; no derivatives.

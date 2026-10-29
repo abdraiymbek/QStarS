@@ -1,0 +1,56 @@
+--- a/cur_cmf/new_main/qs_jv.f90	2026-10-04 03:47:23
++++ b/cur_cmf/new_main/qs_jv.f90	2026-10-06 13:09:55
+@@ -863,6 +863,22 @@
+ endif
+ qs_jv_replay_on=on
+ end function qs_jv_replay_on
++
++! Build 29 (Report 22): QSTARS_NO_OBS_FORMAL skips the observer-frame formal solution (CMF_FORM_SOL_V2) in
++! solver passes. Its only product is the observed spectrum (IPLUS -> COMP_OBS_V2 -> OBSFLUX); the residual,
++! BA, stored J, the tangent and the luminosity guard (comoving RLUMST) never read it. Unset (default) it runs.
++logical function qs_no_obs_on()
++implicit none
++character(len=8)::flag
++integer::plen,ios
++logical,save::first=.true.,on=.false.
++if(first)then
++ first=.false.
++ call get_environment_variable('QSTARS_NO_OBS_FORMAL',flag,length=plen,status=ios)
++ on=((ios==0.or.ios==-1).and.plen>0)
++endif
++qs_no_obs_on=on
++end function qs_no_obs_on
+ 
+ ! Optional ALI warm start (build 23): stored J of a nearby state, same grid.
+ subroutine qs_warm_read(ml,fl,rj,nd)
+--- a/cur_cmf/new_main/mod_subs/comp_j_blank.f	2026-10-01 21:57:42
++++ b/cur_cmf/new_main/mod_subs/comp_j_blank.f	2026-10-06 13:09:55
+@@ -104,6 +104,8 @@
+ 	INTEGER QS_LU
+ 	LOGICAL QS_JV_REPLAY_ON
+ 	EXTERNAL QS_JV_REPLAY_ON
++	LOGICAL QS_NO_OBS_ON
++	EXTERNAL QS_NO_OBS_ON
+ 	LOGICAL, SAVE :: QS_TRACE_ON=.TRUE.
+ 	INTEGER QS_IOS,QS_N_HIST
+ 	INTEGER, SAVE :: QS_N_NG
+@@ -502,7 +504,8 @@
+ C last iteration if non-coherent).
+ C
+ 	    IF( (LST_ITERATION .AND. .NOT. LAMBDA_ITERATION .AND.
+-	1         MAXCH .LT. 100.0_LDP .AND. .NOT. SN_MODEL) )THEN
++	1         MAXCH .LT. 100.0_LDP .AND. .NOT. SN_MODEL)
++	1         .AND. .NOT. QS_NO_OBS_ON() )THEN
+ C
+ C Quick and dirty method to ge an extended DENSITY vector. Will use TB in
+ C the call to CMF_FORM_SOL.
+@@ -1030,7 +1033,8 @@
+ 	        IF(PLANE_PARALLEL_NO_V)V_AT_RMAX=0.0_LDP
+ 	      END IF
+ 	    ELSE IF( (LST_ITERATION .AND. .NOT. LAMBDA_ITERATION .AND.
+-	1         MAXCH .LT.  100.0_LDP .AND. .NOT. SN_MODEL .AND. ND .LT. 200) )THEN
++	1         MAXCH .LT.  100.0_LDP .AND. .NOT. SN_MODEL .AND. ND .LT. 200)
++	1         .AND. .NOT. QS_NO_OBS_ON() )THEN
+ 	      IF(COHERENT_ES)THEN
+      	        TA(1:ND)=ETA_CLUMP(1:ND)+CHI_SCAT_CLUMP(1:ND)*RJ(1:ND)
+ 	      ELSE

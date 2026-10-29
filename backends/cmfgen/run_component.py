@@ -65,19 +65,22 @@ def check_completion(directory,started_ns,export_required):
     if export_required:read_spectral(directory/'QSTARS_SPECTRAL.bin')
 
 
-def run(directory,executable,timeout=3600,threads=1):
+def run(directory,executable,timeout=3600,threads=1,extra_env=None):
     directory=directory.resolve();executable=executable.resolve()
     if (directory/'run_manifest.json').exists():raise FileExistsError('Refuse to overwrite a recorded run')
     inputs={p.name:sha256(p) for p in directory.iterdir() if p.is_file() and p.name not in {'QSTARS_SPECTRAL.bin'}}
     manifest=dict(executable=str(executable),executable_sha256=sha256(executable),inputs=inputs,
         platform=platform.platform(),threads=threads,purpose='component_validation',production=False)
+    # Explicit per-run hook variables (recorded); never mutate the parent environment.
+    extra_env={k:str(v) for k,v in (extra_env or {}).items()}
+    if extra_env:manifest['extra_env']=extra_env
     initial=directory/'initial_inputs';initial.mkdir(exist_ok=False)
     for name in ['VADAT','IN_ITS','MODEL_SPEC','IT_SPECIFIER','RVSIG_COL','HYDRO_DEFAULTS','ADJUST_R_DEFAULTS','OUTGEN']:
         if (directory/name).is_file():shutil.copy2(directory/name,initial/name)
     manifest['adapter_sha256']=LOADED_SOURCE_SHA256
     manifest['runner_sha256']=RUNNER_SOURCE_SHA256
     (directory/'run_manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
-    env={**os.environ,'OMP_NUM_THREADS':str(threads),'OMP_STACKSIZE':'256M','VECLIB_MAXIMUM_THREADS':'1'}
+    env={**os.environ,'OMP_NUM_THREADS':str(threads),'OMP_STACKSIZE':'256M','VECLIB_MAXIMUM_THREADS':'1',**extra_env}
     def stack_limit():
         soft,hard=resource.getrlimit(resource.RLIMIT_STACK)
         resource.setrlimit(resource.RLIMIT_STACK,(hard,hard))

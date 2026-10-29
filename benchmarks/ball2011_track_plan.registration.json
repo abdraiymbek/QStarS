@@ -1,0 +1,28 @@
+{
+  "plan": "benchmarks/ball2011_track_plan.json",
+  "plan_id": "ball2011_track_plan",
+  "plan_version": 1,
+  "plan_sha256": "a10b4166222342acee53da9622885845ff7744914fb38316d8ea4f48fce8cc0e",
+  "plan_bytes": 25120,
+  "registered_utc": "2026-10-07T04:45:09Z",
+  "method": "sha256 of the exact file bytes: hashlib.sha256(Path(path).read_bytes()).hexdigest()",
+  "statement": "No Ball configuration run existed at registration: no domain sweep, relaxation, smoke, track or campaign run using the Ball configuration had been executed, no benchmarks/ball2011_track.yaml or scripts/validate_ball_track.py existed, and no benchmarks/results/<date>-ball-track/ directory existed.",
+  "pre_existing_ball_named_outputs_not_configuration_runs": [
+    "benchmarks/results/2026-09-28/reference_ball2011: loaded-polytrope structure reference (qstars reference benchmarks/ball2011_polytrope.yaml; paper section 4.1 limit), no envelope evolution",
+    "results/20260928T011712.872545Z_reference_ball2011: the same loaded-polytrope reference"
+  ],
+  "design_stage_disclosure": "Before registration the design work evaluated the printed Table 1 and Table 3.1 base states with the ideal-gas-plus-radiation EOS and with the MESA 24.08.1 bridge (EOS and opacity point probes, build_outer_2, plus call timing on synthetic profiles), checked the printed rows against thesis eqs 3.2, 3.7, 3.15 and 2.15 (Test U1), and called structure.initialize with the ideal-gas EOS at Ball-like geometries for mesh and r_B/r diagnostics, which failed for the row-0 geometry at 200 zones. No envelope model was relaxed or evolved and no Ball configuration existed.",
+  "target_files_sha256": {
+    "benchmarks/ball2011_table1.csv": "ab34da0b7f0e68046bdc4741b5a8002bc33e33f9ece74c430b5a79193575e5c8",
+    "benchmarks/ball2012_thesis_table3_1.csv": "ac97d730f7e260b845de9ef0a9ab70c09c69fac7ff9d4ef7edab479ca8c3c261"
+  },
+  "source_files_sha256": {
+    "sources/cache/ball2011.txt": "c3b001663ebe24306453f533cdcfd892ac1f2f5c46b625b4f6d4717543ccc2da",
+    "sources/cache/ball_thesis.txt": "e6526ec90d945f80e6c5ecd01a8d93b21b73bc77fd46cd0d56dc8bac714c0ff1",
+    "sources/cache/ball2011.pdf": "4d33fae7ae5c90b9fe1a9d6c688b3b0f86b6926a2d8b727babb3ff17f999c83f",
+    "sources/cache/ball_thesis.pdf": "2b7aad8e59ec038aac071aa33f83629b2116fa4da9f2fef0a63a31216e94861c"
+  },
+  "source_pdf_hashes_match": "sources/acquisition.json entries ball2011 and ball_thesis",
+  "driver_rule": "scripts/validate_ball_track.py recomputes plan_sha256 and both target_files_sha256 and refuses to run on any mismatch; it stores plan_sha256 and the sha256 of this registration record in every run directory.",
+  "version_control": "Registered by sha256 in place of a git commit; no commit was made because none was authorized."
+}

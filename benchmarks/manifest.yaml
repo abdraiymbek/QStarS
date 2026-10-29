@@ -50,8 +50,18 @@ benchmarks:
     source: ball2011
     location: table 1
     reference_file: ball2011_table1.csv
-    status: pending_microphysics_and_moving_cavity
-    uncertainties: Published table rounding; no figure digitization performed.
+    secondary_reference_file: ball2012_thesis_table3_1.csv
+    plan: ball2011_track_plan.json
+    registration: ball2011_track_plan.registration.json
+    plan_sha256: a10b4166222342acee53da9622885845ff7744914fb38316d8ea4f48fce8cc0e
+    configuration: ball2011_track.yaml
+    command: python scripts/validate_ball_track.py --plan benchmarks/ball2011_track_plan.json {relax,smoke,track,campaign,compare} [options]
+    record_checks: python -m pytest -q tests/test_ball_tables.py
+    driver_checks: python -m pytest -q tests/test_validate_ball_track.py tests/test_ball_restart.py tests/test_fold.py tests/test_ball_integration.py
+    status: registered_execution_numerical_blocker_at_smoke_gate
+    amendments_registered: [ball2011_track_plan_amendment_3.json, ball2011_track_plan_amendment_4.json, ball2011_track_plan_amendment_2.json, ball2011_track_plan_amendment_1.json]
+    stage7_log: Reports/evidence/report23/ball/stage7_commands.log
+    uncertainties: Published table rounding; no figure digitization performed. Tolerances, realization spread (paper versus thesis Table 3.1) and verdict rules are fixed by the sha256-registered plan. The driver refuses to run unless the plan and both target CSVs match the registration and ball2011_track.yaml (run C0 in the qstars configuration schema) equals its C0 mapping of the plan; it is tested without MESA on analytic toys only. Stage 7 (Report 23, benchmarks/results/2026-10-14-ball-track) ran with amendments 3, 4, 2 and 1, each registered after a preserved registered run showed its defect, row 0 relaxes to a unique state at N = 200, 400, 800; the smoke gate stops at M_BH = 46 Msun (mesh merges in the unresolved outer hydrogen opacity peak; proposed Amendment 5 rejected as an unbounded tolerance relaxation), a recorded numerical blocker. No track, campaign or comparison exists. Required check Q2 fails at row 0, so the registered verdict is FAIL in any case.
   - id: quest_stellar_tracks
     source: quest2025
     status: pinned_execution_attempted_no_complete_track
@@ -67,7 +77,8 @@ benchmarks:
     discrepancy: Not all printed Figure 4 diagnostics match; LTE versus variable-Eddington-factor sound speed and percent-level energy-curve differences retained.
   - id: fiacconi_evolution
     source: fiacconi2016
-    location: Section 3, Figure 8
+    location: Section 3.3, Figures 5-6
+    note: 'Figure 6: M_BH(t), M*(t); Figure 5: Mdot_wind, Mdot_BH, L_phot, T_phot isocontours; radius not printed.'
     status: pending_conservative_envelope_wind_atmosphere_coupling
     required_observables: [BH_growth, envelope_mass, wind_rate, luminosity, radius, effective_temperature]
   - id: dotan_evolution

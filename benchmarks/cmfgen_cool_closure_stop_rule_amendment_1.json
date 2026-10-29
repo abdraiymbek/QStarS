@@ -1,0 +1,8 @@
+{
+ "amends": "benchmarks/cmfgen_cool_closure_stop_rule.json (sha256 a2711719655b8d7ea9bf21986cc56274c60346f22f952dd2eb5f5882ae352e8f)",
+ "amendment": 1,
+ "registered_utc": "2026-10-08T17:25:08+00:00",
+ "reason": "The machine hibernated on an empty battery from 2026-10-07 04:33 to 2026-10-08 12:20 local (pmset log); no computation happened in those 31.8 h. The registered budget was wall-clock and assumed continuous computation.",
+ "change": "The 42 h budget counts awake hours only: wall time minus system sleep intervals from 'pmset -g log' (scripts/sleep_overlap.py), counted from the original registration (2026-10-06 ~23:56 local). All other clauses, including the 80-iterate cap and the continue/stop criteria, are unchanged.",
+ "awake_hours_used_at_amendment": "about 4.6 (2026-10-06 23:56 to 2026-10-07 04:33)"
+}

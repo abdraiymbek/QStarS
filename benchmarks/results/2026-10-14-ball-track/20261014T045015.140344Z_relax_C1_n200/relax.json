@@ -1,0 +1,149 @@
+{
+  "zones": 200,
+  "relaxation": {
+    "dt_years": 0.01,
+    "dt_max_years": 100000000.0,
+    "converged_dt_years": 1000000.0,
+    "tolerance": 1e-10,
+    "luminosity_tolerance": 1e-06,
+    "max_steps": 400,
+    "max_retries": 20,
+    "mesh_cycles": 0,
+    "mesh_tolerance": 1e-05,
+    "cycle_dt_years": 1000000.0
+  },
+  "seeds": [
+    {
+      "seed_radius_rsun": 2000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric density; no Ball surface exists",
+      "seed_domain_error": true
+    },
+    {
+      "seed_radius_rsun": 6000,
+      "seed": {
+        "xi0": 0.006044367680743365,
+        "xi_s": 8.281434125873119,
+        "alpha": 50404313269350.68,
+        "rho_c": 6.133049259095394e-06,
+        "K": 1.784878407767961e+17,
+        "external_pressure": 281.25223012015994,
+        "law_luminosity": 1.523008263412213e+41,
+        "hydrostatic_residual": 5.353495424741072e-13,
+        "envelope_mass": 1.9874756197049602e+37,
+        "mass_defect": 0.0,
+        "surface": "grey",
+        "surface_temperature": 10720.172237888184,
+        "surface_polytrope_temperature": 19910.343901534245,
+        "surface_effective_temperature": 5918.116878281528
+      },
+      "status": "converged",
+      "reason": null,
+      "accepted_steps": 30,
+      "rejections": 1,
+      "mesh_cycles": [],
+      "final_rejection_streak": null,
+      "final_rejections_all_domain_exits": null,
+      "row0": {
+        "Mdot_BH": 0.00021264768443285794,
+        "M_cav": 0.0005369377253915687,
+        "L*": 349544683.7950508,
+        "rho0": 8.799243458238568e-05,
+        "T0": 4109805.379471935,
+        "Teff": 13893.630993676008,
+        "r_B": 1.6263137641320276,
+        "R*": 3226.807007118502
+      },
+      "row0_checkpoint": "row0_6000rsun.npz",
+      "row0_sha256": "b2a791a249cf815c40bc0959c6863dda68b5f046176d6242986a01ee99d36dec",
+      "row0_zones": 224,
+      "row0_screens": {
+        "policy": "published_assumption",
+        "enforced_screen_errors": [],
+        "report_only": [
+          "radiation_knudsen_outer"
+        ]
+      }
+    },
+    {
+      "seed_radius_rsun": 1000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric density; no Ball surface exists",
+      "seed_domain_error": true
+    },
+    {
+      "seed_radius_rsun": 12000,
+      "status": "seed_failed",
+      "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+      "seed_domain_error": false
+    },
+    {
+      "seed_radius_rsun": 3464,
+      "seed": {
+        "xi0": 0.006044367680743365,
+        "xi_s": 8.281434125873119,
+        "alpha": 29100090194171.793,
+        "rho_c": 3.187106337866964e-05,
+        "K": 1.7848784077679606e+17,
+        "external_pressure": 46.27906967823416,
+        "law_luminosity": 6.0136362510484206e+41,
+        "hydrostatic_residual": 5.6119109361117237e-11,
+        "envelope_mass": 1.9874756197049604e+37,
+        "mass_defect": -2.3611832414348226e+21,
+        "surface": "grey",
+        "surface_temperature": 11901.473055734512,
+        "surface_polytrope_temperature": 12999.671234274761,
+        "surface_effective_temperature": 10979.408539136964
+      },
+      "status": "converged",
+      "reason": null,
+      "accepted_steps": 30,
+      "rejections": 1,
+      "mesh_cycles": [],
+      "final_rejection_streak": null,
+      "final_rejections_all_domain_exits": null,
+      "row0": {
+        "Mdot_BH": 0.00021245049825066416,
+        "M_cav": 0.0005289321088601609,
+        "L*": 349220554.3229258,
+        "rho0": 8.815587270726263e-05,
+        "T0": 4117787.3882788094,
+        "Teff": 13791.449447326491,
+        "r_B": 1.617189961722983,
+        "R*": 3273.280594810712
+      },
+      "row0_checkpoint": "row0_3464rsun.npz",
+      "row0_sha256": "93a7f0fb44f28240f843a7e33233fed4bc45b496ae9f4a6d397139c1dae0a11d",
+      "row0_zones": 200,
+      "row0_screens": {
+        "policy": "published_assumption",
+        "enforced_screen_errors": [],
+        "report_only": [
+          "radiation_knudsen_outer"
+        ]
+      }
+    }
+  ],
+  "status": "not_unique",
+  "uniqueness": {
+    "seeds": [
+      6000,
+      3464
+    ],
+    "tolerance": 1e-06,
+    "max_abs_dln": {
+      "Mdot_BH": 0.0009277207213243334,
+      "M_cav": 0.015022035187080679,
+      "L*": 0.00092772072132633,
+      "rho0": 0.0018556882469407162,
+      "T0": 0.0019403029625790194,
+      "Teff": 0.007381738373976715,
+      "r_B": 0.0056259078113395115,
+      "R*": 0.014299616387290166
+    },
+    "unique": false
+  },
+  "row0_checkpoint": "row0_6000rsun.npz",
+  "row0_sha256": "b2a791a249cf815c40bc0959c6863dda68b5f046176d6242986a01ee99d36dec",
+  "row0_enforced_screen_errors": []
+}

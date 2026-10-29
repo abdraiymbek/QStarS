@@ -1,0 +1,21 @@
+DRYRUN DRYRUN_relax_A3+A2_C1/row0_6000rsun.npz base lagrangian
+   dt=50 newton: REJECTED: Quasi-static solve failed (pass 1, residual 0.404835): Newton line search or iteration limit  [2.5s]
+   dt=50 F1: REJECTED: Quasi-static solve failed (pass 1, residual 0.404835): Newton line search or iteration limit; F1 pseudo-transient continuation failed: Pseudo-time step collapsed  [2.8s]
+   dt=30 newton: REJECTED: Quasi-static solve failed (pass 1, residual 1.44204): Newton line search or iteration limit  [0.9s]
+   dt=30 F1: REJECTED: Quasi-static solve failed (pass 1, residual 1.44204): Newton line search or iteration limit; F1 pseudo-transient continuation failed: Pseudo-time step collapsed  [1.2s]
+  dr=post.r*np.expm1(y)
+  a = op(a[slice1], a[slice2])
+   dt=20 newton: accepted it=5 res=1.54e-13 passes=3 dE=-1.46e-15 dM=1.19e-16 ptc_entered=None ptc_it=None  [2.5s]
+   dt=20 F1: accepted it=5 res=1.54e-13 passes=3 dE=-1.46e-15 dM=1.19e-16 ptc_entered=False ptc_it=0  [2.7s]
+      bitwise equal states: True
+DRYRUN DRYRUN_relax_A3+A2+A1_C1/row0_6000rsun.npz base fixed_mass
+   dt=1 newton: accepted it=2 res=1.21e-13 passes=1 dE=-1.96e-15 dM=0.00e+00 ptc_entered=None ptc_it=None  [0.2s]
+   dt=1 F1: accepted it=2 res=1.21e-13 passes=1 dE=-1.96e-15 dM=0.00e+00 ptc_entered=False ptc_it=0  [0.2s]
+      bitwise equal states: True
+   dt=50 newton: accepted it=3 res=4.26e-13 passes=2 dE=1.04e-15 dM=-1.19e-16 ptc_entered=None ptc_it=None  [0.5s]
+   dt=50 F1: accepted it=3 res=4.26e-13 passes=2 dE=1.04e-15 dM=-1.19e-16 ptc_entered=False ptc_it=0  [0.5s]
+      bitwise equal states: True
+   dt=400 newton: REJECTED: Quasi-static solve failed (pass 1, residual 0.238085): Newton line search or iteration limit  [4.9s]
+   dt=400 F1: REJECTED: Quasi-static solve failed (pass 1, residual 0.238085): Newton line search or iteration limit; F1 pseudo-transient continuation failed: Pseudo-time step collapsed [2 trial points outside the model domain: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists]  [5.1s]
+   dt=1000 newton: REJECTED: Quasi-static solve failed (pass 1, residual 1.17445): Newton line search or iteration limit  [2.7s]
+   dt=1000 F1: REJECTED: Quasi-static solve failed (pass 1, residual 1.17445): Newton line search or iteration limit; F1 pseudo-transient continuation failed: Pseudo-time step collapsed  [2.6s]

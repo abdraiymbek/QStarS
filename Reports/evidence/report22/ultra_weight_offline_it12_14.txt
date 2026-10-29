@@ -1,0 +1,21 @@
+it12 (logged driver residuals [0.5509, 0.5174, 0.4815], max|s_sig| 0.2656)
+  ultra-weight 1e-8 (driver)  passes 1 (26 products): residual 0.5509 significant-row 0.4505 max|s_sig| 0.1018 s_T d31-38 [-0.001 -0.003 -0.003 -0.004 -0.003 -0.002 -0.001 -0.001]
+  ultra-weight 1e-8 (driver)  passes 2 (50 products): residual 0.5174 significant-row 0.4068 max|s_sig| 0.1486 s_T d31-38 [-0.001 -0.001 -0.001 -0.    -0.006 -0.014 -0.003  0.   ]
+  ultra-weight 1e-8 (driver)  passes 3 (74 products): residual 0.4815 significant-row 0.3817 max|s_sig| 0.2656 s_T d31-38 [-0.016 -0.011 -0.001 -0.005  0.007 -0.032 -0.002 -0.004]
+  ultra-weight 1e-10          passes 1 (26 products): residual 0.2651 significant-row 0.2607 max|s_sig| 0.0983 s_T d31-38 [-0.021 -0.042 -0.046 -0.052 -0.043 -0.037 -0.021 -0.013]
+  ultra-weight 1e-10          passes 2 (50 products): residual 0.1859 significant-row 0.1801 max|s_sig| 0.1451 s_T d31-38 [-0.021 -0.042 -0.047 -0.052 -0.043 -0.037 -0.021 -0.013]
+  ultra-weight 1e-10          passes 3 (74 products): residual 0.1640 significant-row 0.1601 max|s_sig| 0.2239 s_T d31-38 [-0.021 -0.042 -0.046 -0.052 -0.043 -0.037 -0.021 -0.013]
+it13 (logged driver residuals [0.3789, 0.372, 0.3644], max|s_sig| 0.4165)
+  ultra-weight 1e-8 (driver)  passes 1 (26 products): residual 0.3789 significant-row 0.2954 max|s_sig| 0.3901 s_T d31-38 [0.001 0.003 0.003 0.004 0.003 0.002 0.002 0.001]
+  ultra-weight 1e-8 (driver)  passes 2 (50 products): residual 0.3720 significant-row 0.2893 max|s_sig| 0.3786 s_T d31-38 [0.004 0.004 0.002 0.003 0.    0.007 0.001 0.001]
+  ultra-weight 1e-8 (driver)  passes 3 (74 products): residual 0.3644 significant-row 0.2832 max|s_sig| 0.4165 s_T d31-38 [-0.002  0.001  0.001  0.002  0.003  0.011  0.002  0.001]
+  ultra-weight 1e-10          passes 1 (26 products): residual 0.1248 significant-row 0.1211 max|s_sig| 0.4090 s_T d31-38 [-0.022 -0.042 -0.045 -0.051 -0.041 -0.036 -0.021 -0.012]
+  ultra-weight 1e-10          passes 2 (50 products): residual 0.1040 significant-row 0.0997 max|s_sig| 0.4000 s_T d31-38 [-0.021 -0.041 -0.046 -0.051 -0.042 -0.035 -0.021 -0.012]
+  ultra-weight 1e-10          passes 3 (74 products): residual 0.0890 significant-row 0.0852 max|s_sig| 0.3954 s_T d31-38 [-0.021 -0.041 -0.046 -0.051 -0.043 -0.035 -0.021 -0.012]
+it14 (logged driver residuals [0.4858, 0.463, 0.4584], max|s_sig| 0.2960)
+  ultra-weight 1e-8 (driver)  passes 1 (26 products): residual 0.4858 significant-row 0.3962 max|s_sig| 0.1465 s_T d31-38 [-0.001 -0.001 -0.001 -0.001 -0.001 -0.002 -0.001 -0.   ]
+  ultra-weight 1e-8 (driver)  passes 2 (50 products): residual 0.4630 significant-row 0.3650 max|s_sig| 0.1424 s_T d31-38 [ 0.    -0.001 -0.002 -0.002 -0.003  0.001 -0.001 -0.   ]
+  ultra-weight 1e-8 (driver)  passes 3 (74 products): residual 0.4584 significant-row 0.3608 max|s_sig| 0.2960 s_T d31-38 [ 0.    -0.001 -0.003 -0.002 -0.003  0.001 -0.001 -0.   ]
+  ultra-weight 1e-10          passes 1 (26 products): residual 0.1975 significant-row 0.1929 max|s_sig| 0.1464 s_T d31-38 [-0.022 -0.042 -0.045 -0.051 -0.042 -0.036 -0.021 -0.012]
+  ultra-weight 1e-10          passes 2 (50 products): residual 0.1207 significant-row 0.1127 max|s_sig| 0.1424 s_T d31-38 [-0.022 -0.042 -0.046 -0.051 -0.043 -0.036 -0.021 -0.012]
+  ultra-weight 1e-10          passes 3 (74 products): residual 0.1065 significant-row 0.0982 max|s_sig| 0.2862 s_T d31-38 [-0.021 -0.042 -0.046 -0.052 -0.043 -0.036 -0.021 -0.012]

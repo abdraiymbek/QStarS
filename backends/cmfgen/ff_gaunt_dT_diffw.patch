@@ -1,0 +1,198 @@
+--- a/cur_cmf/new_main/cmfgen_sub.f	2026-10-13 20:26:50
++++ b/cur_cmf/new_main/cmfgen_sub.f	2026-10-14 05:50:16
+@@ -1539,6 +1539,9 @@
+ 	DO I=1,NT
+ 	  DIFFW(I)=0.0_LDP
+ 	END DO
++! QSTARS build 35: Gaunt-factor term of DIFFW(NT) for the JV tangent
++! (QS_JV_DTDR_GFF reads the state; it writes no native array).
++	CALL QS_JV_DTDR_GFF(0,0.0_LDP,0.0_LDP,0.0_LDP,1.0_LDP,0.0_LDP,ND)
+ !
+ ! We ensure that LAST_LINE points to the first LINE that is going to
+ ! be handled in the portion of the code that computes dTdR.
+@@ -1671,6 +1674,7 @@
+ 	      END DO
+ 	      DIFFW(NT)=DIFFW(NT)+T3*(TA(NT)/CHI(ND)-(T1*(1.0_LDP+EMHNUKT(ND))
+ 	1           /(1.0_LDP-EMHNUKT(ND))-2.0_LDP)/T(ND))
++	      CALL QS_JV_DTDR_GFF(1,(FL),(CONT_FREQ),(T3),(CHI(ND)),0.0_LDP,ND)
+ 	    END IF
+ 	    CALL TUNE(ITWO,'DTDR_VEC')
+ !
+@@ -1688,6 +1692,7 @@
+ 	    DO I=1,NT
+ 	      DIFFW(I)=DIFFW(I)*T1
+ 	    END DO
++	    CALL QS_JV_DTDR_GFF(2,0.0_LDP,0.0_LDP,0.0_LDP,1.0_LDP,(T1),ND)
+ 	  END IF
+ 	END IF
+ 	CALL TUNE(ITWO,'DTDR')
+--- a/cur_cmf/new_main/qs_jv.f90	2026-10-14 03:33:31
++++ b/cur_cmf/new_main/qs_jv.f90	2026-10-14 05:57:26
+@@ -57,6 +57,14 @@
+ real(kind=ldp),allocatable :: gff_dchi(:),gff_deta(:)
+ real(kind=ldp) :: st_gff_gdiff=0
+ integer :: st_gff_nfreq=0,st_gff_nion=0,st_gff_nres=0
++! Build 35: the same Gaunt term in DIFFW(NT) = d(DTDR)/dT(ND) (cmfgen_sub.f DTDR section), which sums
++! T3*VCHI(NT,ND)/CHI(ND) over frequency with VCHI from the same VAR_OP_V10. qs_jv_dtdr_gff, called from that
++! section, accumulates sum T3*dCHI_g(FL,ND)/CHI(ND) (dtg_sum: ions with IMP_VAR(EQION), as VCHI; dtg_sum_all: as
++! VCHI_ALL) and scales it as DIFFW is scaled (diffw_gff, diffw_gff_all). The tangent adds diffw_gff*dPOP(NT,ND)
++! to dDTDR of directions with dT(ND) /= 0. jv_has_t: some direction has a T component (resonance guard).
++real(kind=ldp) :: dtg_sum=0,dtg_sum_all=0,diffw_gff=0,diffw_gff_all=0
++integer :: dtg_nfreq=0,dtg_nres=0
++logical :: jv_has_t=.false.
+ end module qs_jv_state
+ 
+ ! Build 32 (Report 23): conjugate-frequency J of the two-photon USE_RAD method from a QStarS stored-J file
+@@ -134,6 +142,8 @@
+ allocate(gff_dchi(nd),gff_deta(nd))
+ gff_dchi=0;gff_deta=0;gff_valid=.false.
+ st_gff_gdiff=0;st_gff_nfreq=0;st_gff_nion=0;st_gff_nres=0
++! build 35: diffw_gff/diffw_gff_all were set by qs_jv_dtdr_gff in this iteration's DTDR section (not reset here)
++jv_has_t=any(dpop(nt,:,:)/=0.0_ldp)
+ nsim=size(znet_sim,2);jv_maxsim=nsim;jv_ntwo=max(n_two,1)
+ allocate(djrec(nd,nv),djphot(nd,nv),dsteq_t(nd,nv),dznet(nd,nsim,nv))
+ allocate(ddown(nd,jv_ntwo,nv),dup2(nd,jv_ntwo,nv),dfull(nt,nd,nv))
+@@ -495,8 +505,90 @@
+  enddo
+ enddo
+ st_gff_nion=max(st_gff_nion,nion)
++! build 35: free-free resonances would make the T column wrong without notice (their T dependence is not
++! differentiated); stop when a direction has a T component (QSTARS_JV_NOGFF, the build-33 tangent, bypasses this).
++if(st_gff_nres>0.and.jv_has_t)call qs_jv_gff_fail(st_gff_nres)
+ end subroutine qs_jv_gff_freq
+ 
++! Build 35: the tangent cannot represent the T dependence of FF_RES_GAUNT (free-free resonances); written to
++! QSTARS_JV_FAILURE and OUTGEN, then stop (the pass leaves no residual, which the driver reports).
++subroutine qs_jv_gff_fail(nres)
++implicit none
++integer,intent(in)::nres
++integer,external::error_lu
++integer::lu,luer
++open(newunit=lu,file='QSTARS_JV_FAILURE',status='unknown',position='append')
++write(lu,'(A,I6,A)')'ff_gaunt_dT: ',nres,' free-free resonances (FF_RES_GAUNT) in an ion of the tangent; their T '//&
++  'derivative is not implemented and a direction has a T component (QSTARS_JV_NOGFF: build-33 tangent, no Gaunt term)'
++close(lu)
++luer=error_lu()
++write(luer,'(1X,A,I6,A)')'Error: QSTARS_JV ff_gaunt_dT: ',nres,' free-free resonances; T derivative not implemented'
++flush(luer)
++stop 'QSTARS_JV: free-free resonances with a T direction (see QSTARS_JV_FAILURE)'
++end subroutine qs_jv_gff_fail
++
++! Build 35: Gaunt-factor term of DIFFW(NT) for the tangent. Called from the DTDR section of cmfgen_sub.f:
++!   MODE 0 at its start (zero); MODE 1 right after DIFFW is incremented at frequency FL, with that statement's T3
++!   and CHI(ND); MODE 2 after DIFFW is scaled, with the scale SCL = DTDR**2/T1 of that statement.
++! DIFFW(NT) += T3*(VCHI(NT,ND)/CHI(ND) - Planck part), VCHI(NT,ND) from VAR_OP_V10 at CONT_FREQ (g fixed) moved to
++! FL by COMP_VAR_OPAC. The missing part is T3*dCHI_g(FL,ND)/CHI(ND), with the dCHI_g/dETA_g of qs_jv_gff_freq at
++! depth ND (same ions; IMP_VAR(EQION) for dtg_sum, every ion for dtg_sum_all) moved to FL the same way:
++! dCHI(FL) = dCHI(CONT) + dETA(CONT)/(2h/c^2 CONT^3) - dETA(CONT) T4/(2h/c^2 FL^3), T4 = (FL/CONT)^3 exp(-h(FL-CONT)/kT).
++! Reads the state only; writes only qs_jv_state (no native array). Runs in every pass that computes DIFFW.
++subroutine qs_jv_dtdr_gff(mode,fl,cont_freq,t3,chind,scl,nd)
++use set_kind_module
++use qs_jv_state, only: dtg_sum,dtg_sum_all,diffw_gff,diffw_gff_all,dtg_nfreq,dtg_nres
++use mod_cmfgen, only: atm,num_ions,t,ed,imp_var
++use phot_data_mod, only: pd
++implicit none
++integer,intent(in)::mode,nd
++real(kind=ldp),intent(in)::fl,cont_freq,t3,chind,scl
++real(kind=ldp)::chibf,chiff,hdkt,twohcsq
++common /constants/ chibf,chiff,hdkt,twohcsq
++real(kind=ldp),save::cf_last=-1.0_ldp,dc(2)=0,de(2)=0
++real(kind=ldp)::g(1),dgdt(1),z,al,emh,pop_sum,t4,dcf(2)
++integer::id,eqion,m
++select case(mode)
++case(0)
++ dtg_sum=0;dtg_sum_all=0;diffw_gff=0;diffw_gff_all=0;dtg_nfreq=0;dtg_nres=0;cf_last=-1.0_ldp
++case(1)
++ if(cont_freq/=cf_last)then
++  ! dCHI_g, dETA_g at CONT_FREQ, depth ND: (1) ions with IMP_VAR(EQION), (2) every ion
++  dc=0;de=0
++  do id=1,num_ions
++   if(.not.atm(id)%xzv_pres)cycle
++   if(atm(id)%n_xzv_phot<1)cycle
++   z=atm(id)%zxzv
++   if(z==0.0_ldp)cycle
++   eqion=atm(id+1)%eqxzv+(atm(id)%xzv_ion_lev_id(1)-1)
++   if(pd(id)%num_ff>0.and.atm(id)%xzv_ion_lev_id(1)==1)dtg_nres=max(dtg_nres,pd(id)%num_ff)
++   call qs_gff_dt_vec(g,dgdt,cont_freq,t(nd:nd),z,1)
++   pop_sum=sum(atm(id+1)%xzv(:,nd))
++   emh=exp(-hdkt*cont_freq/t(nd))
++   al=ed(nd)*pop_sum*dgdt(1)/sqrt(t(nd))
++   do m=1,2
++    if(m==1.and..not.imp_var(eqion))cycle
++    dc(m)=dc(m)+chiff*z*z/(cont_freq**3)*al*(1.0_ldp-emh)
++    de(m)=de(m)+chiff*z*z*twohcsq*al*emh
++   enddo
++  enddo
++  cf_last=cont_freq
++ endif
++ if(cont_freq/=fl)then
++  t4=(fl/cont_freq)**3*exp(-hdkt*(fl-cont_freq)/t(nd))
++  dcf=dc+de/(twohcsq*cont_freq**3)-de*t4/(twohcsq*fl**3)
++ else
++  dcf=dc
++ endif
++ dtg_sum=dtg_sum+t3*dcf(1)/chind
++ dtg_sum_all=dtg_sum_all+t3*dcf(2)/chind
++ dtg_nfreq=dtg_nfreq+1
++case(2)
++ diffw_gff=dtg_sum*scl
++ diffw_gff_all=dtg_sum_all*scl
++end select
++end subroutine qs_jv_dtdr_gff
++
+ ! Per-frequency directional products. Call after DO_VAR_CONT (VCHI/VETA valid),
+ ! and before UPDATE_BA_FOR_LINE (QFV_R/QFV_P still as set by EVALSE_QWVJ_V8).
+ subroutine qs_jv_freq(ml,fl,fqw,first_freq,new_cross,final_cross,nc,np,nd,nt,cont_freq)
+@@ -533,6 +625,7 @@
+ real(kind=ldp),allocatable::outp(:,:),outm(:,:),op2(:,:),om2(:,:)
+ real(kind=ldp)::x,em,den,bnue,dbdt,dtn,db,ddtdr,ddbb,cerr,t1,t2,t3,t4,scl,fb,alpha,y,u,fu,ay
+ real(kind=ldp)::down_const,up_const,flr,f1,dsum,lbr
++real(kind=ldp)::dwg
+ integer::k,l,i,sim,nl,nup,ir,id,ipr,ion_lev,ion_eq,j,mnl,mnup,mnl_f,mnup_f,nprod,ihyd
+ logical::branch1
+ logical,external::qs_two_phot_j_on
+@@ -565,6 +658,9 @@
+ x=hdkt*fl/t(nd);em=emhnukt(nd);den=1.0_ldp-em
+ bnue=twohcsq*(fl**3)*em/den
+ dbdt=bnue*x/t(nd)/den
++! build 35: Gaunt-factor term of DIFFW(NT) (qs_jv_dtdr_gff), for directions with dT(ND) /= 0
++dwg=0.0_ldp
++if(jv_gff)dwg=merge(diffw_gff_all,diffw_gff,jv_vall)
+ ! ---------------- phase 1: material directional changes (all directions) ----------
+ if(jv_dis.and.(new_cross.or.first_freq.or..not.dis_valid))call qs_jv_dis_freq(cont_freq)
+ if(jv_gff.and.(new_cross.or.first_freq.or..not.gff_valid))call qs_jv_gff_freq(cont_freq)
+@@ -812,6 +908,7 @@
+  dtn=dpop(nt,nd,k)
+  db=dbdt*dtn
+  ddtdr=dot_product(diffw(1:nt),dpop(1:nt,nd,k))
++ if(dwg/=0.0_ldp.and.dpop(nt,nd,k)/=0.0_ldp)ddtdr=ddtdr+dwg*dpop(nt,nd,k)
+  ddbb=ddbbdt*dtn+dbb/dtdr*ddtdr
+  if(jv_dual)then
+   call tangent_scattering(eta_clump(1:nd),chi_clump(1:nd),chi_scat_clump(1:nd),rj(1:nd),&
+@@ -855,6 +952,7 @@
+    dtn_=dpop(nt,nd,kk)
+    bdb(c)=dbdt*dtn_
+    ddtdr_=dot_product(diffw(1:nt),dpop(1:nt,nd,kk))
++   if(dwg/=0.0_ldp.and.dpop(nt,nd,kk)/=0.0_ldp)ddtdr_=ddtdr_+dwg*dpop(nt,nd,kk)
+    bddbb(c)=ddbbdt*dtn_+dbb/dtdr*ddtdr_
+    bde(:,c)=deta(:,kk);bdc(:,c)=dchi(:,kk);bds(:,c)=dscat(:,kk)
+    bpp(c,:,:)=prevp(:,:,kk);bpm(c,:,:)=prevm(:,:,kk)
+@@ -881,6 +979,8 @@
+ use two_phot_mod, only: n_two,two_phot_available,ion_id_two,ion_low_lev_two,ion_up_lev_two,&
+                         low_lev_two,up_lev_two,two_method
+ use qs_two_phot_j_mod, only: tpj_on,tpj_ncall
++use var_rad_mod, only: diffw
++use radiation_mod, only: dtdr
+ implicit none
+ integer,intent(in)::nt,nd
+ real(kind=ldp),intent(in)::pops(nt,nd)
+@@ -914,6 +1014,9 @@
+ write(lu,'(A,A,A,L2,A,I12)')'two_photon_method ',trim(two_method),' stored_J',tpj_on,' conj_J_evaluations',tpj_ncall
+ write(lu,'(A,L2,A,ES12.4,A,I8,A,I4,A,I4)')'ff_gaunt_dT',jv_gff,' max|g-GFF_VEC|',st_gff_gdiff,' cont_evaluations',&
+   st_gff_nfreq,' ions',st_gff_nion,' ff_resonances_not_differentiated',st_gff_nres
++write(lu,'(A,L2,A,ES24.16,A,ES24.16,A,ES24.16,A,ES24.16,A,I8,A,I4)')'ff_gaunt_dT_diffw',jv_gff,' DTDR',dtdr,&
++  ' DIFFW(NT)_native',diffw(nt),' gaunt_term',diffw_gff,' gaunt_term_all_ions',diffw_gff_all,' freqs',dtg_nfreq,&
++  ' ff_resonances',dtg_nres
+ close(lu)
+ end subroutine qs_jv_two_post
+ 

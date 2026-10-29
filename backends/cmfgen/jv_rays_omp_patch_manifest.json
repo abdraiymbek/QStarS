@@ -1,0 +1,16 @@
+{
+ "base_release": "build_21",
+ "build": "build_22",
+ "files": [
+  "new_main/formal_tangent_lin.f90"
+ ],
+ "source_hashes": {
+  "new_main/formal_tangent_lin.f90": {
+   "base": "ab9d6ec1d09ee1f614bcfcae033bd220d334d9767e7bf5a41988f6315f26ad9f",
+   "patched": "9d4d0906821341fe0d36d083506224d2c62a57d53af4381bd631f7d5f390b15a"
+  }
+ },
+ "patch_file": "jv_rays_omp.patch",
+ "patch_sha256": "46a7ebee51318c5a59e45ee8940e0aa05cc2e6982c740f16ba0d77232585da8a",
+ "scope": "lin_apply parallel over rays with moment reduction when not already inside a parallel region (single-direction products). Fixture lin-vs-dual <= 1.5e-12 with 4 threads."
+}

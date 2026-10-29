@@ -1,0 +1,57 @@
+{
+  "amendment_id": "ball2011_track_plan_amendment_4",
+  "status": "DRAFT, not registered. Under plan registration.amendment_rule it may be registered by the main session only, after Stage 7 has run 'relax --run C1', 'C0' and 'C2' with Amendment 3 alone (registered photosphere solve) and preserved them under benchmarks/results/<date>-ball-track/ with relax.json status relaxation_blocker. Registering: fill preserved_failing_run with those directories (relative to the repository root) and relax_result from their relax.json, set status to 'registered', save the file as benchmarks/ball2011_track_plan_amendment_4.json and write benchmarks/ball2011_track_plan_amendment_4.registration.json (amendment_sha256, plan_sha256, registered_utc). Change nothing else without new evidence. The 2026-10-14 relax runs (registered seed) do not show this defect and must not be cited here.",
+  "plan": "benchmarks/ball2011_track_plan.json",
+  "plan_sha256": "a10b4166222342acee53da9622885845ff7744914fb38316d8ea4f48fce8cc0e",
+  "kind": "numerical-method bug fix (plan registration.amendment_rule): the bracket search of the photospheric density solve (photosphere.solve), used only where a state carries no photospheric density: the outer pressure of a seed, the predictor of the first relaxation step from a seed, and fold.classify of a state without one. Untouched: the photosphere row of the Newton system (photosphere.evaluate, which raises at Gamma_ph >= 1, so P_g <= 0 stays a model domain exit and is never clipped), the model surface (plan model.surface), every tolerance, the primary physics and microphysics, the targets and every immutable section.",
+  "settings": {
+    "quasistatic": {
+      "photosphere_bracket": "scan"
+    }
+  },
+  "settings_note": "Applied by scripts/validate_ball_track.py --amendment to config['quasistatic'] after it verifies this file against its registration record. quasistatic.photosphere_bracket is in AMENDABLE; its default 'doubling' is the registered solve, unchanged byte for byte (photosphere._solve_doubling), and stays the default of every configuration. The key enters the row-0 signature, so a row-0 model relaxed with the other bracket rule is never reused.",
+  "preserved_failing_run": "TO BE FILLED BY STAGE 7 (a list): benchmarks/results/<date>-ball-track/<relax --run C1, C0 and C2 with Amendment 3 alone; status relaxation_blocker; seed 3464 Rsun seed_failed with 'Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists'>",
+  "relax_result": "TO BE FILLED BY STAGE 7: per resolution, status and per-seed outcome of the relax runs with Amendment 3 alone",
+  "expected_relax_result_with_amendment_3_alone": {
+    "label": "DRYRUN with the final code (registered bracket 'doubling'), scratch only; Reports/evidence/report23/ball/stage7_final_fix.json. Same outcome as the first review's runs with the preserved source snapshot's solve (review_evidence/log_a3_oldsolve.txt).",
+    "C1_N200": "relaxation_blocker (numerical): 2000 and 1000 Rsun seed_failed (Gamma_ph >= 1, true); 6000 converged (30 accepted, 1 rejected); 12000 below the 3000 K floor; 3464 seed_failed (false Gamma_ph >= 1); 1414 seed_failed (true); 8485 failed (0 accepted, 21 rejected)",
+    "C0_N400": "relaxation_blocker (numerical): 6000 failed with 0 accepted and 21 rejected, every one 'P3 predictor left the model domain ... (Gamma_ph >= 1); no Ball surface exists' (false: the predictor's photosphere solve at the seed luminosity); 3464 seed_failed (false Gamma_ph >= 1); the rest as at N = 200",
+    "C2_N800": "relaxation_blocker (numerical): 6000 converged (37 accepted, 8 rejected); 3464 seed_failed (false Gamma_ph >= 1); the rest as at N = 200"
+  },
+  "changes": [
+    {
+      "section": "photosphere.solve (no plan text: numerics of the implicit rho_ph that plan model.surface defines)",
+      "registered": "bracket 'doubling': from the guess (1e-12 g/cm3) the bracket is sought by doubling steps in ln rho_ph, and every trial density is evaluated with the domain check, so a trial with Gamma_ph >= 1 raises DomainError('Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists')",
+      "amended": "bracket 'scan': a trial with Gamma_ph >= 1 is an upper bound of the bracket (the row is continuous through Gamma_ph = 1: residual = P_g/scale - (1 - Gamma_ph), positive wherever Gamma_ph >= 1), and when the doubling scan finds no sign change the admissible interval (the microphysics domain reached from the guess, edges located by bisection) is scanned at 400 densities; 'Gamma_ph >= 1 at every admissible photospheric density' is raised only when that holds at every sampled density, otherwise 'not bracketed inside the microphysics domain'. A returned root is evaluated again with the domain check. Where the doubling scan brackets the root, the iterates and the root are those of 'doubling'.",
+      "defect": "kappa_ph, and with it Gamma_ph, depends on the trial density, so Gamma_ph >= 1 at one trial density says nothing about the root, which has P_g = target > 0, i.e. Gamma_ph < 1. The registered solve reports a missing photosphere where an ordinary root exists. On the MESA STARS opacity switch at 1e4 Msun: (2.195e8 Lsun, 3030 Rsun) and (3.48e8 Lsun, 3500 Rsun), roots at Gamma_ph 0.744 and 0.920; on a fixed 194-point (L, R) lattice (no table used) 41 of the 104 points with a root were reported as Gamma_ph >= 1, the 63 others solved identically by both rules, and the 90 true Gamma_ph >= 1 points are reported as such by both (first review, review_evidence/log_solve_grid.txt, brute force over 1500 densities). In the registered relaxation with Amendment 3 it makes the 3464 Rsun seed unbuildable at every N and rejects every first step of the 6000 Rsun seed at N = 400 at the predictor (review_evidence/log_oldsolve.txt; expected_relax_result_with_amendment_3_alone)."
+    }
+  ],
+  "not_amended": "The photosphere row of the step and of the frozen-entropy problem (photosphere.evaluate) and its domain check; the relaxation and its convergence and uniqueness criteria; the seed (Amendment 3); the relaxation mesh (Amendment 2). A guess outside the microphysics domain still raises its ValueError under either rule (a numerical failure, never a domain exit; no registered caller passes one: second review).",
+  "tests_failed_before_pass_after": [
+    "tests/test_photosphere.py::test_a_trial_density_with_gamma_ph_above_one_is_not_a_missing_photosphere (analytic EOS, density-dependent opacity: the registered rule raises the false Gamma_ph >= 1, the scan returns the root with Gamma_ph 0.92 from every guess; failed against the pre-change source)",
+    "tests/test_photosphere.py::test_gamma_ph_above_one_at_every_admissible_density_is_the_domain_exit (failed against the pre-change source)",
+    "tests/test_quasistatic.py::test_photosphere_bracket_option_reaches_every_solve_and_is_off_by_default (the option reaches the seed, the predictor and fold.py; default 'doubling'; bitwise identical where both rules bracket)",
+    "tests/test_validate_ball_track.py::test_amendments_are_verified_and_limited_to_numerical_method_settings (photosphere_bracket amendable, in the row-0 signature)"
+  ],
+  "tests_asserting_the_registered_defect": [
+    "tests/test_photosphere.py::test_registered_photosphere_roots_on_the_compiled_bridge (MESA opt-in: the registered rule raises the false Gamma_ph >= 1 at (2.195e8 Lsun, 3030 Rsun) and (3.48e8 Lsun, 3500 Rsun); the scan finds Gamma_ph 0.74 and 0.92; 2000 Rsun is a true Gamma_ph >= 1 under both)",
+    "tests/test_ball_integration.py::test_registered_seed_blocker_and_the_grey_seed_surface_on_the_compiled_bridge (MESA opt-in, registered C1: with Amendment 3's grey surface the 3464 Rsun seed cannot be built under the registered rule and builds and steps under the scan)"
+  ],
+  "dry_run_evidence": {
+    "label": "DRYRUN, scratch output only (Reports/evidence/report23/ball/stage7_final_fix.json, scripts in dryrun_scripts_final/). The driver's relax_seeds with a scratch output root; no row-0 observable compared with Table 1 or thesis Table 3.1.",
+    "amendments_3_and_4": {
+      "C1_N200": "not_unique, seeds 6000 and 3464 (30/1 and 30/1 steps), max |dln| 0.015022035187080679 (M_cav)",
+      "C0_N400": "not_unique, 30/1 and 30/1, max |dln| 0.0031408670416929875 (M_cav)",
+      "C2_N800": "not_unique, 37/8 and 36/7, max |dln| 0.0006507662717030985 (R*)"
+    },
+    "amendments_3_4_and_2": {
+      "C1_N200": "converged_unique, 94/1 and 100/1 steps, 18 and 19 mesh cycles, max |dln| 3.8686073649001614e-08 (R*)"
+    },
+    "note": "Identical, to the printed digits, to the first unblock round's results made with the scan unconditional; the scan path is the same code."
+  },
+  "consequences_for_registered_runs": [
+    "Order: Amendment 3 is registered and run alone first (its relax runs are this amendment's evidence); this amendment is then applied after it on every command: --amendment <3> --amendment <4> [...], the same flags in the same order on every later command.",
+    "With Amendments 3 and 4 the two seeds converge on different meshes and the relax runs end not_unique; those runs are the preserved failing runs Amendment 2 cites.",
+    "Every run directory records quasistatic.photosphere_bracket in config.yaml and this amendment's sha256 in amendments.json."
+  ]
+}

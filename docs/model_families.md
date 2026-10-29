@@ -14,8 +14,11 @@ source; it does not claim reproduction of the source's entire stellar model.
 | `bra2008` | BRA08 equation 3 luminosity law | Complete BRA structure and evolution |
 | `ball2011_printed` | Ball's printed equation 15 with its stated coefficient | Moving Bondi boundary and complete Ball tracks |
 | `quest2025_eq11` | Later QUEST/Santarelli equation 11, with distinct rest accretion and BH growth | Upstream MESA cavity and saturated inner-flow evolution |
-| `prescribed` engine | Explicit rest-accretion control and efficiency | A self-consistent inner-flow solution |
+| `ball2012_eq3_15` | Ball's thesis equation 3.15 (16 pi), the same law as `quest2025_eq11` under its source name | As `quest2025_eq11` on the evolution path |
+| `quasi_static` with `bondi_cavity` | Quasi-static steps without radial inertia: inner face at r_B/b of the face (or cell) base state, thesis eq 3.7 cavity mass, sliced swept gas with every transfer booked, exact landings on black-hole masses, relaxed t = 0 model, bitwise restart | Any relaxation, smoke, track or campaign run of the registered Gate 6 plan (`benchmarks/ball2011_track_plan.json`, C0 in `benchmarks/ball2011_track.yaml`): the Stage 1 domain sweep (`benchmarks/results/2026-10-07-ball-track/20261007T050922.484932Z_domain_sweep`) is the only execution; the MESA path is untested, and the registered controller and base mesh stalled on analytic toys; energy balance inside the cavity or black hole is not claimed |
+| `stars_photosphere`, `mlt_ml1`, `mlt_thesis_lossless`, `opacity.tables` | Quasi-static path only: tau = 2/3 outer face with thesis eq 2.15-2.16 gas pressure; ML1 with MESA's constants or the thesis lossless form; MESA ABI-7 STARS opacity switch, clamped (published-assumption policy) or strict | The unpublished STARS MLT constants, EOS and opacity tables; screens that the published-assumption policy only reports |
 | `off`, `prescribed`, `dotan2011` wind | Separate mass/enthalpy removal and an independent energy-to-escape debit; optional published launch/tiring formula | Porous atmosphere, resolved sonic transition and radiation-enthalpy wind coupling |
+| `selected_nodes` wind | CMFGEN-format node file (hashed copy): explicit lagged mdot and v_inf, held within a declared ln-drift neighbourhood or log-linear along an ordered node sequence, no extrapolation; gauge-checked base face and energy-defect diagnostics | Any validated CMFGEN node (Gate 4), an admissible envelope and energy-zero bridge at its base data, a base boundary condition and node-level convergence studies |
 | `fiacconi2016_wind` reference | Stationary constant-opacity wind ODEs with radiation advection, photosphere diagnostic and explicit base Mach closure | Coupling to the evolving envelope; gas-pressure sonic eigenvalue selection; full evolution replication |
 | `nakauchi2017_lte_diffusion` reference | Spherical gas-sonic regularity, FreeEOS/MESA recombination, radiation/gas enthalpy, component base matching and flux interface | Escaping radiation, validated envelope match, turbulent transport, published escaping branch and evolution coupling |
 | Spherical grey angular transfer (Python reference API) | Static VEF and moving coherent-scattering transfer; E, F, Prr, angular closure and radiation work | Non-grey absorption/flux means, material energy/populations and coupled stellar boundary |
@@ -103,3 +106,14 @@ provides population energy and frozen-state partial derivatives; it does not
 provide a relaxed EOS or global sonic closure. See
 [the cool contract](nlte_cool_closure.md). The existing physical model families
 and the Mach-one MLT guard retain their earlier validity restrictions.
+
+## CMFGEN wind node coupling interface (Report 23)
+
+`wind.model: selected_nodes` consumes the [node contract](wind_node.md). It is
+an interface, tested only with a synthetic node built from a 16-zone ideal-gas
+state. No CMFGEN-derived node exists. Every run reports `validated: false`,
+whatever the node's own flags claim, until a verifier checks archived Gate 4
+evidence. Leaving the node neighbourhood
+is a domain exit, not a physical disruption. An energy-gauge mismatch is
+rejected; the MESA EOS gauge is undeclared. Gate 5 (CMFGEN wind coupled to
+conservative evolution) stays open. See [what it still needs](wind_node.md#validity-boundary-and-what-gate-5-still-needs).

@@ -1,0 +1,11 @@
+{
+  "policy": "published_assumption",
+  "screens": {
+    "radiation_knudsen_outer": {
+      "first_time_years": 208529.7486641535,
+      "first_bh_mass_msun": 46.003844680521055,
+      "rows": 344,
+      "extreme": 0.7174004792744231
+    }
+  }
+}

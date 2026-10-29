@@ -1,0 +1,299 @@
+--- a/cur_cmf/new_main/qs_jv.f90	2026-10-06 13:15:01
++++ b/cur_cmf/new_main/qs_jv.f90	2026-10-06 14:19:13
+@@ -35,6 +35,11 @@
+ ! (lin_em_build) when nv >= jv_asig_min; QSTARS_JV_NOASIG disables it, QSTARS_JV_ASIG_MIN sets the minimum.
+ logical :: jv_asig=.true.
+ integer :: jv_asig_min=4,st_asig=0
++! Build 31 (Report 22): with the explicit operator, the directions run in blocks (one per thread); each block
++! makes ONE forcing and ONE final ray sweep for all its directions (lin_scattering_multi). QSTARS_JV_NOBATCH:
++! per-direction lin_scattering as in build 30. QSTARS_JV_NOSETUP_OMP: serial lin_setup ray loop.
++logical :: jv_batch=.true.
++integer :: st_batch=0
+ ! Build 25: level-dissolution derivatives of the bound-free opacity/emissivity (occupation
+ ! probabilities W in the LTE populations and the dissolved fraction below each edge), which
+ ! the native VCHI/VETA hold constant. dis_l*: d ln(B,A,X)_LEV_DIS per depth and direction.
+@@ -50,6 +55,7 @@
+ subroutine qs_jv_begin(pops,nt,nd,compute_ba,lambda_it)
+ use set_kind_module
+ use qs_jv_state
++use qs_formal_tangent_lin, only: lin_setup_omp
+ use mod_cmfgen, only: atm,num_ions
+ use steq_data_mod, only: se
+ use line_mod, only: znet_sim
+@@ -125,6 +131,11 @@
+ call get_environment_variable('QSTARS_JV_ASIG_MIN',path,length=plen,status=ios)
+ if(ios==0.and.plen>0)read(path(1:plen),*,iostat=ios)jv_asig_min
+ st_asig=0
++call get_environment_variable('QSTARS_JV_NOBATCH',path,length=plen,status=ios)
++jv_batch=.not.((ios==0.or.ios==-1).and.plen>0)
++call get_environment_variable('QSTARS_JV_NOSETUP_OMP',path,length=plen,status=ios)
++lin_setup_omp=.not.((ios==0.or.ios==-1).and.plen>0)
++st_batch=0
+ call get_environment_variable('QSTARS_JV_DIRS',path,length=plen,status=ios)
+ if(jv_export)then
+  open(newunit=jv_lu_exp,file='QSTARS_JV_SPECTRAL.bin',status='replace',access='stream',form='unformatted')
+@@ -353,7 +364,7 @@
+ use set_kind_module
+ use qs_jv_state
+ use qs_formal_tangent, only: tangent_scattering
+-use qs_formal_tangent_lin, only: lin_setup,lin_scattering,lin_em_build
++use qs_formal_tangent_lin, only: lin_setup,lin_scattering,lin_em_build,lin_scattering_multi
+ use omp_lib, only: omp_get_max_threads
+ use mod_space_grid_v2, only: ray
+ use mod_cmfgen, only: atm,num_ions,ion_id,t,ed,pop_atom,clump_fac
+@@ -499,7 +510,10 @@
+ ! region. Build 28: the former inactive enclosing region (parallel do with a false IF clause) made
+ ! lin_apply's team a nested team; libgomp on macOS then intermittently deadlocked in the team
+ ! barrier or crashed (Report 21). The arithmetic is unchanged.
+-if(nv>=omp_get_max_threads())then
++if(jv_batch.and..not.jv_dual.and..not.jv_checklin.and.jv_asig.and.nv>=jv_asig_min)then
++ call dir_batch()
++ st_batch=st_batch+1
++else if(nv>=omp_get_max_threads())then
+ !$omp parallel do schedule(dynamic) default(shared) private(k)
+  do k=1,nv
+   call dir_tangent(k)
+@@ -655,12 +669,49 @@
+  cerr_k(k)=cerr;nprod_k(k)=nprod
+  deallocate(outp,outm)
+  end subroutine dir_tangent
++ ! Build 31: all directions in min(nv,threads) contiguous blocks, blocks in parallel (top-level region; nothing
++ ! inside is parallel). Per direction exactly the inputs of dir_tangent/lin_scattering; ray arrays transposed
++ ! to (direction,point,ray) for the block and back.
++ subroutine dir_batch()
++ integer::nbk,ib,k0,k1,m,c,kk
++ real(kind=ldp),allocatable::bde(:,:),bdc(:,:),bds(:,:),bdb(:),bddbb(:),bpp(:,:,:),bpm(:,:,:),bop(:,:,:),&
++   bom(:,:,:),bmo(:,:,:),bce(:)
++ integer,allocatable::bnp(:)
++ real(kind=ldp)::dtn_,ddtdr_
++ nbk=max(1,min(nv,omp_get_max_threads()))
++!$omp parallel do schedule(dynamic) default(shared) private(ib,k0,k1,m,c,kk,bde,bdc,bds,bdb,bddbb,bpp,bpm,&
++!$omp bop,bom,bmo,bce,bnp,dtn_,ddtdr_)
++ do ib=1,nbk
++  k0=((ib-1)*nv)/nbk+1;k1=(ib*nv)/nbk;m=k1-k0+1
++  allocate(bde(nd,m),bdc(nd,m),bds(nd,m),bdb(m),bddbb(m),bpp(m,nzmax,np),bpm(m,nzmax,np),&
++           bop(m,nzmax,np),bom(m,nzmax,np),bmo(4,nd,m),bce(m),bnp(m))
++  do c=1,m
++   kk=k0+c-1
++   dtn_=dpop(nt,nd,kk)
++   bdb(c)=dbdt*dtn_
++   ddtdr_=dot_product(diffw(1:nt),dpop(1:nt,nd,kk))
++   bddbb(c)=ddbbdt*dtn_+dbb/dtdr*ddtdr_
++   bde(:,c)=deta(:,kk);bdc(:,c)=dchi(:,kk);bds(:,c)=dscat(:,kk)
++   bpp(c,:,:)=prevp(:,:,kk);bpm(c,:,:)=prevm(:,:,kk)
++  enddo
++  call lin_scattering_multi(m,chi_scat_clump(1:nd),rj(1:nd),bde,bdc,bds,bdb,bddbb,bpp,bpm,bmo,bop,bom,bce,bnp)
++  do c=1,m
++   kk=k0+c-1
++   prevp(:,:,kk)=bop(c,:,:);prevm(:,:,kk)=bom(c,:,:)
++   dj(:,kk)=bmo(1,:,c)
++   cerr_k(kk)=bce(c);nprod_k(kk)=bnp(c)
++  enddo
++  deallocate(bde,bdc,bds,bdb,bddbb,bpp,bpm,bop,bom,bmo,bce,bnp)
++ enddo
++!$omp end parallel do
++ end subroutine dir_batch
+ end subroutine qs_jv_freq
+ 
+ ! Two-photon S.E. terms after the frequency loop (STEQ_BA_TWO_PHOT_RATE_V3).
+ subroutine qs_jv_two_post(pops,nt,nd)
+ use set_kind_module
+ use qs_jv_state
++use omp_lib, only: omp_get_max_threads
+ use steq_data_mod, only: se
+ use two_phot_mod, only: n_two,two_phot_available,ion_id_two,ion_low_lev_two,ion_up_lev_two,&
+                         low_lev_two,up_lev_two
+@@ -692,6 +743,8 @@
+   ' max_products',st_maxprod,' max_rel_dJ',st_maxdj,' neg_floor_cells',st_negfloor,' lin_vs_dual',st_lincheck,' closure_freq',st_closure_fl
+ write(lu,'(A,L2,A,ES12.4,A,L2)')'dissolution_derivatives',jv_dis,' max|W_formula-W_native|',st_dis_wdiff,' VCHI_ALL',jv_vall
+ write(lu,'(A,L2,A,I6,A,I8)')'explicit_scattering_operator',jv_asig,' min_dirs',jv_asig_min,' freqs_built',st_asig
++write(lu,'(A,L2,A,I8,A,I4)')'batched_direction_sweeps',jv_batch,' freqs_batched',st_batch,' blocks',&
++  max(1,min(nv,omp_get_max_threads()))
+ close(lu)
+ end subroutine qs_jv_two_post
+ 
+--- a/cur_cmf/new_main/formal_tangent_lin.f90	2026-10-06 13:15:01
++++ b/cur_cmf/new_main/formal_tangent_lin.f90	2026-10-06 14:19:13
+@@ -10,7 +10,7 @@
+ ! truncated small-dtau polynomial, same moments as the dual reference.
+ module qs_formal_tangent_lin
+ use set_kind_module
+-use omp_lib, only: omp_in_parallel
++use omp_lib, only: omp_in_parallel,omp_get_max_threads
+ use qs_dual
+ use qs_formal_tangent, only: mon_coeff
+ use mod_space_grid_v2
+@@ -18,7 +18,8 @@
+ use mod_ray_mom_store, only: qs_lstar
+ implicit none
+ private
+-public :: lin_setup,lin_apply,lin_scattering,lin_ready,lin_apply_multi,lin_em_build,asig_ok
++public :: lin_setup,lin_apply,lin_scattering,lin_ready,lin_apply_multi,lin_em_build,asig_ok,lin_scattering_multi,&
++          lin_setup_omp
+ type ray_lin
+  integer :: n=0
+  integer,allocatable :: kk(:)          ! interval index, or -node when coincident
+@@ -39,6 +40,9 @@
+ ! lin_setup. When asig_ok, gmres_scat uses A*v instead of a ray sweep (same map; summation order only).
+ real(kind=ldp),allocatable,save :: asig(:,:)
+ logical,save :: asig_ok=.false.
++! Build 31 (Report 22): lin_setup's ray loop in parallel (per-ray data are independent; the primal moments
++! are still summed serially in ray order afterwards, so every result is unchanged). Off: QSTARS_JV_NOSETUP_OMP.
++logical,save :: lin_setup_omp=.true.
+ contains
+ 
+ subroutine dweights(t,ee,wu,wd,dee,dwu,dwd)
+@@ -128,6 +132,8 @@
+ if(.not.allocated(rl))allocate(rl(size(ray)))
+ if(present(prim_moms))prim_moms=0
+ gradv=dbb/chi(nd)
++!$omp parallel do schedule(dynamic,4) default(shared) private(ir,n,i,k,z,ds,t) &
++!$omp if(lin_setup_omp.and..not.omp_in_parallel())
+ do ir=1,j
+  n=ray(ir)%nz
+  if(rl(ir)%n/=n)then
+@@ -194,7 +200,12 @@
+   call dweights(t,a%eep(i),a%wup(i),a%wdp(i),a%deep(i),a%dwup(i),a%dwdp(i))
+   a%ipv(i)=a%ipv(i+1)*a%eep(i)+a%wup(i)*a%srcp(i+1)+a%wdp(i)*a%srcp(i)
+  enddo
+- if(present(prim_moms))then
++ end associate
++enddo
++!$omp end parallel do
++if(present(prim_moms))then
++ do ir=1,j
++  associate(a=>rl(ir))
+   do i=1,min(nd,np-ir+1)
+    k=ray(ir)%lnk(i)
+    prim_moms(1,i)=prim_moms(1,i)+a%ipv(k)*jqw_p(i,ir)+a%imv(k)*jqw_m(i,ir)
+@@ -202,9 +213,9 @@
+    prim_moms(3,i)=prim_moms(3,i)+a%ipv(k)*kqw_p(i,ir)+a%imv(k)*kqw_m(i,ir)
+    prim_moms(4,i)=prim_moms(4,i)+a%ipv(k)*nqw_p(i,ir)+a%imv(k)*nqw_m(i,ir)
+   enddo
+- endif
+- end associate
+-enddo
++  end associate
++ enddo
++endif
+ lin_ready=.true.
+ end subroutine
+ 
+@@ -477,8 +488,11 @@
+ ! Build 30 (Report 22): explicit scattering operator of the current frequency (see asig). Columns in blocks
+ ! of up to 16 with lin_apply_multi (unit emissivity s_scat(j) at node j, no previous-frequency term, J only);
+ ! blocks run in parallel in a top-level region (never nested). Called after lin_setup, before directions.
++! Build 31: block size ceil(nd/(2*threads)) (at most 16), so the blocks fill every thread twice (build 30:
++! 11 blocks of 16 for nd=167, i.e. 2 rounds on 8 threads with 3 busy in the second). Columns are computed
++! by the same statements whatever the block size.
+ subroutine lin_em_build()
+-integer,parameter::mb=16
++integer::mb
+ integer::nb,jb,j0,j1,m,j,nd
+ real(kind=ldp),allocatable::de(:,:),z0(:,:),dm(:,:,:),zz(:),pa(:,:,:),pb(:,:,:),oa(:,:,:),ob(:,:,:)
+ if(.not.lin_ready)error stop 'lin_em_build before lin_setup'
+@@ -487,6 +501,8 @@
+  if(size(asig,1)/=nd)deallocate(asig)
+ endif
+ if(.not.allocated(asig))allocate(asig(nd,nd))
++mb=16
++if(.not.omp_in_parallel())mb=max(1,min(16,(nd+2*omp_get_max_threads()-1)/(2*omp_get_max_threads())))
+ nb=(nd+mb-1)/mb
+ !$omp parallel do schedule(dynamic) default(shared) private(jb,j0,j1,m,j,de,z0,dm,zz,pa,pb,oa,ob) &
+ !$omp if(.not.omp_in_parallel())
+@@ -505,5 +521,95 @@
+ enddo
+ !$omp end parallel do
+ asig_ok=.true.
++end subroutine
++
++! Build 31 (Report 22): lin_scattering for m directions at once, with the explicit operator of this frequency
++! (lin_em_build first). The forcing sweep and the final sweep are ONE lin_apply_multi each (the statements of
++! the serial lin_apply with the direction index innermost, rays in order); each direction's GMRES is the asig
++! branch of gmres_scat verbatim (gmres_asig). Same linear map, algorithm, preconditioner and tolerance as
++! lin_scattering. Ray arrays are (m,nzmax,nray) here: prev_p/prev_m in, out_p/out_m out (zeroed first).
++subroutine lin_scattering_multi(m,scat,jbase,deta,dchi,dscat,db,ddbb,prev_p,prev_m,dmoms,out_p,out_m,&
++                                closure_error,products)
++integer,intent(in)::m
++real(kind=ldp),intent(in)::scat(:),jbase(:),deta(:,:),dchi(:,:),dscat(:,:),db(:),ddbb(:),prev_p(:,:,:),prev_m(:,:,:)
++real(kind=ldp),intent(out)::dmoms(:,:,:),out_p(:,:,:),out_m(:,:,:),closure_error(:)
++integer,intent(out)::products(:)
++real(kind=ldp),allocatable::ef(:,:),es(:,:),z2(:,:),zv(:),m2(:,:,:),o2p(:,:,:),o2m(:,:,:),rhs(:,:),pz(:,:,:)
++integer::nd,c
++if(.not.asig_ok)error stop 'lin_scattering_multi without the explicit scattering operator'
++nd=size(scat)
++allocate(ef(nd,m),es(nd,m),z2(nd,m),zv(m),m2(4,nd,m),rhs(nd,m),pz(1,1,1),&
++         o2p(size(out_p,1),size(out_p,2),size(out_p,3)),o2m(size(out_m,1),size(out_m,2),size(out_m,3)))
++do c=1,m
++ ef(:,c)=deta(:,c)+dscat(:,c)*jbase
++enddo
++out_p=0;out_m=0
++call lin_apply_multi(m,ef,dchi,dscat,db,ddbb,.false.,prev_p,prev_m,dmoms,out_p,out_m,.false.)
++do c=1,m
++ rhs(:,c)=dmoms(1,:,c)
++ call gmres_asig(scat,rhs(:,c),products(c))
++ es(:,c)=scat*rhs(:,c)
++enddo
++z2=0;zv=0;pz=0;o2p=0;o2m=0
++call lin_apply_multi(m,es,z2,z2,zv,zv,.true.,pz,pz,m2,o2p,o2m,.false.)
++dmoms=dmoms+m2
++out_p=out_p+o2p;out_m=out_m+o2m
++do c=1,m
++ closure_error(c)=maxval(abs(dmoms(1,:,c)-rhs(:,c)))/max(maxval(abs(rhs(:,c))),tiny(1.0_ldp))
++enddo
+ end subroutine
++
++! The asig branch of lin_scattering's gmres_scat, statement for statement (module-level, thread-safe).
++subroutine gmres_asig(scat,solution,count)
++real(kind=ldp),intent(in)::scat(:)
++real(kind=ldp),intent(inout)::solution(:)
++integer,intent(out)::count
++real(kind=ldp)::basis(size(scat),size(scat)+1),h(size(scat)+1,size(scat)),w(size(scat)),diag(size(scat)),&
++                g(size(scat)+1),cs(size(scat)),sn(size(scat)),y(size(scat))
++real(kind=ldp)::beta,hn,den,tmp,proj,tolerance,tl
++integer::ii,jj,pass,nused,nd
++nd=size(scat)
++tl=1.0e-12_ldp
++diag=1.0_ldp-scat*qs_lstar(1:nd)
++where(diag<=0.0_ldp)diag=1.0_ldp
++solution=solution/diag
++beta=sqrt(sum(solution*solution))
++count=0
++if(beta==0.0_ldp)then
++ solution=0;return
++endif
++basis=0;h=0;g=0;g(1)=beta;basis(:,1)=solution/beta
++tolerance=tl*beta
++nused=nd
++do jj=1,nd
++ w=matmul(asig,basis(:,jj))
++ count=count+1
++ w=(basis(:,jj)-w)/diag
++ do pass=1,2
++  do ii=1,jj
++   proj=dot_product(basis(:,ii),w);h(ii,jj)=h(ii,jj)+proj
++   w=w-proj*basis(:,ii)
++  enddo
++ enddo
++ hn=sqrt(sum(w*w));h(jj+1,jj)=hn
++ if(hn>tiny(1.0_ldp))basis(:,jj+1)=w/hn
++ do ii=1,jj-1
++  tmp=cs(ii)*h(ii,jj)+sn(ii)*h(ii+1,jj)
++  h(ii+1,jj)=-sn(ii)*h(ii,jj)+cs(ii)*h(ii+1,jj);h(ii,jj)=tmp
++ enddo
++ den=sqrt(h(jj,jj)**2+h(jj+1,jj)**2)
++ if(den==0.0_ldp)error stop 'scattering GMRES singular'
++ cs(jj)=h(jj,jj)/den;sn(jj)=h(jj+1,jj)/den
++ h(jj,jj)=den;h(jj+1,jj)=0
++ g(jj+1)=-sn(jj)*g(jj);g(jj)=cs(jj)*g(jj)
++ if(abs(g(jj+1))<=tolerance.or.hn<=tiny(1.0_ldp))then
++  nused=jj;exit
++ endif
++enddo
++y=0
++do ii=nused,1,-1
++ y(ii)=(g(ii)-dot_product(h(ii,ii+1:nused),y(ii+1:nused)))/h(ii,ii)
++enddo
++solution=matmul(basis(:,1:nused),y(1:nused))
++end subroutine
+ end module

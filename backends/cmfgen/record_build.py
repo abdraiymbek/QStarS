@@ -17,7 +17,7 @@ here=Path(__file__).parent
 # replaces, so the chain is verified).
 LAYER_FILES=['hminus_rayleigh_patch_manifest.json','hminus_ff_patch_manifest.json',
  'formal_ali_patch_manifest.json','ali_lin_patch_manifest.json',
- 'jac_check_patch_manifest.json','krylov_patch_manifest.json']
+ 'jac_check_patch_manifest.json','krylov_patch_manifest.json','jv_patch_manifest.json','jv_replay_patch_manifest.json','jv_env_patch_manifest.json','jv_fast_patch_manifest.json','jv_rays_omp_patch_manifest.json','jv_warm_patch_manifest.json','jv_dirs_omp_patch_manifest.json','jv_dis_patch_manifest.json','jv_vall_patch_manifest.json','jv_dis_lines_patch_manifest.json','jv_nonest_patch_manifest.json','jv_noobs_patch_manifest.json','jv_asig_patch_manifest.json','jv_batch_patch_manifest.json','two_phot_j_patch_manifest.json','fast_ali_patch_manifest.json','ff_gaunt_dT_patch_manifest.json','ff_gaunt_dT_diffw_patch_manifest.json','ali_newton_patch_manifest.json']
 layers=[]
 for mf in LAYER_FILES:
     mp=here/mf
@@ -46,7 +46,26 @@ for mf,flag in [('hminus_rayleigh_patch_manifest.json','hminus_rayleigh_fixed'),
                 ('formal_ali_patch_manifest.json','qstars_formal_ali'),
                 ('ali_lin_patch_manifest.json','qstars_ali_lin'),
                 ('jac_check_patch_manifest.json','qstars_jac_check'),
-                ('krylov_patch_manifest.json','qstars_krylov')]:
+                ('krylov_patch_manifest.json','qstars_krylov'),
+                ('jv_patch_manifest.json','qstars_jv'),
+                ('jv_replay_patch_manifest.json','qstars_jv_replay'),
+                ('jv_env_patch_manifest.json','qstars_jv_env'),
+                ('jv_fast_patch_manifest.json','qstars_jv_fast'),
+                ('jv_rays_omp_patch_manifest.json','qstars_jv_rays_omp'),
+                ('jv_warm_patch_manifest.json','qstars_jv_warm'),
+                ('jv_dirs_omp_patch_manifest.json','qstars_jv_dirs_omp'),
+                ('jv_dis_patch_manifest.json','qstars_jv_dissolution'),
+                ('jv_vall_patch_manifest.json','qstars_jv_vall'),
+                ('jv_dis_lines_patch_manifest.json','qstars_jv_dissolution_lines'),
+                ('jv_nonest_patch_manifest.json','qstars_jv_no_nested_omp'),
+                ('jv_noobs_patch_manifest.json','qstars_no_obs_formal_flag'),
+                ('jv_asig_patch_manifest.json','qstars_jv_explicit_scattering_operator'),
+                ('jv_batch_patch_manifest.json','qstars_jv_batched_direction_sweeps'),
+                ('two_phot_j_patch_manifest.json','qstars_two_phot_stored_j'),
+                ('fast_ali_patch_manifest.json','qstars_fast_local_ali'),
+                ('ff_gaunt_dT_patch_manifest.json','qstars_ff_gaunt_dT'),
+                ('ff_gaunt_dT_diffw_patch_manifest.json','qstars_ff_gaunt_dT_diffw'),
+                ('ali_newton_patch_manifest.json','qstars_ali_newton_fallback')]:
     mp=here/mf
     record[flag]=False
     if mp.exists():

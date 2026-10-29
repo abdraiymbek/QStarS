@@ -10,7 +10,7 @@ from .constants import YEAR,MSUN,G,SIGMA,PI
 from .transport import luminosities
 from .engine import rates,eddington
 from .controls import value
-from .winds import rate as wind_rate
+from .winds import evaluate as wind_evaluate
 from .ledger import residuals
 from .structure import hydrostatic_residual
 
@@ -67,39 +67,68 @@ def provenance(path,config):
     registry=Path(__file__).parent/"data"/"sources.json"
     if registry.exists(): (path/"source_prescriptions.json").write_bytes(registry.read_bytes())
 
-def save_checkpoint(path,state,config):
+def save_checkpoint(path,state,config,schema=None):
     path=Path(path)
-    # NPZ contains JSON strings, never pickled Python objects.
+    # NPZ contains JSON strings, never pickled Python objects. Schema 7 adds the
+    # quasi-static fields (cavity_mass, photosphere_density, kinetic_tracked, aux).
+    # schema=None: a state that holds them all at their defaults (every
+    # evolution-path state) is written as schema 6, byte for byte as before, and
+    # schema 6 loads with exactly those defaults; any other state is schema 7.
+    # schema=7 (quasistatic.save_checkpoint) always writes them.
+    if schema not in (None,7): raise ValueError("Checkpoints are written as schema 7, or 6 for a state without quasi-static fields")
+    extended=dict(cavity_mass=state.cavity_mass,
+                  photosphere_density=np.nan if state.photosphere_density is None else state.photosphere_density,
+                  kinetic_tracked=bool(state.kinetic_tracked),aux=json.dumps(state.aux))
+    if schema is None and not (state.cavity_mass!=0 or state.photosphere_density is not None or not state.kinetic_tracked or state.aux):extended={}
     temporary=path.with_suffix(".tmp")
     with temporary.open("wb") as f:
-        np.savez_compressed(f,schema_version=6,time=state.time,bh_mass=state.bh_mass,dm=state.dm,r=state.r,v=state.v,T=state.T,
+        np.savez_compressed(f,schema_version=7 if extended else 6,time=state.time,bh_mass=state.bh_mass,dm=state.dm,r=state.r,v=state.v,T=state.T,
             cell_volume=state.volume,
             radius_compensation=state.radius_compensation if state.radius_compensation is not None else np.zeros_like(state.r),
             face_luminosity=state.face_luminosity if state.face_luminosity is not None else np.array([]),
             reference_mass_fractions=state.reference_mass_fractions if state.reference_mass_fractions is not None else state.dm/state.dm.sum(),
-            ledger=json.dumps(state.ledger),steps=state.steps,next_dt=state.next_dt,config=json.dumps(config))
+            ledger=json.dumps(state.ledger),steps=state.steps,next_dt=state.next_dt,config=json.dumps(config),**extended)
         f.flush(); os.fsync(f.fileno())
     temporary.replace(path)
 
-def load_checkpoint(path):
+def load_checkpoint(path,resolve_config=True):
+    """(state, config) of a checkpoint of schema 1-7; older schemas get the defaults of later fields.
+
+    resolve_config=False returns the stored configuration as saved
+    (quasistatic.load_checkpoint). The Stage 5 quasi-static format
+    ('qstars_quasistatic' 1) holds exactly the schema-7 fields.
+    """
     from .config import resolve
     with np.load(path,allow_pickle=False) as f:
-        if int(f["schema_version"]) not in (1,2,3,4,5,6): raise ValueError("Unsupported checkpoint schema")
+        schema=int(f["schema_version"])
+        if 'format' in f.files:
+            if str(f['format'])!='qstars_quasistatic' or schema!=1: raise ValueError("Unsupported checkpoint schema")
+            schema=7
+        if schema not in (1,2,3,4,5,6,7): raise ValueError("Unsupported checkpoint schema")
         state=State(float(f["time"]),float(f["bh_mass"]),f["dm"].copy(),f["r"].copy(),f["v"].copy(),f["T"].copy(),
                     json.loads(str(f["ledger"])),int(f["steps"]),float(f["next_dt"]))
-        config=resolve(json.loads(str(f["config"])))
-        if int(f['schema_version']) >= 2: state.cell_volume=f['cell_volume'].copy()
-        if int(f['schema_version']) >= 3 and len(f['face_luminosity']):state.face_luminosity=f['face_luminosity'].copy()
-        state.reference_mass_fractions=f['reference_mass_fractions'].copy() if int(f['schema_version'])>=4 else state.dm/state.dm.sum()
-        state.radius_compensation=f['radius_compensation'].copy() if int(f['schema_version'])>=5 else np.zeros_like(state.r)
-        if int(f['schema_version'])<6:state.ledger.setdefault('numerical_kinetic_heating',0.)
+        stored=json.loads(str(f["config"]))
+        config=resolve(stored) if resolve_config else stored
+        if schema >= 2: state.cell_volume=f['cell_volume'].copy()
+        if schema >= 3 and len(f['face_luminosity']):state.face_luminosity=f['face_luminosity'].copy()
+        state.reference_mass_fractions=f['reference_mass_fractions'].copy() if schema>=4 else state.dm/state.dm.sum()
+        state.radius_compensation=f['radius_compensation'].copy() if schema>=5 else np.zeros_like(state.r)
+        if schema<6:state.ledger.setdefault('numerical_kinetic_heating',0.)
+        if schema>=7:
+            state.cavity_mass=float(f['cavity_mass']);rho_ph=float(f['photosphere_density'])
+            state.photosphere_density=None if np.isnan(rho_ph) else rho_ph
+            state.kinetic_tracked=bool(f['kinetic_tracked']);state.aux=json.loads(str(f['aux']))
     if not (len(state.r)==len(state.dm)+1==len(state.v) and len(state.T)==len(state.dm)):
         raise ValueError("Malformed checkpoint dimensions")
     if any(not np.all(np.isfinite(x)) for x in (state.r,state.dm,state.v,state.T)):
         raise ValueError('Checkpoint contains nonfinite state arrays')
+    # Quasi-static steps are controlled from aux (a t = 0 model has next_dt 0).
     if not (np.isfinite(state.time) and state.time>=0 and np.isfinite(state.bh_mass) and state.bh_mass>0
-            and np.isfinite(state.next_dt) and state.next_dt>0 and state.steps>=0):
+            and np.isfinite(state.next_dt) and (state.next_dt>0 or schema>=7 and state.next_dt==0) and state.steps>=0):
         raise ValueError('Checkpoint contains invalid time, central mass, or step controls')
+    if not (np.isfinite(state.cavity_mass) and state.cavity_mass>=0 and isinstance(state.aux,dict) and
+            (state.photosphere_density is None or np.isfinite(state.photosphere_density) and state.photosphere_density>0)):
+        raise ValueError('Checkpoint contains invalid cavity, photosphere or driver state')
     from .ledger import FIELDS
     if not set(FIELDS+['initial_mass','initial_energy','initial_energy_scale'])<=state.ledger.keys():
         raise ValueError('Checkpoint ledger is incomplete')
@@ -120,11 +149,16 @@ def load_checkpoint(path):
     return state,config
 
 def history_row(state,eos,opacity,config):
+    if config['numerics']['mechanics']=='quasi_static':
+        # Ball history columns: Table 1 observables, base state, cavity, photospheric
+        # radius (the tau = 2/3 face of the Ball photosphere), screens and the ledger.
+        from .quasistatic import history_row as ball_row
+        return ball_row(state,eos,opacity,config)
     e=rates(state,eos,config["engine"])
     L,d=luminosities(state,eos,opacity,config,e["luminosity"])
     radius=float(state.r[-1]); total=float(state.enclosed[-1])
     supply=value(config['feeding']['rate_msun_per_year'],state.time/YEAR)
-    wind=wind_rate(state,eos,opacity,config['wind'],max(0.,float(L[-1])))
+    w=wind_evaluate(state,eos,opacity,config['wind'],max(0.,float(L[-1])));wind=w['rate']
     er=state.energies(eos)
     transport=supply+wind*YEAR/MSUN+e['rest_mass_rate']*YEAR/MSUN
     row=dict(step=state.steps,time_years=state.time/YEAR,bh_mass_msun=state.bh_mass/MSUN,
@@ -134,7 +168,7 @@ def history_row(state,eos,opacity,config):
         rest_accretion_msun_per_year=e["rest_mass_rate"]*YEAR/MSUN,
         bh_growth_msun_per_year=e["bh_growth_rate"]*YEAR/MSUN,
         supply_msun_per_year=supply,wind_msun_per_year=wind*YEAR/MSUN,
-        photospheric_radius_cm=float('nan'),
+        photospheric_radius_cm=float('nan'),  # undefined; a node's held R_phot is not this state's photosphere
         kelvin_helmholtz_time_years=abs(er['gravity'])/max(abs(float(L[-1])),1.)/YEAR,
         replacement_time_years=float(state.dm.sum()/MSUN)/transport if transport else float('inf'),
         dynamical_time_years=(radius**3/(G*total))**.5/YEAR,
@@ -143,6 +177,11 @@ def history_row(state,eos,opacity,config):
         max_convective_saturation=float(max(d["saturation"],default=0.)),
         envelope_entropy_erg_K=float(np.dot(state.dm,eos.evaluate(state.rho,state.T)['s'])),
         **residuals(state,eos))
+    if 'emergent_luminosity' in w:
+        row.update(wind_terminal_speed_cm_s=w['terminal_speed'],wind_emergent_luminosity_erg_s=w['emergent_luminosity'],
+                   wind_emergent_effective_temperature_K=w['emergent_effective_temperature'],
+                   wind_node_photospheric_radius_cm=w['photospheric_radius'],
+                   wind_node_max_abs_dln_drift=w['max_abs_dln_drift'])
     row.update({"ledger_"+k:float(v) for k,v in state.ledger.items()})
     return row
 

@@ -1,0 +1,42 @@
+{
+ "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_adv/it12_trial_l1",
+ "t_floor": 7900.0,
+ "depths": [
+  19,
+  47
+ ],
+ "history": [
+  {
+   "it": 0,
+   "max_local_step": 46740198427.16835
+  },
+  {
+   "it": 1,
+   "max_local_step": 3429867.155979299
+  },
+  {
+   "it": 2,
+   "max_local_step": 346.2469529372627
+  },
+  {
+   "it": 3,
+   "max_local_step": 0.024209614008246498
+  },
+  {
+   "it": 4,
+   "max_local_step": 0.0004981536376713022
+  },
+  {
+   "it": 5,
+   "max_local_step": 0.00029474431591413746
+  },
+  {
+   "it": 6,
+   "max_local_step": 0.00022541361279749918
+  },
+  {
+   "it": 7,
+   "max_local_step": 0.00017249622446627305
+  }
+ ]
+}

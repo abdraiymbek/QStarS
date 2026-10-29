@@ -1,0 +1,51 @@
+--- a/cur_cmf/new_main/mod_subs/do_var_cont.f
++++ b/cur_cmf/new_main/mod_subs/do_var_cont.f
+@@ -196,6 +196,31 @@
+ !
+ ! 
+ !
++	  ELSE IF(CONT_VEL .AND. .NOT. ACCURATE .AND. QS_ALI_LIN .AND.
++	1             QS_LIN_FAC .EQ. 0.0_LDP .AND. USE_J_REL .AND.
++	1             .NOT. PLANE_PARALLEL .AND. .NOT. PLANE_PARALLEL_NO_V)THEN
++!
++! QSTARS build 21: fixed-J direct Jacobian (QS_ALI_LIN, QS_LIN_FAC=0). The radiation
++! response TX/TVX and the diffusion response are identically zero, so they are
++! neither recomputed nor zeroed per frequency (they stay zero from allocation and
++! the native line-slot release). DO_THIS_TX_MATRIX is set exactly as below.
++!
++	    IF(FIRST_FREQ)THEN
++	      TX(:,:,:)=0.0_LDP
++	      TVX(:,:,:)=0.0_LDP
++	    END IF
++	    dJ_DIF_d_T(:)=0.0_LDP
++	    dJ_DIF_d_dTdR(:)=0.0_LDP
++	    dRSQH_DIF_d_T(:)=0.0_LDP
++	    dRSQH_DIF_d_dTdR(:)=0.0_LDP
++	    DO I=1,NM
++	      DO_THIS_TX_MATRIX(I)=.TRUE.
++	    END DO
++	    DO I=TX_OFFSET+1,NM
++	      IF(VAR_IN_USE_CNT(I) .EQ. 0)THEN
++	        DO_THIS_TX_MATRIX(I)=.FALSE.
++	      END IF
++	    END DO
+ 	  ELSE IF(CONT_VEL .AND. .NOT. ACCURATE)THEN
+ 	    IF(FIRST_FREQ)THEN
+ 	      TX(:,:,:)=0.0_LDP
+@@ -755,8 +780,15 @@
+ !
+ 	CALL DP_ZERO(VJ,NT*NUM_BNDS*ND)
+ !
+-	IF(CONT_VEL)THEN
++	IF(CONT_VEL .AND. QS_ALI_LIN .AND. QS_LIN_FAC .EQ. 0.0_LDP .AND.
++	1     .NOT. ACCURATE .AND. USE_J_REL .AND. .NOT. PLANE_PARALLEL
++	1     .AND. .NOT. PLANE_PARALLEL_NO_V)THEN
+ !
++! QSTARS build 21: VJ (zeroed above) and dJ_LOC have no radiation response.
++!
++	  dJ_LOC=0.0_LDP
++	ELSE IF(CONT_VEL)THEN
++!
+ ! NB: We no longer include the variation ESEC variation with CHI, but treat it
+ ! separately. this correction has now been specifically included in VAROPAC.
+ !

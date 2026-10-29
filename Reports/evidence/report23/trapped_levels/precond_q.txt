@@ -1,0 +1,8 @@
+56 archived Krylov pairs, 21 n2 unit probes; q = ||W(M^-1 J z - z)||/||W z|| (0 = perfect)
+fixed-J (current M)                        Krylov pairs, driver W: median    0.883 min   0.233 max     1.405 | H-excited W=1: median    0.919 max     1.833 | n2 probes: median    2.205 max    2.879 | max|M^-1R| sig 7.686e-03
+fixed-J + exact n2 col (d26-46)            Krylov pairs, driver W: median    0.883 min   0.233 max     1.405 | H-excited W=1: median    0.920 max     2.271 | n2 probes: median    0.023 max    0.312 | max|M^-1R| sig 1.634e+00
+ALI increment, all columns                 Krylov pairs, driver W: median    0.399 min   0.000 max     4.089 | H-excited W=1: median    0.766 max    16.570 | n2 probes: median    0.053 max    1.308 | max|M^-1R| sig 6.327e+01
+ALI increment, population columns only     Krylov pairs, driver W: median    0.855 min   0.000 max    13.915 | H-excited W=1: median    1.189 max    33.745 | n2 probes: median    0.053 max    1.974 | max|M^-1R| sig 1.109e+02
+ALI increment, H columns only              Krylov pairs, driver W: median    0.930 min   0.250 max     6.074 | H-excited W=1: median    1.173 max    33.585 | n2 probes: median    0.053 max    1.968 | max|M^-1R| sig 8.038e+01
+ALI increment, H columns, H rows           Krylov pairs, driver W: median    0.927 min   0.250 max     6.110 | H-excited W=1: median    1.161 max    33.592 | n2 probes: median    0.053 max    1.968 | max|M^-1R| sig 8.038e+01
+ALI increment x0.5, all columns            Krylov pairs, driver W: median    0.820 min   0.165 max     1.110 | H-excited W=1: median    0.841 max     1.295 | n2 probes: median    2.664 max    3.563 | max|M^-1R| sig 2.609e-02

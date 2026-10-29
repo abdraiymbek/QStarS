@@ -1,0 +1,242 @@
+diff --git a/src/qstars/quasistatic.py b/src/qstars/quasistatic.py
+index 69adb68..d4617a8 100644
+--- a/src/qstars/quasistatic.py
++++ b/src/qstars/quasistatic.py
+@@ -909,7 +909,7 @@ def bondi_step(old,dt,eos,opacity,config,mode='evolve',target_mass=None):
+         swept+=delta
+     else:
+         raise rejection(f'Sink correction is {delta/post.dm[0]:.3g} of the base cell after {qs["max_passes"]} predictor passes')
+-    effect=_remesh_effect(problem,x,premesh) if remesh['splits'] or remesh['merges'] else None
++    effect=_remesh_effect(problem,x,premesh,cut_info,passes,swept) if remesh['splits'] or remesh['merges'] else None
+     remesh=dict(remesh,regrid=regrid,effect=effect)
+     new,out=_assemble(problem,x,solver,cut_info,remesh,passes,swept)
+     if mode!='relax':
+@@ -919,7 +919,7 @@ def bondi_step(old,dt,eos,opacity,config,mode='evolve',target_mass=None):
+                             f'mass {mass:.3g} (limit {qs["mass_per_step"]:g})')
+     return new,out
+ 
+-def _remesh_effect(problem,x,premesh):
++def _remesh_effect(problem,x,premesh,cut_info=None,passes=1,swept=None):
+     """Boundary-state change caused by P2's split/merge events at this dt.
+ 
+     The accepted pass is compared with the same step (same prediction, one
+@@ -927,18 +927,40 @@ def _remesh_effect(problem,x,premesh):
+     regridded state of a fixed-mass base, whose continuous regrid is part
+     of the scheme. Only called on steps with a split or merge. A failed
+     counterfactual solve is reported, not raised.
++
++    event_free (with cut_info): the counterfactual step assembled as P5
++    would (its controller inputs: the profile metrics and the boundary and
++    surface observables of stepcontrol.observables), which the controller
++    reads with stepcontrol events='counterfactual' (Amendment 5 draft). A
++    split or merge changes the discrete solution by the change of its
++    truncation error, whatever dt is (outer cells in thermal equilibrium
++    re-equilibrate on the new mesh within hours), so that jump is not a
++    timestep error; the counterfactual measures the step's evolution alone.
++    None when it could not be assembled.
+     """
+     p=problem
+     try:
+         alt=Problem(p.old,premesh,p.dt,p.eos,p.opacity,p.config,p.mode,p.target_mass,p.predicted,p.s)
+         xa,info=alt.solve()
+     except (StepRejected,DomainError)+RETRY_ERRORS as exc:
+-        return dict(solved=False,message=f'{type(exc).__name__}: {exc}')
+-    if not info['success']:return dict(solved=False,message=info['message'])
++        return dict(solved=False,message=f'{type(exc).__name__}: {exc}',event_free=None)
++    if not info['success']:return dict(solved=False,message=info['message'],event_free=None)
+     d=p.evaluate(x,parts=True)[1];da=alt.evaluate(xa,parts=True)[1]
+     ratio=lambda key:float(np.log(np.real(d['boundary'][key])/np.real(da['boundary'][key])))
+-    return dict(solved=True,message=None,dln_base_density=ratio('rho'),dln_base_temperature=ratio('T'),
+-                dln_inner_radius=float(np.log(np.real(d['r'][0])/np.real(da['r'][0]))))
++    out=dict(solved=True,message=None,dln_base_density=ratio('rho'),dln_base_temperature=ratio('T'),
++             dln_inner_radius=float(np.log(np.real(d['r'][0])/np.real(da['r'][0]))),event_free=None)
++    if cut_info is not None:
++        from .stepcontrol import observables
++        quiet=dict(splits=0,merges=0,energy_defect=0.,entropy_change=0.,merge_mixing_entropy=0.,potential_reallocation=0.,
++                   max_event_defect=0.,regrid=None,effect=None)
++        try:cf,cd=_assemble(alt,xa,info,cut_info,quiet,passes,p.predicted['swept'] if swept is None else swept)
++        except (StepRejected,DomainError)+RETRY_ERRORS as exc:
++            out['message']=f'event-free step not assembled: {type(exc).__name__}: {exc}'
++        else:
++            out['event_free']=dict({k:cd[k] for k in ('lagrangian_max_dlnT','lagrangian_max_dlnr','mapped_max_dlnT','mapped_max_dlnr',
++                                                      'newton_iterations','zones')},
++                                   observables=observables(cf,p.eos,p.s['cavity']['boundary_state']))
++    return out
+ 
+ 
+ def _assemble(problem,x,solver,cut_info,remesh,passes,predicted_swept):
+@@ -1032,6 +1054,12 @@ def _assemble(problem,x,solver,cut_info,remesh,passes,predicted_swept):
+              remesh_dln_base_density=jump.get('dln_base_density'),
+              remesh_dln_base_temperature=jump.get('dln_base_temperature'),
+              remesh_dln_inner_radius=jump.get('dln_inner_radius'),
++             # The same step on the pre-event mesh (stepcontrol events='counterfactual'): None without an event.
++             event_free=jump.get('event_free'),
++             event_free_mapped_max_dlnT=(jump.get('event_free') or {}).get('mapped_max_dlnT'),
++             event_free_mapped_max_dlnr=(jump.get('event_free') or {}).get('mapped_max_dlnr'),
++             event_free_lagrangian_max_dlnT=(jump.get('event_free') or {}).get('lagrangian_max_dlnT'),
++             event_free_lagrangian_max_dlnr=(jump.get('event_free') or {}).get('lagrangian_max_dlnr'),
+              predicted_swept_mass=float(problem.predicted['swept']),final_swept_prediction=float(predicted_swept),
+              delta=delta,delta_fraction=delta/post.dm[0],swept_mass=swept,accreted_rest_mass=accreted,
+              rest_mass_rate=accreted/dt,bh_luminosity=L0,luminosity=LN,radius=float(new.r[-1]),
+diff --git a/src/qstars/stepcontrol.py b/src/qstars/stepcontrol.py
+index af24ca2..3707d46 100644
+--- a/src/qstars/stepcontrol.py
++++ b/src/qstars/stepcontrol.py
+@@ -28,6 +28,21 @@ solve fails or more than 3 predictor passes are needed; dt is then halved,
+ at most 12 consecutive times. The controller state lives in
+ State.aux['controller'] (plain JSON), so a restart continues bitwise.
+ A nonfinite metric or timestep is an error, never a silent pass.
++
++events (default 'measured', the registered rule): every component is
++measured on the accepted solution, so a split/merge event in the Lagrangian
++mesh, which changes the discrete solution by the change of its truncation
++error whatever dt is, counts as a timestep error; when that jump exceeds
++reject_ratio x delta_target no dt is accepted and the termination trigger
++fires (smoke run 20261014T051036.115106Z_smoke_C1_n200, step 1255: a merge
++of two outer cells moved T of the cell below by 1.86-1.88% at every dt from
++0.01 to 172 yr). 'counterfactual' (Amendment 5 draft): on a step with a
++split or merge, every component is measured on the same step solved on the
++pre-event mesh (quasistatic._remesh_effect, diag['event_free']), so
++delta_actual is again a property of dt; the event's own change stays in
++the step diagnostics (the measured profile metrics next to the event-free
++ones). Without an event, or when the counterfactual could not be solved
++or assembled, the measured components are used (the registered rule).
+ """
+ import math
+ import numpy as np
+@@ -35,8 +50,9 @@ from .constants import G,YEAR
+ 
+ DEFAULTS=dict(delta_target=.005,safety=.9,min_factor=.5,max_factor=1.5,reject_ratio=2.,hold_steps=3,
+               slow_iterations=8,slow_factor=.8,retry_factor=.5,max_retries=12,
+-              dt_initial_years=1.,dt_max_years=2e4,metric='lagrangian')
++              dt_initial_years=1.,dt_max_years=2e4,metric='lagrangian',events='measured')
+ METRICS=('lagrangian','mapped')
++EVENTS=('measured','counterfactual')
+ OBSERVABLES=('inner_radius','base_density','base_temperature','bh_mass','luminosity','radius','effective_temperature')
+ 
+ def settings(config):
+@@ -45,6 +61,7 @@ def settings(config):
+     if unknown:raise ValueError(f'Unknown stepcontrol settings {sorted(unknown)}')
+     out={**DEFAULTS,**given}
+     if out['metric'] not in METRICS:raise ValueError(f'stepcontrol.metric must be one of {METRICS}')
++    if out['events'] not in EVENTS:raise ValueError(f'stepcontrol.events must be one of {EVENTS}')
+     return out
+ 
+ def observables(state,eos,mode='face'):
+@@ -60,7 +77,9 @@ def observables(state,eos,mode='face'):
+ 
+ def metrics(before,after,diag,s=None):
+     """Components of delta_actual for one step; `before`/`after` from observables()."""
+-    metric=(s or DEFAULTS)['metric']
++    s=s or DEFAULTS;metric=s['metric']
++    free=diag.get('event_free') if s.get('events','measured')=='counterfactual' else None
++    if free:diag,after=free,free['observables']  # the step on the pre-event mesh (events='counterfactual')
+     out=dict(profile_dlnT=diag[metric+'_max_dlnT'],profile_dlnr=diag[metric+'_max_dlnr'])
+     for key in OBSERVABLES:
+         if key in before and key in after:out['dln_'+key]=abs(math.log(after[key]/before[key]))
+diff --git a/scripts/validate_ball_track.py b/scripts/validate_ball_track.py
+index 8d06785..a273701 100644
+--- a/scripts/validate_ball_track.py
++++ b/scripts/validate_ball_track.py
+@@ -68,7 +68,7 @@ TRACK_CONFIG=ROOT/'benchmarks/ball2011_track.yaml'
+ YEAR=365.25*86400
+ # Numerical-method settings an amendment may change (plan registration.amendment_rule:
+ # tolerances, primary physics, microphysics and targets are never amended).
+-AMENDABLE={'quasistatic':{'base','base_mass_fraction','photosphere_bracket'},'stepcontrol':{'metric'},
++AMENDABLE={'quasistatic':{'base','base_mass_fraction','photosphere_bracket'},'stepcontrol':{'metric','events'},
+            'relaxation':{'mesh_cycles','mesh_tolerance','cycle_dt_years'},
+            # Seed construction (plan initial_model.seed, not an immutable section): a seed is only the
+            # initial guess of a relaxation whose result is tested for seed independence (uniqueness).
+diff --git a/tests/test_quasistatic.py b/tests/test_quasistatic.py
+index 81fed34..bdec571 100644
+--- a/tests/test_quasistatic.py
++++ b/tests/test_quasistatic.py
+@@ -904,3 +904,88 @@ def test_fallback_f1_that_does_not_converge_is_a_reported_rejection(stable_cell,
+     with pytest.raises(StepRejected,match='Quasi-static solve failed') as plain:quasistatic.bondi_step(s,3*YEAR,EOS,OPACITY,c)
+     with pytest.raises(StepRejected,match='F1 pseudo-transient continuation failed') as fallback:quasistatic.bondi_step(s,3*YEAR,EOS,OPACITY,on)
+     assert str(fallback.value).startswith(str(plain.value))
++
++# ---------------------------------------------------------------- draft amendment 5: mesh events and the controller
++
++SMOKE_1255='benchmarks/results/2026-10-14-ball-track/20261014T051036.115106Z_smoke_C1_n200'
++
++def _forced_merge_step(ball_fixed,merge,dt,events=None):
++    """One evolve step of the Ball row-0 toy (fixed-mass base, mapped metric) with merge threshold `merge`:
++    0.7 merges one pair of Lagrangian envelope cells, 0.6 none. events None: the registered rule (no key)."""
++    s,_,c=ball_fixed;z=zero_time(s);before=stepcontrol.observables(z,EOS,'face')
++    cc=copy.deepcopy(c);cc['quasistatic']['merge']=merge;cc['stepcontrol']=dict(metric='mapped')
++    if events is not None:cc['stepcontrol']['events']=events
++    new,d=quasistatic.bondi_step(z,dt*YEAR,EOS,OPACITY,cc,mode='evolve')
++    return d,stepcontrol.metrics(before,stepcontrol.observables(new,EOS,'face'),d,stepcontrol.settings(cc))
++
++def test_registered_rule_counts_a_mesh_event_jump_at_every_dt(ball_fixed):
++    """The defect behind draft amendment 5, on the analytic toy (passes before and after the fix): a merge
++    in the Lagrangian envelope changes the discrete solution by the change of its truncation error,
++    whatever dt is, and the registered rule counts it as a timestep error. delta_actual of the step with
++    the merge stays at 3.5e-4 to 7.2e-4 from dt = 1e-6 yr to 1 yr; without the merge it is 1.5e-7 at
++    1e-6 yr. Halving dt therefore never removes it (smoke run 20261014T051036.115106Z_smoke_C1_n200:
++    the jump was 1.5-1.9%, above 2 x delta_target, so every retry was rejected)."""
++    jump=[]
++    for dt in (1e-6,1e-2,1.):
++        d,m=_forced_merge_step(ball_fixed,.7,dt);dn,mn=_forced_merge_step(ball_fixed,.6,dt)
++        assert d['merges']==1 and dn['merges']==dn['splits']==0
++        assert m['delta_actual']>=3e-4 and d['remesh_effect_solved']
++        jump.append(m['delta_actual'])
++    assert mn['delta_actual']<m['delta_actual'] and min(jump)>=.4*max(jump)
++    d,m=_forced_merge_step(ball_fixed,.6,1e-6);assert m['delta_actual']<=1e-6
++
++def test_mesh_event_jump_is_not_a_timestep_error(ball_fixed):
++    """Draft amendment 5 (fails before: stepcontrol has no 'events' setting and the step no event-free
++    record). With stepcontrol events='counterfactual' every component of delta_actual on a step with a
++    split or merge is measured on the same step solved on the pre-event mesh: it equals delta_actual of
++    the same step without the merge and vanishes with dt, while the event's own jump stays in the step
++    diagnostics. Without an event the amended rule is the registered one, bitwise."""
++    free=[]
++    for dt in (1e-6,1e-2,1.):
++        dm,mm=_forced_merge_step(ball_fixed,.7,dt,'measured');dc,mc=_forced_merge_step(ball_fixed,.7,dt,'counterfactual')
++        dn,mn=_forced_merge_step(ball_fixed,.6,dt,'counterfactual');_,mr=_forced_merge_step(ball_fixed,.7,dt)
++        assert dm['merges']==dc['merges']==1 and dn['merges']==dn['splits']==0 and dn['event_free'] is None
++        assert mm==mr and mm['delta_actual']>=3e-4  # 'measured' is the registered rule
++        assert dc['mapped_max_dlnT']==dm['mapped_max_dlnT']>=3e-4  # the jump is still reported
++        for k,v in mn.items():assert abs(mc[k]-v)<=1e-12*max(abs(v),1e-300),(dt,k)
++        assert abs(dc['event_free_mapped_max_dlnT']-dn['mapped_max_dlnT'])<=1e-12*dn['mapped_max_dlnT']
++        free.append(mc['delta_actual'])
++    assert free[0]<=1e-6 and free[0]<=1e-3*mm['delta_actual']
++    _,m6=_forced_merge_step(ball_fixed,.6,1.,'measured')
++    assert m6==mn
++
++def test_smoke_step_1255_merge_is_measured_on_the_pre_event_mesh():
++    """Opt-in (QSTARS_MESA_LIBRARY of an ABI 7 build, MESA_DIR) on the preserved failing smoke run: from its
++    last accepted state (step 1255, M_BH = 46.0 Msun) every step merges two outer cells (0.05 Msun below the
++    surface, T = 7400 K, in the hydrogen opacity peak) and the temperature of the cell below moves by
++    1.9% whatever dt is; the measured rule rejects every dt (the run's 8 rejections from 172 yr down to
++    1.34 yr). On the pre-event mesh the same step changes the profile by 2.4e-5 at 1 yr and 3.6e-3 at the
++    controller's 172 yr: events='counterfactual' accepts it."""
++    import os
++    from pathlib import Path
++    library,directory=os.environ.get('QSTARS_MESA_LIBRARY'),os.environ.get('MESA_DIR')
++    if not library or not directory:pytest.skip('Set QSTARS_MESA_LIBRARY and MESA_DIR for compiled MESA tests')
++    run=Path(__file__).resolve().parents[1]/SMOKE_1255
++    if not (run/'checkpoint.npz').is_file():pytest.skip('preserved smoke run not present (results are not part of a source checkout)')
++    from qstars.eos import Composition
++    from qstars.mesa_microphysics import MesaMicrophysics
++    state,config=quasistatic.load_checkpoint(run/'checkpoint.npz')
++    assert state.steps==1255 and len(state.dm)==174
++    eos=MesaMicrophysics(Composition(**config['composition']),library,directory)
++    opacity=quasistatic.opacity_tables(config,eos,eos.opacity)
++    before=stepcontrol.observables(state,eos,'face')
++    out={}
++    for events in ('measured','counterfactual'):
++        c=copy.deepcopy(config);c['stepcontrol']['events']=events;S=stepcontrol.settings(c)
++        for dt in (1.,172.1438701239381):
++            new,d=quasistatic.bondi_step(state,dt*YEAR,eos,opacity,c,mode='evolve')
++            m=stepcontrol.metrics(before,stepcontrol.observables(new,eos,'face'),d,S)
++            assert d['merges']==1 and d['splits']==0 and len(new.dm)==173
++            out[events,dt]=(m,d)
++    for dt in (1.,172.1438701239381):
++        m,d=out['measured',dt]
++        assert stepcontrol.rejected(m['delta_actual'],S) and m['delta_actual']==m['profile_dlnT']>=.015
++        m,d=out['counterfactual',dt]
++        assert not stepcontrol.rejected(m['delta_actual'],S) and d['mapped_max_dlnT']>=.015
++    assert out['counterfactual',1.][0]['delta_actual']<=1e-4
++    assert out['counterfactual',172.1438701239381][0]['delta_actual']<=stepcontrol.settings(config)['delta_target']

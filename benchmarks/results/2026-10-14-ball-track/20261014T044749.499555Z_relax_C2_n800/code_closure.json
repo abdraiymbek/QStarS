@@ -1,0 +1,31 @@
+{
+  "modules": [
+    "__init__",
+    "cavity",
+    "config",
+    "constants",
+    "controls",
+    "engine",
+    "eos",
+    "fold",
+    "io",
+    "ledger",
+    "mass_transport",
+    "mesa_microphysics",
+    "mesh",
+    "mlt",
+    "nonlinear",
+    "numerics",
+    "photosphere",
+    "quasistatic",
+    "state",
+    "stepcontrol",
+    "structure",
+    "transport",
+    "validity",
+    "winds"
+  ],
+  "sha256": "10c69c8a8ea3f89b8e11b51939b41586381fe7a339038b908b9cf3bb1fbd6383",
+  "missing": [],
+  "loaded_outside_closure": []
+}

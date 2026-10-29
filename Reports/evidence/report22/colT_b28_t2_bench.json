@@ -1,0 +1,20 @@
+{
+ "archived": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/cols_it14_trial_l1/col_T_p",
+ "dest": "/Users/abraiymbek/Projects/QStarS/results/bench22/matched/colT_b28_t2",
+ "exe": "backends/cmfgen/build_28/cur_cmf/exe/cmfgen_dev.exe",
+ "threads": 2,
+ "ndirs": 0,
+ "no_obs_formal": false,
+ "extra_env": {},
+ "wall_s": 572.0757827758789,
+ "real": 568.78,
+ "user": 555.62,
+ "sys": 36.62,
+ "formal_solutions": 43314,
+ "agreement": {
+  "state_identical": true,
+  "residual_max_rel": 2.5187756417192063e-13,
+  "residual_rel_l2": 7.47540581534104e-21,
+  "residual_rowwise_max_rel": 1.0935621619142976e-14
+ }
+}

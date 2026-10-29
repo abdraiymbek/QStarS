@@ -1,0 +1,36 @@
+{
+ "base_release": "build_18",
+ "build": "build_19",
+ "files": [
+  "new_main/mod_subs/comp_j_blank.f",
+  "new_main/mod_subs/do_var_cont.f",
+  "new_main/Makefile",
+  "new_main/qs_jv.f90",
+  "new_main/formal_tangent_lin.f90"
+ ],
+ "source_hashes": {
+  "new_main/mod_subs/comp_j_blank.f": {
+   "base": "108608e78959e31cc45c09e384e15c61e65bc240b109b49e54fcd5c3fb3eeeb1",
+   "patched": "7904c5684ea69b2ddec1290fe0c43aa3b73e4657c40b1d4ddab024532a4c840d"
+  },
+  "new_main/mod_subs/do_var_cont.f": {
+   "base": "288b559347d3a91d44335a7a9f8516069d28331968f766a77d088f102d081098",
+   "patched": "ffb1b29fdbee5dbfecfa2b60eb08281ad5618a5d79f1b82b90ec7e93449b5321"
+  },
+  "new_main/Makefile": {
+   "base": "151673c651d6b2139163a906eff8df4b63899707413b98ae0a7ab099ff1bc5aa",
+   "patched": "f43f28861390f8b9f7acfb5d69d6daeaa47a1ea7a1a50e1c5391780ce7a7f4a8"
+  },
+  "new_main/qs_jv.f90": {
+   "base": "760d3c548dfaca6771055167753e48d67886f01a1a92ee14787c5c4ccb437ad1",
+   "patched": "62b45063b7abcb79c800f074629f8c9e4a91b196174a64dbb67a709b858433f3"
+  },
+  "new_main/formal_tangent_lin.f90": {
+   "base": null,
+   "patched": "ab9d6ec1d09ee1f614bcfcae033bd220d334d9767e7bf5a41988f6315f26ad9f"
+  }
+ },
+ "patch_file": "jv_replay.patch",
+ "patch_sha256": "8f7df83769a35b957319e587a3cb374035dabfdf87da97dff35790d4cfcb8248",
+ "scope": "Linearized formal tangent (one primal setup per frequency, dual reference via QSTARS_JV_DUAL, QSTARS_JV_CHECKLIN compares both); OpenMP over directions; QSTARS_RJ_STORE writes the converged J per frequency; QSTARS_JV_REPLAY rereads it and performs ONE formal solve per frequency (no ALI) for cheap product passes; VAR_JREL_V5 skipped when QS_ALI_LIN and QS_LIN_FAC=0 (all its outputs are zero there). Residual unchanged."
+}

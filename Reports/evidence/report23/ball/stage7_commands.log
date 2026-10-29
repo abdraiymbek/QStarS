@@ -1,0 +1,54 @@
+=== 2026-10-14T04:46:26Z validate_ball_track.py relax --run C1
+    exit 1; run dir: benchmarks/results/2026-10-14-ball-track/20261014T044627.755459Z_relax_C1_n200
+=== 2026-10-14T04:46:31Z validate_ball_track.py relax --run C0
+    exit 1; run dir: benchmarks/results/2026-10-14-ball-track/20261014T044632.432313Z_relax_C0_n400
+=== 2026-10-14T04:46:37Z validate_ball_track.py relax --run C2
+    exit 1; run dir: benchmarks/results/2026-10-14-ball-track/20261014T044638.756520Z_relax_C2_n800
+=== 2026-10-14T04:46:59Z validate_ball_track.py --amendment benchmarks/ball2011_track_plan_amendment_3.json relax --run C1
+    exit 2; run dir: 
+=== 2026-10-14T04:47:00Z validate_ball_track.py --amendment benchmarks/ball2011_track_plan_amendment_3.json relax --run C0
+    exit 2; run dir: 
+=== 2026-10-14T04:47:00Z validate_ball_track.py --amendment benchmarks/ball2011_track_plan_amendment_3.json relax --run C2
+    exit 2; run dir: 
+=== 2026-10-14T04:47:08Z validate_ball_track.py --amendment benchmarks/ball2011_track_plan_amendment_3.json relax --run C1
+    exit 1; run dir: benchmarks/results/2026-10-14-ball-track/20261014T044710.123385Z_relax_C1_n200
+=== 2026-10-14T04:47:29Z validate_ball_track.py --amendment benchmarks/ball2011_track_plan_amendment_3.json relax --run C0
+    exit 1; run dir: benchmarks/results/2026-10-14-ball-track/20261014T044730.764425Z_relax_C0_n400
+=== 2026-10-14T04:47:47Z validate_ball_track.py --amendment benchmarks/ball2011_track_plan_amendment_3.json relax --run C2
+    exit 1; run dir: benchmarks/results/2026-10-14-ball-track/20261014T044749.499555Z_relax_C2_n800
+=== 2026-10-14T04:50:13Z validate_ball_track.py --amendment benchmarks/ball2011_track_plan_amendment_3.json --amendment benchmarks/ball2011_track_plan_amendment_4.json relax --run C1
+    exit 1; run dir: benchmarks/results/2026-10-14-ball-track/20261014T045015.140344Z_relax_C1_n200
+=== 2026-10-14T04:50:46Z validate_ball_track.py --amendment benchmarks/ball2011_track_plan_amendment_3.json --amendment benchmarks/ball2011_track_plan_amendment_4.json relax --run C0
+    exit 1; run dir: benchmarks/results/2026-10-14-ball-track/20261014T045048.449968Z_relax_C0_n400
+=== 2026-10-14T04:51:55Z validate_ball_track.py --amendment benchmarks/ball2011_track_plan_amendment_3.json --amendment benchmarks/ball2011_track_plan_amendment_4.json relax --run C2
+    exit 1; run dir: benchmarks/results/2026-10-14-ball-track/20261014T045156.738149Z_relax_C2_n800
+=== 2026-10-14T04:56:55Z validate_ball_track.py --amendment benchmarks/ball2011_track_plan_amendment_3.json --amendment benchmarks/ball2011_track_plan_amendment_4.json --amendment benchmarks/ball2011_track_plan_amendment_2.json relax --run C1
+    exit 0; run dir: benchmarks/results/2026-10-14-ball-track/20261014T045656.734791Z_relax_C1_n200
+=== 2026-10-14T04:57:34Z validate_ball_track.py --amendment benchmarks/ball2011_track_plan_amendment_3.json --amendment benchmarks/ball2011_track_plan_amendment_4.json --amendment benchmarks/ball2011_track_plan_amendment_2.json smoke --row0 benchmarks/results/2026-10-14-ball-track/20261014T045656.734791Z_relax_C1_n200/row0_6000rsun.npz
+    exit 1; run dir: benchmarks/results/2026-10-14-ball-track/20261014T045735.539052Z_smoke_C1_n200
+=== 2026-10-14T04:57:37Z validate_ball_track.py --amendment benchmarks/ball2011_track_plan_amendment_3.json --amendment benchmarks/ball2011_track_plan_amendment_4.json --amendment benchmarks/ball2011_track_plan_amendment_2.json --fallback F1 smoke --row0 benchmarks/results/2026-10-14-ball-track/20261014T045656.734791Z_relax_C1_n200/row0_6000rsun.npz
+    exit 1; run dir: benchmarks/results/2026-10-14-ball-track/20261014T045737.939477Z_smoke_C1_n200
+=== 2026-10-14T04:57:52Z validate_ball_track.py --amendment benchmarks/ball2011_track_plan_amendment_3.json --amendment benchmarks/ball2011_track_plan_amendment_4.json --amendment benchmarks/ball2011_track_plan_amendment_2.json --amendment benchmarks/ball2011_track_plan_amendment_1.json relax --run C1
+    exit 0; run dir: benchmarks/results/2026-10-14-ball-track/20261014T045753.248504Z_relax_C1_n200
+    step 5 C1: converged_unique ok row0_6000rsun.npz (benchmarks/results/2026-10-14-ball-track/20261014T045753.248504Z_relax_C1_n200)
+=== 2026-10-14T04:59:56Z validate_ball_track.py --amendment benchmarks/ball2011_track_plan_amendment_3.json --amendment benchmarks/ball2011_track_plan_amendment_4.json --amendment benchmarks/ball2011_track_plan_amendment_2.json --amendment benchmarks/ball2011_track_plan_amendment_1.json relax --run C0
+    exit 0; run dir: benchmarks/results/2026-10-14-ball-track/20261014T045958.492497Z_relax_C0_n400
+    step 5 C0: converged_unique ok row0_6000rsun.npz (benchmarks/results/2026-10-14-ball-track/20261014T045958.492497Z_relax_C0_n400)
+=== 2026-10-14T05:02:01Z validate_ball_track.py --amendment benchmarks/ball2011_track_plan_amendment_3.json --amendment benchmarks/ball2011_track_plan_amendment_4.json --amendment benchmarks/ball2011_track_plan_amendment_2.json --amendment benchmarks/ball2011_track_plan_amendment_1.json relax --run C2
+    exit 0; run dir: benchmarks/results/2026-10-14-ball-track/20261014T050203.014930Z_relax_C2_n800
+    step 5 C2: converged_unique ok row0_6000rsun.npz (benchmarks/results/2026-10-14-ball-track/20261014T050203.014930Z_relax_C2_n800)
+=== 2026-10-14T05:06:15Z validate_ball_track.py --amendment benchmarks/ball2011_track_plan_amendment_3.json --amendment benchmarks/ball2011_track_plan_amendment_4.json --amendment benchmarks/ball2011_track_plan_amendment_2.json --amendment benchmarks/ball2011_track_plan_amendment_1.json relax --run C5
+    exit 0; run dir: benchmarks/results/2026-10-14-ball-track/20261014T050616.157669Z_relax_C5_n400
+    step 5 C5: converged_unique ok row0_6000rsun.npz (benchmarks/results/2026-10-14-ball-track/20261014T050616.157669Z_relax_C5_n400)
+=== 2026-10-14T05:07:37Z validate_ball_track.py --amendment benchmarks/ball2011_track_plan_amendment_3.json --amendment benchmarks/ball2011_track_plan_amendment_4.json --amendment benchmarks/ball2011_track_plan_amendment_2.json --amendment benchmarks/ball2011_track_plan_amendment_1.json relax --run C6
+    exit 0; run dir: benchmarks/results/2026-10-14-ball-track/20261014T050739.087855Z_relax_C6_n400
+    step 5 C6: converged_unique ok row0_6000rsun.npz (benchmarks/results/2026-10-14-ball-track/20261014T050739.087855Z_relax_C6_n400)
+=== 2026-10-14T05:09:12Z validate_ball_track.py --amendment benchmarks/ball2011_track_plan_amendment_3.json --amendment benchmarks/ball2011_track_plan_amendment_4.json --amendment benchmarks/ball2011_track_plan_amendment_2.json --amendment benchmarks/ball2011_track_plan_amendment_1.json relax --run C7
+    exit 0; run dir: benchmarks/results/2026-10-14-ball-track/20261014T050913.937107Z_relax_C7_n400
+    step 5 C7: converged_unique ok row0_6000rsun.npz (benchmarks/results/2026-10-14-ball-track/20261014T050913.937107Z_relax_C7_n400)
+=== 2026-10-14T05:10:35Z validate_ball_track.py --amendment benchmarks/ball2011_track_plan_amendment_3.json --amendment benchmarks/ball2011_track_plan_amendment_4.json --amendment benchmarks/ball2011_track_plan_amendment_2.json --amendment benchmarks/ball2011_track_plan_amendment_1.json smoke --row0 benchmarks/results/2026-10-14-ball-track/20261014T045753.248504Z_relax_C1_n200/row0_6000rsun.npz
+    exit 1; run dir: benchmarks/results/2026-10-14-ball-track/20261014T051036.115106Z_smoke_C1_n200
+    step 6 smoke: exit 1 termination_trigger False 1255 138.75232801092696 0.006334125098970704
+STOP: step 6 smoke gate failed
+=== 2026-10-14T06:18Z main session: Stage 7 stopped at step 6 (registered stop rule 3: the smoke gate with Amendments 3, 4, 2, 1 failed at M_BH = 46.0; F1, F2 and F3 are used up).
+    Diagnosis (Reports/evidence/report23/ball/smoke_jump/): a registered merge of two outer cells inside the unresolved hydrogen opacity peak (local Eddington factor up to 3.4) changes the discrete solution by 1.5-1.9 % at every dt; class (a), numerical method. Proposed Amendment 5 (measure event steps on the pre-event mesh) REJECTED by the verifier as an unbounded tolerance relaxation; not registered (benchmarks/ball2011_track_plan_amendment_5.rejected_draft.json). A merge-free diagnostic DRYRUN stops at M_BH = 55.0 (unclassified). Numerical blocker recorded; campaign not run.

@@ -1,0 +1,17 @@
+validation exit 2
+hot_accreting exit 0
+bra_luminosity exit 0
+closed_relaxation exit 0
+dotan_launch exit 0
+pressure_confined exit 0
+two_stream_pulse exit 0
+hot_resolved_validation exit 0
+validation exit 2
+hot_accreting exit 0
+bra_luminosity exit 0
+closed_relaxation exit 0
+dotan_launch exit 0
+pressure_confined exit 0
+two_stream_pulse exit 0
+hot_resolved_validation exit 0
+compared 96 files; differences: 0

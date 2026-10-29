@@ -1,0 +1,6 @@
+{"event": "start", "step": 0, "restarted": false, "time_years": 0.0, "bh_mass_msun": 5.0, "enforced_screen_errors": []}
+{"event": "rejected", "step": 0, "dt_years": 1.0, "landing_target_msun": null, "kind": "numerical", "message": "delta_actual 0.09399 exceeds 2 x delta_target (profile_dlnr)", "domain_exit": false, "domain_trials": 0, "domain_message": null}
+{"event": "rejected", "step": 0, "dt_years": 0.5, "landing_target_msun": null, "kind": "numerical", "message": "delta_actual 0.04191 exceeds 2 x delta_target (profile_dlnr)", "domain_exit": false, "domain_trials": 0, "domain_message": null}
+{"event": "rejected", "step": 0, "dt_years": 0.25, "landing_target_msun": null, "kind": "numerical", "message": "delta_actual 0.0371 exceeds 2 x delta_target (profile_dlnr)", "domain_exit": false, "domain_trials": 0, "domain_message": null}
+{"event": "rejected", "step": 0, "dt_years": 0.125, "landing_target_msun": null, "kind": "numerical", "message": "delta_actual 0.01815 exceeds 2 x delta_target (profile_dlnr)", "domain_exit": false, "domain_trials": 0, "domain_message": null}
+{"event": "termination", "status": "termination_trigger", "reason": "timestep 0.0625 yr below the dynamical time 0.0913 yr (Ball's criterion)"}

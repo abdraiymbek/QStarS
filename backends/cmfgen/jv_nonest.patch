@@ -1,0 +1,96 @@
+--- a/cur_cmf/new_main/qs_jv.f90	2026-10-03 21:24:48
++++ b/cur_cmf/new_main/qs_jv.f90	2026-10-04 03:47:23
+@@ -481,38 +481,22 @@
+  st_replay=max(st_replay,maxval(abs(pm(1,:)-rj(1:nd)))/max(maxval(abs(rj(1:nd))),tiny(1.0_ldp)))
+ endif
+ lindiff=0
+-! Directions in parallel only when they can occupy every thread; otherwise directions run in
+-! sequence and lin_apply parallelizes over rays (it does so only outside an active region).
+-!$omp parallel do schedule(dynamic) default(shared) private(k,outp,outm,op2,om2,moms,dmoms,dmref,dtn,db,ddtdr,ddbb,cerr,nprod) &
+-!$omp if(nv>=omp_get_max_threads())
+-do k=1,nv
+- allocate(outp(nzmax,np),outm(nzmax,np))
+- dtn=dpop(nt,nd,k)
+- db=dbdt*dtn
+- ddtdr=dot_product(diffw(1:nt),dpop(1:nt,nd,k))
+- ddbb=ddbbdt*dtn+dbb/dtdr*ddtdr
+- if(jv_dual)then
+-  call tangent_scattering(eta_clump(1:nd),chi_clump(1:nd),chi_scat_clump(1:nd),rj(1:nd),&
+-       deta(:,k),dchi(:,k),dscat(:,k),bnue,dbb,db,ddbb,dlog_nu,nc,bnd,&
+-       prevp(:,:,k),prevm(:,:,k),moms,dmoms,outp,outm,cerr,.true.,nprod)
+- else
+-  call lin_scattering(chi_scat_clump(1:nd),rj(1:nd),deta(:,k),dchi(:,k),dscat(:,k),db,ddbb,&
+-       prevp(:,:,k),prevm(:,:,k),dmoms,outp,outm,cerr,nprod)
+-  if(jv_checklin.and.k==1)then
+-   allocate(op2(nzmax,np),om2(nzmax,np))
+-   call tangent_scattering(eta_clump(1:nd),chi_clump(1:nd),chi_scat_clump(1:nd),rj(1:nd),&
+-        deta(:,k),dchi(:,k),dscat(:,k),bnue,dbb,db,ddbb,dlog_nu,nc,bnd,&
+-        prevp(:,:,k),prevm(:,:,k),moms,dmref,op2,om2,cerr,.true.,nprod)
+-   lindiff(k)=maxval(abs(dmref(1,:)-dmoms(1,:)))/max(maxval(abs(dmref(1,:))),tiny(1.0_ldp))
+-   deallocate(op2,om2)
+-  endif
+- endif
+- prevp(:,:,k)=outp;prevm(:,:,k)=outm
+- dj(:,k)=dmoms(1,:)
+- cerr_k(k)=cerr;nprod_k(k)=nprod
+- deallocate(outp,outm)
+-enddo
++! Directions in parallel only when they can occupy every thread. Otherwise the directions run in
++! sequence OUTSIDE any OpenMP construct, so the ray-parallel region of lin_apply is a top-level
++! region. Build 28: the former inactive enclosing region (parallel do with a false IF clause) made
++! lin_apply's team a nested team; libgomp on macOS then intermittently deadlocked in the team
++! barrier or crashed (Report 21). The arithmetic is unchanged.
++if(nv>=omp_get_max_threads())then
++!$omp parallel do schedule(dynamic) default(shared) private(k)
++ do k=1,nv
++  call dir_tangent(k)
++ enddo
+ !$omp end parallel do
++else
++ do k=1,nv
++  call dir_tangent(k)
++ enddo
++endif
+ do k=1,nv
+  if(maxval(abs(dj(:,k)))>1.0e-200_ldp*maxval(rj(1:nd)).and.cerr_k(k)>st_closure)then
+   st_closure=cerr_k(k);st_closure_fl=fl
+@@ -625,6 +609,39 @@
+  enddo
+  st_maxdj=max(st_maxdj,maxval(abs(dj(:,k))/max(rj(1:nd),tiny(1.0_ldp))))
+ enddo
++contains
++ ! Transfer tangent of direction k (formerly the body of the direction loop; locals are private).
++ subroutine dir_tangent(k)
++ integer,intent(in)::k
++ real(kind=ldp),allocatable::outp(:,:),outm(:,:),op2(:,:),om2(:,:)
++ real(kind=ldp)::moms(4,nd),dmoms(4,nd),dmref(4,nd),dtn,db,ddtdr,ddbb,cerr
++ integer::nprod
++ allocate(outp(nzmax,np),outm(nzmax,np))
++ dtn=dpop(nt,nd,k)
++ db=dbdt*dtn
++ ddtdr=dot_product(diffw(1:nt),dpop(1:nt,nd,k))
++ ddbb=ddbbdt*dtn+dbb/dtdr*ddtdr
++ if(jv_dual)then
++  call tangent_scattering(eta_clump(1:nd),chi_clump(1:nd),chi_scat_clump(1:nd),rj(1:nd),&
++       deta(:,k),dchi(:,k),dscat(:,k),bnue,dbb,db,ddbb,dlog_nu,nc,bnd,&
++       prevp(:,:,k),prevm(:,:,k),moms,dmoms,outp,outm,cerr,.true.,nprod)
++ else
++  call lin_scattering(chi_scat_clump(1:nd),rj(1:nd),deta(:,k),dchi(:,k),dscat(:,k),db,ddbb,&
++       prevp(:,:,k),prevm(:,:,k),dmoms,outp,outm,cerr,nprod)
++  if(jv_checklin.and.k==1)then
++   allocate(op2(nzmax,np),om2(nzmax,np))
++   call tangent_scattering(eta_clump(1:nd),chi_clump(1:nd),chi_scat_clump(1:nd),rj(1:nd),&
++        deta(:,k),dchi(:,k),dscat(:,k),bnue,dbb,db,ddbb,dlog_nu,nc,bnd,&
++        prevp(:,:,k),prevm(:,:,k),moms,dmref,op2,om2,cerr,.true.,nprod)
++   lindiff(k)=maxval(abs(dmref(1,:)-dmoms(1,:)))/max(maxval(abs(dmref(1,:))),tiny(1.0_ldp))
++   deallocate(op2,om2)
++  endif
++ endif
++ prevp(:,:,k)=outp;prevm(:,:,k)=outm
++ dj(:,k)=dmoms(1,:)
++ cerr_k(k)=cerr;nprod_k(k)=nprod
++ deallocate(outp,outm)
++ end subroutine dir_tangent
+ end subroutine qs_jv_freq
+ 
+ ! Two-photon S.E. terms after the frequency loop (STEQ_BA_TWO_PHOT_RATE_V3).

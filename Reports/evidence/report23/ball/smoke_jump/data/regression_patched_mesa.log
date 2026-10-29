@@ -1,0 +1,8 @@
+........................................................................ [ 45%]
+........................................................................ [ 91%]
+......s......s                                                           [100%]
+=========================== short test summary info ============================
+SKIPPED [1] tests/test_ball_tables.py:147: source text cache absent (sources/cache is not distributed)
+SKIPPED [1] tests/test_mesa_abi7.py:130: Set QSTARS_MESA_ABI6_LIBRARY to an ABI 6 build for the compatibility check
+156 passed, 2 skipped in 166.05s (0:02:46)
+QSTARS_MESA_LIBRARY= MESA_DIR=/Users/abraiymbek/qsrd-runtime/mesa PYTHONPATH=  144.63s user 4.55s system 89% cpu 2:46.72 total

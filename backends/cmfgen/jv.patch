@@ -1,0 +1,1087 @@
+--- a/cur_cmf/new_main/cmfgen_sub.f
++++ b/cur_cmf/new_main/cmfgen_sub.f
+@@ -2180,6 +2180,11 @@
+ 	FLUSH(LUER)
+ 	CALL TUNE(IONE,'MLCF')
+ 	CALL TUNE(IONE,'10000')
++!
++! QSTARS build 18: optional exact directional Jacobian products (QSTARS_JV_DIRS).
++! Read-only with respect to the primal state and the native Newton step.
++!
++	CALL QS_JV_BEGIN(POPS,NT,ND,COMPUTE_BA,LAMBDA_ITERATION)
+ 	DO 10000 ML=1,NCF
+ 	  FREQ_INDX=ML
+ 	  FL=NU(ML)
+@@ -2606,6 +2611,10 @@
+ 	1                    ND,NC,NP,NUM_BNDS,DIAG_INDX,NT,NM,
+ 	1                    NDEXT,NCEXT,NPEXT,MAX_SIM,NM_KI)
+ 	    CALL TUNE(ITWO,'C_VARCONT')
++	    CALL TUNE(IONE,'QS_JV')
++	    CALL QS_JV_FREQ(ML,FL,FQW(ML),FIRST_FREQ,COMPUTE_NEW_CROSS,
++	1                   FINAL_CONSTANT_CROSS,NC,NP,ND,NT)
++	    CALL TUNE(ITWO,'QS_JV')
+ !
+ ! NB: VJ, VCHI, and VETA must not be modified until we have updated the
+ !     BA array.
+@@ -3013,6 +3022,7 @@
+ 	END IF
+ 	CALL STEQ_BA_TWO_PHOT_RATE_V3(POPS,NT,ND,
+ 	1         DIAG_INDX,COMPUTE_BA,LUMOD,LST_ITERATION)
++	CALL QS_JV_TWO_POST(POPS,NT,ND)
+ 	IF(LST_ITERATION .AND. VERBOSE_OUTPUT)THEN
+ 	  WRITE(199,'(I10,2ES18.8,3X,A)')ML,STEQ_T(DPTH_INDX),BA_T(VAR_INDX,DIAG_INDX,DPTH_INDX),'two'
+ 	  CALL WR2D_V2(STEQ_T,IONE,ND,'After two phot','&',L_TRUE,183)
+--- a/cur_cmf/new_main/subs/generate_full_matrix_v3.f
++++ b/cur_cmf/new_main/subs/generate_full_matrix_v3.f
+@@ -336,6 +336,10 @@
+ 	      END IF
+ 	    END IF
+ 	  END DO
++!
++! QSTARS build 18: record, and optionally force, the equation selection.
++!
++	  CALL QS_JV_REPLACE(REPLACE,NION,K,ND)
+ 	END IF
+ !
+ ! In all cases, we replace the ground state equation.
+@@ -377,6 +381,10 @@
+ 	  CALL ADJUST_CMAT_TO_LTE(C_MAT,STEQ_VEC,DIAG_BAND,DEPTH_INDX,NT)
+ 	END IF
+ !
++! QSTARS build 18: map directional radiation derivatives with the same rows.
++!
++	IF(DIAG_BAND)CALL QS_JV_MAP(K,NT,NION,REPLACE,ZERO_STEQ)
++!
+ ! Scale the BA matrix so that we solve for the fractional corrections to
+ ! the populations. This seems to yield better solutions for large matrices,
+ ! especially when we subsequently condition the matrices.
+@@ -387,6 +395,7 @@
+ 	    C_MAT(I,J)=C_MAT(I,J)*POPS(J,L)
+ 	  END DO
+ 	END DO
++	CALL QS_JV_BA_DUMP(C_MAT,NT,K,BAND_INDX)
+ !
+ 	CALL GET_LU(LUOUT,'In generate_full_matrix_v3')
+ 	IF(K .EQ. 41 .AND. DIAG_BAND .AND. K .LE. ND)THEN
+--- a/cur_cmf/new_main/subs/solveba_v13.f
++++ b/cur_cmf/new_main/subs/solveba_v13.f
+@@ -55,6 +55,8 @@
+ 	LOGICAL SET_POPS_D2_EQ_D1
+ 	LOGICAL QSTARS_KRYLOV_ON
+ 	EXTERNAL QSTARS_KRYLOV_ON
++	LOGICAL QS_JV_STOP_ON
++	EXTERNAL QS_JV_STOP_ON
+ !
+ 	INTEGER ERROR_LU,LUER
+ 	EXTERNAL ERROR_LU
+@@ -115,7 +117,7 @@
+ ! D2=zeroing), then stop when in Krylov-RHS mode (no population update).
+ !
+ 	  CALL QSTARS_WR_SOL(STEQ,POPS,NT,ND)
+-	  IF(QSTARS_KRYLOV_ON())THEN
++	  IF(QSTARS_KRYLOV_ON() .OR. QS_JV_STOP_ON())THEN
+ 	    OPEN(UNIT=97,FILE='QSTARS_KRYLOV_DONE',STATUS='UNKNOWN')
+ 	    WRITE(97,*)'Krylov RHS solve complete; iteration',MAIN_COUNTER
+ 	    CLOSE(97)
+--- a/cur_cmf/new_main/Makefile
++++ b/cur_cmf/new_main/Makefile
+@@ -27,8 +27,8 @@
+ 
+ # Give the dependencies of dispgen.exe and how it is created.
+ 
+-$(EXE_DIR)cmfgen_dev.exe : cmfgen.o cmfgen_sub.o  $(FN1) $(FN2) $(FN3) 
+-	$(F90) cmfgen.o cmfgen_sub.o \
++$(EXE_DIR)cmfgen_dev.exe : cmfgen.o cmfgen_sub.o formal_tangent.o qs_jv.o $(FN1) $(FN2) $(FN3) 
++	$(F90) cmfgen.o cmfgen_sub.o formal_tangent.o qs_jv.o \
+               -L$(LIB_DIR) -l$(LN1) -l$(LN2) -l$(LN3) \
+                $(LAPACK) $(BLAS) $(LOCLIB) \
+               -o $(EXE_DIR)cmfgen_dev.exe
+@@ -53,6 +53,13 @@
+ cmfgen_sub.o : cmfgen_sub.f $(MODS) $(UPDATE) GET_J_CHI.INC  
+ 	$(F90) -c $(OPTIONS) cmfgen_sub.f 
+ 
++# QStarS build 18: analytic formal tangent and directional Jacobian adapter.
++formal_tangent.o : formal_tangent.f90 $(MODS)
++	$(F90) -c $(FFREE) -ffree-line-length-none formal_tangent.f90
++
++qs_jv.o : qs_jv.f90 formal_tangent.o $(MODS)
++	$(F90) -c $(FFREE) -ffree-line-length-none qs_jv.f90
++
+ $(USR):
+ 	(cd ../tools ; make )
+ 
+--- a/cur_cmf/new_main/qs_jv.f90
++++ b/cur_cmf/new_main/qs_jv.f90
+@@ -0,0 +1,491 @@
++! SPDX-License-Identifier: GPL-3.0-only
++! QStarS build-18 directional (matrix-free) Jacobian of the native CMFGEN
++! rate/radiative-equilibrium residual. Adapts CMFGEN accumulation logic
++! (EVALSE_QWVJ_V8, EVALSE_LOWT_V2, ZNET/JBAR line updates, STEQ_T, TWO_PHOT_RATE,
++! GENERATE_FULL_MATRIX_V3); upstream GPLv3 provenance: backend README.
++!
++! For each requested direction s (fractional, dPOPS = POPS*s) this computes the
++! RADIATION part of J.dx exactly:  sum_nu (dSTEQ/dJ_nu) dJ_nu, where dJ_nu is the
++! analytic nonlocal tangent of the QS_FRM_ALI formal transfer (formal_tangent.f90)
++! driven by the exact directional changes of total extinction, thermal emissivity,
++! coherent scattering and the diffusion inner boundary, carrying the blue-side ray
++! derivative through the frequency sweep. The direct (fixed-J) part comes from the
++! native BA assembled with QS_ALI_LIN and QS_LIN_FAC=0 (dumped by QS_JV_BA_DUMP).
++! Nothing here changes the primal state, the residual, or the native Newton step.
++module qs_jv_state
++use set_kind_module
++implicit none
++logical :: jv_active=.false.
++logical :: jv_export=.false.
++integer :: nv=0,jv_nt=0,jv_nd=0,nzmax=0,jv_np=0,jv_maxsim=0,jv_ntwo=0,jv_lu_exp=-1
++real(kind=ldp),allocatable :: sdir(:,:,:),dpop(:,:,:),jv_pops(:,:)
++real(kind=ldp),allocatable :: prevp(:,:,:),prevm(:,:,:)
++real(kind=ldp),allocatable :: djrec(:,:),djphot(:,:),dsteq_t(:,:)
++real(kind=ldp),allocatable :: dznet(:,:,:),ddown(:,:,:),dup2(:,:,:)
++real(kind=ldp),allocatable :: dfull(:,:,:)
++logical,allocatable :: lowt_ion(:)
++type dse_t
++ real(kind=ldp),allocatable :: steq(:,:,:)
++end type
++type(dse_t),allocatable :: dse(:)
++real(kind=ldp) :: st_closure=0,st_replay=0,st_maxdj=0
++integer :: st_products=0,st_maxprod=0,st_nfreq=0,st_negfloor=0
++end module qs_jv_state
++
++! Read directions; allocate accumulators. Called once before the frequency loop.
++subroutine qs_jv_begin(pops,nt,nd,compute_ba,lambda_it)
++use set_kind_module
++use qs_jv_state
++use mod_cmfgen, only: atm,num_ions
++use steq_data_mod, only: se
++use line_mod, only: znet_sim
++use two_phot_mod, only: n_two
++implicit none
++integer,intent(in)::nt,nd
++real(kind=ldp),intent(in)::pops(nt,nd)
++logical,intent(in)::compute_ba,lambda_it
++character(len=512)::path
++integer::plen,ios,lu,hdr(3),id,k,nsim
++integer(kind=8)::fsize
++jv_active=.false.
++call get_environment_variable('QSTARS_JV_DIRS',path,length=plen,status=ios)
++if(ios/=0.or.plen==0)return
++if(.not.compute_ba.or.lambda_it)then
++ open(newunit=lu,file='QSTARS_JV_FAILURE',status='unknown',position='append')
++ write(lu,*)'QSTARS_JV_DIRS set but BA not computed (or lambda iteration); no product'
++ close(lu)
++ stop 'QSTARS_JV requires COMPUTE_BA and a non-lambda iteration'
++endif
++inquire(file=path(1:plen),size=fsize)
++open(newunit=lu,file=path(1:plen),status='old',access='stream',form='unformatted',iostat=ios)
++if(ios/=0)stop 'QSTARS_JV: cannot open direction file'
++read(lu,iostat=ios)hdr
++if(ios/=0.or.hdr(2)/=nt.or.hdr(3)/=nd.or.hdr(1)<1.or.&
++   fsize/=12_8+8_8*int(hdr(1),8)*int(nt,8)*int(nd,8))then
++ close(lu)
++ open(newunit=lu,file='QSTARS_JV_FAILURE',status='unknown',position='append')
++ write(lu,*)'Bad direction header',hdr,' expected NT,ND',nt,nd,' size',fsize
++ close(lu)
++ stop 'QSTARS_JV: bad direction file'
++endif
++nv=hdr(1);jv_nt=nt;jv_nd=nd
++if(allocated(sdir))deallocate(sdir,dpop,djrec,djphot,dsteq_t,dznet,ddown,dup2,dfull,lowt_ion,jv_pops)
++if(allocated(prevp))deallocate(prevp,prevm)
++if(allocated(dse))deallocate(dse)
++allocate(sdir(nt,nd,nv),dpop(nt,nd,nv),jv_pops(nt,nd))
++jv_pops=pops
++read(lu,iostat=ios)sdir
++close(lu)
++if(ios/=0)stop 'QSTARS_JV: cannot read directions'
++do k=1,nv
++ dpop(:,:,k)=pops*sdir(:,:,k)
++enddo
++nsim=size(znet_sim,2);jv_maxsim=nsim;jv_ntwo=max(n_two,1)
++allocate(djrec(nd,nv),djphot(nd,nv),dsteq_t(nd,nv),dznet(nd,nsim,nv))
++allocate(ddown(nd,jv_ntwo,nv),dup2(nd,jv_ntwo,nv),dfull(nt,nd,nv))
++djrec=0;djphot=0;dsteq_t=0;dznet=0;ddown=0;dup2=0;dfull=0
++allocate(dse(size(se)),lowt_ion(size(se)))
++lowt_ion=.false.
++do id=1,size(se)
++ if(.not.se(id)%xzv_pres)cycle
++ if(.not.associated(se(id)%steq))cycle
++ allocate(dse(id)%steq(size(se(id)%steq,1),nd,nv))
++ dse(id)%steq=0
++enddo
++do id=1,num_ions
++ if(atm(id)%xzv_pres)then
++  if(minval(atm(id)%xzvlte)==0.0_ldp)lowt_ion(id)=.true.
++ endif
++enddo
++st_closure=0;st_replay=0;st_maxdj=0;st_products=0;st_maxprod=0;st_nfreq=0;st_negfloor=0
++call get_environment_variable('QSTARS_JV_EXPORT',path,length=plen,status=ios)
++jv_export=(ios==0.and.plen>0)
++if(jv_export)then
++ open(newunit=jv_lu_exp,file='QSTARS_JV_SPECTRAL.bin',status='replace',access='stream',form='unformatted')
++ write(jv_lu_exp)'QSJV0001',int(nv,4),int(nd,4)
++endif
++jv_active=.true.
++open(newunit=lu,file='QSTARS_JV_BEGIN',status='unknown',position='append')
++write(lu,*)'directions',nv,' NT',nt,' ND',nd,' max|s|',maxval(abs(sdir)),' file=',path(1:plen)
++close(lu)
++end subroutine qs_jv_begin
++
++! Per-frequency directional products. Call after DO_VAR_CONT (VCHI/VETA valid),
++! and before UPDATE_BA_FOR_LINE (QFV_R/QFV_P still as set by EVALSE_QWVJ_V8).
++subroutine qs_jv_freq(ml,fl,fqw,first_freq,new_cross,final_cross,nc,np,nd,nt)
++use set_kind_module
++use qs_jv_state
++use qs_formal_tangent, only: tangent_scattering
++use mod_space_grid_v2, only: ray
++use mod_cmfgen, only: atm,num_ions,ion_id,t,ed,pop_atom,clump_fac
++use opac_mod, only: veta,vchi,eta_clump,chi_clump,chi_scat_clump,chi,eta,chi_cont,eta_cont,&
++                    chi_noscat,chi_scat,esec,chi_ray,emhnukt
++use radiation_mod, only: rj,dtdr,dbb,ddbbdt,dlog_nu
++use var_rad_mod, only: diffw
++use line_mod, only: resonance_zone,end_res_zone,line_prof_sim,line_opac_con,line_emis_con,&
++                    l_star_ratio,u_star_ratio,gldgu,sim_nl,sim_nup,chil_mat,etal_mat,line_qw_sim,&
++                    neg_opac_fac,eina,fl_sim,sim_line_pointer,ave_energy,dl_rat_dt,du_rat_dt
++use line_vec_mod, only: vec_id,vec_mnl_f,vec_mnup_f
++use steq_data_mod, only: se
++use control_variable_mod, only: coherent_es,inner_bnd_meth,neg_opac_option,include_dsldt,&
++                                scl_line_cool_rates,scl_line_ht_fac,scl_line_density_limit
++use two_phot_mod, only: n_two,two_phot_available,freq_two,type_two,coef_two,g_up_two,g_low_two,&
++                        fs_rat_low,fs_rat_up,phot_oc_two,two_method
++implicit none
++integer,intent(in)::ml,nc,np,nd,nt
++real(kind=ldp),intent(in)::fl,fqw
++logical,intent(in)::first_freq,new_cross,final_cross
++real(kind=ldp)::chibf,chiff,hdkt,twohcsq
++common /constants/ chibf,chiff,hdkt,twohcsq
++real(kind=ldp)::dchi_abs(nd),deta_c(nd),desec(nd),dray(nd),dscat(nd),dchil(nd),detal(nd)
++real(kind=ldp)::dchi(nd),deta(nd),dj(nd),moms(4,nd),dmoms(4,nd),chi_raw(nd)
++real(kind=ldp),allocatable::outp(:,:),outm(:,:)
++real(kind=ldp)::x,em,den,bnue,dbdt,dtn,db,ddtdr,ddbb,cerr,t1,t2,t3,t4,scl,fb,alpha,y,u,fu,ay
++real(kind=ldp)::down_const,up_const,flr,f1,f2,dsum,lbr
++integer::k,l,i,sim,nl,nup,ir,id,ipr,ion_lev,ion_eq,j,mnl,mnup,mnl_f,mnup_f,nprod,ihyd
++logical::branch1
++if(.not.jv_active)return
++if(first_freq)then
++ nzmax=0
++ do ir=1,np
++  nzmax=max(nzmax,ray(ir)%nz)
++ enddo
++ jv_np=np
++ if(allocated(prevp))deallocate(prevp,prevm)
++ allocate(prevp(nzmax,np,nv),prevm(nzmax,np,nv))
++ prevp=0;prevm=0
++endif
++do ir=1,np
++ if(ray(ir)%nz>nzmax)stop 'QSTARS_JV: ray length grew after first frequency'
++enddo
++allocate(outp(nzmax,np),outm(nzmax,np))
++st_nfreq=st_nfreq+1
++ihyd=1
++if(ion_id(1)=='H0'.or.ion_id(1)=='HMI')ihyd=2
++! Raw (unfloored) total extinction for negative-opacity branch identification.
++chi_raw=chi_cont(1:nd)
++do sim=1,jv_maxsim
++ if(resonance_zone(sim))chi_raw=chi_raw+chil_mat(1:nd,sim)*line_prof_sim(1:nd,sim)
++enddo
++! Diffusion inner boundary primal: identical expressions to COMP_J_BLANK.
++x=hdkt*fl/t(nd);em=emhnukt(nd);den=1.0_ldp-em
++bnue=twohcsq*(fl**3)*em/den
++dbdt=bnue*x/t(nd)/den
++do k=1,nv
++ ! Continuum: VCHI/VETA are d(CHI_NOSCAT)/dPOPS and d(ETA)/dPOPS at FL (CONTINUUM section).
++ do l=1,nd
++  dchi_abs(l)=dot_product(vchi(1:nt,l),dpop(1:nt,l,k))
++  deta_c(l)=dot_product(veta(1:nt,l),dpop(1:nt,l,k))
++  desec(l)=esec(l)/ed(l)*dpop(nt-1,l,k)
++  dray(l)=0
++  if(atm(ihyd)%xzv_pres)then
++   dray(l)=chi_ray(l)/atm(ihyd)%xzv_f(1,l)*dpop(atm(ihyd)%eqxzv,l,k)
++  endif
++ enddo
++ dscat=desec+dray
++ ! Lines: all lines in resonance zone (weak lines included; they are part of CHI).
++ dchil=0;detal=0
++ do sim=1,jv_maxsim
++  if(.not.resonance_zone(sim))cycle
++  nl=sim_nl(sim);nup=sim_nup(sim)
++  do l=1,nd
++   dchil(l)=dchil(l)+line_prof_sim(l,sim)*line_opac_con(sim)*&
++        (l_star_ratio(l,sim)*dpop(nl,l,k)-gldgu(sim)*u_star_ratio(l,sim)*dpop(nup,l,k))
++   detal(l)=detal(l)+line_prof_sim(l,sim)*line_emis_con(sim)*u_star_ratio(l,sim)*dpop(nup,l,k)
++  enddo
++  if(include_dsldt)then
++   do l=1,nd
++    dchil(l)=dchil(l)+line_prof_sim(l,sim)*line_opac_con(sim)*dpop(nt,l,k)*&
++         (dl_rat_dt(l,sim)*jv_pops(nl,l)-gldgu(sim)*du_rat_dt(l,sim)*jv_pops(nup,l))
++    detal(l)=detal(l)+line_prof_sim(l,sim)*line_emis_con(sim)*du_rat_dt(l,sim)*jv_pops(nup,l)*dpop(nt,l,k)
++   enddo
++  endif
++ enddo
++ deta=deta_c+detal
++ do l=1,nd
++  if(neg_opac_fac(l)==0.0_ldp)then
++   ! Native SRCE_CHK/ESEC_CHK floor: CHI=0.1*ETA*CHI_NOSCAT/ETA_CONT or 0.1*CHI_SCAT.
++   t1=0.1_ldp*eta(l)*chi_noscat(l)/eta_cont(l)
++   t2=0.1_ldp*chi_scat(l)
++   branch1=(neg_opac_option=='SRCE_CHK'.and.abs(chi(l)-t1)<=abs(chi(l)-t2))
++   if(branch1)then
++    dchi(l)=0.1_ldp*(deta(l)*chi_noscat(l)/eta_cont(l)+eta(l)*dchi_abs(l)/eta_cont(l)-&
++                     eta(l)*chi_noscat(l)*deta_c(l)/eta_cont(l)**2)
++   else
++    dchi(l)=0.1_ldp*dscat(l)
++   endif
++   if(k==1)st_negfloor=st_negfloor+1
++  else
++   dchi(l)=dchi_abs(l)+dscat(l)+dchil(l)
++  endif
++ enddo
++ ! Clumping (unit when DO_CL=F): the formal solution uses the clumped arrays.
++ dchi=dchi*clump_fac(1:nd);deta=deta*clump_fac(1:nd);dscat=dscat*clump_fac(1:nd)
++ ! Diffusion boundary: B(T_ND) and DBB=dB/dT*DTDR with DTDR(POPS_ND) via DIFFW.
++ dtn=dpop(nt,nd,k)
++ db=dbdt*dtn
++ ddtdr=dot_product(diffw(1:nt),dpop(1:nt,nd,k))
++ ddbb=ddbbdt*dtn+dbb/dtdr*ddtdr
++ call tangent_scattering(eta_clump(1:nd),chi_clump(1:nd),chi_scat_clump(1:nd),rj(1:nd),&
++      deta,dchi,dscat,bnue,dbb,db,ddbb,dlog_nu,nc,trim(inner_bnd_meth),&
++      prevp(:,:,k),prevm(:,:,k),moms,dmoms,outp,outm,cerr,.true.,nprod)
++ prevp(:,:,k)=outp;prevm(:,:,k)=outm
++ dj=dmoms(1,:)
++ st_closure=max(st_closure,cerr)
++ st_products=st_products+nprod;st_maxprod=max(st_maxprod,nprod)
++ if(k==1)st_replay=max(st_replay,maxval(abs(moms(1,:)-rj(1:nd)))/max(maxval(abs(rj(1:nd))),tiny(1.0_ldp)))
++ if(jv_export)then
++  if(k==1)write(jv_lu_exp)fl,fqw,rj(1:nd),moms(1,:)
++  write(jv_lu_exp)dchi,deta,dscat,dj
++ endif
++ ! ---- radiation part of the residual derivative -------------------------------
++ ! Bound-free (EVALSE_QWVJ_V8 / BA_UPDATE_V7): band-integrated JREC/JPHOT.
++ if(new_cross)then
++  djrec(:,k)=0;djphot(:,k)=0
++ endif
++ djrec(:,k)=djrec(:,k)+dj*emhnukt(1:nd)*fqw/fl
++ djphot(:,k)=djphot(:,k)+dj*fqw/fl
++ if(final_cross)then
++  do id=1,num_ions-1
++   if(.not.atm(id)%xzv_pres)cycle
++   if(.not.allocated(dse(id)%steq))cycle
++   do l=1,nd
++    do i=1,size(se(id)%qfv_r,1)
++     dse(id)%steq(i,l,k)=dse(id)%steq(i,l,k)+se(id)%qfv_r(i,l)*djrec(l,k)-se(id)%qfv_p(i,l)*djphot(l,k)
++    enddo
++   enddo
++  enddo
++ endif
++ ! Low-temperature recombination (EVALSE_LOWT_V2), per frequency.
++ do id=1,num_ions
++  if(.not.lowt_ion(id))cycle
++  do ipr=1,atm(id)%n_xzv_phot
++   ion_lev=atm(id)%xzv_ion_lev_id(ipr)
++   if(ion_lev==0)exit
++   ion_eq=se(id)%ion_lev_to_eq_pnt(ion_lev)
++   do l=1,nd
++    flr=dj(l)*fqw/fl
++    lbr=(atm(id+1)%log_xzvlte(1,l)-atm(id+1)%log_xzvlte(ion_lev,l))+&
++        log(atm(id+1)%xzv(ion_lev,l)/atm(id+1)%xzv(1,l))
++    dsum=0
++    do j=1,atm(id)%nxzv
++     if(atm(id)%xzvlte(j,l)==0.0_ldp.and.atm(id)%wsxzv(j,l,ipr)>0.0_ldp)then
++      t1=flr*atm(id)%wsxzv(j,l,ipr)*exp(atm(id)%log_xzvlte(j,l)+lbr-hdkt*fl/t(l))
++      dse(id)%steq(j,l,k)=dse(id)%steq(j,l,k)+t1
++      dsum=dsum+t1
++     endif
++    enddo
++    dse(id)%steq(ion_eq,l,k)=dse(id)%steq(ion_eq,l,k)-dsum
++   enddo
++  enddo
++ enddo
++ ! Radiative equilibrium row.
++ dsteq_t(:,k)=dsteq_t(:,k)+fqw*chi_noscat(1:nd)*dj
++ if(.not.coherent_es)dsteq_t(:,k)=dsteq_t(:,k)+fqw*esec(1:nd)*dj
++ ! Lines: ZNET accumulation and S.E./R.E. update at the end of the resonance zone.
++ do sim=1,jv_maxsim
++  if(resonance_zone(sim))then
++   dznet(:,sim,k)=dznet(:,sim,k)-line_qw_sim(1:nd,sim)*dj*chil_mat(1:nd,sim)/etal_mat(1:nd,sim)
++  endif
++  if(end_res_zone(sim))then
++   nl=sim_nl(sim);nup=sim_nup(sim)
++   i=sim_line_pointer(sim);id=vec_id(i)
++   mnl_f=vec_mnl_f(i);mnl=atm(id)%f_to_s_xzv(mnl_f)
++   mnup_f=vec_mnup_f(i);mnup=atm(id)%f_to_s_xzv(mnup_f)
++   scl=1.0_ldp
++   if(scl_line_cool_rates)then
++    scl=(ave_energy(nl)-ave_energy(nup))/fl_sim(sim)
++    if(abs(scl-1.0_ldp)>scl_line_ht_fac)scl=1.0_ldp
++   endif
++   do l=1,nd
++    t4=scl
++    if(pop_atom(l)>=scl_line_density_limit)t4=1.0_ldp
++    t2=eina(sim)*atm(id)%xzv_f(mnup_f,l)*dznet(l,sim,k)
++    t3=t4*etal_mat(l,sim)*dznet(l,sim,k)
++    dse(id)%steq(mnup,l,k)=dse(id)%steq(mnup,l,k)-t2
++    dse(id)%steq(mnl,l,k)=dse(id)%steq(mnl,l,k)+t2
++    dsteq_t(l,k)=dsteq_t(l,k)-t3
++   enddo
++   dznet(:,sim,k)=0
++  endif
++ enddo
++ ! Two-photon (TWO_PHOT_RATE): the conjugate-frequency occupation PHOT_OC_TWO is the
++ ! native lagged (stored-J) quantity and is held fixed, as in the native residual.
++ do j=1,n_two
++  if(.not.(two_phot_available(j).and.fl<freq_two(j)))cycle
++  fb=freq_two(j)-fl
++  alpha=twohcsq*(fl**3)
++  if(type_two(j)/=1)stop 'QSTARS_JV: unrecognized two-photon type'
++  y=fl/freq_two(j);u=y*(1.0_ldp-y);fu=4.0_ldp*u
++  ay=24.56_ldp*coef_two(j,1)*(u*(1.0_ldp-fu**0.8_ldp)+0.88_ldp*(u**1.53_ldp)*(fu**0.8_ldp))
++  down_const=0.5e-15_ldp*ay/freq_two(j)
++  up_const=down_const*g_up_two(j)/g_low_two(j)
++  if(two_method=='OLD_DEFAULT')then
++   up_const=up_const/alpha
++   do l=1,nd
++    ddown(l,j,k)=ddown(l,j,k)+down_const*fs_rat_up(l,j)*(dj(l)/alpha)*fqw
++    dup2(l,j,k)=dup2(l,j,k)+up_const*fs_rat_low(l,j)*exp(-hdkt*fb/t(l))*dj(l)*fqw
++   enddo
++  else
++   do l=1,nd
++    f1=dj(l)/alpha
++    ddown(l,j,k)=ddown(l,j,k)+down_const*fs_rat_up(l,j)*(f1+f1*phot_oc_two(l,j))*fqw
++    dup2(l,j,k)=dup2(l,j,k)+up_const*fs_rat_low(l,j)*f1*phot_oc_two(l,j)*fqw
++   enddo
++  endif
++ enddo
++ st_maxdj=max(st_maxdj,maxval(abs(dj)/max(rj(1:nd),tiny(1.0_ldp))))
++enddo
++deallocate(outp,outm)
++end subroutine qs_jv_freq
++
++! Two-photon S.E. terms after the frequency loop (STEQ_BA_TWO_PHOT_RATE_V3).
++subroutine qs_jv_two_post(pops,nt,nd)
++use set_kind_module
++use qs_jv_state
++use steq_data_mod, only: se
++use two_phot_mod, only: n_two,two_phot_available,ion_id_two,ion_low_lev_two,ion_up_lev_two,&
++                        low_lev_two,up_lev_two
++implicit none
++integer,intent(in)::nt,nd
++real(kind=ldp),intent(in)::pops(nt,nd)
++integer::k,l,j,id
++real(kind=ldp)::t1
++character(len=512)::path
++integer::lu
++if(.not.jv_active)return
++do k=1,nv
++ do l=1,nd
++  do j=1,n_two
++   if(.not.two_phot_available(j))cycle
++   id=ion_id_two(j)
++   t1=pops(up_lev_two(j),l)*ddown(l,j,k)-pops(low_lev_two(j),l)*dup2(l,j,k)
++   dse(id)%steq(ion_low_lev_two(j),l,k)=dse(id)%steq(ion_low_lev_two(j),l,k)+t1
++   dse(id)%steq(ion_up_lev_two(j),l,k)=dse(id)%steq(ion_up_lev_two(j),l,k)-t1
++  enddo
++ enddo
++enddo
++if(jv_export)then
++ close(jv_lu_exp);jv_lu_exp=-1
++endif
++open(newunit=lu,file='QSTARS_JV_STATS',status='unknown',position='append')
++write(lu,'(A,I8,A,I4,A,ES12.4,A,ES12.4,A,I12,A,I6,A,ES12.4,A,I8)')'freqs',st_nfreq,' dirs',nv,&
++  ' max_tangent_closure',st_closure,' max_primal_replay_rel',st_replay,' scattering_products',st_products,&
++  ' max_products',st_maxprod,' max_rel_dJ',st_maxdj,' neg_floor_cells',st_negfloor
++close(lu)
++end subroutine qs_jv_two_post
++
++! Map the directional S.E. derivatives to the full-matrix row layout exactly as
++! GENERATE_FULL_MATRIX_V3 maps STEQ (same REPLACE and ZERO_STEQ decisions).
++subroutine qs_jv_map(kd,nt,nion,replace,zero_steq)
++use set_kind_module
++use qs_jv_state
++use mod_cmfgen, only: atm,num_species,species_beg_id,species_end_id,species_pres,eq_species
++use steq_data_mod, only: se
++implicit none
++integer,intent(in)::kd,nt,nion
++logical,intent(in)::replace(nion),zero_steq(nt)
++real(kind=ldp)::vec(nt),vion(nion),vnc(num_species)
++integer::k,ispec,id,i,eq,lu
++if(.not.jv_active)return
++do k=1,nv
++ vec=0;vion=0;vnc=0
++ do ispec=1,num_species
++  do id=species_beg_id(ispec),species_end_id(ispec)-1
++   if(.not.allocated(dse(id)%steq))cycle
++   do i=1,se(id)%n_se-1
++    eq=se(id)%eq_in_ba(i)
++    vec(eq)=vec(eq)+dse(id)%steq(i,kd,k)
++   enddo
++   do i=atm(id)%nxzv+1,se(id)%n_se-1
++    vion(id)=vion(id)-dse(id)%steq(i,kd,k)
++   enddo
++   vnc(ispec)=vnc(ispec)+dse(id)%steq(se(id)%n_se,kd,k)
++  enddo
++ enddo
++ vec(nt-1)=0
++ vec(nt)=dsteq_t(kd,k)
++ do ispec=1,num_species
++  if(species_pres(ispec))vec(eq_species(ispec))=vnc(ispec)
++ enddo
++ do id=1,nion
++  if(replace(id).and.atm(id)%xzv_pres)vec(atm(id)%eqxzv)=vion(id)
++ enddo
++ do i=1,nt
++  if(zero_steq(i))vec(i)=0
++ enddo
++ dfull(:,kd,k)=vec
++enddo
++if(kd==jv_nd)then
++ open(newunit=lu,file='QSTARS_JV_RAD.bin',status='replace',access='stream',form='unformatted')
++ write(lu)int(nv,4),int(nt,4),int(jv_nd,4),sdir,dfull
++ close(lu)
++endif
++end subroutine qs_jv_map
++
++! Optional dump of every assembled full block (after REPLACE/FIXPOP and the native
++! column scaling by POPS) so that the direct Jacobian action can be applied offline.
++subroutine qs_jv_ba_dump(cmat,nt,kd,band)
++use set_kind_module
++implicit none
++integer,intent(in)::nt,kd,band
++real(kind=ldp),intent(in)::cmat(nt,nt)
++character(len=8)::flag
++integer::plen,ios,lu
++logical,save::first=.true.,on=.false.
++if(first)then
++ first=.false.
++ call get_environment_variable('QSTARS_BA_DUMP',flag,length=plen,status=ios)
++ on=(ios==0.and.plen>0)
++ if(on)then
++  open(newunit=lu,file='QSTARS_BA_TRACE.bin',status='replace',access='stream',form='unformatted')
++  close(lu)
++ endif
++endif
++if(.not.on)return
++open(newunit=lu,file='QSTARS_BA_TRACE.bin',status='old',access='stream',form='unformatted',position='append')
++write(lu)int(kd,4),int(band,4),int(nt,4),cmat
++close(lu)
++end subroutine qs_jv_ba_dump
++
++! Record (and optionally force) the ground-state/ionization equation selection.
++! A forced table fixes the residual definition across a nonlinear solve.
++subroutine qs_jv_replace(replace,nion,kd,nd)
++use set_kind_module
++implicit none
++integer,intent(in)::nion,kd,nd
++logical,intent(inout)::replace(nion)
++character(len=512)::path
++integer::plen,ios,lu,kk,i
++integer,allocatable,save::forced(:,:)
++logical,save::first=.true.,force=.false.
++if(first)then
++ first=.false.
++ call get_environment_variable('QSTARS_REPLACE_FORCE',path,length=plen,status=ios)
++ force=(ios==0.and.plen>0)
++ if(force)then
++  allocate(forced(nion,nd))
++  open(newunit=lu,file=path(1:plen),status='old',iostat=ios)
++  if(ios/=0)stop 'QSTARS_REPLACE_FORCE: cannot open'
++  do i=1,nd
++   read(lu,*,iostat=ios)kk,forced(:,i)
++   if(ios/=0.or.kk/=i)stop 'QSTARS_REPLACE_FORCE: bad table'
++  enddo
++  close(lu)
++ endif
++ open(newunit=lu,file='QSTARS_REPLACE_TRACE',status='replace')
++ close(lu)
++endif
++if(force)replace(:)=(forced(:,kd)/=0)
++open(newunit=lu,file='QSTARS_REPLACE_TRACE',status='old',position='append')
++write(lu,'(I5,*(I2))')kd,merge(1,0,replace)
++close(lu)
++end subroutine qs_jv_replace
++
++logical function qs_jv_stop_on()
++implicit none
++character(len=8)::flag
++integer::plen,ios
++call get_environment_variable('QSTARS_JV_STOP',flag,length=plen,status=ios)
++qs_jv_stop_on=(ios==0.and.plen>0)
++end function qs_jv_stop_on
+--- a/cur_cmf/new_main/formal_tangent.f90
++++ b/cur_cmf/new_main/formal_tangent.f90
+@@ -0,0 +1,478 @@
++! SPDX-License-Identifier: GPL-3.0-only
++! Differentiated adaptation of CMFGEN formal characteristics and Steffen
++! interpolation (DLM/DJH); upstream GPLv3 provenance: backend README.
++! Analytic directional derivative of build-17 QS_FRM_ALI on its native ray grid.
++! Component interface only: does not replace VAR_JREL_V5 or certify a wind.
++! Fixed R,V,ray geometry and frequency grid; DIFFUSION/ZERO_FLUX boundaries.
++! Carries the full blue-side ray derivative, including inserted-point LOGMON
++! interpolation and thick outer extrapolation. At limiter ties the map is
++! piecewise differentiable; the selected primal branch is differentiated.
++module qs_dual
++use set_kind_module
++implicit none
++private
++public :: dual,q,operator(+),operator(-),operator(*),operator(/),exp,log,abs,dmin
++ type dual
++ real(kind=ldp)::v=0,d=0
++ end type
++interface operator(+)
++ module procedure add_dd,add_dr,add_rd
++end interface
++interface operator(-)
++ module procedure sub_dd,sub_dr,sub_rd
++ module procedure neg
++end interface
++interface operator(*)
++ module procedure mul_dd,mul_dr,mul_rd
++end interface
++interface operator(/)
++ module procedure div_dd,div_dr,div_rd
++end interface
++interface exp
++ module procedure dexp
++end interface
++interface log
++ module procedure dlog
++end interface
++interface abs
++ module procedure dabs
++end interface
++contains
++pure function q(v,d) result(z)
++real(kind=ldp),intent(in)::v,d
++type(dual)::z
++z%v=v;z%d=d
++end function
++pure function add_dd(a,b) result(z)
++type(dual),intent(in)::a
++type(dual),intent(in)::b
++type(dual)::z
++z%v=a%v+b%v
++z%d=a%d+b%d
++end function
++pure function add_dr(a,b) result(z)
++type(dual),intent(in)::a
++real(kind=ldp),intent(in)::b
++type(dual)::z
++z%v=a%v+b
++z%d=a%d+0.0_ldp
++end function
++pure function add_rd(a,b) result(z)
++real(kind=ldp),intent(in)::a
++type(dual),intent(in)::b
++type(dual)::z
++z%v=a+b%v
++z%d=0.0_ldp+b%d
++end function
++pure function sub_dd(a,b) result(z)
++type(dual),intent(in)::a
++type(dual),intent(in)::b
++type(dual)::z
++z%v=a%v-b%v
++z%d=a%d-b%d
++end function
++pure function sub_dr(a,b) result(z)
++type(dual),intent(in)::a
++real(kind=ldp),intent(in)::b
++type(dual)::z
++z%v=a%v-b
++z%d=a%d-0.0_ldp
++end function
++pure function sub_rd(a,b) result(z)
++real(kind=ldp),intent(in)::a
++type(dual),intent(in)::b
++type(dual)::z
++z%v=a-b%v
++z%d=0.0_ldp-b%d
++end function
++pure function mul_dd(a,b) result(z)
++type(dual),intent(in)::a
++type(dual),intent(in)::b
++type(dual)::z
++z%v=a%v*b%v
++z%d=a%d*b%v+a%v*b%d
++end function
++pure function mul_dr(a,b) result(z)
++type(dual),intent(in)::a
++real(kind=ldp),intent(in)::b
++type(dual)::z
++z%v=a%v*b
++z%d=a%d*b+a%v*0.0_ldp
++end function
++pure function mul_rd(a,b) result(z)
++real(kind=ldp),intent(in)::a
++type(dual),intent(in)::b
++type(dual)::z
++z%v=a*b%v
++z%d=0.0_ldp*b%v+a*b%d
++end function
++pure function div_dd(a,b) result(z)
++type(dual),intent(in)::a
++type(dual),intent(in)::b
++type(dual)::z
++z%v=a%v/b%v
++z%d=(a%d-z%v*b%d)/b%v
++end function
++pure function div_dr(a,b) result(z)
++type(dual),intent(in)::a
++real(kind=ldp),intent(in)::b
++type(dual)::z
++z%v=a%v/b
++z%d=(a%d-z%v*0.0_ldp)/b
++end function
++pure function div_rd(a,b) result(z)
++real(kind=ldp),intent(in)::a
++type(dual),intent(in)::b
++type(dual)::z
++z%v=a/b%v
++z%d=(0.0_ldp-z%v*b%d)/b%v
++end function
++pure function neg(a) result(z)
++type(dual),intent(in)::a
++type(dual)::z
++z=q(-a%v,-a%d)
++end function
++pure function dexp(a) result(z)
++type(dual),intent(in)::a
++type(dual)::z
++z%v=exp(a%v);z%d=z%v*a%d
++end function
++pure function dlog(a) result(z)
++type(dual),intent(in)::a
++type(dual)::z
++z=q(log(a%v),a%d/a%v)
++end function
++pure function dabs(a) result(z)
++type(dual),intent(in)::a
++type(dual)::z
++z=q(abs(a%v),sign(1.0_ldp,a%v)*a%d)
++end function
++pure function dmin(a,b) result(z)
++type(dual),intent(in)::a,b
++type(dual)::z
++z=a
++if(b%v<a%v)z=b
++end function
++end module
++
++module qs_formal_tangent
++use set_kind_module
++use qs_dual
++use mod_space_grid_v2
++use ext_rel_grid_v4, only: r_ext,log_r_ext,nd_ext,nd_add,idmin,idmax
++use mod_ray_mom_store, only: qs_lstar
++implicit none
++private
++public :: tangent_map,tangent_scattering,tangent_rsqh,mon_coeff
++contains
++! Same Steffen branches as MON_INT_FUNS_V2/MON_INTERP, differentiated.
++subroutine mon_coeff(y,x,c)
++type(dual),intent(in)::y(:)
++real(kind=ldp),intent(in)::x(:)
++type(dual),intent(out)::c(size(y),4)
++type(dual)::s(size(y)),d(size(y)),lim
++real(kind=ldp)::h(size(y)),sg
++integer::i,n
++n=size(y)
++do i=1,n-1
++ h(i)=x(i+1)-x(i);s(i)=(y(i+1)-y(i))/h(i)
++enddo
++d(1)=s(1)+(s(1)-s(2))*h(1)/(h(1)+h(2))
++do i=2,n-1
++ d(i)=(s(i-1)*h(i)+s(i)*h(i-1))/(h(i-1)+h(i))
++enddo
++d(n)=s(n-1)+(s(n-1)-s(n-2))*h(n-1)/(h(n-2)+h(n-1))
++sg=sign(1.0_ldp,s(1)%v)+sign(1.0_ldp,d(1)%v)
++d(1)=sg*dmin(abs(s(1)),0.5_ldp*abs(d(1)))
++do i=2,n-1
++ sg=sign(1.0_ldp,s(i-1)%v)+sign(1.0_ldp,s(i)%v)
++ lim=dmin(abs(s(i-1)),abs(s(i)))
++ d(i)=sg*dmin(lim,0.5_ldp*abs(d(i)))
++enddo
++sg=sign(1.0_ldp,s(n-1)%v)+sign(1.0_ldp,d(n)%v)
++d(n)=sg*dmin(abs(s(n-1)),0.5_ldp*abs(d(n)))
++do i=1,n-1
++ c(i,1)=(d(i)+d(i+1)-2.0_ldp*s(i))/h(i)/h(i)
++ c(i,2)=(3.0_ldp*s(i)-2.0_ldp*d(i)-d(i+1))/h(i)
++ c(i,3)=d(i);c(i,4)=y(i)
++enddo
++c(n,1:2)=q(0.0_ldp,0.0_ldp);c(n,3)=d(n);c(n,4)=y(n)
++end subroutine
++
++subroutine weights(t,ee,wu,wd)
++type(dual),intent(in)::t
++type(dual),intent(out)::ee,wu,wd
++type(dual)::e0,e1,e2
++! Differentiate the actual small-t polynomial, including its truncation.
++if(t%v>0.01_ldp)then
++ ee=exp(-t);e0=1.0_ldp-ee;e1=t-e0
++else
++ e2=t*t*t*(1.0_ldp-0.25_ldp*t*(1.0_ldp-0.2_ldp*t*(1.0_ldp-t/6.0_ldp*&
++    (1.0_ldp-t/7.0_ldp))))/3.0_ldp
++ e1=0.5_ldp*(t*t-e2);e0=t-e1;ee=1.0_ldp-e0
++endif
++wd=e1/t;wu=e0-wd
++end subroutine
++
++! Tangent of native MON_INTERP on r^2 H: TVX must use these face values,
++! rather than simply averaging H or recycling moment-method face factors.
++subroutine tangent_rsqh(r,h,dh,fh,dfh)
++real(kind=ldp),intent(in)::r(:),h(:),dh(:)
++real(kind=ldp),intent(out)::fh(size(r)-1),dfh(size(r)-1)
++type(dual)::y(size(r)),c(size(r),4),z
++real(kind=ldp)::x
++integer::j,nd
++nd=size(r)
++if(size(h)/=nd.or.size(dh)/=nd)error stop 'tangent: face shape mismatch'
++do j=1,nd
++ y(j)=q(r(j)*r(j)*h(j),r(j)*r(j)*dh(j))
++enddo
++call mon_coeff(y,r,c)
++fh=0;dfh=0
++do j=1,nd-1
++ x=0.5_ldp*(r(j+1)-r(j))
++ z=((c(j,1)*x+c(j,2))*x+c(j,3))*x+c(j,4)
++ fh(j)=z%v;dfh(j)=z%d
++enddo
++end subroutine
++
++! eta is total emissivity at the converged scattering fixed point.
++! prev_p/m contain derivatives at the PREVIOUS frequency, never current ALI
++! iterates. Outputs out_p/m become that state only after scattering closure.
++subroutine tangent_map(eta,chi,scat,deta,dchi,dscat,b,dbb,db,ddbb,dlnu,nc,boundary,&
++                       prev_p,prev_m,moms,dmoms,out_p,out_m)
++real(kind=ldp),intent(in)::eta(:),chi(:),scat(:),deta(:),dchi(:),dscat(:)
++real(kind=ldp),intent(in)::b,dbb,db,ddbb,dlnu,prev_p(:,:),prev_m(:,:)
++integer,intent(in)::nc
++character(len=*),intent(in)::boundary
++real(kind=ldp),intent(out)::moms(4,size(eta)),dmoms(4,size(eta)),out_p(:,:),out_m(:,:)
++type(dual)::ce(nd_ext),et(nd_ext),es(size(eta)),ch(size(eta)),em(size(eta))
++type(dual)::lc(nd_ext),le(nd_ext),cc(nd_ext,4),ec(nd_ext,4),alpha,pow,t1,t2
++! The maximum ray size can exceed the original radial grid size.
++type(dual),allocatable::cr(:),er(:),ct(:),src(:),dt(:),im(:),ip(:)
++type(dual)::ee,wu,wd,planck,grad,m(4,size(eta))
++real(kind=ldp)::nuon,lr,z,ds
++integer::i,k,j,n,ir,np,nd
++nd=size(eta);np=size(prev_p,2)
++if(nd<3.or.nd/=nd_sav.or.np/=np_sav)error stop 'tangent: native geometry mismatch'
++if(size(chi)/=nd.or.size(scat)/=nd.or.size(deta)/=nd.or.size(dchi)/=nd.or.&
++   size(dscat)/=nd)error stop 'tangent: coefficient shape mismatch'
++if(any(shape(prev_p)/=shape(prev_m)).or.any(shape(prev_p)/=shape(out_p)).or.&
++   any(shape(prev_p)/=shape(out_m)))error stop 'tangent: ray state shape mismatch'
++do i=1,np
++ if(size(prev_p,1)<ray(i)%nz)error stop 'tangent: insufficient ray capacity'
++enddo
++if(boundary/='DIFFUSION'.and.boundary/='ZERO_FLUX')error stop 'tangent: unsupported inner boundary'
++if(nd_ext/=nd+nd_add)error stop 'tangent: inconsistent native grid'
++nuon=0;if(dlnu>0)nuon=1.0_ldp/dlnu
++do i=1,nd
++ ch(i)=q(chi(i),dchi(i));em(i)=q(eta(i),deta(i));es(i)=q(scat(i),dscat(i))
++enddo
++ce(nd_add+1:nd_ext)=ch;et(nd_add+1:nd_ext)=em
++if(nd_add>0)then
++ lr=log(r_ext(nd_add+idmin)/r_ext(nd_add+idmax))
++ pow=log(es(idmax)/es(idmin))/lr
++ if(pow%v<2.0_ldp)pow=q(2.0_ldp,0.0_ldp)
++ if(chi(idmin)<=scat(idmin).or.chi(idmax)<=scat(idmax))then
++  do i=1,nd_add
++   ce(i)=ch(idmin)*exp(pow*log(r_ext(nd_add+idmin)/r_ext(i)))
++  enddo
++ else
++  alpha=log((ch(idmax)-es(idmax))/(ch(idmin)-es(idmin)))/lr
++  if(alpha%v<2.0_ldp)alpha=q(2.0_ldp,0.0_ldp)
++  do i=1,nd_add
++   z=log(r_ext(nd_add+idmin)/r_ext(i))
++   ce(i)=(ch(idmin)-es(idmin))*exp(alpha*z)+es(idmin)*exp(pow*z)
++  enddo
++ endif
++ alpha=log(em(idmax)/em(idmin))/lr
++ if(alpha%v<3.5_ldp)alpha=q(3.5_ldp,0.0_ldp)
++ do i=1,nd_add
++  et(i)=em(idmin)*exp(alpha*log(r_ext(nd_add+idmin)/r_ext(i)))
++  if(et(i)%v<=1.0e-280_ldp)et(i)=q(1.0e-280_ldp,0.0_ldp)
++ enddo
++endif
++if(ray_points_inserted)then
++ do i=1,nd_ext
++  lc(i)=log(ce(i));le(i)=log(et(i))
++ enddo
++ call mon_coeff(lc,log_r_ext,cc);call mon_coeff(le,log_r_ext,ec)
++endif
++m=q(0.0_ldp,0.0_ldp);out_p=0;out_m=0
++planck=q(b,db);grad=q(dbb,ddbb)/ch(nd)
++! A thick outer boundary integrates all rays; otherwise exclude tangent ray.
++j=np-1;if(nd_add>0)j=np
++do ir=1,j
++ n=ray(ir)%nz
++ allocate(cr(n),er(n),ct(n),src(n),dt(n),im(n),ip(n))
++ if(ray_points_inserted)then
++  k=1
++  do i=1,n
++   do while(k<nd_ext-1.and.ray(ir)%r_ray(i)<r_ext(k+1))
++    k=k+1
++   enddo
++   if(ray(ir)%r_ray(i)==r_ext(k))then
++    cr(i)=ce(k);er(i)=et(k)
++   else if(ray(ir)%r_ray(i)==r_ext(k+1))then
++    cr(i)=ce(k+1);er(i)=et(k+1)
++   else
++    z=log(ray(ir)%r_ray(i)/r_ext(k))
++    cr(i)=exp(((cc(k,1)*z+cc(k,2))*z+cc(k,3))*z+cc(k,4))
++    er(i)=exp(((ec(k,1)*z+ec(k,2))*z+ec(k,3))*z+ec(k,4))
++   endif
++  enddo
++ else
++  cr=ce(:n);er=et(:n)
++ endif
++ do i=1,n
++  ct(i)=cr(i)+(nuon+3.0_ldp)*ray(ir)%b_m(i)
++  src(i)=(er(i)+nuon*ray(ir)%b_m(i)*q(ray(ir)%i_m_prev(i),prev_m(i,ir)))/ct(i)
++ enddo
++ do i=1,n-1
++  ds=0.5_ldp*(ray(ir)%s_m(i+1)-ray(ir)%s_m(i))
++  dt(i)=ds*(ct(i)+ct(i+1))
++ enddo
++ im(1)=q(0.0_ldp,0.0_ldp)
++ do i=2,n
++  call weights(dt(i-1),ee,wu,wd)
++  im(i)=im(i-1)*ee+wu*src(i-1)+wd*src(i)
++ enddo
++ if(ir>nc.or.boundary=='ZERO_FLUX')then
++  ip(n)=im(n)
++ else
++  ip(n)=planck+ray(ir)%mu_p(n)*grad
++ endif
++ do i=1,n
++  ct(i)=cr(i)+(nuon+3.0_ldp)*ray(ir)%b_p(i)
++  src(i)=(er(i)+nuon*ray(ir)%b_p(i)*q(ray(ir)%i_p_prev(i),prev_p(i,ir)))/ct(i)
++ enddo
++ do i=1,n-1
++  ds=0.5_ldp*(ray(ir)%s_p(i)-ray(ir)%s_p(i+1))
++  dt(i)=ds*(ct(i)+ct(i+1))
++ enddo
++ do i=n-1,1,-1
++  call weights(dt(i),ee,wu,wd)
++  ip(i)=ip(i+1)*ee+wu*src(i+1)+wd*src(i)
++ enddo
++ do i=1,n
++  out_p(i,ir)=ip(i)%d;out_m(i,ir)=im(i)%d
++ enddo
++ do i=1,min(nd,np-ir+1)
++  k=ray(ir)%lnk(i)
++  m(1,i)=m(1,i)+ip(k)*jqw_p(i,ir)+im(k)*jqw_m(i,ir)
++  m(2,i)=m(2,i)+ip(k)*hqw_p(i,ir)+im(k)*hqw_m(i,ir)
++  m(3,i)=m(3,i)+ip(k)*kqw_p(i,ir)+im(k)*kqw_m(i,ir)
++  m(4,i)=m(4,i)+ip(k)*nqw_p(i,ir)+im(k)*nqw_m(i,ir)
++ enddo
++ deallocate(cr,er,ct,src,dt,im,ip)
++enddo
++do i=1,nd
++ do k=1,4
++  moms(k,i)=m(k,i)%v;dmoms(k,i)=m(k,i)%d
++ enddo
++enddo
++end subroutine
++
++! Exact tangent of the converged coherent-scattering map. Dense construction
++! is a bounded-fixture reference, not a production preconditioner. No finite
++! differences enter the product. dscat affects BOTH extinction extrapolation
++! and emissivity; caller includes dscat in dchi if total chi changes with it.
++subroutine tangent_scattering(eta,chi,scat,jbase,deta,dchi,dscat,b,dbb,db,ddbb,dlnu,nc,boundary,&
++                              prev_p,prev_m,moms,dmoms,out_p,out_m,closure_error,use_krylov,products)
++real(kind=ldp),intent(in)::eta(:),chi(:),scat(:),jbase(:),deta(:),dchi(:),dscat(:)
++real(kind=ldp),intent(in)::b,dbb,db,ddbb,dlnu,prev_p(:,:),prev_m(:,:)
++integer,intent(in)::nc
++character(len=*),intent(in)::boundary
++real(kind=ldp),intent(out)::moms(4,size(eta)),dmoms(4,size(eta)),out_p(:,:),out_m(:,:),closure_error
++real(kind=ldp)::a(size(eta),size(eta)),mat(size(eta),size(eta)),rhs(size(eta)),seed(size(eta)),zero(size(eta))
++real(kind=ldp)::p0(size(prev_p,1),size(prev_p,2)),m0(size(prev_m,1),size(prev_m,2))
++integer::k,nd,info,piv(size(eta)),nprod
++logical,intent(in),optional::use_krylov
++integer,intent(out),optional::products
++logical::krylov
++nd=size(eta);zero=0;p0=0;m0=0
++krylov=.false.;if(present(use_krylov))krylov=use_krylov
++nprod=0
++! eta passed to the map is eta_thermal + sigma*J at the fixed point.
++call tangent_map(eta+scat*jbase,chi,scat,deta+dscat*jbase,dchi,dscat,b,dbb,db,ddbb,dlnu,nc,boundary,&
++                 prev_p,prev_m,moms,dmoms,out_p,out_m)
++rhs=dmoms(1,:)
++if(krylov)then
++ call scattering_gmres(rhs,nprod)
++else
++ do k=1,nd
++  seed=0;seed(k)=1
++  call tangent_map(eta+scat*jbase,chi,scat,seed,zero,zero,b,dbb,0.0_ldp,0.0_ldp,dlnu,nc,boundary,&
++                   p0,m0,moms,dmoms,out_p,out_m)
++  a(:,k)=dmoms(1,:)
++ enddo
++ do k=1,nd
++  mat(:,k)=-a(:,k)*scat(k);mat(k,k)=mat(k,k)+1
++ enddo
++ call dgesv(nd,1,mat,nd,piv,rhs,nd,info)
++ if(info/=0)error stop 'tangent scattering singular'
++ nprod=nd
++endif
++call tangent_map(eta+scat*jbase,chi,scat,deta+dscat*jbase+scat*rhs,dchi,dscat,b,dbb,db,ddbb,&
++                 dlnu,nc,boundary,prev_p,prev_m,moms,dmoms,out_p,out_m)
++closure_error=maxval(abs(dmoms(1,:)-rhs))/max(maxval(abs(rhs)),tiny(1.0_ldp))
++if(present(products))products=nprod
++contains
++! Signed scattering response solved without constructing the dense Lambda
++! matrix. Local L* is used solely as a diagonal GMRES preconditioner.
++! Each Arnoldi product is ONE analytic ray sweep, not a full model iteration.
++subroutine scattering_gmres(solution,count)
++real(kind=ldp),intent(inout)::solution(nd)
++integer,intent(out)::count
++real(kind=ldp)::basis(nd,nd+1),h(nd+1,nd),w(nd),diag(nd),g(nd+1),cs(nd),sn(nd),y(nd)
++real(kind=ldp)::beta,hn,den,tmp,proj,tolerance
++integer::ii,jj,pass,nused
++! Do not clip the transfer or change its Jacobian if the approximate diagonal
++! is unsuitable: use unity for that preconditioner entry.
++diag=1.0_ldp-scat*qs_lstar(1:nd)
++where(diag<=0.0_ldp)diag=1.0_ldp
++solution=solution/diag
++beta=sqrt(sum(solution*solution))
++count=0
++if(beta==0.0_ldp)then
++ solution=0;return
++endif
++basis=0;h=0;g=0;g(1)=beta;basis(:,1)=solution/beta
++tolerance=1.0e-12_ldp*beta
++nused=nd
++do jj=1,nd
++ seed=scat*basis(:,jj)
++ call tangent_map(eta+scat*jbase,chi,scat,seed,zero,zero,b,dbb,0.0_ldp,0.0_ldp,dlnu,nc,boundary,&
++                  p0,m0,moms,dmoms,out_p,out_m)
++ count=count+1
++ w=(basis(:,jj)-dmoms(1,:))/diag
++ ! Reorthogonalization keeps a cancellation-dominated system accurate.
++ do pass=1,2
++  do ii=1,jj
++   proj=dot_product(basis(:,ii),w);h(ii,jj)=h(ii,jj)+proj
++   w=w-proj*basis(:,ii)
++  enddo
++ enddo
++ hn=sqrt(sum(w*w));h(jj+1,jj)=hn
++ if(hn>tiny(1.0_ldp))basis(:,jj+1)=w/hn
++ do ii=1,jj-1
++  tmp=cs(ii)*h(ii,jj)+sn(ii)*h(ii+1,jj)
++  h(ii+1,jj)=-sn(ii)*h(ii,jj)+cs(ii)*h(ii+1,jj);h(ii,jj)=tmp
++ enddo
++ den=sqrt(h(jj,jj)**2+h(jj+1,jj)**2)
++ if(den==0.0_ldp)error stop 'scattering GMRES singular'
++ cs(jj)=h(jj,jj)/den;sn(jj)=h(jj+1,jj)/den
++ h(jj,jj)=den;h(jj+1,jj)=0
++ g(jj+1)=-sn(jj)*g(jj);g(jj)=cs(jj)*g(jj)
++ if(abs(g(jj+1))<=tolerance.or.hn<=tiny(1.0_ldp))then
++  nused=jj;exit
++ endif
++enddo
++y=0
++do ii=nused,1,-1
++ y(ii)=(g(ii)-dot_product(h(ii,ii+1:nused),y(ii+1:nused)))/h(ii,ii)
++enddo
++solution=matmul(basis(:,1:nused),y(1:nused))
++end subroutine
++end subroutine
++end module

@@ -1,0 +1,74 @@
+{
+ "label": "hot_frequency_regression",
+ "profiles": {
+  "shared_radii": 84,
+  "metrics": {
+   "E_comoving": {
+    "value": 0.00047014009903234555,
+    "threshold": 0.01,
+    "status": "PASS",
+    "definition_status": "existing thresholds",
+    "argmax_radius_cm": 1271428931300.0,
+    "nonfinite_points": 0
+   },
+   "F_comoving": {
+    "value": 0.0006457993343018984,
+    "threshold": 0.01,
+    "status": "PASS",
+    "definition_status": "existing thresholds",
+    "argmax_radius_cm": 1356117543200.0,
+    "nonfinite_points": 0
+   },
+   "P_comoving": {
+    "value": 0.0003850639818942144,
+    "threshold": 0.01,
+    "status": "PASS",
+    "definition_status": "existing thresholds",
+    "argmax_radius_cm": 54887831773900.0,
+    "nonfinite_points": 0
+   },
+   "radiative_acceleration": {
+    "value": 0.006025773993833046,
+    "threshold": 0.01,
+    "status": "PASS",
+    "definition_status": "existing thresholds",
+    "argmax_radius_cm": 127148276101705.14,
+    "nonfinite_points": 0
+   },
+   "kappa_flux": {
+    "value": 0.0056660273806601975,
+    "threshold": 0.01,
+    "status": "PASS",
+    "definition_status": "existing thresholds",
+    "argmax_radius_cm": 127148276101705.14,
+    "nonfinite_points": 0
+   },
+   "luminosity_lab_over_Lscale": {
+    "value": 0.0006447707519112627,
+    "threshold": 0.01,
+    "status": "PASS",
+    "definition_status": "pending_user_approval",
+    "argmax_radius_cm": 1356117543200.0,
+    "Lscale": 3.63490044746671e+39,
+    "emergent_relative": 0.00036177106150002023
+   },
+   "cumulative_heating_over_Lscale": {
+    "value": 0.00016282572798437446,
+    "threshold": 0.01,
+    "status": "PASS",
+    "definition_status": "pending_user_approval",
+    "argmax_radius_cm": 1283794683500.0,
+    "pointwise_heating_over_max_reported": 0.033538289824233
+   }
+  },
+  "pass": true,
+  "pending_user_approval": [
+   "cumulative_heating_over_Lscale",
+   "luminosity_lab_over_Lscale"
+  ],
+  "coarse": "Reports/evidence/backend_20260928/final_audit/transport_rel",
+  "fine": "Reports/evidence/backend_20260928/final_audit/transport_frequency",
+  "plan": "/Users/abraiymbek/Projects/QStarS/benchmarks/cmfgen_cool_frequency_plan.json"
+ },
+ "pass_all": true
+}

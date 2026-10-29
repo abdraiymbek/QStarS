@@ -1,0 +1,474 @@
+{
+  "plan_id": "ball2011_track_plan",
+  "plan_version": 1,
+  "gate": "Gate 6 of the QStarS v1 chain: reproduce the Ball, Tout, Zytkow & Eldridge 2011 (MNRAS 414, 2751) fiducial quasi-star evolution, with numerical convergence and restart certification",
+  "registration": {
+    "status": "registered_before_any_ball_configuration_run",
+    "registration_record": "benchmarks/ball2011_track_plan.registration.json",
+    "registration_rule": "Register this file by sha256 before any execution that uses the Ball configuration (domain sweep, relaxation, smoke, track, campaign). benchmarks/ball2011_track_plan.registration.json records the sha256 of the exact bytes of this file and of both target CSVs, the UTC registration time and the statement that no Ball configuration run existed at registration. scripts/validate_ball_track.py recomputes the sha256 of this file, stores it together with the sha256 of the registration record in every run directory, and refuses to run if it differs from the registered plan_sha256 or if either target CSV differs from its registered sha256. This file is never edited after registration; any edit changes its sha256 and blocks every run.",
+    "version_control": "Registration is by sha256, not by git commit: the commit-before-run rule of the design is replaced because no commit has been authorized. No git object is required or implied.",
+    "immutable_sections": [
+      "model",
+      "replication_mode",
+      "comparison",
+      "endpoint",
+      "qualitative_checks",
+      "conservation",
+      "restart",
+      "convergence_campaign.thresholds",
+      "verdict_rules"
+    ],
+    "amendment_rule": "Only numerical-method bug fixes may be amended, each backed by a test that failed before and passes after, recorded as benchmarks/ball2011_track_plan_amendment_<n>.json citing the preserved failing run directory. Tolerances, primary physics, microphysics and targets are never amended. Sensitivity and secondary runs never select or replace a primary result. Each amendment file is registered the same way, by benchmarks/ball2011_track_plan_amendment_<n>.registration.json holding its sha256 and UTC time, before any run that uses it; the driver verifies every registered amendment it applies.",
+    "preservation": "Every run directory, including failed, rejected and exited runs, is kept under benchmarks/results/<date>-ball-track/."
+  },
+  "sources": {
+    "paper": {
+      "cache": "sources/cache/ball2011.txt",
+      "table": "Table 1, lines 483-492",
+      "termination": "sections 3.2-3.3, lines 551-561: timestep falls below the dynamical time at M_BH = 1194 Msun"
+    },
+    "thesis": {
+      "cache": "sources/cache/ball_thesis.txt",
+      "table": "Table 3.1, lines 1590-1607",
+      "equations": "2.15-2.16 surface; 2.19 and Table 2.1 mesh; 3.2-3.4 inner radius; 3.7 cavity mass; 3.10 inner mass; 3.11-3.12 luminosity; 3.15 accretion law with 16 pi"
+    },
+    "targets": {
+      "primary": "benchmarks/ball2011_table1.csv",
+      "secondary_reported": "benchmarks/ball2012_thesis_table3_1.csv",
+      "transcription": "Both CSVs keep the printed strings (x 10^-n written as e-n) in the column order of benchmarks/ball2011_table1.csv. The thesis prints r0 where the paper prints r_B; with b = 1 both are stored as r_inner_100_rsun. tests/test_ball_tables.py checks both CSVs against the cached texts when present.",
+      "consistency": "Test U1 (tests/test_ball_tables.py) checks Table 1 against thesis eqs 3.2, 3.7, 3.15 and 2.15 with ideal-gas-plus-radiation Gamma1 at the printed (rho0, T0). On the same test thesis Table 3.1 row 0 departs from eq 3.15 by ln(eq 3.15 / printed) = -0.036 while its other checks pass; the thesis table is reported, never used as a target."
+    }
+  },
+  "model": {
+    "total_mass_msun": 10000.0,
+    "initial_bh_mass_msun": 5.0,
+    "composition": {
+      "X": 0.7,
+      "Y": 0.3,
+      "Z": 0.0
+    },
+    "accretion_law": {
+      "engine_model": "ball2012_eq3_15",
+      "equation": "thesis 3.15: Mdot_BH = 16 pi eta (G M_BH)^2 rho_b / (eps_prime Gamma1_b c_b c^2), eps_prime = eps/(1-eps)",
+      "eta": 0.1,
+      "epsilon": 0.1,
+      "printed_paper_eq15_4pi": "not run; contradicted by the printed table by a factor of 4"
+    },
+    "luminosity": "thesis 3.11-3.12: L_BH = eps Mdot c^2 and Mdot_BH = (1-eps) Mdot, where Mdot is the rest-mass flow across r0; eps Mdot leaves the gravitating mass and is booked as mass_defect",
+    "inner_radius": {
+      "equation": "thesis 3.2 and 3.4: r0 = r_B / b with r_B = 2 G M_BH / c_b^2 and c_b^2 = Gamma1 p / rho at r0",
+      "b": 1.0,
+      "boundary_state": "face: half-cell hydrostatic extrapolation from cells 0 and 1 to r0, because STARS evaluates the state on the innermost meshpoint (thesis 2.2.2)"
+    },
+    "cavity": {
+      "profile": "rho proportional to r^(-3/2) inside r0",
+      "equation": "thesis 3.7: M_cav = (8 pi / 3) rho_b r0^3",
+      "inner_mass": "thesis 3.10: M0 = M_BH + M_cav"
+    },
+    "surface": "Outer face at tau = 2/3 with no mass above it (STARS: surface at m = M*). Eddington grey T^4 = (3/4) Teff^4 (tau + 2/3) between the last cell centre and the face. L* = 4 pi R*^2 sigma Teff^4 (thesis 2.15). P_g = (2 g / 3 kappa_ph)(1 - L*/L_Edd) with L_Edd = 4 pi G c M*/kappa_ph (thesis 2.16). P_ph = P_g + a Teff^4 / 3. kappa_ph = kappa(rho_ph, Teff), with rho_ph solved implicitly. P_g <= 0 is a model_domain_exit and is never clipped.",
+    "convection": {
+      "closure": "mlt_ml1",
+      "alpha": 2.0,
+      "constants": "MESA 24.08.1 turb/private/mlt.f90 ML1: ff1 = 1/8, ff2 = 1/2, ff3 = 24, ff4 = 0, a0 = 9/4",
+      "criterion": "Schwarzschild",
+      "velocity_cap": "none, as in STARS",
+      "basis": "Thesis 2.1.1 cites Boehm-Vitense 1958 with ALPHA = 2, and QUEST used ML1 with alpha = 2 to match Ball. Printed thesis eq 2.10 lacks the square on l/Hp that its own eqs 2.6-2.9 require; the lossless form is sensitivity run S2 only."
+    },
+    "eos": "MESA 24.08.1 eosDT through the QStarS bridge, X = 0.7, Z = 0",
+    "opacity": {
+      "tables": "stars2004_switch",
+      "description": "MESA OPAL Type 1 (gs98, Zbase = 0) for log T >= 3.76, Alexander & Ferguson 1994 (lowT_af94_gn93) for log T <= 3.75, MESA blend in between: the Eldridge & Tout 2004 STARS switch (thesis 2.1.2)",
+      "domain": "log R in [-7, 1] and T in [3000, 1e7] K",
+      "off_table": "Replication mode follows the STARS nearest-table-value rule (log R clamped to the table edge at fixed T) and reports it per step as screen opacity_clamp. Production mode exits."
+    },
+    "excluded": [
+      "nuclear burning",
+      "neutrino losses",
+      "rotation",
+      "winds",
+      "surface accretion",
+      "general relativity"
+    ],
+    "initial_model": "The envelope is relaxed to thermal equilibrium with M_BH frozen at 5 Msun, L_BH taken from the accretion law, and the cavity and photosphere boundaries active (paper section 3). t = 0 and the evolution ledger are defined at the relaxed model."
+  },
+  "replication_mode": {
+    "mode": "published_assumption",
+    "label": "Published-assumption replica of Ball et al. 2011; QStarS applicability screens violated in the listed intervals",
+    "report_only_screens": [
+      "convective Mach > 1 (ML1 velocity, Cox & Giuli 14.86b)",
+      "radiation Knudsen > 0.1 at tau_from_surface < 10",
+      "radiative flux above free streaming at tau_from_surface < 10",
+      "outer-face Knudsen, replaced by an Eddington-relation consistency check",
+      "opacity_clamp (clamped mass must be <= 0.01 Msun at every compared row)",
+      "density inversion (diagnostic)",
+      "maximum local radiative Eddington factor (diagnostic)"
+    ],
+    "not_applicable": [
+      "Pe < 100 screen of the lossless MLT; ML1 includes radiative losses"
+    ],
+    "always_enforced": [
+      "nonfinite state",
+      "EOS temperature domain 3000 K to 1e8 K",
+      "MESA first-law defect > 1%",
+      "MESA neutral ideal backstop",
+      "MESA dilute-gas pressure defect > 1%",
+      "omitted conduction > 1%",
+      "Newtonian compactness > 1e-3",
+      "quasi-static flow Mach (|r - rbar|/dt)/c_s > 0.2",
+      "photospheric P_g <= 0, i.e. Gamma_ph >= 1",
+      "radiation Knudsen > 0.1 and free streaming at tau_from_surface >= 10",
+      "geometry error > 1e-8",
+      "conservation tolerance"
+    ],
+    "recording": "validity_warnings.json lists this policy before step 1. Every history row carries screen values and flags. screen_violations.json gives, per screen, the first (t, M_BH), the number of affected rows and the extreme value. Every comparison cell carries qstars_production_valid."
+  },
+  "numerics": {
+    "mechanics": "quasi_static: no radial inertia, as in the STARS hydrostatic equations (thesis 2.2, 2.22)",
+    "time_integration": "fully implicit backward Euler (thesis 2.3)",
+    "unknowns": "ln(r/rbar) at faces 0..N, ln T per cell, face luminosity at interior faces, ln rho_ph, delta (cell-0 sink correction), ln(M_BH_new/M_BH_old); landing steps replace the last unknown by ln dt",
+    "swept_mass": "Before the solve, slice the predicted swept mass off the base. Outer predictor-corrector passes, at most 3. The residual delta leaves cell 0 implicitly as an enthalpy sink, so mass is exact at every pass.",
+    "mesh": "Lagrangian interior. The base is sliced and re-split every step. Cells are split or merged against targets equally spaced in the STARS eq 2.19 function with Table 2.1 constants, c2 = 0 and ct1 -> infinity (thesis text). Hysteresis: split at 2.0 x target, merge a pair below 0.5 x target. Cells that do not change are copied bitwise.",
+    "solver": {
+      "method": "damped Newton; complex-step Jacobian coloured from a declared sparsity pattern, with one dense column; SuperLU",
+      "tolerance": 1e-12,
+      "polish_iterations": 1,
+      "roundoff_exit": "accepted if max residual <= 1e-10 and ||dx||_inf <= 1e-13; counted and reported per step"
+    },
+    "controller": {
+      "delta_target": 0.005,
+      "metrics": [
+        "Lagrangian |dln T| per cell and |dln r| per face, excluding gas within 2 x (that step's swept mass) of the base",
+        "|dln r0|, |dln rho_b|, |dln T_b|",
+        "|dln M_BH|",
+        "|dM_cav| / M0",
+        "|dln L*|, |dln R*|, |dln Teff|"
+      ],
+      "dt_next": "dt * clip(0.9 * delta_target / delta_actual, 0.5, 1.5); no growth for 3 steps after a rejection; extra factor 0.8 if Newton needed more than 8 iterations",
+      "reject": "delta_actual > 2 * delta_target, Newton failure, or more than 3 predictor passes; then halve dt, up to 12 retries",
+      "dt_initial_years": 1.0,
+      "dt_max_years": 20000.0,
+      "termination_trigger": "dt < t_dyn = sqrt(R*^3 / (G M*)) (Ball's operational criterion), or 12 consecutive retries at one step"
+    },
+    "landing": {
+      "bh_masses_msun": [
+        100,
+        200,
+        500,
+        1000
+      ],
+      "method": "the landing step fixes M_BH_new at the target and solves for ln dt (dense dt column); secant on dt is the fallback",
+      "tolerance_relative": 1e-06,
+      "outputs": "full profile and checkpoint at every landing"
+    },
+    "determinism": "OMP_NUM_THREADS = VECLIB_MAXIMUM_THREADS = OPENBLAS_NUM_THREADS = 1, recorded in metadata; colouring cached per sparsity pattern"
+  },
+  "initial_model": {
+    "seed": "n = 3 loaded polytrope on the small-xi0 branch for M_BH/M* = 5e-4 (paper eqs 24-33, reference.ball_loaded), scaled to R_seed; T from the MESA EOS at (rho, p)",
+    "seed_radii_rsun": [
+      2000,
+      6000
+    ],
+    "fallback_seed_radii_rsun": [
+      1000,
+      12000
+    ],
+    "relaxation": "M_BH frozen; dt starts at 0.01 yr and doubles up to 1e8 yr; injected L_BH dt is booked as relaxation_injected_energy",
+    "converged_when": "dt >= 1e6 yr, and two consecutive accepted steps have max |dln T| and |dln r| <= 1e-10 and |L*/L_BH - 1| <= 1e-6",
+    "uniqueness": "two seeds agree on every row-0 observable to <= 1e-6 relative",
+    "per_resolution": "repeated for N = 200, 400 and 800",
+    "failure": "If no two seeds converge, record a relaxation blocker. It is numerical unless a converging path reaches Gamma_ph >= 1, which is reported as a model_domain_exit of row 0."
+  },
+  "comparison": {
+    "metric": "d = |ln(Q_qstars / Q_ball)| at the landed M_BH, with no interpolation. Row 0 is the relaxed model. t is t(M_BH), measured from t = 0 at the relaxed model.",
+    "units": "QStarS constants: MSUN = 1.98847e33 g, RSUN = 6.957e10 cm, LSUN = 3.828e33 erg/s. Unit-convention differences <= 0.5% are inside the allowances.",
+    "observables": {
+      "t": "state.time",
+      "Mdot_BH": "eq 3.15 rate at the landed state",
+      "M_cav": "state.cavity_mass",
+      "L*": "luminosity at the photosphere face",
+      "rho0": "rho_b at r0 (face state)",
+      "T0": "T_b at r0",
+      "Teff": "(L*/(4 pi R*^2 sigma))^(1/4)",
+      "r_B": "r0 (= r_B for b = 1)",
+      "R*": "radius of the photosphere face"
+    },
+    "cells": {
+      "row_0": [
+        "Mdot_BH",
+        "L*",
+        "rho0",
+        "T0",
+        "Teff",
+        "r_B",
+        "R*",
+        "M_cav < 0.005 Msun"
+      ],
+      "rows_1_to_4": [
+        "t",
+        "Mdot_BH",
+        "M_cav",
+        "L*",
+        "rho0",
+        "T0",
+        "Teff",
+        "r_B",
+        "R*"
+      ],
+      "count": 44
+    },
+    "effective_tolerance": "tau_model + realization_spread + rounding, where rounding = half a unit in the last printed digit of that cell divided by |value|, computed from the CSV string",
+    "realization_spread_definition": "max over rows 0-5 of |ln(paper/thesis)| for the column, measured from Table 1 and thesis Table 3.1",
+    "allowance_components": {
+      "numerical": 0.01,
+      "opacity_realization": 0.03,
+      "surface_closure_mlt_eos": 0.03,
+      "interior_adiabat": 0.01,
+      "unit_conventions": 0.005
+    },
+    "columns": {
+      "t": {
+        "tau_model": 0.05,
+        "realization_spread": 0.0024,
+        "basis": "t = integral of dM_BH/Mdot_BH, so it inherits the Mdot allowance"
+      },
+      "Mdot_BH": {
+        "tau_model": 0.05,
+        "realization_spread": 0.0085,
+        "basis": "Mdot_BH = L_BH/(eps_prime c^2) with L_BH ~ L* (Ball: 0.999-1.011); L ~ L_Edd at the innermost convective boundary scales as 1/kappa: 0.03 opacity + 0.01 numerical + 0.005 units, rounded up"
+      },
+      "L*": {
+        "tau_model": 0.05,
+        "realization_spread": 0.0034,
+        "basis": "same as Mdot_BH"
+      },
+      "Teff": {
+        "tau_model": 0.05,
+        "realization_spread": 0.0141,
+        "basis": "0.03 surface closure (ML1 vs unpublished STARS constants; EOS in H/He ionization zones) + 0.01 numerical; Teff is pinned near H recombination and only weakly opacity-dependent"
+      },
+      "R*": {
+        "tau_model": 0.1,
+        "realization_spread": 0.0293,
+        "basis": "identity R* = (L/(4 pi sigma Teff^4))^(1/2): 0.5 x 0.04 + 2 x 0.04, added linearly"
+      },
+      "T0": {
+        "tau_model": 0.05,
+        "realization_spread": 0.0123,
+        "basis": "radiation-dominated interior with identical ideal-gas+radiation limit (MESA vs ideal Gamma1 agree to 1e-4 at all printed base states); loaded-polytrope scaling T0 ~ kappa^(-2/5) gives 0.012, plus 0.01 adiabat and 0.01 numerical, rounded up"
+      },
+      "r_B": {
+        "tau_model": 0.08,
+        "realization_spread": 0.0297,
+        "basis": "r_B ~ M_BH beta / T0 at fixed M_BH: tau_T0 + 3 x 0.01 for beta"
+      },
+      "rho0": {
+        "tau_model": 0.15,
+        "realization_spread": 0.0351,
+        "basis": "rho ~ beta T0^3 / (1 - beta): 3 x tau_T0"
+      },
+      "M_cav": {
+        "tau_model": 0.15,
+        "realization_spread": 0.0159,
+        "basis": "thesis 3.9: M_cav ~ (M_BH/K)^3 at matched M_BH, with the adiabat allowance set equal to tau_T0 = 0.05"
+      }
+    },
+    "strict_tier_reported": "0.01 + realization_spread + rounding, with no physics allowance; reported per cell and never required",
+    "row_1_note": "M_BH = 100 lies in the interval where radiative zones disappear (M_BH < 120, paper section 3.2). It is flagged as sensitive but its tolerance is not relaxed."
+  },
+  "endpoint": {
+    "ball": {
+      "M_BH_msun": 1194,
+      "t_myr": 4.23,
+      "M_BH_over_initial_Mstar": 0.1194
+    },
+    "classification_protocol": [
+      "the termination trigger fires",
+      "from the last accepted state, continue the frozen-entropy hydrostatic problem in M_BH with the cavity and photosphere boundaries active (pseudo-arclength); a fold is a sign change of det J with the smallest pivot vanishing as a square root",
+      "the fold must lie within 2% of the terminal M_BH and agree between N = 400 and N = 800 to 2%",
+      "optional dynamical probe, reported only: same residual with backward-Euler inertia, dt = 0.05 t_dyn for 100 t_dyn"
+    ],
+    "labels": {
+      "fold_confirmed": "model_domain_exit: no quasi-static continuation (Ball's operational criterion)",
+      "otherwise": "numerical_failure, never relabelled"
+    },
+    "criteria": {
+      "M_BH_end": "|ln(M_end / 1194)| <= 0.10",
+      "t_end": "|ln(t_end / 4.23 Myr)| <= 0.10"
+    },
+    "outcomes": {
+      "PASS": "fold confirmed and both criteria met",
+      "FAIL": "fold confirmed outside tolerance, or the track continues past 1.1 x 1194 Msun with no fold",
+      "INCONCLUSIVE": "termination classified as numerical_failure"
+    },
+    "row_5_columns": "reported only"
+  },
+  "qualitative_checks": [
+    {
+      "id": "Q1",
+      "claim": "Mdot_BH between about 1.8e-4 and 3.7e-4 Msun/yr (paper 3.1)",
+      "test": "every accepted step after t = 0 lies in [1.6e-4, 4.0e-4] Msun/yr",
+      "required": true
+    },
+    {
+      "id": "Q2",
+      "claim": "a density inversion appears once Teff < 8000 K (paper 3.1)",
+      "test": "outward density increase > 1e-3 relative present at rows 1-4 and absent at row 0",
+      "required": true
+    },
+    {
+      "id": "Q3",
+      "claim": "dynamical stability: volume-weighted (3 Gamma1 - 4) p > 0 (thesis 3.2.1; the paper prints 3 gamma - 4)",
+      "test": "integral of (3 Gamma1 - 4) p dV > 0 at rows 0-4 and at the last accepted model",
+      "required": true
+    },
+    {
+      "id": "Q4",
+      "claim": "all but the outermost few 10 Msun are convective (paper 3.1)",
+      "test": "mass above the outermost convective boundary < 100 Msun at rows 2-4",
+      "required": true
+    },
+    {
+      "id": "Q5",
+      "claim": "envelope adiabatic index about 1.34 (paper 3.1)",
+      "test": "mass-weighted Gamma1 over convective cells in [1.33, 1.36] at rows 1-4",
+      "required": true
+    },
+    {
+      "id": "Q6",
+      "claim": "|dR*/dt| at most about 0.1 Rsun/yr (paper 3.2)",
+      "test": "maximum reported",
+      "required": false
+    },
+    {
+      "id": "Q7",
+      "claim": "L* close to L_BH (table: 0.999-1.011)",
+      "test": "|L*/L_BH - 1| reported at rows 0-4",
+      "required": false
+    },
+    {
+      "id": "Q8",
+      "claim": "Mdot kinks below M_BH ~ 120; a late Mdot maximum coinciding with a Teff minimum and an R* maximum (paper 3.2)",
+      "test": "reported",
+      "required": false
+    }
+  ],
+  "conservation": {
+    "mass_per_step_relative": 1e-14,
+    "mass_cumulative_relative": 1e-12,
+    "energy_cumulative_over_initial_internal_energy": 1e-08,
+    "energy_also_reported_against": [
+      "initial binding energy",
+      "throughput"
+    ],
+    "engine_identity_relative": 1e-12,
+    "geometry": 1e-08,
+    "swept_volume_unit_test": 2e-07,
+    "reconstruction_defect_per_event_relative": 1e-12,
+    "inflow_numerical_heating_over_L_BH": {
+      "reported_every_step": true,
+      "flag_if_above": 0.001
+    },
+    "booking": "Swept gas (base slice plus cell-0 sink) leaves with exactly the energy difference of the envelope functional at fixed geometry: cavity_swept_energy plus advected_energy, split by the mass fractions dM_cav and Mdot dt. The eps share of the rest mass leaves the central mass: mass_defect, and +G eps Mdot dt sum(w/rbar) in central_potential_work. Piston work p0 dV0 + G w0 M0 (1/rbar0 - 1/r0) goes to inner_boundary_work. Photospheric -P_ph dV_N goes to boundary_work. Reconstruction defects go to remap_energy_defect. No energy balance is claimed inside the cavity or the black hole."
+  },
+  "restart": {
+    "points": [
+      "first accepted step with M_BH >= 20",
+      "last accepted step before the M_BH = 500 landing",
+      "first accepted step with M_BH >= 900"
+    ],
+    "segment": "restart from the checkpoint and run 100 accepted steps, or to termination",
+    "requirement": "Bitwise equality with the uninterrupted C0 run for every history row and for the end-of-segment checkpoint: r, T, dm, v, cell_volume, radius_compensation, face_luminosity, bh_mass, cavity_mass, photosphere_density, aux (controller and predictor state), ledger",
+    "must_cross": [
+      "a base slice",
+      "a split/merge event",
+      "a rejected step",
+      "a landing (restart point 2)"
+    ]
+  },
+  "convergence_campaign": {
+    "runs": {
+      "C0": "production: N = 400, delta_target = 0.005, tolerance 1e-12, face boundary state, split/merge 2.0/0.5",
+      "C1": "N = 200",
+      "C2": "N = 800",
+      "C3": "delta_target = 0.01",
+      "C4": "delta_target = 0.0025",
+      "C5": "tolerance 1e-10",
+      "C6": "boundary_state = cell",
+      "C7": "split/merge 1.5/0.67"
+    },
+    "thresholds": {
+      "C0_vs_C2_and_C0_vs_C4": 0.01,
+      "metrics": "every compared Table 1 observable at the landed rows, plus mass-weighted L1 norms of ln rho, ln T, L/L_BH and ln r at 20 fixed exterior-mass fractions",
+      "richardson_error_of_C0": "<= min(0.01, tau_model/3) per compared cell, from C1/C0/C2 and C3/C0/C4",
+      "observed_order": "reported; expected >= 0.8 and monotone",
+      "C0_vs_C5": 0.001,
+      "C0_vs_C7": 0.01,
+      "C6": "reported; must converge with N",
+      "endpoint_M_BH_between_N400_and_N800": 0.02
+    },
+    "escalation": "If C0 vs C2 exceeds 1%, run N = 1600 only if its projected wall time is <= 8 h; otherwise the verdict is INCONCLUSIVE for numerical reasons."
+  },
+  "sensitivity_runs_reported_only": [
+    {
+      "id": "S1",
+      "change": "MESA default opacity handle (OPAL Type 2 + Ferguson 2005 low T)"
+    },
+    {
+      "id": "S2",
+      "change": "mlt_thesis_lossless: thesis eqs 2.6-2.9, (l/Hp)^2, delta = 1, alpha = 2, no cap"
+    },
+    {
+      "id": "S4",
+      "change": "strict opacity domain, run only if C0 clamped any cell"
+    }
+  ],
+  "secondary_published_checks_after_primary_verdict": [
+    {
+      "id": "V1",
+      "change": "rho ~ r^(-1/2) cavity, M_cav = (8 pi/5) rho_b r0^3 (thesis 3.33, paper eq 46)",
+      "target": "final M_BH 1077 Msun",
+      "tolerance_ln": 0.1
+    },
+    {
+      "id": "V2",
+      "change": "M_cav = 0 (thesis 3.3.2)",
+      "target": "final M_BH 800 Msun",
+      "tolerance_ln": 0.1
+    },
+    {
+      "id": "V3",
+      "change": "M* = 1e5 Msun",
+      "target": "lifetime from paper eq 51: log10 tau = -0.126 log10 M* + 7.12, i.e. 3.09 Myr",
+      "tolerance_ln": 0.1
+    },
+    {
+      "rule": "Reported separately. They never change the primary verdict, and each needs a fold-classified endpoint."
+    }
+  ],
+  "verdict_rules": {
+    "PASS": "All 44 cells within effective tolerance in C0; endpoint PASS; required qualitative checks pass; convergence thresholds met; conservation thresholds met at every accepted step of C0-C7; restarts bitwise; plan hash verified",
+    "FAIL": "Any cell outside tolerance while convergence is met, an endpoint FAIL, or a failed required qualitative check",
+    "INCONCLUSIVE": "Convergence, conservation or restart not met, or an endpoint numerical_failure while all cells pass",
+    "reporting": "Cell by cell with no averaging. Each failed cell is listed with its deviation, effective tolerance and strict-tier value, and every screen-violation interval is listed. A replica is labelled published-assumption if any report-only screen fired."
+  },
+  "stop_rules": {
+    "per_track_wall_hours": 24,
+    "max_accepted_steps": 20000,
+    "dt_floor": "dt < 10 yr for 500 consecutive accepted steps before M_BH = 1000 is a numerical blocker",
+    "smoke_gate": "Before C0, an N = 200 run must reach M_BH = 100 with median dt >= 50 yr and <= 20% rejected attempts; otherwise apply the fallbacks in order",
+    "fallbacks_in_order": [
+      "F1 pseudo-transient continuation inside a step",
+      "F2 ALE base region (cells at fixed mass above the base with donor-cell advection), introduced by amendment",
+      "F3 secant landing instead of the dt-unknown landing"
+    ],
+    "outcome_if_exhausted": "a numerical blocker is recorded; it is never relabelled as physics"
+  },
+  "cost_estimate": {
+    "per_step_seconds_N400": "1.0-1.5 (MESA call 13-36 ms per 400 states measured; about 10 colour evaluations per Jacobian; 5-8 Newton iterations)",
+    "accepted_steps_C0": "about 1900 (path length of Table 1 at delta = 0.005: r_B dominates), plus about 20% retries",
+    "C0_wall_hours_contended": "1-2",
+    "campaign_cpu_hours": "20-30",
+    "campaign_wall_hours_3_niced_cores": "8-12 after C0",
+    "pessimistic": "dt collapse to about 10 yr gives > 24 h per track and triggers the stop rule"
+  }
+}

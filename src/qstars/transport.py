@@ -1,11 +1,25 @@
 """LTE radiative diffusion and optional optically thick local mixing length.
 
-Convection follows the lossless-blob limit, not full MESA MLT. The cap is
-P*c_s, a declared causal/subsonic transport limit. Saturation is diagnosed.
+Default convection follows the lossless-blob limit, not full MESA MLT. The
+cap is P*c_s, a declared causal/subsonic transport limit. Saturation is
+diagnosed. The Ball 2011 replication closures mlt_ml1 and
+mlt_thesis_lossless (mlt.py) instead write nabla = dlnT/dlnP with the
+hydrostatic nabla_rad = 3 kappa p L/(16 pi a c G m T^4) on faces, with no
+cap, as STARS does. stars_photosphere is the Eddington grey relation
+T^4 = 3/4 Teff^4 (tau + 2/3) from the last cell centre to a tau = 2/3 face.
 """
 import numpy as np
 from .constants import PI,A,C,G,YEAR
 from .controls import value
+from .mlt import MODELS as MIXING_LENGTH,closure,forward_luminosity,radiative_gradient
+
+def _mixing_length_faces(state,q,kap):
+    """Interior-face means for the mlt.py closures (same averages as thermal_contrast)."""
+    mass=state.enclosed[1:-1]
+    return dict(grad_ad=.5*(q['grad_ad'][:-1]+q['grad_ad'][1:]),cp=.5*(q['cp'][1:]+q['cp'][:-1]),
+                Q=.5*(q['delta'][1:]+q['delta'][:-1]),p=.5*(q['p'][1:]+q['p'][:-1]),
+                rho=.5*(state.rho[1:]+state.rho[:-1]),T=.5*(state.T[1:]+state.T[:-1]),
+                kappa=.5*(kap[1:]+kap[:-1]),g=G*mass/state.r[1:-1]**2),mass
 
 def luminosities(state,eos,opacity,config,inner_luminosity):
     n = len(state.dm)
@@ -41,12 +55,33 @@ def luminosities(state,eos,opacity,config,inner_luminosity):
         flux = rho*cp*T*velocity*length/(2*hp)*excess
         saturation = flux/(p*cs)
         conv[1:-1] = 4*PI*radius**2*np.minimum(flux,p*cs)
+    elif config["transport"]["convection"] in MIXING_LENGTH:
+        # Forward map of the profile's own excess Y = contrast/dlnP, so that
+        # inverse_transport_residual vanishes on these luminosities.
+        faces,mass = _mixing_length_faces(state,q,kap)
+        dlnp = np.log1p(np.diff(q["p"])/q["p"][:-1])
+        if np.any(dlnp.real >= 0): raise ValueError("Mixing-length gradient requires outward-decreasing pressure")
+        alpha = config["transport"]["mixing_length_alpha"]
+        out = forward_luminosity(eos.thermal_contrast(state.rho,state.T,q)/dlnp,**faces,mass=mass,
+                                 alpha=alpha,model=config["transport"]["convection"])
+        rad[1:-1],conv[1:-1] = out["radiative"],out["convective"]
+        p,T = faces["p"],faces["T"]
+        cs = .5*(q["cs"][1:]+q["cs"][:-1])
+        length = alpha*p/(rho*faces["g"])
+        peclet = 3*k*rho**2*faces["cp"]*out["velocity"]*length/(4*A*C*T**3)
+        convective_mach = out["velocity"]/cs
+        saturation = out["convective"]/(4*PI*radius**2*p*cs)
     elif config["transport"]["convection"] != "off":
         raise ValueError("Unsupported convection closure")
     boundary = config["boundary"]
     if boundary["thermal"] == "grey":
         tau = .5*kap[-1]*state.dm[-1]/(4*PI*state.r[-1]**2) + boundary["external_optical_depth"]
         rad[-1] = 4*PI*state.r[-1]**2*A*C/3*(state.T[-1]**4-boundary["bath_temperature_K"]**4)/(tau+2/3)
+    elif boundary["thermal"] == "stars_photosphere":
+        # Ball thesis 2.15 surface: face at tau = 2/3 with no mass above, so the
+        # last cell centre sits at tau_half + 2/3: T^4 = 3/4 Teff^4 (tau_half + 4/3).
+        tau = .5*kap[-1]*state.dm[-1]/(4*PI*state.r[-1]**2) + 2/3
+        rad[-1] = 4*PI*state.r[-1]**2*A*C/3*state.T[-1]**4/(tau+2/3)
     elif boundary["thermal"] == "insulated": rad[-1] = 0.
     elif boundary["thermal"] == "luminosity":
         rad[-1] = value(boundary["luminosity_erg_s"],state.time/YEAR)
@@ -62,9 +97,17 @@ def inverse_transport_residual(state,eos,opacity,config,L):
 
     Algebraic inverse of the same diffusion + capped lossless MLT law.
     Solving for flux avoids multiplying roundoff in nearly adiabatic
-    gradients by an enormous convective conductance.
+    gradients by an enormous convective conductance. The mlt.py closures
+    return contrast - Y(nabla_rad(L))*dlnP, in the same units.
     """
     q=eos.evaluate(state.rho,state.T);kap=opacity(state.rho,state.T)
+    model=config['transport']['convection']
+    if model in MIXING_LENGTH:
+        # contrast - Y(nabla_rad(L)) dlnP; Y = nabla_rad - nabla_ad on radiative faces.
+        faces,mass=_mixing_length_faces(state,q,kap)
+        grad_rad=radiative_gradient(L[1:-1],faces['kappa'],faces['p'],faces['T'],mass)
+        Y=closure(model,grad_rad,**faces,alpha=config['transport']['mixing_length_alpha'])['excess']
+        return eos.thermal_contrast(state.rho,state.T,q)-Y*np.log1p(np.diff(q['p'])/q['p'][:-1])
     rho=.5*(state.rho[1:]+state.rho[:-1]);k=.5*(kap[1:]+kap[:-1])
     radius=state.r[1:-1];dr=np.diff(state.rc)
     p=.5*(q['p'][1:]+q['p'][:-1]);T=.5*(state.T[1:]+state.T[:-1])

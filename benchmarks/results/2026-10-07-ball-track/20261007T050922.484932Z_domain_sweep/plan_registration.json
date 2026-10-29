@@ -1,0 +1,10 @@
+{
+  "plan": "benchmarks/ball2011_track_plan.json",
+  "plan_sha256": "a10b4166222342acee53da9622885845ff7744914fb38316d8ea4f48fce8cc0e",
+  "registration_sha256": "2ef6f60376008b3e47bc21b55f670a73547f7dec9e341fb2d71a4c15d2c2d9d0",
+  "registered_utc": "2026-10-07T04:45:09Z",
+  "target_files_sha256": {
+    "benchmarks/ball2011_table1.csv": "ab34da0b7f0e68046bdc4741b5a8002bc33e33f9ece74c430b5a79193575e5c8",
+    "benchmarks/ball2012_thesis_table3_1.csv": "ac97d730f7e260b845de9ef0a9ab70c09c69fac7ff9d4ef7edab479ca8c3c261"
+  }
+}

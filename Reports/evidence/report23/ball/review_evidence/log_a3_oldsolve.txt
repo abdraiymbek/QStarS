@@ -1,0 +1,16 @@
+DRYRUN A3 settings + registered photosphere.solve, C1 -> relaxation_blocker numerical relaxation blocker
+   seed 2000 seed_failed DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists acc None rej None
+   seed 6000 converged  acc 30 rej 1
+   seed 1000 seed_failed DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists acc None rej None
+   seed 12000 seed_failed ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8 acc None rej None
+   seed 3464 seed_failed DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists acc None rej None
+   seed 1414 seed_failed DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists acc None rej None
+   seed 8485 failed relaxation failed in mesh cycle 0 acc 0 rej 21
+DRYRUN A3 settings + registered photosphere.solve, C0 -> relaxation_blocker numerical relaxation blocker
+   seed 2000 seed_failed DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists acc None rej None
+   seed 6000 failed relaxation failed in mesh cycle 0 acc 0 rej 21
+   seed 1000 seed_failed DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists acc None rej None
+   seed 12000 seed_failed ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8 acc None rej None
+   seed 3464 seed_failed DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists acc None rej None
+   seed 1414 seed_failed DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists acc None rej None
+   seed 8485 failed relaxation failed in mesh cycle 0 acc 0 rej 21

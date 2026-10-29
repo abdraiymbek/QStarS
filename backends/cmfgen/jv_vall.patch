@@ -1,0 +1,68 @@
+--- a/cur_cmf/new_main/qs_jv.f90	2026-10-03 20:58:38
++++ b/cur_cmf/new_main/qs_jv.f90	2026-10-03 21:16:49
+@@ -34,7 +34,7 @@
+ ! Build 25: level-dissolution derivatives of the bound-free opacity/emissivity (occupation
+ ! probabilities W in the LTE populations and the dissolved fraction below each edge), which
+ ! the native VCHI/VETA hold constant. dis_l*: d ln(B,A,X)_LEV_DIS per depth and direction.
+-logical :: jv_dis=.true.,dis_valid=.false.
++logical :: jv_dis=.true.,dis_valid=.false.,jv_vall=.false.
+ real(kind=ldp),allocatable :: dis_lb(:,:),dis_la(:,:),dis_lx(:,:),dchidis(:,:),detadis(:,:)
+ real(kind=ldp) :: st_dis_wdiff=0,st_dis_rel=0
+ end module qs_jv_state
+@@ -141,6 +141,8 @@
+ logical,allocatable::ionrow(:)
+ call get_environment_variable('QSTARS_JV_NODIS',buf,length=plen,status=ios)
+ jv_dis=.not.((ios==0.or.ios==-1).and.plen>0)
++call get_environment_variable('QSTARS_JV_VALL',buf,length=plen,status=ios)
++jv_vall=((ios==0.or.ios==-1).and.plen>0)
+ if(allocated(dis_lb))deallocate(dis_lb,dis_la,dis_lx,dchidis,detadis)
+ allocate(dis_lb(nd,nv),dis_la(nd,nv),dis_lx(nd,nv),dchidis(nd,nv),detadis(nd,nv))
+ dis_lb=0;dis_la=0;dis_lx=0;dchidis=0;detadis=0;dis_valid=.false.
+@@ -302,7 +304,7 @@
+ use omp_lib, only: omp_get_max_threads
+ use mod_space_grid_v2, only: ray
+ use mod_cmfgen, only: atm,num_ions,ion_id,t,ed,pop_atom,clump_fac
+-use opac_mod, only: veta,vchi,eta_clump,chi_clump,chi_scat_clump,chi,eta,chi_cont,eta_cont,&
++use opac_mod, only: veta,vchi,veta_all,vchi_all,eta_clump,chi_clump,chi_scat_clump,chi,eta,chi_cont,eta_cont,&
+                     chi_noscat,chi_scat,esec,chi_ray,emhnukt
+ use radiation_mod, only: rj,dtdr,dbb,ddbbdt,dlog_nu
+ use var_rad_mod, only: diffw
+@@ -357,11 +359,25 @@
+ if(jv_dis.and.(new_cross.or.first_freq.or..not.dis_valid))call qs_jv_dis_freq(cont_freq)
+ do k=1,nv
+  do l=1,nd
+-  dchi_abs(l)=dot_product(vchi(1:nt,l),dpop(1:nt,l,k))
+-  deta_c(l)=dot_product(veta(1:nt,l),dpop(1:nt,l,k))
++  if(jv_vall)then
++   ! complete variation (important AND not-important variables, COMP_VAR_OPAC VCHI_ALL)
++   dchi_abs(l)=dot_product(vchi_all(1:nt,l),dpop(1:nt,l,k))
++   deta_c(l)=dot_product(veta_all(1:nt,l),dpop(1:nt,l,k))
++  else
++   dchi_abs(l)=dot_product(vchi(1:nt,l),dpop(1:nt,l,k))
++   deta_c(l)=dot_product(veta(1:nt,l),dpop(1:nt,l,k))
++  endif
+   if(jv_dis)then
+-   dchi_abs(l)=dchi_abs(l)+dchidis(l,k)
+-   deta_c(l)=deta_c(l)+detadis(l,k)
++   ! dissolution terms evaluated at CONT_FREQ, moved to FL exactly as COMP_VAR_OPAC moves VCHI/VETA:
++   ! dETA(FL) = dETA(CONT)*T4, dCHI(FL) = dCHI(CONT) + dETA(CONT)/T2 - dETA(FL)/T3
++   if(cont_freq/=fl)then
++    t4=(fl/cont_freq)**3*exp(-hdkt*(fl-cont_freq)/t(l))
++    deta_c(l)=deta_c(l)+detadis(l,k)*t4
++    dchi_abs(l)=dchi_abs(l)+dchidis(l,k)+detadis(l,k)/(twohcsq*cont_freq**3)-detadis(l,k)*t4/(twohcsq*fl**3)
++   else
++    dchi_abs(l)=dchi_abs(l)+dchidis(l,k)
++    deta_c(l)=deta_c(l)+detadis(l,k)
++   endif
+   endif
+   desec(l)=esec(l)/ed(l)*dpop(nt-1,l,k)
+   dray(l)=0
+@@ -594,7 +610,7 @@
+ write(lu,'(A,I8,A,I4,A,ES12.4,A,ES12.4,A,I12,A,I6,A,ES12.4,A,I8,A,ES12.4,A,ES16.8)')'freqs',st_nfreq,' dirs',nv,&
+   ' max_tangent_closure',st_closure,' max_primal_replay_rel',st_replay,' scattering_products',st_products,&
+   ' max_products',st_maxprod,' max_rel_dJ',st_maxdj,' neg_floor_cells',st_negfloor,' lin_vs_dual',st_lincheck,' closure_freq',st_closure_fl
+-write(lu,'(A,L2,A,ES12.4)')'dissolution_derivatives',jv_dis,' max|W_formula-W_native|',st_dis_wdiff
++write(lu,'(A,L2,A,ES12.4,A,L2)')'dissolution_derivatives',jv_dis,' max|W_formula-W_native|',st_dis_wdiff,' VCHI_ALL',jv_vall
+ close(lu)
+ end subroutine qs_jv_two_post
+ 

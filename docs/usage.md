@@ -12,6 +12,8 @@ Engine coupling, prescribed accretion, feeding rate/temperature, wind rate, and
 surface luminosity accept numbers, linearly interpolated tables, half-open
 pulses, or sinusoids. Tables hold endpoint values outside their range.
 Timesteps land on table/pulse breakpoints. Negative one-way rates are rejected.
+Boundary pressure, external optical depth, bath temperature, terminal speed and
+the Dotan `W` are numbers only; control mappings for them are rejected.
 Executable expressions in YAML are unsupported.
 
 ```yaml
@@ -36,6 +38,48 @@ directory. Only the final time may change; changing physics requires an
 explicitly accounted model transition. Sweeps use Cartesian products of dotted
 keys, isolated processes, and separate directories. They do not submit cloud jobs.
 
+## Quasi-static tracks
+
+`numerics.mechanics: quasi_static` selects the quasi-static path of the Ball et
+al. 2011 replication (`quasistatic.py`): no radial inertia and the moving Bondi
+cavity, `boundary.inner: bondi_cavity`. The two go together and require
+`nonlinear_solver: newton_flux`, `wind.model: off`, zero feeding and a central
+engine. The replication closures exist only on this path:
+`boundary.thermal: stars_photosphere` (outer face at tau = 2/3),
+`transport.convection: mlt_ml1` or `mlt_thesis_lossless`, and `opacity.tables`
+(`default`, `stars2004_switch`, `stars2004_switch_strict`; the STARS switch
+needs the MESA ABI-7 bridge, and its nearest-table-value rule only the
+`published_assumption` policy). `engine.model: ball2012_eq3_15` is thesis
+eq 3.15, the `quest2025_eq11` law under its source name.
+
+A quasi-static configuration has five further sections, saved with every
+default: `cavity` (profile, `b`, face or cell boundary state), `quasistatic`
+(solver, base mesh, split/merge, per-step budgets), `stepcontrol`,
+`relaxation`, and `replication` (total and initial black-hole mass, seed
+radii, landing masses, end mass, screen policy, plan labels). Keys this path
+does not read must stay at their defaults: all of `initial`,
+`evolution.end_time_years`, `output.profile_every_steps`, the dynamic-step
+numerics and, with the Ball photosphere, the boundary pressure, external
+optical depth and bath temperature. Engine coupling, prescribed accretion and
+surface luminosity are numbers only here. Every other configuration resolves
+and is saved exactly as before.
+
+`qstars run` relaxes the seeds in order until one converges (`relax.json`,
+`row0.npz`), sets t = 0 there, and evolves to `replication.end_bh_mass_msun`,
+to Ball's termination trigger or to a stop rule (`evolution.max_steps`,
+`max_wall_seconds`); it lands exactly on each `landings_msun` mass and saves
+`landing_<M>msun.npz` with its profile. `qstars restart` continues bitwise;
+`--until-years` does not apply. Seed uniqueness and the fold classification
+of a termination belong to the registered driver. `qstars plot` does not
+support quasi-static run directories (other history columns and profile keys;
+read `history.csv` and `profile_*.npz` directly), and the library entry
+`evolution.run` refuses a quasi-static configuration.
+`benchmarks/ball2011_track.yaml` is run C0 of the sha256-registered Gate 6
+plan in this schema. Registered runs execute only through
+`scripts/validate_ball_track.py`, which verifies the plan and target hashes,
+generates every run from the plan and refuses unless that file equals its C0
+mapping; `qstars run` refuses a configuration that names a registered plan.
+
 ## Files
 
 | File | Contents |
@@ -52,13 +96,20 @@ keys, isolated processes, and separate directories. They do not submit cloud job
 | `termination.json` | Status, reason, runtime, process peak RSS, residuals |
 | `validity_warnings.json` | Physical limitations |
 | `opacity_table.npz`, `external_inputs.json` | Copied external opacity data and hash, when used |
+| `wind_node.json`, `wind_node_interface.json` | Copied CMFGEN wind node and its base-face check, for `selected_nodes` ([contract](wind_node.md)) |
 
 Energies are signed and exclude rest energy except for engine conversion.
 `luminosity_erg_s` is gross boundary heat flux; the radiated energy ledger
 deducts wind mechanical work. Replacement time uses the sum of flow magnitudes,
 so balanced feeding/wind still replaces mass. No-flow replacement time is infinity.
 `photospheric_radius_cm=NaN` is deliberately undefined and must not be replaced
-by the outer radius. Effective temperature is a flux/area diagnostic.
+by the outer radius or by a `selected_nodes` node value; that held node value is
+`wind_node_photospheric_radius_cm`. Effective temperature is a flux/area diagnostic.
+The one exception is a quasi-static run with `stars_photosphere`: its outer face
+is the tau = 2/3 photosphere, so `photospheric_radius_cm` is the outer radius.
+Quasi-static history rows hold the Ball Table 1 observables, the base state,
+step and controller diagnostics, per-screen values and flags, and the ledger
+with its cavity channels.
 
 ```python
 import numpy as np
@@ -106,9 +157,12 @@ The two `fiacconi2016_*_wind.yaml` files run through `qstars reference`; they
 do not select an evolutionary wind rate. `docs/mesa.md` gives pinned build,
 ionization audit and optional MESA regression commands.
 
-Checkpoint schemas 1–6 remain readable. Current checkpoints include cell
+Checkpoint schemas 1–7 remain readable. Current checkpoints include cell
 volumes, solved face luminosities, reference mass fractions and compensated
-radius updates. A successful restart is tested against an uninterrupted run,
+radius updates. Schema 7 adds the quasi-static fields (cavity mass, photosphere
+density, whether kinetic energy is tracked, and the JSON controller, predictor
+and driver state); a state without them is still written as schema 6, and
+older schemas load with their defaults. A successful restart is tested against an uninterrupted run,
 including remaps. Process peak RSS is cumulative within one Python process;
 compare memory across fresh processes when making performance claims.
 

@@ -1,0 +1,16 @@
+{
+ "base_release": "build_19",
+ "build": "build_20",
+ "files": [
+  "new_main/qs_jv.f90"
+ ],
+ "source_hashes": {
+  "new_main/qs_jv.f90": {
+   "base": "62b45063b7abcb79c800f074629f8c9e4a91b196174a64dbb67a709b858433f3",
+   "patched": "44edc370f319a3f0e03a9b4878bf2938ee957a807df02157bf35247854900ec2"
+  }
+ },
+ "patch_file": "jv_env.patch",
+ "patch_sha256": "68608e482969c87a14bf56674f8f151075f1933d02599449e7bdf78aada829ba",
+ "scope": "Environment presence checks treat a truncated value (status -1) as present; QSTARS_JV_REPLAY/DIRS paths must fit 512 chars; closure diagnostic ignores underflowed forcing and records its frequency. Build-19 replay/frozen-J passes with long QSTARS_JV_REPLAY paths silently ran full transfer and are superseded."
+}

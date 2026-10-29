@@ -1,0 +1,21 @@
+{
+ "base_release": "build_28",
+ "build": "build_29",
+ "files": [
+  "new_main/qs_jv.f90",
+  "new_main/mod_subs/comp_j_blank.f"
+ ],
+ "source_hashes": {
+  "new_main/qs_jv.f90": {
+   "base": "e34cc01ccea8a17d0aafedbfeca4e5b1cb7d158ef614b59f8d391b141a12e266",
+   "patched": "8d69053f695ec9ed539f7e2cbe9f65c7899d22ffd03a80c258b311baa40299e4"
+  },
+  "new_main/mod_subs/comp_j_blank.f": {
+   "base": "d43785b5121c3f863bdc35c09fdc69035c96bd25e74a14961208b881b41ec780",
+   "patched": "1306460415e0a2cdc5ff832f2445c39435b9765fa14c5d8f687682300a1d147b"
+  }
+ },
+ "patch_file": "jv_noobs.patch",
+ "patch_sha256": "569b47177908d32a5ec9a73cd73ead59e01b354519396ac90621f196d96c09be",
+ "scope": "QSTARS_NO_OBS_FORMAL (env) skips the output-only observer-frame formal solution CMF_FORM_SOL_V2 in solver passes (CMFGEN FIRST_FREQ fallback); residual, BA, stored J, tangent and luminosity guard unchanged. Unset: identical to build 28."
+}

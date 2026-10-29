@@ -1,0 +1,21 @@
+{
+ "base_release": "build_24",
+ "build": "build_25",
+ "files": [
+  "new_main/qs_jv.f90",
+  "new_main/cmfgen_sub.f"
+ ],
+ "source_hashes": {
+  "new_main/qs_jv.f90": {
+   "base": "8a210f413aa6f5cd0984fec25e9494054e78b9ca764214a3fc7791ae25c34fd9",
+   "patched": "5f3460a2ebb0f81359a43b3f1ffcc666948115281b807e78b67f55b542c3314c"
+  },
+  "new_main/cmfgen_sub.f": {
+   "base": "e4ccb73fd42bc2806a1bcf9f46537e9e686ac4047b3834a19191fde8c5b85367",
+   "patched": "c9be84ef656b6910a2a92159175e227b26756dde95c5a09d457904861d09c8d7"
+  }
+ },
+ "patch_file": "jv_dis.patch",
+ "patch_sha256": "28f8940ed5416b2d6af579599c5b5d40065815a08b71d49c317f51b550714f8a",
+ "scope": "Level-dissolution derivatives in the tangent opacities/emissivities: d(occupation probability W) in the LTE populations of the bound-free stimulated/recombination terms (all routes) and d(dissolved fraction T2) below each edge (route 1), chained through B/A/X_LEV_DIS(n_e, POPION, T) as written in COMP_LEV_DIS_BLK; evaluated at CONT_FREQ and cached with COMPUTE_NEW_CROSS like the native continuum. QSTARS_JV_NODIS disables it. Primal state, residual and native step unchanged."
+}

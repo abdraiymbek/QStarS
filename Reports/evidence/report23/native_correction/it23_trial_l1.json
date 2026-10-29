@@ -1,0 +1,243 @@
+{
+ "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it23_trial_l1",
+ "nt": 134,
+ "nd": 167,
+ "sig_frac": 1e-10,
+ "threshold": 0.001,
+ "classes": {
+  "significant": {
+   "n": 9985,
+   "max_abs": 1.0798419181600802,
+   "audit_normalized": 3.5603126382950907,
+   "row": 134,
+   "depth": 1,
+   "frac": 1.0,
+   "n_above_threshold": 4655,
+   "floor_max": 0.0005345239166736842,
+   "n_fail_at_floor": 0,
+   "n_fail_above_floor": 4655
+  },
+  "ne": {
+   "n": 167,
+   "max_abs": 0.30260747276755673,
+   "audit_normalized": 0.30260747276755673,
+   "row": 133,
+   "depth": 30,
+   "frac": 1.0,
+   "n_above_threshold": 37,
+   "floor_max": 7.1511383154214194e-06,
+   "n_fail_at_floor": 0,
+   "n_fail_above_floor": 37
+  },
+  "T": {
+   "n": 167,
+   "max_abs": 1.0798419181600802,
+   "audit_normalized": 1.0798419181600802,
+   "row": 134,
+   "depth": 1,
+   "frac": 1.0,
+   "n_above_threshold": 117,
+   "floor_max": 0.0005345239166736842,
+   "n_fail_at_floor": 0,
+   "n_fail_above_floor": 117
+  },
+  "trace_l1_kept": {
+   "n": 8914,
+   "max_abs": 1811.1560392998601,
+   "audit_normalized": 100000.0,
+   "row": 131,
+   "depth": 46,
+   "frac": 1.0254056869815721e-42,
+   "n_above_threshold": 8747,
+   "floor_max": 0.0007348584050143455,
+   "n_fail_at_floor": 0,
+   "n_fail_above_floor": 8747
+  },
+  "trace_l1_demoted": {
+   "n": 3479,
+   "max_abs": 134617042.24620032,
+   "audit_normalized": 134617042.24620032,
+   "row": 132,
+   "depth": 36,
+   "frac": 1.0558365634380127e-33,
+   "n_above_threshold": 3470,
+   "floor_max": 17.246353119380732,
+   "n_fail_at_floor": 524,
+   "n_fail_above_floor": 2946
+  },
+  "trace_paired_own": {
+   "n": 12317,
+   "max_abs": 97211812.59736493,
+   "audit_normalized": 97211812.59736493,
+   "row": 131,
+   "depth": 33,
+   "frac": 1.2409127017512432e-46,
+   "n_above_threshold": 12141,
+   "floor_max": 16.12407100486287,
+   "n_fail_at_floor": 502,
+   "n_fail_above_floor": 11639
+  },
+  "trace_paired_ionization": {
+   "n": 76,
+   "max_abs": 134617042.24620032,
+   "audit_normalized": 134617042.24620032,
+   "row": 132,
+   "depth": 36,
+   "frac": 1.0558365634380127e-33,
+   "n_above_threshold": 76,
+   "floor_max": 17.246353119380732,
+   "n_fail_at_floor": 22,
+   "n_fail_above_floor": 54
+  },
+  "trace_unpaired": {
+   "n": 0
+  },
+  "all": {
+   "n": 22378,
+   "max_abs": 134617042.24620032,
+   "audit_normalized": 134617042.24620032,
+   "row": 132,
+   "depth": 36,
+   "frac": 1.0558365634380127e-33,
+   "n_above_threshold": 16872,
+   "floor_max": 17.246353119380732,
+   "n_fail_at_floor": 524,
+   "n_fail_above_floor": 16348
+  }
+ },
+ "noise_model": {
+  "eps_row_relative": 3.2e-12,
+  "samples": 8,
+  "seed": 0
+ },
+ "after_structural_cleanup": {
+  "trace_solved": 12393,
+  "unpaired": 0,
+  "max_trace_step": 157790563.47316864,
+  "backward_error": 2.569830409663503e-14,
+  "classes": {
+   "significant": {
+    "n": 9985,
+    "max_abs": 1.0798419181600802,
+    "audit_normalized": 3.5603126382950907,
+    "row": 134,
+    "depth": 1,
+    "frac": 1.0,
+    "n_above_threshold": 4655,
+    "floor_max": 0.0005345239166736842,
+    "n_fail_at_floor": 0,
+    "n_fail_above_floor": 4655
+   },
+   "ne": {
+    "n": 167,
+    "max_abs": 0.30260747276755673,
+    "audit_normalized": 0.30260747276755673,
+    "row": 133,
+    "depth": 30,
+    "frac": 1.0,
+    "n_above_threshold": 37,
+    "floor_max": 7.1511383154214194e-06,
+    "n_fail_at_floor": 0,
+    "n_fail_above_floor": 37
+   },
+   "T": {
+    "n": 167,
+    "max_abs": 1.0798419181600802,
+    "audit_normalized": 1.0798419181600802,
+    "row": 134,
+    "depth": 1,
+    "frac": 1.0,
+    "n_above_threshold": 117,
+    "floor_max": 0.0005345239166736842,
+    "n_fail_at_floor": 0,
+    "n_fail_above_floor": 117
+   },
+   "trace_l1_kept": {
+    "n": 8914,
+    "max_abs": 82.52077502595444,
+    "audit_normalized": 100000.0,
+    "row": 131,
+    "depth": 46,
+    "frac": 1.0254056869815721e-42,
+    "n_above_threshold": 6652,
+    "floor_max": 0.0007348584050143455,
+    "n_fail_at_floor": 0,
+    "n_fail_above_floor": 6652
+   },
+   "trace_l1_demoted": {
+    "n": 3479,
+    "max_abs": 34109728.55153602,
+    "audit_normalized": 143473.4791728533,
+    "row": 132,
+    "depth": 33,
+    "frac": 3.517510506595201e-34,
+    "n_above_threshold": 3383,
+    "floor_max": 17.246353119380732,
+    "n_fail_at_floor": 524,
+    "n_fail_above_floor": 2859
+   },
+   "trace_paired_own": {
+    "n": 12317,
+    "max_abs": 26799367.07331738,
+    "audit_normalized": 100000.0,
+    "row": 131,
+    "depth": 33,
+    "frac": 1.2409127017512432e-46,
+    "n_above_threshold": 9959,
+    "floor_max": 16.12407100486287,
+    "n_fail_at_floor": 502,
+    "n_fail_above_floor": 9457
+   },
+   "trace_paired_ionization": {
+    "n": 76,
+    "max_abs": 34109728.55153602,
+    "audit_normalized": 143473.4791728533,
+    "row": 132,
+    "depth": 33,
+    "frac": 3.517510506595201e-34,
+    "n_above_threshold": 76,
+    "floor_max": 17.246353119380732,
+    "n_fail_at_floor": 22,
+    "n_fail_above_floor": 54
+   },
+   "trace_unpaired": {
+    "n": 0
+   },
+   "all": {
+    "n": 22378,
+    "max_abs": 34109728.55153602,
+    "audit_normalized": 143473.4791728533,
+    "row": 132,
+    "depth": 33,
+    "frac": 3.517510506595201e-34,
+    "n_above_threshold": 14690,
+    "floor_max": 17.246353119380732,
+    "n_fail_at_floor": 524,
+    "n_fail_above_floor": 14166
+   }
+  }
+ },
+ "prediction_only": "native fixed-J correction of the next complete iteration at this state; the gate is judged on the verify pass, never on this prediction",
+ "below_threshold": {
+  "significant": false,
+  "ne": false,
+  "T": false,
+  "trace_l1_kept": false,
+  "trace_l1_demoted": false,
+  "trace_paired_own": false,
+  "trace_paired_ionization": false,
+  "trace_unpaired": true,
+  "all": false
+ },
+ "below_threshold_after_cleanup": {
+  "significant": false,
+  "ne": false,
+  "T": false,
+  "trace_l1_kept": false,
+  "trace_l1_demoted": false,
+  "trace_paired_own": false,
+  "trace_paired_ionization": false,
+  "trace_unpaired": true,
+  "all": false
+ }
+}

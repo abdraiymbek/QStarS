@@ -1,0 +1,139 @@
+{
+ "amendment_id": "ball2011_track_plan_amendment_5",
+ "status": "REJECTED DRAFT (2026-10-14, main session): not registered. The adversarial verifier showed that measuring mesh-event steps on the counterfactual pre-event mesh removes mesh-event jumps from error control with no bound (accepted jumps up to 11.7x delta_target in the DRYRUN): in effect a tolerance relaxation, which the amendment rule forbids. With merges switched off (diagnostic DRYRUN) the run still stops at M_BH = 55.0 (termination trigger; Newton growth in the outer hydrogen opacity front). Evidence: Reports/evidence/report23/ball/smoke_jump/diagnosis_and_verification.md.",
+ "plan": "benchmarks/ball2011_track_plan.json",
+ "plan_sha256": "a10b4166222342acee53da9622885845ff7744914fb38316d8ea4f48fce8cc0e",
+ "kind": "numerical-method bug fix (plan registration.amendment_rule): what the step controller measures on a step whose P2 remesh split or merged cells. Untouched: delta_target, reject_ratio and every other controller number, the registered split/merge rule and its thresholds (2.0 / 0.5; C7 1.5 / 0.67), every tolerance, the primary physics, the microphysics, the targets, and every immutable section (model, replication_mode, comparison, endpoint, qualitative_checks, conservation, restart, convergence_campaign.thresholds, verdict_rules).",
+ "settings": {
+  "stepcontrol": {
+   "events": "counterfactual"
+  }
+ },
+ "settings_note": "Applied by scripts/validate_ball_track.py --amendment to config['stepcontrol'] after it verifies this file against its registration record; the patch adds 'events' to AMENDABLE['stepcontrol']. stepcontrol.events defaults to 'measured', the registered rule, which every configuration keeps unless this amendment is applied. stepcontrol is outside the row-0 signature (validate_ball_track.signature), so the relaxed row-0 state does not depend on it; the driver's provenance check (row0_record) nevertheless requires the relax run to carry the same amendment list, so every row 0 must be relaxed again with Amendments 3, 4, 2, 1 and 5 (expected to give bitwise the same states: the relaxation never reads the controller).",
+ "preserved_failing_run": [
+  "benchmarks/results/2026-10-14-ball-track/20261014T051036.115106Z_smoke_C1_n200"
+ ],
+ "smoke_gate_result": [
+  {
+   "run": "benchmarks/results/2026-10-14-ball-track/20261014T051036.115106Z_smoke_C1_n200",
+   "kind": "smoke",
+   "status": "termination_trigger",
+   "passed": false,
+   "accepted_steps": 1255,
+   "attempts": 1263,
+   "rejections": 8,
+   "median_dt_years": 138.75232801092696,
+   "rejected_fraction": 0.006334125098970704,
+   "rejection_causes": {
+    "total": 8,
+    "causes": {
+     "controller_metric": 8
+    },
+    "controller_metric": {
+     "profile_dlnT": 8
+    },
+    "newton_failures_at_tolerance_floor": 0,
+    "newton_failure_residuals": []
+   },
+   "reason": "timestep 0.6724 yr below the dynamical time 0.826 yr (Ball's criterion)",
+   "final_bh_mass_msun": 46.003844680521055,
+   "final_time_years": 208529.7486641535,
+   "rejected_attempts_at_step_1255": [
+    {
+     "dt_years": 172.144,
+     "delta_actual": 0.01525,
+     "component": "profile_dlnT"
+    },
+    {
+     "dt_years": 86.072,
+     "delta_actual": 0.01691,
+     "component": "profile_dlnT"
+    },
+    {
+     "dt_years": 43.036,
+     "delta_actual": 0.01775,
+     "component": "profile_dlnT"
+    },
+    {
+     "dt_years": 21.518,
+     "delta_actual": 0.01817,
+     "component": "profile_dlnT"
+    },
+    {
+     "dt_years": 10.759,
+     "delta_actual": 0.01839,
+     "component": "profile_dlnT"
+    },
+    {
+     "dt_years": 5.379,
+     "delta_actual": 0.0185,
+     "component": "profile_dlnT"
+    },
+    {
+     "dt_years": 2.69,
+     "delta_actual": 0.01855,
+     "component": "profile_dlnT"
+    },
+    {
+     "dt_years": 1.345,
+     "delta_actual": 0.01857,
+     "component": "profile_dlnT"
+    }
+   ]
+  }
+ ],
+ "changes": [
+  {
+   "section": "numerics.controller.metrics (all components) on steps with split/merge events",
+   "registered": "Every component of delta_actual (the profile change, Lagrangian per the plan and mapped per Amendment 1; |dln r0|, |dln rho_b|, |dln T_b|; |dln M_BH|; |dM_cav|/M0; |dln L*|, |dln R*|, |dln Teff|) is measured on the accepted solution of the step, including the change that the step's split/merge events cause.",
+   "amended": "On a step whose P2 remesh split or merged any cell, every component of delta_actual is measured on the same step (same dt, same predicted swept mass, same slice and fixed-mass regrid) solved on the mesh before those events. This counterfactual solve already exists: quasistatic._remesh_effect has run it on every event step since Amendment 1, to report remesh_dln_base_density, _temperature and _inner_radius. The accepted state is still the solution on the event mesh. The event's own change stays in the step diagnostics: step_mapped_max_dlnT and step_lagrangian_max_dlnT in history.csv are still the measured values, and events.jsonl adds event_free_mapped_max_dlnT/dlnr and event_free_lagrangian_max_dlnT/dlnr. If the counterfactual cannot be solved or assembled, the measured components are used (the registered rule), so such a step can only be rejected more often, never less. Steps without an event are bitwise unchanged.",
+   "defect": "A split or merge in the Lagrangian part of the mesh changes the discrete solution by the change of its truncation error, at every dt. The cells near the surface are in thermal equilibrium within hours, so for every dt the controller can choose (dt >= t_dyn = 0.83 yr) the jump is constant. The controller counts it as a timestep error and halves dt, which cannot remove it, so the termination trigger fires: a numerical failure that is not a property of the model. Amendment 1 removed this defect from the base region, where split/merge no longer acts. The Lagrangian envelope above that region still has it. In the cited smoke run the remesh at step 1255 merges two outer cells, 0.050 Msun below the surface in the hydrogen opacity peak (dm/target 0.662 and 0.497). The temperature of the next cell inward rises by 1.86-1.88% at every dt from 0.01 to 172 yr. On the pre-event mesh the same step changes the profile by 1.6e-5 to 2.4e-5 for dt <= 1 yr, 2.1e-3 at 100 yr and 3.59e-3 at 172 yr, in proportion to dt."
+  }
+ ],
+ "evidence": {
+  "path": "Reports/evidence/report23/ball/smoke_jump",
+  "reproduction": "Scratch (unpatched code, which matches the frozen code: stage7_code_freeze.sha256 verified). The run's checkpoint.npz with its stored configuration and backends/mesa/build_ball_abi7. From the last accepted state (step 1255, M_BH = 46.0038 Msun, 174 zones), single evolve steps through quasistatic.bondi_step and stepcontrol.metrics give delta_actual = profile_dlnT = 0.01286, 0.01682, 0.01835, 0.01857, 0.01840, 0.01664, 0.01525 at dt = 1e-3, 1e-2, 0.1, 1, 10, 100, 172.144 yr. Every step merges the same pair (174 -> 173 zones), and 0.01525 at 172.144 yr is the run's first rejection.",
+  "location": "Cell 167 of the 173-cell event mesh, the cell just inward of the merged cell. The remesh leaves it untouched. It sits 0.060 Msun below the surface, 9949 Msun above the base, at optical depth about 2.8 to the surface. T goes from 8190 to 8343 K (+1.86%), rho from 3.66e-11 to 3.31e-11 g/cm3 (-10%) and kappa from 1.07 to 1.20 cm2/g. Cells 166, 165 and 164 change by +1.50%, +0.80% and +0.44%. The merged cell itself (T 7558 and 7251 K, merged at 7427 K) moves only 0.23% from its remapped value. Radii change by at most 1.2e-4 at 1 yr, L* by 1.4e-5, rho_ph by +0.1%, and the 33-cell base region does not change. This outer zone is the hydrogen opacity peak: kappa is 0.42-1.47 cm2/g over 0.25 Msun, the local Eddington factor kappa L/(4 pi c G m) exceeds 1 in cells 158-168 (up to 3.4), and the density increases outward by a factor of 9. Every outer face is Schwarzschild-unstable both before and after the event, with ML1 efficiency at most 2e-3, so nabla equals nabla_rad.",
+  "excluded": [
+   "Microphysics switch, clamp or table edge: every outer cell has T >= 6500 K, above the STARS OPAL/AF94 blend at log T 3.75-3.76. No clamp flag is set. ln kappa, ln p, u, grad_ad and cp are smooth over 6400-13500 K at the cells' densities, with no isolated second-difference spike (max/median <= 4.3) and dlnkappa/dlnT up to 15.6.",
+   "MLT on/off switch at nabla_rad = nabla_ad, or a change of ML1 branch: no interior face in the whole profile changes regime (155 of 173 faces are convective before the step, and the same faces are convective after it, with or without the merge).",
+   "Photosphere row or branch: rho_ph changes by 0.1%, Gamma_ph = 0.098, and the solve takes the same branch.",
+   "Fixed-mass base boundary: the region has 33 cells and does not change. The event is 9949 Msun above the base.",
+   "Fold or branch switch of the step: on the event mesh, the step solution continued in dt from 1e-8 yr (where it equals the predictor to 4e-5) to 172 yr. The jump builds up smoothly over the thermal time of the outer cells, and Newton takes 3-5 iterations. sigma_min of the scaled Jacobian is the same with and without the merge (4.91e-4 at 1 yr; 3.77e-3 and 3.61e-3 at 172 yr), and its singular vector at 1 yr is not in the merge region.",
+   "fold.classify (the registered protocol, run in scratch) at step 1255: the frozen-entropy continuation runs from M_BH 44.83 to 49.21 Msun with sigma_min 1.88-1.89e-4, det J of constant sign and no t_lambda turning point. The label is numerical_failure (no fold within +5%/-2%).",
+   "The mapped metric itself (Amendment 1): the Lagrangian metric measures the same jump (lagrangian_max_dlnT 0.0186 at 1 yr)."
+  ],
+  "truncation_error_scale": "Halving the outer 34 cells (scratch refinement, then a dt ladder to 1 yr) changes T at 0.060 Msun below the surface by -1.74%, comparable to the merge's +1.86%. The jump is the size of the N = 200 discretization error in the outer opacity peak, which the convergence campaign (N = 400/800) measures. Refining the outer cells by 3, 4 or 8 failed in Newton from the scratch start, so the converged value of this error is not established.",
+  "history": "The run made 22 earlier merges, all accepted. Their profile change was 0.0013-0.0023 until step 1170, 0.0058 at step 1208 and 0.0018 at step 1243. The jumps grew as Teff fell from 7400 to 6460 K and Gamma_ph from 0.9 to 0.1, pulling the hydrogen opacity peak into the outer cells. The Lagrangian mesh has only merged (200 -> 174 zones, no split), so the peak is resolved ever more coarsely."
+ },
+ "not_amended": {
+  "F1": "F1 (pseudo-transient continuation inside a step) acts only on a failed Newton solve. At step 1255 all 8 attempts converged in Newton (4 iterations) and were rejected by the controller, so a --fallback F1 smoke run is identical by construction. It can be run as the formal application of the fallback order, as for Amendment 1.",
+  "F2": "Amendment 1 (fixed-mass base). This defect lies outside its region.",
+  "F3": "Not involved. No landing was attempted before M_BH = 46.",
+  "mesh_rule": "The split/merge rule, its thresholds and the STARS-Q targets are not changed. The jump is a property of the registered discretization, which the convergence campaign assesses."
+ },
+ "tests_failed_before_pass_after": [
+  "tests/test_quasistatic.py::test_mesh_event_jump_is_not_a_timestep_error (analytic Ball row-0 toy, fixed-mass base, a merge forced by threshold 0.7: delta_actual with events='counterfactual' equals delta_actual of the same step without the merge, to 1e-12 relative, and is <= 1e-6 at dt = 1e-6 yr, against >= 3e-4 measured; without an event the amended rule equals the registered one. Before the fix: ValueError 'Unknown stepcontrol settings [events]')",
+  "tests/test_quasistatic.py::test_smoke_step_1255_merge_is_measured_on_the_pre_event_mesh (opt-in: QSTARS_MESA_LIBRARY, MESA_DIR and the preserved smoke run. At step 1255 and dt = 1 and 172.144 yr the measured rule rejects (>= 0.015, profile_dlnT) and the amended rule accepts (<= 1e-4 at 1 yr, <= delta_target at 172 yr). Before the fix: ValueError 'Unknown stepcontrol settings [events]')"
+ ],
+ "tests_asserting_the_registered_defect": [
+  "tests/test_quasistatic.py::test_registered_rule_counts_a_mesh_event_jump_at_every_dt (passes before and after. On the toy, a merge keeps delta_actual at 3.5e-4 to 7.2e-4 from dt = 1e-6 to 1 yr, against 1.5e-7 at 1e-6 yr without it)"
+ ],
+ "code_change": {
+  "patch": "Scratch: /private/tmp/claude-501/-Users-abraiymbek-Projects-QStarS/508f230a-38f2-47d3-bc8d-313edee2339c/scratchpad/ball_jump/amendment5_mesh_event_controller.patch. Preserved copy: Reports/evidence/report23/ball/smoke_jump/amendment5_mesh_event_controller.patch. It applies cleanly to the frozen tree (git apply --check).",
+  "summary": "quasistatic._remesh_effect also assembles the counterfactual step (_assemble) and returns its profile metrics and stepcontrol.observables as event_free. bondi_step passes it cut_info, passes and swept, and reports event_free plus four scalar event_free_* fields. stepcontrol gains events ('measured' by default, or 'counterfactual'), and metrics() reads event_free when events is 'counterfactual' and the step had an event. validate_ball_track.AMENDABLE['stepcontrol'] gains 'events'. The only extra cost is one P5 assembly per event step.",
+  "regression": "Scratch copy of the tree with the patch. Without MESA: tests/test_quasistatic.py, test_validate_ball_track.py, test_ball_restart.py, test_ball_core.py, test_ball_integration.py, test_fold.py, test_photosphere.py, test_mlt_ml1.py and test_ball_tables.py give 144 passed and 6 skipped (113 s). With QSTARS_MESA_LIBRARY (build_ball_abi7) and MESA_DIR set, the same files plus test_mesa_abi7.py give 156 passed and 2 skipped (166 s). The skips are the sources/cache text check and the ABI-6 compatibility check."
+ },
+ "mesa_dry_run_evidence": {
+  "label": "DRYRUN, scratch output only, not a registered run (copies in Reports/evidence/report23/ball/smoke_jump/DRYRUN_*). It continues the cited smoke run from its last accepted state with the patch and events='counterfactual', using the smoke gate's options (quasistatic.run, policy published_assumption, landing 100 Msun). The controller is restored to the state accepted at step 1255 (dt_next 172.144 yr, no hold), and the run is limited to 400 accepted steps.",
+  "result": "Step 1255 is accepted at 172.144 yr (delta_actual 0.00359). The run then makes 343 accepted steps in 355 attempts (12 rejected), with median dt 127.2 yr (range 10.4-259 yr). It accepts 7 more outer merges, whose measured profile changes are 0.0153, 0.0308, 0.0059, 0.0038, 0.0584, 0.0366 and 0.0027 and whose event-free changes are 0.0036-0.0038. It reaches M_BH = 53.745 Msun at t = 0.2506 Myr (step 1598) and ends with termination_trigger (dt 0.483 yr < t_dyn 0.954 yr). Wall time was 290 s.",
+  "next_blocker_not_covered_by_this_amendment": "At step 1598 another outer merge (dm/target 0.877 and 0.499, 0.12 Msun below the surface, T about 7000 K) moves T of cell 160 by +8.8% at every dt from 0.1 to 77 yr. The solution on the event mesh exists and is continuous in dt: continuation from 1e-3 yr converges at every dt up to 77 yr, with sigma_min >= 2.4e-4. Newton started from the registered predictor fails at every dt >= 1 yr (residual 2.65 on the transport row of face 160, sigma_min 3e-6 at the stalled iterate), and F1 also fails ('Pseudo-time step collapsed'). This is a Newton-start failure on event steps. Amendment 5 does not address it. It needs its own preserved failing run, and the registered smoke run with Amendment 5 is expected to give one near M_BH = 53.7.",
+  "exploratory_beyond": "Scratch only, not proposed: adding a dt-continuation Newton start for failed steps carries the run through step 1598 and one more merge, to M_BH = 55.22 (step 1624). There the step fails without any event: continued in dt, it becomes singular between 0.48 and 0.70 yr, below t_dyn = 0.98 yr. sigma_min falls from 3.8e-4 to 8.8e-9, with the vector on ln T of cell 160 (transport row of face 161, in the outer hydrogen zone). fold.classify finds no frozen-entropy fold there (M_BH 54.0-59.0). Not classified."
+ },
+ "consequences_for_registered_runs": [
+  "Every row 0 must be relaxed again with Amendments 3, 4, 2, 1 and 5, because of the driver's amendment-list provenance check. About 15-20 min for C1, C0, C2, C5, C6 and C7, at the runbook's estimates.",
+  "The smoke gate must then be rerun. Expected from the DRYRUN: it passes M_BH = 46 and stops near M_BH = 53.7 on the Newton-start failure described above. That is a numerical blocker under stop_rules.outcome_if_exhausted until a further registered amendment, and it is never relabelled as physics.",
+  "The code closure digest changes. Every campaign run must be made with the patched code.",
+  "Registered numbers to report: the measured jump of every event step (history step_mapped_max_dlnT next to metric_profile_dlnT), and the convergence campaign's resolution of the outer hydrogen opacity peak."
+ ]
+}

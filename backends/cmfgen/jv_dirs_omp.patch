@@ -1,0 +1,22 @@
+--- a/cur_cmf/new_main/qs_jv.f90	2026-10-01 21:57:42
++++ b/cur_cmf/new_main/qs_jv.f90	2026-10-01 23:25:38
+@@ -124,6 +124,7 @@
+ use qs_jv_state
+ use qs_formal_tangent, only: tangent_scattering
+ use qs_formal_tangent_lin, only: lin_setup,lin_scattering
++use omp_lib, only: omp_get_max_threads
+ use mod_space_grid_v2, only: ray
+ use mod_cmfgen, only: atm,num_ions,ion_id,t,ed,pop_atom,clump_fac
+ use opac_mod, only: veta,vchi,eta_clump,chi_clump,chi_scat_clump,chi,eta,chi_cont,eta_cont,&
+@@ -234,7 +235,10 @@
+  st_replay=max(st_replay,maxval(abs(pm(1,:)-rj(1:nd)))/max(maxval(abs(rj(1:nd))),tiny(1.0_ldp)))
+ endif
+ lindiff=0
+-!$omp parallel do schedule(dynamic) default(shared) private(k,outp,outm,op2,om2,moms,dmoms,dmref,dtn,db,ddtdr,ddbb,cerr,nprod)
++! Directions in parallel only when they can occupy every thread; otherwise directions run in
++! sequence and lin_apply parallelizes over rays (it does so only outside an active region).
++!$omp parallel do schedule(dynamic) default(shared) private(k,outp,outm,op2,om2,moms,dmoms,dmref,dtn,db,ddtdr,ddbb,cerr,nprod) &
++!$omp if(nv>=omp_get_max_threads())
+ do k=1,nv
+  allocate(outp(nzmax,np),outm(nzmax,np))
+  dtn=dpop(nt,nd,k)

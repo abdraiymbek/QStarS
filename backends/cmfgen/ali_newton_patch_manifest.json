@@ -1,0 +1,21 @@
+{
+ "base_release": "build_35",
+ "build": "build_36",
+ "files": [
+  "new_main/mod_subs/comp_j_blank.f"
+ ],
+ "source_hashes": {
+  "new_main/mod_subs/comp_j_blank.f": {
+   "base": "1306460415e0a2cdc5ff832f2445c39435b9765fa14c5d8f687682300a1d147b",
+   "patched": "b25fff4c66a841b477fd052273a498ef67db064ec2502dcda59d17f71ef75126"
+  }
+ },
+ "patch_file": "ali_newton.patch",
+ "patch_sha256": "0828c05035730b110e705fc1c02f478024fd0e20cc85536fb656e8fc2d168310",
+ "scope": "Residual pass, QS_FRM_ALI only. Where the local ALI of the coherent-scattering fixed point J = Phi(ETA + CHI_SCAT*J) has not converged after QS_ALI_MAX formal solutions (before: 'QS_FRM_ALI: scattering not converged', J left at the last iterate), the fixed point is solved by Newton's method: dPhi/dJ from one-sided differences (relative step 1e-6) of the same formal solution, ND+1 formal solutions per step, dense LU (DGESV), at most 10 steps, step halved (to 1e-3) to keep J > 0. Accepted only if every formal J is finite and >= 0 and the relative residual is below QS_ALI_TOL; otherwise TC and the ray store are recomputed from the last ALI iterate (the build-35 result, which is then reported unconverged as before). Opacities, emissivities, the negative-opacity option and the fixed point are unchanged; frequencies where the local ALI converges execute no new arithmetic. Cause: an inverted line under the SRCE_CHK/ESEC_CHK floor can leave CHI < CHI_SCAT (net absorption negative), CHI_SCAT*L* > 1, and the local ALI then has no contracting step (Report 24). Record: QSTARS_ALI_NEWTON (one line per fallback frequency and a summary at the last frequency; written only when used). QSTARS_ALI_NO_NEWTON (non-empty) turns the fallback off (build-35 behaviour). QSTARS_ALI_NEWTON_DUMP (non-empty, diagnostic): the first Newton Jacobian of each fallback frequency with J, Phi(J), CHI, CHI_SCAT, ETA to QSTARS_ALI_NEWTON_DUMP.bin (stream).",
+ "reproducibility": {
+  "executable_sha256": "aec762ceb6034c6e9fde9fa2943a91bd7a82b3db24a7f3059da2d45cbf0d0897",
+  "executable_sha256_note": "valid only for the executable linked in backends/cmfgen/build_36 (ld embeds absolute paths and timestamps).",
+  "toolchain": "MESA SDK gfortran 13.3.0 (arm64), mesasdk_init.sh, -fopenmp -O2 (cur_cmf Makefiles), MACOSX_DEPLOYMENT_TARGET=14.0; make d_new_main (comp_j_blank.o in libsubs.a changed)"
+ }
+}

@@ -1,0 +1,8 @@
+c-it2 margin None: true lin res 0.080  max|y|    13.64  max|s| sig   16.08  deep max|s|  3.698  ||Ws||   34.51
+c-it2 margin 0   : true lin res 0.179  max|y|     8.12  max|s| sig  114.64  deep max|s|  1.212  ||Ws||  176.46
+c-it2 margin 3   : true lin res 0.177  max|y|     9.21  max|s| sig  122.28  deep max|s|  1.168  ||Ws||  186.00
+c-it2 margin 8   : true lin res 0.183  max|y|     9.19  max|s| sig  132.38  deep max|s|  1.108  ||Ws||  199.76
+c-it1 margin None: true lin res 0.206  max|y|  1582.16  max|s| sig    9.77  deep max|s|  1.117  ||Ws||   35.63
+c-it1 margin 0   : true lin res 0.343  max|y|  1930.71  max|s| sig   11.59  deep max|s|  0.202  ||Ws||   37.98
+c-it1 margin 3   : true lin res 0.278  max|y|  1758.21  max|s| sig   11.34  deep max|s|  0.236  ||Ws||   35.56
+c-it1 margin 8   : true lin res 0.231  max|y|  1801.28  max|s| sig   11.69  deep max|s|  0.298  ||Ws||   34.74

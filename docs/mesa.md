@@ -10,7 +10,9 @@ atmosphere references, full Henyey/ML1 MLT with automatic derivatives, and
 radiative opacity using an explicitly supplied external EOS electron state.
 ABI 3 and 4 libraries remain readable for their earlier EOS/opacity calls;
 ABI 4 also supports the native atmosphere and pressure inversion. Native MLT
-requires ABI 5 because exploratory ABI 4 builds had different argument layouts. The
+requires ABI 5 because exploratory ABI 4 builds had different argument layouts.
+ABI 6 and 7 add the paper-reference and Ball 2011 replication opacities
+described at the end of this page. The
 new reference atmosphere has demonstrated validity failures; see
 [the boundary audit](atmosphere.md). Evolution still uses the existing
 screened envelope transport, not the native MLT reference automatically.
@@ -130,3 +132,46 @@ retained compilation failure. ABI 3–5 remain accepted for earlier operations;
 the new call explicitly requires ABI 6. Table-node tests verify the returned
 values and that these diagnostic handles do not mutate the default opacity.
 The tables and native binary are hashed in the campaign evidence.
+
+## Ball 2011 replication opacity (bridge ABI 7)
+
+Bridge ABI 7 adds `qstars_opacity_stars`, called as
+`MesaMicrophysics.opacity_stars(rho, T, clamp=False, flags=False)`. It is the
+Eldridge & Tout 2004 STARS switch used by Ball et al. 2011 (thesis section
+2.1.2), for X=.7 and Z=0 only. One handle, `kh_paper(1)` of the gs98 mixture,
+serves every T: OPAL Type1 above log T 3.76, `lowT_af94_gn93` below 3.75 and
+MESA's own blend in between. Tests show it agrees bitwise with the ABI 6
+`gs98` paper reference at T >= 7000 K and at log T <= 3.74. Only the switch
+interval differs, where the paper reference switches at 7000 K.
+The rectangle is the same, -7 <= logR <= 1 and 3000 <= T <= 1e7 K. MESA's
+analytic table derivatives are returned as dlnκ/dlnρ and dlnκ/dlnT, and
+complex steps carry them.
+
+With `clamp=False` an off-table log R is an error. With `clamp=True` the STARS
+nearest-table-value rule moves log R to the nearer edge at fixed T, rounding
+inward by one ulp at a time because MESA recomputes log R. Flag 1 marks a state
+below -7 and flag 2 a state above 1. The derivative is that of the clamped map:
+dlnκ/dlnρ = 0 and dlnκ/dlnT = dkt + 3 dkd, evaluated at the edge. The caller
+must report clamped states; this is a report-only screen of the replication
+mode. Some cases are always errors: T outside 3000..1e7 K, X other than .7,
+nonpositive or nonfinite input, and table fractions other than the two
+expected blend weights.
+
+`raw()`, which every ABI 3-7 user shares, and `opacity_stars` each keep an
+eight-entry least-recently-used memo. It is keyed by the exact bytes of the
+real inputs and is bitwise neutral. A hit returns the stored arrays.
+
+The ABI 7 build is `backends/mesa/build_ball_abi7`: source sha256
+`0c667b8c2096954955dc3b6ae7c3cff3c5c24ec3a497f80cf76094a0ec45ea9e`, library
+sha256 `f6bfdc287470febf7efc73fe1d726e0094269a6901282a878e687a430894aecd`.
+ABI 3-6 libraries still load. The compatibility test in
+`tests/test_mesa_abi7.py` needs `QSTARS_MESA_ABI6_LIBRARY` set to an ABI 6
+build (for example `backends/mesa/build_outer_2/libqstars_mesa.dylib`) next
+to an ABI 7 `QSTARS_MESA_LIBRARY`. It runs in a subprocess, because one process
+holds one MESA installation. It checks that ABI 6 refuses `opacity_stars` and
+that it returns bitwise-identical `raw()` and paper-reference values. The
+`source_sha256` of `build_outer_2/build.json`,
+`43f83e7309698667f343fe918619913c1a24528317083456e09211e5e56746f6`, is the
+committed ABI 6 `microphysics.f90`, not the current working-tree source.
+ABI 6 can be rebuilt only from that committed file, for example
+`git show 46e01ea:backends/mesa/microphysics.f90`.

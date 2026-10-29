@@ -1,0 +1,6 @@
+{
+ "lam": 1.0,
+ "dlam": 0.25,
+ "lam_done": 0.75,
+ "stage_iters": 4
+}

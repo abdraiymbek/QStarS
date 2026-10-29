@@ -1,0 +1,71 @@
+{
+ "label": "Stage 7 unblocking (Gate 6): approaches tried, kept and rejected. Toy = analytic microphysics (ideal gas + radiation, electron scattering), never the Ball configuration. MESA results are DRYRUN (scratch output, no table comparison).",
+ "seed_construction": [
+  {
+   "approach": "Registered seed (T from the EOS at the polytrope (rho, p)), reproduced on MESA at N = 200",
+   "outcome": "kept as the default (surface='eos'). 6000 Rsun: grey L_N of the last cell = 20.5 x the seed-law luminosity, no photosphere at that L_N, first relaxation step rejected at the predictor at every dt. 2000, 1000 Rsun: Gamma_ph >= 1 at the seed-law luminosity for every admissible rho_ph. 12000 Rsun: Teff 2713 K < 3000 K."
+  },
+  {
+   "approach": "A (chosen): last cell on the grey surface relation at the seed-law luminosity; nothing else changed (surface='grey')",
+   "outcome": "6000 and 3464 Rsun build and relax with the registered relaxation at N = 200, 400, 800 (30-37 accepted, 1-8 rejected steps); not unique without mesh cycles (1.5e-2, 3.1e-3, 6.5e-4), unique with the cycles of Amendment 2 (3.9e-8, 3.6e-10, 4.2e-10)."
+  },
+  {
+   "approach": "A, first version: lowest root searched only between Teff and the polytrope temperature of the last cell",
+   "outcome": "rejected: on a toy whose polytrope surface is cooler than the grey relation asks (L_N/L_seed = 0.67) the option failed where the registered seed works. The root is now searched upward from Teff to the hottest seed temperature; the MESA seeds are unaffected (their root lies below the polytrope temperature)."
+  },
+  {
+   "approach": "B: several surface cells on a grey T(tau) stratification, T_k = min(T_EOS, T_grey(tau_k))",
+   "outcome": "not run on MESA: A already suffices and changes one number of the seed; B needs a rule for where the layer ends."
+  },
+  {
+   "approach": "Seed luminosity fixed by the photosphere condition instead of the accretion law",
+   "outcome": "not implemented: needs a free parameter or a second root solve and a rebuilt polytrope closure; the polytrope interior carries about 0.96 L_Edd, where a photosphere exists only for a narrow range of kappa_ph."
+  },
+  {
+   "approach": "Pre-relaxation at frozen luminosity",
+   "outcome": "not implemented: an extra stage with its own stopping rule; unnecessary once the first registered relaxation step exists."
+  },
+  {
+   "approach": "Third appended seed radius 8485 Rsun (grey surface)",
+   "outcome": "builds, but every relaxation step is rejected in P2: Teff = 4007 K, the grey last cell is at 4034 K with 79 x its STARS-Q target mass, and splitting it (energy-conserving, the re-faced potential comes out of u) asks the MESA EOS for T < 3000 K. Recorded as a failed seed; never reached in the dry runs because 6000 and 3464 Rsun converge first. 1414 Rsun cannot be built (Gamma_ph >= 1)."
+  }
+ ],
+ "photosphere_solve": [
+  {
+   "approach": "Catch DomainError in the bracket scan and stop there (treat like the EOS domain edge)",
+   "outcome": "rejected: the bracket would still be open; the row is continuous through Gamma_ph = 1 and positive there, so the trial is an upper bound and the root lies below it."
+  },
+  {
+   "approach": "Continuous row (no domain check) inside solve; fallback scan of the admissible interval; domain check of the returned root",
+   "outcome": "kept. Roots at Gamma_ph 0.744 and 0.920 for the two review cases; bitwise the same root where the old scan worked."
+  }
+ ],
+ "fallback_F1": [
+  {
+   "approach": "Kelley-Keyes SER pseudo-transient continuation with V = the Jacobian entries of a full row-unknown pairing (momentum-y, first law-ln T, closure-L, piston-y0, cavity-delta, photosphere-ln rho_ph, growth-X)",
+   "outcome": "rejected on the toy: at dt = 1 yr on the Ball row-0 toy it diverges where Newton converges in 5 iterations, and at 0.1 yr it converges to a second, remote solution of the step equations (L up 44%, faces moved by up to 35% in ln r). The same variants failed for the Stage 4 implementer."
+  },
+  {
+   "approach": "Same continuation with pseudo-time on the evolution equations only (first law of every cell and the black-hole growth row; Coffey-Kelley-Keyes form for an index-1 DAE), delta0 = 1, handover to plain Newton at delta >= 1e6",
+   "outcome": "kept as quasistatic.ptc (off by default; driver --fallback F1). Measured on 12 toy steps whose Newton solve converges (Ball row-0 toy at dt = 0.01, 0.1, 1 yr; 100 Msun cell toy at 0.1, 1, 10, 100, 1000 yr; 100 Msun face toy at 1, 10, 100, 1000 yr): the continuation hands over and Newton returns the same solution in 7 (4-8 pseudo-time iterations); it stalls in 5 (cell toy at 10 yr, face toy at all four steps) although Newton converges there in 2-4 iterations, so the pseudo-time flow of the step equations is not attracting at every step solution. On the Ball row-0 toy at 3 and 10 yr, where Newton fails, it finds no solution either. A fallback that does not converge is an ordinary step rejection that names it."
+  },
+  {
+   "approach": "Pseudo-time on the first-law rows only, or on the growth row only; delta0 = 0.01",
+   "outcome": "measured on the same 12 toy steps for the record, not adopted (the pairing was fixed by the stated rule, not selected by outcome): first-law rows only converges in 10 of 12, growth row only in 12 of 12 (it is close to the plain Newton step); delta0 = 0.01 fails even where Newton converges. None rescues the 3 yr Ball-toy step."
+  },
+  {
+   "approach": "MESA dry run of the smoke gate with the registered step numerics (row 0 from Amendments 3 + 2, N = 200), without and with F1",
+   "outcome": "identical: attempts at dt = 1, 0.5, 0.25, 0.125 yr all converge in Newton and are rejected by the registered Lagrangian metric (delta_actual 0.094, 0.042, 0.037, 0.018 > 2 x 0.005, profile_dlnr); dt then falls below t_dyn = 0.0913 yr and the termination trigger fires with no accepted step. F1 is never entered because no Newton solve fails."
+  }
+ ],
+ "driver": [
+  {
+   "approach": "Enforce the qstars package digest in the row-0 signature",
+   "outcome": "not done: the package contains modules another workflow edits (nlte, cmfgen wrappers), so unrelated edits would invalidate every row-0 model. compare() now reports the package digest, driver sha256 and snapshot status of every run directory (campaign.json source_consistency)."
+  },
+  {
+   "approach": "Stop a track at 1.1 x 1194 Msun",
+   "outcome": "not done (review decision item): endpoint() already returns FAIL for a final M_BH above 1.1 x 1194 Msun without a confirmed fold; a cap would only save wall time."
+  }
+ ]
+}

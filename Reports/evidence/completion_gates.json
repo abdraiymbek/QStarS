@@ -1,6 +1,6 @@
 {
   "schema_version": 2,
-  "assessment_date_utc": "2026-09-30",
+  "assessment_date_utc": "2026-10-22",
   "software_version": "0.1.0",
   "v1_complete": false,
   "release_status": "DEVELOPMENT_NOT_V1",
@@ -9,7 +9,7 @@
     "CONDITIONAL": "Bounded evidence exists; does not certify general use.",
     "FAIL": "Required capability or validation missing or failing."
   },
-  "automated_tests_passed": 123,
+  "automated_tests_passed": 341,
   "automated_tests_failed": 0,
   "optional_mesa_tests": 10,
   "cli_validation": {
@@ -39,7 +39,7 @@
       "name": "Spatial and nonlinear convergence",
       "status": "CONDITIONAL",
       "achieved": "Hot-envelope runs through 2048 zones complete. 1024/2048 profile error below 0.081%; 512/2048 below 0.251%; refined independent time methods agree below 0.81%.",
-      "remaining": "Production atmosphere/cavity/wind models untested. The 256-zone case fails 1% local energy-profile accuracy. Accepted timesteps vary across meshes. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes.",
+      "remaining": "Production atmosphere/cavity/wind models untested. The 256-zone case fails 1% local energy-profile accuracy. Accepted timesteps vary across meshes. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes. Report 21 completes the RE-row Jacobian (level dissolution) and restores INC_AD/INC_ADV; T continuation reaches the full residual at 84 and 167 radii, but the released cool closure still does not converge (H I front cold-branch slide under Newton; pseudo-transient continuation in progress); no released 167/333 or doubled-frequency pair.",
       "evidence": [
         "benchmarks/results/2026-09-28-verified-spatial/20260928T033503.024409Z_spatial_validation/campaign.json",
         "benchmarks/results/2026-09-28-closure/20260928T030639.520967Z_robustness_validation/campaign.json",
@@ -49,7 +49,8 @@
         "Reports/Report_13.md",
         "Reports/Report_14.md",
         "Reports/Report_15.md",
-        "Reports/Report_16.md"
+        "Reports/Report_16.md",
+        "Reports/Report_21.md"
       ]
     },
     {
@@ -90,7 +91,7 @@
       "name": "Wind physics",
       "status": "FAIL",
       "achieved": "Grey/moving transfer, static thermal frequency-band controls, gas energy critical operator, base-selected adiabatic reference, robust diffusion matching and general conservative lab-radiation interface.",
-      "remaining": "No combined H/He population/energy/force closure, convective handoff or physical envelope-to-escaping-wind eigenvalue. No coupled evolution. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes.",
+      "remaining": "No combined H/He population/energy/force closure, convective handoff or physical envelope-to-escaping-wind eigenvalue. No coupled evolution. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes. Report 21: no CMFGEN-coupled self-selected mdot/sonic-point solve attempted (gated on the released cool closure).",
       "evidence": [
         "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json",
         "docs/equations.md",
@@ -102,7 +103,8 @@
         "Reports/Report_13.md",
         "Reports/Report_14.md",
         "Reports/Report_15.md",
-        "Reports/Report_16.md"
+        "Reports/Report_16.md",
+        "Reports/Report_21.md"
       ]
     },
     {
@@ -455,100 +457,98 @@
   "production_atmosphere": "BACKEND_PHYSICS_BLOCKER_native_CMFGEN_component_only",
   "native_full_mlt": "reference_only_not_envelope_transport",
   "freeeos_reference": "153_state_gas_audit_passes_upstream_byte_tests_fail",
-  "latest_report": "Reports/Report_16.md",
-  "release_blocker": "Projected cool moment propagation produces signed prior-frequency H/EPS forcing and non-realizable staggered states. Shared-face node reconstruction and bounded native fixed-factor response pass do not restore positivity. A realizability-preserving coupled angular/frequency operator and relaxed response remain missing.",
+  "latest_report": "Reports/Report_24.md",
+  "release_blocker": "Cool closure at 167 radii, NOT CONVERGED. Report 24: the Report 23 solves violated the exact number and charge conservation rows (He up to 8x, H 2.3x, charge 34x) because the per-component step limiter clips populations separately; the least squares used distant directions through the nearly singular local-ALI front blocks (coefficient 172) and moved T in the fixed-T stage (coefficient 358); full trial steps created supercritical infrared masers (Lambda spectral radius 1.063, 1.058). Fixes: --conserve (trial projection onto the constraints), --pc-svd-floor 1e-2, --freeze-t, build 36 (Newton solve of the scattering fixed point where the local ALI stalls). Status: stage 1 (fixed T) restarted with --conserve, --pc-svd-floor 1e-2 and --freeze-t: conservation to 1e-15, three full Newton steps accepted (fixed measure 224 -> 128), then a stall at iterate 4 (full steps make supercritical masers; quarter step worse in the fixed measure); row-scaled measure 2.32 -> 2.85, not monotone; deep interior degrades; not converged. Narrowest blocker: ill-conditioned H ionization front (Report 24)",
   "active_request_gates": [
     {
-      "name": "Exact retained negative-J forcing attribution",
+      "name": "Level-dissolution derivatives in the Jacobian/RE response",
       "status": "PASS",
-      "scope": "Signed preceding-frequency H divergence and K/N terms produce negative forcing at the retained He I edge seed. Independent solve agrees to 1.84e-16. Absolute earliest full-spectrum ancestor remains unresolved.",
+      "scope": "Builds 25-27: d(occupation probability) in bound-free LTE populations, d(dissolved fraction) below edges, moved to the actual frequency as COMP_VAR_OPAC does, and the line-opacity W(up)/W(low) ratio. Complete action vs the T-released exact-residual oracle: RE row 5.9e-6 (T), 6.8e-5 (n_e), 2.3e-5 (populations), 6.1e-6 (mix), all at the oracle consistency (Report 20 RE row n_e error 0.25). Spectral opacity-change cells off by >1e-3: 841314 -> 160 (residual weight below the oracle floor, origin unidentified).",
       "evidence": [
-        "Reports/evidence/moment_closure_20260930/seed_analysis_v2/analysis.json",
-        "Reports/evidence/moment_closure_20260930/edge_realizability.json"
+        "Reports/evidence/report21/action_audit_b27.json",
+        "Reports/evidence/report21/action_audit_b23.json",
+        "Reports/evidence/report21/spectral_ne_direction.json",
+        "Reports/evidence/report21/build25_first_audit.json",
+        "Reports/evidence/report21/build_27_capabilities.json"
       ]
     },
     {
-      "name": "Conservative shared-face node reconstruction",
-      "status": "CONDITIONAL",
-      "scope": "Separate node contributions and shared interior H face flux implemented. Full positivity, frequency/energy/boundary and equilibrium certification fail.",
-      "evidence": [
-        "Reports/evidence/moment_closure_20260930/node_moment_manifest.json",
-        "Reports/evidence/moment_closure_20260930/node_source_replay.json"
-      ]
-    },
-    {
-      "name": "Native nonlocal eta/chi Newton response",
+      "name": "INC_AD and INC_ADV restored and Jacobian-validated",
       "status": "PASS",
-      "scope": "Actual five-depth/two-frequency coherent, relativistic/advection fixture: 3.22e-8 / 8.23e-8 finite-difference errors. Formal factors fixed only in this bounded linearization test.",
+      "scope": "On in every Report 21 pass. Native off-diagonal (advection, adiabatic dT/dR) blocks kept; frozen-J columns corrected for them. Complete action vs an INC_AD/INC_ADV oracle at the Report 21 floor; odd-depth test (response at even depths only through depth coupling) 7.8e-6 vs 1.0 without the off-diagonal blocks. Physical effect on a converged state not yet evaluated.",
       "evidence": [
-        "Reports/evidence/moment_closure_20260930/native_response_replayed/validation.json"
+        "Reports/evidence/report21/action_audit_adv.json",
+        "Reports/evidence/report21/adv_offdiag_test.json"
       ]
     },
     {
-      "name": "Complete relaxed nonlocal response",
-      "status": "FAIL",
-      "scope": "No validated population/T/velocity/boundary/formal-factor response. Bounded fixed-factor derivative pass cannot certify wind eigenvalue input.",
+      "name": "Threaded tangent robustness",
+      "status": "FIXED",
+      "scope": "Build 28: the direction loop no longer opens an inactive OpenMP region around the ray-parallel lin_apply (nested team -> intermittent libgomp deadlock/SIGSEGV on macOS). Products equal build 27 to 1.2e-16; repeat of a build-27 pass reproduces to 8.5e-17.",
       "evidence": [
-        "Reports/evidence/moment_closure_20260930/native_response_replayed/validation.json"
+        "Reports/evidence/report21/omp_deadlock_sample.txt",
+        "Reports/evidence/report21/build28_vs_build27_product.json",
+        "Reports/evidence/report21/product_pass_repeat.json",
+        "Reports/evidence/report21/build_28_capabilities.json"
       ]
     },
     {
-      "name": "Stable finite nonnegative released cool closure",
-      "status": "FAIL",
-      "scope": "Shared-face full-cycle request rejects gJ=-2.741e-244 at nu=86.1309e15 Hz before edge. Independent solve reproduces sign. Frozen edge candidate still gJ=-5.301. Raw N/H projected representation also rejected.",
-      "evidence": [
-        "Reports/evidence/moment_closure_20260930/seed_analysis_v2/analysis.json",
-        "Reports/evidence/moment_closure_20260930/representation_diagnostic.json"
-      ]
-    },
-    {
-      "name": "Joint cool population temperature radiation electron and energy convergence",
-      "status": "FAIL",
-      "scope": "No fresh synchronized equilibrium or independent radiation-energy certificate. Startup trial does not finish its first transfer/released-temperature cycle.",
-      "evidence": [
-        "Reports/evidence/moment_closure_20260930/campaign_summary.json"
-      ]
-    },
-    {
-      "name": "Two converged spatial and frequency resolutions",
-      "status": "FAIL",
-      "scope": "No converged base solution; no refinement or convergence-order certificate. No endpoint-only claim.",
-      "evidence": [
-        "Reports/evidence/moment_closure_20260930/campaign_summary.json"
-      ]
-    },
-    {
-      "name": "Global mdot/sonic and physical selected wind",
-      "status": "FAIL",
-      "scope": "Prerequisite closure invalid; not attempted. No prescribed component flow accepted as production mdot.",
-      "evidence": [
-        "Reports/evidence/moment_closure_20260930/campaign_summary.json"
-      ]
-    },
-    {
-      "name": "Conservative convective handoff",
-      "status": "FAIL",
-      "scope": "No validated interface; existing Mach-one MLT guard retained.",
-      "evidence": [
-        "Reports/evidence/moment_closure_20260930/campaign_summary.json"
-      ]
-    },
-    {
-      "name": "v1 and QSRD readiness",
-      "status": "FAIL",
-      "scope": "Independent general v1 gates remain open. Evolution, published tracks and QSRD not attempted.",
-      "evidence": [
-        "Reports/evidence/moment_closure_20260930/campaign_summary.json"
-      ]
-    },
-    {
-      "name": "Failure and provenance preservation",
+      "name": "T continuation to the full RE row (84 and 167 radii)",
       "status": "PASS",
-      "scope": "Six native trials, native fixture and metadata/no-op corrections retained; source reapplication and archive verified. Claims bounded to actual executed code.",
+      "scope": "Residual-shift homotopy R_T = R_RE - (1-lam) R_RE(start), lam 0 -> 1 in 0.25 stages, preconditioner-only T floor 1e-3; reached lam=1 at 84 (8 iterates) and 167 (8 iterates) without a retreat. The pinning homotopy (badly scaled) is preserved as a failed attempt.",
       "evidence": [
-        "Reports/evidence/moment_closure_20260930/execution_notes.json",
-        "Reports/evidence/moment_closure_20260930/node_source_replay.json"
+        "Reports/evidence/report21/nk_adv84_history.json",
+        "Reports/evidence/report21/nk167_adv_history.json",
+        "Reports/evidence/report21/nk_adv84_homotopy_shift_state.json",
+        "Reports/evidence/report21/nk167_adv_homotopy_shift_state.json"
       ]
+    },
+    {
+      "name": "167-radius T-released cool closure solved",
+      "status": "FAIL",
+      "scope": "Not converged. At lam=1 free Newton slides the H I front (d33-38) down the cool branch (5.5 -> 4.3 -> 3.7 kK), as at 84 radii; the exact coupled response at frozen populations (RE row slope ~ R_RE) explains the direction. Pseudo-transient continuation on T with split directions heats the front from 5.5, 7.9 and 10.5 kK starts, 3-5 % per iterate; the iterates are far from statistical equilibrium (GENCOOL thermal balance vs RE row disagree), so no finite-T root is established or excluded.",
+      "evidence": [
+        "Reports/Report_21.md",
+        "Reports/evidence/report21/nk167_adv_history.json",
+        "Reports/evidence/report21/nk167_ptc_history.json",
+        "Reports/evidence/report21/nk167_hot_history.json",
+        "Reports/evidence/report21/nk167_hot_README.txt",
+        "Reports/evidence/report21/thermal_curve_167_d35_hot.json",
+        "Reports/evidence/report21/gencool_hot2_start_front.json",
+        "Reports/evidence/report21/gencool_x0_restart_front.json"
+      ]
+    },
+    {
+      "name": "84-radius T-released cool closure solved",
+      "status": "FAIL",
+      "scope": "Not converged: grid-scale zig-zag at the front, then cold-branch runaway (front 2.2/1.8/2.1 kK at iterate 21, every step asking a further 10-15 %); PTC test (2 iterates) heats slowly with the RE imbalance unchanged. Stopped.",
+      "evidence": [
+        "Reports/evidence/report21/nk_adv84_history.json",
+        "Reports/evidence/report21/nk_adv84_README.txt",
+        "Reports/evidence/report21/nk84_ptc_history.json",
+        "Reports/evidence/report21/nk84_ptc_README.txt"
+      ]
+    },
+    {
+      "name": "Electron balance, global and cumulative radiation energy, last correction, charge, spectral material temperature",
+      "status": "NOT_EVALUATED",
+      "scope": "Require a converged released state; thresholds unchanged; closing chain scripts/post_convergence.sh ready (build 28 carries every audited capability flag).",
+      "evidence": []
+    },
+    {
+      "name": "Spatial (167/333) and doubled-frequency resolution",
+      "status": "NOT_REACHED",
+      "scope": "84 radii has no converged state, so the check moves to 167 vs 333: 333-radius nested restart (radius/velocity identical at shared points), equation table and T-released base pass ready; state transfer script ready.",
+      "evidence": [
+        "Reports/evidence/report21/mesh333_control.json",
+        "Reports/evidence/report21/nk333_README.txt"
+      ]
+    },
+    {
+      "name": "Self-selected wind, coupled evolution, published evolutionary benchmark",
+      "status": "NOT_ATTEMPTED",
+      "scope": "Gated on a converged, audited, resolution-checked released cool closure. Components exist (CMFGEN g_rad from SpectralSnapshot.moments, material_wind critical operator, spherical_wind eigenvalue for an LTE diffusion wind) but no CMFGEN-coupled mdot/sonic-point solver exists; evolution uses winds.rate off/prescribed/dotan2011.",
+      "evidence": []
     }
   ],
   "previous_active_request_gates_report8": [
@@ -623,30 +623,25 @@
     }
   ],
   "outer_campaign_completion": {
-    "outcome": "NUMERICAL BLOCKER",
+    "outcome": "NUMERICAL BLOCKER (constrained re-solve of stage 1 in progress)",
     "selected_backend": "CMFGEN",
-    "native_integration": true,
-    "scoped_radiation_operator_pass": true,
-    "scoped_radiation_operator_scope": "Prior hot fixed-incoming-state tests only; Report 15 cool equilibrium fails.",
+    "exact_jacobian_action_validated": true,
+    "re_row_conditional": false,
+    "level_dissolution_derivatives": true,
+    "inc_ad_inc_adv_validated": true,
+    "t_continuation_reaches_full_re": true,
+    "released_cool_closure_converged": false,
+    "audits_run": false,
+    "resolution_pair": false,
     "production_self_selected_closure": false,
     "thermodynamic_quasistar_wind_validated": false,
-    "physical_envelope_match": false,
     "conservative_coupled_evolution_attempted": false,
     "published_full_evolution_replicas": 0,
-    "no_go_for_1d_demonstrated": false,
     "qsrd_run": false,
-    "cool_recombination_coverage": true,
-    "cool_nlte_equilibrium_validated": false,
-    "relaxed_material_response_validated": false,
-    "global_nlte_eigenvalue_solved": false,
-    "native_hminus_ff_fixture_pass": true,
-    "fixed_radiation_temperature_population_initialization": true,
     "evidence": [
-      "Reports/Report_16.md",
-      "Reports/evidence/moment_closure_20260930/gate_matrix.json"
-    ],
-    "shared_face_node_candidate_validated": false,
-    "bounded_fixed_factor_native_response_validated": true
+      "Reports/Report_21.md",
+      "Reports/evidence/report21/"
+    ]
   },
   "previous_active_request_gates_report9": [
     {
@@ -1653,5 +1648,560 @@
     "cli_rerun": false,
     "previous_cli_29_of_31_retained": true,
     "v1_complete": false
+  },
+  "previous_active_request_gates_report16": [
+    {
+      "name": "Exact retained negative-J forcing attribution",
+      "status": "PASS",
+      "scope": "Signed preceding-frequency H divergence and K/N terms produce negative forcing at the retained He I edge seed. Independent solve agrees to 1.84e-16. Absolute earliest full-spectrum ancestor remains unresolved.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/seed_analysis_v2/analysis.json",
+        "Reports/evidence/moment_closure_20260930/edge_realizability.json"
+      ]
+    },
+    {
+      "name": "Conservative shared-face node reconstruction",
+      "status": "CONDITIONAL",
+      "scope": "Separate node contributions and shared interior H face flux implemented. Full positivity, frequency/energy/boundary and equilibrium certification fail.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/node_moment_manifest.json",
+        "Reports/evidence/moment_closure_20260930/node_source_replay.json"
+      ]
+    },
+    {
+      "name": "Native nonlocal eta/chi Newton response",
+      "status": "PASS",
+      "scope": "Actual five-depth/two-frequency coherent, relativistic/advection fixture: 3.22e-8 / 8.23e-8 finite-difference errors. Formal factors fixed only in this bounded linearization test.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/native_response_replayed/validation.json"
+      ]
+    },
+    {
+      "name": "Complete relaxed nonlocal response",
+      "status": "FAIL",
+      "scope": "No validated population/T/velocity/boundary/formal-factor response. Bounded fixed-factor derivative pass cannot certify wind eigenvalue input.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/native_response_replayed/validation.json"
+      ]
+    },
+    {
+      "name": "Stable finite nonnegative released cool closure",
+      "status": "FAIL",
+      "scope": "Shared-face full-cycle request rejects gJ=-2.741e-244 at nu=86.1309e15 Hz before edge. Independent solve reproduces sign. Frozen edge candidate still gJ=-5.301. Raw N/H projected representation also rejected.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/seed_analysis_v2/analysis.json",
+        "Reports/evidence/moment_closure_20260930/representation_diagnostic.json"
+      ]
+    },
+    {
+      "name": "Joint cool population temperature radiation electron and energy convergence",
+      "status": "FAIL",
+      "scope": "No fresh synchronized equilibrium or independent radiation-energy certificate. Startup trial does not finish its first transfer/released-temperature cycle.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/campaign_summary.json"
+      ]
+    },
+    {
+      "name": "Two converged spatial and frequency resolutions",
+      "status": "FAIL",
+      "scope": "No converged base solution; no refinement or convergence-order certificate. No endpoint-only claim.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/campaign_summary.json"
+      ]
+    },
+    {
+      "name": "Global mdot/sonic and physical selected wind",
+      "status": "FAIL",
+      "scope": "Prerequisite closure invalid; not attempted. No prescribed component flow accepted as production mdot.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/campaign_summary.json"
+      ]
+    },
+    {
+      "name": "Conservative convective handoff",
+      "status": "FAIL",
+      "scope": "No validated interface; existing Mach-one MLT guard retained.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/campaign_summary.json"
+      ]
+    },
+    {
+      "name": "v1 and QSRD readiness",
+      "status": "FAIL",
+      "scope": "Independent general v1 gates remain open. Evolution, published tracks and QSRD not attempted.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/campaign_summary.json"
+      ]
+    },
+    {
+      "name": "Failure and provenance preservation",
+      "status": "PASS",
+      "scope": "Six native trials, native fixture and metadata/no-op corrections retained; source reapplication and archive verified. Claims bounded to actual executed code.",
+      "evidence": [
+        "Reports/evidence/moment_closure_20260930/execution_notes.json",
+        "Reports/evidence/moment_closure_20260930/node_source_replay.json"
+      ]
+    }
+  ],
+  "previous_outer_campaign_completion_report16": {
+    "outcome": "NUMERICAL BLOCKER",
+    "selected_backend": "CMFGEN",
+    "native_integration": true,
+    "scoped_radiation_operator_pass": true,
+    "scoped_radiation_operator_scope": "Prior hot fixed-incoming-state tests only; Report 15 cool equilibrium fails.",
+    "production_self_selected_closure": false,
+    "thermodynamic_quasistar_wind_validated": false,
+    "physical_envelope_match": false,
+    "conservative_coupled_evolution_attempted": false,
+    "published_full_evolution_replicas": 0,
+    "no_go_for_1d_demonstrated": false,
+    "qsrd_run": false,
+    "cool_recombination_coverage": true,
+    "cool_nlte_equilibrium_validated": false,
+    "relaxed_material_response_validated": false,
+    "global_nlte_eigenvalue_solved": false,
+    "native_hminus_ff_fixture_pass": true,
+    "fixed_radiation_temperature_population_initialization": true,
+    "evidence": [
+      "Reports/Report_16.md",
+      "Reports/evidence/moment_closure_20260930/gate_matrix.json"
+    ],
+    "shared_face_node_candidate_validated": false,
+    "bounded_fixed_factor_native_response_validated": true
+  },
+  "previous_release_blocker_report16": "Projected cool moment propagation produces signed prior-frequency H/EPS forcing and non-realizable staggered states. Shared-face node reconstruction and bounded native fixed-factor response pass do not restore positivity. A realizability-preserving coupled angular/frequency operator and relaxed response remain missing.",
+  "intermediate_reports_without_gate_update": [
+    "Reports/Report_17.md",
+    "Reports/Report_18.md",
+    "Reports/Report_19.md"
+  ],
+  "automated_tests_skipped": 37,
+  "automated_tests_scope": "2026-10-22, full suite once (nice 15, shared machine): compiled MESA/FreeEOS library tests and native-compiler tests skip unless their environment variables are configured.",
+  "report20_numerical_checks": {
+    "builds": {
+      "18": "de772b0c495c68fd1f20e16e2d884dbbd998b23fe52f887d605586aff600ffaa",
+      "19": "bc18b46d9a9359b8b5ca8c619c9699cf47628bdec7c3ca292b456770c8a43d79",
+      "20": "94e8126c3962129eb0ad322344b245101fc1bdbff6632c0e9dc6af7b8e954abe",
+      "21": "53bfbfe1efaaf00121d5487dc0ce54702cf27f9a76d15663aca27539636da916",
+      "22": "151f79054898f07f4a89fc53822e4dbce96bfbe03923a37afad67962f4332898",
+      "23": "ea0251cfa7abd48381fc90d680cac06d51eac483d0acd80b3fe6c7566211c7c1",
+      "24": "f876a520b581854558af9e36ae6278c94775f526a6a34566c27683410fb1ffd2"
+    },
+    "residual_reproduction": {
+      "b18_vs_b16": 1.16e-11,
+      "b19_vs_b18": 7.97e-12,
+      "replay_vs_base": 0.0
+    },
+    "lin_vs_dual_fixtures_max": 3e-12,
+    "build24_vs_build23_products": 1.36e-16,
+    "action_vs_oracle": {
+      "T": [
+        4.8e-05,
+        4.8e-06
+      ],
+      "ne": [
+        0.0003,
+        3e-05
+      ],
+      "rand": [
+        1.8e-05,
+        1.8e-06
+      ],
+      "mix": [
+        2.4e-05,
+        2.4e-06
+      ],
+      "r18_fac0": [
+        0.0013,
+        0.016
+      ],
+      "r18_fac05": [
+        0.00014,
+        0.001
+      ],
+      "r18_fac1": [
+        0.0075,
+        0.062
+      ],
+      "r18_mom": [
+        6.2e-05,
+        0.00043
+      ]
+    },
+    "re_row_vs_oracle": {
+      "T": 0.00011,
+      "ne": 0.25,
+      "rand": 0.0045,
+      "mix": 0.0037
+    },
+    "re_row_vs_oracle_dissolution_off": {
+      "T": 0.0002,
+      "ne": 6.8e-05,
+      "rand": 2.3e-05
+    },
+    "fixed_T_merit": [
+      22.03,
+      0.0114
+    ],
+    "fixed_T_max_sig_correction_x0_blocks": [
+      0.634,
+      0.00139
+    ],
+    "regression_tests": 109,
+    "regression_failures": 0,
+    "regression_skips": 23,
+    "v1_complete": false
+  },
+  "previous_active_request_gates_report20": [
+    {
+      "name": "Report 19 tangent integrated into the complete population/rate/RE Jacobian action",
+      "status": "PASS",
+      "scope": "Builds 18-23: exact radiation part per direction inside the native frequency loop (all lines, continuum, scattering, NEG_OPAC floor, diffusion boundary, blue history) through the native dSTEQ/dJ coefficients; two-photon conjugate occupation held fixed.",
+      "evidence": [
+        "Reports/Report_20.md",
+        "Reports/evidence/exact_jacobian_20261001/lin_vs_dual_fixtures.txt",
+        "Reports/evidence/exact_jacobian_20261001/spectra_audit_jv0.json"
+      ]
+    },
+    {
+      "name": "Complete Jacobian action vs exact-residual oracle on the real cool state",
+      "status": "PASS",
+      "scope": "Population, n_e, charge rows and T column at the oracle floor (1e-5 -> 1e-6 with eps); Report 18 directions at their floor (fac0 1.3e-3/1.6e-2 vs oracle 1.6e-2).",
+      "evidence": [
+        "Reports/evidence/exact_jacobian_20261001/exact_jv_audit.json",
+        "Reports/evidence/exact_jacobian_20261001/tfree_jv_audit.json"
+      ]
+    },
+    {
+      "name": "Radiative-equilibrium row of the action (T released)",
+      "status": "CONDITIONAL",
+      "scope": "Cool layer ~0.4 % of the net response; thick interior up to 16-25 % net error from missing level-dissolution derivatives in native opacity derivatives (dissolution-off diagnostic 2e-5..7e-5).",
+      "evidence": [
+        "Reports/evidence/exact_jacobian_20261001/tfree_jv_audit.json",
+        "Reports/evidence/exact_jacobian_20261001/nodis_jv_audit.json"
+      ]
+    },
+    {
+      "name": "Native fixed-J blocks",
+      "status": "CORRECTED",
+      "scope": "Omit level-dissolution dependence on n_e, ion density and T (n_e column 1.65, H II 0.40, He II g 1.00, T 0.063 relative); completed by frozen-J columns and the POPION term (1.5e-9 hypothesis test); no completion needed without dissolution.",
+      "evidence": [
+        "Reports/evidence/exact_jacobian_20261001/columns_audit.json",
+        "Reports/evidence/exact_jacobian_20261001/nodis_jv_audit.json"
+      ]
+    },
+    {
+      "name": "Fixed-T Newton-Krylov (populations + radiation)",
+      "status": "FAIL",
+      "scope": "Not converged to the predeclared criterion (max exact Newton step < 1e-3 over levels > 1e-10 of their element). Merit 22 -> 0.011; largest significant frozen-J correction (x0 blocks) 0.634 -> 1.4e-3; stopped at iterate 11 to release T.",
+      "evidence": [
+        "Reports/evidence/exact_jacobian_20261001/nk_fixT_history.json"
+      ]
+    },
+    {
+      "name": "T release in single-iteration restarts",
+      "status": "PASS",
+      "scope": "CMFGEN restores FIXED_T from the restart BAMATPNT; every earlier FIX_T=F single pass held T. Fixed by removing BAMATPNT/BAMAT (release_t); affected passes preserved.",
+      "evidence": [
+        "Reports/evidence/exact_jacobian_20261001/T_inheritance_README.txt"
+      ]
+    },
+    {
+      "name": "Released populations + T + radiation converge together",
+      "status": "FAIL",
+      "scope": "Cold branch: exact Newton drives the d12 front to T->0 (s_T=+89.5); hot-branch start: Newton points back to a cool layer, progress limited to dlnT~0.06-0.25 per iterate by the ionization-balance T sensitivity. Frozen-J local balance at d12: net heating 1.1-7.8 kK, root ~7.9 kK; adiabatic cooling does not create a cool root.",
+      "evidence": [
+        "Reports/Report_20.md",
+        "Reports/evidence/exact_jacobian_20261001/thermal_curves/"
+      ]
+    },
+    {
+      "name": "Electron balance, global and cumulative radiation energy, last correction, charge",
+      "status": "NOT_EVALUATED",
+      "scope": "Require a converged released state; thresholds unchanged.",
+      "evidence": []
+    },
+    {
+      "name": "84/167 radii and doubled-frequency resolution",
+      "status": "NOT_REACHED",
+      "scope": "T-released 167-radius and doubled-frequency base passes, equation map and state transfer prepared.",
+      "evidence": [
+        "Reports/Report_20.md"
+      ]
+    },
+    {
+      "name": "Self-selected wind, coupled evolution, published evolutionary benchmark",
+      "status": "NOT_ATTEMPTED",
+      "scope": "Each requires a validated released cool closure; INC_AD/INC_ADV still omitted in the controls.",
+      "evidence": []
+    }
+  ],
+  "previous_outer_campaign_completion_report20": {
+    "outcome": "NUMERICAL BLOCKER (cool-layer thermal front)",
+    "selected_backend": "CMFGEN",
+    "exact_jacobian_action_validated": true,
+    "re_row_conditional": true,
+    "fixed_T_closure_converged": false,
+    "released_cool_closure_converged": false,
+    "T_release_inheritance_fixed": true,
+    "audits_run": false,
+    "resolution_pair": false,
+    "production_self_selected_closure": false,
+    "thermodynamic_quasistar_wind_validated": false,
+    "conservative_coupled_evolution_attempted": false,
+    "published_full_evolution_replicas": 0,
+    "qsrd_run": false,
+    "evidence": [
+      "Reports/Report_20.md",
+      "Reports/evidence/exact_jacobian_20261001/"
+    ]
+  },
+  "previous_release_blocker_report20": "T-released cool closure: with the radiative-equilibrium row truly active, the 84-radius Newton-Krylov solve does not converge from a cold or a hot start. The coupled Newton direction points to a cool neutral layer whose ionization front (native d11/d12) falls between grid points; the evidence is consistent with that front cell having no consistent RE temperature on this grid (cold branch drives it toward T->0; frozen-J local balance at d12 net heating from 1.1 to 7.8 kK). Interpretation, not demonstrated non-existence or instability. Next: 167-radius released solve, T continuation, INC_AD/INC_ADV wind energy terms, level-dissolution derivatives.",
+  "report21_numerical_checks": {
+    "builds": {
+      "25": "c9270eac688640ffd5270353884f625bb843f953c7c7a2dc67c59aa5ae8a1d08",
+      "26": "e54dd83b52a35015b7632939cbcfa5427761f51bcb06863105c730270ede62e9",
+      "27": "558395f7336f3957cec7ced770c0f132584e480f44e5aab9cd2ff7f74f000bb8",
+      "28": "107289a7ab29aec6d6bca6c602bf18681f5ce3e54011679cfeefbbf3fa40ed67"
+    },
+    "re_row_action_vs_oracle_b27": {
+      "T": [
+        5.9e-06,
+        1.6e-06
+      ],
+      "ne": [
+        6.8e-05,
+        1e-05
+      ],
+      "rand": [
+        2.3e-05,
+        2.3e-06
+      ],
+      "mix": [
+        6.1e-06,
+        1.8e-06
+      ]
+    },
+    "spectral_bad_cells": {
+      "b23": 841314,
+      "b25": 89586,
+      "b26": 89586,
+      "b27": 160
+    },
+    "adv_offdiag_odd_depth_test": 7.8e-06,
+    "build28_vs_build27_products": 1.16e-16,
+    "product_pass_repeat": 8.5e-17,
+    "front_coupled_slope_over_gross_d18_84": 0.00684,
+    "front_RE_over_gross_d18_84": 0.00645
+  },
+  "report22_numerical_checks": {
+    "builds": {
+      "29": "fb95a32aee5a91d5196e6bd254c38ef4c0db520af4aef459c87e7523718f9ea5",
+      "30": "6a02536ecbab514f00f82305596666cb46511426eabb5d4709dbb781e1e67eb4",
+      "31": "56f0774ae3d571d402b47b31a014f2992698fed457f787d7e86df053e26d41e2"
+    },
+    "matched_state": "results/nk167_hot iterate 14 (base it14_trial_l1), 167 radii",
+    "base_pass_s": {
+      "before_b28_t8": 912.3,
+      "after_b30_t8": 361.7,
+      "after_b30_t2": 333.8
+    },
+    "column_pass_s": {
+      "before_b28_t2": 568.8,
+      "after_b30_t1": 167.0
+    },
+    "product_pass_26dirs_s": {
+      "before_b28_t8": 1558.3,
+      "after_b31_t8": 810.0
+    },
+    "per_product_s": {
+      "before": 59.9,
+      "after": 31.2
+    },
+    "products_per_iterate": {
+      "before": 74,
+      "after_same_weights": 74,
+      "after_ultra_weight_1e10": 26
+    },
+    "agreement": {
+      "products_rowwise_b31_vs_b28_archived": 1.04e-12,
+      "products_rowwise_b28_rerun": 5.99e-13,
+      "gmres_scattering_products_identical": true,
+      "column_residual_rowwise": 2.3e-14,
+      "noobs_frozen_J_residual_and_BA_bitwise": true,
+      "base_residual_rowwise": 3.2e-12,
+      "base_BA_rowscale": 1.4e-09,
+      "base_BA_rowscale_b28_rerun_spread": 2.5e-10
+    },
+    "lsq_structure_it14": {
+      "final_relative_residual": 0.458,
+      "T_row_share": 0.53,
+      "ultra_trace_share": 0.43,
+      "front_T_row_reduced_to": {
+        "ultra_1e8": 0.958,
+        "ultra_1e10": 0.016
+      }
+    },
+    "solver_path_change_approved": "ultra-trace LSQ/merit weight 1e-8 -> 1e-10 with --full-krylov-near 10 (user approval 2026-10-06)"
+  },
+  "previous_release_blocker_report22": "T-released cool closure: with the complete RE row (level dissolution and INC_AD/INC_ADV included), T continuation reaches the full residual at 84 and 167 radii, but free Newton then slides the H I front layer down the cool branch toward T -> 0 on both grids. The exact coupled response at frozen populations explains the Newton direction: on the cool branch the front's RE row is ~ proportional to T (slope ~ R_RE, 5-7e-3 of the gross Lyman rate), so Newton targets a non-existent cool root. Pseudo-transient continuation (physical heating direction, split Krylov directions) moves the front hotter from 5.5, 7.9 and 10.5 kK starts at 3-5 % in T per hour-long iterate, but the iterates remain far from statistical equilibrium (CMFGEN's thermal and radiative energy balances disagree by orders of magnitude at the front), and no converged state exists. Whether the coupled front has a finite-temperature RE root (and where) is not yet established.",
+  "report23_numerical_checks": {
+    "builds": {
+      "32": "290d1490f87e29e3fa269fffaa1ed803c392065feb0f890c6403399579a0fe3e",
+      "33": "6d72dbadb10e3e785751b9c3686e2db681a38ba46136fe7a95583cf2ca7977d6",
+      "34": "d3e227737611c3bc473eab3510668921951f83a8140cb37272f254d1179829d2",
+      "35": "c69836d31fd0425b93ea0cf529e988cdd356ad9a6ea50d0c6949492355a3a6dd"
+    },
+    "build34_ff_gaunt_dT": {
+      "tangent_over_fd_deta_dlnT_167_d80_90_before": [
+        1.97,
+        1.96,
+        1.54,
+        1.52,
+        1.31
+      ],
+      "after": 1.0,
+      "re_row_T_column_error_d80_90": {
+        "build33": 0.035,
+        "build34": 1.19e-05,
+        "oracle": 1.24e-05
+      },
+      "rows_above_3x_oracle_84_radii": {
+        "build33": 111,
+        "build34": 2
+      }
+    },
+    "build35_inner_boundary_dDTDR_dT_error": {
+      "build34": 0.000697,
+      "build35": 7.3e-06
+    },
+    "build32_feature_off_vs_build31": "byte-identical residual, BA, products (84 and 167 radii, one thread)",
+    "build32_two_photon_up_rate_d35": {
+      "old_default": 186.64,
+      "use_rad": 3.081,
+      "band_exact_replica": 3.08097
+    },
+    "build32_energy_identity_without_D_d30_41": [
+      2e-05,
+      0.0009
+    ],
+    "build32_tangent_population_directions_max_error": 5e-06,
+    "build33_local_ali_pass": {
+      "instructions_ratio": 17.8,
+      "cycles_ratio": 20.2,
+      "ba_identical_entries": "8995956 of 8995956",
+      "lin_fac0_vs_build32": "byte-identical"
+    },
+    "n2_exact_over_fixedJ_diagonal_d26_46": [
+      0.000305,
+      0.00065
+    ],
+    "ali_n2_column_vs_exact_local_l1_error": [
+      0.001,
+      0.051
+    ],
+    "preconditioner_q_median": {
+      "fixed_J": 0.88,
+      "fixed_J_plus_exact_n2": 0.88,
+      "local_ali_all_columns": 0.4
+    },
+    "max_sig_Minv_R_pin_state": {
+      "fixed_J": 0.0077,
+      "exact_n2_column": 1.63
+    },
+    "departure_coefficient_b1_front_ptc_state_max": 69000000000.0,
+    "fixed_T_trapped_solver_natural_measure": [
+      139.8,
+      97.3,
+      45.7
+    ],
+    "t_released_build34_fixed_measure": [
+      224.0,
+      130.7,
+      87.3
+    ],
+    "ball2011_stage7": {
+      "amendments_registered_in_order": [
+        3,
+        4,
+        2,
+        1
+      ],
+      "row0_converged_unique": [
+        "C1",
+        "C0",
+        "C2",
+        "C5",
+        "C6",
+        "C7"
+      ],
+      "smoke_gate": "failed at M_BH = 46.0 Msun after 1255 accepted steps (numerical blocker)",
+      "smoke_per_step_energy_residual_max": 1.184e-14,
+      "smoke_per_step_mass_residual_max": 3.562e-16,
+      "q2_row0_max_density_inversion": {
+        "N200": 0.00907,
+        "N400": 0.00536,
+        "N800": 0.00275,
+        "limit": 0.001
+      },
+      "amendment5": "rejected (unbounded tolerance relaxation)"
+    },
+    "evidence": [
+      "Reports/Report_23.md",
+      "Reports/evidence/report23/trapped_levels/README.md",
+      "Reports/evidence/report23/ball/stage7_commands.log",
+      "results/two_photon_test/b32/README.txt",
+      "results/fast_ali_b33/README.txt"
+    ]
+  },
+  "previous_release_blocker_report23": "T-released cool closure at 167 radii, NOT CONVERGED. Diagnosed as numerical (Report 23 section 2): the Newton-Krylov measure used fixed-J Jacobian blocks that hide the error of every optically thick transition (H I n=1-9, He I and He II resonance levels), and every single-iteration pass ran the OLD_DEFAULT two-photon approximation (about 75 % of the RE row at the H I front). Earlier \"converged\" cool states are converged only in that measure. Fixes: build 32 (two-photon USE_RAD from stored J), local-ALI preconditioner for every column (build 33 makes it affordable), trapped-level driver options. Status: not converged; the corrected solves (builds 34-35; results/nk167_trap/free_b35, fixedT_b35) halve the residual in a fixed preconditioned measure (224 -> 118) and then stall: the local-ALI preconditioner is nearly singular at the ionization fronts. Next: regularize it there.",
+  "report24_numerical_checks": {
+    "builds": {
+      "36": "aec762ceb6034c6e9fde9fa2943a91bd7a82b3db24a7f3059da2d45cbf0d0897"
+    },
+    "conservation_violation_it04_fixedT_b35": {
+      "he_total_over_x0": [
+        0.128,
+        1.236
+      ],
+      "h_total_over_x0": [
+        0.88,
+        2.35
+      ],
+      "charge_sum_over_ne": [
+        0.059,
+        33.9
+      ]
+    },
+    "fixed_measure_by_region_start_vs_it04": {
+      "h_fronts_23_45": [
+        350.0,
+        77.7
+      ],
+      "deep_119_167": [
+        0.22,
+        72.4
+      ]
+    },
+    "maser_lambda_spectral_radius": [
+      1.063,
+      1.058
+    ],
+    "precond_floor_1e-2_worst_q": {
+      "raw_local_ali_max": 236.8,
+      "floored_max": 9.76
+    },
+    "lsq_far_field_coefficient_it01": {
+      "coefficient": 172.0,
+      "action_outside_support": 0.967
+    },
+    "build36_neutrality_one_thread": "residual and BA traces byte-identical to build 35 (converged pass, fallback unused)",
+    "build36_neutrality_two_threads_rel_resid_diff": 6.8e-13,
+    "evidence": [
+      "Reports/Report_24.md",
+      "Reports/evidence/report24/",
+      "results/nk167_trap/fixedT_b35/README.txt",
+      "results/nk167_trap/b36_tests/"
+    ]
   }
 }

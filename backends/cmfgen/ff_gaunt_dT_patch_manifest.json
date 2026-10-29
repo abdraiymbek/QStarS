@@ -1,0 +1,38 @@
+{
+ "base_release": "build_33",
+ "build": "build_34",
+ "files": [
+  "new_main/qs_jv.f90"
+ ],
+ "source_hashes": {
+  "new_main/qs_jv.f90": {
+   "base": "c921297639e150b0fdb190b26c3db274472459a5526ebd9797d3fadecc7de38c",
+   "patched": "1b0325eb7e5cee0e29e0b15e858dd1ae7981d3371fdb4e2733d289400649f417"
+  }
+ },
+ "patch_file": "ff_gaunt_dT.patch",
+ "patch_sha256": "f5beefd3c08496e3183ed9188b9079b496a9977f4c6b5a5927500b192fd572f2",
+ "scope": "Tangent only (qs_jv.f90). The residual (GENOPAETA_V10) evaluates the ion free-free Gaunt factor g = GFF_VEC(CONT_FREQ, T, Z) at the current temperature; the native VAR_OP_V10 (VCHI/VETA) differentiates the ion free-free opacity and emissivity with g held fixed, so the analytic Jacobian-vector tangent lacked the term through dg/dT: CHIFF Z^2 ED N_ion (dg/dT)/sqrt(T) {(1-exp(-h nu/kT))/nu^3, 2h/c^2 exp(-h nu/kT)}. qs_jv_gff_freq computes it at CONT_FREQ for the ions of COMP_VAR_OPAC (Z > 0, PHOT_ID 1, IMP_VAR(EQION) or QSTARS_JV_VALL) with qs_gff_dt_vec (GFF_VEC's table and cell statements; g checked equal to GFF_VEC at run time) and qs_jv_freq adds it, moved to FL as COMP_VAR_OPAC moves VCHI/VETA, to the directional dCHI/dETA of every direction whose T component is non-zero at that depth. Native VCHI/VETA, the BA, the residual and every product of a direction without a T component are unchanged (bitwise). QSTARS_JV_NOGFF (non-empty) disables the term (build 33 products). QSTARS_JV_STATS line 'ff_gaunt_dT'.",
+ "reproducibility": {
+  "executable_sha256": "d3e227737611c3bc473eab3510668921951f83a8140cb37272f254d1179829d2",
+  "executable_sha256_note": "valid only for the executable linked in backends/cmfgen/build_34: ld embeds the absolute path and timestamp of each libsubs.a member (N_OSO debug map), an LC_UUID and an ad-hoc code signature. Compare the section hashes and new_main/qs_jv.o for a rebuild elsewhere.",
+  "toolchain": "MESA SDK gfortran 13.3.0 (arm64), -fopenmp -O2 (cur_cmf Makefiles), MACOSX_DEPLOYMENT_TARGET=14.0; make d_new_main (only new_main/qs_jv.f90 changed; every libsubs/libmod/libpgplt member and the other new_main objects are byte-identical to build 33)",
+  "section_sha256": {
+   "__TEXT,__text": "e669602be166c5d1a7b104c7773c01a75fe3c9b8294d09e8d5c213c909f0855e",
+   "__TEXT,__text_startup": "b9312580875ea14521522fadaa9d964254ab364e874ed59d98eee708205e2396",
+   "__TEXT,__stubs": "185cb0334d111e4c1c5d6f0c7aecd448df1cf8540bbb5c8fe110229859f001f0",
+   "__TEXT,__const": "3bf43c67c7bfc461fe6f554bc7d945ff8407ed16876ad164e3591b36562b2ed5",
+   "__TEXT,__cstring": "9fba760b904b3e2a32f7dae1d8fdf39e0f0d4d75647fbc78d197a7ef8afdccd4",
+   "__TEXT,__eh_frame": "a4339667ccc80b1c0923603b40dbe58d88c71873dd435aaf2d74bf894a81acf8",
+   "__DATA_CONST,__const": "080ba55376672a07d480d9d24574107e7b9a6c06117bd80587117b644cac76e0",
+   "__DATA_CONST,__got": "3a232552866d7b4bc74052be33ab8bcad213e0905e1022c46f6e9f026ac42bdb",
+   "__DATA,__data": "274ca4ddc76064d7a7d636c16d6c4f9848eff7af264034430e5194ed06dea977",
+   "__DATA,__bss": "zerofill:49812856",
+   "__DATA,__common": "zerofill:8799040"
+  },
+  "object_sha256": {
+   "new_main/qs_jv.o": "e837bf8cec4da7e24740689031016c505c0aa6662140d794a50917076bb5972e"
+  },
+  "fingerprint_tool": "backends/cmfgen/macho_sections.py (sha256 of the file bytes of every Mach-O section; zero-fill sections by size)"
+ }
+}

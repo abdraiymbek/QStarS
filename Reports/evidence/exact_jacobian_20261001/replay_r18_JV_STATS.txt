@@ -1,0 +1,1 @@
+freqs   43314 dirs   4 max_tangent_closure  6.7084+145 max_primal_replay_rel  5.4124E-11 scattering_products     2453539 max_products    52 max_rel_dJ  5.8210E+03 neg_floor_cells      12 lin_vs_dual  0.0000E+00 closure_freq  1.60894470E+02

@@ -1,0 +1,11 @@
+{
+ "source": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it08_from_it08_trial_r0.25/jv00",
+ "repeat": "results/jv/race_test/it08_jv00_repeat",
+ "directions": 3,
+ "max_rel_diff": [
+  8.544325108494462e-17,
+  6.134648449435626e-17,
+  5.791502238940241e-17
+ ],
+ "bitwise_identical": false
+}

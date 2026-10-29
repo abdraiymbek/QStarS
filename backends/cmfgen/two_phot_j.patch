@@ -1,0 +1,329 @@
+--- a/cur_cmf/new_main/qs_jv.f90	2026-10-06 14:19:13
++++ b/cur_cmf/new_main/qs_jv.f90	2026-10-13 20:26:50
+@@ -50,6 +50,23 @@
+ real(kind=ldp),allocatable :: dis_cwb(:,:),dis_cwa(:,:),dis_cwx(:,:)
+ real(kind=ldp) :: st_dis_wdiff=0,st_dis_rel=0
+ end module qs_jv_state
++
++! Build 32 (Report 23): conjugate-frequency J of the two-photon USE_RAD method from a QStarS stored-J file
++! (QSTARS_TWO_PHOT_J = a QSTARS_RJ.bin on this model's radius and frequency grid). CMFGEN's USE_RAD method takes
++! J(nu_B), nu_B = nu_0 - nu, from the lagged J of the previous iteration in EDDFACTOR (GET_J_FOR_TWO_PHOT). A
++! single-iteration pass (COMP_F=T, no EDDFACTOR) cannot, and COMP_OPAC then silently replaces USE_RAD by
++! OLD_DEFAULT, whose partner-photon occupation is exp(-h nu_B/kT_e). With the variable set, USE_RAD is kept and
++! J(nu_B) is interpolated from the file exactly as GET_J_FOR_TWO_PHOT interpolates EDDFACTOR. The file is fixed
++! (lagged) data: PHOT_OC_TWO does not depend on the state of the pass. Unset: nothing here is used.
++module qs_two_phot_j_mod
++use set_kind_module
++implicit none
++logical :: tpj_first=.true.,tpj_on=.false.,tpj_ready=.false.
++integer :: tpj_ncf=0,tpj_nd=0,tpj_plen=0
++integer(kind=8) :: tpj_ncall=0
++character(len=512) :: tpj_path=' '
++real(kind=ldp),allocatable :: tpj_fl(:),tpj_rj(:,:)
++end module qs_two_phot_j_mod
+ 
+ ! Read directions; allocate accumulators. Called once before the frequency loop.
+ subroutine qs_jv_begin(pops,nt,nd,compute_ba,lambda_it)
+@@ -396,6 +413,7 @@
+ real(kind=ldp)::down_const,up_const,flr,f1,dsum,lbr
+ integer::k,l,i,sim,nl,nup,ir,id,ipr,ion_lev,ion_eq,j,mnl,mnup,mnl_f,mnup_f,nprod,ihyd
+ logical::branch1
++logical,external::qs_two_phot_j_on
+ character(len=12)::bnd
+ if(.not.jv_active)return
+ if(first_freq)then
+@@ -412,6 +430,12 @@
+  if(ray(ir)%nz>nzmax)stop 'QSTARS_JV: ray length grew after first frequency'
+ enddo
+ st_nfreq=st_nfreq+1
++if(first_freq.and.n_two>0)then
++ ! build 32: the tangent's two-photon branch must be the branch of the residual
++ if(qs_two_phot_j_on().and.any(two_phot_available(1:n_two)).and.trim(two_method)/='USE_RAD')then
++  call qs_two_phot_j_fail('QSTARS_TWO_PHOT_J set but the two-photon method in the continuum loop is '//trim(two_method))
++ endif
++endif
+ bnd=trim(inner_bnd_meth)
+ ihyd=1
+ if(ion_id(1)=='H0'.or.ion_id(1)=='HMI')ihyd=2
+@@ -609,8 +633,13 @@
+    dznet(:,sim,k)=0
+   endif
+  enddo
+- ! Two-photon (TWO_PHOT_RATE): the conjugate-frequency occupation PHOT_OC_TWO is the
+- ! native lagged (stored-J) quantity and is held fixed, as in the native residual.
++ ! Two-photon (TWO_PHOT_RATE), same branch as the residual of this pass (module TWO_METHOD, set by
++ ! TWO_PHOT_OPAC_V3 at this frequency's COMP_OPAC call):
++ !  OLD_DEFAULT (COMP_F=T without QSTARS_TWO_PHOT_J): partner-photon occupation exp(-h nu_B/kT_e).
++ !  otherwise (USE_RAD with QSTARS_TWO_PHOT_J, build 32; LTE; NOSTIM): PHOT_OC_TWO of the residual. For USE_RAD it
++ !  is fixed (lagged) data interpolated from the stored-J file and does not depend on the state, so its
++ !  derivative is zero and only dJ at the current frequency enters. The opacity/emissivity variation
++ !  (VCHI/VETA, TWO_PHOT_VAR_OPAC) and the RE row use the same PHOT_OC_TWO through the native arrays.
+  do j=1,n_two
+   if(.not.(two_phot_available(j).and.fl<freq_two(j)))cycle
+   fb=freq_two(j)-fl
+@@ -714,7 +743,8 @@
+ use omp_lib, only: omp_get_max_threads
+ use steq_data_mod, only: se
+ use two_phot_mod, only: n_two,two_phot_available,ion_id_two,ion_low_lev_two,ion_up_lev_two,&
+-                        low_lev_two,up_lev_two
++                        low_lev_two,up_lev_two,two_method
++use qs_two_phot_j_mod, only: tpj_on,tpj_ncall
+ implicit none
+ integer,intent(in)::nt,nd
+ real(kind=ldp),intent(in)::pops(nt,nd)
+@@ -745,6 +775,7 @@
+ write(lu,'(A,L2,A,I6,A,I8)')'explicit_scattering_operator',jv_asig,' min_dirs',jv_asig_min,' freqs_built',st_asig
+ write(lu,'(A,L2,A,I8,A,I4)')'batched_direction_sweeps',jv_batch,' freqs_batched',st_batch,' blocks',&
+   max(1,min(nv,omp_get_max_threads()))
++write(lu,'(A,A,A,L2,A,I12)')'two_photon_method ',trim(two_method),' stored_J',tpj_on,' conj_J_evaluations',tpj_ncall
+ close(lu)
+ end subroutine qs_jv_two_post
+ 
+@@ -982,3 +1013,158 @@
+ if(ios/=0.or.mm/=ml.or.abs(ff/fl-1.0_ldp)>1.0e-14_ldp)stop 'QSTARS_ALI_WARM: stored J does not match frequency'
+ if(all(tmp>0.0_ldp))rj=tmp
+ end subroutine qs_warm_read
++
++! ---------------------------------------------------------------------------------------------------------
++! Build 32 (Report 23): QSTARS_TWO_PHOT_J, see module qs_two_phot_j_mod.
++logical function qs_two_phot_j_on()
++use qs_two_phot_j_mod
++implicit none
++integer::ios
++if(tpj_first)then
++ tpj_first=.false.
++ call get_environment_variable('QSTARS_TWO_PHOT_J',tpj_path,length=tpj_plen,status=ios)
++ if(ios==-1)then
++  tpj_plen=len(tpj_path)
++  call qs_two_phot_j_fail('path longer than 512 characters')
++ endif
++ tpj_on=(ios==0.and.tpj_plen>0)
++endif
++qs_two_phot_j_on=tpj_on
++end function qs_two_phot_j_on
++
++subroutine qs_two_phot_j_fail(msg)
++use qs_two_phot_j_mod
++implicit none
++character(len=*),intent(in)::msg
++integer,external::error_lu
++integer::lu,luer
++open(newunit=lu,file='QSTARS_TWO_PHOT_J_FAILURE',status='unknown',position='append')
++write(lu,'(A)')trim(msg)
++write(lu,'(A)')'file='//tpj_path(1:max(tpj_plen,1))
++close(lu)
++luer=error_lu()
++write(luer,'(1X,A)')'Error: QSTARS_TWO_PHOT_J: '//trim(msg)
++write(luer,'(1X,A)')'       file='//tpj_path(1:max(tpj_plen,1))
++flush(luer)
++stop 'QSTARS_TWO_PHOT_J failure (see QSTARS_TWO_PHOT_J_FAILURE)'
++end subroutine qs_two_phot_j_fail
++
++! Load and verify the stored J once per run, after the frequency grid is set and before any opacity is
++! evaluated. The file must hold exactly this model's frequency grid (every FL to 1e-14, as the replay reader
++! requires) and depth count, with positive J. Any mismatch stops the run.
++subroutine qs_two_phot_j_init(nu,ncf,nd)
++use set_kind_module
++use qs_two_phot_j_mod
++use control_variable_mod, only: two_photon_method,incl_two_phot
++implicit none
++integer,intent(in)::ncf,nd
++real(kind=ldp),intent(in)::nu(ncf)
++logical,external::qs_two_phot_j_on
++integer,external::error_lu
++character(len=8)::tag
++character(len=160)::msg
++integer::lu,luer,ios,n4,mm,ml
++integer(kind=8)::fsize,reclen
++logical::ex
++real(kind=ldp)::ff
++if(.not.qs_two_phot_j_on())return
++if(tpj_ready)return
++if(.not.incl_two_phot)call qs_two_phot_j_fail('set, but two-photon transitions are not included (INC_TWO=F)')
++if(trim(two_photon_method)/='USE_RAD')call qs_two_phot_j_fail('set, but TWO_METH is '//trim(two_photon_method)//&
++   ', not USE_RAD')
++inquire(file=tpj_path(1:tpj_plen),exist=ex,size=fsize)
++if(.not.ex)call qs_two_phot_j_fail('stored-J file does not exist')
++reclen=12_8+8_8*int(nd,8)
++if(fsize/=12_8+reclen*int(ncf,8))then
++ write(msg,'(A,I14,A,I8,A,I6)')'stored-J file size ',fsize,' bytes is not the QSRJ0001 layout for NCF=',ncf,' ND=',nd
++ call qs_two_phot_j_fail(trim(msg))
++endif
++open(newunit=lu,file=tpj_path(1:tpj_plen),status='old',action='read',access='stream',form='unformatted',iostat=ios)
++if(ios/=0)call qs_two_phot_j_fail('cannot open stored-J file')
++read(lu,iostat=ios)tag,n4
++if(ios/=0.or.tag/='QSRJ0001'.or.n4/=nd)then
++ write(msg,'(A,A,A,I8,A,I6)')'bad stored-J header: tag ',tag,' ND(file)',n4,' ND(model)',nd
++ call qs_two_phot_j_fail(trim(msg))
++endif
++if(allocated(tpj_fl))deallocate(tpj_fl,tpj_rj)
++allocate(tpj_fl(ncf),tpj_rj(nd,ncf))
++do ml=1,ncf
++ read(lu,iostat=ios)mm,ff,tpj_rj(:,ml)
++ if(ios/=0.or.mm/=ml)then
++  write(msg,'(A,I8,A,I8,A,I6)')'cannot read stored-J record ',ml,' (index in file',mm,', iostat',ios
++  call qs_two_phot_j_fail(trim(msg)//')')
++ endif
++ if(abs(ff/nu(ml)-1.0_ldp)>1.0e-14_ldp)then
++  write(msg,'(A,I8,A,ES24.16,A,ES24.16)')'stored-J frequency grid differs at ML=',ml,': file',ff,' model',nu(ml)
++  call qs_two_phot_j_fail(trim(msg))
++ endif
++ if(any(.not.(tpj_rj(:,ml)>0.0_ldp)))then
++  write(msg,'(A,I8)')'stored J not positive at ML=',ml
++  call qs_two_phot_j_fail(trim(msg))
++ endif
++ if(ml>1)then
++  if(.not.(ff<tpj_fl(ml-1)))then
++   write(msg,'(A,I8)')'stored-J frequencies not strictly decreasing at ML=',ml
++   call qs_two_phot_j_fail(trim(msg))
++  endif
++ endif
++ tpj_fl(ml)=ff
++enddo
++close(lu)
++tpj_ncf=ncf;tpj_nd=nd;tpj_ncall=0
++tpj_ready=.true.
++luer=error_lu()
++write(luer,'(1X,A)')'QSTARS_TWO_PHOT_J: two-photon method USE_RAD is kept in COMP_F=T passes; the conjugate-'//&
++   'frequency J is interpolated from the stored-J file (fixed, lagged data; not EDDFACTOR, not OLD_DEFAULT):'
++write(luer,'(1X,A)')'   '//tpj_path(1:tpj_plen)
++write(luer,'(1X,A,I8,A,I6,A,ES22.14,A,ES22.14)')'   NCF=',ncf,' ND=',nd,' NU_MAX=',tpj_fl(1),' NU_MIN=',tpj_fl(ncf)
++end subroutine qs_two_phot_j_init
++
++! J at the conjugate frequency FREQ from the stored file: the statements of GET_J_FOR_TWO_PHOT (ND = ND_RD
++! case) with the EDDFACTOR records replaced by the stored records.
++!   FREQ >= FL(1)   : J(1)                       (first record)
++!   FREQ <= FL(NCF) : J(NCF)*(FREQ/FL(NCF))**2   (Rayleigh-Jeans extrapolation)
++!   otherwise       : T1=(FL_LOW-FREQ)/(FL_LOW-FL_HIGH); J=T1*J_HIGH+(1-T1)*J_LOW  on the bracketing records.
++! LST_REC is the native search hint (accepted if it brackets FREQ, otherwise bisection, which then sets it).
++subroutine qs_two_phot_get_j(rj,freq,lst_rec,nd)
++use set_kind_module
++use qs_two_phot_j_mod
++implicit none
++integer,intent(in)::nd
++integer,intent(inout)::lst_rec
++real(kind=ldp),intent(out)::rj(nd)
++real(kind=ldp),intent(in)::freq
++integer::ilow,ihigh,j
++real(kind=ldp)::t1
++if(.not.tpj_ready)call qs_two_phot_j_fail('conjugate-frequency J requested before the stored-J file was loaded')
++if(nd/=tpj_nd)call qs_two_phot_j_fail('conjugate-frequency J requested on a different depth grid')
++if(.not.(freq>0.0_ldp))call qs_two_phot_j_fail('conjugate frequency not positive')
++tpj_ncall=tpj_ncall+1
++if(freq>=tpj_fl(1))then
++ rj=tpj_rj(:,1)
++ return
++endif
++if(freq<=tpj_fl(tpj_ncf))then
++ t1=(freq/tpj_fl(tpj_ncf))**2
++ rj=tpj_rj(:,tpj_ncf)*t1
++ return
++endif
++ilow=0
++if(lst_rec>0.and.lst_rec<tpj_ncf)then
++ if(freq<=tpj_fl(lst_rec).and.freq>=tpj_fl(lst_rec+1))ilow=lst_rec
++endif
++if(ilow==0)then
++ ilow=1;ihigh=tpj_ncf
++ do while(ihigh-ilow>1)
++  j=(ilow+ihigh)/2
++  if(freq<tpj_fl(j))then
++   ilow=j
++  else
++   ihigh=j
++  endif
++ enddo
++ lst_rec=ilow
++endif
++t1=(tpj_fl(ilow)-freq)/(tpj_fl(ilow)-tpj_fl(ilow+1))
++rj=t1*tpj_rj(:,ilow+1)+(1.0_ldp-t1)*tpj_rj(:,ilow)
++end subroutine qs_two_phot_get_j
+--- a/cur_cmf/new_main/mod_subs/comp_opac.f	2026-09-28 22:00:50
++++ b/cur_cmf/new_main/mod_subs/comp_opac.f	2026-10-13 20:26:50
+@@ -60,6 +60,11 @@
+ 	INTEGER LUER,ERROR_LU
+ 	EXTERNAL ERROR_LU
+ !
++! QSTARS build 32: stored-J two-photon occupation (QSTARS_TWO_PHOT_J).
++!
++	LOGICAL QS_TWO_PHOT_J_ON
++	EXTERNAL QS_TWO_PHOT_J_ON
++!
+ ! Compute opacity and emissivity. This is a general include file
+ ! provided program uses exactly the same variables. Can be achieved
+ ! by copying declaration statements from CMFGEN. Always advisable
+@@ -117,10 +122,17 @@
+ ! 
+ !
+ ! Add in 2-photon emissivity and opacity.
++!
++! QSTARS build 32: with COMP_F=T there is no EDDFACTOR to supply the conjugate-
++! frequency J of the USE_RAD method, and the native code substitutes OLD_DEFAULT
++! (partner-photon occupation exp(-h nu_B/kT_e)). When QSTARS_TWO_PHOT_J names a
++! QStarS stored-J file, USE_RAD is kept and TWO_PHOT_OPAC_V3 takes J(nu_B) from
++! that file. Unset: the native substitution, unchanged.
+ !
+ 	  IF(LST_DEPTH_ONLY)THEN
+ 	    CALL TWO_PHOT_OPAC_V3(ETA,CHI,POPS,T,CONT_FREQ,'LTE',ND,NT)
+-	  ELSE IF(COMPUTE_EDDFAC .AND. TWO_PHOTON_METHOD .EQ. 'USE_RAD')THEN
++	  ELSE IF(COMPUTE_EDDFAC .AND. TWO_PHOTON_METHOD .EQ. 'USE_RAD'
++	1                .AND. .NOT. QS_TWO_PHOT_J_ON())THEN
+ 	    CALL TWO_PHOT_OPAC_V3(ETA,CHI,POPS,T,CONT_FREQ,'OLD_DEFAULT',ND,NT)
+ 	  ELSE
+ 	    CALL TWO_PHOT_OPAC_V3(ETA,CHI,POPS,T,CONT_FREQ,TWO_PHOTON_METHOD,ND,NT)
+--- a/cur_cmf/new_main/subs/two/two_phot_opac_v3.f	2026-09-28 20:03:27
++++ b/cur_cmf/new_main/subs/two/two_phot_opac_v3.f	2026-10-13 20:26:50
+@@ -48,6 +48,11 @@
+ 	INTEGER LUER,ERROR_LU
+ 	EXTERNAL ERROR_LU
+ !
++! QSTARS build 32: stored-J two-photon occupation (QSTARS_TWO_PHOT_J).
++!
++	LOGICAL QS_TWO_PHOT_J_ON
++	EXTERNAL QS_TWO_PHOT_J_ON
++!
+ 	INTEGER J,L,ML
+ 	INTEGER NL,NUP
+ !
+@@ -56,6 +61,13 @@
+ 	IF(TWO_METHOD .NE. TWO_PHOTON_METHOD)THEN
+ 	  TWO_METHOD=TWO_PHOTON_METHOD
+ 	  WRITE(LUER,*)'Using ',TRIM(TWO_METHOD),' method for two-photon decay'
++	  IF(TWO_METHOD .EQ. 'USE_RAD')THEN
++	    IF(QS_TWO_PHOT_J_ON())THEN
++	      WRITE(LUER,*)'USE_RAD conjugate-frequency J: QStarS stored-J file (QSTARS_TWO_PHOT_J)'
++	    ELSE
++	      WRITE(LUER,*)'USE_RAD conjugate-frequency J: EDDFACTOR (previous iteration)'
++	    END IF
++	  END IF
+ 	END IF
+ !
+ ! The factor 10^10 arises since R is units of 10^10cm, and we
+@@ -94,7 +106,11 @@
+ !       Y(v)=J(v)/[2hv^3/c^2]	
+ !
+ 	    IF(TWO_METHOD .EQ. 'USE_RAD')THEN
+-	      CALL GET_J_FOR_TWO_PHOT(PHOT_OC_TWO(1,J),FREQ_B,LST_FREQ_INDX_TWO(J),ND)
++	      IF(QS_TWO_PHOT_J_ON())THEN
++	        CALL QS_TWO_PHOT_GET_J(PHOT_OC_TWO(1,J),FREQ_B,LST_FREQ_INDX_TWO(J),ND)
++	      ELSE
++	        CALL GET_J_FOR_TWO_PHOT(PHOT_OC_TWO(1,J),FREQ_B,LST_FREQ_INDX_TWO(J),ND)
++	      END IF
+ 	      T1=TWOHCSQ*(FREQ_B**3)
+ 	      PHOT_OC_TWO(:,J)=PHOT_OC_TWO(:,J)/T1
+ 	    ELSE IF(TWO_METHOD .EQ. 'LTE')THEN
+--- a/cur_cmf/new_main/cmfgen_sub.f	2026-10-03 20:58:48
++++ b/cur_cmf/new_main/cmfgen_sub.f	2026-10-13 20:26:50
+@@ -1115,6 +1115,12 @@
+ 	ELSE
+ 	  CALL SET_POP_FOR_TWOJ(POS_IN_NEW_GRID,EDD_CONT_REC,LU_EDD,ND)
+ 	END IF
++!
++! QSTARS build 32: optional stored J for the conjugate frequency of the two-photon
++! USE_RAD method (QSTARS_TWO_PHOT_J). Loaded and verified against this frequency
++! grid once, before any opacity is evaluated. Does nothing when the variable is unset.
++!
++	CALL QS_TWO_PHOT_J_INIT(NU,NCF,ND)
+ 	
+ !
+ ! Need to calculate impact parameters, and angular quadrature weights here

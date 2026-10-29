@@ -1,0 +1,131 @@
+{
+  "policy": "published_assumption",
+  "description": "Ball et al. 2011 published-assumption replica: the STARS surface and convection assumptions are reported, not enforced (plan replication_mode).",
+  "screens": {
+    "nonfinite_state": {
+      "message": "Nonfinite model state",
+      "action": "enforced",
+      "reason": null
+    },
+    "eos_temperature_domain": {
+      "message": "EOS temperature outside the configured domain",
+      "action": "enforced",
+      "reason": null
+    },
+    "mesa_first_law": {
+      "message": "MESA first-law defect exceeds 1% audit limit",
+      "action": "enforced",
+      "reason": null
+    },
+    "mesa_ideal_backstop": {
+      "message": "MESA neutral ideal backstop is outside supported ionization physics",
+      "action": "enforced",
+      "reason": null
+    },
+    "mesa_dilute_gas": {
+      "message": "MESA gas pressure differs by more than 1% from the dilute classical limit",
+      "action": "enforced",
+      "reason": null
+    },
+    "omitted_conduction": {
+      "message": "Omitted electron conduction exceeds 1% of diffusive heat flux",
+      "action": "enforced",
+      "reason": null
+    },
+    "ideal_eos_hydrogen_saha": {
+      "message": "Fully ionized EOS fails hydrogen Saha screening",
+      "action": "not_applicable",
+      "reason": "ideal-gas EOS screens only"
+    },
+    "ideal_eos_helium_saha": {
+      "message": "Fully ionized EOS fails He II/III Saha screening",
+      "action": "not_applicable",
+      "reason": "ideal-gas EOS screens only"
+    },
+    "ideal_eos_degeneracy": {
+      "message": "Classical EOS fails electron nondegeneracy check",
+      "action": "not_applicable",
+      "reason": "ideal-gas EOS screens only"
+    },
+    "compactness": {
+      "message": "Newtonian compactness limit exceeded",
+      "action": "enforced",
+      "reason": null
+    },
+    "flow_mach": {
+      "message": "Quasi-hydrostatic domain exceeded: radial Mach number",
+      "action": "enforced",
+      "reason": null
+    },
+    "photosphere_gas_pressure": {
+      "message": "Photospheric gas pressure is not positive (Gamma_ph >= 1)",
+      "action": "enforced",
+      "reason": null
+    },
+    "radiation_knudsen_deep": {
+      "message": "Radiation gradient scale is outside the diffusion limit (Kn>0.1) at tau>=10",
+      "action": "enforced",
+      "reason": null
+    },
+    "free_streaming_deep": {
+      "message": "Radiative diffusion exceeds free-streaming flux at tau>=10",
+      "action": "enforced",
+      "reason": null
+    },
+    "radiation_knudsen_outer": {
+      "message": "Radiation gradient scale is outside the diffusion limit (Kn>0.1) at tau<10",
+      "action": "report_only",
+      "reason": null
+    },
+    "free_streaming_outer": {
+      "message": "Radiative diffusion exceeds free-streaming flux at tau<10",
+      "action": "report_only",
+      "reason": null
+    },
+    "outer_face_knudsen": {
+      "message": "Outer radiation flux is outside the LTE diffusion limit",
+      "action": "not_applicable",
+      "reason": null
+    },
+    "outer_face_eddington": {
+      "message": "Outer cell departs from the Eddington grey relation",
+      "action": "report_only",
+      "reason": null
+    },
+    "convective_mach": {
+      "message": "Mixing-length convection is supersonic",
+      "action": "report_only",
+      "reason": null
+    },
+    "convective_peclet": {
+      "message": "Lossless MLT outside efficient-convection domain (significant flux with Pe<100)",
+      "action": "not_applicable",
+      "reason": "Pe < 100 screens the lossless closure; ML1 includes radiative losses"
+    },
+    "opacity_clamp": {
+      "message": "Opacity clamped to the table edge (STARS nearest-value rule)",
+      "action": "report_only",
+      "reason": null
+    },
+    "density_inversion": {
+      "message": "Largest outward relative density increase",
+      "action": "diagnostic",
+      "reason": null
+    },
+    "local_eddington_factor": {
+      "message": "Largest radiative luminosity over the local Eddington luminosity",
+      "action": "diagnostic",
+      "reason": null
+    },
+    "volume_geometry": {
+      "message": "Stored cell volumes disagree with radial geometry",
+      "action": "reject",
+      "reason": null
+    },
+    "conservation": {
+      "message": "Conservation tolerance exceeded",
+      "action": "reject",
+      "reason": null
+    }
+  }
+}

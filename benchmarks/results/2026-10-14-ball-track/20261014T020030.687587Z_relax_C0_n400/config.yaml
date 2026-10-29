@@ -1,0 +1,146 @@
+schema_version: 1
+name: ball2011_C0_n400
+fidelity: exploratory
+initial:
+  envelope_mass_msun: 10000.0
+  bh_mass_msun: 100.0
+  radius_cm: 100000000000000.0
+  inner_radius_cm: 1000000000000.0
+  temperature_perturbation: 0.0
+  perturbation_mass_center: 0.5
+  perturbation_mass_width: 0.1
+composition:
+  X: 0.7
+  Y: 0.3
+  Z: 0.0
+eos: mesa
+mesa:
+  library_path: /Users/abraiymbek/Projects/QStarS/backends/mesa/build_ball_abi7/libqstars_mesa.dylib
+  mesa_dir: /Users/abraiymbek/qsrd-runtime/mesa
+opacity:
+  model: mesa
+  table_path: ''
+  tables: stars2004_switch
+engine:
+  model: ball2012_eq3_15
+  efficiency: 0.1
+  coupling: 0.1
+  rest_mass_rate_msun_per_year: 1.0e-05
+feeding:
+  rate_msun_per_year: 0.0
+  thermodynamics: specified
+  density_cgs: 1.0e-07
+  temperature_K: 1000000.0
+wind:
+  model: 'off'
+  rate_msun_per_year: 0.0
+  W: 10.0
+  terminal_speed_cm_s: 0.0
+  node_path: ''
+  drift_tolerance: 0.0
+transport:
+  convection: mlt_ml1
+  mixing_length_alpha: 2.0
+boundary:
+  inner: bondi_cavity
+  pressure_cgs: 0.0
+  thermal: stars_photosphere
+  external_optical_depth: 0.0
+  bath_temperature_K: 0.0
+  luminosity_erg_s: 1.0e+41
+evolution:
+  end_time_years: 0.1
+  max_steps: 20000
+  max_wall_seconds: 86400.0
+numerics:
+  zones: 400
+  mesh: cosine
+  initial_dt_years: 0.001
+  max_dt_years: 0.005
+  min_dt_years: 1.0e-10
+  nonlinear_solver: newton_flux
+  mechanics: quasi_static
+  boundary_remesh_fraction: 0.2
+  solver_tolerance: 1.0e-09
+  max_fractional_change: 0.02
+  max_retries: 12
+  conservation_tolerance: 1.0e-08
+  refine_every_steps: 0
+  max_zones: 256
+validity:
+  min_temperature_K: 3000.0
+  max_temperature_K: 100000000.0
+  max_mach: 0.2
+  max_compactness: 0.001
+  require_optically_thick: true
+output:
+  profile_every_steps: 10
+  checkpoint_every_steps: 10
+cavity:
+  active: true
+  profile: r-3/2
+  b: 1.0
+  boundary_state: face
+quasistatic:
+  inertia: none
+  momentum: endpoint
+  tolerance: 1.0e-12
+  max_iterations: 40
+  polish_iterations: 1
+  roundoff_residual: 1.0e-10
+  roundoff_step: 1.0e-13
+  max_passes: 3
+  pass_fraction: 0.05
+  remesh: true
+  split: 2.0
+  merge: 0.5
+  base: lagrangian
+  base_mass_fraction: 0.05
+  energy_per_step: 5.0e-13
+  mass_per_step: 1.0e-14
+stepcontrol:
+  delta_target: 0.005
+  safety: 0.9
+  min_factor: 0.5
+  max_factor: 1.5
+  reject_ratio: 2.0
+  hold_steps: 3
+  slow_iterations: 8
+  slow_factor: 0.8
+  retry_factor: 0.5
+  max_retries: 12
+  dt_initial_years: 1.0
+  dt_max_years: 20000.0
+  metric: lagrangian
+relaxation:
+  dt_years: 0.01
+  dt_max_years: 100000000.0
+  converged_dt_years: 1000000.0
+  tolerance: 1.0e-10
+  luminosity_tolerance: 1.0e-06
+  max_steps: 400
+  max_retries: 20
+  mesh_cycles: 0
+  mesh_tolerance: 1.0e-05
+  cycle_dt_years: 1000000.0
+replication:
+  plan: ball2011_track_plan
+  run: C0
+  kind: convergence_campaign
+  plan_text: 'production: N = 400, delta_target = 0.005, tolerance 1e-12, face boundary
+    state, split/merge 2.0/0.5'
+  policy: published_assumption
+  total_mass_msun: 10000.0
+  initial_bh_mass_msun: 5.0
+  seed_radii_rsun:
+  - 2000
+  - 6000
+  - 1000
+  - 12000
+  landings_msun:
+  - 100
+  - 200
+  - 500
+  - 1000
+  end_bh_mass_msun: 0.0
+  amendments: []

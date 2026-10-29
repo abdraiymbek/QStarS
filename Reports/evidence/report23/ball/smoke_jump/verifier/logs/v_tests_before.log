@@ -1,0 +1,5 @@
+E       ValueError: Unknown stepcontrol settings ['events']
+E       ValueError: Unknown stepcontrol settings ['events']
+FAILED tests/test_quasistatic.py::test_mesh_event_jump_is_not_a_timestep_error
+FAILED tests/test_quasistatic.py::test_smoke_step_1255_merge_is_measured_on_the_pre_event_mesh
+2 failed, 1 passed, 43 deselected in 7.29s

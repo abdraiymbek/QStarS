@@ -1,0 +1,18 @@
+relative LS residual 0.4584 (logged 0.4584)
+  ultra-trace rows (w 1e-8)     : share of final residual^2  0.4295   share of initial  0.0901   reduced to 1.001
+  trace rows (w 1e-3)           : share of final residual^2  0.0078   share of initial  0.0017   reduced to 0.985
+  significant population rows   : share of final residual^2  0.0290   share of initial  0.7841   reduced to 0.088
+  n_e row                       : share of final residual^2  0.0033   share of initial  0.0017   reduced to 0.638
+  T (RE) row                    : share of final residual^2  0.5303   share of initial  0.1224   reduced to 0.954
+  H-/H I/H II (1-32)  : final residual^2 share  0.0064 (ultra part  0.0000)
+  He I (33-101)       : final residual^2 share  0.0240 (ultra part  0.0000)
+  He II (102-131)     : final residual^2 share  0.3539 (ultra part  0.3479)
+  He III (132)        : final residual^2 share  0.0820 (ultra part  0.0816)
+  depths   1- 19: final residual^2 share  0.0234
+  depths  20- 48: final residual^2 share  0.9569
+  depths  49-100: final residual^2 share  0.0097
+  depths 101-167: final residual^2 share  0.0100
+driver (ultra 1e-8)   : front T-row residual reduced to 0.958; ultra-row M^-1 residual to 1.001; max|s_T| front 0.0055; max|s| ultra 0.149
+ultra 1e-10           : front T-row residual reduced to 0.016; ultra-row M^-1 residual to 2.335; max|s_T| front 0.0516; max|s| ultra 0.099
+ultra rows excluded   : front T-row residual reduced to 0.016; ultra-row M^-1 residual to 2.336; max|s_T| front 0.0516; max|s| ultra 0.099
+T row (front) alone     : reduced to 0.000

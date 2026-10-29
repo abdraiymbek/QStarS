@@ -1,0 +1,240 @@
+{
+ "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot/it25_trial_l1",
+ "depth": 35,
+ "vadat": [
+  [
+   "INC_AD",
+   "T"
+  ],
+  [
+   "INC_ADV",
+   "T"
+  ]
+ ],
+ "points": [
+  {
+   "factor": 1.0,
+   "it": 4,
+   "T": 9468.550124672844,
+   "max_local_step": 5.130636880720141e-07,
+   "RE_residual": 0.8010464996022172,
+   "RE_scale": 544.3217160953097,
+   "RE_relative": 0.001471641633827366,
+   "ne": 1180023.7704962408,
+   "neutral_H": 0.9902576148591813,
+   "iterations": 5,
+   "converged": true
+  },
+  {
+   "factor": 1.15,
+   "it": 4,
+   "T": 10888.83264337377,
+   "max_local_step": 3.1951104369500335e-07,
+   "RE_residual": -0.6608828108801413,
+   "RE_scale": 545.8109084121015,
+   "RE_relative": -0.0012108274142098264,
+   "ne": 1600306.8720151568,
+   "neutral_H": 0.9868023169367799,
+   "iterations": 5,
+   "converged": true
+  },
+  {
+   "factor": 1.3,
+   "it": -1,
+   "failed": "/Users/abraiymbek/Projects/QStarS/results/thermal_curve/d35_hot_it25/f1.3_i5: perturbation rejected:  Perturbed POPS nonpositive at           1  locations; eps=   1.0000000000000000       max|eps*s|=   7.4240014717798832E+047\n",
+   "T": NaN,
+   "max_local_step": Infinity,
+   "RE_relative": NaN,
+   "ne": NaN,
+   "neutral_H": NaN,
+   "iterations": 1,
+   "converged": false
+  },
+  {
+   "factor": 1.5,
+   "it": -1,
+   "failed": "/Users/abraiymbek/Projects/QStarS/results/thermal_curve/d35_hot_it25/f1.5_i7: perturbation rejected:  Perturbed POPS nonpositive at           2  locations; eps=   1.0000000000000000       max|eps*s|=   2.4213223077932812E+042\n",
+   "T": NaN,
+   "max_local_step": Infinity,
+   "RE_relative": NaN,
+   "ne": NaN,
+   "neutral_H": NaN,
+   "iterations": 1,
+   "converged": false
+  },
+  {
+   "factor": 1.75,
+   "it": -1,
+   "failed": "/Users/abraiymbek/Projects/QStarS/results/thermal_curve/d35_hot_it25/f1.75_i6: perturbation rejected:  Perturbed POPS nonpositive at           1  locations; eps=   1.0000000000000000       max|eps*s|=   1.7711300623254657E+044\n",
+   "T": NaN,
+   "max_local_step": Infinity,
+   "RE_relative": NaN,
+   "ne": NaN,
+   "neutral_H": NaN,
+   "iterations": 1,
+   "converged": false
+  },
+  {
+   "factor": 2.0,
+   "it": -1,
+   "failed": "/Users/abraiymbek/Projects/QStarS/results/thermal_curve/d35_hot_it25/f2_i6: perturbation rejected:  Perturbed POPS nonpositive at           1  locations; eps=   1.0000000000000000       max|eps*s|=   7.7777356225567632E+045\n",
+   "T": NaN,
+   "max_local_step": Infinity,
+   "RE_relative": NaN,
+   "ne": NaN,
+   "neutral_H": NaN,
+   "iterations": 1,
+   "converged": false
+  }
+ ],
+ "histories": {
+  "1.0": [
+   {
+    "it": 0,
+    "T": 9468.550124672844,
+    "max_local_step": 36151049.76036927,
+    "RE_residual": 4.06263112264008,
+    "RE_scale": 540.8501677391707,
+    "RE_relative": 0.00751156487502342,
+    "ne": 1220811.3453828555,
+    "neutral_H": 0.989910854994427
+   },
+   {
+    "it": 1,
+    "T": 9468.550124672844,
+    "max_local_step": 3490.3457378489247,
+    "RE_residual": 0.8008696168697687,
+    "RE_scale": 544.3187906238063,
+    "RE_relative": 0.0014713245815966543,
+    "ne": 1180739.3073658783,
+    "neutral_H": 0.9902519684725493
+   },
+   {
+    "it": 2,
+    "T": 9468.550124672844,
+    "max_local_step": 0.0015583438766756574,
+    "RE_residual": 0.8010464666645404,
+    "RE_scale": 544.321714793634,
+    "RE_relative": 0.0014716415768351943,
+    "ne": 1180024.0826258063,
+    "neutral_H": 0.9902576124300845
+   },
+   {
+    "it": 3,
+    "T": 9468.550124672844,
+    "max_local_step": 6.89790865900784e-06,
+    "RE_residual": 0.8010465004511359,
+    "RE_scale": 544.3217161044162,
+    "RE_relative": 0.0014716416353623355,
+    "ne": 1180023.7683027943,
+    "neutral_H": 0.9902576148772991
+   },
+   {
+    "it": 4,
+    "T": 9468.550124672844,
+    "max_local_step": 5.130636880720141e-07,
+    "RE_residual": 0.8010464996022172,
+    "RE_scale": 544.3217160953097,
+    "RE_relative": 0.001471641633827366,
+    "ne": 1180023.7704962408,
+    "neutral_H": 0.9902576148591813
+   }
+  ],
+  "1.15": [
+   {
+    "it": 0,
+    "T": 10888.83264337377,
+    "max_local_step": 214948757.5941489,
+    "RE_residual": 5.027649724980769,
+    "RE_scale": 541.8164799337742,
+    "RE_relative": 0.009279248437764932,
+    "ne": 1220811.3453828555,
+    "neutral_H": 0.989910854994427
+   },
+   {
+    "it": 1,
+    "T": 10888.83264337377,
+    "max_local_step": 14582.983753230146,
+    "RE_residual": -0.7499375353490206,
+    "RE_scale": 545.5358626334842,
+    "RE_relative": -0.0013746805420432329,
+    "ne": 1680469.5269884416,
+    "neutral_H": 0.9861417700754151
+   },
+   {
+    "it": 2,
+    "T": 10888.83264337377,
+    "max_local_step": 0.5266486135130661,
+    "RE_residual": -0.6635152348618656,
+    "RE_scale": 545.8027779904123,
+    "RE_relative": -0.001215668482496293,
+    "ne": 1602676.2966464702,
+    "neutral_H": 0.9867827917758946
+   },
+   {
+    "it": 3,
+    "T": 10888.83264337377,
+    "max_local_step": 0.0005016702838891394,
+    "RE_residual": -0.6608848477474203,
+    "RE_scale": 545.8109021769723,
+    "RE_relative": -0.001210831159860447,
+    "ne": 1600308.6932763036,
+    "neutral_H": 0.9868023019303306
+   },
+   {
+    "it": 4,
+    "T": 10888.83264337377,
+    "max_local_step": 3.1951104369500335e-07,
+    "RE_residual": -0.6608828108801413,
+    "RE_scale": 545.8109084121015,
+    "RE_relative": -0.0012108274142098264,
+    "ne": 1600306.8720151568,
+    "neutral_H": 0.9868023169367799
+   }
+  ],
+  "1.3": [
+   {
+    "it": -1,
+    "failed": "/Users/abraiymbek/Projects/QStarS/results/thermal_curve/d35_hot_it25/f1.3_i5: perturbation rejected:  Perturbed POPS nonpositive at           1  locations; eps=   1.0000000000000000       max|eps*s|=   7.4240014717798832E+047\n",
+    "T": NaN,
+    "max_local_step": Infinity,
+    "RE_relative": NaN,
+    "ne": NaN,
+    "neutral_H": NaN
+   }
+  ],
+  "1.5": [
+   {
+    "it": -1,
+    "failed": "/Users/abraiymbek/Projects/QStarS/results/thermal_curve/d35_hot_it25/f1.5_i7: perturbation rejected:  Perturbed POPS nonpositive at           2  locations; eps=   1.0000000000000000       max|eps*s|=   2.4213223077932812E+042\n",
+    "T": NaN,
+    "max_local_step": Infinity,
+    "RE_relative": NaN,
+    "ne": NaN,
+    "neutral_H": NaN
+   }
+  ],
+  "1.75": [
+   {
+    "it": -1,
+    "failed": "/Users/abraiymbek/Projects/QStarS/results/thermal_curve/d35_hot_it25/f1.75_i6: perturbation rejected:  Perturbed POPS nonpositive at           1  locations; eps=   1.0000000000000000       max|eps*s|=   1.7711300623254657E+044\n",
+    "T": NaN,
+    "max_local_step": Infinity,
+    "RE_relative": NaN,
+    "ne": NaN,
+    "neutral_H": NaN
+   }
+  ],
+  "2.0": [
+   {
+    "it": -1,
+    "failed": "/Users/abraiymbek/Projects/QStarS/results/thermal_curve/d35_hot_it25/f2_i6: perturbation rejected:  Perturbed POPS nonpositive at           1  locations; eps=   1.0000000000000000       max|eps*s|=   7.7777356225567632E+045\n",
+    "T": NaN,
+    "max_local_step": Infinity,
+    "RE_relative": NaN,
+    "ne": NaN,
+    "neutral_H": NaN
+   }
+  ]
+ }
+}

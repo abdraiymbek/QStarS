@@ -6,9 +6,18 @@ from .config import load,resolve,ScientificLoader
 from .evolution import run
 from .io import load_checkpoint
 
+def _run(config,output,restart=None,stop_after_steps=None):
+    """Dispatch on numerics.mechanics: quasi_static runs the quasi-static track (quasistatic.run_track)."""
+    if config['numerics']['mechanics']=='quasi_static':
+        from .quasistatic import run_track
+        return run_track(config,output,restart=restart,stop_after_steps=stop_after_steps)
+    return run(config,output,restart=restart,stop_after_steps=stop_after_steps)
+
+COMPLETED=('completed_requested_interval','completed')
+
 def _sweep_one(args):
     c,parent=args
-    p,r=run(c,parent)
+    p,r=_run(c,parent)
     return dict(path=str(p),**r)
 
 def main(argv=None):
@@ -25,11 +34,14 @@ def main(argv=None):
     args=p.parse_args(argv)
     try:
         if args.command=='run':
-            path,report=run(load(args.config),args.output,stop_after_steps=args.stop_after_steps)
+            path,report=_run(load(args.config),args.output,stop_after_steps=args.stop_after_steps)
         elif args.command=='restart':
             state,c=load_checkpoint(args.checkpoint)
-            if args.until_years is not None:c['evolution']['end_time_years']=args.until_years
-            path,report=run(resolve(c),args.output,restart=state)
+            if args.until_years is not None:
+                if c['numerics']['mechanics']=='quasi_static':
+                    raise ValueError('--until-years: a quasi-static track ends on black-hole mass (replication.end_bh_mass_msun)')
+                c['evolution']['end_time_years']=args.until_years
+            path,report=_run(resolve(c),args.output,restart=state)
         elif args.command=='validate':
             from .validation import campaign
             path,report=campaign(args.output,not args.quick)
@@ -55,9 +67,9 @@ def main(argv=None):
                 model['name']=f"{c['name']}_sweep_{i:04d}"
                 configs.append((resolve(model),args.output))
             with ProcessPoolExecutor(max_workers=args.workers) as pool:reports=list(pool.map(_sweep_one,configs))
-            print(json.dumps(reports,indent=2));return int(any(x['status']!='completed_requested_interval' for x in reports))
+            print(json.dumps(reports,indent=2));return int(any(x['status'] not in COMPLETED for x in reports))
         print(path);print(json.dumps(report,indent=2))
-        return 0 if report['status'] in ('completed_requested_interval','completed_reference','control_stop') else 1
+        return 0 if report['status'] in COMPLETED+('completed_reference','control_stop') else 1
     except (ValueError,OSError,KeyError) as exc:
         p.exit(2,f'qstars: {exc}\n')
 

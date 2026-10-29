@@ -3,10 +3,14 @@ from pathlib import Path
 import numpy as np
 
 def plot_run(directory):
+    p=Path(directory)
+    with open(p/'history.csv') as f:columns=f.readline().strip().split(',')
+    if 'radius_rsun' in columns:  # Ball history (quasistatic.history_row): other columns and profile keys
+        raise ValueError('qstars plot does not support quasi-static runs; see history.csv and profile_*.npz')
     import matplotlib
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
-    p=Path(directory); h=np.genfromtxt(p/'history.csv',delimiter=',',names=True)
+    h=np.genfromtxt(p/'history.csv',delimiter=',',names=True)
     h=np.atleast_1d(h)
     plt.rcParams.update({'font.family':'DejaVu Sans','font.size':10,'axes.spines.top':False,
                          'axes.spines.right':False,'axes.grid':True,'grid.alpha':.15,'figure.dpi':130})

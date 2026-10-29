@@ -1,0 +1,7 @@
+{
+ "even_depths_rel_err": 7.822941578255217e-06,
+ "even_depths_rel_err_without_offdiag": 1.0,
+ "odd_depths_rel_err": 9.080797055103575e-09,
+ "even_RE_row_rel_err": 8.24774840000684e-09,
+ "even_RE_row_rel_err_without_offdiag": 1.0
+}

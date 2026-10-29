@@ -1,0 +1,76 @@
+$ --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_3.json --output $SCRATCH/final_fix/DRYRUN_cli_flow relax --run C1
+   0,
+   0,
+   0,
+   0,
+   0
+  ]
+ }
+}
+ "status": "relaxation_blocker",
+ "classification": "numerical relaxation blocker",
+  -> exit 1, wall 17 s
+$ --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_3.json --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_4.json --output $SCRATCH/final_fix/DRYRUN_cli_flow relax --run C1
+{
+ },
+   6000,
+   3464
+  ],
+  },
+ },
+}
+ "status": "not_unique",
+  -> exit 1, wall 24 s
+$ --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_3.json --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_4.json --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_2.json --output $SCRATCH/final_fix/DRYRUN_cli_flow relax --run C1
+{
+ },
+   6000,
+   3464
+  ],
+  },
+ },
+}
+ "status": "converged_unique",
+  -> exit 0, wall 44 s
+$ --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_3.json --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_4.json --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_2.json --output $SCRATCH/final_fix/DRYRUN_cli_flow smoke --row0 $SCRATCH/final_fix/DRYRUN_cli_flow/20261014T042852.768896Z_relax_C1_n200/row0_6000rsun.npz
+$SCRATCH/final_fix/DRYRUN_cli_flow/20261014T042936.517441Z_smoke_C1_n200
+{
+  },
+  },
+ }
+}
+ "status": "termination_trigger",
+ "passed": false,
+  -> exit 1, wall 3 s
+$ --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_3.json --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_4.json --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_2.json --fallback F1 --output $SCRATCH/final_fix/DRYRUN_cli_flow smoke --row0 $SCRATCH/final_fix/DRYRUN_cli_flow/20261014T042852.768896Z_relax_C1_n200/row0_6000rsun.npz
+$SCRATCH/final_fix/DRYRUN_cli_flow/20261014T042939.196813Z_smoke_C1_n200
+{
+ ],
+  },
+  },
+ }
+}
+ "status": "termination_trigger",
+ "passed": false,
+  -> exit 1, wall 2 s
+$ --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_3.json --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_4.json --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_2.json --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_1.json --output $SCRATCH/final_fix/DRYRUN_cli_flow smoke --row0 $SCRATCH/final_fix/DRYRUN_cli_flow/20261014T042852.768896Z_relax_C1_n200/row0_6000rsun.npz
+Refusing to run: $SCRATCH/final_fix/DRYRUN_cli_flow/20261014T042852.768896Z_relax_C1_n200/row0_6000rsun.npz is not a t = 0 row-0 model of C1 (relax --run C1): $SCRATCH/final_fix/DRYRUN_cli_flow/20261014T042852.768896Z_relax_C1_n200/row0_6000rsun.npz: not a t = 0 model with this run's zone count and row-0 configuration
+  -> exit 1, wall 1 s
+$ --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_3.json --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_4.json --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_2.json --output $SCRATCH/final_fix/DRYRUN_cli_flow smoke --row0 $SCRATCH/final_fix/DRYRUN_cli_flow/20261014T042852.768896Z_relax_C1_n200/row0_3464rsun.npz
+Refusing to run: $SCRATCH/final_fix/DRYRUN_cli_flow/20261014T042852.768896Z_relax_C1_n200/row0_3464rsun.npz is not a t = 0 row-0 model of C1 (relax --run C1): $SCRATCH/final_fix/DRYRUN_cli_flow/20261014T042852.768896Z_relax_C1_n200/row0_3464rsun.npz: its relax run names 'row0_6000rsun.npz' as the row-0 checkpoint
+  -> exit 1, wall 1 s
+$ --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_3.json --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_4.json --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_2.json --fallback F1 --output $SCRATCH/final_fix/DRYRUN_cli_flow relax --run C1
+usage: validate_ball_track.py [-h] [--plan PLAN] [--registration REGISTRATION]
+                              [--amendment AMENDMENT] [--fallback {F1}]
+                              [--library LIBRARY] [--mesa-dir MESA_DIR]
+                              [--output OUTPUT]
+                              {relax,smoke,track,campaign,compare} ...
+validate_ball_track.py: error: --fallback applies to smoke, track and campaign: the relaxation is the registered one (bondi_step mode relax never uses F1)
+  -> exit 2, wall 1 s
+$ --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_3.json --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_4.json --amendment $SCRATCH/final_fix/cli_amend/ball2011_track_plan_amendment_2.json --output $SCRATCH/final_fix/DRYRUN_cli_flow compare --run C0=$SCRATCH/final_fix/DRYRUN_cli_flow/20261014T042936.517441Z_smoke_C1_n200
+$SCRATCH/final_fix/DRYRUN_cli_flow/20261014T042943.721759Z_compare
+{
+}
+ "verdict": "FAIL",
+  -> exit 0, wall 0 s
+benchmarks/results unchanged

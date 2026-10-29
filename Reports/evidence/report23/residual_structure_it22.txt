@@ -1,0 +1,17 @@
+it22: LS residual 0.6777 (logged 0.6777); products 74
+  ultra     final share  0.429 initial share  0.204 reduced to 0.982
+  trace     final share  0.008 initial share  0.005 reduced to 0.913
+  sig pops  final share  0.013 initial share  0.488 reduced to 0.111
+  n_e       final share  0.002 initial share  0.003 reduced to 0.476
+  T         final share  0.548 initial share  0.299 reduced to 0.917
+  H (1-32)        final share  0.006
+  He I (33-101)   final share  0.010
+  He II (102-131) final share  0.365
+  He III (132)    final share  0.070
+  ne              final share  0.002
+  T               final share  0.548
+  top depths (1-based, share): [(33, 0.288), (34, 0.234), (35, 0.22), (36, 0.137), (37, 0.054), (38, 0.032), (32, 0.008), (9, 0.003), (31, 0.003), (39, 0.002)]
+  step s_T d28-48: [-0.    -0.001 -0.005 -0.017 -0.018  0.002  0.004  0.003 -0.012 -0.011
+ -0.    -0.009 -0.005 -0.002 -0.001 -0.    -0.    -0.    -0.    -0.
+ -0.   ]
+  front T row (d28-42) alone reducible to 0.000

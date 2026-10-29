@@ -1,0 +1,16 @@
+{
+ "base_release": "build_23",
+ "build": "build_24",
+ "files": [
+  "new_main/qs_jv.f90"
+ ],
+ "source_hashes": {
+  "new_main/qs_jv.f90": {
+   "base": "3a6f5e4bdfccf7dbc4da731bc856660cf0dae8db5f5d3f36994cc65028ab20ae",
+   "patched": "8a210f413aa6f5cd0984fec25e9494054e78b9ca764214a3fc7791ae25c34fd9"
+  }
+ },
+ "patch_file": "jv_dirs_omp.patch",
+ "patch_sha256": "18cf5f2be7693bf39670955f9f65c7afc5ac82b87b8df8b1e34237186c808c69",
+ "scope": "Direction loop of QS_JV_FREQ parallel only when the number of directions is at least the thread count. Build 22 made lin_apply ray-parallel only outside an active parallel region, but the direction loop always opened one (even for a single direction), so single-direction products ran serially. Arithmetic identical except the order of the ray reduction."
+}

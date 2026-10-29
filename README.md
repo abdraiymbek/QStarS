@@ -12,6 +12,67 @@ photospheres, moving cavities, and coupled transonic winds remain open validatio
 Fiacconi–Rossi stationary wind solver now includes radiation enthalpy advection.
 These examples do not establish quasi-star lifetimes or QSRD recovery results.
 
+[Report 24](Reports/Report_24.md) re-examines the stalled stage-1 (fixed-T) closure. **Still not converged; no gate
+changes; not v1.** The solves of Report 23 broke exact conservation: the per-component step limiter clips populations
+separately, so hydrogen, helium and charge conservation drifted (He up to 8×, charge up to 34×) and the converged deep
+interior was damaged while the hydrogen fronts improved. The least squares used deep-layer directions through their
+far-field action at the hydrogen front, which the nearly singular local-ALI blocks amplify, and moved T in the fixed-T
+stage. Full trial steps failed natively because they made supercritical infrared masers (Λ spectral radius 1.06), not
+because of the transfer solver. New: `--conserve` (trial states projected onto the constraints), `--pc-svd-floor`,
+`--freeze-t`, and CMFGEN build 36 (Newton solve of the scattering fixed point where the local ALI stalls).
+With them the stage-1 solve, restarted from its first accepted state, keeps conservation to 1e-15 and accepted three
+full Newton steps (fixed-measure residual 224 → 128). At the fourth, full steps again made supercritical masers and the
+solve stalled near 128. A second, row-scaled measure is not monotone, and each step degrades the deep interior. The narrowest remaining
+blocker is the ill-conditioned hydrogen ionization front, through which the least squares fits the front with
+deep-layer directions.
+
+[Report 23](Reports/Report_23.md) is the requested v1 closure run. **Released cool closure NOT CONVERGED; Gates 1–5 not
+reached; Gate 6 (Ball et al. 2011 track) FAIL; not v1.** The closure's non-convergence is numerical, not a missing
+equilibrium. The solver measured progress with fixed-J Jacobian blocks, which hide the error of every optically thick
+transition (H I n = 1–9, He I and He II resonance levels), and every single-iteration pass ran CMFGEN's `OLD_DEFAULT`
+two-photon approximation, three quarters of the radiative-equilibrium row at the H I front. The temperature continuation
+of Reports 21–22 therefore heated the cool layer by 3–6 kK while its ionization stayed ten orders of magnitude from
+Saha. Build 32 restores the intended two-photon physics; build 33 makes a local-ALI preconditioner for every column
+affordable (17.8× fewer instructions, identical output); with them a fixed-T solve reduces the statistical-equilibrium
+measure 3× in two iterates. Build 34 corrects the temperature column of the exact action (free-free Gaunt factor);
+on it the solves accept full Newton steps and halve the residual, then stall where the local-ALI preconditioner is
+nearly singular at the ionization fronts. No closure has converged. The registered Ball et al. 2011 replication evolves
+conservatively for 1 255 steps to M_BH = 46 M☉, where its smoke gate is a recorded numerical blocker in the
+super-Eddington outer hydrogen opacity peak; its required check Q2 fails at row 0.
+
+[Report 22](Reports/Report_22.md) profiles and speeds up the 167-radius cool-closure solve
+without changing the model, the products (≤ 1e-12 per row) or the convergence test. CMFGEN builds
+29–31 skip the observer-frame formal solution in solver passes, share one explicit scattering
+operator per frequency across tangent directions, and batch the direction sweeps. Base passes are
+2.5× faster, Jv products 1.9×, column passes 3.4×. Measured on the same state, the stalled Krylov
+residual is a weighting conflict with ultra-trace He levels, not a missing T subspace. With the
+user's approval, the resumed solve uses ultra-trace weight 1e-10 (26 instead of 74 products per
+iterate). **Released cool closure NOT CONVERGED; not v1.**
+
+[Report 21](Reports/Report_21.md) records **RE-ROW JACOBIAN AND INC_AD/INC_ADV PASS;
+released cool closure NOT CONVERGED; not v1**. Level-dissolution derivatives complete the
+radiative-equilibrium row of the exact Jacobian action, which now matches the T-released oracle
+at its consistency in every direction. Adiabatic cooling and advection are restored and
+validated. CMFGEN build 28 fixes a nested-OpenMP deadlock in the threaded tangent. T continuation
+reaches the full residual at 84 and 167 radii. There, free Newton drives the H I front layer
+toward T → 0 on both grids, as the measured coupled response predicts. Pseudo-transient
+continuation heats it, but the iterates are still far from statistical equilibrium and have not
+converged. No audit,
+resolution pair, wind or evolution result is claimed. **111 tests pass, 23 optional integration
+tests skip.**
+
+[Report 20](Reports/Report_20.md) records **JACOBIAN PASS (RE row conditional);
+released cool closure NOT CONVERGED**. The analytic transfer tangent now drives the
+exact Jacobian action of CMFGEN's cool population/rate/RE residual. It matches
+exact-residual oracles at their noise floor on the real 84-radius state, after
+completing the native fixed-J blocks, which omit level-dissolution dependences. A
+Newton–Krylov solve reduces the fixed-temperature closure to a 1.4e-3 frozen-J
+correction. With temperature truly released (a single-iteration CMFGEN restart had
+silently kept T fixed), the 84-radius solve does not converge. The evidence is
+consistent with an unresolved cool-layer ionization front between grid points. No audit, resolution pair, wind or
+evolution result is claimed. **109 tests pass, 23 optional integration tests skip**
+(compiled MESA/FreeEOS libraries not configured; native tangent tests run).
+
 [Report 19](Reports/Report_19.md) records **TRANSFER COMPONENT PASS; cool closure
 still blocked**. An analytic formal-transfer tangent carries radiation changes
 across depth and frequency and passes the 1e-6 fixture target, including coherent
@@ -126,9 +187,15 @@ from pending evolution comparisons.
 The solver initializes discrete hydrostatic structure and retains radial inertia
 during evolution. A coupled nonlinear solve advances momentum and the first law
 with finite heat storage. Runs stop outside their subsonic validity domain.
-Engine choices are `bra2008`, `ball2011_printed`, `quest2025_eq11`, `prescribed`,
-and `off`. Evolution currently supports **fixed excision only**. Corrected Bondi
-and saturated-convection models are separate static reference solvers.
+Engine choices are `bra2008`, `ball2011_printed`, `quest2025_eq11` (also named
+`ball2012_eq3_15`), `prescribed`, and `off`. This evolution supports **fixed
+excision only**. The moving Bondi cavity exists only on the separate
+quasi-static path (`numerics.mechanics: quasi_static`, see
+[usage](docs/usage.md)). Its registered Ball et al. 2011 replication (Report 23)
+relaxes a unique row 0 at three resolutions under four registered amendments, then
+its smoke gate stops at M_BH = 46 M☉ (a recorded numerical blocker in the outer
+hydrogen opacity peak); no complete track or campaign exists. Corrected Bondi and
+saturated-convection models are separate static reference solvers.
 
 The `exploratory`, `research`, and `validation` presets change numerical
 defaults in one engine. Their names do not certify scientific validity.

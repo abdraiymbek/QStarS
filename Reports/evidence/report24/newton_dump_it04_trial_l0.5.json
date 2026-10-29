@@ -1,0 +1,60 @@
+[
+ {
+  "freq_index": 35609,
+  "nu_1e15Hz": 0.028547504962589603,
+  "rho": 1.063356183947622,
+  "rho_real": 1.063356183947622,
+  "perron_support_depths": [
+   62,
+   63,
+   64,
+   65,
+   66
+  ],
+  "min_A": -0.1710078910190611,
+  "depths_scat_gt_chi": [
+   60,
+   62,
+   64
+  ],
+  "max_scat_over_chi": 2.4892526418430108,
+  "min_Jstar_over_J": -0.0018596090886872016,
+  "depths_Jstar_negative": [
+   61,
+   62,
+   63,
+   64,
+   65,
+   66,
+   67
+  ],
+  "fixed_point_residual_at_start": 0.16691061285689499
+ },
+ {
+  "freq_index": 35713,
+  "nu_1e15Hz": 0.02774885816871581,
+  "rho": 1.0579234797612729,
+  "rho_real": 1.0579234797612729,
+  "perron_support_depths": [
+   59,
+   60,
+   61
+  ],
+  "min_A": -0.00016650071138455465,
+  "depths_scat_gt_chi": [
+   60,
+   64
+  ],
+  "max_scat_over_chi": 2.7980707004471763,
+  "min_Jstar_over_J": -1.9427610282404402,
+  "depths_Jstar_negative": [
+   57,
+   58,
+   59,
+   60,
+   61,
+   62
+  ],
+  "fixed_point_residual_at_start": 0.14575461183447636
+ }
+]

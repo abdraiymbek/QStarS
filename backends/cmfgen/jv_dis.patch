@@ -1,0 +1,246 @@
+--- a/cur_cmf/new_main/qs_jv.f90	2026-10-01 23:25:38
++++ b/cur_cmf/new_main/qs_jv.f90	2026-10-03 20:58:38
+@@ -31,6 +31,12 @@
+ real(kind=ldp) :: st_closure=0,st_replay=0,st_maxdj=0,st_lincheck=0,st_closure_fl=0
+ integer :: st_products=0,st_maxprod=0,st_nfreq=0,st_negfloor=0
+ logical :: jv_dual=.false.,jv_checklin=.false.
++! Build 25: level-dissolution derivatives of the bound-free opacity/emissivity (occupation
++! probabilities W in the LTE populations and the dissolved fraction below each edge), which
++! the native VCHI/VETA hold constant. dis_l*: d ln(B,A,X)_LEV_DIS per depth and direction.
++logical :: jv_dis=.true.,dis_valid=.false.
++real(kind=ldp),allocatable :: dis_lb(:,:),dis_la(:,:),dis_lx(:,:),dchidis(:,:),detadis(:,:)
++real(kind=ldp) :: st_dis_wdiff=0,st_dis_rel=0
+ end module qs_jv_state
+ 
+ ! Read directions; allocate accumulators. Called once before the frequency loop.
+@@ -82,6 +88,7 @@
+ do k=1,nv
+  dpop(:,:,k)=pops*sdir(:,:,k)
+ enddo
++call qs_jv_dis_begin(pops,nt,nd)
+ nsim=size(znet_sim,2);jv_maxsim=nsim;jv_ntwo=max(n_two,1)
+ allocate(djrec(nd,nv),djphot(nd,nv),dsteq_t(nd,nv),dznet(nd,nsim,nv))
+ allocate(ddown(nd,jv_ntwo,nv),dup2(nd,jv_ntwo,nv),dfull(nt,nd,nv))
+@@ -117,9 +124,177 @@
+ close(lu)
+ end subroutine qs_jv_begin
+ 
++! Build 25: per-direction log-perturbations of the dissolution parameters of COMP_LEV_DIS_BLK,
++!   B = (8.589e14*POPION**0.333333/ED)**1.5, A = 0.0009*ED**0.1667/SQRT(T), X = (1+A)**3.15,
++! differentiated as written. POPION sums the rows with Z_POP > 0.01 (SET_Z_POP convention).
++subroutine qs_jv_dis_begin(pops,nt,nd)
++use set_kind_module
++use qs_jv_state
++use mod_cmfgen, only: atm,num_ions
++use mod_lev_dis_blk, only: a_lev_dis,mod_do_lev_dis
++implicit none
++integer,intent(in)::nt,nd
++real(kind=ldp),intent(in)::pops(nt,nd)
++real(kind=ldp)::zp(nt),popion,dpi,dlne,dlnt
++integer::id,k,l,ios,plen
++character(len=16)::buf
++logical,allocatable::ionrow(:)
++call get_environment_variable('QSTARS_JV_NODIS',buf,length=plen,status=ios)
++jv_dis=.not.((ios==0.or.ios==-1).and.plen>0)
++if(allocated(dis_lb))deallocate(dis_lb,dis_la,dis_lx,dchidis,detadis)
++allocate(dis_lb(nd,nv),dis_la(nd,nv),dis_lx(nd,nv),dchidis(nd,nv),detadis(nd,nv))
++dis_lb=0;dis_la=0;dis_lx=0;dchidis=0;detadis=0;dis_valid=.false.
++st_dis_wdiff=0;st_dis_rel=0
++if(.not.mod_do_lev_dis)jv_dis=.false.
++if(.not.jv_dis)return
++zp=0
++do id=1,num_ions-1
++ if(.not.atm(id)%xzv_pres)cycle
++ zp(atm(id)%eqxzv:atm(id)%eqxzv+atm(id)%nxzv-1)=atm(id)%zxzv-1
++ zp(atm(id)%eqxzv+atm(id)%nxzv)=atm(id)%zxzv
++enddo
++allocate(ionrow(nt))
++ionrow=zp>0.01_ldp
++do k=1,nv
++ do l=1,nd
++  popion=sum(pops(:,l),mask=ionrow)
++  dpi=sum(dpop(:,l,k),mask=ionrow)
++  dlne=dpop(nt-1,l,k)/pops(nt-1,l)
++  dlnt=dpop(nt,l,k)/pops(nt,l)
++  dis_lb(l,k)=1.5_ldp*(0.333333_ldp*dpi/popion-dlne)
++  dis_la(l,k)=0.1667_ldp*dlne-0.5_ldp*dlnt
++  dis_lx(l,k)=3.15_ldp*a_lev_dis(l)/(1.0_ldp+a_lev_dis(l))*dis_la(l,k)
++ enddo
++enddo
++end subroutine qs_jv_dis_begin
++
++! Build 25: directional change of the bound-free opacity/emissivity through level dissolution
++! at the continuum evaluation frequency NU (= CONT_FREQ), replicating GENOPAETA_V10:
++!  nu >= edge : CHI += a*(HN - T1), ETA += 2hnu^3/c^2*a*T1, T1 = exp(LOG_COR_FAC+LOG_HNST)
++!  nu <  edge : (route 1, DIS_CONST >= 0, T2 > PHOT_DIS_PARAMETER)
++!               CHI += a*T2*(HN - T1'), ETA += 2hnu^3/c^2*a*T2*T1', T1' = exp(LOG_HNST - h nu/kT)
++! LOG_HNST = log(W*g) + Saha (LTEPOP_WLD_V2), W from OCCUPATION_PROB: W = F/(1+F),
++! F = Y*beta^2/(7.782 + X*beta), beta = K_level*B, Y = 1.091*(X + 4*(Z-1)*A); the dissolved
++! fraction T2 = 1/(1+Fc) with beta = DIS_CONST*B. The native VCHI/VETA contain every other
++! dependence (populations, n_e and T through the Saha factor) with W and T2 fixed; only
++! dW and dT2 are added here.
++subroutine qs_jv_dis_freq(nu)
++use set_kind_module
++use qs_jv_state
++use mod_lev_dis_blk, only: b_lev_dis,a_lev_dis,x_lev_dis,mod_do_lev_dis,phot_dis_parameter
++use mod_cmfgen, only: atm,num_ions,t
++implicit none
++real(kind=ldp),intent(in)::nu
++real(kind=ldp)::chibf,chiff,hdkt,twohcsq
++common /constants/ chibf,chiff,hdkt,twohcsq
++real(kind=ldp),allocatable::alpha(:)
++real(kind=ldp)::lcf(jv_nd),zion,teta1,tw,neff,rk,beta,y,f,w,q,cy_a,cy_x,cb,ca,cx,dlnw,t1v,t1p
++real(kind=ldp)::t1k,disc,fc,t2,dt2,cbc,cac,cxc,emin,hn,a4,cw_b,cw_a,cw_x
++integer::id,j,i,l,k,n,ion_lev,nd
++logical::wvar
++nd=jv_nd
++dchidis=0;detadis=0
++dis_valid=.true.
++if(.not.mod_do_lev_dis)return
++teta1=twohcsq*nu**3
++do id=1,num_ions-1
++ if(.not.atm(id)%xzv_pres)cycle
++ zion=atm(id)%zxzv
++ if(zion<=0.0_ldp)cycle
++ n=atm(id)%nxzv_f
++ if(allocated(alpha))deallocate(alpha)
++ allocate(alpha(n))
++ do j=1,atm(id)%n_xzv_phot
++  alpha=0
++  call sub_phot_gen(id,alpha,nu,atm(id)%edgexzv_f,n,j,j==1)
++  if(count(alpha>0.0_ldp)==0)cycle
++  ion_lev=atm(id)%xzv_ion_lev_id(j)
++  emin=minval(atm(id)%edgexzv_f(1:n))
++  lcf=0
++  if(nu>=emin)then
++   do l=1,nd
++    lcf(l)=log(atm(id+1)%xzv(ion_lev,l)/atm(id+1)%xzv(1,l))+atm(id+1)%log_xzvlte(1,l)-&
++           atm(id+1)%log_xzvlte(ion_lev,l)-hdkt*nu/t(l)
++   enddo
++  endif
++  do i=1,n
++   if(alpha(i)==0.0_ldp)cycle
++   ! occupation-probability constant of the level (OCCUPATION_PROB)
++   tw=3.289395_ldp*zion*zion/atm(id)%edgexzv_f(i)
++   neff=0.0_ldp
++   if(tw>0.0_ldp.and.tw<961.0_ldp)neff=sqrt(tw)
++   wvar=neff>2.01_ldp*zion
++   rk=0
++   if(wvar)then
++    rk=16.0_ldp*neff/(1+neff)/(1+neff)/3.0_ldp
++    if(neff<=3.0_ldp)rk=1.0_ldp
++    rk=(rk/zion*(zion/neff)**4)**1.5_ldp
++   endif
++   ! dissolution constant below the edge (GENOPAETA, route 1 only)
++   disc=-1.0_ldp
++   if(j==1.and.nu<atm(id)%edgexzv_f(i))then
++    neff=sqrt(3.289395_ldp*zion*zion/(atm(id)%edgexzv_f(i)-nu))
++    if(neff>2*zion)then
++     t1k=min(1.0_ldp,16.0_ldp*neff/(1+neff)/(1+neff)/3.0_ldp)
++     disc=(t1k*zion**3/(neff**4))**1.5_ldp
++    endif
++   endif
++   if(nu<atm(id)%edgexzv_f(i).and.disc<0.0_ldp)cycle
++   do l=1,nd
++    a4=4.0_ldp*(zion-1.0_ldp)*a_lev_dis(l)
++    y=1.091_ldp*(x_lev_dis(l)+a4)
++    cy_x=x_lev_dis(l)/(x_lev_dis(l)+a4)
++    cy_a=a4/(x_lev_dis(l)+a4)
++    ! d ln W = cw_b dlnB + cw_a dlnA + cw_x dlnX
++    cw_b=0;cw_a=0;cw_x=0
++    if(wvar)then
++     beta=rk*b_lev_dis(l)
++     f=y*beta*beta/(7.782_ldp+x_lev_dis(l)*beta)
++     w=f/(1.0_ldp+f)
++     if(w<=0.99999999_ldp)then
++      st_dis_wdiff=max(st_dis_wdiff,abs(w-atm(id)%w_xzv_f(i,l)))
++      q=x_lev_dis(l)*beta/(7.782_ldp+x_lev_dis(l)*beta)
++      cw_b=(1.0_ldp-w)*(2.0_ldp-q)
++      cw_a=(1.0_ldp-w)*cy_a
++      cw_x=(1.0_ldp-w)*(cy_x-q)
++     endif
++    endif
++    hn=atm(id)%xzv_f(i,l)
++    if(nu>=atm(id)%edgexzv_f(i))then
++     if(cw_b==0.0_ldp.and.cw_a==0.0_ldp.and.cw_x==0.0_ldp)cycle
++     t1v=exp(lcf(l)+atm(id)%log_xzvlte_f(i,l))
++     do k=1,nv
++      dlnw=cw_b*dis_lb(l,k)+cw_a*dis_la(l,k)+cw_x*dis_lx(l,k)
++      dchidis(l,k)=dchidis(l,k)-alpha(i)*t1v*dlnw
++      detadis(l,k)=detadis(l,k)+teta1*alpha(i)*t1v*dlnw
++     enddo
++    else
++     beta=disc*b_lev_dis(l)
++     fc=y*beta*beta/(7.782_ldp+x_lev_dis(l)*beta)
++     t2=1.0_ldp/(1.0_ldp+fc)
++     if(t2<=phot_dis_parameter)cycle
++     q=x_lev_dis(l)*beta/(7.782_ldp+x_lev_dis(l)*beta)
++     cbc=-t2*(1.0_ldp-t2)*(2.0_ldp-q)
++     cac=-t2*(1.0_ldp-t2)*cy_a
++     cxc=-t2*(1.0_ldp-t2)*(cy_x-q)
++     t1p=exp(atm(id)%log_xzvlte_f(i,l)-hdkt*nu/t(l))
++     do k=1,nv
++      dt2=cbc*dis_lb(l,k)+cac*dis_la(l,k)+cxc*dis_lx(l,k)
++      dlnw=cw_b*dis_lb(l,k)+cw_a*dis_la(l,k)+cw_x*dis_lx(l,k)
++      dchidis(l,k)=dchidis(l,k)+alpha(i)*(dt2*(hn-t1p)-t2*t1p*dlnw)
++      detadis(l,k)=detadis(l,k)+teta1*alpha(i)*(dt2*t1p+t2*t1p*dlnw)
++     enddo
++    endif
++   enddo
++  enddo
++ enddo
++enddo
++if(allocated(alpha))deallocate(alpha)
++end subroutine qs_jv_dis_freq
++
+ ! Per-frequency directional products. Call after DO_VAR_CONT (VCHI/VETA valid),
+ ! and before UPDATE_BA_FOR_LINE (QFV_R/QFV_P still as set by EVALSE_QWVJ_V8).
+-subroutine qs_jv_freq(ml,fl,fqw,first_freq,new_cross,final_cross,nc,np,nd,nt)
++subroutine qs_jv_freq(ml,fl,fqw,first_freq,new_cross,final_cross,nc,np,nd,nt,cont_freq)
+ use set_kind_module
+ use qs_jv_state
+ use qs_formal_tangent, only: tangent_scattering
+@@ -142,7 +317,7 @@
+                         fs_rat_low,fs_rat_up,phot_oc_two,two_method
+ implicit none
+ integer,intent(in)::ml,nc,np,nd,nt
+-real(kind=ldp),intent(in)::fl,fqw
++real(kind=ldp),intent(in)::fl,fqw,cont_freq
+ logical,intent(in)::first_freq,new_cross,final_cross
+ real(kind=ldp)::chibf,chiff,hdkt,twohcsq
+ common /constants/ chibf,chiff,hdkt,twohcsq
+@@ -179,10 +354,15 @@
+ bnue=twohcsq*(fl**3)*em/den
+ dbdt=bnue*x/t(nd)/den
+ ! ---------------- phase 1: material directional changes (all directions) ----------
++if(jv_dis.and.(new_cross.or.first_freq.or..not.dis_valid))call qs_jv_dis_freq(cont_freq)
+ do k=1,nv
+  do l=1,nd
+   dchi_abs(l)=dot_product(vchi(1:nt,l),dpop(1:nt,l,k))
+   deta_c(l)=dot_product(veta(1:nt,l),dpop(1:nt,l,k))
++  if(jv_dis)then
++   dchi_abs(l)=dchi_abs(l)+dchidis(l,k)
++   deta_c(l)=deta_c(l)+detadis(l,k)
++  endif
+   desec(l)=esec(l)/ed(l)*dpop(nt-1,l,k)
+   dray(l)=0
+   if(atm(ihyd)%xzv_pres)then
+@@ -414,6 +594,7 @@
+ write(lu,'(A,I8,A,I4,A,ES12.4,A,ES12.4,A,I12,A,I6,A,ES12.4,A,I8,A,ES12.4,A,ES16.8)')'freqs',st_nfreq,' dirs',nv,&
+   ' max_tangent_closure',st_closure,' max_primal_replay_rel',st_replay,' scattering_products',st_products,&
+   ' max_products',st_maxprod,' max_rel_dJ',st_maxdj,' neg_floor_cells',st_negfloor,' lin_vs_dual',st_lincheck,' closure_freq',st_closure_fl
++write(lu,'(A,L2,A,ES12.4)')'dissolution_derivatives',jv_dis,' max|W_formula-W_native|',st_dis_wdiff
+ close(lu)
+ end subroutine qs_jv_two_post
+ 
+--- a/cur_cmf/new_main/cmfgen_sub.f	2026-10-01 18:18:51
++++ b/cur_cmf/new_main/cmfgen_sub.f	2026-10-03 20:58:48
+@@ -2613,7 +2613,7 @@
+ 	    CALL TUNE(ITWO,'C_VARCONT')
+ 	    CALL TUNE(IONE,'QS_JV')
+ 	    CALL QS_JV_FREQ(ML,FL,FQW(ML),FIRST_FREQ,COMPUTE_NEW_CROSS,
+-	1                   FINAL_CONSTANT_CROSS,NC,NP,ND,NT)
++	1                   FINAL_CONSTANT_CROSS,NC,NP,ND,NT,CONT_FREQ)
+ 	    CALL TUNE(ITWO,'QS_JV')
+ !
+ ! NB: VJ, VCHI, and VETA must not be modified until we have updated the

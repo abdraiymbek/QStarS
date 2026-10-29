@@ -1,0 +1,209 @@
+{
+  "label": "Final fix round of the Stage 7 unblock (2026-10-13 local / 2026-10-14 UTC): verification of the two adversarial reviews and the fixes applied. DRYRUN only: nothing was written under benchmarks/results (checked before/after: only the 2026-10-07 domain sweep and the three 2026-10-14 relax runs exist), no registered run was executed, nothing was committed; plan sha256 a10b4166...cc0e, both target CSVs, the registration record and benchmarks/ball2011_track.yaml unchanged. No row-0 observable was compared with Table 1 or thesis Table 3.1; the one CLI compare exercise had its cell entries redacted unread.",
+  "scratch": "/private/tmp/claude-501/-Users-abraiymbek-Projects-QStarS/508f230a-38f2-47d3-bc8d-313edee2339c/scratchpad/ball_unblock/final_fix/ (orig/: pre-round copies of every edited file; before_round/: pre-round source tree; DRYRUN_out/, DRYRUN_cli_flow/: run directories)",
+  "preserved_here": {
+    "scripts": "dryrun_scripts_final/",
+    "logs": "dryrun_logs_final/",
+    "first_review_evidence_cited_by_the_amendments": "review_evidence/"
+  },
+  "findings": [
+    {
+      "review": "plan compliance",
+      "severity": "blocker",
+      "finding": "photosphere.solve change default-on, no amendment, Amendment 3 depends on it",
+      "reproduced": "yes. Amendment 3 settings with the registered solve: relax C1, C0, C2 all relaxation_blocker (C1: 6000 converged 30/1, 3464 seed_failed false Gamma_ph >= 1, 8485 0/21; C0: 6000 0/21, every rejection 'P3 predictor left the model domain ... (Gamma_ph >= 1); no Ball surface exists'; C2: 6000 converged 37/8, 3464 seed_failed). dryrun_logs_final/log_relax_A3_registered_bracket.txt",
+      "disposition": "applied (Option A)",
+      "fix": "photosphere.solve(bracket='doubling'|'scan'); 'doubling' is the registered routine (photosphere._solve_doubling, AST-identical to the solve of the preserved 2026-10-14 source snapshot) and the default; 'scan' (the first round's routine, AST-identical) is the option quasistatic.photosphere_bracket, validated in config.py, passed by quasistatic.seed, Problem.initial and fold.Frozen, amendable (AMENDABLE quasistatic.photosphere_bracket), in the row-0 signature. New Amendment 4 draft turns it on; it must cite the registered relax runs with Amendment 3 alone.",
+      "check": "A3+A4 reproduces the first round's numbers to the printed digits: not_unique 0.015022035187080679 (N = 200), 0.0031408670416929875 (N = 400), 0.0006507662717030985 (N = 800); A3+A4+A2 C1 converged_unique 3.8686073649001614e-08; A3+A4+A2+A1 C1 5.4741322584484435e-11, C0 6.025979715036892e-11. dryrun_logs_final/log_relax_A3A4.txt, log_smoke_and_relax_A1.txt"
+    },
+    {
+      "review": "plan compliance",
+      "severity": "major",
+      "finding": "relax can lose relax.json",
+      "reproduced": "yes, with the pre-round tree: a KeyError inside quasistatic.relax escapes relax_seeds (test fails before with KeyError 'step_dt'), and a ValueError in save_profile of a converged seed escapes with no relax.json (dryrun_logs_final/log_repro_toy.txt).",
+      "disposition": "applied",
+      "fix": "relax_seeds: any unexpected exception of one seed (seed, relaxation, post-processing of a converged seed) is that seed's failure with error_stage and traceback, domain_exit False, never converged; the assembly is guarded (relaxation_blocker with driver_error) and relax.json is written in a finally block; an interrupt writes status control_stop and is re-raised. preserved_failure no longer counts control_stop (relax, smoke or track) as a failure, so an interrupted run cannot back an amendment.",
+      "tests": [
+        "tests/test_validate_ball_track.py::test_relaxation_errors_fail_the_seed_and_keep_the_record",
+        "tests/test_validate_ball_track.py::test_amendments_must_be_registered_and_cite_a_preserved_failing_run"
+      ]
+    },
+    {
+      "review": "plan compliance",
+      "severity": "minor",
+      "finding": "cells() passed False for an enforced-screen row turns an undefined exit into FAIL",
+      "reproduced": "yes (pre-round: verdict FAIL with convergence met; test fails before).",
+      "disposition": "applied",
+      "fix": "such cells get passed None (and strict_passed None) with not_evaluable naming the screen; verdict INCONCLUSIVE, never PASS.",
+      "tests": [
+        "tests/test_validate_ball_track.py::test_cells_of_a_row_outside_the_enforced_domain_never_pass"
+      ]
+    },
+    {
+      "review": "plan compliance",
+      "severity": "minor",
+      "finding": "row-0 exit label applied to nonfinite_state and to restart segments",
+      "reproduced": "yes (pre-round: nonfinite start row -> model_domain_exit of row 0; dryrun_logs_final/log_repro_toy.txt)",
+      "disposition": "applied",
+      "fix": "quasistatic.run: a nonfinite start state ends as numerical_failure (start_row_screen_errors kept, no step attempted); a restarted run's reason says 'restart row'; the driver labels numerical_failure, 'model_domain_exit at the restart row (enforced screen)' for a segment, and keeps 'model_domain_exit of row 0 (enforced screen)' for a track (endpoint INCONCLUSIVE).",
+      "tests": [
+        "tests/test_validate_ball_track.py::test_relax_and_track_paths_on_an_analytic_toy"
+      ]
+    },
+    {
+      "review": "plan compliance",
+      "severity": "minor",
+      "finding": "Amendment 3 draft text inaccurate (ordering claim, MESA test listed as fail-before, one-sided seeds undisclosed, early probe outputs not preserved)",
+      "reproduced": "yes: scratch times confirm the 6000 Rsun grey relaxation printed relaxed L*, R*, r0 at 21:11:52 and the appended radii were first built at 21:12:15-21:12:29; the MESA seed test was never run against the pre-change source; both converging seeds start above the relaxed radius; exp_seed.py, probe_seed.py and probe_ph*.py have no saved output.",
+      "disposition": "applied",
+      "fix": "A3 draft: changes[1].rule states the order of events and that the safeguard is the registered uniqueness test; tests_failed_before_pass_after lists the toy tests only, the MESA test moved to tests_asserting_the_registered_defect; seed_caveats (two seeds only, one-sided, narrow basin, untested configurations); photosphere.solve entry moved to Amendment 4; driver fixes listed as driver_fixes_in_force. The early probe outputs cannot be recovered; their scripts are in dryrun_scripts/."
+    },
+    {
+      "review": "plan compliance",
+      "severity": "minor",
+      "finding": "row0_record trusts any relax.json",
+      "reproduced": "yes (pre-round: a stray copy with only relax.json is accepted; test fails before).",
+      "disposition": "applied",
+      "fix": "row0_record requires run.json of kind relax; with provenance (smoke, track, campaign always pass it) plan_registration.json equal to the run's (plan and registration sha256), amendments.json sha256 equal to the applied amendments in order, and for registered output (parent under benchmarks/results) the relax directory under benchmarks/results/<date>-ball-track/. run.json records row0_relax (directory, relax.json sha256, checkpoint sha256). A fully forged directory under benchmarks/results is not detectable; the audit trail records what was used.",
+      "tests": [
+        "tests/test_validate_ball_track.py::test_relax_and_track_paths_on_an_analytic_toy"
+      ]
+    },
+    {
+      "review": "plan compliance",
+      "severity": "minor",
+      "finding": "F1 rescued step reports only the final Newton iterations",
+      "reproduced": "yes on MESA (first reviewer's rp_f1.py with the pre-round code: 'reported 1 (plain: 3)'); with the final code 8 = 3 + 4 + 1 and 12 = 4 + 7 + 1 (dryrun_logs_final/log_f1_mesa_final.txt); ptc off/on still bitwise equal where Newton converges.",
+      "disposition": "applied",
+      "fix": "Problem.solve: iterations = failed Newton + pseudo-time + final Newton, final_newton_iterations separately (history keeps the step diagnostics); Amendment 1 draft states F1 cannot act on a controller rejection and has no positive rescue on MESA.",
+      "tests": [
+        "tests/test_quasistatic.py::test_fallback_f1_ends_on_the_registered_equations_and_tolerance"
+      ]
+    },
+    {
+      "review": "plan compliance",
+      "severity": "minor",
+      "finding": "source consistency reported, not enforced",
+      "reproduced": "yes by reading (docstring 'Reported, not enforced'; verdict independent of it).",
+      "disposition": "applied",
+      "fix": "code_closure.json in every run directory (finish()): sha256 of the Ball import closure BALL_MODULES (24 qstars modules, from the sources as imported) and the qstars modules loaded outside it; the driver imports the closure up front (import_ball_modules) so every subcommand holds the same modules (fresh process: loaded_outside_closure [] in relax, smoke and compare processes). source_consistency establishes a run's code from closure digest, driver.py sha256, MESA library sha256, a verified snapshot and nothing loaded outside; compare requires one code for the convergence pairs, Richardson, restarts and the N = 400/800 fold agreement (else not met: INCONCLUSIVE), and C0 must share it with its row-0 relax run for any verdict but INCONCLUSIVE. The whole-package digest is reported only (other workflows edit modules outside the closure).",
+      "tests": [
+        "tests/test_validate_ball_track.py::test_source_consistency_is_enforced_between_compared_runs",
+        "tests/test_validate_ball_track.py::test_restart_check_and_compare_on_an_analytic_toy_run"
+      ]
+    },
+    {
+      "review": "plan compliance",
+      "severity": "minor",
+      "finding": "dry runs reveal immutable-check outcomes (Q2 FAIL, restart must_cross INCONCLUSIVE)",
+      "reproduced": "Q2 yes (below); must_cross: 0 rejections in 100 accepted steps at N = 200 and 400 in the final probes (dryrun_logs_final/log_probes.txt).",
+      "disposition": "no change (immutable sections); stated in the runbook as known outcomes."
+    },
+    {
+      "review": "MESA",
+      "severity": "major",
+      "finding": "Q2 fails at row 0 with certainty",
+      "reproduced": "yes: row-0 max outward relative density increase per cell pair 9.070e-3 (N = 200), 5.362e-3 (N = 400), 2.749e-3 (N = 800) against 1e-3, at T about 28 kK; a CLI compare of the dry-run smoke run as C0 returns FAIL from Q2 alone (Q2 passed False, endpoint INCONCLUSIVE).",
+      "disposition": "no change (qualitative_checks immutable); decision point for the main session."
+    },
+    {
+      "review": "MESA",
+      "severity": "major",
+      "finding": "row-0 Richardson error of R* at its limit",
+      "reproduced": "yes: N = 200/400/800 row-0 models (A3+A4+A2+A1): R* error 0.00991 (order 1.86) against 0.01; Teff 0.00515, r_B 0.00367, others <= 0.0012 (resolutions compared with each other only).",
+      "disposition": "no change; reported margin."
+    },
+    {
+      "review": "MESA",
+      "severity": "major",
+      "finding": "N = 800 Newton tolerance on the roundoff floor",
+      "reproduced": "yes on the final code: 60-step probe at N = 800, 5 of 65 attempts rejected, all Newton failures with final residuals 1.03e-12 to 1.91e-12; accepted residual median 7.6e-13 (N = 200: 1.5e-13, N = 400: 3.8e-13).",
+      "disposition": "no change to tolerances; rejection_causes (events.jsonl) now counts them per run in track.json, smoke.json and campaign.json (newton_failures_at_tolerance_floor).",
+      "tests": [
+        "tests/test_validate_ball_track.py::test_rejection_causes_are_counted_from_the_events"
+      ]
+    },
+    {
+      "review": "MESA",
+      "severity": "major",
+      "finding": "narrow relaxation basin, no spare seed",
+      "reproduced": "by the second reviewer's preserved logs (scratch review_mesa/DRYRUN_perturb_*): 2800-6000 Rsun converge, 6600-8000 Rsun and +-5% temperature get no accepted step; 4500 Rsun fails with Amendment 1. Not rerun.",
+      "disposition": "documented in Amendment 3 seed_caveats; no radius added."
+    },
+    {
+      "review": "MESA",
+      "severity": "minor",
+      "finding": "F1 rescues nothing on MESA",
+      "reproduced": "registered smoke identical with and without F1 (4 controller-metric rejections, profile_dlnr); the four failing-Newton steps of the reviewer were not rerun.",
+      "disposition": "documented in Amendment 1."
+    },
+    {
+      "review": "MESA",
+      "severity": "minor",
+      "finding": "per-step wall time about twice the first round's",
+      "reproduced": "yes: 0.21 s (N = 200), 0.41 s (N = 400), 1.12 s (N = 800) per accepted step at load 8-9, single thread, nice 15.",
+      "disposition": "runbook estimates use the second reviewer's and these figures."
+    },
+    {
+      "review": "MESA",
+      "severity": "minor",
+      "finding": "deep Knudsen screen 6% margin",
+      "reproduced": "yes: maximum 0.0952, 0.0954, 0.0955 at N = 200, 400, 800 over the probes.",
+      "disposition": "no change (replication_mode immutable); runbook stop condition."
+    },
+    {
+      "review": "MESA",
+      "severity": "minor",
+      "finding": "ValueError instead of DomainError for a guess outside the microphysics domain",
+      "reproduced": "by construction: the first evaluation at the guess raises the EOS ValueError under either bracket rule (test asserts it).",
+      "disposition": "rejected: no registered caller passes a guess (seed, predictor and fold use the default 1e-12, inside the domain for every seed and state met); the failure is labelled numerical, never physical, which is the conservative direction; changing it would add behaviour without a failing run."
+    },
+    {
+      "review": "MESA",
+      "severity": "minor",
+      "finding": "per-step energy budget does not police solver accuracy",
+      "reproduced": "not rerun (second reviewer's measurement).",
+      "disposition": "no change; noted for C5 in the runbook."
+    }
+  ],
+  "dry_runs": {
+    "amendment_3_alone_registered_bracket": {
+      "C1": "relaxation_blocker, 11.1 s",
+      "C0": "relaxation_blocker, 6.5 s",
+      "C2": "relaxation_blocker, 82.6 s"
+    },
+    "amendments_3_4": {
+      "C1": "not_unique 0.015022035187080679, 18.2 s",
+      "C0": "not_unique 0.0031408670416929875, 38.4 s",
+      "C2": "not_unique 0.0006507662717030985, 196.2 s"
+    },
+    "amendments_3_4_2": {
+      "C1": "converged_unique 3.8686073649001614e-08 (94/1 and 100/1 steps, 18 and 19 cycles), 41.8-43.4 s"
+    },
+    "registered_smoke_from_A3_A4_A2_row0": "termination_trigger at step 0 (dt 0.0625 < t_dyn 0.0913 yr), 4 of 4 attempts rejected by profile_dlnr, passed false, 2.4 s; with --fallback F1 identical, 2.6 s; code_closure loaded_outside_closure []",
+    "fold_classify_on_the_smoke_end_state": "numerical_failure (no fold within the search range), 16.1 s",
+    "amendments_3_4_2_1": {
+      "C1": "converged_unique 5.4741322584484435e-11 (215/1 and 220/7, 7 cycles)",
+      "C0": "converged_unique 6.025979715036892e-11 (82/3 and 82/2, 5 cycles), 93.1 s"
+    },
+    "cli_flow": "dryrun_logs_final/log_cli_flow.txt: with scratch amendment copies (not registrations) and --output in scratch: A3 relax C1 exit 1 relaxation_blocker 17 s; A3 A4 exit 1 not_unique 24 s; A3 A4 A2 exit 0 converged_unique 44 s; smoke exit 1 3 s; --fallback F1 smoke exit 1 2 s; smoke with A1 flags from the A3 A4 A2 row 0 refused (signature); smoke from the second seed refused (not designated); --fallback F1 relax refused (exit 2); compare ran (verdict FAIL from Q2 at row 0); benchmarks/results unchanged.",
+    "probes": "dryrun_logs_final/log_probes.txt (quasistatic.run, stop_after_steps): N = 200 100 steps 0 rejections 0.212 s/step median dt 46.8 yr; N = 400 100 steps 0 rejections 0.414 s/step median dt 46.8 yr; N = 800 60 steps 5 rejections (tolerance floor) 1.123 s/step median dt 33.4 yr (row 0 from the second reviewer's A3+A2+A1 C2 relax).",
+    "golden_outputs": "scripts/golden_outputs.py, pre-round tree vs current: 96 files, 0 differences",
+    "fail_before": "dryrun_logs_final/log_before_round_check.txt: the 15 new or changed tests fail against the pre-round tree, each at the defect it tests.",
+    "registered_default_unchanged": "Final code, registered numerics, C1 (DRYRUN, 3.4 s): relaxation_blocker; relax.json seed reasons, the 6000 Rsun rejection log (21 records) and every state array of relaxed_6000rsun.npz equal the preserved 2026-10-14 C1 run exactly (the resolved configuration differs only by the new default keys quasistatic.ptc false, quasistatic.photosphere_bracket 'doubling' and replication.seed_surface 'eos'). Reports/evidence/report23/ball/dryrun_logs_final/log_relax_registered_C1.txt"
+  },
+  "approaches_tried_and_rejected": [
+    "Keeping the bracket scan unconditional and documenting it (first reviewer's Option B): rejected, it breaks the rule that every change of numerical method is an option off unless a registered amendment turns it on.",
+    "Folding the bracket option into Amendment 3: rejected, the 2026-10-14 runs do not show the solve defect, and the amendment rule needs a preserved failing run that does; only a registered relax with Amendment 3 alone can show it, so it is a separate Amendment 4.",
+    "Source consistency from the whole-package digest: rejected, the package holds modules a Ball run never imports (evolution.py and plotting.py, outside the closure, were edited on 2026-10-13 while this work was going on), which would make a campaign INCONCLUSIVE for unrelated edits. An edit to a closure module (io.py is one) does change the closure digest, as it should.",
+    "Closure digest over the qstars modules present in sys.modules at the end of each process: rejected, relax and track processes load different subsets (fold only in track), so equal code would give different digests; replaced by the fixed BALL_MODULES list, imported up front, with a self-check of modules loaded outside it.",
+    "Leaving relax.json unwritten on an interrupt (pre-round behaviour): rejected, the directory would have no record; it is written as control_stop and preserved_failure refuses control_stop as evidence.",
+    "A first ff_relax.py labelled the run kind 'DRYRUN_relax_...': the new row-0 provenance check refused its row 0 for smoke ('no run.json of kind relax'), as it should; rerun with kind relax under a DRYRUN parent."
+  ],
+  "tests": {
+    "targeted_without_mesa": "tests/test_quasistatic.py, test_photosphere.py, test_validate_ball_track.py, test_ball_integration.py, test_ball_restart.py, test_fold.py: 106 passed, 3 skipped",
+    "targeted_with_mesa_abi7": "same six files with QSTARS_MESA_LIBRARY=backends/mesa/build_ball_abi7/libqstars_mesa.dylib and MESA_DIR from its build.json: 109 passed",
+    "full_suite_once": "324 passed, 37 skipped (192.9 s; -x, no MESA env)",
+    "golden_outputs": "96 files, 0 differences (pre-round tree vs current)"
+  }
+}

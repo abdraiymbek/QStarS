@@ -1,0 +1,703 @@
+[
+ {
+  "it": 0,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/start_base",
+  "merit": 0.23931992978251673,
+  "max_frozen_correction": 0.9781742230973366,
+  "resid_norm": 1610038183041.5588,
+  "gmres": [
+   1.0,
+   0.045349289094621284
+  ],
+  "products": 1,
+  "max_step": 0.1509393135969015,
+  "max_step_significant": 0.1509393135969015,
+  "lam": 0.0,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.015503233725847953,
+   "l0.5": 0.11587264099121268,
+   "l0.25": 0.17855388980300266
+  },
+  "accepted": "l1",
+  "merit_new": 0.015503233725847953,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 1,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it01_trial_l1",
+  "merit": 0.06925171858987841,
+  "max_frozen_correction": 0.9771947847252676,
+  "resid_norm": 714504246923.4172,
+  "gmres": [
+   1.0,
+   0.48005922294189957,
+   0.4726857809318496,
+   0.45599874550803754,
+   0.4471630816554401
+  ],
+  "products": 4,
+  "max_step": 0.019714833643240413,
+  "max_step_significant": 0.019714833643240413,
+  "lam": 0.0,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.00015646477456816678,
+   "l0.5": 0.034594473179226266,
+   "l0.25": 0.05193094267207942
+  },
+  "accepted": "l1",
+  "merit_new": 0.00015646477456816678,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 2,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it02_trial_l1",
+  "merit": 0.18212010910405935,
+  "max_frozen_correction": 0.9772399325209574,
+  "resid_norm": 186654368822.57632,
+  "gmres": [
+   1.0,
+   0.9950625100006627,
+   0.9751132590553518,
+   0.9375243079238095,
+   0.8879072390047443
+  ],
+  "products": 4,
+  "max_step": 0.055229953492150166,
+  "max_step_significant": 0.055229953492150166,
+  "lam": 0.0,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.008153295519453747,
+   "l0.5": 0.08905610734930576,
+   "l0.25": 0.13609000597134358
+  },
+  "accepted": "l1",
+  "merit_new": 0.008153295519453747,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 3,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it03_trial_l1",
+  "merit": 0.4007285929255906,
+  "max_frozen_correction": 0.9771975564013831,
+  "resid_norm": 12595897073.797289,
+  "gmres": [
+   1.0,
+   0.9768728382283063,
+   0.9640959629485728,
+   0.9153039350681029,
+   0.7547806031425683
+  ],
+  "products": 4,
+  "max_step": 0.12526490173521837,
+  "max_step_significant": 0.12526490173521837,
+  "lam": 0.0,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.06670919425863411,
+   "l0.5": 0.18432036880824823,
+   "l0.25": 0.2965513998230124
+  },
+  "accepted": "l1",
+  "merit_new": 0.06670919425863411,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 4,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it04_trial_l1",
+  "merit": 0.2877334725160562,
+  "max_frozen_correction": 0.9771435210182706,
+  "resid_norm": 116598113623.05307,
+  "gmres": [
+   1.0,
+   0.5399994639945966,
+   0.4519741002435944,
+   0.4008291631904291,
+   0.38289185306936857
+  ],
+  "products": 4,
+  "max_step": 0.09089341827819211,
+  "max_step_significant": 0.09089341827819211,
+  "lam": 0.25,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.07069743619887366,
+   "l0.5": 0.12805938924613772,
+   "l0.25": 0.2119331726439777
+  },
+  "accepted": "l1",
+  "merit_new": 0.07069743619887366,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 5,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it05_trial_l1",
+  "merit": 8.465484906398695,
+  "max_frozen_correction": 2.6693315703220346,
+  "resid_norm": 5963167308.177942,
+  "gmres": [
+   1.0,
+   0.9462434946333684,
+   0.92531045048438,
+   0.8171829336008065,
+   0.8079119179750168
+  ],
+  "products": 4,
+  "max_step": 2.4993897926248683,
+  "max_step_significant": 2.4993897926248683,
+  "lam": 0.0,
+  "lm_trust": 0.5,
+  "lm": {
+   "r0.5": {
+    "mu": 1.2109792942462403,
+    "predicted_merit": 7.786965072039294,
+    "max_sT": 0.4999999999999989,
+    "max_s": 0.4999999999999989
+   },
+   "r0.25": {
+    "mu": 3.0339556454582217,
+    "predicted_merit": 8.14742936262249,
+    "max_sT": 0.24999999999999967,
+    "max_s": 0.24999999999999967
+   },
+   "r0.125": {
+    "mu": 7.1655400156347495,
+    "predicted_merit": 8.318062192967535,
+    "max_sT": 0.12499999999999989,
+    "max_s": 0.12499999999999989
+   }
+  },
+  "limited_components": 0,
+  "trials": {
+   "r0.5": 7.523363016563967,
+   "r0.25": 8.129389615248952,
+   "r0.125": 8.313116770467166
+  },
+  "accepted": "r0.5",
+  "merit_new": 7.523363016563967,
+  "lm_rho_top": 1.3884957257354122,
+  "lm_trust_next": 1.0
+ },
+ {
+  "it": 6,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it06_trial_r0.5",
+  "merit": 26.107105672136083,
+  "max_frozen_correction": 25694387.644326463,
+  "resid_norm": 4787679620472.915,
+  "gmres": [
+   1.0,
+   0.8300445354870372,
+   0.8040517535821271,
+   0.7027673030672142,
+   0.653711155179475
+  ],
+  "products": 4,
+  "max_step": 7.929927815273445,
+  "max_step_significant": 7.929927815273445,
+  "lam": 0.0,
+  "lm_trust": 1.0,
+  "lm": {
+   "r1": {
+    "mu": 0.0,
+    "predicted_merit": 2.1802389240938078e-15,
+    "max_sT": 0.45659762692732686,
+    "max_s": 7.9299278152734445
+   },
+   "r0.25": {
+    "mu": 0.3594004811341249,
+    "predicted_merit": 25.196745240865702,
+    "max_sT": 0.24999999999999467,
+    "max_s": 2.5349089734218992
+   }
+  },
+  "limited_components": 0,
+  "trials": {
+   "r1": Infinity,
+   "r0.25": 18.47283689728925
+  },
+  "accepted": "r0.25",
+  "merit_new": 18.47283689728925,
+  "lm_rho_top": -Infinity,
+  "lm_trust_next": 0.25
+ },
+ {
+  "it": 7,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it07_trial_r0.25",
+  "merit": 2.8657849402962374,
+  "max_frozen_correction": 10111703.314638842,
+  "resid_norm": 2029123447467.8635,
+  "gmres": [
+   1.0,
+   0.9744846883961549,
+   0.946828110180589,
+   0.911312286431749,
+   0.9059157828250001
+  ],
+  "products": 4,
+  "max_step": 0.8975110278146552,
+  "max_step_significant": 0.8975110278146552,
+  "lam": 0.25,
+  "lm_trust": 0.25,
+  "lm": {
+   "r0.25": {
+    "mu": 0.0,
+    "predicted_merit": 7.752453398972468e-16,
+    "max_sT": 0.16136418884515136,
+    "max_s": 0.8975110278146552
+   },
+   "r0.125": {
+    "mu": 0.03419304492970933,
+    "predicted_merit": 1.4148150595979014,
+    "max_sT": 0.12499999999999711,
+    "max_s": 0.8291296843528231
+   },
+   "r0.0625": {
+    "mu": 0.4431671891123715,
+    "predicted_merit": 2.4308675745960793,
+    "max_sT": 0.0625,
+    "max_s": 0.5237433607702918
+   }
+  },
+  "limited_components": 0,
+  "trials": {
+   "r0.25": 2.339628291937716,
+   "r0.125": 3.00087792357652,
+   "r0.0625": 2.6900218172375108
+  },
+  "accepted": "r0.25",
+  "merit_new": 2.339628291937716,
+  "lm_rho_top": 0.18359948821007221,
+  "lm_trust_next": 0.25
+ },
+ {
+  "it": 8,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it08_trial_r0.25",
+  "merit": 0.6639229132253882,
+  "max_frozen_correction": 37024750.152161196,
+  "resid_norm": 3787310482329.279,
+  "gmres": [
+   1.0,
+   0.8716406715300656,
+   0.8698301370792026,
+   0.8693483829586868,
+   0.8687489215449412
+  ],
+  "products": 4,
+  "max_step": 0.23349732120713315,
+  "max_step_significant": 0.23349732120713315,
+  "lam": 0.25,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.3400488905632142,
+   "l0.5": 0.4303626391132067,
+   "l0.25": 0.52322305458853
+  },
+  "accepted": "l1",
+  "merit_new": 0.3400488905632142,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 9,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it09_trial_l1",
+  "merit": 0.49093482113572307,
+  "max_frozen_correction": 9753078.963695817,
+  "resid_norm": 2772029939815.8086,
+  "gmres": [
+   1.0,
+   0.9350820226847377,
+   0.9026393227574467,
+   0.8913453240355373,
+   0.8913238744667876
+  ],
+  "products": 4,
+  "max_step": 0.27257692782564263,
+  "max_step_significant": 0.27257692782564263,
+  "lam": 0.5,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.1516221253122534,
+   "l0.5": 0.2623633122032721,
+   "l0.25": 0.37455468194098657
+  },
+  "accepted": "l1",
+  "merit_new": 0.1516221253122534,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 10,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it10_trial_l1",
+  "merit": 1.9310407577444273,
+  "max_frozen_correction": 4007299.5641128495,
+  "resid_norm": 1068491866752.5037,
+  "gmres": [
+   1.0,
+   0.9990818281108081,
+   0.9985881095813391,
+   0.9932852451021315,
+   0.9928049644103732
+  ],
+  "products": 4,
+  "max_step": 0.5751984838522387,
+  "max_step_significant": 0.5751984838522387,
+  "lam": 0.5,
+  "lm_trust": 0.25,
+  "lm": {
+   "r0.25": {
+    "mu": 0.0,
+    "predicted_merit": 2.139741675158075e-15,
+    "max_sT": 0.10203546681792286,
+    "max_s": 0.5751984838522386
+   },
+   "r0.0625": {
+    "mu": 0.008142125711710252,
+    "predicted_merit": 0.7485657663390874,
+    "max_sT": 0.06249999999967226,
+    "max_s": 0.3480717983433952
+   }
+  },
+  "limited_components": 0,
+  "trials": {
+   "r0.25": 0.08425365446470852,
+   "r0.0625": 0.8387321385562112
+  },
+  "accepted": "r0.25",
+  "merit_new": 0.08425365446470852,
+  "lm_rho_top": 0.956368785005284,
+  "lm_trust_next": 0.5
+ },
+ {
+  "it": 11,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it11_trial_r0.25",
+  "merit": 2.4124752796493953,
+  "max_frozen_correction": 2870444.183320036,
+  "resid_norm": 2652053914917.554,
+  "gmres": [
+   1.0,
+   0.7498719737188597,
+   0.6946820223521911,
+   0.654532082258747,
+   0.6371098593550202
+  ],
+  "products": 4,
+  "max_step": 0.8106087131636557,
+  "max_step_significant": 0.8106087131636557,
+  "lam": 0.75,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.807098971272203,
+   "l0.5": 1.4151868094578939,
+   "l0.25": 1.7405014922729984
+  },
+  "accepted": "l1",
+  "merit_new": 0.807098971272203,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 12,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it12_trial_l1",
+  "merit": 0.5700938137205207,
+  "max_frozen_correction": 3952252.150745398,
+  "resid_norm": 1083710064119.0131,
+  "gmres": [
+   1.0,
+   0.9616758539030595,
+   0.9610943105518729,
+   0.9180974900872566,
+   0.9159280668972655
+  ],
+  "products": 4,
+  "max_step": 0.2487664688635098,
+  "max_step_significant": 0.2487664688635098,
+  "lam": 0.75,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.20906926259676387,
+   "l0.5": 0.3630099121148673,
+   "l0.25": 0.45495301814259664
+  },
+  "accepted": "l1",
+  "merit_new": 0.20906926259676387,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 13,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it13_trial_l1",
+  "merit": 1.0478360130730278,
+  "max_frozen_correction": 4185232.8700624183,
+  "resid_norm": 2710117602100.0693,
+  "gmres": [
+   1.0,
+   0.18183818410998345
+  ],
+  "products": 1,
+  "max_step": 0.4630711306267407,
+  "max_step_significant": 0.4630711306267407,
+  "lam": 1.0,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.16278507186531488,
+   "l0.5": 0.5579877627960691,
+   "l0.25": 0.8041109737427687
+  },
+  "accepted": "l1",
+  "merit_new": 0.16278507186531488,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 14,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it14_trial_l1",
+  "merit": 1.4239362583697277,
+  "max_frozen_correction": 6297636.838921085,
+  "resid_norm": 5221631375639.284,
+  "gmres": [
+   1.0,
+   0.8873099689418146,
+   0.8509400263169916,
+   0.8435851179377151,
+   0.823311084678908
+  ],
+  "products": 4,
+  "max_step": 0.6917445562437509,
+  "max_step_significant": 0.6917445562437509,
+  "lam": 1.0,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.3904904762715667,
+   "l0.5": 0.7967696052160687,
+   "l0.25": 1.0830873737369235
+  },
+  "accepted": "l1",
+  "merit_new": 0.3904904762715667,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 15,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it15_trial_l1",
+  "merit": 1.0302399016680528,
+  "max_frozen_correction": 4146381.950145632,
+  "resid_norm": 9961230169561.89,
+  "gmres": [
+   1.0,
+   0.9538794123474768,
+   0.9380171797867013,
+   0.9380141909118922,
+   0.8989304111872612
+  ],
+  "products": 4,
+  "max_step": 0.7644822010506047,
+  "max_step_significant": 0.38441827011383367,
+  "lam": 1.0,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.12290654156084897,
+   "l0.5": 0.527662051117606,
+   "l0.25": 0.7761180722340123
+  },
+  "accepted": "l1",
+  "merit_new": 0.12290654156084897,
+  "accepted_lam": 1.0
+ },
+ {
+  "it": 16,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it16_trial_l1",
+  "merit": 1.1100395609038916,
+  "max_frozen_correction": 803322.1356204674,
+  "resid_norm": 13700329861514.197,
+  "gmres": [
+   1.0,
+   0.8469309351245372,
+   0.8005136879054574,
+   0.7930763072726912,
+   0.7917550108651276
+  ],
+  "products": 4,
+  "max_step": 0.4810246738060433,
+  "max_step_significant": 0.4810246738060433,
+  "lam": 1.0,
+  "lm_trust": 0.5,
+  "lm": {
+   "r0.5": {
+    "mu": 0.0,
+    "predicted_merit": 2.1650787532270717e-16,
+    "max_sT": 0.2665901254617237,
+    "max_s": 0.4810246738060434
+   },
+   "r0.25": {
+    "mu": 0.052513955326971215,
+    "predicted_merit": 0.10248773347173384,
+    "max_sT": 0.2499999999999999,
+    "max_s": 0.44314397085022234
+   },
+   "r0.125": {
+    "mu": 1.1730100896098634,
+    "predicted_merit": 0.664080213621378,
+    "max_sT": 0.12500000000000003,
+    "max_s": 0.26144398776982963
+   }
+  },
+  "limited_components": 0,
+  "trials": {
+   "r0.5": 0.708589292740878,
+   "r0.25": 0.658736469105503,
+   "r0.125": 0.7835355096562208
+  },
+  "accepted": "r0.25",
+  "merit_new": 0.658736469105503,
+  "lm_rho_top": 0.36165401874156416,
+  "lm_trust_next": 0.25
+ },
+ {
+  "it": 17,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it17_trial_r0.25",
+  "merit": 3.1983955406451923,
+  "max_frozen_correction": 2924.746849953459,
+  "resid_norm": 7312908597437.806,
+  "gmres": [
+   1.0,
+   0.38596954320135873,
+   0.3495931016401949,
+   0.3474491533751617,
+   0.2837031458410017
+  ],
+  "products": 4,
+  "max_step": 2.8700491893044227,
+  "max_step_significant": 2.8700491893044227,
+  "lam": 1.0,
+  "lm_trust": 0.25,
+  "lm": {
+   "r0.25": {
+    "mu": 0.4392250639768264,
+    "predicted_merit": 1.4639853410449997,
+    "max_sT": 0.2499999999999998,
+    "max_s": 1.5613703714105074
+   },
+   "r0.125": {
+    "mu": 1.3735259623792002,
+    "predicted_merit": 2.317138077539094,
+    "max_sT": 0.12499999999999997,
+    "max_s": 0.792630221157994
+   },
+   "r0.0625": {
+    "mu": 3.2365577844257385,
+    "predicted_merit": 2.753267500902365,
+    "max_sT": 0.062499999999999716,
+    "max_s": 0.3999709178956663
+   }
+  },
+  "limited_components": 0,
+  "trials": {
+   "r0.25": 1.149404611937269,
+   "r0.125": 1.912664356800149,
+   "r0.0625": 2.664956192581556
+  },
+  "accepted": "r0.25",
+  "merit_new": 1.149404611937269,
+  "lm_rho_top": 1.1813761987678846,
+  "lm_trust_next": 0.5
+ },
+ {
+  "it": 18,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it18_trial_r0.25",
+  "merit": 1.3089612979052985,
+  "max_frozen_correction": 548.9926973057193,
+  "resid_norm": 882662249322.5376,
+  "gmres": [
+   1.0,
+   0.9170709295391944,
+   0.8607619769691833,
+   0.8559863443321343,
+   0.704919188105645
+  ],
+  "products": 4,
+  "max_step": 0.5461612221169976,
+  "max_step_significant": 0.5461612221169976,
+  "lam": 1.0,
+  "lm_trust": 0.5,
+  "lm": {
+   "r0.5": {
+    "mu": 0.018269574900221356,
+    "predicted_merit": 0.11338733202691392,
+    "max_sT": 0.4999999999999982,
+    "max_s": 0.4999999999999982
+   },
+   "r0.25": {
+    "mu": 0.24308719347588517,
+    "predicted_merit": 0.7245750060488031,
+    "max_sT": 0.2499999999999989,
+    "max_s": 0.2499999999999989
+   },
+   "r0.125": {
+    "mu": 0.7259243452803099,
+    "predicted_merit": 1.0242006551019152,
+    "max_sT": 0.12499999999999983,
+    "max_s": 0.12499999999999983
+   }
+  },
+  "limited_components": 0,
+  "trials": {
+   "r0.5": 0.27315868856995673,
+   "r0.25": 0.7709145626704305,
+   "r0.125": 1.0349541343526794
+  },
+  "accepted": "r0.5",
+  "merit_new": 0.27315868856995673,
+  "lm_rho_top": 0.8663643060965622,
+  "lm_trust_next": 1.0
+ },
+ {
+  "it": 19,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it19_trial_r0.5",
+  "merit": 0.6326965900286216,
+  "max_frozen_correction": 1.0422508399371087,
+  "resid_norm": 2023450606598.1018,
+  "gmres": [
+   1.0,
+   0.9947001180803073,
+   0.9939746043982682,
+   0.9388316704584354,
+   0.8750988838058095
+  ],
+  "products": 4,
+  "max_step": 0.2258911319987687,
+  "max_step_significant": 0.2258911319987687,
+  "lam": 1.0,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.3339597374809701,
+   "l0.5": 0.3122711201016304,
+   "l0.25": 0.47526520532054006
+  },
+  "accepted": "l0.5",
+  "merit_new": 0.3122711201016304,
+  "accepted_lam": 0.5
+ },
+ {
+  "it": 20,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it20_trial_l0.5",
+  "merit": 0.43506929253328225,
+  "max_frozen_correction": 1.0366677385711385,
+  "resid_norm": 2157045282098.7402,
+  "gmres": [
+   1.0,
+   0.9718580515934279,
+   0.9712339198393168,
+   0.9695663953970812,
+   0.9353153122027685
+  ],
+  "products": 4,
+  "max_step": 0.20987162843867643,
+  "max_step_significant": 0.20987162843867643,
+  "lam": 1.0,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.29429449905005906,
+   "l0.5": 0.28084378034405616,
+   "l0.25": 0.3703397344172092
+  },
+  "accepted": "l0.5",
+  "merit_new": 0.28084378034405616,
+  "accepted_lam": 0.5
+ }
+]

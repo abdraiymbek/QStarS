@@ -1,0 +1,132 @@
+[
+ {
+  "dt": 1e-08,
+  "merge": 0.0017837544431645945,
+  "merge_cell": 168,
+  "merge_it": 4,
+  "nomerge": 1.9400442278406628e-05,
+  "nomerge_cell": 1,
+  "nomerge_it": 3,
+  "event_dlnT167": 4.400744451566362e-05
+ },
+ {
+  "dt": 1e-07,
+  "merge": 0.0013773208603117379,
+  "merge_cell": 168,
+  "merge_it": 3,
+  "nomerge": 1.9399701751176234e-05,
+  "nomerge_cell": 1,
+  "nomerge_it": 3,
+  "event_dlnT167": 0.0003999383066850687
+ },
+ {
+  "dt": 1e-06,
+  "merge": 0.002250235016651761,
+  "merge_cell": 167,
+  "merge_it": 5,
+  "nomerge": 1.939233888579137e-05,
+  "nomerge_cell": 1,
+  "nomerge_it": 3,
+  "event_dlnT167": 0.0022502993775801454
+ },
+ {
+  "dt": 1e-05,
+  "merge": 0.005311766027943445,
+  "merge_cell": 167,
+  "merge_it": 4,
+  "nomerge": 1.9322104410697335e-05,
+  "nomerge_cell": 1,
+  "nomerge_it": 4,
+  "event_dlnT167": 0.005311907569203322
+ },
+ {
+  "dt": 0.0001,
+  "merge": 0.008527410627304874,
+  "merge_cell": 167,
+  "merge_it": 4,
+  "nomerge": 1.883507000519972e-05,
+  "nomerge_cell": 1,
+  "nomerge_it": 3,
+  "event_dlnT167": 0.008527695918838962
+ },
+ {
+  "dt": 0.001,
+  "merge": 0.012858399439157195,
+  "merge_cell": 167,
+  "merge_it": 4,
+  "nomerge": 1.7696882397516327e-05,
+  "nomerge_cell": 2,
+  "nomerge_it": 2,
+  "event_dlnT167": 0.012858808299343629
+ },
+ {
+  "dt": 0.01,
+  "merge": 0.016818883658470864,
+  "merge_cell": 167,
+  "merge_it": 4,
+  "nomerge": 1.6501271578789598e-05,
+  "nomerge_cell": 2,
+  "nomerge_it": 2,
+  "event_dlnT167": 0.01681934667046411
+ },
+ {
+  "dt": 0.1,
+  "merge": 0.018346521531446936,
+  "merge_cell": 167,
+  "merge_it": 4,
+  "nomerge": 1.6356733049067523e-05,
+  "nomerge_cell": 2,
+  "nomerge_it": 2,
+  "event_dlnT167": 0.018349055368291334
+ },
+ {
+  "dt": 1.0,
+  "merge": 0.018568958025628298,
+  "merge_cell": 167,
+  "merge_it": 4,
+  "nomerge": 2.4190188059675665e-05,
+  "nomerge_cell": 167,
+  "nomerge_it": 2,
+  "event_dlnT167": 0.018593148213688168
+ },
+ {
+  "dt": 10.0,
+  "merge": 0.018402463823562313,
+  "merge_cell": 167,
+  "merge_it": 4,
+  "nomerge": 0.00022868038274168528,
+  "nomerge_cell": 167,
+  "nomerge_it": 3,
+  "event_dlnT167": 0.018631144206303907
+ },
+ {
+  "dt": 30.0,
+  "merge": 0.01800423810310343,
+  "merge_cell": 167,
+  "merge_it": 4,
+  "nomerge": 0.0006553002726728422,
+  "nomerge_cell": 167,
+  "nomerge_it": 4,
+  "event_dlnT167": 0.018659538375776184
+ },
+ {
+  "dt": 100.0,
+  "merge": 0.016643578629544842,
+  "merge_cell": 167,
+  "merge_it": 4,
+  "nomerge": 0.0021037035292483055,
+  "nomerge_cell": 167,
+  "nomerge_it": 7,
+  "event_dlnT167": 0.018747282158793177
+ },
+ {
+  "dt": 172.1438701239381,
+  "merge": 0.015245625699921472,
+  "merge_cell": 167,
+  "merge_it": 4,
+  "nomerge": 0.003585111000413662,
+  "nomerge_cell": 167,
+  "nomerge_it": 10,
+  "event_dlnT167": 0.018830736700334978
+ }
+]

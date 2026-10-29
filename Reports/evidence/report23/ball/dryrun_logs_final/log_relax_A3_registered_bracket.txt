@@ -1,0 +1,30 @@
+$SCRATCH/final_fix/DRYRUN_out/20261014T041132.459666Z_DRYRUN_relax_A3_C1_n200
+DRYRUN relax C1 [A3] photosphere_bracket=doubling wall 11.1 s
+status relaxation_blocker numerical relaxation blocker
+   seed 2000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists
+   seed 6000: converged acc 30 rej 1 cycles 0 
+   seed 1000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists
+   seed 12000: seed_failed acc None rej None cycles None ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8
+   seed 3464: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists
+   seed 1414: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists
+   seed 8485: failed acc 0 rej 21 cycles 0 relaxation failed in mesh cycle 0
+$SCRATCH/final_fix/DRYRUN_out/20261014T041144.829960Z_DRYRUN_relax_A3_C0_n400
+DRYRUN relax C0 [A3] photosphere_bracket=doubling wall 6.5 s
+status relaxation_blocker numerical relaxation blocker
+   seed 2000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists
+   seed 6000: failed acc 0 rej 21 cycles 0 relaxation failed in mesh cycle 0
+   seed 1000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists
+   seed 12000: seed_failed acc None rej None cycles None ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8
+   seed 3464: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists
+   seed 1414: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists
+   seed 8485: failed acc 0 rej 21 cycles 0 relaxation failed in mesh cycle 0
+$SCRATCH/final_fix/DRYRUN_out/20261014T041152.479159Z_DRYRUN_relax_A3_C2_n800
+DRYRUN relax C2 [A3] photosphere_bracket=doubling wall 82.6 s
+status relaxation_blocker numerical relaxation blocker
+   seed 2000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists
+   seed 6000: converged acc 37 rej 8 cycles 0 
+   seed 1000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists
+   seed 12000: seed_failed acc None rej None cycles None ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8
+   seed 3464: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists
+   seed 1414: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists
+   seed 8485: failed acc 0 rej 21 cycles 0 relaxation failed in mesh cycle 0

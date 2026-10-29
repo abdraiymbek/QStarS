@@ -1,0 +1,1871 @@
+{
+ "label": "DRYRUN evidence for Stage 7 unblocking (Gate 6, Ball et al. 2011). Scratch runs made by calling library and driver functions with a scratch output root; nothing was written under benchmarks/results. No row-0 observable value is recorded here and none was compared with Table 1 or thesis Table 3.1; only seed-to-seed differences, step counts, timestep statistics and wall times.",
+ "made_utc": "2026-10-14",
+ "machine_note": "10 cores shared with 4 CMFGEN jobs (load average 9-18); single thread, nice 15",
+ "scratch_root": "/private/tmp/claude-501/-Users-abraiymbek-Projects-QStarS/508f230a-38f2-47d3-bc8d-313edee2339c/scratchpad/ball_unblock (purgeable)",
+ "driver_path": {
+  "note": "scripts/validate_ball_track.py relax_seeds and smoke called directly with amendment settings taken from the drafts (A3: seed surface grey + appended radii; A2: mesh cycles; A1: fixed-mass base + mapped metric), final source of this workflow",
+  "runs": [
+   {
+    "kind": "relax",
+    "run": "C1",
+    "zones": 200,
+    "amendments": "registered",
+    "status": "relaxation_blocker",
+    "classification": "numerical relaxation blocker",
+    "seeds": [
+     {
+      "radius": 2000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 6000,
+      "status": "failed",
+      "reason": "relaxation failed in mesh cycle 0",
+      "accepted": 0,
+      "rejected": 21,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 1000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 12000,
+      "status": "seed_failed",
+      "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     }
+    ],
+    "wall_seconds": 4.092585959006101,
+    "seconds_per_accepted": 4.092585959006101,
+    "uniqueness_max_abs_dln": null,
+    "uniqueness_worst": null,
+    "directory": "scratch:DRYRUN_driver/20261014T024614.061877Z_DRYRUN_relax_registered_C1_n200"
+   },
+   {
+    "kind": "relax",
+    "run": "C1",
+    "zones": 200,
+    "amendments": "A3",
+    "status": "not_unique",
+    "classification": null,
+    "seeds": [
+     {
+      "radius": 2000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 6000,
+      "status": "converged",
+      "reason": null,
+      "accepted": 30,
+      "rejected": 1,
+      "cycles": 0,
+      "zones": 224,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     {
+      "radius": 1000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 12000,
+      "status": "seed_failed",
+      "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 3464,
+      "status": "converged",
+      "reason": null,
+      "accepted": 30,
+      "rejected": 1,
+      "cycles": 0,
+      "zones": 200,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    ],
+    "wall_seconds": 20.001440624939278,
+    "seconds_per_accepted": 0.33335734374898796,
+    "uniqueness_max_abs_dln": 0.015022035187080679,
+    "uniqueness_worst": "M_cav",
+    "directory": "scratch:DRYRUN_driver/20261014T024629.659742Z_DRYRUN_relax_A3_C1_n200"
+   },
+   {
+    "kind": "relax",
+    "run": "C1",
+    "zones": 200,
+    "amendments": "A3+A2",
+    "status": "converged_unique",
+    "classification": null,
+    "seeds": [
+     {
+      "radius": 2000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 6000,
+      "status": "converged",
+      "reason": null,
+      "accepted": 94,
+      "rejected": 1,
+      "cycles": 18,
+      "zones": 200,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     {
+      "radius": 1000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 12000,
+      "status": "seed_failed",
+      "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 3464,
+      "status": "converged",
+      "reason": null,
+      "accepted": 100,
+      "rejected": 1,
+      "cycles": 19,
+      "zones": 200,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    ],
+    "wall_seconds": 31.720538334106095,
+    "seconds_per_accepted": 0.1635079295572479,
+    "uniqueness_max_abs_dln": 3.8686073649001614e-08,
+    "uniqueness_worst": "R*",
+    "directory": "scratch:DRYRUN_driver/20261014T024650.853485Z_DRYRUN_relax_A3+A2_C1_n200"
+   },
+   {
+    "kind": "smoke",
+    "run": "C1",
+    "amendments": "A3+A2",
+    "fallbacks": [],
+    "wall_seconds": 1.2590162499109283,
+    "status": "termination_trigger",
+    "reason": "timestep 0.0625 yr below the dynamical time 0.0913 yr (Ball's criterion)",
+    "accepted_steps": 0,
+    "attempts": 4,
+    "rejections": 4,
+    "median_dt_years": null,
+    "rejected_fraction": 1.0,
+    "passed": false,
+    "history_written": true,
+    "start_row_screen_errors": [],
+    "directory": "scratch:DRYRUN_driver/20261014T024723.784795Z_smoke_C1_n200"
+   },
+   {
+    "kind": "smoke",
+    "run": "C1",
+    "amendments": "A3+A2",
+    "fallbacks": [
+     "F1"
+    ],
+    "wall_seconds": 1.2600760830100626,
+    "status": "termination_trigger",
+    "reason": "timestep 0.0625 yr below the dynamical time 0.0913 yr (Ball's criterion)",
+    "accepted_steps": 0,
+    "attempts": 4,
+    "rejections": 4,
+    "median_dt_years": null,
+    "rejected_fraction": 1.0,
+    "passed": false,
+    "history_written": true,
+    "start_row_screen_errors": [],
+    "directory": "scratch:DRYRUN_driver/20261014T024725.956035Z_smoke_C1_n200"
+   },
+   {
+    "kind": "relax",
+    "run": "C1",
+    "zones": 200,
+    "amendments": "A3+A2+A1",
+    "status": "converged_unique",
+    "classification": null,
+    "seeds": [
+     {
+      "radius": 2000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 6000,
+      "status": "converged",
+      "reason": null,
+      "accepted": 215,
+      "rejected": 1,
+      "cycles": 7,
+      "zones": 200,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     {
+      "radius": 1000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 12000,
+      "status": "seed_failed",
+      "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 3464,
+      "status": "converged",
+      "reason": null,
+      "accepted": 220,
+      "rejected": 7,
+      "cycles": 7,
+      "zones": 200,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    ],
+    "wall_seconds": 110.72122612490784,
+    "seconds_per_accepted": 0.25453155431013297,
+    "uniqueness_max_abs_dln": 5.4741322584484435e-11,
+    "uniqueness_worst": "R*",
+    "directory": "scratch:DRYRUN_driver/20261014T024739.261625Z_DRYRUN_relax_A3+A2+A1_C1_n200"
+   },
+   {
+    "kind": "relax",
+    "run": "C0",
+    "zones": 400,
+    "amendments": "A3",
+    "status": "not_unique",
+    "classification": null,
+    "seeds": [
+     {
+      "radius": 2000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 6000,
+      "status": "converged",
+      "reason": null,
+      "accepted": 30,
+      "rejected": 1,
+      "cycles": 0,
+      "zones": 445,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     {
+      "radius": 1000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 12000,
+      "status": "seed_failed",
+      "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 3464,
+      "status": "converged",
+      "reason": null,
+      "accepted": 30,
+      "rejected": 1,
+      "cycles": 0,
+      "zones": 401,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    ],
+    "wall_seconds": 56.47617941698991,
+    "seconds_per_accepted": 0.9412696569498318,
+    "uniqueness_max_abs_dln": 0.0031408670416929875,
+    "uniqueness_worst": "M_cav",
+    "directory": "scratch:DRYRUN_driver/20261014T024931.717551Z_DRYRUN_relax_A3_C0_n400"
+   },
+   {
+    "kind": "relax",
+    "run": "C0",
+    "zones": 400,
+    "amendments": "A3+A2",
+    "status": "converged_unique",
+    "classification": null,
+    "seeds": [
+     {
+      "radius": 2000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 6000,
+      "status": "converged",
+      "reason": null,
+      "accepted": 65,
+      "rejected": 1,
+      "cycles": 10,
+      "zones": 400,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     {
+      "radius": 1000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 12000,
+      "status": "seed_failed",
+      "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 3464,
+      "status": "converged",
+      "reason": null,
+      "accepted": 65,
+      "rejected": 1,
+      "cycles": 10,
+      "zones": 400,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    ],
+    "wall_seconds": 65.57050975004677,
+    "seconds_per_accepted": 0.5043885365388213,
+    "uniqueness_max_abs_dln": 3.62374241790352e-10,
+    "uniqueness_worst": "M_cav",
+    "directory": "scratch:DRYRUN_driver/20261014T025029.786701Z_DRYRUN_relax_A3+A2_C0_n400"
+   },
+   {
+    "kind": "relax",
+    "run": "C2",
+    "zones": 800,
+    "amendments": "A3",
+    "status": "not_unique",
+    "classification": null,
+    "seeds": [
+     {
+      "radius": 2000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 6000,
+      "status": "converged",
+      "reason": null,
+      "accepted": 37,
+      "rejected": 8,
+      "cycles": 0,
+      "zones": 894,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     {
+      "radius": 1000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 12000,
+      "status": "seed_failed",
+      "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 3464,
+      "status": "converged",
+      "reason": null,
+      "accepted": 36,
+      "rejected": 7,
+      "cycles": 0,
+      "zones": 806,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    ],
+    "wall_seconds": 207.3970909160562,
+    "seconds_per_accepted": 2.841056039945975,
+    "uniqueness_max_abs_dln": 0.0006507662717030985,
+    "uniqueness_worst": "R*",
+    "directory": "scratch:DRYRUN_driver/20261014T025136.751687Z_DRYRUN_relax_A3_C2_n800"
+   },
+   {
+    "kind": "relax",
+    "run": "C2",
+    "zones": 800,
+    "amendments": "A3+A2",
+    "status": "converged_unique",
+    "classification": null,
+    "seeds": [
+     {
+      "radius": 2000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 6000,
+      "status": "converged",
+      "reason": null,
+      "accepted": 60,
+      "rejected": 8,
+      "cycles": 7,
+      "zones": 800,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     {
+      "radius": 1000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 12000,
+      "status": "seed_failed",
+      "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 3464,
+      "status": "converged",
+      "reason": null,
+      "accepted": 59,
+      "rejected": 7,
+      "cycles": 7,
+      "zones": 800,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    ],
+    "wall_seconds": 168.8646413750248,
+    "seconds_per_accepted": 1.4190305997901245,
+    "uniqueness_max_abs_dln": 4.2311254509000456e-10,
+    "uniqueness_worst": "M_cav",
+    "directory": "scratch:DRYRUN_driver/20261014T025505.396176Z_DRYRUN_relax_A3+A2_C2_n800"
+   },
+   {
+    "kind": "relax",
+    "run": "C0",
+    "zones": 400,
+    "amendments": "A3+A2+A1",
+    "status": "converged_unique",
+    "classification": null,
+    "seeds": [
+     {
+      "radius": 2000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 6000,
+      "status": "converged",
+      "reason": null,
+      "accepted": 82,
+      "rejected": 3,
+      "cycles": 5,
+      "zones": 400,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     {
+      "radius": 1000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 12000,
+      "status": "seed_failed",
+      "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 3464,
+      "status": "converged",
+      "reason": null,
+      "accepted": 82,
+      "rejected": 2,
+      "cycles": 5,
+      "zones": 400,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    ],
+    "wall_seconds": 47.055634125019424,
+    "seconds_per_accepted": 0.28692459832328915,
+    "uniqueness_max_abs_dln": 6.025979715036892e-11,
+    "uniqueness_worst": "R*",
+    "directory": "scratch:DRYRUN_driver/20261014T025755.089070Z_DRYRUN_relax_A3+A2+A1_C0_n400"
+   },
+   {
+    "kind": "relax",
+    "run": "C5",
+    "zones": 400,
+    "amendments": "A3+A2+A1",
+    "status": "converged_unique",
+    "classification": null,
+    "seeds": [
+     {
+      "radius": 2000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 6000,
+      "status": "converged",
+      "reason": null,
+      "accepted": 82,
+      "rejected": 3,
+      "cycles": 5,
+      "zones": 400,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     {
+      "radius": 1000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 12000,
+      "status": "seed_failed",
+      "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 3464,
+      "status": "converged",
+      "reason": null,
+      "accepted": 82,
+      "rejected": 2,
+      "cycles": 5,
+      "zones": 400,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    ],
+    "wall_seconds": 83.95873041590676,
+    "seconds_per_accepted": 0.5119434781457729,
+    "uniqueness_max_abs_dln": 6.030487220516599e-11,
+    "uniqueness_worst": "R*",
+    "directory": "scratch:DRYRUN_driver/20261014T030651.858555Z_DRYRUN_relax_A3+A2+A1_C5_n400"
+   },
+   {
+    "kind": "relax",
+    "run": "C6",
+    "zones": 400,
+    "amendments": "A3+A2+A1",
+    "status": "converged_unique",
+    "classification": null,
+    "seeds": [
+     {
+      "radius": 2000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 6000,
+      "status": "converged",
+      "reason": null,
+      "accepted": 115,
+      "rejected": 2,
+      "cycles": 5,
+      "zones": 400,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     {
+      "radius": 1000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 12000,
+      "status": "seed_failed",
+      "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 3464,
+      "status": "converged",
+      "reason": null,
+      "accepted": 114,
+      "rejected": 1,
+      "cycles": 5,
+      "zones": 400,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    ],
+    "wall_seconds": 89.9025331250159,
+    "seconds_per_accepted": 0.39258748089526596,
+    "uniqueness_max_abs_dln": 6.890688019940597e-11,
+    "uniqueness_worst": "R*",
+    "directory": "scratch:DRYRUN_driver/20261014T030817.079104Z_DRYRUN_relax_A3+A2+A1_C6_n400"
+   },
+   {
+    "kind": "relax",
+    "run": "C7",
+    "zones": 400,
+    "amendments": "A3+A2+A1",
+    "status": "converged_unique",
+    "classification": null,
+    "seeds": [
+     {
+      "radius": 2000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 6000,
+      "status": "converged",
+      "reason": null,
+      "accepted": 82,
+      "rejected": 4,
+      "cycles": 5,
+      "zones": 400,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     {
+      "radius": 1000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 12000,
+      "status": "seed_failed",
+      "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 3464,
+      "status": "converged",
+      "reason": null,
+      "accepted": 81,
+      "rejected": 2,
+      "cycles": 5,
+      "zones": 400,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    ],
+    "wall_seconds": 73.08424974989612,
+    "seconds_per_accepted": 0.44836963036746086,
+    "uniqueness_max_abs_dln": 2.354744177701336e-10,
+    "uniqueness_worst": "R*",
+    "directory": "scratch:DRYRUN_driver/20261014T030948.163391Z_DRYRUN_relax_A3+A2+A1_C7_n400"
+   },
+   {
+    "kind": "relax",
+    "run": "C5",
+    "zones": 400,
+    "amendments": "A3+A2",
+    "status": "converged_unique",
+    "classification": null,
+    "seeds": [
+     {
+      "radius": 2000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 6000,
+      "status": "converged",
+      "reason": null,
+      "accepted": 65,
+      "rejected": 1,
+      "cycles": 10,
+      "zones": 400,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     {
+      "radius": 1000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 12000,
+      "status": "seed_failed",
+      "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 3464,
+      "status": "converged",
+      "reason": null,
+      "accepted": 65,
+      "rejected": 1,
+      "cycles": 10,
+      "zones": 400,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    ],
+    "wall_seconds": 76.53314458299428,
+    "seconds_per_accepted": 0.5887164967922637,
+    "uniqueness_max_abs_dln": 3.6223946071511367e-10,
+    "uniqueness_worst": "M_cav",
+    "directory": "scratch:DRYRUN_driver/20261014T031103.465179Z_DRYRUN_relax_A3+A2_C5_n400"
+   },
+   {
+    "kind": "relax",
+    "run": "C6",
+    "zones": 400,
+    "amendments": "A3+A2",
+    "status": "converged_unique",
+    "classification": null,
+    "seeds": [
+     {
+      "radius": 2000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 6000,
+      "status": "converged",
+      "reason": null,
+      "accepted": 82,
+      "rejected": 1,
+      "cycles": 14,
+      "zones": 400,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     {
+      "radius": 1000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 12000,
+      "status": "seed_failed",
+      "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 3464,
+      "status": "converged",
+      "reason": null,
+      "accepted": 81,
+      "rejected": 0,
+      "cycles": 14,
+      "zones": 400,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    ],
+    "wall_seconds": 90.7561007499462,
+    "seconds_per_accepted": 0.5567858941714491,
+    "uniqueness_max_abs_dln": 9.873994226592617e-09,
+    "uniqueness_worst": "M_cav",
+    "directory": "scratch:DRYRUN_driver/20261014T031222.035865Z_DRYRUN_relax_A3+A2_C6_n400"
+   },
+   {
+    "kind": "relax",
+    "run": "C7",
+    "zones": 400,
+    "amendments": "A3+A2",
+    "status": "converged_unique",
+    "classification": null,
+    "seeds": [
+     {
+      "radius": 2000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 6000,
+      "status": "converged",
+      "reason": null,
+      "accepted": 62,
+      "rejected": 3,
+      "cycles": 9,
+      "zones": 400,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     },
+     {
+      "radius": 1000,
+      "status": "seed_failed",
+      "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 12000,
+      "status": "seed_failed",
+      "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+      "accepted": null,
+      "rejected": null,
+      "cycles": 0,
+      "zones": null,
+      "enforced": null,
+      "report_only": null
+     },
+     {
+      "radius": 3464,
+      "status": "converged",
+      "reason": null,
+      "accepted": 62,
+      "rejected": 2,
+      "cycles": 9,
+      "zones": 400,
+      "enforced": [],
+      "report_only": [
+       "radiation_knudsen_outer"
+      ]
+     }
+    ],
+    "wall_seconds": 84.53559450001922,
+    "seconds_per_accepted": 0.6817386653227356,
+    "uniqueness_max_abs_dln": 2.8778747204527052e-09,
+    "uniqueness_worst": "R*",
+    "directory": "scratch:DRYRUN_driver/20261014T031354.792420Z_DRYRUN_relax_A3+A2_C7_n400"
+   }
+  ]
+ },
+ "library_path": {
+  "note": "quasistatic.seed + quasistatic.relax called directly, one seed per process (made while the source was being edited; numerics of seed and relaxation unchanged since)",
+  "runs": [
+   {
+    "DRYRUN": true,
+    "run": "C0",
+    "zones": 400,
+    "seed_radius_rsun": 3464.0,
+    "surface": "grey",
+    "mesh_cycles": 0,
+    "status": "converged",
+    "reason": null,
+    "accepted": 30,
+    "rejected": 1,
+    "cycles": 0,
+    "wall_seconds": 11.468841249938123,
+    "seconds_per_accepted": 0.38229470833127077,
+    "zones_final": 401,
+    "directory": "scratch:dryrun_relax_C0_n400_3464rsun_grey_cyc0"
+   },
+   {
+    "DRYRUN": true,
+    "run": "C0",
+    "zones": 400,
+    "seed_radius_rsun": 3464.0,
+    "surface": "grey",
+    "mesh_cycles": 40,
+    "status": "converged",
+    "reason": null,
+    "accepted": 65,
+    "rejected": 1,
+    "cycles": 10,
+    "wall_seconds": 15.655380542040803,
+    "seconds_per_accepted": 0.24085200833908926,
+    "zones_final": 400,
+    "directory": "scratch:dryrun_relax_C0_n400_3464rsun_grey_cyc40"
+   },
+   {
+    "DRYRUN": true,
+    "run": "C0",
+    "zones": 400,
+    "seed_radius_rsun": 6000.0,
+    "surface": "grey",
+    "mesh_cycles": 0,
+    "status": "converged",
+    "reason": null,
+    "accepted": 30,
+    "rejected": 1,
+    "cycles": 0,
+    "wall_seconds": 13.89293445891235,
+    "seconds_per_accepted": 0.46309781529707833,
+    "zones_final": 445,
+    "directory": "scratch:dryrun_relax_C0_n400_6000rsun_grey_cyc0"
+   },
+   {
+    "DRYRUN": true,
+    "run": "C0",
+    "zones": 400,
+    "seed_radius_rsun": 6000.0,
+    "surface": "grey",
+    "mesh_cycles": 40,
+    "status": "converged",
+    "reason": null,
+    "accepted": 65,
+    "rejected": 1,
+    "cycles": 10,
+    "wall_seconds": 18.239165666978806,
+    "seconds_per_accepted": 0.28060254872275087,
+    "zones_final": 400,
+    "directory": "scratch:dryrun_relax_C0_n400_6000rsun_grey_cyc40"
+   },
+   {
+    "DRYRUN": true,
+    "run": "C0",
+    "zones": 400,
+    "seed_radius_rsun": 8485.0,
+    "surface": "grey",
+    "mesh_cycles": 0,
+    "status": "failed",
+    "reason": "relaxation failed in mesh cycle 0",
+    "accepted": 0,
+    "rejected": 21,
+    "cycles": 0,
+    "wall_seconds": 0.816078917006962,
+    "seconds_per_accepted": 0.816078917006962,
+    "directory": "scratch:dryrun_relax_C0_n400_8485rsun_grey_cyc0"
+   },
+   {
+    "DRYRUN": true,
+    "run": "C0",
+    "zones": 400,
+    "seed_radius_rsun": 8485.0,
+    "surface": "grey",
+    "mesh_cycles": 40,
+    "status": "failed",
+    "reason": "relaxation failed in mesh cycle 0",
+    "accepted": 0,
+    "rejected": 21,
+    "cycles": 0,
+    "wall_seconds": 0.8156917080050334,
+    "seconds_per_accepted": 0.8156917080050334,
+    "directory": "scratch:dryrun_relax_C0_n400_8485rsun_grey_cyc40"
+   },
+   {
+    "DRYRUN": true,
+    "status": "seed_failed",
+    "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric density; no Ball surface exists",
+    "directory": "scratch:dryrun_relax_C1_n200_1000rsun_grey_cyc0"
+   },
+   {
+    "DRYRUN": true,
+    "status": "seed_failed",
+    "reason": "ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8",
+    "directory": "scratch:dryrun_relax_C1_n200_12000rsun_grey_cyc0"
+   },
+   {
+    "DRYRUN": true,
+    "status": "seed_failed",
+    "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric density; no Ball surface exists",
+    "directory": "scratch:dryrun_relax_C1_n200_1414rsun_grey_cyc0"
+   },
+   {
+    "DRYRUN": true,
+    "status": "seed_failed",
+    "reason": "DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1) at every admissible photospheric density; no Ball surface exists",
+    "directory": "scratch:dryrun_relax_C1_n200_2000rsun_grey_cyc0"
+   },
+   {
+    "DRYRUN": true,
+    "run": "C1",
+    "zones": 200,
+    "seed_radius_rsun": 3464.0,
+    "surface": "grey",
+    "mesh_cycles": 0,
+    "status": "converged",
+    "reason": null,
+    "accepted": 30,
+    "rejected": 1,
+    "cycles": 0,
+    "wall_seconds": 6.028426541946828,
+    "seconds_per_accepted": 0.20094755139822762,
+    "zones_final": 200,
+    "directory": "scratch:dryrun_relax_C1_n200_3464rsun_grey_cyc0"
+   },
+   {
+    "DRYRUN": true,
+    "run": "C1",
+    "zones": 200,
+    "seed_radius_rsun": 3464.0,
+    "surface": "grey",
+    "mesh_cycles": 40,
+    "status": "converged",
+    "reason": null,
+    "accepted": 100,
+    "rejected": 1,
+    "cycles": 19,
+    "wall_seconds": 9.483345750020817,
+    "seconds_per_accepted": 0.09483345750020816,
+    "zones_final": 200,
+    "directory": "scratch:dryrun_relax_C1_n200_3464rsun_grey_cyc40"
+   },
+   {
+    "DRYRUN": true,
+    "run": "C1",
+    "zones": 200,
+    "seed_radius_rsun": 3464.0,
+    "surface": "grey",
+    "mesh_cycles": 40,
+    "status": "converged",
+    "reason": null,
+    "accepted": 220,
+    "rejected": 7,
+    "cycles": 7,
+    "wall_seconds": 56.96869754092768,
+    "seconds_per_accepted": 0.2589486251860349,
+    "zones_final": 200,
+    "directory": "scratch:dryrun_relax_C1_n200_3464rsun_grey_cyc40_A1"
+   },
+   {
+    "DRYRUN": true,
+    "run": "C1",
+    "zones": 200,
+    "seed_radius_rsun": 6000.0,
+    "surface": "grey",
+    "mesh_cycles": 0,
+    "status": "converged",
+    "reason": null,
+    "accepted": 30,
+    "rejected": 1,
+    "cycles": 0,
+    "wall_seconds": 5.527361875050701,
+    "seconds_per_accepted": 0.18424539583502336,
+    "zones_final": 224,
+    "directory": "scratch:dryrun_relax_C1_n200_6000rsun_grey_cyc0"
+   },
+   {
+    "DRYRUN": true,
+    "run": "C1",
+    "zones": 200,
+    "seed_radius_rsun": 6000.0,
+    "surface": "grey",
+    "mesh_cycles": 40,
+    "status": "converged",
+    "reason": null,
+    "accepted": 94,
+    "rejected": 1,
+    "cycles": 18,
+    "wall_seconds": 9.49089829204604,
+    "seconds_per_accepted": 0.10096700310687277,
+    "zones_final": 200,
+    "directory": "scratch:dryrun_relax_C1_n200_6000rsun_grey_cyc40"
+   },
+   {
+    "DRYRUN": true,
+    "run": "C1",
+    "zones": 200,
+    "seed_radius_rsun": 6000.0,
+    "surface": "grey",
+    "mesh_cycles": 40,
+    "status": "converged",
+    "reason": null,
+    "accepted": 215,
+    "rejected": 1,
+    "cycles": 7,
+    "wall_seconds": 50.70570687507279,
+    "seconds_per_accepted": 0.23584049709336183,
+    "zones_final": 200,
+    "directory": "scratch:dryrun_relax_C1_n200_6000rsun_grey_cyc40_A1"
+   },
+   {
+    "DRYRUN": true,
+    "run": "C1",
+    "zones": 200,
+    "seed_radius_rsun": 8485.0,
+    "surface": "grey",
+    "mesh_cycles": 0,
+    "status": "failed",
+    "reason": "relaxation failed in mesh cycle 0",
+    "accepted": 0,
+    "rejected": 21,
+    "cycles": 0,
+    "wall_seconds": 0.4187807919224724,
+    "seconds_per_accepted": 0.4187807919224724,
+    "directory": "scratch:dryrun_relax_C1_n200_8485rsun_grey_cyc0"
+   },
+   {
+    "DRYRUN": true,
+    "run": "C2",
+    "zones": 800,
+    "seed_radius_rsun": 3464.0,
+    "surface": "grey",
+    "mesh_cycles": 0,
+    "status": "converged",
+    "reason": null,
+    "accepted": 36,
+    "rejected": 7,
+    "cycles": 0,
+    "wall_seconds": 79.11015437496826,
+    "seconds_per_accepted": 2.1975042881935627,
+    "zones_final": 806,
+    "directory": "scratch:dryrun_relax_C2_n800_3464rsun_grey_cyc0"
+   },
+   {
+    "DRYRUN": true,
+    "run": "C2",
+    "zones": 800,
+    "seed_radius_rsun": 3464.0,
+    "surface": "grey",
+    "mesh_cycles": 40,
+    "status": "converged",
+    "reason": null,
+    "accepted": 59,
+    "rejected": 7,
+    "cycles": 7,
+    "wall_seconds": 88.37605099997018,
+    "seconds_per_accepted": 1.49789916949102,
+    "zones_final": 800,
+    "directory": "scratch:dryrun_relax_C2_n800_3464rsun_grey_cyc40"
+   },
+   {
+    "DRYRUN": true,
+    "run": "C2",
+    "zones": 800,
+    "seed_radius_rsun": 6000.0,
+    "surface": "grey",
+    "mesh_cycles": 0,
+    "status": "converged",
+    "reason": null,
+    "accepted": 37,
+    "rejected": 8,
+    "cycles": 0,
+    "wall_seconds": 51.12534791696817,
+    "seconds_per_accepted": 1.3817661599180586,
+    "zones_final": 894,
+    "directory": "scratch:dryrun_relax_C2_n800_6000rsun_grey_cyc0"
+   },
+   {
+    "DRYRUN": true,
+    "run": "C2",
+    "zones": 800,
+    "seed_radius_rsun": 6000.0,
+    "surface": "grey",
+    "mesh_cycles": 40,
+    "status": "converged",
+    "reason": null,
+    "accepted": 60,
+    "rejected": 8,
+    "cycles": 7,
+    "wall_seconds": 57.864140917081386,
+    "seconds_per_accepted": 0.9644023486180231,
+    "zones_final": 800,
+    "directory": "scratch:dryrun_relax_C2_n800_6000rsun_grey_cyc40"
+   },
+   {
+    "DRYRUN": true,
+    "run": "C2",
+    "zones": 800,
+    "seed_radius_rsun": 8485.0,
+    "surface": "grey",
+    "mesh_cycles": 0,
+    "status": "failed",
+    "reason": "relaxation failed in mesh cycle 0",
+    "accepted": 0,
+    "rejected": 21,
+    "cycles": 0,
+    "wall_seconds": 1.5451442090561613,
+    "seconds_per_accepted": 1.5451442090561613,
+    "directory": "scratch:dryrun_relax_C2_n800_8485rsun_grey_cyc0"
+   },
+   {
+    "DRYRUN": true,
+    "run": "C2",
+    "zones": 800,
+    "seed_radius_rsun": 8485.0,
+    "surface": "grey",
+    "mesh_cycles": 40,
+    "status": "failed",
+    "reason": "relaxation failed in mesh cycle 0",
+    "accepted": 0,
+    "rejected": 21,
+    "cycles": 0,
+    "wall_seconds": 1.7425458750221878,
+    "seconds_per_accepted": 1.7425458750221878,
+    "directory": "scratch:dryrun_relax_C2_n800_8485rsun_grey_cyc40"
+   }
+  ],
+  "seed_spreads": [
+   {
+    "run": "C1",
+    "zones": 200,
+    "settings": "cyc0",
+    "seeds": [
+     "dryrun_relax_C1_n200_6000rsun_grey_cyc0",
+     "dryrun_relax_C1_n200_3464rsun_grey_cyc0"
+    ],
+    "zones_final": [
+     224,
+     200
+    ],
+    "max_abs_dln": 0.01502203518697,
+    "per_observable": {
+     "Mdot_BH": 0.00092772072132633,
+     "M_cav": 0.01502203518697,
+     "L*": 0.00092772072132633,
+     "rho0": 0.0018556882469135765,
+     "T0": 0.0019403029625595528,
+     "Teff": 0.007381738373982666,
+     "r_B": 0.005625907811294247,
+     "R*": 0.014299616387302217
+    }
+   },
+   {
+    "run": "C1",
+    "zones": 200,
+    "settings": "cyc40",
+    "seeds": [
+     "dryrun_relax_C1_n200_6000rsun_grey_cyc40",
+     "dryrun_relax_C1_n200_3464rsun_grey_cyc40"
+    ],
+    "zones_final": [
+     200,
+     200
+    ],
+    "max_abs_dln": 3.868574391275055e-08,
+    "per_observable": {
+     "Mdot_BH": 4.3478087787248315e-10,
+     "M_cav": 7.044560909775243e-09,
+     "L*": 4.347846526307653e-10,
+     "rho0": 8.705089985975039e-10,
+     "T0": 9.10072240204454e-10,
+     "Teff": 1.9451568166850812e-08,
+     "r_B": 2.6383499794503315e-09,
+     "R*": 3.868574391275055e-08
+    }
+   },
+   {
+    "run": "C1",
+    "zones": 200,
+    "settings": "cyc40_A1",
+    "seeds": [
+     "dryrun_relax_C1_n200_6000rsun_grey_cyc40_A1",
+     "dryrun_relax_C1_n200_3464rsun_grey_cyc40_A1"
+    ],
+    "zones_final": [
+     200,
+     200
+    ],
+    "max_abs_dln": 5.4479531995292124e-11,
+    "per_observable": {
+     "Mdot_BH": 2.633449014407404e-12,
+     "M_cav": 3.8439251781670676e-12,
+     "L*": 2.634115148222177e-12,
+     "rho0": 3.920197499943744e-12,
+     "T0": 1.6453505224931283e-12,
+     "Teff": 2.658129272283617e-11,
+     "r_B": 2.588262937311977e-12,
+     "R*": 5.4479531995292124e-11
+    }
+   },
+   {
+    "run": "C0",
+    "zones": 400,
+    "settings": "cyc0",
+    "seeds": [
+     "dryrun_relax_C0_n400_6000rsun_grey_cyc0",
+     "dryrun_relax_C0_n400_3464rsun_grey_cyc0"
+    ],
+    "zones_final": [
+     445,
+     401
+    ],
+    "max_abs_dln": 0.0031408670416929875,
+    "per_observable": {
+     "Mdot_BH": 0.00022189490393274424,
+     "M_cav": 0.0031408670416929875,
+     "L*": 0.00022189490393318824,
+     "rho0": 0.00035441905093559653,
+     "T0": 0.0003946347346531183,
+     "Teff": 0.0016001754673432575,
+     "r_B": 0.0011650953642091304,
+     "R*": 0.003089403482719895
+    }
+   },
+   {
+    "run": "C0",
+    "zones": 400,
+    "settings": "cyc40",
+    "seeds": [
+     "dryrun_relax_C0_n400_6000rsun_grey_cyc40",
+     "dryrun_relax_C0_n400_3464rsun_grey_cyc40"
+    ],
+    "zones_final": [
+     400,
+     400
+    ],
+    "max_abs_dln": 3.62374241790352e-10,
+    "per_observable": {
+     "Mdot_BH": 5.529354751858416e-12,
+     "M_cav": 3.62374241790352e-10,
+     "L*": 5.52946577416088e-12,
+     "rho0": 6.497624660328618e-11,
+     "T0": 5.3559379152532496e-11,
+     "Teff": 7.447975569896209e-11,
+     "r_B": 1.4245005176454075e-10,
+     "R*": 1.4619461196116404e-10
+    }
+   },
+   {
+    "run": "C2",
+    "zones": 800,
+    "settings": "cyc0",
+    "seeds": [
+     "dryrun_relax_C2_n800_6000rsun_grey_cyc0",
+     "dryrun_relax_C2_n800_3464rsun_grey_cyc0"
+    ],
+    "zones_final": [
+     894,
+     806
+    ],
+    "max_abs_dln": 0.0006507662717030985,
+    "per_observable": {
+     "Mdot_BH": 5.3767128610265214e-05,
+     "M_cav": 0.0004119686719564941,
+     "L*": 5.3767128609821146e-05,
+     "rho0": 1.6889789100638782e-05,
+     "T0": 4.190089351888989e-05,
+     "Teff": 0.0003388249180039865,
+     "r_B": 0.0001429528203522979,
+     "R*": 0.0006507662717030985
+    }
+   },
+   {
+    "run": "C2",
+    "zones": 800,
+    "settings": "cyc40",
+    "seeds": [
+     "dryrun_relax_C2_n800_6000rsun_grey_cyc40",
+     "dryrun_relax_C2_n800_3464rsun_grey_cyc40"
+    ],
+    "zones_final": [
+     800,
+     800
+    ],
+    "max_abs_dln": 4.2311254509000456e-10,
+    "per_observable": {
+     "Mdot_BH": 2.8184121703094505e-12,
+     "M_cav": 4.2311254509000456e-10,
+     "L*": 2.8184121703094505e-12,
+     "rho0": 8.699774233965774e-11,
+     "T0": 6.625167081389188e-11,
+     "Teff": 9.790857013545518e-11,
+     "r_B": 1.7003654041782946e-10,
+     "R*": 1.9440793421423697e-10
+    }
+   }
+  ]
+ },
+ "smoke_like_probes": {
+  "note": "quasistatic.run from a DRYRUN row-0 model with the plan track options, stopped after at most 300 accepted steps",
+  "runs": [
+   {
+    "DRYRUN": true,
+    "tag": "A1_n200",
+    "ptc": false,
+    "status": "control_stop",
+    "reason": "requested checkpoint stop",
+    "accepted": 300,
+    "attempts": 300,
+    "rejections": 0,
+    "rejected_fraction": 0.0,
+    "median_dt_years": 56.46249893622314,
+    "min_dt_years": 1.0,
+    "max_dt_years": 74.85953448568921,
+    "last_dt_years": 74.85953448568921,
+    "final_bh_mass_msun": 8.572406846034683,
+    "wall_seconds": 51.43293291598093,
+    "seconds_per_accepted": 0.17144310971993643,
+    "seconds_per_attempt": 0.17144310971993643,
+    "rejection_kinds": {},
+    "newton_iterations_median": 3.0,
+    "ptc_entered_accepted": 0,
+    "ptc_in_rejections": 0,
+    "limiting_metric": {
+     "profile_dlnr": 3,
+     "dln_inner_radius": 8,
+     "dln_base_density": 289
+    },
+    "start_row_screen_errors": [],
+    "directory": "scratch:dryrun_smoke_A1_n200"
+   },
+   {
+    "DRYRUN": true,
+    "tag": "A1_n200_final",
+    "ptc": false,
+    "status": "control_stop",
+    "reason": "requested checkpoint stop",
+    "accepted": 300,
+    "attempts": 300,
+    "rejections": 0,
+    "rejected_fraction": 0.0,
+    "median_dt_years": 56.46249893666646,
+    "min_dt_years": 1.0,
+    "max_dt_years": 74.85953448642007,
+    "last_dt_years": 74.85953448642007,
+    "final_bh_mass_msun": 8.572406846036781,
+    "wall_seconds": 21.723927750019357,
+    "seconds_per_accepted": 0.07241309250006452,
+    "seconds_per_attempt": 0.07241309250006452,
+    "rejection_kinds": {},
+    "newton_iterations_median": 3.0,
+    "ptc_entered_accepted": 0,
+    "ptc_in_rejections": 0,
+    "limiting_metric": {
+     "profile_dlnr": 3,
+     "dln_inner_radius": 8,
+     "dln_base_density": 289
+    },
+    "start_row_screen_errors": [],
+    "directory": "scratch:dryrun_smoke_A1_n200_final"
+   },
+   {
+    "DRYRUN": true,
+    "tag": "A1_n400_final",
+    "ptc": false,
+    "status": "control_stop",
+    "reason": "requested checkpoint stop",
+    "accepted": 300,
+    "attempts": 300,
+    "rejections": 0,
+    "rejected_fraction": 0.0,
+    "median_dt_years": 56.32423020406304,
+    "min_dt_years": 1.0,
+    "max_dt_years": 74.65505593912742,
+    "last_dt_years": 74.65505593912742,
+    "final_bh_mass_msun": 8.573203533862296,
+    "wall_seconds": 59.533954125014134,
+    "seconds_per_accepted": 0.1984465137500471,
+    "seconds_per_attempt": 0.1984465137500471,
+    "rejection_kinds": {},
+    "newton_iterations_median": 3.0,
+    "ptc_entered_accepted": 0,
+    "ptc_in_rejections": 0,
+    "limiting_metric": {
+     "profile_dlnr": 4,
+     "dln_inner_radius": 7,
+     "dln_base_density": 289
+    },
+    "start_row_screen_errors": [],
+    "directory": "scratch:dryrun_smoke_A1_n400_final"
+   },
+   {
+    "DRYRUN": true,
+    "tag": "registered_n200",
+    "ptc": false,
+    "status": "termination_trigger",
+    "reason": "timestep 0.0625 yr below the dynamical time 0.0913 yr (Ball's criterion)",
+    "accepted": 0,
+    "attempts": 4,
+    "rejections": 4,
+    "rejected_fraction": 1.0,
+    "median_dt_years": null,
+    "min_dt_years": null,
+    "max_dt_years": null,
+    "last_dt_years": null,
+    "final_bh_mass_msun": 5.0,
+    "wall_seconds": 0.7553995830239728,
+    "seconds_per_accepted": 0.7553995830239728,
+    "seconds_per_attempt": 0.1888498957559932,
+    "rejection_kinds": {
+     "delta_actual > 2 delta_target (profile_dlnr)": 4
+    },
+    "newton_iterations_median": null,
+    "ptc_entered_accepted": 0,
+    "ptc_in_rejections": 0,
+    "limiting_metric": {},
+    "start_row_screen_errors": [],
+    "directory": "scratch:dryrun_smoke_registered_n200"
+   },
+   {
+    "DRYRUN": true,
+    "tag": "registered_n200_F1",
+    "ptc": true,
+    "status": "termination_trigger",
+    "reason": "timestep 0.0625 yr below the dynamical time 0.0913 yr (Ball's criterion)",
+    "accepted": 0,
+    "attempts": 4,
+    "rejections": 4,
+    "rejected_fraction": 1.0,
+    "median_dt_years": null,
+    "min_dt_years": null,
+    "max_dt_years": null,
+    "last_dt_years": null,
+    "final_bh_mass_msun": 5.0,
+    "wall_seconds": 0.9318549160379916,
+    "seconds_per_accepted": 0.9318549160379916,
+    "seconds_per_attempt": 0.2329637290094979,
+    "rejection_kinds": {
+     "delta_actual > 2 delta_target (profile_dlnr)": 4
+    },
+    "newton_iterations_median": null,
+    "ptc_entered_accepted": 0,
+    "ptc_in_rejections": 0,
+    "limiting_metric": {},
+    "start_row_screen_errors": [],
+    "directory": "scratch:dryrun_smoke_registered_n200_F1"
+   }
+  ]
+ },
+ "row0_screens": {
+  "note": "Relaxed DRYRUN row-0 models (6000 Rsun seed, Amendments 3 + 2), plan policy published_assumption: no enforced screen violated; report-only radiation_knudsen_outer fires. Values of two screens that matter for Stage 7 (not Table 1 observables).",
+  "radiation_knudsen_deep_limit_0p1": {
+   "N200": 0.0869,
+   "N400": 0.0949,
+   "N800": 0.0954
+  },
+  "free_streaming_deep_limit_1": {
+   "N200": 0.0288,
+   "N400": 0.0316,
+   "N800": 0.0318
+  },
+  "photosphere_eddington_factor": {
+   "N200": 0.9238,
+   "N400": 0.9253,
+   "N800": 0.9257
+  },
+  "max_outward_relative_density_increase_per_cell_pair": {
+   "N200": 0.00908,
+   "N400": 0.00536,
+   "N800": 0.00275
+  },
+  "plan_Q2_note": "Plan check Q2 (required) asks for an outward density increase > 1e-3 to be absent at row 0; the dry-run row 0 shows 5.4e-3 at N = 400 (halving with N because the measure is per adjacent cell pair). Reported as a Stage 7 risk; nothing was changed because of it.",
+  "density_inversion_location": {
+   "N200": "2 cell pairs, T 27.5-28.6 kK, 0.019 Msun below the surface, total ln rho rise 0.0154",
+   "N400": "5 cell pairs, T 27.0-29.1 kK, 0.018 Msun below the surface, total 0.0187",
+   "N800": "11 cell pairs, T 26.5-29.1 kK, 0.017 Msun below the surface, total 0.0193"
+  }
+ },
+ "fold_probe": {
+  "note": "fold.classify called on the DRYRUN row-0 state at N = 200 (the state a registered-numerics track would hand it after the step-0 termination trigger)",
+  "label": "numerical_failure",
+  "reason": "no fold of the frozen-entropy problem within the search range: direction +1: lambda limit; direction -1: lambda limit",
+  "start_residual": 1.11e-13,
+  "points": [
+   9,
+   27
+  ],
+  "wall_seconds": 8.9
+ },
+ "wall_time": {
+  "note": "single thread, nice 15, machine shared with CMFGEN (load average 9-18)",
+  "seconds_per_accepted_step_evolve": {
+   "N200_amendment_1_numerics": "0.07 (load 9) to 0.17 (load 17)",
+   "N400_amendment_1_numerics": 0.2
+  },
+  "relax_both_seeds_seconds": {
+   "N200 A3": 20,
+   "N200 A3+A2": 32,
+   "N200 A3+A2+A1": 111,
+   "N400 A3": 56,
+   "N400 A3+A2": 66,
+   "N400 A3+A2+A1": 47,
+   "N800 A3": 207,
+   "N800 A3+A2": 169
+  },
+  "smoke_registered_step_numerics_seconds": 1.3,
+  "smoke_like_probe_amendment_1": "300 accepted steps, 0 rejected, median dt 56 yr, M_BH 5 -> 8.57 Msun, limited by |dln rho_b| on 289 steps (N = 200 and N = 400 agree: 8.5724 vs 8.5732 Msun)"
+ }
+}

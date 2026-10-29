@@ -1,0 +1,27 @@
+[
+ {
+  "it": 0,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_hot2/start_base",
+  "merit": 1.7454401013427217,
+  "max_frozen_correction": 27462.17944908246,
+  "resid_norm": 43196626144.42841,
+  "gmres": [
+   1.0,
+   0.23332685715926824
+  ],
+  "products": 1,
+  "max_step": 0.5113839877500024,
+  "max_step_significant": 0.5113839877500024,
+  "lam": 1.0,
+  "ptc_delta": 0.055917522041732955,
+  "limited_components": 0,
+  "trials": {
+   "l1": 0.46184015355508956,
+   "l0.5": 0.7781181467452488,
+   "l0.25": 1.2861638573071101
+  },
+  "accepted": "l1",
+  "merit_new": 0.46184015355508956,
+  "accepted_lam": 1.0
+ }
+]

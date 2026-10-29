@@ -1,0 +1,10 @@
+tau 1e-02: lin res 0.080 y15   -13.64 dir15 outside 99.6% deep max|s| 3.698 max|s| sig 16.08
+tau 3e-02: lin res 0.140 y15   -12.35 dir15 outside 98.7% deep max|s| 3.305 max|s| sig 9.01
+tau 1e-01: lin res 0.500 y15     0.93 dir15 outside 94.0% deep max|s| 0.787 max|s| sig 50.71
+tau 3e-01: lin res 0.551 y15    -4.46 dir15 outside 79.2% deep max|s| 1.196 max|s| sig 4.45
+dir 15: row-scaled exact action outside support 21.6%, largest at d127 row 35; |Wz| 1.05
+        direct part outside 4.17e-15 inside 0.418; radiation part outside 0.0177 inside 0.421
+dir 16: row-scaled exact action outside support 3.9%, largest at d120 row 39; |Wz| 1.36
+        direct part outside 1.85e-12 inside 0.342; radiation part outside 0.00344 inside 0.317
+dir 17: row-scaled exact action outside support 0.0%, largest at d120 row 102; |Wz| 0.854
+        direct part outside 1.31e-11 inside 0.235; radiation part outside 7.82e-06 inside 0.179

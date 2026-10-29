@@ -11,7 +11,7 @@ from .controls import value
 class DomainError(RuntimeError):
     pass
 
-def exchange(old,dt,eos,config,engine,wind_rate):
+def exchange(old,dt,eos,config,engine,wind_rate,terminal_speed=None):
     state = old.copy()
     feed = value(config["feeding"]["rate_msun_per_year"],old.time/YEAR)*MSUN/YEAR
     if feed < 0 or wind_rate < 0: raise DomainError("A one-way stream has negative mass flux")
@@ -69,6 +69,6 @@ def exchange(old,dt,eos,config,engine,wind_rate):
     delta_s = np.dot(state.dm,eos.evaluate(state.rho,state.T)["s"])-np.dot(old.dm,q["s"])
     l["mixing_entropy_change"] += delta_s-added*incoming_s+removed*q["s"][-1]+swallowed*q["s"][0]
     # Wind must reach infinity. Its binding deficit is charged to outgoing light.
-    terminal = config["wind"]["terminal_speed_cm_s"]
+    terminal = config["wind"]["terminal_speed_cm_s"] if terminal_speed is None else terminal_speed
     wind_cost = removed*max(0.,.5*terminal**2-q["h"][-1]-phi[-1]-kinetic[-1])
     return state,dict(feed_rate=feed,wind_rate=wind_rate,wind_cost=wind_cost)

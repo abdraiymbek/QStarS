@@ -19,7 +19,7 @@ module qstars_mesa_microphysics
  real(dp) :: atmosphere_x, atmosphere_fixed_kappa
 contains
  integer(c_int) function qstars_api_version() bind(C)
-  qstars_api_version=6
+  qstars_api_version=7
  end function
  subroutine qstars_constants(arad) bind(C)
   real(c_double), intent(out) :: arad
@@ -36,13 +36,101 @@ contains
   real(c_double), value :: hydrogen
   real(c_double), intent(out) :: kappa(n),fractions(3,n)
   integer(c_int), intent(out) :: ierr
-  type(Kap_General_Info), pointer :: kp
-  integer :: i,j,handle
+  integer :: i,j
   real(dp) :: dkd,dkt,logr
   ierr=0
   if(mixture<1.or.mixture>2.or.hydrogen/=0.7d0) then
    ierr=-105;return
   endif
+  call paper_handles(mixture,ierr)
+  if(ierr/=0)return
+  do i=1,n
+   if(rho(i)<=0d0.or.temp(i)<=0d0) then
+    ierr=-106;return
+   endif
+   logr=log10(rho(i))-3d0*log10(temp(i))+18d0
+   ! Explicit common table rectangle: no extrapolation or implicit fallback.
+   if(logr< -7d0.or.logr>1d0.or.temp(i)<3000d0.or.temp(i)>1d7) then
+    ierr=-107;return
+   endif
+   j=1
+   if(temp(i)<7000d0)j=2
+   call kap_get_radiative_opacity(kh_paper(j,mixture),hydrogen,0d0,0d0,0d0,0d0,0d0, &
+       log10(rho(i)),log10(temp(i)),fractions(1,i),fractions(2,i),fractions(3,i), &
+       kappa(i),dkd,dkt,ierr)
+   if(ierr/=0)return
+  enddo
+ end subroutine
+
+ ! ABI 7, Ball et al. 2011 replication only: the Eldridge & Tout 2004 STARS
+ ! table switch (Ball thesis 2.1.2). The gs98 kh_paper(1) handle is used at
+ ! every T: OPAL Type1 (Zbase=0) above log T=3.76, AF94 below 3.75, MESA's
+ ! smooth blend between. Same explicit rectangle as qstars_opacity_paper.
+ ! clamp/=0 applies the STARS nearest-table-value rule: log R is moved to the
+ ! rectangle edge at fixed T (flags 1 below, 2 above), dlnk_dlnrho=0 and
+ ! dlnk_dlnT is the exact derivative of that clamped map. Off-table T is
+ ! always an error. Derivatives are MESA's analytic table derivatives.
+ subroutine qstars_opacity_stars(n,rho,temp,hydrogen,clamp,kappa,dlnk_dlnrho,dlnk_dlnT,flags,ierr) bind(C)
+  integer(c_int), value :: n,clamp
+  real(c_double), intent(in) :: rho(n),temp(n)
+  real(c_double), value :: hydrogen
+  real(c_double), intent(out) :: kappa(n),dlnk_dlnrho(n),dlnk_dlnT(n)
+  integer(c_int), intent(out) :: flags(n),ierr
+  integer :: i
+  real(dp) :: dkd,dkt,logr,logrho,logt,edge,f1,f2,f3
+  ierr=0;flags=0;kappa=0d0;dlnk_dlnrho=0d0;dlnk_dlnT=0d0
+  if(hydrogen/=0.7d0) then
+   ierr=-105;return
+  endif
+  call paper_handles(1,ierr)
+  if(ierr/=0)return
+  do i=1,n
+   ! Written so that NaN and infinite states also fail.
+   if(.not.(rho(i)>0d0.and.rho(i)<=huge(rho(i)).and.temp(i)>0d0)) then
+    ierr=-106;return
+   endif
+   if(.not.(temp(i)>=3000d0.and.temp(i)<=1d7)) then
+    ierr=-107;return
+   endif
+   logrho=log10(rho(i));logt=log10(temp(i))
+   logr=logrho-3d0*logt+18d0
+   if(logr< -7d0)flags(i)=1
+   if(logr>1d0)flags(i)=2
+   if(flags(i)/=0) then
+    if(clamp==0) then
+     ierr=-107;return
+    endif
+    edge=-7d0
+    if(flags(i)==2)edge=1d0
+    logrho=edge+3d0*logt-18d0
+    ! MESA recomputes log R and rejects it below the AF94 edge: round inward.
+    do while(logrho-3d0*logt+18d0< -7d0)
+     logrho=nearest(logrho,1d0)
+    enddo
+    do while(logrho-3d0*logt+18d0>1d0)
+     logrho=nearest(logrho,-1d0)
+    enddo
+   endif
+   call kap_get_radiative_opacity(kh_paper(1,1),hydrogen,0d0,0d0,0d0,0d0,0d0, &
+       logrho,logt,f1,f2,f3,kappa(i),dkd,dkt,ierr)
+   if(ierr/=0)return
+   if(f3/=0d0.or.abs(f1+f2-1d0)>1d-12) then
+    ierr=-108;return
+   endif
+   if(flags(i)/=0) then
+    dkt=dkt+3d0*dkd;dkd=0d0
+   endif
+   dlnk_dlnrho(i)=dkd;dlnk_dlnT(i)=dkt
+  enddo
+ end subroutine
+
+ ! Lazily allocates the two pure-table handles of one metal mixture.
+ subroutine paper_handles(mixture,ierr)
+  integer, intent(in) :: mixture
+  integer, intent(out) :: ierr
+  type(Kap_General_Info), pointer :: kp
+  integer :: j,handle
+  ierr=0
   do j=1,2
    if(kh_paper(j,mixture)/=0) cycle
    handle=alloc_kap_handle(ierr)
@@ -70,22 +158,6 @@ contains
    call kap_setup_tables(handle,ierr)
    if(ierr/=0)return
    kh_paper(j,mixture)=handle
-  enddo
-  do i=1,n
-   if(rho(i)<=0d0.or.temp(i)<=0d0) then
-    ierr=-106;return
-   endif
-   logr=log10(rho(i))-3d0*log10(temp(i))+18d0
-   ! Explicit common table rectangle: no extrapolation or implicit fallback.
-   if(logr< -7d0.or.logr>1d0.or.temp(i)<3000d0.or.temp(i)>1d7) then
-    ierr=-107;return
-   endif
-   j=1
-   if(temp(i)<7000d0)j=2
-   call kap_get_radiative_opacity(kh_paper(j,mixture),hydrogen,0d0,0d0,0d0,0d0,0d0, &
-       log10(rho(i)),log10(temp(i)),fractions(1,i),fractions(2,i),fractions(3,i), &
-       kappa(i),dkd,dkt,ierr)
-   if(ierr/=0)return
   enddo
  end subroutine
 

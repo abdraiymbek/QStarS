@@ -1,0 +1,12 @@
+{
+ "base": "/Users/abraiymbek/Projects/QStarS/results/nk_adv84/it05_trial_l1",
+ "cols": [
+  "T",
+  "ne"
+ ],
+ "period": 5,
+ "far_field_share": {
+  "T": 0.001129963386266961,
+  "ne": 0.06686163826983785
+ }
+}

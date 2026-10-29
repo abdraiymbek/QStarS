@@ -189,3 +189,183 @@ transport/stress/dissipation closure. No such overlap has yet been established.
 The Mach-one MLT exclusion remains active; a flux cap or line-width parameter
 does not remove it. Failure to converge the atmosphere is a numerical failure,
 not evidence that a physical quasi-star has no wind.
+
+## Exact Jacobian action and Newton–Krylov closure (Report 20)
+
+The cool closure residual R(x) is the native rate/radiative-equilibrium system
+with the converged formal-ALI J(x). Its Jacobian action along a fractional
+direction s (dPOPS = POPS·s) is assembled as
+
+```
+J·(x∘s) = J_dir·s + Σ_ν (∂R/∂J_ν) δJ_ν(s)
+```
+
+* δJ_ν is the analytic, depth- and frequency-nonlocal tangent of the formal
+  transfer (Report 19), driven by the exact directional changes of extinction,
+  emissivity, coherent scattering and the diffusion boundary, with blue-ray
+  history. ∂R/∂J_ν are the coefficients of the native accumulation (bound-free
+  QFV, low-T recombination, line ZNET, RE row, two-photon).
+* J_dir is the fixed-J Jacobian. It is block-diagonal in depth. The native
+  analytic blocks omit the dependence of level dissolution / occupation
+  probabilities on n_e, total ion density and T; those columns are completed
+  by frozen-J central differences on replay passes (no transfer noise).
+
+Validated against exact-residual finite differences on the 84-radius state
+x0 (Report 18 oracle and new T/n_e/population-direction oracle): agreement is at
+or below the oracle's own step-to-step consistency in every tested direction
+(≈1e-6 for T/n_e/population directions; 1.3e-3 along the native fixed-J Newton
+step). Caution: a single-iteration CMFGEN restart inherits FIXED_T from the
+restart's BAMATPNT, so `FIX_T=F` alone does NOT release T (the radiative-
+equilibrium row stays the identity). Those T-direction runs validated the T
+column only; T-released passes must remove BAMATPNT/BAMAT
+(`cool_newton_krylov.release_t`).
+
+The nonlinear solve (`scripts/cool_newton_krylov.py`) uses left-preconditioned
+GMRES (preconditioner = complete J_dir, which weights every rate equation by its
+own fixed-J rates), positivity-preserving log updates x←x·exp(−λs), a per-component
+log-step limit (|λ s_i| ≤ ln 10⁴; affects only ultra-trace levels) and a parallel
+line search on ‖M_k⁻¹R‖. Convergence is declared on the unlimited exact Newton
+step over levels holding more than 1e-10 of their element. The equation
+selection is forced to a fixed table so the residual definition never changes.
+
+With T released, the RE row of the action is accurate in the cool layer (~0.4 % of
+the net response). In the thick interior, where the RE row cancels 30–300×, the net
+response is off by up to 16–25 %. The cause is that the native opacity derivatives
+omit the level-dissolution dependence; with dissolution off (diagnostic only) the RE
+row agrees to 2e-5–7e-5 (Report 20 §4.3).
+
+Solver options added for the T-released problem (Report 20 §4.4), all recorded per
+run and none changing the convergence criterion:
+- `--augment` (GCR-type subspace with previous Newton steps);
+- `--lm-trust` (Levenberg–Marquardt trust region on |s_T| inside the Krylov
+  subspace; trials along the LM path);
+- `--ultra-frac/--ultra-weight` (third significance tier for levels ≤ 1e-20 of
+  their element);
+- `--natural` (Deuflhard monotonicity test on the simplified Newton correction,
+  estimated in the Krylov subspace).
+
+`--merit rowscale` (with `--eq-floor`) and `--trace-sweep` are retained for
+provenance. The trace sweep is wrong for CMFGEN, because trace rows can carry the
+species-conservation equation.
+
+Status (Report 20): the fixed-T problem converges linearly, with the largest
+significant frozen-J correction at 1.4e-3. The T-released problem does not converge
+at 84 radii. The coupled Newton direction prefers a cool neutral layer whose
+ionization front (d11/d12) falls between grid points, and that cell has no
+consistent RE temperature (`scripts/thermal_curve.py`: the frozen-J local balance at
+d12 is net heating from 1.1 to 7.8 kK). The next steps are the 167-radius released
+solve, T continuation, and the omitted wind energy terms (`INC_AD`, `INC_ADV`).
+
+**Report 21 additions.**
+- Builds 25–27 complete the level-dissolution derivatives in the tangent opacities and
+  emissivities. They cover W in the bound-free LTE populations, the dissolved fraction T2 below
+  each edge, and the line ratio `L_STAR_RATIO = W_up/W_low`, all chained through
+  `B/A/X_LEV_DIS(n_e, POPION, T)`. With them, every row of the complete action matches
+  T-released exact-residual oracles at the oracle floor, the RE row included.
+- `INC_AD=T` and `INC_ADV=T` are on. The direct Jacobian is block-tridiagonal (native
+  off-diagonal blocks kept; frozen-J columns corrected for them), validated by an odd-depth
+  perturbation test (7.8e-6).
+- T continuation (`--t-homotopy`) has three modes:
+  - `--hom-mode pin`: R_T(λ) = λ·R_RE + (1−λ)·c·(T−T_fix)/T_fix. Badly scaled, because c is the RE
+    row's gross scale and T stays pinned until λ ≈ 1. Kept as a failed attempt.
+  - `--hom-mode shift`: R_T(λ) = R_RE − (1−λ)·R_RE(start). The Jacobian is unchanged, and the
+    predictor–corrector advances λ after `--stage-max-iters` corrector iterates.
+  - `--hom-mode ptc`: pseudo-transient continuation, G_T = R_RE − δ·c·(T−T_k)/T_k with T_k the
+    current base T. This is the physical heating direction, and the term vanishes at fixed points.
+    δ0 is automatic (`--ptc-target-dT`) or reset on restart (`--ptc-delta-reset`). SER on the
+    RE net/gross is decrease-only, and δ → 0 when the regularized step falls below `--ptc-switch`.
+
+  Frozen-J columns are shared per state across stages. `--pc-t-floor` adds a fraction of the RE
+  row scale to its T diagonal, in the preconditioner only. `--split` gives T its own Krylov
+  directions per depth region, which is needed for accurate T steps.
+- Report 21 result: the shift continuation reaches λ = 1 at 84 and 167 radii. Free Newton then
+  slides the H I front down the cool branch on both grids. At the front the coupled net heating
+  is ∝ T at frozen populations (exact probe of the T columns,
+  `scripts/probe_columns.py`), so Newton targets T → 0. PTC heats the front from 5.5 kK and from 7.9 and
+  10.5 kK hot starts (`scripts/equilibrate_at_T.py --vadat`), but slowly. The iterates remain far
+  from statistical equilibrium: at the front, CMFGEN's GENCOOL thermal balance and the RE row
+  disagree by orders of magnitude (`scripts/gencool_breakdown.py`). The released closure has not
+  converged.
+- Build 28 (`jv_nonest.patch`) runs the tangent's direction loop outside any OpenMP construct
+  when it cannot occupy every thread. This removes a nested-team libgomp deadlock and an
+  intermittent SIGSEGV; products are unchanged to 1.2e-16.
+- A 333-radius nested restart (`scripts/prepare_mesh333.py`) and its base pass are ready for the
+  167/333 spatial check. `scripts/transfer_state_nested.py` carries a state onto it, and
+  `scripts/post_convergence.sh` chains trace cleanup, verification and audits.
+- Completed passes are compacted by `scripts/slim_pass.py`. It removes only source-identical
+  copies and outputs that nothing reads, and logs the removals in `QSTARS_SLIM.json`.
+
+**Report 22 additions (solver speed; same model, products and convergence test).**
+- Builds 29–31:
+  - The observer-frame formal solution is skipped in solver passes (`QSTARS_NO_OBS_FORMAL`, set by
+    the driver; verification and final runs keep it).
+  - One explicit per-frequency scattering operator serves every tangent direction's GMRES.
+  - Forcing/final sweeps are batched per thread block, and `lin_setup` runs in parallel.
+  - Products agree with build 28 to ≤ 1e-12 per equation row, with identical GMRES step counts.
+  - Matched on the same 167-radius state: base pass 2.5×, Jv product 1.9×, column pass 3.4× faster.
+- Driver:
+  - Thread budgets: 6 column workers × 1 thread; trials `8 // n_trials`.
+  - Exact reuse of same-base products after a PTC δ change or switch, counted against
+    `--krylov`.
+  - Resume hardening; an optional full-budget guard (`--full-krylov-near`).
+  - `scripts/bench_pass.py` reruns any archived pass and compares it row by row.
+  - `scripts/compare_iterate.py` compares whole iterates.
+- Measured structure of the stalled Krylov residual (0.46 after 74 products at 167 radii): 53 %
+  is in the front RE row and 43 % in ultra-trace He II/He III rows. The product span already
+  contains the front T correction: weighted on the T row alone, it reduces that residual to 0.016.
+  The 1e-8 ultra-trace weight declines it. A Schur-complement T solve is therefore not justified.
+  Ultra-trace weight 1e-10 (user-approved, with `--full-krylov-near 10`) reaches η in one pass,
+  26 instead of 74 products.
+- Background QoS: processes launched from the agent session share roughly 4–6 cores. Battery
+  and foreground use slow them 1.5–5×, so benchmark only in back-to-back pairs.
+
+**Report 23 additions (what the solver could not see, and the physics it was solving).**
+- **Two-photon (build 32).** Every QStarS single-iteration pass sets `COMP_F=T`, which made CMFGEN replace
+  `TWO_METH=USE_RAD` by `OLD_DEFAULT` (`comp_opac.f`). That mode gives the partner photon the occupation
+  exp(−hν_B/kT_e): 33–101× too much 1s→2s absorption at the H I front, about 75 % of the RE row there, energy
+  inconsistent. With `QSTARS_TWO_PHOT_J` (driver `--two-phot-j`) `USE_RAD` is kept and the conjugate-frequency J
+  comes from a stored-J file. The driver replays each base with its own stored J (`<base>_tp`), so a converged state
+  satisfies the equations with its own J; columns, products and trials of that base use the same file.
+- **Trapped transitions.** The fixed-J preconditioner M holds untrapped line and continuum rates. In optically
+  thick transitions the radiation response cancels them (H I n = 2 at the front: exact diagonal 3e-4–6.5e-4 of the
+  fixed-J one), so ‖W M⁻¹ R‖ understates the error of every such level (H I n = 1–9, He I ground and ¹P series,
+  He II n = 1–3; `Reports/evidence/report23/trapped_levels/`). States the old measure called converged were
+  not: the PTC states had b₁ up to 7e10 at the front. Convergence in the fixed-J measure is not convergence.
+- **Driver options** (`scripts/cnk_trap.py`, `tests/test_cnk_trap.py`; all off by default):
+  - `--ali-precond`: M + (BA[`QS_LIN_FAC 1`] − BA[`QS_LIN_FAC 0`]), the native local-ALI response of every column,
+    from one frozen-J replay per base (`<base>_ali`). Build 33 makes that pass cost ~1.25 frozen-J passes. Best
+    measured preconditioner (median q = 0.40 against 0.88), nearly singular at the two ionization fronts.
+  - `--probe-rows/--probe-stride`: exact block-tridiagonal columns of chosen levels from one batched product pass;
+    preconditioner only (in the least-squares span the colored probe directions produced a depth sawtooth).
+  - `--sig-rows`: levels significant at every depth regardless of population fraction (H I n = 2).
+  - `--update-map linear`: x(1 − s) for increases (exp(−s) overshoots large increases).
+  - The coupling-significance rule (`--sig-coupling`) is kept for the record and must not be used: it promotes
+    ultra-trace levels through ionization-equation rows.
+- **Native stops.** `--vadat STOP_IF_MW F` keeps CMFGEN's flux-accuracy and inner-optical-depth checks as
+  warnings instead of ending a trial pass; a final state must still satisfy them.
+- **Fixed-T versus T-released.** At the transferred 84-radius fixed-T state the trapped-level solver lowers the
+  statistical-equilibrium measure threefold in two iterates, after which the fixed-T populations can no longer carry
+  the luminosity (L(r)/L(ND) 0.04–0.34 in every trial): the populations must be relaxed with T released.
+
+**Report 24 additions (constraints, far-field leakage, trial masers).**
+- **Exact linear constraints.** The H II row is hydrogen number conservation, the He III row helium number
+  conservation and the n_e row charge balance; their residuals are ΣH − H₀, ΣHe − He₀ and the charge sum − n_e
+  with the totals of x0. The per-component limiter (`--component-log-cap`) clips populations separately and breaks
+  them. Every Report 23 solve drifted off them (He up to 8×, charge up to 34×). `--conserve` projects every trial state
+  back (H and He totals per depth scaled to x0's, n_e = charge sum; ratios within a species, T and H⁻ kept);
+  `--lams ... 0` adds the projected base as a trial. Always check conservation of a reported state
+  (`Reports/evidence/report24/collect_page_data.py` prints it).
+- **Preconditioner floor.** `--pc-svd-floor 1e-2`: singular values of each equilibrated diagonal block below 1 % of the
+  largest are raised to that floor (`cnk_trap.floor_blocks`). Without it, the nearly singular local-ALI blocks at the
+  ionization fronts amplify the far-field action of distant directions, and the least squares uses them as blunt
+  instruments (iterate 1: a deep-layer direction with coefficient 172, 97 % of its action at the H front).
+- **Fixed T.** `--freeze-t` removes T from every direction in the `--pin-all` stage (otherwise the weakly weighted pin
+  row lets the least squares move T: coefficient 358 at iterate 4, trial T at 0.50–1.22 of T_fix).
+- **Native trial failures** are supercritical infrared masers in the trial states (inverted H I lines under the
+  `SRCE_CHK` floor, CHI < CHI_SCAT, Λ spectral radius > 1), not a transfer-solver defect. Build 36
+  (`ali_newton.patch`) solves the scattering fixed point by Newton where the local ALI stalls; it converges the
+  frequencies that have a solution and leaves a `QSTARS_ALI_NEWTON` record (and, with `QSTARS_ALI_NEWTON_DUMP`, the
+  Jacobian) for those that have none.
+- **Measures.** The driver's natural measure is dominated by the largest step components and accepted states that the
+  fixed measure (`scripts/fixed_metric.py ... --extra`) calls worse; judge progress in the fixed measure, by depth region,
+  together with conservation.

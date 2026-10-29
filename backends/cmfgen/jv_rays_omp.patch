@@ -1,0 +1,29 @@
+--- a/cur_cmf/new_main/formal_tangent_lin.f90
++++ b/cur_cmf/new_main/formal_tangent_lin.f90
+@@ -10,6 +10,7 @@
+ ! truncated small-dtau polynomial, same moments as the dual reference.
+ module qs_formal_tangent_lin
+ use set_kind_module
++use omp_lib, only: omp_in_parallel
+ use qs_dual
+ use qs_formal_tangent, only: mon_coeff
+ use mod_space_grid_v2
+@@ -221,6 +222,10 @@
+ nuon=s_nuon
+ dmoms=0
+ dgrad=ddbb/s_chind-s_dbb*dchi(nd)/(s_chind*s_chind)
++! Rays are independent; moments are reduced. Inside an enclosing parallel
++! region (several directions) this runs serially (no nested parallelism).
++!$omp parallel do schedule(dynamic,4) default(shared) &
++!$omp private(ir,n,i,k,kk,ddt,dcr,der,dct,dsrc,dim_,dip) reduction(+:dmoms) if(.not.omp_in_parallel())
+ do ir=1,s_nray
+  associate(a=>rl(ir))
+  n=a%n
+@@ -271,6 +276,7 @@
+  enddo
+  end associate
+ enddo
++!$omp end parallel do
+ end subroutine
+ 
+ ! Coherent-scattering tangent with the forcing from ONE full linear application

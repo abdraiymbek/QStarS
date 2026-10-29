@@ -1,0 +1,14 @@
+DRYRUN relax C1 [registered] photosphere_bracket=doubling wall 3.4 s
+status relaxation_blocker numerical relaxation blocker
+   seed 2000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists
+   seed 6000: failed acc 0 rej 21 cycles 0 relaxation failed in mesh cycle 0
+   seed 1000: seed_failed acc None rej None cycles None DomainError: Photospheric gas pressure is not positive (Gamma_ph >= 1); no Ball surface exists
+   seed 12000: seed_failed acc None rej None cycles None ValueError: MESA interface outside audited query rectangle: rho=1e-14..1e3, T=3000..1e8
+status relaxation_blocker relaxation_blocker | seed reasons equal: True
+seed statuses ['seed_failed', 'failed', 'seed_failed', 'seed_failed'] ['seed_failed', 'failed', 'seed_failed', 'seed_failed']
+relaxed_6000rsun.npz arrays bitwise equal: False | keys 19
+relax_6000rsun.jsonl records equal: True 21
+differing npz keys: ['config', 'photosphere_density'] | missing in preserved: []
+   config differs only at {'quasistatic.ptc': (False, None), 'replication.seed_surface': ('eos', None), 'quasistatic.photosphere_bracket': ('doubling', None), 'name': ('DRYRUN_ball2011_C1_n200', 'ball2011_C1_n200')}
+photosphere_density nan nan equal with NaN==NaN: True
+all state arrays bitwise equal (NaN==NaN), config aside: True

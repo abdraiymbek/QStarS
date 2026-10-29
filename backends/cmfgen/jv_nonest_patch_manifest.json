@@ -1,0 +1,16 @@
+{
+ "base_release": "build_27",
+ "build": "build_28",
+ "files": [
+  "new_main/qs_jv.f90"
+ ],
+ "source_hashes": {
+  "new_main/qs_jv.f90": {
+   "base": "27a103ce242a3436406910cc56ea6f1df87e0659c0d430b956d45f0eec842ef3",
+   "patched": "e34cc01ccea8a17d0aafedbfeca4e5b1cb7d158ef614b59f8d391b141a12e266"
+  }
+ },
+ "patch_file": "jv_nonest.patch",
+ "patch_sha256": "8799f4ac5b5990f0e430b6dbb1c94baeef22686f0208f6aa1991fdcecbbbc161",
+ "scope": "Threading only: with fewer tangent directions than threads the direction loop runs outside any OpenMP construct, so the ray-parallel region of lin_apply is not nested inside an inactive team (libgomp/macOS deadlock and intermittent SIGSEGV, Report 21). Arithmetic unchanged."
+}

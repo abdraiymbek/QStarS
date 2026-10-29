@@ -1,0 +1,44 @@
+{
+ "base_release": "build_32",
+ "build": "build_33",
+ "files": [
+  "plane/var_jrel_v5.f",
+  "new_main/mod_subs/do_var_cont.f"
+ ],
+ "source_hashes": {
+  "plane/var_jrel_v5.f": {
+   "base": "fa5870d84f5bf4aa85c29750dda83aa826376a3083b357eeefb8eb290468b9dd",
+   "patched": "64531890a3904099214add9fba5db6993501de35a35d391618e55cd00a23d785"
+  },
+  "new_main/mod_subs/do_var_cont.f": {
+   "base": "eff8091d4d2b9cddf67275941f956949e339a76f077c5a2f238c0ad2bb22d6db",
+   "patched": "b1b725840ba10898178de90d9a95d5c3d535041450f8607c493b152cf87fd08b"
+  }
+ },
+ "patch_file": "fast_ali.patch",
+ "patch_sha256": "a04c3c6ce0831e3b7d0b878c91d374eec36cfe26331933bb976457a28e64b56a",
+ "scope": "Speed only. With QS_ALI_LIN, QS_FRM_ALI and QS_LIN_FAC /= 0 (the local formal-solution ALI linearization) in the main continuum loop, VAR_JREL_V5 no longer assembles and solves the moment operator whose results that branch discards (tridiagonal set-up, THOMAS, advection re-solve, EDD_JREL_VAR_V3), no longer zeroes and scans the full TX/TVX(ND,ND,NM) every frequency, and DO_VAR_CONT applies its TX statements to the diagonal only (TX is zero off the diagonal and TVX is zero on this branch; cost ND per matrix instead of ND*ND) and copies only the local band into dJ_LOC. The statements that define the response are unchanged; TX, TVX, dJ_LOC, VJ and the BA are the same numbers. QSTARS_ALI_LIN_SLOW (non-empty) selects the full path of builds <= 32; QSTARS_ALI_LIN_HASH=n writes per-frequency hashes of TX/TVX/dJ_LOC/VJ (diagnostic); the path taken is recorded in QSTARS_ALI_LIN_PATH. QS_LIN_FAC=0 passes (builds 19/21 branch) execute no new arithmetic.",
+ "reproducibility": {
+  "executable_sha256": "6d72dbadb10e3e785751b9c3686e2db681a38ba46136fe7a95583cf2ca7977d6",
+  "executable_sha256_note": "valid only for the executable linked in backends/cmfgen/build_33: ld embeds 18 N_OSO debug-map stabs with the absolute path and timestamp of each libsubs.a member, an LC_UUID and an ad-hoc code signature. The same sources and patch built elsewhere give another sha256 (review round 1: a scratch rebuild, 35c49f80..., 2,969,168 bytes) with the same section and object hashes below.",
+  "toolchain": "MESA SDK gfortran 13.3.0 (arm64), -fopenmp -O2 (cur_cmf Makefiles), MACOSX_DEPLOYMENT_TARGET=14.0; make d_plane d_new_main",
+  "section_sha256": {
+   "__TEXT,__text": "4b0adfcbe0f759130924afa470ad959914ad4680b4abf7b5d4e95f520925742f",
+   "__TEXT,__text_startup": "d11a52b767803bfab87c21f9dfbe08053eb8b1410490a65dfd2cd0bfcbf44b82",
+   "__TEXT,__stubs": "df784463c14ae14684c70f3a67620aa902f83cfbda2aead15d48c4f7ff08cbad",
+   "__TEXT,__const": "f91d591c7daf20a0496e2471e35a2c2691b718afb33c29ba2d064f186f913606",
+   "__TEXT,__cstring": "7b8fea5530a5ee877fdba72e6a0b433887f1bb4025a349d04964c6230fab75d4",
+   "__TEXT,__eh_frame": "eb804a9a58849fbeed253cd00089a041063bb8887fc6285b9b7f7439c2341334",
+   "__DATA_CONST,__const": "31e6fe858373b8078d15dc213b43835a1a6f65d425bbf378233126176136242e",
+   "__DATA_CONST,__got": "3a232552866d7b4bc74052be33ab8bcad213e0905e1022c46f6e9f026ac42bdb",
+   "__DATA,__data": "fceada6ccf4592f69d7a94e01363aa76db011376b109c3c87498ef13a51d5d55",
+   "__DATA,__bss": "zerofill:49812856",
+   "__DATA,__common": "zerofill:8798896"
+  },
+  "object_sha256": {
+   "var_jrel_v5.o": "fbabf652f573ded1fa4252c817636c84c7748d18171c55264709ecea204e732f",
+   "do_var_cont.o": "611d4cf15bbe7a353171d9448b24c6f14ae652caea904ffa0daf8aa56df86781"
+  },
+  "fingerprint_tool": "backends/cmfgen/macho_sections.py (sha256 of the file bytes of every Mach-O section; zero-fill sections by size; objects as stored in libsubs.a, ar -p)"
+ }
+}

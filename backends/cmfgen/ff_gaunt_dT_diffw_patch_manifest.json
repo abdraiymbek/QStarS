@@ -1,0 +1,44 @@
+{
+ "base_release": "build_34",
+ "build": "build_35",
+ "files": [
+  "new_main/cmfgen_sub.f",
+  "new_main/qs_jv.f90"
+ ],
+ "source_hashes": {
+  "new_main/cmfgen_sub.f": {
+   "base": "488f5dd4aed1d4c8957ece7f063f3978c04e104a0dea5f03185ccbc11f665a10",
+   "patched": "08918ddd7f7df02157faf67d8eb209e36687a99e7bc21b13ac8295868fce6b75"
+  },
+  "new_main/qs_jv.f90": {
+   "base": "1b0325eb7e5cee0e29e0b15e858dd1ae7981d3371fdb4e2733d289400649f417",
+   "patched": "ba7053c06d1df789c908b4ef822b9860b9b00bd1890c956d3bdbfdb2ebc222ff"
+  }
+ },
+ "patch_file": "ff_gaunt_dT_diffw.patch",
+ "patch_sha256": "45d877b1e51364511321867541c1a35d5037c37be14ae22e9bb071c5ebe370fe",
+ "scope": "Tangent only. (1) The diffusion inner boundary: DIFFW(NT) = d(DTDR)/dT(ND) (cmfgen_sub.f DTDR section) sums T3*VCHI(NT,ND)/CHI(ND) over frequency, with VCHI from VAR_OP_V10 (Gaunt factor held fixed), so it lacked the build-34 term too. Three calls of QS_JV_DTDR_GFF in that section (start; after each DIFFW increment, with that statement's T3 and CHI(ND); after DIFFW is scaled by DTDR**2/T1) accumulate sum T3*dCHI_g(FL,ND)/CHI(ND) with build 34's dCHI_g/dETA_g at depth ND (IMP_VAR(EQION) ions, as VCHI; every ion for QSTARS_JV_VALL), moved to FL as COMP_VAR_OPAC moves VCHI, and scale it as DIFFW. The routine reads the state and writes only qs_jv_state; arguments are passed as expressions (copies). The tangent adds that term times dPOP(NT,ND) to dDTDR of directions with dT(ND) /= 0 (dir_tangent and dir_batch). DIFFW itself, the BA, the residual and every product of a direction without a T component at ND are unchanged (bitwise). (2) Free-free resonances (FF_RES_GAUNT, added to g in GENOPAETA_V10 for ION_LEV = 1) are not differentiated: a product pass with a T direction and such a resonance in an ion of the tangent now stops (QSTARS_JV_FAILURE, OUTGEN) instead of returning a wrong T column; QSTARS_JV_NOGFF (build-33 tangent) bypasses the check. QSTARS_JV_STATS line 'ff_gaunt_dT_diffw' (DTDR, native DIFFW(NT), the Gaunt term for IMP_VAR ions and for all ions, frequencies, resonances).",
+ "reproducibility": {
+  "executable_sha256": "c69836d31fd0425b93ea0cf529e988cdd356ad9a6ea50d0c6949492355a3a6dd",
+  "executable_sha256_note": "valid only for the executable linked in backends/cmfgen/build_35: ld embeds the absolute path and timestamp of each libsubs.a member (N_OSO debug map), an LC_UUID and an ad-hoc code signature. Compare the section hashes and the two objects for a rebuild elsewhere.",
+  "toolchain": "MESA SDK gfortran 13.3.0 (arm64), -fopenmp -O2 (cur_cmf Makefiles), MACOSX_DEPLOYMENT_TARGET=14.0; make d_new_main (new_main/cmfgen_sub.f and qs_jv.f90 changed; every libsubs/libmod/libpgplt member and cmfgen.o, formal_tangent.o, formal_tangent_lin.o are byte-identical to build 34; cmfgen_sub.o has the same ordered sequence of floating-point instructions as build 34, 3 more calls, different register allocation)",
+  "section_sha256": {
+   "__TEXT,__text": "d763dcd281e4ddc848731d750b0fc4646c7d4013c20ab190137a26b1aa3aa81f",
+   "__TEXT,__text_startup": "1da482331f57c8e0965fa520ac2bf050d1a7131380c049caf1c818325b01f11a",
+   "__TEXT,__stubs": "6bc83d5706ece991dcffb7e8419239ead191616b75c46b6db49ebc26cd7fc319",
+   "__TEXT,__const": "bcf8beea8e003653a733f2e172ad79b3590478bcbd9ff7ad660fa254e7017b4d",
+   "__TEXT,__cstring": "3cfd5c55d7fa0b1ab5d2ff36e4303106a08840d84527092790ee9254717f5035",
+   "__TEXT,__eh_frame": "7029ab0d45d716aa69ba299a1417935c10b2ed31bcb1cecdf8b90df959933dc7",
+   "__DATA_CONST,__const": "93ad3873e39d307877cc95d15099a9f032a0b4032caa17ebc7f3877bde13bedb",
+   "__DATA_CONST,__got": "3a232552866d7b4bc74052be33ab8bcad213e0905e1022c46f6e9f026ac42bdb",
+   "__DATA,__data": "4ff545e8869d48afbca5bfe34e57b0525d0806068cff80c4d6a5ea9a0c82f525",
+   "__DATA,__bss": "zerofill:49812888",
+   "__DATA,__common": "zerofill:8799088"
+  },
+  "object_sha256": {
+   "new_main/cmfgen_sub.o": "79e0475ff0263a536e8e6c6c85c5e7021e26b66049223b1934c76842f48da1e2",
+   "new_main/qs_jv.o": "3ddf51864da6a9b678f9d0f30940ad14cddf1bd40c77ca8ecfb27c8c5a3adf9e"
+  },
+  "fingerprint_tool": "backends/cmfgen/macho_sections.py (sha256 of the file bytes of every Mach-O section; zero-fill sections by size)"
+ }
+}
