@@ -163,6 +163,8 @@ qstars reference benchmarks/fiacconi2016_advective_wind.yaml
 
 Each run prints its unique result directory. `requirements-lock.txt` records
 the measured environment, including optional audit/testing packages.
+Archiving finished runs, moving to another machine and the disk budget of long
+runs: [docs/operations.md](docs/operations.md).
 `validate` produces Markdown/JSON evidence and currently exits **2** for two
 retained published cutoff discrepancies. The previously failing concentrated
 128-zone case now completes; full v1 gates remain open. `--require-v1` also exits 2
