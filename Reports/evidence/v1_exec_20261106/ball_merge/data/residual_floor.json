@@ -1,0 +1,214 @@
+{
+ "step1255": [
+  {
+   "ok": true,
+   "zones": 174,
+   "iterations": 2,
+   "residual": 4.548721052529989e-13,
+   "last_step": 2.345317129064215e-08,
+   "roundoff_exit": false,
+   "perturbed_residual_min": 4.529282073673024e-13,
+   "perturbed_residual_max": 4.555200712148979e-13,
+   "worst_rows": [
+    [
+     "closure face 169 (scale 1.07e-02, cells from surface 5)",
+     4.548721052529989e-13
+    ],
+    [
+     "closure face 168 (scale 1.16e-02, cells from surface 6)",
+     -2.506317932252285e-13
+    ],
+    [
+     "closure face 166 (scale 1.34e-02, cells from surface 8)",
+     1.6034937531687312e-13
+    ]
+   ],
+   "closure_scale_at_floor_fraction": 0.0,
+   "refine": 1
+  },
+  {
+   "ok": false,
+   "zones": 188,
+   "iterations": 16,
+   "residual": 5.495603971894525e-12,
+   "last_step": 3.907877362262173e-13,
+   "roundoff_exit": false,
+   "perturbed_residual_min": 6.186023915333294e-12,
+   "perturbed_residual_max": 2.135791543622645e-11,
+   "worst_rows": [
+    [
+     "closure face 173 (scale 1.00e-03, cells from surface 15)",
+     5.495603971894525e-12
+    ],
+    [
+     "closure face 179 (scale 1.00e-03, cells from surface 9)",
+     -2.1562612806391712e-12
+    ],
+    [
+     "closure face 169 (scale 1.00e-03, cells from surface 19)",
+     -1.8041124150158794e-12
+    ]
+   ],
+   "closure_scale_at_floor_fraction": 0.0748663101604278,
+   "refine": 2
+  },
+  {
+   "ok": false,
+   "zones": 216,
+   "iterations": 11,
+   "residual": 1.0037110032001806e-11,
+   "last_step": 3.491217413941577e-13,
+   "roundoff_exit": false,
+   "perturbed_residual_min": 3.0058421029988125e-11,
+   "perturbed_residual_max": 9.291178937331779e-11,
+   "worst_rows": [
+    [
+     "closure face 190 (scale 1.00e-03, cells from surface 26)",
+     -1.0037110032001806e-11
+    ],
+    [
+     "closure face 198 (scale 1.00e-03, cells from surface 18)",
+     8.343152557710454e-12
+    ],
+    [
+     "closure face 195 (scale 1.00e-03, cells from surface 21)",
+     5.653463808208414e-12
+    ]
+   ],
+   "closure_scale_at_floor_fraction": 0.19534883720930232,
+   "refine": 4
+  },
+  {
+   "ok": false,
+   "zones": 272,
+   "iterations": 12,
+   "residual": 2.4669502551866174e-11,
+   "last_step": 2.8171209889925396e-13,
+   "roundoff_exit": false,
+   "perturbed_residual_min": 8.736240897366798e-11,
+   "perturbed_residual_max": 1.6394871571456804e-10,
+   "worst_rows": [
+    [
+     "closure face 211 (scale 1.00e-03, cells from surface 61)",
+     -2.4669502551866174e-11
+    ],
+    [
+     "closure face 223 (scale 1.00e-03, cells from surface 49)",
+     -2.046626756957437e-11
+    ],
+    [
+     "closure face 214 (scale 1.00e-03, cells from surface 58)",
+     -1.8946649804618687e-11
+    ]
+   ],
+   "closure_scale_at_floor_fraction": 0.36162361623616235,
+   "refine": 8
+  }
+ ],
+ "step1667": [
+  {
+   "ok": true,
+   "zones": 174,
+   "iterations": 8,
+   "residual": 7.489303509810685e-13,
+   "last_step": 2.645431811740468e-12,
+   "roundoff_exit": false,
+   "perturbed_residual_min": 7.368508291910513e-13,
+   "perturbed_residual_max": 7.585939684130823e-13,
+   "worst_rows": [
+    [
+     "closure face 160 (scale 1.15e-02, cells from surface 14)",
+     -7.489303509810685e-13
+    ],
+    [
+     "closure face 162 (scale 9.68e-03, cells from surface 12)",
+     5.051997782657754e-13
+    ],
+    [
+     "closure face 161 (scale 1.06e-02, cells from surface 13)",
+     -4.692735121504809e-13
+    ]
+   ],
+   "closure_scale_at_floor_fraction": 0.0,
+   "dt_years": 0.25
+  },
+  {
+   "ok": true,
+   "zones": 174,
+   "iterations": 15,
+   "residual": 9.663617432013789e-13,
+   "last_step": 1.9691919987733303e-12,
+   "roundoff_exit": false,
+   "perturbed_residual_min": 9.542822214113617e-13,
+   "perturbed_residual_max": 9.687776475593823e-13,
+   "worst_rows": [
+    [
+     "closure face 160 (scale 1.15e-02, cells from surface 14)",
+     -9.663617432013789e-13
+    ],
+    [
+     "closure face 159 (scale 1.24e-02, cells from surface 15)",
+     5.061342383901792e-13
+    ],
+    [
+     "closure face 158 (scale 1.34e-02, cells from surface 16)",
+     -3.779968871799766e-13
+    ]
+   ],
+   "closure_scale_at_floor_fraction": 0.0,
+   "dt_years": 0.5
+  },
+  {
+   "ok": true,
+   "zones": 174,
+   "iterations": 23,
+   "residual": 7.73089394561103e-13,
+   "last_step": 1.8490192497813894e-12,
+   "roundoff_exit": false,
+   "perturbed_residual_min": 7.682575858450962e-13,
+   "perturbed_residual_max": 7.875848207091237e-13,
+   "worst_rows": [
+    [
+     "closure face 160 (scale 1.15e-02, cells from surface 14)",
+     7.73089394561103e-13
+    ],
+    [
+     "closure face 161 (scale 1.06e-02, cells from surface 13)",
+     -6.167219424902752e-13
+    ],
+    [
+     "closure face 158 (scale 1.34e-02, cells from surface 16)",
+     4.461602602780052e-13
+    ]
+   ],
+   "closure_scale_at_floor_fraction": 0.0,
+   "dt_years": 1.0
+  },
+  {
+   "ok": true,
+   "zones": 174,
+   "iterations": 40,
+   "residual": 9.083800386092961e-13,
+   "last_step": 1.2305605244697985e-12,
+   "roundoff_exit": false,
+   "perturbed_residual_min": 8.963005168192788e-13,
+   "perturbed_residual_max": 9.276717537368747e-13,
+   "worst_rows": [
+    [
+     "closure face 160 (scale 1.15e-02, cells from surface 14)",
+     -9.083800386092961e-13
+    ],
+    [
+     "closure face 165 (scale 7.33e-03, cells from surface 9)",
+     3.7766801806252225e-13
+    ],
+    [
+     "closure face 163 (scale 8.85e-03, cells from surface 11)",
+     3.448455753920816e-13
+    ]
+   ],
+   "closure_scale_at_floor_fraction": 0.0,
+   "dt_years": 2.0
+  }
+ ]
+}

@@ -1,0 +1,632 @@
+{
+ "E0_control": {
+  "running": false,
+  "steps": 1255,
+  "last_step": "1255",
+  "bh_mass": 46.003844680521055,
+  "zones_last": 174,
+  "zones_max": 200,
+  "merges": 22,
+  "splits": 0,
+  "median_dt": 138.75232801092696,
+  "rejections": 8,
+  "rejection_kinds": {
+   "controller": 8
+  },
+  "last_rejections": [
+   [
+    1255,
+    172.1439,
+    "delta_actual 0.01525 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1255,
+    86.0719,
+    "delta_actual 0.01691 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1255,
+    43.036,
+    "delta_actual 0.01775 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1255,
+    21.518,
+    "delta_actual 0.01817 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1255,
+    10.759,
+    "delta_actual 0.01839 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1255,
+    5.3795,
+    "delta_actual 0.0185 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1255,
+    2.6897,
+    "delta_actual 0.01855 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1255,
+    1.3449,
+    "delta_actual 0.01857 exceeds 2 x delta_target (profile_dlnT)"
+   ]
+  ],
+  "report": {
+   "status": "termination_trigger",
+   "reason": "timestep 0.6724 yr below the dynamical time 0.826 yr (Ball's criterion)",
+   "final_bh_mass_msun": 46.003844680521055,
+   "final_step": 1255,
+   "wall_seconds": 106.93669390678406
+  },
+  "termination": {
+   "status": "termination_trigger",
+   "reason": "timestep 0.6724 yr below the dynamical time 0.826 yr (Ball's criterion)",
+   "final_bh_mass_msun": 46.003844680521055,
+   "final_step": 1255
+  },
+  "event_steps": {
+   "count": 22,
+   "max_delta_actual": 0.005772571836343304,
+   "over_delta_target": 1,
+   "max_delta_actual_nonevent": 0.006991132228126062
+  },
+  "newton_rejection_residuals": {
+   "min": null,
+   "max": null
+  },
+  "passed_46_msun": false,
+  "control_vs_registered": {
+   "rows_compared": 1256,
+   "registered_rows": 1256,
+   "first_differing_row": null,
+   "identical": true
+  }
+ },
+ "E1_front_c0.15_w3": {
+  "running": false,
+  "steps": 1402,
+  "last_step": "1402",
+  "bh_mass": 46.74062775949755,
+  "zones_last": 182,
+  "zones_max": 200,
+  "merges": 26,
+  "splits": 12,
+  "median_dt": 122.69025334729751,
+  "rejections": 34,
+  "rejection_kinds": {
+   "newton": 34
+  },
+  "last_rejections": [
+   [
+    1377,
+    147.4849,
+    "Quasi-static solve failed (pass 1, residual 2.11636e-12): Newton line search or iteration limit"
+   ],
+   [
+    1378,
+    73.7424,
+    "Quasi-static solve failed (pass 1, residual 1.33194e-12): Newton line search or iteration limit"
+   ],
+   [
+    1390,
+    152.1979,
+    "Quasi-static solve failed (pass 1, residual 2.01367e-12): Newton line search or iteration limit"
+   ],
+   [
+    1390,
+    76.099,
+    "Quasi-static solve failed (pass 1, residual 2.00051e-12): Newton line search or iteration limit"
+   ],
+   [
+    1395,
+    43.833,
+    "Quasi-static solve failed (pass 1, residual 1.21945e-12): Newton line search or iteration limit"
+   ],
+   [
+    1399,
+    21.0398,
+    "Quasi-static solve failed (pass 1, residual 1.58671e-12): Newton line search or iteration limit"
+   ],
+   [
+    1399,
+    10.5199,
+    "Quasi-static solve failed (pass 1, residual 1.76299e-12): Newton line search or iteration limit"
+   ],
+   [
+    1399,
+    5.26,
+    "Quasi-static solve failed (pass 1, residual 2.079e-12): Newton line search or iteration limit"
+   ],
+   [
+    1399,
+    2.63,
+    "Quasi-static solve failed (pass 1, residual 1.03452e-12): Newton line search or iteration limit"
+   ],
+   [
+    1402,
+    1.315,
+    "Quasi-static solve failed (pass 1, residual 1.26202e-12): Newton line search or iteration limit"
+   ]
+  ],
+  "report": {
+   "status": "termination_trigger",
+   "reason": "timestep 0.6575 yr below the dynamical time 0.8382 yr (Ball's criterion)",
+   "final_bh_mass_msun": 46.74062775949755,
+   "final_step": 1402,
+   "wall_seconds": 160.2661430835724
+  },
+  "termination": {
+   "status": "termination_trigger",
+   "reason": "timestep 0.6575 yr below the dynamical time 0.8382 yr (Ball's criterion)",
+   "final_bh_mass_msun": 46.74062775949755,
+   "final_step": 1402
+  },
+  "event_steps": {
+   "count": 36,
+   "max_delta_actual": 0.0046322427392631186,
+   "over_delta_target": 0,
+   "max_delta_actual_nonevent": 0.006215778589752576
+  },
+  "newton_rejection_residuals": {
+   "min": 1.03452e-12,
+   "max": 2.11636e-12
+  },
+  "passed_46_msun": true
+ },
+ "E2_front_c0.15_w3_tol1e-10": {
+  "running": false,
+  "steps": 4488,
+  "last_step": "4488",
+  "bh_mass": 60.00274420635139,
+  "zones_last": 176,
+  "zones_max": 200,
+  "merges": 73,
+  "splits": 53,
+  "median_dt": 19.410852388952716,
+  "rejections": 301,
+  "rejection_kinds": {
+   "newton": 298,
+   "Enforced screens: Radiation gradient scale is outside the di": 3
+  },
+  "last_rejections": [
+   [
+    4419,
+    19.7837,
+    "Quasi-static solve failed (pass 1, residual 6.30684e-05): Newton line search or iteration limit"
+   ],
+   [
+    4430,
+    21.777,
+    "Quasi-static solve failed (pass 1, residual 8.12132e-05): Newton line search or iteration limit"
+   ],
+   [
+    4440,
+    19.9759,
+    "Quasi-static solve failed (pass 1, residual 7.13366e-05): Newton line search or iteration limit"
+   ],
+   [
+    4451,
+    21.9885,
+    "Quasi-static solve failed (pass 1, residual 8.60249e-05): Newton line search or iteration limit"
+   ],
+   [
+    4461,
+    20.17,
+    "Quasi-static solve failed (pass 1, residual 8.53234e-05): Newton line search or iteration limit"
+   ],
+   [
+    4470,
+    19.2727,
+    "Quasi-static solve failed (pass 1, residual 7.95843e-05): Newton line search or iteration limit"
+   ],
+   [
+    4481,
+    21.2145,
+    "Quasi-static solve failed (pass 1, residual 9.25789e-05): Newton line search or iteration limit"
+   ],
+   [
+    4487,
+    9.3846,
+    "Enforced screens: Radiation gradient scale is outside the diffusion limit (Kn>0.1) at tau>=10"
+   ],
+   [
+    4488,
+    3.7538,
+    "Enforced screens: Radiation gradient scale is outside the diffusion limit (Kn>0.1) at tau>=10"
+   ],
+   [
+    4488,
+    1.8769,
+    "Enforced screens: Radiation gradient scale is outside the diffusion limit (Kn>0.1) at tau>=10"
+   ]
+  ],
+  "report": {
+   "status": "termination_trigger",
+   "reason": "timestep 0.9385 yr below the dynamical time 1.051 yr (Ball's criterion)",
+   "final_bh_mass_msun": 60.00274420635139,
+   "final_step": 4488,
+   "wall_seconds": 2312.722289800644
+  },
+  "termination": {
+   "status": "termination_trigger",
+   "reason": "timestep 0.9385 yr below the dynamical time 1.051 yr (Ball's criterion)",
+   "final_bh_mass_msun": 60.00274420635139,
+   "final_step": 4488
+  },
+  "event_steps": {
+   "count": 121,
+   "max_delta_actual": 0.006759557828124447,
+   "over_delta_target": 5,
+   "max_delta_actual_nonevent": 0.006734728362336454
+  },
+  "newton_rejection_residuals": {
+   "min": 1.00951e-10,
+   "max": 0.00145502
+  },
+  "passed_46_msun": true
+ },
+ "E3_n400_control": {
+  "running": false,
+  "steps": 1534,
+  "last_step": "1534",
+  "bh_mass": 48.108995994913364,
+  "zones_last": 345,
+  "zones_max": 400,
+  "merges": 48,
+  "splits": 0,
+  "median_dt": 114.55594393219924,
+  "rejections": 66,
+  "rejection_kinds": {
+   "newton": 66
+  },
+  "last_rejections": [
+   [
+    1504,
+    19.1637,
+    "Quasi-static solve failed (pass 1, residual 1.34255e-12): Newton line search or iteration limit"
+   ],
+   [
+    1511,
+    38.8065,
+    "Quasi-static solve failed (pass 1, residual 1.14771e-12): Newton line search or iteration limit"
+   ],
+   [
+    1520,
+    141.4496,
+    "Quasi-static solve failed (pass 1, residual 1.23398e-12): Newton line search or iteration limit"
+   ],
+   [
+    1529,
+    140.325,
+    "Quasi-static solve failed (pass 1, residual 1.25649e-12): Newton line search or iteration limit"
+   ],
+   [
+    1529,
+    70.1625,
+    "Quasi-static solve failed (pass 1, residual 1.33903e-12): Newton line search or iteration limit"
+   ],
+   [
+    1530,
+    28.065,
+    "Quasi-static solve failed (pass 1, residual 1.1993e-12): Newton line search or iteration limit"
+   ],
+   [
+    1532,
+    11.226,
+    "Quasi-static solve failed (pass 1, residual 1.17607e-12): Newton line search or iteration limit"
+   ],
+   [
+    1533,
+    5.613,
+    "Quasi-static solve failed (pass 1, residual 1.22548e-12): Newton line search or iteration limit"
+   ],
+   [
+    1533,
+    2.8065,
+    "Quasi-static solve failed (pass 1, residual 1.50745e-12): Newton line search or iteration limit"
+   ],
+   [
+    1534,
+    1.4032,
+    "Quasi-static solve failed (pass 1, residual 1.20072e-12): Newton line search or iteration limit"
+   ]
+  ],
+  "report": {
+   "status": "termination_trigger",
+   "reason": "timestep 0.7016 yr below the dynamical time 0.8546 yr (Ball's criterion)",
+   "final_bh_mass_msun": 48.108995994913364,
+   "final_step": 1534,
+   "wall_seconds": 314.71749782562256
+  },
+  "termination": {
+   "status": "termination_trigger",
+   "reason": "timestep 0.7016 yr below the dynamical time 0.8546 yr (Ball's criterion)",
+   "final_bh_mass_msun": 48.108995994913364,
+   "final_step": 1534
+  },
+  "event_steps": {
+   "count": 46,
+   "max_delta_actual": 0.0044930951255993615,
+   "over_delta_target": 0,
+   "max_delta_actual_nonevent": 0.005547917127433523
+  },
+  "newton_rejection_residuals": {
+   "min": 1.02184e-12,
+   "max": 2.7021e-12
+  },
+  "passed_46_msun": true
+ },
+ "E4_front_c0.3_w2": {
+  "running": false,
+  "steps": 1647,
+  "last_step": "1647",
+  "bh_mass": 50.445134133676135,
+  "zones_last": 174,
+  "zones_max": 200,
+  "merges": 32,
+  "splits": 10,
+  "median_dt": 116.39658799115274,
+  "rejections": 49,
+  "rejection_kinds": {
+   "newton": 49
+  },
+  "last_rejections": [
+   [
+    1608,
+    6.9551,
+    "Quasi-static solve failed (pass 1, residual 1.02796e-12): Newton line search or iteration limit"
+   ],
+   [
+    1627,
+    113.645,
+    "Quasi-static solve failed (pass 1, residual 1.15106e-12): Newton line search or iteration limit"
+   ],
+   [
+    1634,
+    60.3275,
+    "Quasi-static solve failed (pass 1, residual 1.16802e-12): Newton line search or iteration limit"
+   ],
+   [
+    1645,
+    59.0583,
+    "Quasi-static solve failed (pass 1, residual 1.85287e-12): Newton line search or iteration limit"
+   ],
+   [
+    1645,
+    29.5292,
+    "Quasi-static solve failed (pass 1, residual 1.42552e-12): Newton line search or iteration limit"
+   ],
+   [
+    1645,
+    14.7646,
+    "Quasi-static solve failed (pass 1, residual 1.01012e-12): Newton line search or iteration limit"
+   ],
+   [
+    1645,
+    7.3823,
+    "Quasi-static solve failed (pass 1, residual 1.40515e-12): Newton line search or iteration limit"
+   ],
+   [
+    1647,
+    3.6911,
+    "Quasi-static solve failed (pass 1, residual 1.16696e-12): Newton line search or iteration limit"
+   ],
+   [
+    1647,
+    1.8456,
+    "Quasi-static solve failed (pass 1, residual 1.70081e-12): Newton line search or iteration limit"
+   ],
+   [
+    1647,
+    0.9228,
+    "Quasi-static solve failed (pass 1, residual 1.26168e-12): Newton line search or iteration limit"
+   ]
+  ],
+  "report": {
+   "status": "termination_trigger",
+   "reason": "timestep 0.4614 yr below the dynamical time 0.9002 yr (Ball's criterion)",
+   "final_bh_mass_msun": 50.445134133676135,
+   "final_step": 1647,
+   "wall_seconds": 247.2763638496399
+  },
+  "termination": {
+   "status": "termination_trigger",
+   "reason": "timestep 0.4614 yr below the dynamical time 0.9002 yr (Ball's criterion)",
+   "final_bh_mass_msun": 50.445134133676135,
+   "final_step": 1647
+  },
+  "event_steps": {
+   "count": 41,
+   "max_delta_actual": 0.009610443737271664,
+   "over_delta_target": 8,
+   "max_delta_actual_nonevent": 0.0068691999691671566
+  },
+  "newton_rejection_residuals": {
+   "min": 1.01012e-12,
+   "max": 2.21336e-12
+  },
+  "passed_46_msun": true
+ },
+ "E5_control_tol1e-10": {
+  "running": false,
+  "steps": 1254,
+  "last_step": "1254",
+  "bh_mass": 45.98329550391718,
+  "zones_last": 174,
+  "zones_max": 200,
+  "merges": 22,
+  "splits": 0,
+  "median_dt": 138.57819838153642,
+  "rejections": 9,
+  "rejection_kinds": {
+   "controller": 9
+  },
+  "last_rejections": [
+   [
+    1254,
+    214.6081,
+    "delta_actual 0.01428 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1254,
+    107.3041,
+    "delta_actual 0.01636 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1254,
+    53.652,
+    "delta_actual 0.01739 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1254,
+    26.826,
+    "delta_actual 0.01791 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1254,
+    13.413,
+    "delta_actual 0.01818 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1254,
+    6.7065,
+    "delta_actual 0.01832 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1254,
+    3.3533,
+    "delta_actual 0.01838 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1254,
+    1.6766,
+    "delta_actual 0.01841 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1254,
+    0.8383,
+    "delta_actual 0.01841 exceeds 2 x delta_target (profile_dlnT)"
+   ]
+  ],
+  "report": {
+   "status": "termination_trigger",
+   "reason": "timestep 0.4192 yr below the dynamical time 0.8257 yr (Ball's criterion)",
+   "final_bh_mass_msun": 45.98329550391718,
+   "final_step": 1254,
+   "wall_seconds": 106.23884606361389
+  },
+  "termination": {
+   "status": "termination_trigger",
+   "reason": "timestep 0.4192 yr below the dynamical time 0.8257 yr (Ball's criterion)",
+   "final_bh_mass_msun": 45.98329550391718,
+   "final_step": 1254
+  },
+  "event_steps": {
+   "count": 22,
+   "max_delta_actual": 0.005772571836375733,
+   "over_delta_target": 1,
+   "max_delta_actual_nonevent": 0.005621104758564059
+  },
+  "newton_rejection_residuals": {
+   "min": null,
+   "max": null
+  },
+  "passed_46_msun": false
+ },
+ "E6_front_c0.3_w2_tol1e-10": {
+  "running": false,
+  "steps": 1676,
+  "last_step": "1676",
+  "bh_mass": 53.02951660782879,
+  "zones_last": 172,
+  "zones_max": 200,
+  "merges": 39,
+  "splits": 15,
+  "median_dt": 120.38686553409188,
+  "rejections": 23,
+  "rejection_kinds": {
+   "newton": 17,
+   "controller": 6
+  },
+  "last_rejections": [
+   [
+    1634,
+    74.6783,
+    "Quasi-static solve failed (pass 1, residual 0.000297824): Newton line search or iteration limit"
+   ],
+   [
+    1648,
+    70.852,
+    "Quasi-static solve failed (pass 1, residual 0.000393715): Newton line search or iteration limit"
+   ],
+   [
+    1658,
+    64.9922,
+    "Quasi-static solve failed (pass 1, residual 0.000404011): Newton line search or iteration limit"
+   ],
+   [
+    1668,
+    59.617,
+    "Quasi-static solve failed (pass 1, residual 0.000350135): Newton line search or iteration limit"
+   ],
+   [
+    1676,
+    37.9766,
+    "delta_actual 0.0125 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1676,
+    18.9883,
+    "delta_actual 0.01301 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1676,
+    9.4941,
+    "delta_actual 0.01326 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1676,
+    4.7471,
+    "delta_actual 0.01339 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1676,
+    2.3735,
+    "delta_actual 0.01346 exceeds 2 x delta_target (profile_dlnT)"
+   ],
+   [
+    1676,
+    1.1868,
+    "delta_actual 0.0135 exceeds 2 x delta_target (profile_dlnT)"
+   ]
+  ],
+  "report": {
+   "status": "termination_trigger",
+   "reason": "timestep 0.5934 yr below the dynamical time 0.9422 yr (Ball's criterion)",
+   "final_bh_mass_msun": 53.02951660782879,
+   "final_step": 1676,
+   "wall_seconds": 345.4853000640869
+  },
+  "termination": {
+   "status": "termination_trigger",
+   "reason": "timestep 0.5934 yr below the dynamical time 0.9422 yr (Ball's criterion)",
+   "final_bh_mass_msun": 53.02951660782879,
+   "final_step": 1676
+  },
+  "event_steps": {
+   "count": 51,
+   "max_delta_actual": 0.00880311398994172,
+   "over_delta_target": 11,
+   "max_delta_actual_nonevent": 0.006872628330513291
+  },
+  "newton_rejection_residuals": {
+   "min": 1.34473e-10,
+   "max": 0.000885809
+  },
+  "passed_46_msun": true
+ }
+}

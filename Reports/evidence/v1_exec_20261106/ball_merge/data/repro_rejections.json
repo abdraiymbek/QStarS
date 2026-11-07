@@ -1,0 +1,262 @@
+{
+ "checkpoint": "/Users/abraiymbek/Projects/QStarS/benchmarks/results/2026-10-14-ball-track/20261014T051036.115106Z_smoke_C1_n200/checkpoint.npz",
+ "steps": 1255,
+ "bh_mass_msun": 46.003844680521055,
+ "zones": 174,
+ "rejections": [
+  {
+   "dt_years": 172.1438701239381,
+   "logged": 0.01525,
+   "reproduced": 0.015245625699921472,
+   "component": "profile_dlnT",
+   "rejected": true,
+   "zones": 173,
+   "merges": 1,
+   "splits": 0,
+   "newton_iterations": 4,
+   "max_change_cell": 167,
+   "mass_below_surface_msun": 0.060109905374249324,
+   "seconds": 1.094843864440918
+  },
+  {
+   "dt_years": 86.07193506196904,
+   "logged": 0.01691,
+   "reproduced": 0.016913439178701365,
+   "component": "profile_dlnT",
+   "rejected": true,
+   "zones": 173,
+   "merges": 1,
+   "splits": 0,
+   "newton_iterations": 4,
+   "max_change_cell": 167,
+   "mass_below_surface_msun": 0.060109905374249324,
+   "seconds": 0.1905817985534668
+  },
+  {
+   "dt_years": 43.03596753098452,
+   "logged": 0.01775,
+   "reproduced": 0.017749206260038574,
+   "component": "profile_dlnT",
+   "rejected": true,
+   "zones": 173,
+   "merges": 1,
+   "splits": 0,
+   "newton_iterations": 4,
+   "max_change_cell": 167,
+   "mass_below_surface_msun": 0.060109905374249324,
+   "seconds": 0.15490007400512695
+  },
+  {
+   "dt_years": 21.51798376549226,
+   "logged": 0.01817,
+   "reproduced": 0.018171549639615783,
+   "component": "profile_dlnT",
+   "rejected": true,
+   "zones": 173,
+   "merges": 1,
+   "splits": 0,
+   "newton_iterations": 5,
+   "max_change_cell": 167,
+   "mass_below_surface_msun": 0.060109905374249324,
+   "seconds": 0.1340961456298828
+  },
+  {
+   "dt_years": 10.75899188274613,
+   "logged": 0.01839,
+   "reproduced": 0.018387051339118513,
+   "component": "profile_dlnT",
+   "rejected": true,
+   "zones": 173,
+   "merges": 1,
+   "splits": 0,
+   "newton_iterations": 4,
+   "max_change_cell": 167,
+   "mass_below_surface_msun": 0.060109905374249324,
+   "seconds": 0.12477779388427734
+  },
+  {
+   "dt_years": 5.379495941373065,
+   "logged": 0.0185,
+   "reproduced": 0.018496680819528676,
+   "component": "profile_dlnT",
+   "rejected": true,
+   "zones": 173,
+   "merges": 1,
+   "splits": 0,
+   "newton_iterations": 4,
+   "max_change_cell": 167,
+   "mass_below_surface_msun": 0.060109905374249324,
+   "seconds": 0.12647700309753418
+  },
+  {
+   "dt_years": 2.6897479706865326,
+   "logged": 0.01855,
+   "reproduced": 0.018549467301647814,
+   "component": "profile_dlnT",
+   "rejected": true,
+   "zones": 173,
+   "merges": 1,
+   "splits": 0,
+   "newton_iterations": 4,
+   "max_change_cell": 167,
+   "mass_below_surface_msun": 0.060109905374249324,
+   "seconds": 0.1266460418701172
+  },
+  {
+   "dt_years": 1.3448739853432663,
+   "logged": 0.01857,
+   "reproduced": 0.018568588917461697,
+   "component": "profile_dlnT",
+   "rejected": true,
+   "zones": 173,
+   "merges": 1,
+   "splits": 0,
+   "newton_iterations": 4,
+   "max_change_cell": 167,
+   "mass_below_surface_msun": 0.060109905374249324,
+   "seconds": 0.12008976936340332
+  }
+ ],
+ "outer_cells": [
+  {
+   "cell": 160,
+   "mass_below_surface_msun": 0.14757369988166721,
+   "T": 11842.714231263368,
+   "rho": 7.397587871745601e-12,
+   "kappa": 0.48488020734582665,
+   "dlnkappa_to_next": 0.07509245156627069,
+   "dlnT_to_next": -0.02669577650008958,
+   "eddington_factor": 1.126200756913261
+  },
+  {
+   "cell": 161,
+   "mass_below_surface_msun": 0.12987338044912392,
+   "T": 11530.746417649843,
+   "rho": 8.143812842589279e-12,
+   "kappa": 0.5226930121296345,
+   "dlnkappa_to_next": 0.10307928949480707,
+   "dlnT_to_next": -0.028668729694735433,
+   "eddington_factor": 1.2140240313894344
+  },
+  {
+   "cell": 162,
+   "mass_below_surface_msun": 0.1142934387701522,
+   "T": 11204.868143041258,
+   "rho": 9.17383301374216e-12,
+   "kappa": 0.579446655740971,
+   "dlnkappa_to_next": 0.14643751853454898,
+   "dlnT_to_next": -0.03231233057400931,
+   "eddington_factor": 1.3458398194347703
+  },
+  {
+   "cell": 163,
+   "mass_below_surface_msun": 0.100573746859923,
+   "T": 10848.599669305419,
+   "rho": 1.0629074209439042e-11,
+   "kappa": 0.6708268962064906,
+   "dlnkappa_to_next": 0.2068400140426494,
+   "dlnT_to_next": -0.03925943268484566,
+   "eddington_factor": 1.5580801119505614
+  },
+  {
+   "cell": 164,
+   "mass_below_surface_msun": 0.08848500456724044,
+   "T": 10430.94194686549,
+   "rho": 1.2784929927138214e-11,
+   "kappa": 0.8249733962987947,
+   "dlnkappa_to_next": 0.2917656839486967,
+   "dlnT_to_next": -0.05370570892148399,
+   "eddington_factor": 1.9161024923845855
+  },
+  {
+   "cell": 165,
+   "mass_below_surface_msun": 0.07782564903412642,
+   "T": 9885.518093261373,
+   "rho": 1.6281963249092184e-11,
+   "kappa": 1.1044655401295265,
+   "dlnkappa_to_next": 0.2891042686862043,
+   "dlnT_to_next": -0.08308474416639496,
+   "eddington_factor": 2.5652547437090387
+  },
+  {
+   "cell": 166,
+   "mass_below_surface_msun": 0.06841885540045398,
+   "T": 9097.376935705943,
+   "rho": 2.290816838695398e-11,
+   "kappa": 1.4747165658142931,
+   "dlnkappa_to_next": -0.3237972373270982,
+   "dlnT_to_next": -0.10511727802313076,
+   "eddington_factor": 3.425204291174226
+  },
+  {
+   "cell": 167,
+   "mass_below_surface_msun": 0.060109905374249324,
+   "T": 8189.631026366968,
+   "rho": 3.6604309647292987e-11,
+   "kappa": 1.0668054000529932,
+   "dlnkappa_to_next": -0.8745466842277766,
+   "dlnT_to_next": -0.08026570042892012,
+   "eddington_factor": 2.4777801261222376
+  },
+  {
+   "cell": 168,
+   "mass_below_surface_msun": 0.05276342408196046,
+   "T": 7557.973847613728,
+   "rho": 5.0196813394602764e-11,
+   "kappa": 0.4449122937232695,
+   "dlnkappa_to_next": -0.5961336993190104,
+   "dlnT_to_next": -0.0414591342571942,
+   "eddington_factor": 1.0333600011206387
+  },
+  {
+   "cell": 169,
+   "mass_below_surface_msun": 0.046261082074686204,
+   "T": 7251.033500051987,
+   "rho": 5.524502627042823e-11,
+   "kappa": 0.24511891758016258,
+   "dlnkappa_to_next": -0.5188636685480801,
+   "dlnT_to_next": -0.03431546674600043,
+   "eddington_factor": 0.5693165232122857
+  },
+  {
+   "cell": 170,
+   "mass_below_surface_msun": 0.03810150989272545,
+   "T": 7006.431715433732,
+   "rho": 5.714571401452022e-11,
+   "kappa": 0.14589392289381198,
+   "dlnkappa_to_next": -0.5348474034052269,
+   "dlnT_to_next": -0.03497087827690456,
+   "eddington_factor": 0.33885492788533605
+  },
+  {
+   "cell": 171,
+   "mass_below_surface_msun": 0.025869472186722718,
+   "T": 6765.645437445737,
+   "rho": 5.603602621484489e-11,
+   "kappa": 0.08545862995865153,
+   "dlnkappa_to_next": -0.3548811510184197,
+   "dlnT_to_next": -0.022956670485473767,
+   "eddington_factor": 0.19848696834513035
+  },
+  {
+   "cell": 172,
+   "mass_below_surface_msun": 0.01449191486179146,
+   "T": 6612.09795731521,
+   "rho": 5.2872054052801805e-11,
+   "kappa": 0.059928443831281715,
+   "dlnkappa_to_next": -0.23390700775776632,
+   "dlnT_to_next": -0.015064720762084998,
+   "eddington_factor": 0.1391901742392207
+  },
+  {
+   "cell": 173,
+   "mass_below_surface_msun": 0.005120367618866201,
+   "T": 6513.235088396136,
+   "rho": 4.943128597670551e-11,
+   "kappa": 0.047429492503907274,
+   "dlnkappa_to_next": null,
+   "dlnT_to_next": null,
+   "eddington_factor": 0.11015992931038114
+  }
+ ]
+}

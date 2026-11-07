@@ -183,8 +183,20 @@ decades, with no amplitude. Q2 tests an adjacent-cell outward increase > 1e-3 at
 converged ~2 % (0.0085 dex) rise near 29 kK at row 0 (N = 200/400/800: 1.55/1.89/1.94 %), whose adjacent-cell value
 (9.1e-3/5.4e-3/2.8e-3) would fall below 1e-3 near N ≈ 2300 with unchanged physics; the paper's recombination inversion
 reappears in the smoke track at T_eff ≈ 7.6 kK. Verdict: mismatch (the registration is stronger than the paper and
-resolution-dependent). A draft successor check (Q2-S) is in the audit; it is not registered. The 46 M☉ merge event and
-the 55 M☉ stall were not started (they would have competed with the P2 timing).
+resolution-dependent). A draft successor check (Q2-S) is in the audit; it is not registered.
+
+**The 46 M☉ merge event (after the council block, [ball_merge/README.md](evidence/v1_exec_20261106/ball_merge/README.md)).**
+The registered smoke run rebuilds byte-identically from row 0 (stage-7 code freeze verified) and its eight rejections
+reproduce. Temporal error of the step (merge suppressed) is ∝ dt, 6.7e-5 at the rejected 172 yr (1.3 % of δ_target);
+the remap jump of the merge is 1.86–1.88 % at every dt (3.7 δ_target), bounded by the 174-zone mesh's own spatial
+error there (+2.59 %, second-order convergence) and falling at third order with local refinement (0.146 / 0.016 /
+0.002 % at ×2/4/8) — a resolution artifact. Refining the mesh targets at the opacity front (diagnostic, in-process,
+every mesh event still under the registered controller) removes the 46 M☉ stop; the refined runs then stop at
+46.7–50.4 M☉ on Newton stalls at residuals 1.0–2.7e-12, just above the registered 1e-12 tolerance, on a dt-independent
+residual floor of the front's transport-closure rows (the same floor, 7.5–9.7e-13, sits at the merge-free run's 55 M☉
+state). With the tolerance at 1e-10 (diagnostic only, inadmissible as an amendment) the best variant reaches 60 M☉ with
+median dt ~9 yr (smoke gate needs ≥ 50 yr) and ends on an enforced diffusion-limit screen. A draft Amendment 6
+(opacity-front refinement of the mesh targets) is in the README, not registered. Gate 6 stays FAIL.
 
 ## 8. Gates
 
