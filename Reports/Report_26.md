@@ -37,8 +37,10 @@ of those), `--step-solver qr|box` (augmented QR; explicit component-constrained 
 solver rejected every trial after 70 h, a 7-pass step gives −8.0 % natively and the driver's four iterates −11.6 %,
 −7.4 %, −3.2 %, −2.8 % in the frozen measure (§6).
 
-**What did not change:** the soft modes are real nonlinearity at the fronts — full steps at the |s| ≤ 0.5 bound overshoot
-in every iterate; λ = 0.5 is accepted. Dense-window columns cannot be recycled across bases (§5c). Gates: unchanged (§8).
+**What did not change:** the fronts are genuinely nonlinear — the driver's full steps at the |s| ≤ 0.5 bound overshot
+in iterates 16–19 and λ = 0.5 was accepted (not "always": the corrected 7-pass step at it16 gained 8 % at λ = 1, and
+in the council block the re-optimized 0.25 box was accepted at λ = 1, §6b). Dense-window columns cannot be recycled
+across bases (§5c). Gates: unchanged (§8).
 
 **P0** (§2) made the baseline trustworthy: the rejected-trial restart hazard is closed (best/accepted/status records, an
 explicit restart pointer, refusal before any native pass), a frozen reference norm sits next to the local one, and the
@@ -127,7 +129,9 @@ last (its trial pass). Trials λ 1 / 0.5 / 0.25 / 0.125 relative to the local me
 it18 1.127 / 0.964 / 0.972 / 0.984, it19 1.144 / 0.964 / 0.972 / 0.984.
 
 Offline at it16 (driver trial pipeline): 7-pass τ-box step λ 1 → 0.920 (frozen 2.609e-2); 12-pass τ-box λ 0.5 → 0.892.
-In every iterate λ = 1 overshoots (×1.07–1.30) — the remaining nonlinearity of the front soft modes at |s| = 0.5.
+In iterates 16–19 λ = 1 overshot (×1.07–1.30) at |s| ≤ 0.5. An audit of the stored it18/it19 trials (§6b) shows
+the native − linear-model gap growing as λ² (≈ 0.66 λ² of the merit), 65–99 % in row 2 (H ionization balance) at
+d19–47: second-order curvature, not a pipeline effect (the λ = 1 projection factors, ≤ 4e-6, are far too small).
 Conservation after projection ≤ 4e-6 at λ 1 and ~1e-13 otherwise; RE net/gross at most 1.85e-3 → 3.02e-3 (d33).
 Raw-norm audit: ‖R‖ (unweighted) 4.4e15 → 1.5e16 from row 20 (H I, fraction 6e-7) at d151–167, whose imbalance
 relative to its gross rates is 1e-5 → 6e-5; not a physical regression.
@@ -138,10 +142,38 @@ the deep interior fall; the inner H front and d62–100 hold their absolute size
 
 **Review (plan stop rules).** No stop rule fired: every iterate accepted, cumulative −23 % ≫ 1 %. Progress per wall
 hour ≈ 2.6 %/h over the four iterates, falling from 3.9 %/h to 1.6 %/h; the predicted bounded fit rose from 0.78 to
-0.91 while the unbounded fit stayed at 0.69–0.73 — the bound (and the λ 1 overshoot) now limits the step, not the span.
+0.91 while the unbounded fit stayed at 0.66–0.73. *Corrected after the council review:* that the bound, not the span,
+limits the step was not shown — the unbounded fit worsened (0.661 → 0.731), the predicted in-box gain fell (22 % →
+9 %) and the significant unbounded step grew (7.4 / 6.3 / 5.9 / 16.3, He II at d21–22). §6b tests the bound directly.
 The run was stopped after the planned three corrected iterates for this review; resume with
 `results/nk167_trap/launch_v1_p2.sh results/nk167_trap/v1_p2 $(pwd)/results/nk167_trap/v1_p2/it20_trial_l0.5 20 --krylov 8
 --eta 0.01 --span-tau 1e-6 --lams 1 0.5 0.25 0.125 --max-outer N` (or `--resume` through the pointer).
+
+### 6b. Council block: a re-optimized smaller bound (2026-11-07)
+
+A three-member council (Claude Opus 5.5, GPT 6.1 Sol, Grok 4.7; three rounds) reviewed this report and agreed one
+controlled test, approved by the user: from `it20_trial_l0.5`, only `--lm-bound 0.25 --lm-bound-t 0.015`, machine
+exclusive, ≤ 3 accepted iterates, a matched A/B on identical products, a pre-declared radius rule, promotion threshold
+and stop rules ([protocol and results](evidence/v1_exec_20261106/p2b/README.md)).
+
+- **Planned vs realized (stored it18/it19 trials):** realized = planned in the model; the native − model gap grows
+  as λ² (0.009 / 0.037 / 0.153 / 0.687 at λ 0.125 … 1), 65–99 % in row 2 at d19–47 — curvature, not the pipeline.
+- **Matched A/B at it20, same products:** 0.25 box at λ 1 → −7.3 %; old 0.5 box at λ 0.5 → −4.0 % (λ 1 → ×1.33).
+- **Three iterates at radius 0.25** (ρ 0.66 / 0.90 / 0.86, radius kept): accepted λ 1 / 0.5 / 0.5; λ 1 lowered the
+  merit every time (0.927 / 0.962 / 0.979). Frozen 2.1853 → 2.0721 → 1.9872 → **1.9364e-2** (−11.4 % in 5.46 h,
+  **2.09 %/h** against 1.75 / 1.59 %/h for the 0.5 box) — promotion criterion met; the 0.25 box is the new default.
+  Since it16: −31.7 %. No stop rule fired. RE net/gross max 3.02 → 3.43e-3 (rising ever more slowly); d33–47 down
+  30 %, d62–100 flat.
+- **Krylov depth:** the bounded fit keeps gaining through pass 8 (0.963 → 0.888 from pass 3 to 8 at it20) although the
+  unbounded fit flattens after pass 3; `--krylov 4` would forfeit most of the step.
+- **Alongside (code only, committed):** `--ortho-dirs` (pre-product batch orthonormalization, for the next block),
+  the P3 closing-chain plumbing (`closing_chain_check.py`; build 36, stored two-photon J and the solve's VADAT carried
+  through `post_convergence.sh`, `trace_cleanup.py`, `verify_cool_state.py`), and the per-iterate ρ diagnostics.
+- **Decisions recorded:** Q2 stays FAIL, Q2-S authorized in principle without a threshold; the composite active-gate
+  entry split by component (Gate 6 FAIL, Gates 4–5 NOT_REACHED).
+
+The per-iterate gain still decays within a block (5.2 → 2.6 %), as at the 0.5 box: at ~2 %/h the closure is still
+far from the |s| < 1e-3 convergence test, so the next block must change the convergence rate, not only the step length.
 
 ## 7. P5: the Ball Q2 audit (verdict unchanged)
 

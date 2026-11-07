@@ -1,0 +1,58 @@
+[
+ {
+  "passes": 1,
+  "directions": 36,
+  "basis": 36,
+  "unbounded": 0.8112076317158006,
+  "box": 0.9695282430977167
+ },
+ {
+  "passes": 2,
+  "directions": 70,
+  "basis": 68,
+  "unbounded": 0.7790773766885202,
+  "box": 0.9646669783365305
+ },
+ {
+  "passes": 3,
+  "directions": 104,
+  "basis": 96,
+  "unbounded": 0.7692995872462611,
+  "box": 0.9630470843028093
+ },
+ {
+  "passes": 4,
+  "directions": 138,
+  "basis": 121,
+  "unbounded": 0.7601597121013113,
+  "box": 0.9602679476720519
+ },
+ {
+  "passes": 5,
+  "directions": 172,
+  "basis": 146,
+  "unbounded": 0.7545449608303556,
+  "box": 0.9547567596036238
+ },
+ {
+  "passes": 6,
+  "directions": 206,
+  "basis": 171,
+  "unbounded": 0.7484235653928567,
+  "box": 0.9441710079505443
+ },
+ {
+  "passes": 7,
+  "directions": 240,
+  "basis": 195,
+  "unbounded": 0.7445257980573972,
+  "box": 0.9268279755053056
+ },
+ {
+  "passes": 8,
+  "directions": 274,
+  "basis": 220,
+  "unbounded": 0.7400268852977812,
+  "box": 0.8876237235656672
+ }
+]
