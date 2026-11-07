@@ -1,0 +1,29 @@
+it16_from_it16_trial_l0.5: 1266 directions, 22219 bounded components; base merit 2.837128e-02
+  cond(A) 4.398e+26 (normal equations 1.9e+53); column-scaled 1.488e+16; rank by cutoff {'1e-14': 1211, '1e-12': 1177, '1e-10': 1089, '1e-08': 249, '1e-06': 95, '0.0001': 9}
+  LM-NE (driver): mu 6.667e-05, fit 0.998766, bound 0.9998, backward error 5.37e-14
+  LM-QR: mu 1.930e-04, fit 0.969169, bound 0.9861, backward error 5.04e-23; at the driver mu: step differs by 9.97e-01 (rel.), fit 0.950605, bound 2.4236   (135 s)
+  TSVD cutoff 1e-10: rank 1229, unbounded fit 0.8061 (bound ratio 3542621684295.5), bounded fit 0.971591
+  TSVD cutoff 1e-08: rank 1217, unbounded fit 0.8094 (bound ratio 24299073924.9), bounded fit 0.971593
+  TSVD cutoff 1e-06: rank 1190, unbounded fit 0.8110 (bound ratio 74676591.2), bounded fit 0.971138
+  TSVD cutoff 0.0001: rank 1159, unbounded fit 0.8781 (bound ratio 12639.6), bounded fit 0.968742
+  TSVD cutoff 0.001: rank 1132, unbounded fit 0.8829 (bound ratio 5308.4), bounded fit 0.954349
+  TSVD cutoff 0.01: rank 1078, unbounded fit 0.8948 (bound ratio 5302.3), bounded fit 0.950080
+  BOX: ADMM on 22219 bound rows   (753 s)
+      ADMM 0: primal 0.00e+00 dual 1.71e-01 fit 0.979344
+      ADMM 500: primal 2.82e-02 dual 6.08e-02 fit 1.023570
+      ADMM 1000: primal 1.72e-02 dual 4.22e-02 fit 0.928485
+      ADMM 1500: primal 4.41e-03 dual 1.31e-01 fit 0.934722
+      ADMM 2000: primal 1.20e-02 dual 5.79e-02 fit 0.978011
+      ADMM 2500: primal 2.48e-04 dual 5.19e-02 fit 0.904560
+      ADMM 3000: primal 4.47e-03 dual 2.09e-03 fit 0.914842
+      ADMM 3500: primal 4.00e-03 dual 6.23e-02 fit 1.034074
+  BOX: fit 0.898418, bound 1.0088, {'admm_iters': 4000, 'primal': np.float64(0.003815825399498084), 'dual': np.float64(0.11440688446535269), 'active': 148, 'polish_feasible': False, 'polish_max': 244086.70803414422}   (875 s)
+      ADMM 0: primal 0.00e+00 dual 3.08e-02 fit 0.977958
+      ADMM 500: primal 3.28e-03 dual 1.06e-01 fit 0.965301
+      ADMM 1000: primal 3.18e-03 dual 2.64e-01 fit 0.942372
+      ADMM 1500: primal 9.79e-03 dual 9.54e-03 fit 0.915357
+      ADMM 2000: primal 4.02e-03 dual 1.09e-02 fit 0.940948
+      ADMM 2500: primal 6.60e-03 dual 1.13e-02 fit 0.958376
+      ADMM 3000: primal 1.28e-02 dual 1.16e-02 fit 0.926875
+      ADMM 3500: primal 6.56e-03 dual 5.32e-03 fit 0.936680
+  BOX+CONS: fit 0.919432, bound 1.0022, linearized conservation residual 7.60e-07 (LM-NE 3.81e-04, base 9.78e-10)   (1000 s)

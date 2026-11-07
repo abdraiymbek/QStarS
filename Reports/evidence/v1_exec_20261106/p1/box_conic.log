@@ -1,0 +1,6 @@
+it04_from_it04_trial_l0.125 BOX: fit 0.869146, bound ratio 1.000000, conservation residual 1.71e-03, max|s| 0.500, components at the bound 432; {'status': 'AlmostSolved', 'iterations': 40, 'seconds': 5.1979780197143555, 'rest': 0.02396860802393308}
+it04_from_it04_trial_l0.125 BOX+CONS: fit 0.883643, bound ratio 1.000000, conservation residual 8.68e-11, max|s| 0.500, components at the bound 423; {'status': 'AlmostSolved', 'iterations': 43, 'seconds': 5.003303050994873, 'rest': 0.02396860802393308}
+box_conic.py: error: unrecognized arguments: --cons --rank-cut 1e-10
+it16_from_it16_trial_l0.5 BOX: fit 0.894788, bound ratio 1.000000, conservation residual 1.21e-03, max|s| 0.500, components at the bound 426; {'status': 'AlmostSolved', 'iterations': 43, 'seconds': 5.574264764785767, 'rest': 0.022771992828672646}
+it16_from_it16_trial_l0.5 BOX+CONS: fit 0.908746, bound ratio 1.000000, conservation residual 1.68e-10, max|s| 0.500, components at the bound 415; {'status': 'AlmostSolved', 'iterations': 48, 'seconds': 5.342046022415161, 'rest': 0.022771992828672646}
+box_conic.py: error: unrecognized arguments: --cons --rank-cut 1e-10

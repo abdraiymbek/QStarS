@@ -1,0 +1,2152 @@
+diff --git a/README.md b/README.md
+index c7aa60e..91240d1 100644
+--- a/README.md
++++ b/README.md
+@@ -12,6 +12,19 @@ photospheres, moving cavities, and coupled transonic winds remain open validatio
+ Fiacconi–Rossi stationary wind solver now includes radiation enthalpy advection.
+ These examples do not establish quasi-star lifetimes or QSRD recovery results.
+ 
++**Latest evidence (2026-11-06).** [Report 25](Reports/Report_25.md) is the latest written report; the 167-radius
++cool closure is **still not converged, no gate changes status, and QStarS is not v1**. Stage 1 (statistical
++equilibrium at fixed T) lowered its row-scaled residual from 2.13 to 0.051 with conservation exact to 1e-15, then
++stopped at a solver limit along physically soft modes at the hydrogen and helium fronts. Stage 2 (T released,
++`results/nk167_trap/free_r25`) then ran a dense hydrogen-front-window experiment from 2026-10-31 to 2026-11-03
++(called Report 26 in its run README; no Report 26 was written): about 1,200 exact columns per iterate, 13 column
++builds totalling about 70 h, for a frozen-norm decrease of only about 3 % (0.02930 → 0.02837). It stopped at
++iterate 16 with every trial rejected; the last valid base is `results/nk167_trap/free_r25/it16_trial_l0.5`
++(not the iterate-17 trial that `history.json` names). The [v1 execution plan](Reports/V1_execution_plan_2026-11-06.md)
++keeps the scientific v1 definition. Its next steps are a trustworthy baseline (P0), stable and constrained step
++construction on the archived products (P1–P2), and, independently, repair of the Ball replication (P5).
++[Gate-to-artifact inventory](Reports/evidence/v1_exec_20261106/gate_inventory.md).
++
+ [Report 24](Reports/Report_24.md) re-examines the stalled stage-1 (fixed-T) closure. **Still not converged; no gate
+ changes; not v1.** The solves of Report 23 broke exact conservation: the per-component step limiter clips populations
+ separately, so hydrogen, helium and charge conservation drifted (He up to 8×, charge up to 34×) and the converged deep
+@@ -38,7 +51,10 @@ measure 3× in two iterates. Build 34 corrects the temperature column of the exa
+ on it the solves accept full Newton steps and halve the residual, then stall where the local-ALI preconditioner is
+ nearly singular at the ionization fronts. No closure has converged. The registered Ball et al. 2011 replication evolves
+ conservatively for 1 255 steps to M_BH = 46 M☉, where its smoke gate is a recorded numerical blocker in the
+-super-Eddington outer hydrogen opacity peak; its required check Q2 fails at row 0.
++super-Eddington outer hydrogen opacity peak; its required check Q2 fails at row 0. The Gate 4 self-selected wind
++module (`src/qstars/cmfgen_wind.py`, [docs](docs/cmfgen_selected_wind.md)) and the Gate 5 node interface
++(`src/qstars/wind_node.py`) are implemented and tested on analytic or synthetic inputs only; both gates are not
++reached, because no converged closure supplies their inputs.
+ 
+ [Report 22](Reports/Report_22.md) profiles and speeds up the 167-radius cool-closure solve
+ without changing the model, the products (≤ 1e-12 per row) or the convergence test. CMFGEN builds
+@@ -81,7 +97,9 @@ released cool state, physical resolution pair or selected wind is certified.
+ **101 tests pass, 23 optional integration tests skip** with the native tangent
+ compiler initialized. [Report 18](Reports/Report_18.md) retains the measured
+ failure of the existing population Jacobians and the costly exact-residual
+-Newton–Krylov experiment.
++Newton–Krylov experiment. [Report 17](Reports/Report_17.md) replaces the
++Report 16 moment propagation with a nonnegative formal-solution transfer; the
++released population/temperature iteration still does not converge.
+ 
+ [Report 16](Reports/Report_16.md) records **NUMERICAL BLOCKER**: signed previous-frequency
+ H/K/N forcing is reproduced, and experimental shared-face and unclipped N/H
+diff --git a/Reports/evidence/completion_gates.json b/Reports/evidence/completion_gates.json
+index 5cb1afa..d2268ad 100644
+--- a/Reports/evidence/completion_gates.json
++++ b/Reports/evidence/completion_gates.json
+@@ -1,6 +1,8 @@
+ {
+   "schema_version": 2,
+   "assessment_date_utc": "2026-10-22",
++  "descriptive_update_utc": "2026-11-06",
++  "descriptive_update_scope": "Descriptive text only, reconciled with Report 25, the 2026-10-31..11-03 dense-window run of stage 2 (results/nk167_trap/free_r25/README.txt, results/nk167_trap/free_r25/driver.log; no Report_26.md exists) and Reports/V1_execution_plan_2026-11-06.md (P0). No status, verdict, threshold or registration was changed. assessment_date_utc and the automated_tests_* counts keep their 2026-10-22 assessment. Per-gate artifact inventory: Reports/evidence/v1_exec_20261106/gate_inventory.json.",
+   "software_version": "0.1.0",
+   "v1_complete": false,
+   "release_status": "DEVELOPMENT_NOT_V1",
+@@ -39,7 +41,7 @@
+       "name": "Spatial and nonlinear convergence",
+       "status": "CONDITIONAL",
+       "achieved": "Hot-envelope runs through 2048 zones complete. 1024/2048 profile error below 0.081%; 512/2048 below 0.251%; refined independent time methods agree below 0.81%.",
+-      "remaining": "Production atmosphere/cavity/wind models untested. The 256-zone case fails 1% local energy-profile accuracy. Accepted timesteps vary across meshes. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes. Report 21 completes the RE-row Jacobian (level dissolution) and restores INC_AD/INC_ADV; T continuation reaches the full residual at 84 and 167 radii, but the released cool closure still does not converge (H I front cold-branch slide under Newton; pseudo-transient continuation in progress); no released 167/333 or doubled-frequency pair.",
++      "remaining": "Production atmosphere/cavity/wind models untested. The 256-zone case fails 1% local energy-profile accuracy. Accepted timesteps vary across meshes. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes. Report 21 completes the RE-row Jacobian (level dissolution) and restores INC_AD/INC_ADV; T continuation reaches the full residual at 84 and 167 radii, but the released cool closure still does not converge (Report 21 account of an H I front cold-branch slide under Newton; its thermal-instability reading was withdrawn in Report 23 section 9); no released 167/333 or doubled-frequency pair. Reports 23-25 and the 2026-10-31..11-03 dense-window run: Report 23 traced the non-convergence to numerical causes (fixed-J measure blind to trapped transitions, OLD_DEFAULT two-photon in single-iteration passes, free-free Gaunt T derivative; builds 32-35); Report 24 found the solves broke number/charge conservation and that full trial steps made supercritical masers (--conserve, build 36); Report 25 stage 1 (fixed T) reached row-scaled residual 0.051 and stopped at a solver limit; stage 2 (T released) and the dense hydrogen-front window run lowered the frozen reference norm about 3.2 % (0.02930 -> 0.02837) and stopped at iterate 16 with all trials rejected (last valid base results/nk167_trap/free_r25/it16_trial_l0.5). Still no released 167/333 or doubled-frequency pair (v1 plan 2026-11-06, P1-P3).",
+       "evidence": [
+         "benchmarks/results/2026-09-28-verified-spatial/20260928T033503.024409Z_spatial_validation/campaign.json",
+         "benchmarks/results/2026-09-28-closure/20260928T030639.520967Z_robustness_validation/campaign.json",
+@@ -50,7 +52,11 @@
+         "Reports/Report_14.md",
+         "Reports/Report_15.md",
+         "Reports/Report_16.md",
+-        "Reports/Report_21.md"
++        "Reports/Report_21.md",
++        "Reports/Report_23.md",
++        "Reports/Report_24.md",
++        "Reports/Report_25.md",
++        "Reports/V1_execution_plan_2026-11-06.md"
+       ]
+     },
+     {
+@@ -58,7 +64,7 @@
+       "name": "Production microphysics",
+       "status": "FAIL",
+       "achieved": "Native EOS/opacity, atmosphere and full MLT references; direct FreeEOS gas audit; explicit-pressure layer integration and new dilute-gas validity guard. Gas-only FreeEOS energy derivatives independently reproduce its gas critical sound speed. Native CMFGEN spectral/population component and hot transfer controls now execute with explicit energy/frame conventions.",
+-      "remaining": "Candidate fails geometry and subsonic-convection validity; no validated conservative atmosphere/envelope/wind coupling. Historical table counterexamples retained. Rosseland opacity does not supply exposed-spectrum absorption/emission or force means. Consistent cool non-LTE material derivatives and global CMF force/source response are not validated. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes.",
++      "remaining": "Candidate fails geometry and subsonic-convection validity; no validated conservative atmosphere/envelope/wind coupling. Historical table counterexamples retained. Rosseland opacity does not supply exposed-spectrum absorption/emission or force means. Consistent cool non-LTE material derivatives and global CMF force/source response are not validated. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes. Reports 23-25: the cool closure is still not converged, so the H/He atom-size and H-minus rate sensitivity and the relaxed-response checks have not been run (v1 plan P3). The Ball 2011 replication (Report 23 Gate 6) uses MESA ABI 7 microphysics in a registered published_assumption mode with QStarS validity screens recorded, not enforced; it does not validate production microphysics.",
+       "evidence": [
+         "benchmarks/results/2026-09-28-closure/20260928T021532.646459Z_mesa_microphysics_validation/validation.json",
+         "benchmarks/results/2026-09-28-closure/20260928T030928.629959Z_mesa_hot_current_verification/termination.json",
+@@ -71,7 +77,10 @@
+         "Reports/Report_13.md",
+         "Reports/Report_14.md",
+         "Reports/Report_15.md",
+-        "Reports/Report_16.md"
++        "Reports/Report_16.md",
++        "Reports/Report_23.md",
++        "Reports/Report_25.md",
++        "Reports/V1_execution_plan_2026-11-06.md"
+       ]
+     },
+     {
+@@ -79,11 +88,13 @@
+       "name": "Inner boundary and cavity",
+       "status": "FAIL",
+       "achieved": "Fixed-excision mass/entropy/enthalpy/potential-work/rest-mass accounting; sourced selectable engine luminosities; static Bondi and saturated families.",
+-      "remaining": "No conservative moving physical cavity reservoir or alternative evolving published inner-flow families.",
++      "remaining": "No conservative moving physical cavity reservoir or alternative evolving published inner-flow families. Report 23 (Gate 6): a moving cavity exists on the separate quasi-static path (numerics.mechanics: quasi_static), which evolves conservatively for 1255 steps to M_BH = 46 Msun under the Ball registration (per-step energy residual <= 1.2e-14 of initial internal energy); its registered verdict is FAIL and it does not certify a conservative moving physical cavity/reservoir for the finite-thermal evolution engine, which supports fixed excision only (v1 plan P6).",
+       "evidence": [
+         "docs/equations.md",
+         "docs/model_families.md",
+-        "Reports/evidence/development_20260928/final_tests/result.json"
++        "Reports/evidence/development_20260928/final_tests/result.json",
++        "Reports/Report_23.md",
++        "benchmarks/ball2011_track_plan.json"
+       ]
+     },
+     {
+@@ -91,7 +102,7 @@
+       "name": "Wind physics",
+       "status": "FAIL",
+       "achieved": "Grey/moving transfer, static thermal frequency-band controls, gas energy critical operator, base-selected adiabatic reference, robust diffusion matching and general conservative lab-radiation interface.",
+-      "remaining": "No combined H/He population/energy/force closure, convective handoff or physical envelope-to-escaping-wind eigenvalue. No coupled evolution. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes. Report 21: no CMFGEN-coupled self-selected mdot/sonic-point solve attempted (gated on the released cool closure).",
++      "remaining": "No combined H/He population/energy/force closure, convective handoff or physical envelope-to-escaping-wind eigenvalue. No coupled evolution. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes. Report 21: no CMFGEN-coupled self-selected mdot/sonic-point solve attempted (gated on the released cool closure). Report 23 implemented, but did not validate: the Gate 4 component src/qstars/cmfgen_wind.py (self-selected mdot/sonic-point hydro step from a frozen CMFGEN field; 21 analytic tests in tests/test_cmfgen_wind.py; plan benchmarks/cmfgen_selected_wind_plan.json registered before any result; docs/cmfgen_selected_wind.md) and the Gate 5 node interface src/qstars/wind_node.py with wind.model selected_nodes (11 tests in tests/test_node_wind.py; synthetic node only; every run reports validated: false; docs/wind_node.md). Neither has a real input: Gates 4 and 5 are NOT REACHED until a converged, audited released closure exists (Reports 24-25 unchanged; v1 plan P4).",
+       "evidence": [
+         "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json",
+         "docs/equations.md",
+@@ -104,7 +115,11 @@
+         "Reports/Report_14.md",
+         "Reports/Report_15.md",
+         "Reports/Report_16.md",
+-        "Reports/Report_21.md"
++        "Reports/Report_21.md",
++        "Reports/Report_23.md",
++        "docs/cmfgen_selected_wind.md",
++        "docs/wind_node.md",
++        "benchmarks/cmfgen_selected_wind_plan.json"
+       ]
+     },
+     {
+@@ -112,11 +127,14 @@
+       "name": "Multiple full published evolutions",
+       "status": "FAIL",
+       "achieved": "Several static limits and partial wind-profile comparison; target tables and pinned QUEST execution attempts preserved.",
+-      "remaining": "Zero complete published quasi-star evolutionary tracks reproduced. Radius, luminosity, temperature, BH/envelope growth, winds, lifetimes and profiles remain to be tested together.",
++      "remaining": "Zero complete published quasi-star evolutionary tracks reproduced. Radius, luminosity, temperature, BH/envelope growth, winds, lifetimes and profiles remain to be tested together. Report 23 (Gate 6): the registered Ball et al. 2011 replication (benchmarks/ball2011_track_plan.json, amendments 1-4 registered, amendment 5 rejected) has verdict FAIL: its smoke gate is a recorded numerical blocker at M_BH = 46 Msun after 1255 accepted steps (a mesh merge in the super-Eddington outer hydrogen opacity peak), the C0-C7 campaign and the 44-cell comparison were not run, and required check Q2 fails at row 0 at N = 200/400/800; a merge-free diagnostic stalls near 55 Msun (unclassified). The Q2 disposition is an open registration decision (v1 plan P5 and section 4). No second independent evolutionary target is selected (P6).",
+       "evidence": [
+         "benchmarks/manifest.yaml",
+         "benchmarks/results/2026-09-28-closure/20260928T031903.825105Z_validation/validation.json",
+-        "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json"
++        "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json",
++        "Reports/Report_23.md",
++        "benchmarks/ball2011_track_plan.json",
++        "Reports/evidence/report23/ball/stage7_commands.log"
+       ]
+     },
+     {
+@@ -124,11 +142,12 @@
+       "name": "Cross-validation without retuning",
+       "status": "FAIL",
+       "achieved": "Implemented alternatives, coefficients and disagreements are explicit.",
+-      "remaining": "No cross-paper evolutionary prediction without retuning has passed.",
++      "remaining": "No cross-paper evolutionary prediction without retuning has passed. The second evolutionary target, its observables, tolerances and no-retuning rules are not yet selected or registered (v1 plan P6 and section 4).",
+       "evidence": [
+         "src/qstars/data/sources.json",
+         "benchmarks/manifest.yaml",
+-        "docs/model_families.md"
++        "docs/model_families.md",
++        "Reports/V1_execution_plan_2026-11-06.md"
+       ]
+     },
+     {
+@@ -136,7 +155,7 @@
+       "name": "Numerical robustness",
+       "status": "CONDITIONAL",
+       "achieved": "70 regression tests pass with real libraries; prior hot campaigns retained; fresh ABI 5 ten-year MESA state and ledger repeat bitwise. Report 13: 108 full native-enabled regressions pass; zero-status failures, stale outputs and native ray-capacity limits are guarded.",
+-      "remaining": "Full production-family campaigns absent. MESA remap-threshold cases do not actually remap. Early campaigns predate unchanged-source guards. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes.",
++      "remaining": "Full production-family campaigns absent. MESA remap-threshold cases do not actually remap. Early campaigns predate unchanged-source guards. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes. Later suites: 334 passed / 37 skipped (Report 23), 341 / 37 (2026-10-22, automated_tests_*), 357 passed after the move to the external SSD (Report 25 section 9b). v1 plan P0: history.json of the cool-closure driver records \"accepted\" before the merit-rejection check (restart hazard at free_r25 iterate 16), and the closing chain scripts/post_convergence.sh defaults to build 31 while the solve uses build 36.",
+       "evidence": [
+         "benchmarks/results/2026-09-28-closure/20260928T030639.520967Z_robustness_validation/campaign.json",
+         "benchmarks/results/2026-09-28-closure/20260928T025423.972541Z_robustness_validation/campaign.json",
+@@ -148,7 +167,10 @@
+         "Reports/Report_13.md",
+         "Reports/Report_14.md",
+         "Reports/Report_15.md",
+-        "Reports/Report_16.md"
++        "Reports/Report_16.md",
++        "Reports/Report_23.md",
++        "Reports/Report_25.md",
++        "Reports/V1_execution_plan_2026-11-06.md"
+       ]
+     },
+     {
+@@ -156,13 +178,15 @@
+       "name": "Apple Silicon MacBook",
+       "status": "CONDITIONAL",
+       "achieved": "Fresh sequential CPU benchmarks: ten years, 512 analytic zones: 24.215 s / 88.9 MiB; 128 MESA zones: 31.293 s / 1045.4 MiB. Fresh ABI 5 verification: 30.830 s / 1045.0 MiB. Fourteen reference atmospheres: 7.159 s / 527.4 MiB, with physical validity failures. Spherical component campaign: 170.41 seconds / 569.16 MiB; scientific closure gates remain open. Native reduced H/He transfer is measured through 665 radii; full metal reference reaches 9.78 GB footprint.",
+-      "remaining": "Full published-track cost unknown; Linux MESA bridge unvalidated; development high-resolution timings include concurrent workloads.",
++      "remaining": "Full published-track cost unknown; Linux MESA bridge unvalidated; development high-resolution timings include concurrent workloads. Since 2026-10-29 the cool-closure runs use an always-on Mac mini with the project on an external SSD (Report 25 section 9b; a native replay pass 39.3 s against 37.6 s on the internal disk). The 2026-10-31..11-03 dense-window run spent about 70 h in 13 dense column builds (about 5.4 h each) for about 3.2 % frozen-norm progress (v1 plan section 1).",
+       "evidence": [
+         "benchmarks/results/2026-09-28-closure/20260928T031938.396825Z_performance_validation/performance.json",
+         "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/validation.json",
+         "benchmarks/results/2026-09-28-outer-audit/20260928T175917.423111Z_outer_transport/campaign.json",
+         "benchmarks/results/2026-09-28-outer-audit/20260928T175246.266274Z_outer_discrepancy/campaign.json",
+-        "Reports/Report_13.md"
++        "Reports/Report_13.md",
++        "Reports/Report_25.md",
++        "Reports/V1_execution_plan_2026-11-06.md"
+       ]
+     },
+     {
+@@ -194,7 +218,7 @@
+       "number": 2,
+       "name": "Mass and energy conserved to quantified tolerance",
+       "status": "CONDITIONAL",
+-      "scope": "Tested resolved-domain equations pass; missing cavity/atmosphere prevent whole quasi-star certification.",
++      "scope": "Tested resolved-domain equations pass; missing cavity/atmosphere prevent whole quasi-star certification. The quasi-static Ball path (Report 23) conserves mass/energy per step to <= 1.2e-14 with a moving cavity, but its registered verdict is FAIL and it is not the finite-thermal engine.",
+       "priority_gate_links": [
+         3,
+         4,
+@@ -224,7 +248,7 @@
+       "number": 5,
+       "name": "Several independent published results reproduced",
+       "status": "FAIL",
+-      "scope": "Static subsets pass; the clarified complete-evolution requirement fails.",
++      "scope": "Static subsets pass; the clarified complete-evolution requirement fails. Report 23 Gate 6 (Ball et al. 2011, registered): FAIL; zero complete evolutionary replicas.",
+       "priority_gate_links": [
+         5,
+         6
+@@ -244,7 +268,7 @@
+       "number": 7,
+       "name": "Thermal quasi-star evolution through time",
+       "status": "CONDITIONAL",
+-      "scope": "Finite thermal evolution with BH growth works in restricted envelopes; full lifecycle unverified.",
++      "scope": "Finite thermal evolution with BH growth works in restricted envelopes; full lifecycle unverified. The quasi-static Ball track reaches M_BH = 46 Msun before a numerical blocker (Report 23).",
+       "priority_gate_links": [
+         2,
+         5
+@@ -254,7 +278,7 @@
+       "number": 8,
+       "name": "Independent effective feeding and wind",
+       "status": "CONDITIONAL",
+-      "scope": "Separate stream accounting works; self-consistent wind/atmosphere coupling is missing.",
++      "scope": "Separate stream accounting works; self-consistent wind/atmosphere coupling is missing. Report 23 adds an unvalidated CMFGEN-selected wind component (src/qstars/cmfgen_wind.py) and node interface (src/qstars/wind_node.py); no real node exists.",
+       "priority_gate_links": [
+         4
+       ]
+@@ -282,7 +306,7 @@
+       "number": 11,
+       "name": "Useful individual MacBook runs",
+       "status": "CONDITIONAL",
+-      "scope": "Controlled runs fit; full published-track costs unknown.",
++      "scope": "Controlled runs fit; full published-track costs unknown. Cool-closure campaigns now take days per stage (dense-window run about 70 h of column builds, v1 plan 2026-11-06).",
+       "priority_gate_links": [
+         8
+       ]
+@@ -445,7 +469,7 @@
+     "working_development_software": "DELIVERED",
+     "validation_report": "docs/validation.md",
+     "published_benchmark_suite": "PARTIAL; missing full tracks explicit in manifest",
+-    "regression_suite": "123 passing with pinned MESA ABI 6 and FreeEOS; zero skips",
++    "regression_suite": "See automated_tests_passed/skipped/scope (341 passed, 37 skipped, 2026-10-22; Report 25 section 9b: 357 passed after the move to the external SSD). Superseded text: \"123 passing with pinned MESA ABI 6 and FreeEOS; zero skips\" (Report 16).",
+     "model_families": "docs/model_families.md",
+     "performance_report": "docs/performance.md",
+     "source_registry": "src/qstars/data/sources.json",
+@@ -457,8 +481,8 @@
+   "production_atmosphere": "BACKEND_PHYSICS_BLOCKER_native_CMFGEN_component_only",
+   "native_full_mlt": "reference_only_not_envelope_transport",
+   "freeeos_reference": "153_state_gas_audit_passes_upstream_byte_tests_fail",
+-  "latest_report": "Reports/Report_24.md",
+-  "release_blocker": "Cool closure at 167 radii, NOT CONVERGED. Report 24: the Report 23 solves violated the exact number and charge conservation rows (He up to 8x, H 2.3x, charge 34x) because the per-component step limiter clips populations separately; the least squares used distant directions through the nearly singular local-ALI front blocks (coefficient 172) and moved T in the fixed-T stage (coefficient 358); full trial steps created supercritical infrared masers (Lambda spectral radius 1.063, 1.058). Fixes: --conserve (trial projection onto the constraints), --pc-svd-floor 1e-2, --freeze-t, build 36 (Newton solve of the scattering fixed point where the local ALI stalls). Status: stage 1 (fixed T) restarted with --conserve, --pc-svd-floor 1e-2 and --freeze-t: conservation to 1e-15, three full Newton steps accepted (fixed measure 224 -> 128), then a stall at iterate 4 (full steps make supercritical masers; quarter step worse in the fixed measure); row-scaled measure 2.32 -> 2.85, not monotone; deep interior degrades; not converged. Narrowest blocker: ill-conditioned H ionization front (Report 24)",
++  "latest_report": "Reports/Report_25.md",
++  "release_blocker": "Cool closure at 167 radii, NOT CONVERGED (unchanged gate status). Report 25: stage 1 (fixed T, results/nk167_trap/fixedT_b35) lowered the row-scaled residual 2.125 -> 0.051 with conservation to 1e-15, then stopped at a solver limit at iterate 29 (every trial raised the residual); stage 2 (T released, results/nk167_trap/free_r25) went 0.0302 -> 0.0294 in three iterates. The 2026-10-31..11-03 dense-window run (--dense-window 19 47, about 1200 exact columns per iterate, 13 column builds of about 70 h in total) lowered the frozen reference norm only from 0.02930 to 0.02837 (about 3.2 %) and stopped at iterate 16 with every native trial rejected (\"no merit decrease along the exact Newton direction\"). Last valid base: results/nk167_trap/free_r25/it16_trial_l0.5 (history.json names it17_trial_l0.125_d16 as accepted because it writes accepted before the rejection check; that state was rejected). At iterate 16 the unbounded linear residual ratio is 0.811 but the bounded-step ratio 0.998766 (largest unbounded significant-variable step about 1396). Remaining squared weighted residual: depths 62-167 54.8 %, 19-47 21.5 %, 1-9 12.0 %. Narrowest blocker: step construction along the physically soft modes (stable/constrained subspace solve, feasible directions, global residual coverage), per Reports/V1_execution_plan_2026-11-06.md section 1; next phases P0-P2 there.",
+   "active_request_gates": [
+     {
+       "name": "Level-dissolution derivatives in the Jacobian/RE response",
+@@ -506,7 +530,7 @@
+     {
+       "name": "167-radius T-released cool closure solved",
+       "status": "FAIL",
+-      "scope": "Not converged. At lam=1 free Newton slides the H I front (d33-38) down the cool branch (5.5 -> 4.3 -> 3.7 kK), as at 84 radii; the exact coupled response at frozen populations (RE row slope ~ R_RE) explains the direction. Pseudo-transient continuation on T with split directions heats the front from 5.5, 7.9 and 10.5 kK starts, 3-5 % per iterate; the iterates are far from statistical equilibrium (GENCOOL thermal balance vs RE row disagree), so no finite-T root is established or excluded.",
++      "scope": "Report 21 account: Not converged. At lam=1 free Newton slides the H I front (d33-38) down the cool branch (5.5 -> 4.3 -> 3.7 kK), as at 84 radii; the exact coupled response at frozen populations (RE row slope ~ R_RE) explains the direction. Pseudo-transient continuation on T with split directions heats the front from 5.5, 7.9 and 10.5 kK starts, 3-5 % per iterate; the iterates are far from statistical equilibrium (GENCOOL thermal balance vs RE row disagree), so no finite-T root is established or excluded. Superseded detail (status unchanged): Report 23 withdrew the thermal-instability reading and traced the non-convergence to numerical causes (builds 32-35); Report 24 restored exact conservation (--conserve, build 36); Report 25 stage 1 (fixed T) stopped at row-scaled residual 0.051 at a solver limit; stage 2 (T released) plus the 2026-10-31..11-03 dense-window run reached frozen norm 0.02837 from 0.02930 and stopped at iterate 16 with all trials rejected; last valid base results/nk167_trap/free_r25/it16_trial_l0.5.",
+       "evidence": [
+         "Reports/Report_21.md",
+         "Reports/evidence/report21/nk167_adv_history.json",
+@@ -515,7 +539,12 @@
+         "Reports/evidence/report21/nk167_hot_README.txt",
+         "Reports/evidence/report21/thermal_curve_167_d35_hot.json",
+         "Reports/evidence/report21/gencool_hot2_start_front.json",
+-        "Reports/evidence/report21/gencool_x0_restart_front.json"
++        "Reports/evidence/report21/gencool_x0_restart_front.json",
++        "Reports/Report_23.md",
++        "Reports/Report_24.md",
++        "Reports/Report_25.md",
++        "results/nk167_trap/free_r25/README.txt",
++        "Reports/evidence/v1_plan_20261106/review_summary.json"
+       ]
+     },
+     {
+@@ -532,23 +561,35 @@
+     {
+       "name": "Electron balance, global and cumulative radiation energy, last correction, charge, spectral material temperature",
+       "status": "NOT_EVALUATED",
+-      "scope": "Require a converged released state; thresholds unchanged; closing chain scripts/post_convergence.sh ready (build 28 carries every audited capability flag).",
+-      "evidence": []
++      "scope": "Require a converged released state; thresholds unchanged. Superseded: \"closing chain scripts/post_convergence.sh ready (build 28 carries every audited capability flag)\". Report 23 fixed and hardened post_convergence.sh (default build 31, override), added scripts/native_correction_check.py and registered the closing rule (benchmarks/cmfgen_cool_validation_plan.json closing_phase); the solve now runs build 36, so the chain must be given the accepted executable and full physics flags explicitly, and COMP_EHB should be added to the verify pass (Report 23 section 3; v1 plan P3).",
++      "evidence": [
++        "Reports/Report_23.md",
++        "benchmarks/cmfgen_cool_validation_plan.json",
++        "Reports/V1_execution_plan_2026-11-06.md"
++      ]
+     },
+     {
+       "name": "Spatial (167/333) and doubled-frequency resolution",
+       "status": "NOT_REACHED",
+-      "scope": "84 radii has no converged state, so the check moves to 167 vs 333: 333-radius nested restart (radius/velocity identical at shared points), equation table and T-released base pass ready; state transfer script ready.",
++      "scope": "84 radii has no converged state, so the check moves to 167 vs 333: 333-radius nested restart (radius/velocity identical at shared points), equation table and T-released base pass ready; state transfer script ready. Superseded \"ready\": Report 23 found the 333 restart carried five stale bootstrap trace files, so the Report 21 base pass was defective (moved to superseded/); it must be rebuilt. The doubled-frequency recipe (85,359 frequencies) is registered in benchmarks/cmfgen_cool_frequency_plan.json, with two criteria pending_user_approval.",
+       "evidence": [
+         "Reports/evidence/report21/mesh333_control.json",
+-        "Reports/evidence/report21/nk333_README.txt"
++        "Reports/evidence/report21/nk333_README.txt",
++        "Reports/Report_23.md",
++        "benchmarks/cmfgen_cool_frequency_plan.json"
+       ]
+     },
+     {
+       "name": "Self-selected wind, coupled evolution, published evolutionary benchmark",
+       "status": "NOT_ATTEMPTED",
+-      "scope": "Gated on a converged, audited, resolution-checked released cool closure. Components exist (CMFGEN g_rad from SpectralSnapshot.moments, material_wind critical operator, spherical_wind eigenvalue for an LTE diffusion wind) but no CMFGEN-coupled mdot/sonic-point solver exists; evolution uses winds.rate off/prescribed/dotan2011.",
+-      "evidence": []
++      "scope": "Report 21 text superseded: \"no CMFGEN-coupled mdot/sonic-point solver exists\" is no longer true. Report 23 implemented the Gate 4 component src/qstars/cmfgen_wind.py (21 analytic tests, registered plan benchmarks/cmfgen_selected_wind_plan.json, docs/cmfgen_selected_wind.md) and the Gate 5 node interface src/qstars/wind_node.py (11 tests, docs/wind_node.md); both are implemented and tested, not validated, and remain gated on a converged, audited, resolution-checked released cool closure (Gates 4 and 5 NOT REACHED in Reports 23-25). Evolution still uses winds.rate off/prescribed/dotan2011 or the synthetic-node selected_nodes mode reporting validated: false. The published evolutionary benchmark was attempted in Report 23 (Gate 6, Ball et al. 2011): registered verdict FAIL.",
++      "evidence": [
++        "Reports/Report_23.md",
++        "src/qstars/cmfgen_wind.py",
++        "src/qstars/wind_node.py",
++        "benchmarks/cmfgen_selected_wind_plan.json",
++        "benchmarks/ball2011_track_plan.json"
++      ]
+     }
+   ],
+   "previous_active_request_gates_report8": [
+@@ -640,8 +681,13 @@
+     "qsrd_run": false,
+     "evidence": [
+       "Reports/Report_21.md",
+-      "Reports/evidence/report21/"
+-    ]
++      "Reports/evidence/report21/",
++      "Reports/Report_23.md",
++      "Reports/Report_24.md",
++      "Reports/Report_25.md",
++      "results/nk167_trap/free_r25/README.txt"
++    ],
++    "outcome_note": "The parenthetical \"constrained re-solve of stage 1 in progress\" is stale: stage 1 stopped at a solver limit (Report 25) and stage 2 stopped at iterate 16 with all trials rejected (2026-11-03). The outcome value is left as recorded; see release_blocker."
+   },
+   "previous_active_request_gates_report9": [
+     {
+@@ -2203,5 +2249,106 @@
+       "results/nk167_trap/fixedT_b35/README.txt",
+       "results/nk167_trap/b36_tests/"
+     ]
++  },
++  "latest_report_note": "Report 25 (2026-10-30) is the latest written report. The subsequent dense-window run (2026-10-31..11-03, called Report 26 in the run README) has no written report; its record is results/nk167_trap/free_r25/README.txt, results/nk167_trap/free_r25/driver.log and history.json, Reports/evidence/report26/ and the review in Reports/V1_execution_plan_2026-11-06.md with Reports/evidence/v1_plan_20261106/.",
++  "previous_release_blocker_report24": "Cool closure at 167 radii, NOT CONVERGED. Report 24: the Report 23 solves violated the exact number and charge conservation rows (He up to 8x, H 2.3x, charge 34x) because the per-component step limiter clips populations separately; the least squares used distant directions through the nearly singular local-ALI front blocks (coefficient 172) and moved T in the fixed-T stage (coefficient 358); full trial steps created supercritical infrared masers (Lambda spectral radius 1.063, 1.058). Fixes: --conserve (trial projection onto the constraints), --pc-svd-floor 1e-2, --freeze-t, build 36 (Newton solve of the scattering fixed point where the local ALI stalls). Status: stage 1 (fixed T) restarted with --conserve, --pc-svd-floor 1e-2 and --freeze-t: conservation to 1e-15, three full Newton steps accepted (fixed measure 224 -> 128), then a stall at iterate 4 (full steps make supercritical masers; quarter step worse in the fixed measure); row-scaled measure 2.32 -> 2.85, not monotone; deep interior degrades; not converged. Narrowest blocker: ill-conditioned H ionization front (Report 24)",
++  "active_request_gates_note": "This list is the Report 21 request set. The current v1 chain is Gates 1-6 of Report 23 section 8, restated without status change in Report 24 section 6 and Report 25 section 9; the per-gate inventory with artifacts, registrations and plan phases is Reports/evidence/v1_exec_20261106/gate_inventory.json.",
++  "report25_numerical_checks": {
++    "stage1_fixedT_rowscaled_eqfloor": [
++      2.125,
++      0.051
++    ],
++    "stage1_rowscaled_unfloored_end": 0.06,
++    "stage1_fixed_measure_end": 133.2,
++    "stage1_conservation_max_abs_factor_minus_1": 1e-15,
++    "stage1_re_net_over_gross_at_pinned_T_max": 0.002,
++    "stage1_last_base": "results/nk167_trap/fixedT_b35/it29_trial_l0.5",
++    "stage1_stop": "iterate 29: every trial, 1/16 fallbacks included, raised the residual (solver limit)",
++    "front_soft_mode_relative_singular_values_exact_columns_d23_d26_d31": [
++      2e-06,
++      1.7e-06,
++      6e-05
++    ],
++    "front_exact_columns_stage1": 1168,
++    "stage2_free_r25_driver_measure_it1_to_it3": [
++      0.0302,
++      0.0294
++    ],
++    "stage2_front_probe_fit_without_with_columns": [
++      0.986,
++      0.98
++    ],
++    "tests_after_t9_move": 357,
++    "gate_statuses_changed": false,
++    "evidence": [
++      "Reports/Report_25.md",
++      "Reports/evidence/report25/",
++      "results/nk167_trap/fixedT_b35/README.txt",
++      "results/nk167_trap/free_r25/README.txt"
++    ]
++  },
++  "report26_dense_window_run": {
++    "written_report": null,
++    "note": "Called Report 26 in the run README; no Reports/Report_26.md exists.",
++    "period": "2026-10-31 10:30 .. 2026-11-03 15:29",
++    "run": "results/nk167_trap/free_r25 (stage 2, T released, build 36)",
++    "method_change": "--dense-window 19 47 (one exact full column per variable and depth in the H-front window, about 1200 per iterate, rebuilt at each base, in the least-squares span; not the cached two-level subdomain preconditioner proposed in Report 25)",
++    "dense_column_builds": 13,
++    "dense_column_build_wall_hours_sum": 70.0,
++    "frozen_reference_norm_start_end": [
++      0.0293,
++      0.02837
++    ],
++    "approx_frozen_norm_reduction_fraction": 0.032,
++    "iterates_accepted": "4-15",
++    "iterate16": "all eight native trials (four LM-bounded, four 1/16 fallbacks) raised the merit; driver stopped: \"no merit decrease along the exact Newton direction; stopping for inspection\"",
++    "iterate16_linear_residual_ratio_unbounded_bounded": [
++      0.811,
++      0.998766
++    ],
++    "iterate16_max_unbounded_significant_step": 1396,
++    "last_valid_base": "results/nk167_trap/free_r25/it16_trial_l0.5",
++    "history_json_caveat": "history.json writes accepted before the rejection check; its last entry names it17_trial_l0.125_d16, which was rejected. Do not restart from it.",
++    "residual_squared_share_by_depth_at_last_base": {
++      "1-9": 0.12,
++      "10-18": 0.022,
++      "19-32": 0.014,
++      "33-47": 0.201,
++      "48-54": 0.018,
++      "55-61": 0.078,
++      "62-100": 0.141,
++      "101-167": 0.407
++    },
++    "gate_statuses_changed": false,
++    "evidence": [
++      "results/nk167_trap/free_r25/README.txt",
++      "results/nk167_trap/free_r25/driver.log",
++      "results/nk167_trap/free_r25/history.json",
++      "Reports/evidence/report26/",
++      "Reports/evidence/v1_plan_20261106/review_summary.json",
++      "Reports/evidence/v1_plan_20261106/residual_map.txt"
++    ]
++  },
++  "v1_execution_plan": {
++    "path": "Reports/V1_execution_plan_2026-11-06.md",
++    "date": "2026-11-06",
++    "kind": "planning review, not a convergence result; changed no solver, registration or gate status",
++    "recommendation": "retain the scientific v1 definition; stop repeating the dense-front run; first establish a numerically reliable, conservation-consistent step on the archived problem; advance the Ball replication independently",
++    "phases": {
++      "P0": "freeze the baseline; correct history/restart records; reconcile docs and ledger; gate inventory",
++      "P1": "offline step-construction comparison on stored iterate-4 and iterate-16 products",
++      "P2": "distributed slow modes: deep global Krylov, two-level preconditioner, or Route B relaxation",
++      "P3": "released 167-radius closure, cleanup and audits, 333 radii, doubled frequency, sensitivity checks",
++      "P4": "self-selected outer solution (cmfgen_wind.py) and node-coupled envelope evolution",
++      "P5": "Ball replication repair: Q2 source audit, 46 Msun merge event, 55 Msun stall, C0-C7 campaign",
++      "P6": "moving cavity, second evolutionary benchmark, cross-paper prediction, microphysics, robustness, performance, clean install, qstars validate --require-v1"
++    },
++    "open_registration_decisions": [
++      "Ball Q2 (benchmarks/ball2011_track_plan.json qualitative_checks Q2)",
++      "frequency luminosity and cumulative-heating criteria pending_user_approval (benchmarks/cmfgen_cool_frequency_plan.json)",
++      "floating-point-floor exemptions pending_user_approval (benchmarks/cmfgen_cool_validation_plan.json closing_phase)",
++      "wind mass-loss refinement criterion and stricter dual-opacity / dual thermal-screen defaults (benchmarks/cmfgen_selected_wind_plan.json pending_user_approval)",
++      "second evolutionary target and exact supported families (not yet registered)"
++    ]
+   }
+ }
+diff --git a/scripts/cnk_trap.py b/scripts/cnk_trap.py
+index f7b8233..a78fba2 100644
+--- a/scripts/cnk_trap.py
++++ b/scripts/cnk_trap.py
+@@ -91,6 +91,25 @@ def update_factor(s, mode, cap):
+     return np.clip(f, np.exp(-cap), np.exp(cap))
+ 
+ 
++def equilibrate(A):
++    """Rows scaled by their largest entry, then columns (as BlockTridiag.factor does): (scaled A, r, c)."""
++    r = 1.0 / np.maximum(np.max(np.abs(A), axis=1), 1e-300)
++    Ar = A * r[:, None]
++    c = 1.0 / np.maximum(np.max(np.abs(Ar), axis=0), 1e-300)
++    return Ar * c[None, :], r, c
++
++
++def block_conditioning(di, active, window):
++    """Smallest / largest singular value of each equilibrated diagonal block (active rows and columns) at the
++    depths of window (d0, d1), 0-based inclusive."""
++    out = []
++    for d in range(window[0], window[1] + 1):
++        idx = np.nonzero(active[:, d])[0]
++        S = np.linalg.svd(equilibrate(di[d][np.ix_(idx, idx)])[0], compute_uv=False)
++        out.append(S[-1] / S[0])
++    return np.array(out)
++
++
+ def floor_blocks(di, tau, active=None):
+     """Report 24: bound the amplification of nearly singular diagonal blocks of a preconditioner.
+     Each block is equilibrated as BlockTridiag.factor does (rows by their largest entry, then columns), its
+@@ -106,11 +125,7 @@ def floor_blocks(di, tau, active=None):
+         idx = np.arange(nt) if active is None else np.nonzero(active[:, d])[0]
+         if idx.size == 0:
+             continue
+-        A = di[d][np.ix_(idx, idx)]
+-        r = 1.0 / np.maximum(np.max(np.abs(A), axis=1), 1e-300)
+-        Ar = A * r[:, None]
+-        c = 1.0 / np.maximum(np.max(np.abs(Ar), axis=0), 1e-300)
+-        As = Ar * c[None, :]
++        As, r, c = equilibrate(di[d][np.ix_(idx, idx)])
+         U, S, Vt = np.linalg.svd(As)
+         floor = tau * S[0]
+         low = S < floor
+@@ -152,3 +167,228 @@ def project_conservation(x, totals):
+ def conservation_totals(x):
+     """(H total, He total) per depth of a state, the targets of project_conservation."""
+     return x[H_ROWS].sum(0), x[HE_ROWS].sum(0)
++
++
++def front_window(x, hii_frac=0.5, margin=2):
++    """Report 25: depths (0-based, inclusive) of the hydrogen ionization fronts of a state: from the first to the last
++    depth where H II holds less than hii_frac of the hydrogen, widened by margin depths on each side. None if
++    hydrogen is ionized beyond hii_frac everywhere."""
++    f = x[HII_ROW] / x[H_ROWS].sum(0)
++    neutral = np.nonzero(f < hii_frac)[0]
++    if neutral.size == 0:
++        return None
++    return max(0, int(neutral[0]) - margin), min(x.shape[1] - 1, int(neutral[-1]) + margin)
++
++
++def front_rows(inc, base, sig, active, window, tol, always=()):
++    """Report 25: 1-based variables whose preconditioner columns need exact responses inside `window` (d0, d1): the
++    `always` rows plus every column whose local-ALI increment inc (diagonal blocks, (ND, NT, NT)) changes a
++    significant equation at some window depth by more than tol of that equation's gross direct scale (row l1-norm
++    of `base`). These are the columns with a radiation response: H I and H-, and ultra-trace upper levels of
++    optically thick resonance lines (He I n 1P at the H front), whose fixed-J columns hold untrapped rates.
++    Rows that are inactive at every window depth are left out."""
++    d0, d1 = window
++    rows = set(always)
++    for d in range(d0, d1 + 1):
++        rs = np.abs(base[d]).sum(axis=1)
++        a = np.abs(inc[d]) / np.maximum(rs, 1e-300)[:, None]
++        colinc = (a * sig[:, d][:, None]).max(axis=0)
++        rows.update(int(r) + 1 for r in np.nonzero(active[:, d] & (colinc > tol))[0])
++    return sorted(r for r in rows if active[r - 1, d0:d1 + 1].any())
++
++
++def window_mask(active, window):
++    """active restricted to the depths of window (d0, d1), 0-based inclusive."""
++    m = np.zeros_like(active, dtype=bool)
++    m[:, window[0]:window[1] + 1] = active[:, window[0]:window[1] + 1]
++    return m
++
++
++def dense_cells(windows, active):
++    """Report 26: the cells of a dense exact sub-domain Jacobian. windows: [((d0, d1), rows), ...] with 0-based inclusive
++    depths and 1-based rows; every active (row - 1, depth) of each window, each cell once (overlapping windows share
++    cells), in window, row, depth order. One direction per cell (cell_direction) gives that variable's full nonlocal
++    column, with no colouring and so no aliasing of the response of other perturbed depths."""
++    cells, seen = [], set()
++    for (d0, d1), rows in windows:
++        for r in rows:
++            if not 1 <= r <= active.shape[0]:
++                raise ValueError(f'dense row {r} outside 1..{active.shape[0]}')
++            for d in range(max(0, d0), min(active.shape[1] - 1, d1) + 1):
++                if active[r - 1, d] and (r - 1, d) not in seen:
++                    seen.add((r - 1, d)); cells.append((r - 1, d))
++    return cells
++
++
++def cell_direction(cell, shape):
++    """Unit relative perturbation of one variable at one depth (a dense_cells entry)."""
++    z = np.zeros(shape); z[cell] = 1.0
++    return z
++
++
++def quadratic_term(lams, E):
++    """Report 26 (--geodesic): the second-order term Q of the residual along a trial direction, from the trials'
++    remainders E_lam = R(x_lam) - (R - lam J s) (the actual residual minus its linear model) at step fractions lams.
++    E_lam = lam^2 Q + lam^3 C + ...: per cell, the intercept at lam = 0 of the straight-line fit of E_lam / lam^2
++    against lam (one trial: E / lam^2)."""
++    lams = np.asarray(lams, dtype=float)
++    if lams.size == 0:
++        raise ValueError('quadratic_term needs at least one trial')
++    e = [Ei / li ** 2 for Ei, li in zip(E, lams)]
++    if lams.size == 1 or np.ptp(lams) == 0:
++        return sum(e) / len(e)
++    c = np.linalg.pinv(np.stack([np.ones_like(lams), lams], axis=1))[0]    # intercept weights
++    return sum(ci * ei for ci, ei in zip(c, e))
++
++
++def slow_modes(di, active, window, tau, rows=None, min_weight=0.5, exclude=()):
++    """Report 25: the slow modes of the diagonal blocks inside window (d0, d1), 0-based inclusive. Per depth, every
++    singular pair of the equilibrated block (active rows and columns except `exclude`) with singular value below tau x
++    the largest, and (rows given) with at least min_weight of its left vector's squared norm on those rows. In physical
++    scaling, as (NT, ND) arrays nonzero at that depth only: Y = r*u (the block inverse amplifies the residual component
++    Y.x by 1/s) and Z = c*v (the variable direction it amplifies), each scaled to max |entry| = 1. Returns
++    (Y, Z, [(depth, s/s_max), ...])."""
++    nd, nt, _ = di.shape
++    Y, Z, info = [], [], []
++    for d in range(window[0], window[1] + 1):
++        idx = np.nonzero(active[:, d])[0]
++        idx = idx[~np.isin(idx, exclude)]
++        As, r, c = equilibrate(di[d][np.ix_(idx, idx)])
++        U, S, Vt = np.linalg.svd(As)
++        for j in np.nonzero(S < tau * S[0])[0]:
++            if rows is not None and np.sum(U[np.isin(idx, rows), j] ** 2) < min_weight:
++                continue
++            y = np.zeros((nt, nd)); z = np.zeros((nt, nd))
++            yy, zz = r * U[:, j], c * Vt[j]
++            y[idx, d] = yy / np.max(np.abs(yy)); z[idx, d] = zz / np.max(np.abs(zz))
++            Y.append(y); Z.append(z); info.append((d, float(S[j] / S[0])))
++    return Y, Z, info
++
++
++class CoarseCorrected:
++    """Report 25: two-level preconditioner P^-1 r = Z c + M^-1 (r - (J Z) c) with the EXACT products J Z of the slow
++    modes (slow_modes). P^-1 J z = z for every z in span(Z), whatever the nonlocal coupling of the modes.
++      mode 'ls'       : c = argmin ||W M^-1 (r - J Z c)|| (the fine-level preconditioned residual is minimal); never
++                        singular while the columns W M^-1 J z are independent;
++      mode 'galerkin' : c = E^+ Y^T r, E = Y^T J Z: the fine level only sees residuals with Y^T r = 0, the components
++                        its nearly singular blocks would amplify, but E is singular when slow modes couple only through
++                        their neighbours.
++    M: anything with .solve of an (NT, ND) array; W: weights of the least squares (mode 'ls')."""
++
++    def __init__(self, M, Y, Z, JZ, W=None, mode='ls', rcond=1e-12):
++        self.fine, self.mode = M, mode
++        self.Z = np.stack([z.ravel() for z in Z])
++        self.JZ = np.stack([j.ravel() for j in JZ])
++        if mode == 'galerkin':
++            self.Y = np.stack([y.ravel() for y in Y])
++            E = self.Y @ self.JZ.T
++        elif mode == 'ls':
++            self.W = np.ones(JZ[0].shape) if W is None else W
++            E = np.stack([(self.W * M.solve(j)).ravel() for j in JZ], axis=1)
++        else:
++            raise ValueError(f'unknown coarse mode {mode!r}')
++        sv = np.linalg.svd(E, compute_uv=False)
++        self.cond = float(sv[0] / sv[-1])
++        self.E_pinv = np.linalg.pinv(E, rcond=rcond)
++
++    def coefficients(self, r):
++        if self.mode == 'galerkin':
++            return self.E_pinv @ (self.Y @ r.ravel())
++        return self.E_pinv @ (self.W * self.fine.solve(r)).ravel()
++
++    def solve(self, r):
++        c = self.coefficients(r)
++        return (self.Z.T @ c).reshape(r.shape) + self.fine.solve(r - (self.JZ.T @ c).reshape(r.shape))
++
++
++def trace_ion_balance(R, Js, Jdi, frac, lam, row=101, col=131, sig_frac=1e-10, share=0.1):
++    """Report 25: the step component of a trace upper ion that balances a replaced ground-state row. Where the He II
++    ground row is CMFGEN's He II / He III ionization balance (the He III column carries at least `share` of the row's
++    direct l1-norm) and He III is not significant (fraction <= sig_frac of He, least-squares weight ~0, so no Krylov
++    direction moves it), the row cannot be satisfied by the solve, and the preconditioner turns its imbalance into
++    He II ground corrections (s 17-61 at depths 42-45). The balance is linear in the trace ion: its component is set so
++    that the linearized row vanishes for the trial step lam*s, s_col = (R_row - lam (J s)_row) / J[row, col].
++    R, Js: (NT, ND) residual and exact action of the unit step (without any PTC shift); Jdi: (ND, NT, NT) direct
++    diagonal blocks; frac: (NT, ND) fraction of the element. Returns (mask over depths, s_col)."""
++    a = Jdi[:, row, col]
++    l1 = np.abs(Jdi[:, row, :]).sum(axis=1)
++    mask = (frac[col] <= sig_frac) & (np.abs(a) >= share * np.maximum(l1, 1e-300)) & (R[row] != 0.0)
++    s_col = np.zeros(R.shape[1])
++    s_col[mask] = (R[row, mask] - lam * Js[row, mask]) / a[mask]
++    return mask, s_col
++
++
++def adapt_caps(caps, prev_logf, new_logf, default, shrink=0.5, grow=1.5, floor=0.01, hit=0.9):
++    """Report 25: per-component limits |log f| <= caps for the next update. A component whose limited update reversed
++    direction from the previous accepted update (a limit cycle across its root: He II ground at the inner H front
++    jumped between 1.5e-6 and 3.6e-6 of He for six iterates with steps +32, -3, +54, -5, ...) gets its limit
++    multiplied by `shrink` (not below `floor`); every other component's limit grows back by `grow` up to `default`.
++    prev_logf/new_logf: log(x_new / x_base) of the last two accepted updates. Returns the new caps."""
++    flip = (np.sign(prev_logf) * np.sign(new_logf) < 0) & (np.abs(new_logf) >= hit * caps)
++    return np.where(flip, np.maximum(caps * shrink, floor), np.minimum(caps * grow, default)), int(flip.sum())
++
++
++ACCEPTED_POINTER = 'accepted_state.json'
++
++
++def trial_decision(trials, phi):
++    """V1 plan P0: the outcome of one iterate's line search. trials: (label, pass dir, merit) of every trial pass, phi:
++    the base's merit in the same measure. The best trial is accepted only when it lowers the merit strictly; the history
++    record keeps the best trial apart from the accepted one (iterate 16 of free_r25 recorded its best trial l0.125_d16,
++    merit 2.83717e-2 against 2.83713e-2, as `accepted` although the driver rejected every trial and stopped)."""
++    lab, d, ph = min(trials, key=lambda t_: t_[2])
++    ok = bool(np.isfinite(ph) and ph < phi)
++    return dict(best_trial=lab, best_merit=float(ph), best_dir=d, accepted=lab if ok else None,
++                status='accepted' if ok else 'rejected')
++
++
++def history_accepted(rec):
++    """The accepted trial label of a history record, None when every trial was rejected. Records written before the
++    `status` field (V1 plan P0) named their best trial `accepted` whatever its merit: judged here on merit_new < merit."""
++    if 'status' in rec:
++        return rec.get('accepted')
++    lab = rec.get('accepted')
++    if lab is None or not (rec.get('merit_new', np.inf) < rec.get('merit', -np.inf)):
++        return None
++    return lab
++
++
++def write_accepted_pointer(out, it, base, merit, source):
++    """V1 plan P0: the explicit restart pointer, OUT/accepted_state.json: the accepted state the next iterate starts
++    from (written atomically). source: how it became the accepted state."""
++    import json, os, time
++    from pathlib import Path
++    p = Path(out) / ACCEPTED_POINTER
++    tmp = p.with_suffix('.tmp')
++    tmp.write_text(json.dumps(dict(it=int(it), base=str(Path(base).resolve()), merit=float(merit), source=source,
++                                   written=time.strftime('%Y-%m-%d %H:%M:%S')), indent=1))
++    os.replace(tmp, p)
++
++
++def read_accepted_pointer(out):
++    import json
++    from pathlib import Path
++    p = Path(out) / ACCEPTED_POINTER
++    return json.loads(p.read_text()) if p.exists() else None
++
++
++def check_restart_base(base):
++    """V1 plan P0: None if `base` may start a native solve, else the reason it may not. A pass named itNN_trial_LAB is a
++    trial of iterate NN-1 of its own run directory; it is admissible only if that run's history accepted LAB there
++    (history_accepted). Bases outside such a run (it00_base, start_base, another run's pass) are not judged here."""
++    import json, re
++    from pathlib import Path
++    base = Path(base).resolve()
++    m = re.fullmatch(r'it(\d+)_trial_(.+)', base.name)
++    hp = base.parent / 'history.json'
++    if m is None or not hp.exists():
++        return None
++    k, lab = int(m.group(1)) - 1, m.group(2)
++    recs = [r for r in json.loads(hp.read_text()) if r.get('it') == k and 'trials' in r]
++    if not recs:
++        return f'{base.name}: no history record of iterate {k} in {hp}'
++    acc = history_accepted(recs[-1])
++    if acc != lab:
++        return (f'{base.name}: iterate {k} of {hp.parent.name} did not accept trial {lab} '
++                f'(accepted: {acc}; best trial merit {recs[-1].get("merit_new")} against base {recs[-1].get("merit")})')
++    return None
+diff --git a/scripts/cool_newton_krylov.py b/scripts/cool_newton_krylov.py
+index 973ebc8..6a41224 100644
+--- a/scripts/cool_newton_krylov.py
++++ b/scripts/cool_newton_krylov.py
+@@ -46,6 +46,10 @@ PC_T_FLOOR = 0.0                              # set from --pc-t-floor
+ ION_ROWS = [32] + list(range(102, 133))      # charged species entering POPION (1-based)
+ SPLIT_BOUNDS_84 = [5, 9, 20, 30, 60]          # depth-region edges (84-radius indices) for --split
+ SPLIT_REGIONS = []                            # set from ND
++PTC_CONSTRAINT_ROWS = (31, 131, 132, 133)     # H number, He number, charge, T rows (0-based): no population PTC
++# depth regions (0-based start, end exclusive) of the dense-window least-squares log (Report 26): outer He I, outer H,
++# H front, inner H front, between, He front, inner atmosphere, deep layers
++DENSE_REPORT_REGIONS = ((0, 9), (9, 18), (18, 32), (32, 47), (47, 54), (54, 61), (61, 100), (100, 167))
+ 
+ 
+ def trace_sweep(R, base, x0, dest, cap, k):
+@@ -103,28 +107,111 @@ def lm_step(lm_data, wvec, radius):
+     return (Sm @ y).reshape(shape), float(mu), float(np.linalg.norm(A @ y - b))
+ 
+ 
++def lm_step_bound(lm_data, wvec, radius, mask):
++    """Report 25 (--lm-bound): Levenberg-Marquardt step in the Krylov subspace, y(mu) = argmin ||A y - b||^2 +
++    mu ||W S y||^2, with the smallest mu (bisection in log mu) such that max|s| over `mask` <= radius: the step is
++    re-optimized within the bound instead of being clipped afterwards (clipping a soft-mode component, H I n=2 at
++    d37-38, left the rest of the step inconsistent: full steps x2.4-5.5 worse). Returns (s, mu, y)."""
++    S, A, b = lm_data
++    Sm = np.stack([si.ravel() for si in S], axis=1)
++    WS = Sm * wvec.ravel()[:, None]
++    AtA, Atb, G = A.T @ A, A.T @ b, WS.T @ WS
++    Smm = Sm[mask.ravel()]
++    if np.ndim(radius) > 0:
++        # per-component radius (Report 25, stage 2: T bounded tighter than the populations): bound |s| / radius <= 1
++        Smm = Smm / np.asarray(radius, dtype=float).ravel()[mask.ravel()][:, None]
++        radius = 1.0
++
++    def solve(mu):
++        y = np.linalg.lstsq(AtA + mu * G, Atb, rcond=1e-14)[0] if mu > 0 else np.linalg.lstsq(A, b, rcond=1e-12)[0]
++        return y, float(np.max(np.abs(Smm @ y)))
++    y, m0 = solve(0.0)
++    if m0 <= radius:
++        return (Sm @ y).reshape(S[0].shape), 0.0, y
++    scale = max(np.trace(AtA) / max(np.trace(G), 1e-300), 1e-300)
++    lo, hi = -14.0, 14.0
++    while solve(scale * 10.0 ** hi)[1] > radius and hi < 40:
++        hi += 4.0
++    for _ in range(50):
++        mid = 0.5 * (lo + hi)
++        if solve(scale * 10.0 ** mid)[1] > radius:
++            lo = mid
++        else:
++            hi = mid
++    mu = scale * 10.0 ** hi
++    y, _ = solve(mu)
++    return (Sm @ y).reshape(S[0].shape), float(mu), y
++
++
+ def split_groups(free_t):
+     """Species groups (0-based row slices): H, He I, He II/He III/n_e (+ T)."""
+     return [(0, 32), (32, 101), (101, 133)] + ([(133, 134)] if free_t else [])
+ 
+ 
+-def split_pieces(v, regions, groups, tol):
+-    """Exact partition of v into depth-region x species-group pieces; pieces with norm
+-    <= tol*||v|| are merged into one remainder piece, so sum(pieces) == v."""
+-    out, rest = [], v.copy()               # rest: small pieces and rows outside the groups
++def fine_regions(regions, d0, d1, width):
++    """Report 25 (--split-fine): the depth regions with depths d0..d1-1 (0-based) cut out and split into regions of
++    `width` depths; the rest of the regions as before (clipped). An exact partition of the depths."""
++    out = []
++    for a0, a1 in regions:
++        if a1 <= d0 or a0 >= d1:
++            out.append((a0, a1))
++            continue
++        if a0 < d0:
++            out.append((a0, d0))
++        if a1 > d1:
++            out.append((d1, a1))
++    out += [(e, min(e + width, d1)) for e in range(d0, d1, width)]
++    return sorted(out)
++
++
++def block_pieces(v, blocks, tol):
++    """Exact partition of v into the pieces v[rows, d0:d1] of disjoint blocks (rows: index array or slice); pieces
++    with norm <= tol*||v|| and everything outside the blocks form one remainder piece, so sum(pieces) == v."""
++    out, rest = [], v.copy()
+     nv = np.linalg.norm(v)
+-    for d0, d1 in regions:
+-        for r0, r1 in groups:
+-            p = np.zeros_like(v)
+-            p[r0:r1, d0:d1] = v[r0:r1, d0:d1]
+-            if np.linalg.norm(p) > tol * nv:
+-                out.append(p)
+-                rest[r0:r1, d0:d1] = 0.0
++    for rows, d0, d1 in blocks:
++        p = np.zeros_like(v)
++        p[rows, d0:d1] = v[rows, d0:d1]
++        if np.linalg.norm(p) > tol * nv:
++            out.append(p)
++            rest[rows, d0:d1] = 0.0
+     if np.linalg.norm(rest) > 0:
+         out.append(rest)
+     return out
+ 
+ 
++def split_pieces(v, regions, groups, tol):
++    """Exact partition of v into depth-region x species-group pieces; pieces with norm
++    <= tol*||v|| are merged into one remainder piece, so sum(pieces) == v."""
++    return block_pieces(v, [(slice(r0, r1), d0, d1) for d0, d1 in regions for r0, r1 in groups], tol)
++
++
++def front_split_pieces(v, regions, groups, tol, window):
++    """Report 25 (--front-pieces): split_pieces with the depths of the hydrogen-front window (d0, d1; 0-based,
++    inclusive) cut out of the regions. Inside the window H (with H-) and n_e form one piece per depth, every other
++    group one piece over the window. The slow H I n = 2 + 3 / ionization mode of the front blocks is nearly singular
++    locally and coupled radiatively beyond the neighbour depths; region-wide pieces gave the least squares one
++    amplitude for it over 20 depths, and it fitted the front with deep directions instead (Report 24 sec. 5)."""
++    w0, w1 = window[0], window[1] + 1
++    regs = []
++    for d0, d1 in regions:
++        if d1 <= w0 or d0 >= w1:
++            regs.append((d0, d1))
++            continue
++        if d0 < w0:
++            regs.append((d0, w0))
++        if d1 > w1:
++            regs.append((w1, d1))
++    blocks = [(slice(r0, r1), d0, d1) for d0, d1 in regs for r0, r1 in groups]
++    fine = np.r_[0:32, 132]                    # H-, H I, H II and n_e
++    blocks += [(fine, d, d + 1) for d in range(w0, w1)]
++    for r0, r1 in groups:
++        rows = np.setdiff1d(np.arange(r0, r1), fine)
++        if rows.size:
++            blocks.append((rows, w0, w1))
++    return block_pieces(v, blocks, tol)
++
++
+ def split_regions(nd):
+     if nd == 84:
+         edges = SPLIT_BOUNDS_84
+@@ -396,9 +483,12 @@ class Iterate:
+         self.W = significance_weights(frac) * self.active
+         self.sig = (frac > SIG_FRAC) & self.active     # variables in the convergence test (extend_significance)
+         self.coupling = None
++        self.ali_inc = None                 # set by install_ali_increment
++        self.pop_ptc = None                 # set by add_pop_ptc (Report 25)
+         rs = (np.abs(lo) + np.abs(di) + np.abs(up)).sum(axis=2).T   # (NT, ND): row l1-norm of the direct blocks
+         # equation-significance floor: rows whose gross-rate scale is below EQ_FLOOR x the largest at
+         # that depth (e.g. He II<->He III balance where He III is absent, scale 1e-44) are not scaled up
++        self.rs_gross = rs                  # unfloored (--pop-ptc scale)
+         rs = np.maximum(rs, EQ_FLOOR * rs.max(axis=0, keepdims=True))
+         self.D = np.where(rs > 0, 1.0 / np.where(rs > 0, rs, 1.0), 0.0)
+ 
+@@ -420,21 +510,56 @@ class Iterate:
+             for c in inc:
+                 c[:, 133, :] *= lam[:, None]
+         lo, di, up = (m_ + fac * c for m_, c in zip(self._pc, inc))
++        self.ali_inc = (self._pc[1].copy(), fac * inc[1])   # diagonal blocks before / of the increment (--front-probe)
+         self._pc = (lo, di, up)
+         self.M = BlockTridiag(lo, di, up).factor()
+         return float(max(np.abs(c).max() for c in inc))
+ 
+-    def floor_preconditioner(self, tau):
++    def floor_preconditioner(self, tau, skip=None):
+         """Report 24: raise the singular values of every equilibrated diagonal block of the PRECONDITIONER below
+         tau x its largest to that floor (cnk_trap.floor_blocks). The local-ALI blocks are nearly singular at the
+         ionization fronts, where M^-1 inflated the measure to 1e3-3e3 and the least squares chased those modes.
+-        Jdir and every product are unchanged. Returns the number of singular values raised."""
++        Jdir and every product are unchanged. skip: (d0, d1) 0-based depths left unfloored (Report 25,
++        --front-no-floor: blocks with exact columns). Returns the number of singular values raised."""
+         lo, di, up = self._pc
+-        di2, n = cnk_trap.floor_blocks(di, tau, self.active)
++        act = self.active if skip is None else self.active & ~cnk_trap.window_mask(self.active, skip)
++        di2, n = cnk_trap.floor_blocks(di, tau, act)
+         self._pc = (lo, di2, up)
+         self.M = BlockTridiag(lo, di2, up).factor()
+         return n
+ 
++    def add_pop_ptc(self, delta, scale='gross', jacobian=True):
++        """Report 25: pseudo-transient continuation of the populations. delta x sign(M_ii) x (row l1-norm of the direct
++        blocks) is added to the diagonal of every statistical-equilibrium row, in the Jacobian (so every product, made
++        or reused, is that of the shifted operator) and in the preconditioner; the H and He number, charge and T rows
++        get none. The residual is unchanged, so a converged state is a root of the unmodified equations. The front's
++        slow H I n = 2 + 3 / ionization mode is nearly singular in the exact Jacobian (Report 25); the shift bounds the
++        step along it to a pseudo-time relaxation, and SER takes delta to 0 as the residual falls."""
++        lo, di, up = self._pc
++        if scale == 'pc':
++            # Report 25 (--pop-ptc-scale pc): the row scale of the preconditioner blocks (local-ALI increment included):
++            # a trapped level relaxes at its net rate; its fixed-J gross (untrapped Lyman alpha, 1e3..3e4 x larger at the
++            # front) froze H I n=2 in the preconditioner, so no direction could change the H ionization balance at d18
++            rsum = (np.abs(lo) + np.abs(di) + np.abs(up)).sum(axis=2).T
++        else:
++            rsum = self.rs_gross            # each row's own gross scale, whatever --eq-floor does to D
++        diag = np.einsum('kii->ik', di)
++        Dm = np.where(diag >= 0, 1.0, -1.0) * rsum * self.active
++        Dm[list(PTC_CONSTRAINT_ROWS)] = 0.0
++        shift = delta * Dm
++        idx = np.arange(di.shape[1])
++        di2 = di.copy(); di2[:, idx, idx] += shift.T
++        self._pc = (lo, di2, up)
++        self.M = BlockTridiag(lo, di2, up).factor()
++        if not jacobian:
++            # Report 25 (--pc-ptc): the shift regularizes the PRECONDITIONER only (the directions); the Jacobian, the
++            # products and the least squares stay exact. Inside a least squares a shifted operator absorbs residual
++            # instead of damping (iterate 20: true-Jacobian prediction x0.92 shifted, x0.405 unshifted)
++            return
++        self.pop_ptc = shift
++        jdi = self.Jdir.di.copy(); jdi[:, idx, idx] += self.pop_ptc.T
++        self.Jdir = BlockTridiag(self.Jdir.lo, jdi, self.Jdir.up)
++
+     def install_exact_columns(self, dirs, jzs, meta, stride):
+         """Report 23: replace the block-tridiagonal columns of the probed variables in the PRECONDITIONER by
+         their exact responses (cnk_trap.install_columns). The fixed-J column of a resonance-line level holds
+@@ -501,9 +626,18 @@ class Iterate:
+                   equation's imbalance relative to its own gross rate sensitivities (for the RE row:
+                   net/gross heating). No inverse, so near-singular fixed-J rows are not amplified."""
+         if MERIT_MODE == 'rowscale':
+-            return self.W * self.D * r
++            return self.row_weights() * self.D * r
+         return self.W * self.M.solve(r)
+ 
++    def row_weights(self):
++        """Report 25: equation weights of the row-scaled measure. The significance weights W belong to variables; as
++        row weights they gave the helium-number row the weight of the He III VARIABLE, 0 where He III is ultra-trace
++        (the He front, d55-58), and the least squares broke helium conservation there (He I ground s +1.8 / -1.5 at
++        d56 / d57), which the projection of every trial then undid. The exact number and charge rows weigh 1."""
++        w = self.W.copy()
++        w[list(PTC_CONSTRAINT_ROWS[:3])] = self.active[list(PTC_CONSTRAINT_ROWS[:3])]
++        return w
++
+     def merit(self, R):
+         # Significance-weighted measure (levels below SIG_FRAC of their element weigh TRACE_WEIGHT,
+         # below ULTRA_FRAC ULTRA_WEIGHT; they are numerically irrelevant to the other equations).
+@@ -656,6 +790,10 @@ def main():
+                          'iterates) in a low-rank corrected right preconditioner; 0 disables')
+     ap.add_argument('--start-base', type=Path, default=None, help='accepted base pass to continue from')
+     ap.add_argument('--start-k', type=int, default=0)
++    ap.add_argument('--resume', action='store_true',
++                    help='V1 plan P0: continue from the accepted state of OUT/accepted_state.json (base and iterate)')
++    ap.add_argument('--allow-unaccepted-base', action='store_true',
++                    help='start from a trial pass that its run\'s history did not accept (refused otherwise)')
+     ap.add_argument('--vadat', nargs=2, action='append', default=[], metavar=('KEY', 'VALUE'),
+                     help='additional VADAT numerical-resolution settings applied to every pass')
+     ap.add_argument('--start-step', type=Path, default=None,
+@@ -687,6 +825,98 @@ def main():
+                          'thick resonance lines, e.g. 2 3 = H I n=1, n=2); preconditioner only')
+     ap.add_argument('--probe-stride', type=int, default=4,
+                     help='each probe direction perturbs every STRIDE-th depth (STRIDE directions per probed row)')
++    ap.add_argument('--front-probe', action='store_true',
++                    help='Report 25: exact block-tridiagonal columns in the PRECONDITIONER for every variable with a '
++                         'radiation response inside the hydrogen ionization fronts (depths with H II fraction < '
++                         '--front-hii, widened by --front-margin), from batched product passes per base (front*); '
++                         'installed after the local-ALI increment and before the SVD floor; preconditioner only')
++    ap.add_argument('--front-rows', type=int, nargs='+', default=[],
++                    help='1-based variables to probe (default: H-, H I, H II, n_e and every column whose local-ALI '
++                         'increment changes a significant equation in the window by more than --front-inc-tol)')
++    ap.add_argument('--front-inc-tol', type=float, default=1e-4)
++    ap.add_argument('--front-hii', type=float, default=0.5)
++    ap.add_argument('--front-margin', type=int, default=2)
++    ap.add_argument('--front-stride', type=int, default=3,
++                    help='each front direction perturbs one variable at every STRIDE-th window depth (>= 3: the '
++                         'neighbour blocks are exact too)')
++    ap.add_argument('--front-batch', type=int, default=18, help='directions per front product pass')
++    ap.add_argument('--front-workers', type=int, default=3, help='front product passes at once')
++    ap.add_argument('--front-threads', type=int, default=3, help='OpenMP threads per front product pass')
++    ap.add_argument('--front-no-floor', action='store_true',
++                    help='leave the front-window blocks (exact columns) out of --pc-svd-floor')
++    ap.add_argument('--dense-window', type=int, nargs=2, action='append', default=[], metavar=('D0', 'D1'),
++                    help='Report 26 (repeatable): dense exact Jacobian on depths D0..D1 (1-based): one direction per '
++                         'variable and depth (no colouring), its exact product (full nonlocal column) in the span of the '
++                         'least squares; product passes dense* (--dense-batch directions each, --front-workers at once, '
++                         '--front-threads each), reused after a stop')
++    ap.add_argument('--dense-rows', type=int, nargs='+', default=[],
++                    help='1-based variables of the dense windows (default per window as --front-probe: H-, H I, H II, '
++                         'n_e, T when free, and every column whose local-ALI increment changes a significant equation in '
++                         'the window by more than --front-inc-tol)')
++    ap.add_argument('--dense-batch', type=int, default=60, help='directions per dense product pass')
++    ap.add_argument('--geodesic', action='store_true',
++                    help='Report 26: after the trials, the second-order term of the residual along the step (from the '
++                         'trials with lambda <= --geodesic-max-lam) and its correction t (J t = Q in the subspace); a '
++                         'second round of trials on the curved path lambda s + lambda^2 t (labels g*). At the inner H '
++                         'front the residual is quadratic along the step (iterate 3: full step 0.389 of the merit^2 at '
++                         'depths 33-47 against 0.203 predicted, every other region linear)')
++    ap.add_argument('--geodesic-max-lam', type=float, default=0.5,
++                    help='trials with lambda above this are left out of the second-order fit (unless fewer than two remain)')
++    ap.add_argument('--geodesic-alpha', type=float, default=1.0,
++                    help='the correction is scaled down to ||W t|| <= alpha ||W s|| (the step it corrects)')
++    ap.add_argument('--recycle-dense', action='store_true',
++                    help='Report 26: at a base without --dense-window, the dense columns of the latest earlier iterate '
++                         'that has them, as approximate pairs (radiation part from their own base, direct part exact)')
++    ap.add_argument('--front-pieces', action='store_true',
++                    help='Report 25 (with --split): inside the hydrogen-front window (as --front-probe) the H/n_e part '
++                         'of every residual direction is split per depth (one Krylov direction per front depth)')
++    ap.add_argument('--coarse-front', type=float, default=0.0,
++                    help='Report 25: two-level preconditioner with the slow modes of the hydrogen-front blocks (window as '
++                         '--front-probe; singular value below this fraction of the block\'s largest, before the floor) '
++                         'and their exact products (coarse* passes); 0: off')
++    ap.add_argument('--coarse-weight', type=float, default=0.5,
++                    help='only slow modes with at least this share of the left vector on H-, H I, H II, n_e rows')
++    ap.add_argument('--coarse-mode', choices=['ls', 'galerkin', 'span'], default='ls',
++                    help="span (Report 25): the slow modes and their exact products only enter the span (with "
++                         "--coarse-span); the preconditioner is not changed")
++    ap.add_argument('--coarse-span', action='store_true', help='also put the slow modes (exact products) in the span')
++    ap.add_argument('--pop-ptc', type=float, default=0.0,
++                    help='Report 25: pseudo-transient continuation of the populations, initial delta (x the row gross '
++                         'scale on every statistical-equilibrium diagonal; SER on the row-scaled residual); 0: off')
++    ap.add_argument('--pop-ptc-min', type=float, default=1e-5, help='delta below this is set to 0 (pure Newton)')
++    ap.add_argument('--pc-ptc', type=float, default=0.0,
++                    help='Report 25: the population-PTC shift (scale --pop-ptc-scale) in the preconditioner only')
++    ap.add_argument('--pop-ptc-scale', choices=['gross', 'pc'], default='gross',
++                    help='population-PTC row scale: the direct (fixed-J) gross rates, or the preconditioner blocks '
++                         '(local-ALI increment included: trapped levels at their net rates)')
++    ap.add_argument('--split-fine', type=int, nargs=3, default=None, metavar=('D0', 'D1', 'W'),
++                    help='Report 25: depths D0..D1 (1-based) split into residual-piece regions of W depths (with --split)')
++    ap.add_argument('--target-dirs', type=int, default=0,
++                    help='Report 25: per Krylov pass, also the preconditioned correction of each of this many cells with '
++                         'the largest row-scaled residual, alone')
++    ap.add_argument('--lm-bound', type=float, default=None,
++                    help='Report 25: the line-search step is the Levenberg-Marquardt step in the subspace with the '
++                         'smallest damping that keeps every |s| (populations, n_e) <= this; the convergence test keeps '
++                         'the unbounded Newton step')
++    ap.add_argument('--recycle-stale', type=int, default=0,
++                    help='Report 25: also use the directions of the last K iterates, radiation part of their products '
++                         'from their own bases, direct part recomputed exactly')
++    ap.add_argument('--lm-bound-t', type=float, default=None,
++                    help='Report 25, stage 2 (T free): radius of the T component in --lm-bound (fractional T change)')
++    ap.add_argument('--trace-ion-balance', action='store_true',
++                    help='Report 25: in every trial step, He III where it is trace (no direction moves it) takes the '
++                         'component that zeroes the linearized He II / He III balance row (the replaced He II ground row)')
++    ap.add_argument('--adaptive-cap', action='store_true',
++                    help='Report 25: per-component limits (start --component-log-cap); a limited component whose update '
++                         'reversed direction from the previous accepted update gets its limit halved, others grow back')
++    ap.add_argument('--accept-rowscale', action='store_true',
++                    help='Report 25: line-search trials are accepted on the row-scaled residual of the base\'s direct '
++                         'blocks (the measure population PTC reduces) instead of the natural measure')
++    ap.add_argument('--pop-ptc-switch', type=float, default=1e-2,
++                    help='population-PTC step below this: delta -> 0 at the same base')
++    ap.add_argument('--krylov-split', type=int, default=1,
++                    help='Report 25: run each Krylov product pass as this many concurrent sub-passes (jvNNp0, ...)')
++    ap.add_argument('--krylov-threads', type=int, default=0, help='OpenMP threads per Krylov sub-pass (0: --threads)')
+     ap.add_argument('--sig-coupling', type=float, default=0.0,
+                     help='Report 23: a level also counts as significant (weight 1, convergence test) when a unit '
+                          'relative error in it changes a significant equation at its depth by more than this '
+@@ -722,6 +952,17 @@ def main():
+                          'line-search trials of that base use the same file. Without it COMP_F=T forces OLD_DEFAULT')
+     a = ap.parse_args()
+     out = a.out.resolve(); out.mkdir(parents=True, exist_ok=True)
++    # V1 plan P0: the start state is checked before any native pass; a rejected trial never becomes a base
++    if a.resume:
++        ptr = cnk_trap.read_accepted_pointer(out)
++        if ptr is None:
++            raise SystemExit(f'--resume: no {cnk_trap.ACCEPTED_POINTER} in {out}')
++        if a.start_base or a.start_step:
++            raise SystemExit('--resume takes the base from the pointer: no --start-base/--start-step')
++        a.start_base, a.start_k = Path(ptr['base']), ptr['it']
++    why_start = cnk_trap.check_restart_base(a.start_base) if a.start_base else None
++    if why_start is not None and not a.allow_unaccepted_base:
++        raise SystemExit(f'refusing to start from a rejected trial: {why_start} (--allow-unaccepted-base overrides)')
+     R = Runner(a.x0, a.exe, a.replace, not a.free_t, a.threads, out / 'driver.log', [tuple(v) for v in a.vadat])
+     R.no_obs = not a.obs_formal
+     hist_path = out / 'history.json'
+@@ -739,6 +980,9 @@ def main():
+     NT, ND = nt_restart, nd_restart
+     global SPLIT_REGIONS
+     SPLIT_REGIONS = split_regions(ND)
++    if a.split_fine:
++        d0_, d1_, w_ = a.split_fine
++        SPLIT_REGIONS = fine_regions(SPLIT_REGIONS, d0_ - 1, min(d1_, ND), w_)
+     base = R.run(out / 'it00_base', np.zeros((NT, ND)))
+     x0, _ = read_trace_record(base / 'QSTARS_RESID_TRACE.bin')
+     cons_tot = cnk_trap.conservation_totals(x0)
+@@ -751,12 +995,17 @@ def main():
+     k = 0
+     if a.start_base:
+         base = a.start_base.resolve(); k = a.start_k
++        if why_start is not None:
++            R.log(f'WARNING starting from an unaccepted trial (--allow-unaccepted-base): {why_start}')
+         R.log(f'continuing from {base.name} as iterate {k}')
+     if a.start_step:
+         from qstars.nlte_newton import read_fortran
+         st = read_fortran(a.start_step, (NT, ND))
+         base = R.run(out / 'start_base', st); k = a.start_k
+         R.log(f'starting from state {a.start_step} as iterate {k}')
++    if (a.start_base and not a.resume) or a.start_step or not (out / cnk_trap.ACCEPTED_POINTER).exists():
++        cnk_trap.write_accepted_pointer(out, k, base, float('nan'),
++                                        'start of a driver run' + (' (--resume)' if a.resume else ''))
+     hom = None
+     if a.t_homotopy and a.hom_mode == 'ptc':
+         hs = out / 'ptc_state.json'
+@@ -823,6 +1072,23 @@ def main():
+         st_ = json.loads(hs.read_text()) if hs.exists() else dict(lam=a.lam0, dlam=a.dlam, lam_done=None, stage_iters=0)
+         hom.update(lam=st_['lam'])
+         R.log(f'T homotopy: lam={st_["lam"]:.4g} dlam={st_["dlam"]:.4g} (T_fix from {hp})')
++    caps, prev_logf = None, None
++    caps_path, prev_path = out / 'component_caps.npy', out / 'component_prev_logf.npy'
++    if a.adaptive_cap:
++        # Report 25: per-component limits; a limit cycle across a component's root halves its limit (cnk_trap.adapt_caps)
++        caps = np.load(caps_path) if caps_path.exists() else np.full((NT, ND), a.component_log_cap)
++        if prev_path.exists():
++            prev_logf = np.load(prev_path)
++        elif hist and (Path(hist[-1]['base']) / 'QSTARS_RESID_TRACE.bin').exists():
++            xb_, _ = read_trace_record(base / 'QSTARS_RESID_TRACE.bin')
++            xp_, _ = read_trace_record(Path(hist[-1]['base']) / 'QSTARS_RESID_TRACE.bin')
++            prev_logf = np.log(np.maximum(xb_, 1e-300) / np.maximum(xp_, 1e-300))
++        R.log(f'adaptive component limits: {int(np.sum(caps < a.component_log_cap))} below {a.component_log_cap:g} '
++              f'({caps_path.name}); previous update {"known" if prev_logf is not None else "unknown"}')
++    pop, pop_path = None, out / 'pop_ptc_state.json'
++    if a.pop_ptc > 0:
++        pop = json.loads(pop_path.read_text()) if pop_path.exists() else dict(delta=a.pop_ptc, history=[])
++        R.log(f'population PTC: delta {pop["delta"]:.4g} ({pop_path})')
+     while k < a.max_outer:
+         if a.trace_sweep:
+             base = trace_sweep(R, base, x0, out / f'it{k:02d}_trace', a.component_log_cap, k)
+@@ -897,9 +1163,19 @@ def main():
+         # TRACE_WEIGHT), never the raw residual whose rows span ~50 decades.
+         nprod = 0
+ 
+-        def apply_J_batch(zs, name=None):
+-            # name: a pass outside the numbered Krylov sequence (the exact-column probe)
++        def apply_J_batch(zs, name=None, threads=None):
++            # name: a pass outside the numbered Krylov sequence (the exact-column probes)
+             nonlocal nprod
++            if name is None and a.krylov_split > 1 and len(zs) > 1:
++                # Report 25: one Krylov pass as concurrent sub-passes jvNNp0, jvNNp1, ... (the products of different
++                # directions are independent; same directions, same order)
++                parts = np.array_split(np.arange(len(zs)), min(a.krylov_split, len(zs)))
++                pname = f'jv{nprod:02d}'
++                with ThreadPoolExecutor(len(parts)) as ex:
++                    res_ = list(ex.map(lambda j: apply_J_batch([zs[i] for i in parts[j]], name=f'{pname}p{j}',
++                                                               threads=a.krylov_threads or None), range(len(parts))))
++                nprod += 1
++                return [jz for part in res_ for jz in part]
+             d = itdir / (name or f'jv{nprod:02d}')
+             zst = np.stack(zs, axis=2)
+             if d.exists() and not ((d / 'QSTARS_DIRS.bin').exists() and (d / 'QSTARS_STEP.bin').exists() and
+@@ -915,14 +1191,16 @@ def main():
+                     f_.write(f'{time.strftime("%Y-%m-%d %H:%M")} {itdir.name}/{d.name} -> {tgt.name}: made for other '
+                              f'directions; superseded by a pass with the current direction set.\n')
+                 R.log(f'it{k:02d} {d.name}: existing pass had other directions; moved to superseded/{tgt.name}')
+-            R.run(d, it.s_cum, replay=it.rj, dirs=zst, ba=False, store_j=False, two_phot_j=tpj)
++            R.run(d, it.s_cum, replay=it.rj, dirs=zst, ba=False, store_j=False, two_phot_j=tpj, threads=threads)
+             _, drad = read_jv_rad(d / 'QSTARS_JV_RAD.bin')
+             if name is None:
+                 nprod += 1
+             if it.hom is not None and it.hom.get('mode', 'pin') == 'pin':
+                 drad[133] *= np.asarray(pin_lam(it.hom), dtype=float)[..., None]   # (ND, ndirs)
+             jzs = [it.Jdir.matvec(z) + drad[:, :, i] for i, z in enumerate(zs)]
+-            np.savez(d / 'pairs.npz', z=np.stack(zs, 2), jz=np.stack(jzs, 2))
++            # pairs.npz holds the products of the unshifted Jacobian (without --pop-ptc's diagonal)
++            jz_exact = jzs if it.pop_ptc is None else [j - it.pop_ptc * z for j, z in zip(jzs, zs)]
++            np.savez(d / 'pairs.npz', z=np.stack(zs, 2), jz=np.stack(jz_exact, 2))
+             return jzs
+ 
+         # Report 23: exact columns of radiatively trapped levels in the preconditioner, then the significant set
+@@ -935,9 +1213,136 @@ def main():
+             R.log(f'it{k:02d} exact columns for rows {a.probe_rows} (stride {a.probe_stride}, {len(pz)} products, '
+                   f'{ncol} columns): max|M^-1 R| over the probed rows {np.max(np.abs(y_fz[[r - 1 for r in a.probe_rows]])):.3e} '
+                   f'(fixed-J columns) -> {np.max(np.abs(y_ex[[r - 1 for r in a.probe_rows]])):.3e}')
++        # Report 25: exact columns at the hydrogen ionization fronts. The local-ALI blocks there have a nearly
++        # singular H I n = 2 / n = 3 / ionization mode (relative singular value 1e-6 at it04_trial_l1) that the fixed-J
++        # blocks do not have; it turned a deep direction's small far-field action at the front into 97-99.6 % of its
++        # preconditioned action (Report 24). Every column with a radiation response inside the front window gets its
++        # exact block-tridiagonal response from batched product passes; the probe pairs stay out of the span.
++        front_rec = None
++        fwin = cnk_trap.front_window(it.x, a.front_hii, a.front_margin) if a.front_pieces else None
++        if a.front_probe:
++            front = cnk_trap.front_window(it.x, a.front_hii, a.front_margin)
++            if front is None:
++                R.log(f'it{k:02d} front probe: H II fraction >= {a.front_hii:g} at every depth; no exact columns')
++            else:
++                always = list(range(1, 33)) + [133]          # H-, H I, H II, n_e
++                if a.front_rows:
++                    frows = sorted(set(a.front_rows))
++                elif it.ali_inc is not None:
++                    frows = cnk_trap.front_rows(it.ali_inc[1], it.ali_inc[0], it.sig, it.active, front,
++                                                a.front_inc_tol, always=always)
++                else:
++                    frows = always
++                if a.freeze_t:
++                    frows = [r for r in frows if r != 134]
++                fz, fmeta = cnk_trap.probe_directions(frows, cnk_trap.window_mask(it.active, front), a.front_stride)
++                chunks = [fz[i:i + a.front_batch] for i in range(0, len(fz), a.front_batch)]
++                c_fz = cnk_trap.block_conditioning(it._pc[1], it.active, front)
++                y_fz = it.M.solve(it.R)
++                R.log(f'it{k:02d} front probe: depths {front[0] + 1}-{front[1] + 1} (H II fraction < {a.front_hii:g} '
++                      f'+ {a.front_margin}), {len(frows)} rows {frows}, stride {a.front_stride}: {len(fz)} directions '
++                      f'in {len(chunks)} passes')
++                with ThreadPoolExecutor(max(1, min(a.front_workers, len(chunks)))) as ex:
++                    fjz = [jz for part in ex.map(lambda j: apply_J_batch(chunks[j], name=f'front{j:02d}',
++                                                                         threads=a.front_threads), range(len(chunks)))
++                           for jz in part]
++                ncol = it.install_exact_columns(fz, fjz, fmeta, a.front_stride)
++                c_ex = cnk_trap.block_conditioning(it._pc[1], it.active, front)
++                y_ex = it.M.solve(it.R)
++                R.log(f'it{k:02d} front probe: {ncol} exact columns installed; smallest relative singular value of '
++                      f'the front blocks (median / min) {np.median(c_fz):.2e} / {np.min(c_fz):.2e} -> '
++                      f'{np.median(c_ex):.2e} / {np.min(c_ex):.2e}; max|M^-1 R| over fraction-significant variables '
++                      f'{np.max(np.abs(y_fz[it.sig])):.3e} -> {np.max(np.abs(y_ex[it.sig])):.3e}')
++                front_rec = dict(front_window=[front[0] + 1, front[1] + 1], front_rows=frows,
++                                 front_stride=a.front_stride, front_dirs=len(fz), front_columns=ncol,
++                                 front_no_floor=a.front_no_floor)
++        # Report 26: dense exact sub-domain Jacobian. The colored front columns (above) give the preconditioner a
++        # block-tridiagonal front, but the soft modes are held by nonlocal radiative coupling (trapped Lya, He I 584 A)
++        # and the floor overwrites them; a least squares over the colored probes themselves cut the residual of depths
++        # 33-47 from 0.214 to 0.089 of the total (Reports/evidence/report26/span_check.py). Here each window variable at
++        # each window depth gets its own exact product, which enters the span directly.
++        dense, dense_rec = None, None
++        if a.dense_window:
++            always = list(range(1, 33)) + [133] + ([134] if a.free_t and not a.freeze_t else [])
++            wins = []
++            for d0_, d1_ in a.dense_window:
++                w_ = (d0_ - 1, d1_ - 1)
++                if a.dense_rows:
++                    rws = sorted(set(a.dense_rows))
++                elif it.ali_inc is not None:
++                    rws = cnk_trap.front_rows(it.ali_inc[1], it.ali_inc[0], it.sig, it.active, w_, a.front_inc_tol,
++                                              always=always)
++                else:
++                    rws = always
++                if a.freeze_t:
++                    rws = [r for r in rws if r != 134]
++                wins.append((w_, rws))
++            cells = cnk_trap.dense_cells(wins, it.active)
++            batches = [cells[i:i + a.dense_batch] for i in range(0, len(cells), a.dense_batch)]
++            for (w_, rws) in wins:
++                R.log(f'it{k:02d} dense window: depths {w_[0] + 1}-{w_[1] + 1}, {len(rws)} rows {rws}')
++            R.log(f'it{k:02d} dense windows: {len(cells)} single-cell directions in {len(batches)} passes '
++                  f'({a.dense_batch} each, {a.front_workers} at once, {a.front_threads} threads)')
++            for j, bt in enumerate(batches):
++                pd_ = itdir / f'dense{j:02d}'
++                if pd_.exists() and not (pd_ / 'QSTARS_RESID_TRACE.bin').exists():
++                    # a pass cut off by a stop (power loss, kill): kept for provenance, made again
++                    sup = out / 'superseded'; sup.mkdir(exist_ok=True)
++                    tgt = sup / f'{itdir.name}_{pd_.name}_incomplete_{time.strftime("%Y%m%d%H%M")}'
++                    pd_.rename(tgt)
++                    with open(sup / 'README.txt', 'a') as f_:
++                        f_.write(f'{time.strftime("%Y-%m-%d %H:%M")} {itdir.name}/{pd_.name} -> {tgt.name}: '
++                                 f'incomplete (no residual) after a stop; made again.\n')
++                    R.log(f'it{k:02d} {pd_.name}: incomplete pass moved to superseded/{tgt.name}')
++            t0_ = time.time()
++            with ThreadPoolExecutor(max(1, min(a.front_workers, len(batches)))) as ex:
++                djz = list(ex.map(lambda j: apply_J_batch([cnk_trap.cell_direction(c_, it.x.shape) for c_ in batches[j]],
++                                                          name=f'dense{j:02d}', threads=a.front_threads),
++                                  range(len(batches))))
++            dS = [cnk_trap.cell_direction(c_, it.x.shape) for c_ in cells]
++            dJS = [jz for part in djz for jz in part]
++            dense = (dS, dJS)
++            R.log(f'it{k:02d} dense windows: {len(dS)} exact columns in {(time.time() - t0_) / 60:.1f} min')
++            dense_rec = dict(dense_windows=[[w_[0] + 1, w_[1] + 1] for w_, _ in wins],
++                             dense_rows=[rws for _, rws in wins], dense_dirs=len(dS), dense_batch=a.dense_batch)
++        elif a.recycle_dense:
++            # Report 26: the latest earlier iterate with dense passes (another base): approximate pairs, the radiation part
++            # of each product from its own base (QSTARS_JV_RAD) and the direct part exact at this base
++            for prevdir in sorted(out.glob('it*_from_*'), key=lambda q: q.name, reverse=True):
++                if prevdir.resolve() == itdir.resolve() or prevdir.name.endswith(f'_from_{base.name}'):
++                    continue
++                dps = sorted(prevdir.glob('dense[0-9][0-9]'))
++                if not dps or not all((q / 'pairs.npz').exists() and (q / 'QSTARS_JV_RAD.bin').exists() for q in dps):
++                    continue
++                dS, dJS = [], []
++                for q in dps:
++                    zs_ = np.load(q / 'pairs.npz')['z']
++                    _, drad_ = read_jv_rad(q / 'QSTARS_JV_RAD.bin')
++                    for i_ in range(zs_.shape[2]):
++                        if a.freeze_t and np.any(zs_[133, :, i_] != 0.0):
++                            continue
++                        dS.append(zs_[:, :, i_]); dJS.append(it.Jdir.matvec(zs_[:, :, i_]) + drad_[:, :, i_])
++                dense = (dS, dJS)
++                R.log(f'it{k:02d} recycled {len(dS)} dense columns of {prevdir.name} (radiation part from its base, '
++                      f'direct part exact at this base)')
++                dense_rec = dict(dense_recycled_from=prevdir.name, dense_dirs=len(dS))
++                break
++        if a.pc_ptc > 0:
++            it.add_pop_ptc(a.pc_ptc, scale=a.pop_ptc_scale, jacobian=False)
++            R.log(f'it{k:02d} preconditioner PTC shift: {a.pc_ptc:g} x row scale ({a.pop_ptc_scale}) on the '
++                  f'statistical-equilibrium diagonals of M only')
++        if pop is not None and pop['delta'] > 0:
++            it.add_pop_ptc(pop['delta'], scale=a.pop_ptc_scale)
++            R.log(f'it{k:02d} population PTC: delta {pop["delta"]:.4g} x row gross scale on the statistical-equilibrium '
++                  f'diagonals (Jacobian and preconditioner)')
++            if dense is not None:
++                # the dense products were made before the shift: give them the shifted operator's diagonal too
++                dense = (dense[0], [j + it.pop_ptc * z for z, j in zip(*dense)])
++        pc_prefloor = it._pc[1]                 # slow modes (--coarse-front) are taken before the floor
+         if a.pc_svd_floor > 0:
+             y_ = it.M.solve(it.R)
+-            nraised = it.floor_preconditioner(a.pc_svd_floor)
++            skip = (front if front_rec is not None and a.front_no_floor else None)
++            nraised = it.floor_preconditioner(a.pc_svd_floor, skip=skip)
+             R.log(f'it{k:02d} preconditioner SVD floor {a.pc_svd_floor:g}: {nraised} singular values raised; max|M^-1 R| over '
+                   f'fraction-significant variables {np.max(np.abs(y_[it.sig])):.3e} -> {np.max(np.abs(it.M.solve(it.R)[it.sig])):.3e}')
+         nadd = it.extend_significance(a.sig_coupling, rows=a.sig_rows)
+@@ -945,10 +1350,37 @@ def main():
+             R.log(f'it{k:02d} significant set: {nadd} variables added (rows {a.sig_rows}'
+                   f'{f", coupling > {a.sig_coupling:g}" if a.sig_coupling > 0 else ""}) to the '
+                   f'{int(it.sig.sum()) - nadd} significant by population fraction')
++        # Report 25: two-level preconditioner. The exact front blocks keep a nearly singular slow mode (H I n = 2 + 3
++        # against ionization, s/s_max 1e-6 at depths 23-26) that only nonlocal radiative coupling stabilizes; the slow
++        # modes get exact products J Z (all of their coupling) and a coarse correction (cnk_trap.CoarseCorrected).
++        coarse = None
++        if a.coarse_front > 0:
++            cwin = cnk_trap.front_window(it.x, a.front_hii, a.front_margin)
++            if cwin is not None:
++                Yc, Zc, cinfo = cnk_trap.slow_modes(pc_prefloor, it.active, cwin, a.coarse_front, rows=np.r_[0:32, 132],
++                                                    min_weight=a.coarse_weight, exclude=[133] if a.freeze_t else [])
++                chunks = [Zc[i:i + a.front_batch] for i in range(0, len(Zc), a.front_batch)]
++                R.log(f'it{k:02d} coarse space: {len(Zc)} slow modes (s/s_max < {a.coarse_front:g}, left vector >= '
++                      f'{a.coarse_weight:g} on H/n_e) at depths {cwin[0] + 1}-{cwin[1] + 1}, {len(chunks)} product passes')
++                with ThreadPoolExecutor(max(1, min(a.front_workers, len(chunks)))) as ex:
++                    JZc = [jz for part in ex.map(lambda j: apply_J_batch(chunks[j], name=f'coarse{j:02d}',
++                                                                         threads=a.front_threads), range(len(chunks)))
++                           for jz in part]
++                cond_ = None
++                if a.coarse_mode != 'span':
++                    y_ = it.M.solve(it.R)
++                    it.M = cnk_trap.CoarseCorrected(it.M, Yc, Zc, JZc, W=it.W * it.active, mode=a.coarse_mode)
++                    y2_ = it.M.solve(it.R)
++                    cond_ = it.M.cond
++                    R.log(f'it{k:02d} coarse correction ({a.coarse_mode}): condition {it.M.cond:.3e}; max|M^-1 R| over '
++                          f'fraction-significant variables {np.max(np.abs(y_[it.sig])):.3e} -> {np.max(np.abs(y2_[it.sig])):.3e}')
++                coarse = (Zc, JZc)
++                rec_coarse = dict(coarse_modes=len(Zc), coarse_window=[cwin[0] + 1, cwin[1] + 1], coarse_tau=a.coarse_front,
++                                  coarse_mode=a.coarse_mode, coarse_cond=cond_, coarse_span=a.coarse_span)
+         phi, s_fz = it.merit(it.R)
+         R.log(f'it{k:02d} base {base.name}: merit={phi:.4e} max|M^-1 R|={np.max(np.abs(s_fz)):.3e} '
+               f'||R||={np.linalg.norm(it.R):.4e}')
+-        if a.probe_rows or a.sig_coupling > 0 or a.sig_rows or a.ali_precond:
++        if a.probe_rows or a.sig_coupling > 0 or a.sig_rows or a.ali_precond or a.front_probe:
+             R.log(f'it{k:02d} max|M^-1 R| over significant variables by group: ' + group_report(s_fz, it.sig))
+ 
+         def wm(r):
+@@ -973,9 +1405,33 @@ def main():
+                     v = v.copy(); v[133] = 0.0        # Report 24: fixed-T stage, no temperature component
+                 if not a.split:
+                     return [v.copy()]
++                if a.front_pieces and fwin is not None:
++                    return front_split_pieces(v, SPLIT_REGIONS, split_groups(a.free_t and not a.freeze_t),
++                                              a.split_tol, fwin)
+                 return split_pieces(v, SPLIT_REGIONS, split_groups(a.free_t and not a.freeze_t), a.split_tol)
+-            dirs = pieces(b) + prev             # b = W M^-1 R (significance-weighted)
++            def targeted(r):
++                # Report 25 (--target-dirs K): the preconditioned correction of each of the K cells (row, depth) with the
++                # largest row-scaled residual, alone: the coordinated local change that cell needs (H ionization balance
++                # at d18: n=1 and n=2 +21 % together), which region-wide pieces cannot express; its exact product carries
++                # the nonlocal coupling
++                if a.target_dirs <= 0:
++                    return []
++                nr_ = 134 if (a.free_t and not a.freeze_t and hom is None) else 133
++                rw = np.abs((it.row_weights() * it.D * it.active)[:nr_] * r[:nr_])
++                out_ = []
++                for c_ in np.argsort(rw.ravel())[::-1][:a.target_dirs]:
++                    i_, d_ = np.unravel_index(c_, rw.shape)
++                    e_ = np.zeros_like(r); e_[i_, d_] = r[i_, d_]
++                    z_ = wm(e_)
++                    if a.freeze_t:
++                        z_[133] = 0.0
++                    if np.any(z_):
++                        out_.append(z_)
++                return out_
++            dirs = pieces(b) + prev + targeted(it.R)   # b = W M^-1 R (significance-weighted)
+             S, JS = [], []
++            if coarse is not None and a.coarse_span:
++                S, JS = list(coarse[0]), list(coarse[1])     # Report 25: the slow modes with their exact products
+             # The probe pairs are NOT added to the span: each perturbs one level by a common factor on every
+             # STRIDE-th depth of the whole model, and the least squares used them as blunt instruments
+             # (results/nk167_trap/fixedT iterate 0: period-6 sawtooth in the trial states' luminosity, every
+@@ -984,6 +1440,7 @@ def main():
+             sigmask = it.sig
+ 
+             reused_passes, reused_dirs = 0, set()
++            reused_logical = set()                   # (iterate dir, jvNN): sub-passes jvNNpK of one pass count once
+ 
+             def full_budget_needed(yv, done):
+                 # optional guard: near convergence, judge the 1e-3 test on the full-budget step (done = passes so far,
+@@ -1017,14 +1474,52 @@ def main():
+                             continue            # a direction with a temperature component: not in the fixed-T span
+                         S.append(zs_[:, :, i_]); JS.append(it.Jdir.matvec(zs_[:, :, i_]) + drad_[:, :, i_])
+                         reused += 1
+-                    reused_passes += 1; reused_dirs.add(prevdir.resolve())
+-            if reused:
++                    reused_logical.add((prevdir.name, jvd.name[:4])); reused_dirs.add(prevdir.resolve())
++                    reused_passes = len(reused_logical)
++            if a.recycle_stale > 0:
++                # Report 25 (--recycle-stale K): the directions of the last K iterates (other bases) as approximate
++                # pairs, the radiation part of each product from its own base (QSTARS_JV_RAD) and the direct part
++                # recomputed exactly here; the state moves little per iterate (log changes <= 0.3) and the fit stalled
++                # at 0.87 with ~100 fresh directions. The native line search judges the resulting step
++                nst = 0
++                for kk in range(k - 1, max(-1, k - 1 - a.recycle_stale), -1):
++                    for prevdir in sorted(out.glob(f'it{kk:02d}*_from_*')):
++                        if prevdir.name.endswith(f'_from_{base.name}'):
++                            continue            # a same-base pass is reused exactly above
++                        for jvd in sorted(prevdir.glob('jv*')):
++                            if not (jvd / 'pairs.npz').exists() or not (jvd / 'QSTARS_JV_RAD.bin').exists():
++                                continue
++                            zs_ = np.load(jvd / 'pairs.npz')['z']
++                            _, drad_ = read_jv_rad(jvd / 'QSTARS_JV_RAD.bin')
++                            if it.hom is not None and it.hom.get('mode', 'pin') == 'pin':
++                                drad_[133] *= np.asarray(pin_lam(it.hom), dtype=float)[..., None]
++                            for i_ in range(zs_.shape[2]):
++                                if a.freeze_t and np.any(zs_[133, :, i_] != 0.0):
++                                    continue
++                                S.append(zs_[:, :, i_]); JS.append(it.Jdir.matvec(zs_[:, :, i_]) + drad_[:, :, i_])
++                                nst += 1
++                if nst:
++                    reused += nst
++                    R.log(f'it{k:02d} recycled {nst} directions of iterates {max(0, k - a.recycle_stale)}-{k - 1} '
++                          f'(radiation part from their own bases, direct part exact at this base)')
++            ndense = 0
++            if dense is not None:
++                S += dense[0]; JS += dense[1]; ndense = len(dense[0])
++            if reused or ndense:
+                 A = np.stack([it.obj(j).ravel() for j in JS], axis=1)
+                 y, *_ = np.linalg.lstsq(A, bo.ravel(), rcond=1e-12)
+                 res = float(np.linalg.norm(bo.ravel() - A @ y) / beta)
+                 res_hist.append(res)
+-                R.log(f'it{k:02d} reused {reused} exact same-base products ({reused_passes} passes): '
+-                      f'relative residual {res:.3e}')
++                if ndense:
++                    rr_ = (bo.ravel() - A @ y).reshape(bo.shape)
++                    R.log(f'it{k:02d} least squares with {ndense} dense-window columns'
++                          f'{f" and {reused} reused same-base products" if reused else ""}: relative residual '
++                          f'{res:.3e}; share of the base residual^2 by depths, before -> after: ' + ', '.join(
++                              f'{a_ + 1}-{b_} {np.sum(bo[:, a_:b_] ** 2) / beta ** 2:.3f}->{np.sum(rr_[:, a_:b_] ** 2) / beta ** 2:.3f}'
++                              for a_, b_ in DENSE_REPORT_REGIONS))
++                else:
++                    R.log(f'it{k:02d} reused {reused} exact same-base products ({reused_passes} passes): '
++                          f'relative residual {res:.3e}')
+                 # a previous Newton step made at this same base is a combination of the reused directions
+                 # (s = sum y_i z_i, its product sum y_i J z_i): already in the span, no new product
+                 prev = [v for v, src in zip(prev, prev_src) if src not in reused_dirs]
+@@ -1032,7 +1527,7 @@ def main():
+                     dirs = []
+                 else:
+                     r_raw = it.R - sum(yi * ji for yi, ji in zip(y, JS))
+-                    dirs = pieces(wm(r_raw)) + prev
++                    dirs = pieces(wm(r_raw)) + prev + targeted(r_raw)
+             # reused same-base passes count against the --krylov budget of exact-product passes per step
+             if reused and reused_passes >= a.krylov and dirs:
+                 R.log(f'it{k:02d} Krylov budget ({a.krylov} passes) covered by reused same-base passes: no new pass')
+@@ -1052,7 +1547,7 @@ def main():
+                     else:
+                         break
+                 r_raw = it.R - sum(yi * ji for yi, ji in zip(y, JS))
+-                dirs = pieces(wm(r_raw))            # weighted preconditioned residual
++                dirs = pieces(wm(r_raw)) + targeted(r_raw)   # weighted preconditioned residual
+             s = sum(yi * si for yi, si in zip(y, S))
+             if a.freeze_t and np.any(s[133] != 0.0):
+                 raise RuntimeError('--freeze-t: the Newton step has a temperature component')
+@@ -1103,6 +1598,16 @@ def main():
+             phi_nat = natural(it.R)
+             R.log(f'it{k:02d} natural measure ||W s_bar|| = {phi_nat:.4e} (residual merit {phi:.4e})')
+             phi_res, phi = phi, phi_nat
++        nrow = 134 if (a.free_t and not a.freeze_t and hom is None) else 133   # the RE row counts when T is free
++        wrow = (it.row_weights() * it.D * it.active)[:nrow]
++
++        def rowscale_merit(Rx):
++            # Report 25 (--accept-rowscale): each equation's imbalance relative to its gross rates, this base's direct
++            # blocks, populations and n_e, and the RE row in stage 2 (no inverse: the soft front modes are not amplified)
++            return float(np.linalg.norm(wrow * Rx[:nrow]))
++        if a.accept_rowscale:
++            phi = rowscale_merit(it.R)
++            R.log(f'it{k:02d} line-search merit: row-scaled residual {phi:.4e}')
+         rec = dict(it=k, base=str(base), merit=phi, max_frozen_correction=float(np.max(np.abs(s_fz))),
+                    resid_norm=float(np.linalg.norm(it.R)), gmres=res_hist, products=nprod, max_step=smax,
+                    max_step_significant=smax_sig, products_reused=reused)
+@@ -1110,6 +1615,16 @@ def main():
+             rec['lam'] = hom['lam']
+         if a.probe_rows:
+             rec.update(probe_rows=list(a.probe_rows), probe_stride=a.probe_stride)
++        if front_rec is not None:
++            rec.update(front_rec)
++        if dense_rec is not None:
++            rec.update(dense_rec)
++        if fwin is not None:
++            rec['front_pieces_window'] = [fwin[0] + 1, fwin[1] + 1]
++        if coarse is not None:
++            rec.update(rec_coarse)
++        if pop is not None:
++            rec['pop_ptc'] = pop['delta']
+         if a.sig_coupling > 0 or a.sig_rows:
+             rec.update(sig_coupling=a.sig_coupling, sig_rows=list(a.sig_rows), significant_added=nadd,
+                        significant=int(it.sig.sum()))
+@@ -1131,6 +1646,7 @@ def main():
+             rec['ptc_delta'] = hom['delta']
+             if hom['delta'] > 0 and smax_sig < max(a.ptc_switch, a.tol):
+                 # regularized step already small: judge convergence on the unmodified Newton step
++                rec['status'] = 'ptc_switch_same_base'
+                 hist.append(rec); hist_path.write_text(json.dumps(hist, indent=1))
+                 np.save(itdir / 'newton_step_ptc.npy', s)
+                 R.log(f'it{k:02d} PTC step {smax_sig:.3e} < {a.ptc_switch}; delta {hom["delta"]:.3g} -> 0 (pure Newton at this base)')
+@@ -1139,8 +1655,19 @@ def main():
+                 hs.write_text(json.dumps(st_, indent=1))
+                 k += 1
+                 continue
++        if pop is not None and pop['delta'] > 0 and smax_sig < max(a.pop_ptc_switch, stage_tol):
++            rec['status'] = 'ptc_switch_same_base'
++            hist.append(rec); hist_path.write_text(json.dumps(hist, indent=1))
++            np.save(itdir / 'newton_step_pop_ptc.npy', s)
++            R.log(f'it{k:02d} population-PTC step {smax_sig:.3e} < {max(a.pop_ptc_switch, stage_tol):g}: delta '
++                  f'{pop["delta"]:.3g} -> 0 (pure Newton at this base)')
++            pop['delta'] = 0.0; pop['history'].append(dict(it=k, delta=0.0, reason='switch'))
++            pop_path.write_text(json.dumps(pop, indent=1))
++            k += 1
++            continue
+         if smax_sig < stage_tol:
+             rec['converged'] = True
++            rec['status'] = 'converged' if (hom is None or hom['lam'] >= 1.0) else 'stage_converged_same_base'
+             hist.append(rec); hist_path.write_text(json.dumps(hist, indent=1))
+             np.save(itdir / 'newton_step.npy', s)
+             if hom is None or hom['lam'] >= 1.0:
+@@ -1198,6 +1725,24 @@ def main():
+                 np.save(itdir / 'lm_steps.npy', np.stack([steps[k_] for k_ in steps], axis=2))
+         if not lm_mode:
+             sc0 = s.copy()
++            if a.lm_bound is not None and lm_data is not None:
++                # Report 25: the trial step re-optimized within |s| <= lm_bound (the convergence test above keeps the
++                # unbounded Newton step)
++                bmask = it.active.copy()
++                rad = np.full(s.shape, a.lm_bound)
++                if a.free_t and not a.freeze_t and a.lm_bound_t is not None:
++                    rad[133] = a.lm_bound_t       # stage 2: T in the bound with its own radius
++                else:
++                    bmask[133] = False
++                if np.max(np.abs(s[bmask]) / rad[bmask]) > 1.0:
++                    sc0, mu_b, _ = lm_step_bound(lm_data, it.active.astype(float), rad, bmask)
++                    pred_b = float(np.linalg.norm(lm_data[1] @ np.linalg.lstsq(np.stack([si.ravel() for si in S], 1),
++                                                                                 sc0.ravel(), rcond=None)[0] - lm_data[2])
++                                   / np.linalg.norm(lm_data[2]))
++                    R.log(f'it{k:02d} trial step bounded to |s| <= {a.lm_bound:g}'
++                          f'{f" (T: {a.lm_bound_t:g})" if bmask[133].any() else ""} (mu {mu_b:.2e}); its linear residual '
++                          f'{pred_b:.3e} against {res_hist[-1]:.3e} unbounded')
++                    rec.update(lm_bound=a.lm_bound, lm_bound_mu=mu_b, lm_bound_linear=pred_b)
+             if a.free_t and a.t_log_cap is not None and a.lm_trust is None:
+                 ntl = int(np.sum(np.abs(s[133]) > a.t_log_cap))
+                 if a.t_cap_mode == 'scale':
+@@ -1222,7 +1767,22 @@ def main():
+ 
+         def trial(item):
+             lab, st_ = item
+-            xt = it.x * cnk_trap.update_factor(st_, a.update_map, a.component_log_cap)
++            capv = a.component_log_cap if caps is None else caps
++            xt = it.x * cnk_trap.update_factor(st_, a.update_map, capv)
++            if a.trace_ion_balance:
++                # Report 25: He III where it is trace balances the replaced He II ground row (cnk_trap.trace_ion_balance),
++                # given the REALIZED (limited) update of every other component: balancing against the planned step made
++                # He III run away at the He front once the limiter truncated the rest (row 102 at d60: 0.03 -> 4.4)
++                s_real = 1.0 - xt / it.x
++                s_real[131] = 0.0
++                Jr = it.Jdir.matvec(s_real)
++                if it.pop_ptc is not None:
++                    Jr = Jr - it.pop_ptc * s_real          # the unshifted direct action
++                mask_, sc_ = cnk_trap.trace_ion_balance(it.R, Jr, it.Jdir.di, it.frac, 1.0)
++                f_ = cnk_trap.update_factor(sc_, a.update_map, capv if np.isscalar(capv) else capv[131])
++                xt[131, mask_] = it.x[131, mask_] * f_[mask_]
++                R.log(f'it{k:02d} trial {lab}: trace-ion balance at {int(mask_.sum())} depths, max|s(He III)| '
++                      f'{float(np.max(np.abs(sc_))) if mask_.any() else 0.0:.3g}')
+             if a.conserve:
+                 # Report 24: back onto the exact number and charge conservation rows (broken by the limiter)
+                 xt, pst = cnk_trap.project_conservation(xt, cons_tot)
+@@ -1247,11 +1807,58 @@ def main():
+                 return lab, d, float('inf')
+             xr, Rt = read_trace_record(d / 'QSTARS_RESID_TRACE.bin')
+             Rt = it.hom_resid(Rt, xr)
++            if a.accept_rowscale:
++                return lab, d, rowscale_merit(Rt)
+             return lab, d, (natural(Rt) if a.natural else it.merit(Rt)[0])
+         with ThreadPoolExecutor(min(len(steps), a.trial_workers) if a.trial_workers > 0 else len(steps)) as ex:
+             trials = list(ex.map(trial, list(steps.items())))
+         for lab, d, ph in trials:
+             R.log(f'it{k:02d} trial {lab}: merit {ph:.4e} (current {phi:.4e})')
++        if a.geodesic and lm_data is not None and not lm_mode:
++            # Report 26: geodesic acceleration (Transtrum & Sethna). The trials give the remainder of the linear model,
++            # E_lam = R(x_lam) - (R - lam J s - Jdir d_lam) (d_lam: realized minus planned step, from the projection,
++            # He III balance and limiter, by the direct blocks), and from it the second-order term Q; the correction
++            # t with J t = Q in the same subspace makes R(x(1 - lam s - lam^2 t)) = R - lam J s + O(lam^3).
++            Sm_g = np.stack([si.ravel() for si in S], axis=1)
++            yb_ = np.linalg.lstsq(Sm_g, sc0.ravel(), rcond=None)[0]
++            Jsb_ = sum(yi * ji for yi, ji in zip(yb_, JS))
++            fin = [(float(lab_[1:]), d_) for lab_, d_, ph_ in trials if np.isfinite(ph_) and lab_.startswith('l')]
++            use = [t_ for t_ in fin if t_[0] <= a.geodesic_max_lam]
++            if len(use) < 2:
++                use = fin
++            if use:
++                Es_ = []
++                for lam_, d_ in use:
++                    xt_, Rt_ = read_trace_record(d_ / 'QSTARS_RESID_TRACE.bin')
++                    Rt_ = it.hom_resid(Rt_, xt_)
++                    dl_ = np.where(it.active, (1.0 - xt_ / it.x) - lam_ * sc0, 0.0)
++                    Es_.append(Rt_ - (it.R - lam_ * Jsb_ - it.Jdir.matvec(dl_)))
++                Q_ = cnk_trap.quadratic_term([u_[0] for u_ in use], Es_)
++                q_ = it.obj(Q_).ravel()
++                yt_ = np.linalg.lstsq(lm_data[1], q_, rcond=1e-12)[0]
++                fit_t = float(np.linalg.norm(q_ - lm_data[1] @ yt_) / max(np.linalg.norm(q_), 1e-300))
++                t_g = (Sm_g @ yt_).reshape(sc0.shape)
++                if a.freeze_t:
++                    t_g[133] = 0.0
++                wv_ = it.W * it.active
++                ratio = float(np.linalg.norm(wv_ * t_g) / max(np.linalg.norm(wv_ * sc0), 1e-300))
++                gsc = min(1.0, a.geodesic_alpha / max(ratio, 1e-300))
++                t_g = gsc * t_g
++                qreg = (it.obj(Q_) ** 2)
++                R.log(f'it{k:02d} geodesic: second-order term from trials {[u_[0] for u_ in use]}, |obj(Q)| / merit '
++                      f'{np.linalg.norm(q_) / phi:.3f} (by depths: ' + ', '.join(
++                          f'{a_ + 1}-{b_} {qreg[:, a_:b_].sum() / max(qreg.sum(), 1e-300):.2f}' for a_, b_ in DENSE_REPORT_REGIONS)
++                      + f'); correction fit {fit_t:.3f}, ||W t|| / ||W s|| {ratio:.3f}, scaled by {gsc:.3g}; '
++                      f'max|t| {np.max(np.abs(t_g)):.3f}')
++                np.save(itdir / 'geodesic_t.npy', t_g)
++                gsteps = {f'g{lam_:.4g}': lam_ * sc0 + lam_ ** 2 * t_g for lam_ in a.lams}
++                with ThreadPoolExecutor(min(len(gsteps), a.trial_workers) if a.trial_workers > 0 else len(gsteps)) as ex:
++                    gtr = list(ex.map(trial, list(gsteps.items())))
++                for lab, d, ph in gtr:
++                    R.log(f'it{k:02d} geodesic trial {lab}: merit {ph:.4e} (current {phi:.4e})')
++                trials += gtr
++                rec.update(geodesic=dict(lams=[u_[0] for u_ in use], q_over_merit=float(np.linalg.norm(q_) / phi),
++                                         fit=fit_t, ratio=ratio, scale=gsc))
+         if min(t_[2] for t_ in trials) >= phi:
+             small = {f'{lab}_d16': v / 16.0 for lab, v in steps.items()}
+             with ThreadPoolExecutor(min(len(small), a.trial_workers) if a.trial_workers > 0 else len(small)) as ex:
+@@ -1259,10 +1866,22 @@ def main():
+             for lab, d, ph in more:
+                 R.log(f'it{k:02d} fallback trial {lab}: merit {ph:.4e} (current {phi:.4e})')
+             trials += more
+-        lab, d, ph = min(trials, key=lambda t_: t_[2])
+-        rec.update(trials={t_[0]: t_[2] for t_ in trials}, accepted=lab, merit_new=ph)
+-        if lab.startswith('l') and '_d16' not in lab:
+-            rec['accepted_lam'] = float(lab[1:])
++        # V1 plan P0: the best trial, the accepted one (None when no trial lowers the merit) and the outcome are kept
++        # apart; only an accepted trial becomes the next base and the restart pointer
++        dec = cnk_trap.trial_decision(trials, phi)
++        lab, d, ph = dec['best_trial'], dec['best_dir'], dec['best_merit']
++        rejected = dec['accepted'] is None
++        rec.update(trials={t_[0]: t_[2] for t_ in trials}, best_trial=lab, best_merit=ph, accepted=dec['accepted'])
++        if not rejected:
++            rec['merit_new'] = ph
++            rec['status'] = 'accepted'
++            if lab.startswith('l') and '_d16' not in lab:
++                rec['accepted_lam'] = float(lab[1:])
++        elif (hom is not None and hom.get('mode') == 'ptc') or pop is not None or \
++                (hom is not None and st_['lam_done'] is not None and st_['dlam'] > 1e-3):
++            rec['status'] = 'rejected_retry_same_base'
++        else:
++            rec['status'] = 'stopped_no_decrease'
+         if 'lm_trust' in rec:
+             top = f'r{radii[0]:.4g}'
+             full = dict((t_[0], t_[2]) for t_ in trials)[top]
+@@ -1278,7 +1897,9 @@ def main():
+             rec.update(lm_rho_top=rho, lm_trust_next=nxt)
+             R.log(f'it{k:02d} LM actual/predicted reduction at radius {radii[0]:.4g}: {rho:.3f}; next radius {nxt:.3g}')
+         hist.append(rec); hist_path.write_text(json.dumps(hist, indent=1))
+-        if ph >= phi and hom is not None and hom.get('mode') == 'ptc':
++        if not rejected:
++            cnk_trap.write_accepted_pointer(out, k + 1, d, ph, f'iterate {k} accepted trial {lab}')
++        if rejected and hom is not None and hom.get('mode') == 'ptc':
+             old = hom['delta']
+             hom['delta'] = max(4.0 * old, a.ptc_delta0 if old == 0 else 0.0)
+             st_['delta'] = hom['delta']; st_['history'].append(dict(it=k, delta=hom['delta'], reason='no decrease'))
+@@ -1286,7 +1907,15 @@ def main():
+             R.log(f'it{k:02d}: no decrease; PTC delta {old:.3g} -> {hom["delta"]:.3g} at the same base')
+             k += 1
+             continue
+-        if ph >= phi:
++        if rejected and pop is not None:
++            old = pop['delta']
++            pop['delta'] = max(4.0 * old, a.pop_ptc if old == 0 else 0.0)
++            pop['history'].append(dict(it=k, delta=pop['delta'], reason='no decrease'))
++            pop_path.write_text(json.dumps(pop, indent=1))
++            R.log(f'it{k:02d}: no decrease; population PTC delta {old:.3g} -> {pop["delta"]:.3g} at the same base')
++            k += 1
++            continue
++        if rejected:
+             if hom is not None and st_['lam_done'] is not None and st_['dlam'] > 1e-3:
+                 st_['dlam'] /= 2.0
+                 st_['lam'] = min(1.0, st_['lam_done'] + st_['dlam'])
+@@ -1315,6 +1944,35 @@ def main():
+         elif hom is not None:
+             st_['stage_iters'] += 1
+             hs.write_text(json.dumps(st_, indent=1))
++        if caps is not None:
++            xn_, _ = read_trace_record(d / 'QSTARS_RESID_TRACE.bin')
++            new_logf = np.log(np.maximum(xn_, 1e-300) / np.maximum(it.x, 1e-300))
++            if prev_logf is not None:
++                caps, nflip = cnk_trap.adapt_caps(caps, prev_logf, new_logf, a.component_log_cap)
++                rec['cap_flips'] = nflip; rec['caps_below_default'] = int(np.sum(caps < a.component_log_cap))
++                hist_path.write_text(json.dumps(hist, indent=1))
++                R.log(f'it{k:02d} adaptive limits: {nflip} limited components reversed direction (limit halved); '
++                      f'{rec["caps_below_default"]} below {a.component_log_cap:g}, smallest {float(caps.min()):.3g}')
++            prev_logf = new_logf
++            np.save(caps_path, caps); np.save(prev_path, prev_logf)
++        if pop is not None and pop['delta'] > 0:
++            # SER on the row-scaled residual (no inverse) of this base's direct blocks: delta follows ||R_new|| / ||R||
++            xn_, Rn_ = read_trace_record(d / 'QSTARS_RESID_TRACE.bin')
++            Rn_ = it.hom_resid(Rn_, xn_)
++            nr_ = 134 if (a.free_t and not a.freeze_t and hom is None) else 133
++            w_ = (it.row_weights() * it.D * it.active)[:nr_]
++            rho = float(np.linalg.norm(w_ * Rn_[:nr_]) / np.linalg.norm(w_ * it.R[:nr_]))
++            old = pop['delta']
++            # a shortened step (lambda < 1 accepted) means the PTC step was too long for the nonlinearity: raise delta
++            lam_acc = rec.get('accepted_lam', 1.0 / 16.0 if '_d16' in lab else 1.0)
++            new = old * min(max(rho / np.sqrt(max(lam_acc, 1e-3)), 0.25), 4.0)
++            pop['delta'] = new if new >= a.pop_ptc_min else 0.0
++            pop['history'].append(dict(it=k, delta=pop['delta'], rowscale_ratio=rho, accepted_lam=lam_acc))
++            pop_path.write_text(json.dumps(pop, indent=1))
++            rec['pop_ptc_rowscale_ratio'] = rho
++            hist_path.write_text(json.dumps(hist, indent=1))
++            R.log(f'it{k:02d} population PTC: row-scaled residual ratio {rho:.3f}, accepted lambda {lam_acc:g}; delta '
++                  f'{old:.3g} -> {pop["delta"]:.3g}')
+         base = d
+         k += 1
+ 
+diff --git a/scripts/retain_runs.py b/scripts/retain_runs.py
+index 65df0aa..0cbde81 100755
+--- a/scripts/retain_runs.py
++++ b/scripts/retain_runs.py
+@@ -39,6 +39,9 @@ def protected(out, keep, extra):
+     bases = {Path(h['base']).name for h in hist[:1] + hist[-keep:]}
+     if hist and hist[-1].get('accepted') is not None:
+         bases.add(f"it{int(hist[-1]['it']) + 1:02d}_trial_{hist[-1]['accepted']}")
++    ptr = out / 'accepted_state.json'          # V1 plan P0: the explicit restart pointer (cnk_trap.write_accepted_pointer)
++    if ptr.exists():
++        bases.add(Path(json.loads(ptr.read_text())['base']).name)
+     bases |= {'it00_base', 'start_base'} | set(extra)
+     nums = [n for n in (iterate_no(d.name) for d in out.iterdir() if d.is_dir()) if n is not None]
+     newest = max(nums, default=0)
+diff --git a/tests/test_cnk_trap.py b/tests/test_cnk_trap.py
+index e4afc1e..6841238 100644
+--- a/tests/test_cnk_trap.py
++++ b/tests/test_cnk_trap.py
+@@ -220,3 +220,339 @@ def test_project_conservation_restores_totals_and_charge_and_keeps_ratios():
+     assert st['h'] > 0.01 and st['he'] > 0.01 and st['ne'] > 0.01
+     again, st2 = cnk_trap.project_conservation(xp, tot)          # idempotent
+     np.testing.assert_allclose(again, xp, rtol=1e-14)
++
++
++def test_front_window_spans_the_neutral_hydrogen_zone_with_a_margin():
++    nt, nd = 134, 30
++    x = np.ones((nt, nd))
++    x[cnk_trap.HII_ROW] = 1e3                          # H II dominates the hydrogen ...
++    x[cnk_trap.HII_ROW, 8:12] = 1e-1                   # ... except two neutral zones
++    x[cnk_trap.HII_ROW, 15:17] = 1.0
++    assert cnk_trap.front_window(x, 0.5, 2) == (6, 18)
++    assert cnk_trap.front_window(x, 0.5, 20) == (0, nd - 1)
++    x[cnk_trap.HII_ROW] = 1e3
++    assert cnk_trap.front_window(x, 0.5, 2) is None
++
++
++def test_front_rows_take_radiation_responsive_columns_and_front_probes_recover_window_columns():
++    lo, di, up = banded_system(nt=6, nd=14)
++    exact = BlockTridiag(lo, di, up)
++    nd, nt = exact.shape
++    active = np.ones((nt, nd), dtype=bool); active[4, :] = False         # row 5 inactive everywhere
++    sig = np.zeros((nt, nd), dtype=bool); sig[0] = True                  # equation 1 significant
++    inc = np.zeros_like(di)
++    inc[6, 0, 3] = 0.5 * np.abs(di[6][0]).sum()                          # column 4 drives equation 1 at depth 7
++    inc[12, 0, 2] = 0.5 * np.abs(di[12][0]).sum()                        # column 3: outside the window
++    inc[6, 0, 4] = 0.5 * np.abs(di[6][0]).sum()                          # column 5: inactive
++    window = (4, 9)
++    rows = cnk_trap.front_rows(inc, di, sig, active, window, 1e-4, always=[1])
++    assert rows == [1, 4]
++    # exact columns in the window only, the rest of the preconditioner unchanged
++    lo_m, di_m, up_m = lo.copy(), di.copy(), up.copy()
++    for c in (0, 3):
++        di_m[:, :, c] *= 50.0; lo_m[:, :, c] = 0.0; up_m[:, :, c] = 0.0
++    dirs, meta = cnk_trap.probe_directions(rows, cnk_trap.window_mask(active, window), 3)
++    assert len(dirs) == 6 and all(np.all(z[:, :window[0]] == 0) and np.all(z[:, window[1] + 1:] == 0) for z in dirs)
++    l2, d2, u2 = lo_m.copy(), di_m.copy(), up_m.copy()
++    n = cnk_trap.install_columns(l2, d2, u2, dirs, [exact.matvec(z) for z in dirs], meta, 3)
++    assert n == 2 * (window[1] - window[0] + 1)
++    w = slice(window[0], window[1] + 1)
++    for c in (0, 3):
++        np.testing.assert_allclose(d2[w, :, c], di[w, :, c], rtol=0, atol=1e-13)
++        np.testing.assert_allclose(l2[window[0] + 1:window[1] + 2, :, c], lo[window[0] + 1:window[1] + 2, :, c],
++                                   rtol=0, atol=1e-13)
++        np.testing.assert_allclose(u2[window[0] - 1:window[1], :, c], up[window[0] - 1:window[1], :, c],
++                                   rtol=0, atol=1e-13)
++        np.testing.assert_array_equal(d2[:window[0], :, c], di_m[:window[0], :, c])
++        np.testing.assert_array_equal(d2[window[1] + 1:, :, c], di_m[window[1] + 1:, :, c])
++    np.testing.assert_array_equal(d2[:, :, [1, 2, 4, 5]], di_m[:, :, [1, 2, 4, 5]])
++    cond = cnk_trap.block_conditioning(di, active, window)
++    assert cond.shape == (window[1] - window[0] + 1,) and np.all((cond > 0) & (cond <= 1))
++
++
++def test_dense_cells_give_the_window_newton_step_that_colored_probes_alias():
++    """Report 26: one direction per (variable, depth) in each window, each cell once, inactive cells left out. With a
++    nonlocal operator (coupling over the whole window, as trapped radiation), the least squares over the single-cell
++    columns solves a residual made by window variables exactly; stride-3 colored probes of the same rows cannot (a
++    colored direction moves its row at every third depth by one common factor)."""
++    nt, nd = 4, 12
++    active = np.ones((nt, nd), dtype=bool); active[2, 6] = False
++    cells = cnk_trap.dense_cells([((2, 5), [1, 3]), ((4, 7), [3])], active)
++    assert cells == [(0, 2), (0, 3), (0, 4), (0, 5), (2, 2), (2, 3), (2, 4), (2, 5), (2, 7)]
++    with pytest.raises(ValueError):
++        cnk_trap.dense_cells([((0, 1), [nt + 1])], active)
++    z = cnk_trap.cell_direction((2, 7), (nt, nd))
++    assert z[2, 7] == 1.0 and z.sum() == 1.0
++    rng = np.random.default_rng(11)
++    n = nt * nd
++    J = np.diag(rng.uniform(1.0, 2.0, n)) + 0.1 * rng.normal(size=(n, n))   # nonlocal: every cell couples to every cell
++    matvec = lambda v: (J @ v.ravel()).reshape(nt, nd)                     # noqa: E731
++    win = [((2, 7), [1, 3])]
++    cells = cnk_trap.dense_cells(win, active)
++    t = rng.normal(size=len(cells))
++    s_true = np.zeros((nt, nd))
++    for c, tc in zip(cells, t):
++        s_true[c] = tc
++    R = matvec(s_true)
++    S = [cnk_trap.cell_direction(c, (nt, nd)) for c in cells]
++    A = np.stack([matvec(v).ravel() for v in S], axis=1)
++    np.testing.assert_allclose(A[:, 0], J[:, np.ravel_multi_index(cells[0], (nt, nd))], rtol=0, atol=0)
++    y, *_ = np.linalg.lstsq(A, R.ravel(), rcond=1e-12)
++    assert np.linalg.norm(A @ y - R.ravel()) < 1e-10 * np.linalg.norm(R)
++    np.testing.assert_allclose(sum(yi * v for yi, v in zip(y, S)), s_true, atol=1e-10)
++    pz, _ = cnk_trap.probe_directions([1, 3], cnk_trap.window_mask(active, (2, 7)), 3)
++    Ap = np.stack([matvec(v).ravel() for v in pz], axis=1)
++    yp, *_ = np.linalg.lstsq(Ap, R.ravel(), rcond=1e-12)
++    assert np.linalg.norm(Ap @ yp - R.ravel()) > 0.3 * np.linalg.norm(R)
++
++
++def test_quadratic_term_recovers_the_second_order_term_and_the_geodesic_path_cancels_it():
++    """Report 26 (--geodesic): from the remainders of three trials of R(lam) = R0 - lam J s + lam^2 Q + lam^3 C the
++    intercept fit returns Q exactly, one trial gives E / lam^2, and the path lam s + lam^2 t with J t = Q leaves only
++    third-order terms of a quadratic residual map."""
++    rng = np.random.default_rng(4)
++    Q, C = rng.normal(size=(3, 5)), rng.normal(size=(3, 5))
++    lams = [0.5, 0.25, 0.125]
++    E = [l ** 2 * Q + l ** 3 * C for l in lams]
++    np.testing.assert_allclose(cnk_trap.quadratic_term(lams, E), Q, atol=1e-12)
++    np.testing.assert_allclose(cnk_trap.quadratic_term([0.5], [E[0]]), Q + 0.5 * C, atol=1e-12)
++    with pytest.raises(ValueError):
++        cnk_trap.quadratic_term([], [])
++    # quadratic map F(u) = R0 - J u + B(u, u) along u = lam s + lam^2 t
++    n = 6
++    J = np.eye(n) * 2.0 + 0.3 * rng.normal(size=(n, n))
++    Bt = rng.normal(size=(n, n, n)) * 0.2
++    F = lambda u: R0 - J @ u + np.einsum('ijk,j,k->i', Bt, u, u)       # noqa: E731
++    R0 = rng.normal(size=n)
++    s = np.linalg.solve(J, R0)
++    Es = [F(l * s) - (R0 - l * J @ s) for l in lams]
++    t = np.linalg.solve(J, cnk_trap.quadratic_term(lams, Es))
++    plain, geo = [], []
++    for l in (0.1, 0.05):
++        plain.append(np.linalg.norm(F(l * s) - (R0 - l * J @ s)))           # second order: x4 per halving
++        geo.append(np.linalg.norm(F(l * s + l ** 2 * t) - (R0 - l * J @ s)))  # third order: x8 per halving
++    assert plain[0] / plain[1] == pytest.approx(4.0, rel=0.05)
++    assert geo[0] / geo[1] == pytest.approx(8.0, rel=0.1) and geo[1] < 0.2 * plain[1]
++
++
++def test_floor_blocks_skip_depths_through_an_inactive_mask():
++    rng = np.random.default_rng(5)
++    nd, nt = 4, 5
++    U, _, Vt = np.linalg.svd(rng.normal(size=(nt, nt)))
++    di = np.stack([(U * np.array([1.0, 0.5, 0.2, 0.1, 1e-8])) @ Vt for _ in range(nd)])
++    active = np.ones((nt, nd), dtype=bool)
++    skip = cnk_trap.window_mask(active, (1, 2))
++    out, n = cnk_trap.floor_blocks(di, 1e-2, active & ~skip)
++    assert n == 2
++    np.testing.assert_array_equal(out[1:3], di[1:3])
++    assert not np.array_equal(out[0], di[0]) and not np.array_equal(out[3], di[3])
++
++
++def test_coarse_correction_is_exact_on_the_slow_modes():
++    lo, di, up = banded_system(nt=6, nd=10, seed=9)
++    nd, nt = di.shape[0], di.shape[1]
++    rng = np.random.default_rng(2)
++    for d in (3, 4, 6):                                  # nearly singular local blocks (a fast/slow split)
++        U, _, Vt = np.linalg.svd(rng.normal(size=(nt, nt)))
++        di[d] = (U * np.array([3.0, 2.0, 1.5, 1.0, 0.7, 1e-7])) @ Vt
++    M = BlockTridiag(lo, di, up).factor()
++    lo2 = lo.copy(); lo2[4] += 0.3 * rng.normal(size=(nt, nt))   # coupling the preconditioner lacks
++    Jx = BlockTridiag(lo2, di, up)
++    active = np.ones((nt, nd), dtype=bool)
++    Y, Z, info = cnk_trap.slow_modes(di, active, (2, 7), 1e-4)
++    assert sorted(d for d, _ in info) == [3, 4, 6] and all(s < 1e-6 for _, s in info)
++    Y2, Z2, info2 = cnk_trap.slow_modes(di, active, (2, 7), 1e-4, exclude=[5])
++    assert len(Z2) <= 3 and all(np.all(z[5] == 0) for z in Z2)
++    JZ = [Jx.matvec(z) for z in Z]
++    W = rng.uniform(0.5, 1.0, size=(nt, nd))
++    Pls = cnk_trap.CoarseCorrected(M, Y, Z, JZ, W=W, mode='ls')
++    for z in Z:                                          # exact on the coarse space
++        np.testing.assert_allclose(Pls.solve(Jx.matvec(z)), z, rtol=0, atol=1e-8)
++    r = rng.normal(size=(nt, nd))
++    c = Pls.coefficients(r)                              # least-squares optimal coarse coefficients
++    fine = lambda c_: np.linalg.norm(W * M.solve(r - sum(ci * j for ci, j in zip(c_, JZ))))
++    assert fine(c) <= fine(np.zeros(len(Z))) and all(fine(c) <= fine(c + 1e-3 * e) for e in np.eye(len(Z)))
++    Pg = cnk_trap.CoarseCorrected(M, Y, Z, JZ, mode='galerkin')
++    for z in Z:
++        np.testing.assert_allclose(Pg.solve(Jx.matvec(z)), z, rtol=0, atol=1e-6)
++    assert all(abs(float(np.sum(y * (r - (Pg.JZ.T @ Pg.coefficients(r)).reshape(r.shape))))) < 1e-8 for y in Y)
++
++
++def test_population_ptc_shifts_jacobian_and_preconditioner_diagonals_except_constraint_rows():
++    cnk = _driver()
++    nt, nd = 134, 3
++    rng = np.random.default_rng(8)
++    lo = 0.1 * rng.normal(size=(nd, nt, nt)); up = 0.1 * rng.normal(size=(nd, nt, nt)); lo[0] = 0; up[-1] = 0
++    di = rng.normal(size=(nd, nt, nt)) + 5.0 * np.eye(nt) * np.where(rng.random(nt) < 0.5, 1.0, -1.0)[None, :, None]
++    it = cnk.Iterate.__new__(cnk.Iterate)
++    it.Jdir = cnk.BlockTridiag(lo.copy(), di.copy(), up.copy())
++    it._pc = (lo.copy(), di.copy(), up.copy())
++    it.M = cnk.BlockTridiag(*[m.copy() for m in it._pc]).factor()
++    it.active = np.ones((nt, nd), dtype=bool); it.active[5, 1] = False
++    rs = (np.abs(lo) + np.abs(di) + np.abs(up)).sum(axis=2).T
++    it.D = 1.0 / np.maximum(rs, 1e3 * rs.max(axis=0))   # an --eq-floor D must not change the PTC scale
++    it.rs_gross = rs
++    z = rng.normal(size=(nt, nd))
++    jz0 = it.Jdir.matvec(z)
++    it.add_pop_ptc(0.1)
++    shift = it.Jdir.matvec(z) - jz0
++    expect = 0.1 * np.sign(np.einsum('kii->ik', di)) * rs * z * it.active
++    expect[list(cnk.PTC_CONSTRAINT_ROWS)] = 0.0
++    np.testing.assert_allclose(shift, expect, rtol=1e-12, atol=1e-12)
++    np.testing.assert_allclose(it.pop_ptc * z, expect, rtol=1e-12, atol=1e-12)
++    # the same shift in the preconditioner; off-diagonal blocks untouched
++    np.testing.assert_allclose(np.einsum('kii->ik', it._pc[1]) - np.einsum('kii->ik', di), it.pop_ptc, atol=1e-12)
++    np.testing.assert_array_equal(it._pc[0], lo); np.testing.assert_array_equal(it.Jdir.up, up)
++    # the shift adds to the magnitude of every shifted diagonal (pseudo-time damping)
++    dd = np.einsum('kii->ik', di); m = it.pop_ptc != 0
++    assert np.all(np.abs(dd + it.pop_ptc)[m] > np.abs(dd)[m])
++
++
++def test_trace_ion_balance_zeroes_the_linearized_replaced_row_only_where_the_ion_is_trace():
++    rng = np.random.default_rng(12)
++    nt, nd = 134, 6
++    Jdi = rng.normal(size=(nd, nt, nt)) * 1e-3
++    Jdi[:, 101, 131] = 0.3; Jdi[:, 101, 132] = 0.3            # the He II / He III balance: He III and n_e columns
++    Jdi[4, 101, 131] = 1e-6                                    # depth 5: an ordinary ground-state row
++    frac = np.full((nt, nd), 1e-3); frac[131, :3] = 1e-40      # He III trace at depths 1-3 only ... 
++    frac[131, 4] = 1e-40                                       # ... and at depth 5 (but not that row's variable)
++    R = rng.normal(size=(nt, nd)); Js = rng.normal(size=(nt, nd))
++    for lam in (1.0, 0.25):
++        mask, sc = cnk_trap.trace_ion_balance(R, Js, Jdi, frac, lam)
++        assert list(np.nonzero(mask)[0]) == [0, 1, 2]
++        lin = R[101] - lam * Js[101] - Jdi[:, 101, 131] * sc
++        np.testing.assert_allclose(lin[mask], 0.0, atol=1e-12)
++        assert np.all(sc[~mask] == 0.0)
++
++
++
++def test_adapt_caps_shrinks_only_limit_cycling_components():
++    default = 0.693
++    caps = np.full((3, 2), default)
++    prev = np.array([[0.693, 0.1], [-0.693, 0.693], [0.0, -0.3]])
++    new = np.array([[-0.693, 0.1], [0.693, 0.693], [0.2, 0.3]])     # flip at the cap, no flip, flip below the cap
++    c, n = cnk_trap.adapt_caps(caps, prev, new, default)
++    assert n == 2 and c[0, 0] == default / 2 and c[1, 0] == default / 2
++    assert np.all(c[[0, 1, 2, 2], [1, 1, 0, 1]] == default)
++    c2, n2 = cnk_trap.adapt_caps(np.full((3, 2), 0.1), new, new, default)                     # no flips: limits grow back
++    assert n2 == 0 and np.allclose(c2, 0.15)
++    x = np.array([1.0, 1.0]); f = cnk_trap.update_factor(np.array([-5.0, -5.0]), 'linear', np.array([0.693, 0.1]))
++    np.testing.assert_allclose(f, [np.exp(0.693), np.exp(0.1)])                                       # elementwise limits
++    assert x is not None
++
++
++def test_population_ptc_pc_scale_uses_the_preconditioner_row_scale():
++    cnk = _driver()
++    nt, nd = 134, 2
++    rng = np.random.default_rng(6)
++    di = rng.normal(size=(nd, nt, nt)) * 0.01 + np.eye(nt)[None]
++    zero = np.zeros_like(di)
++    it = cnk.Iterate.__new__(cnk.Iterate)
++    it.Jdir = cnk.BlockTridiag(zero.copy(), di.copy(), zero.copy())
++    pc = di.copy(); pc[:, 2, :] *= 1e-3                      # a trapped level: the local ALI cancels most of its row
++    it._pc = (zero.copy(), pc, zero.copy())
++    it.active = np.ones((nt, nd), dtype=bool)
++    it.rs_gross = np.abs(di).sum(axis=2).T
++    it.add_pop_ptc(0.1, scale='pc')
++    np.testing.assert_allclose(np.abs(it.pop_ptc[2]), 0.1 * np.abs(pc[:, 2, :]).sum(axis=1), rtol=1e-12)
++    np.testing.assert_allclose(np.abs(it.pop_ptc[5]), 0.1 * it.rs_gross[5], rtol=1e-12)
++
++
++def test_preconditioner_only_ptc_leaves_the_jacobian_exact():
++    cnk = _driver()
++    nt, nd = 134, 2
++    rng = np.random.default_rng(10)
++    di = rng.normal(size=(nd, nt, nt)) * 0.01 + np.eye(nt)[None]
++    zero = np.zeros_like(di)
++    it = cnk.Iterate.__new__(cnk.Iterate)
++    it.Jdir = cnk.BlockTridiag(zero.copy(), di.copy(), zero.copy())
++    it._pc = (zero.copy(), di.copy(), zero.copy())
++    it.active = np.ones((nt, nd), dtype=bool); it.rs_gross = np.abs(di).sum(axis=2).T; it.pop_ptc = None
++    it.add_pop_ptc(0.1, scale='pc', jacobian=False)
++    np.testing.assert_array_equal(it.Jdir.di, di)
++    assert it.pop_ptc is None and not np.array_equal(it._pc[1], di)
++
++
++def test_row_scaled_measure_weighs_the_constraint_rows_whatever_their_variables_weight():
++    cnk = _driver()
++    nt, nd = 134, 3
++    it = cnk.Iterate.__new__(cnk.Iterate)
++    it.W = np.ones((nt, nd)); it.W[131] = 0.0; it.W[50] = 1e-3          # He III variable ultra-trace, a trace level
++    it.active = np.ones((nt, nd), dtype=bool); it.active[131, 2] = False
++    w = it.row_weights()
++    assert np.all(w[131, :2] == 1.0) and w[131, 2] == 0.0 and np.all(w[50] == 1e-3) and np.all(it.W[131] == 0.0)
++
++
++def test_bounded_step_takes_a_separate_radius_for_temperature():
++    cnk = _driver()
++    rng = np.random.default_rng(1)
++    S = [rng.normal(size=(134, 3)) for _ in range(6)]
++    A = rng.normal(size=(50, 6)); b = rng.normal(size=50)
++    mask = np.ones((134, 3), dtype=bool)
++    rad = np.full((134, 3), 0.5); rad[133] = 0.03
++    s, mu, y = cnk.lm_step_bound((S, A, b), np.ones((134, 3)), rad, mask)
++    assert mu > 0 and np.max(np.abs(s[133])) <= 0.03 * (1 + 1e-6) and np.max(np.abs(s[:133])) <= 0.5
++    s2, mu2, _ = cnk.lm_step_bound((S, A, b), np.ones((134, 3)), 0.5, mask)       # scalar radius as before
++    assert np.max(np.abs(s2)) <= 0.5 * (1 + 1e-6)
++
++
++# free_r25 iterate 16 (history.json): every trial, fallbacks included, worse than the base 2.837128e-2
++IT16_TRIALS = {'l1': 0.028475305384235518, 'l0.5': 0.028408308527980295, 'l0.25': 0.02838631698546318,
++               'l0.125': 0.02837796207612615, 'l1_d16': 0.02837441688921275, 'l0.5_d16': 0.028372798946133797,
++               'l0.25_d16': 0.028372028260444025, 'l0.125_d16': 0.028371652409520692}
++IT16_PHI = 0.02837128241917269
++
++
++def test_trial_decision_keeps_the_best_trial_apart_from_an_acceptance_when_all_trials_are_rejected():
++    trials = [(lab, Path(f'it17_trial_{lab}'), ph) for lab, ph in IT16_TRIALS.items()]
++    dec = cnk_trap.trial_decision(trials, IT16_PHI)
++    assert dec['best_trial'] == 'l0.125_d16' and dec['accepted'] is None and dec['status'] == 'rejected'
++    assert dec['best_merit'] == IT16_TRIALS['l0.125_d16']
++    # a failed native pass (merit inf) is never accepted, a strict decrease is
++    assert cnk_trap.trial_decision([('l1', None, float('inf'))], 1.0)['accepted'] is None
++    assert cnk_trap.trial_decision([('l1', None, 0.5), ('l0.5', None, 0.7)], 1.0)['accepted'] == 'l1'
++    assert cnk_trap.trial_decision([('l1', None, 1.0)], 1.0)['accepted'] is None
++
++
++def test_restart_check_refuses_a_rejected_trial_and_admits_the_accepted_one(tmp_path):
++    import json
++    # legacy records (no status): iterate 15 accepted l0.5 (2.83722e-2 < 2.83790e-2); iterate 16 named its rejected best
++    # trial `accepted`
++    hist = [dict(it=15, base=str(tmp_path / 'it15_trial_l1'), merit=0.028379043416503255,
++                 trials={'l0.5': 0.028372153681630485}, accepted='l0.5', merit_new=0.028372153681630485),
++            dict(it=16, base=str(tmp_path / 'it16_trial_l0.5'), merit=IT16_PHI, trials=IT16_TRIALS,
++                 accepted='l0.125_d16', merit_new=IT16_TRIALS['l0.125_d16'])]
++    (tmp_path / 'history.json').write_text(json.dumps(hist))
++    for n in ('it16_trial_l0.5', 'it17_trial_l0.125_d16', 'it17_trial_l1'):
++        (tmp_path / n).mkdir()
++    assert cnk_trap.history_accepted(hist[0]) == 'l0.5' and cnk_trap.history_accepted(hist[1]) is None
++    assert cnk_trap.check_restart_base(tmp_path / 'it16_trial_l0.5') is None
++    assert 'did not accept' in cnk_trap.check_restart_base(tmp_path / 'it17_trial_l0.125_d16')
++    assert 'did not accept' in cnk_trap.check_restart_base(tmp_path / 'it17_trial_l1')
++    # a record with the status field is taken as written
++    hist[1].update(status='stopped_no_decrease', accepted=None, best_trial='l0.125_d16')
++    (tmp_path / 'history.json').write_text(json.dumps(hist))
++    assert 'did not accept' in cnk_trap.check_restart_base(tmp_path / 'it17_trial_l0.125_d16')
++    # a base outside a numbered trial (it00_base, another run's pass) is not judged
++    assert cnk_trap.check_restart_base(tmp_path / 'it00_base') is None
++    cnk_trap.write_accepted_pointer(tmp_path, 16, tmp_path / 'it16_trial_l0.5', IT16_PHI, 'test')
++    ptr = cnk_trap.read_accepted_pointer(tmp_path)
++    assert ptr['it'] == 16 and Path(ptr['base']).name == 'it16_trial_l0.5' and ptr['merit'] == IT16_PHI
++    assert not (tmp_path / 'accepted_state.tmp').exists()
++
++
++def test_driver_refuses_to_start_from_the_rejected_iterate_16_trial(tmp_path):
++    # the driver's start check runs before any native pass: an all-rejected iterate's best trial is never a base
++    import json, subprocess
++    hist = [dict(it=16, base=str(tmp_path / 'it16_trial_l0.5'), merit=IT16_PHI, trials=IT16_TRIALS,
++                 accepted='l0.125_d16', merit_new=IT16_TRIALS['l0.125_d16'])]
++    (tmp_path / 'history.json').write_text(json.dumps(hist))
++    (tmp_path / 'it17_trial_l0.125_d16').mkdir()
++    x0 = tmp_path / 'x0'; x0.mkdir()
++    drv = Path(__file__).resolve().parents[1] / 'scripts' / 'cool_newton_krylov.py'
++    # no executable exists: a refusal before the first native pass is the only way to this message
++    r = subprocess.run([sys.executable, str(drv), '--out', str(tmp_path), '--x0', str(x0), '--exe', '/nonexistent',
++                        '--replace', '/nonexistent', '--start-base', str(tmp_path / 'it17_trial_l0.125_d16'),
++                        '--start-k', '17'], capture_output=True, text=True, timeout=120)
++    assert r.returncode != 0 and 'refusing to start from a rejected trial' in r.stderr
++    assert not (tmp_path / 'it00_base').exists() and not (tmp_path / 'accepted_state.json').exists()
+diff --git a/tests/test_nlte_newton.py b/tests/test_nlte_newton.py
+index 60c4117..d192f10 100644
+--- a/tests/test_nlte_newton.py
++++ b/tests/test_nlte_newton.py
+@@ -155,6 +155,28 @@ def test_split_pieces_partition():
+     assert np.array_equal(sum(cnk.split_pieces(v, r333, cnk.split_groups(True), 1e-3)), v)
+ 
+ 
++def test_front_split_pieces_partition_with_one_h_piece_per_front_depth():
++    import importlib.util
++    spec = importlib.util.spec_from_file_location('cnk', ROOT / 'scripts' / 'cool_newton_krylov.py')
++    cnk = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(cnk)
++    rng = np.random.default_rng(4)
++    regions, groups, window = cnk.split_regions(167), cnk.split_groups(False), (18, 46)
++    v = rng.normal(size=(134, 167))
++    pcs = cnk.front_split_pieces(v, regions, groups, 0.0, window)
++    assert np.allclose(sum(pcs), v, rtol=0, atol=0)
++    assert sum((p != 0).astype(int) for p in pcs).max() == 1
++    fine = [p for p in pcs if np.count_nonzero(np.any(p != 0, axis=0)) == 1 and window[0] <= np.nonzero(p.any(0))[0][0] <= window[1]]
++    assert len(fine) == window[1] - window[0] + 1               # one H/H-/n_e piece per window depth
++    for p in fine:
++        rows = np.nonzero(p.any(1))[0]
++        assert set(rows) == set(range(32)) | {132}
++    # outside the window the regional pieces are unchanged
++    plain = cnk.split_pieces(v, regions, groups, 0.0)
++    outside = [p for p in plain if not np.any(p[:, window[0]:window[1] + 1])]
++    assert all(any(np.array_equal(p, q) for q in pcs) for p in outside)
++
++
+ def _driver():
+     import importlib.util
+     spec = importlib.util.spec_from_file_location('cnk', ROOT / 'scripts' / 'cool_newton_krylov.py')
+@@ -411,3 +433,15 @@ def test_significance_weight_ramp_is_continuous_and_default_unchanged():
+     f = np.logspace(-14, -8, 2001); ww = cnk.significance_weights(f)
+     assert np.all(np.diff(ww) >= 0) and np.max(np.abs(np.diff(np.log10(ww)))) < 0.01
+     cnk.WEIGHT_RAMP = 0.0
++
++
++def test_fine_regions_partition_the_depths():
++    import importlib.util
++    spec = importlib.util.spec_from_file_location('cnk', ROOT / 'scripts' / 'cool_newton_krylov.py')
++    cnk = importlib.util.module_from_spec(spec)
++    spec.loader.exec_module(cnk)
++    base = cnk.split_regions(167)
++    reg = cnk.fine_regions(base, 0, 60, 5)
++    assert reg[0][0] == 0 and reg[-1][1] == 167 and all(a[1] == b[0] for a, b in zip(reg[:-1], reg[1:]))
++    assert [r for r in reg if r[1] <= 60] == [(e, e + 5) for e in range(0, 60, 5)]
++    assert [r for r in reg if r[0] >= 60] == [(60, 119), (119, 167)]

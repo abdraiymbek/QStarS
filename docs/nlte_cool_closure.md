@@ -14,6 +14,13 @@ fixed-formal-factor fixture; the cool reconstruction remains negative and is
 rejected. No relaxed population/temperature/formal-factor response or joint cool
 closure has passed.
 
+**Current status (2026-11-06).** The later chronology is in the per-report
+additions below (Reports 20–25 and the stage-2 dense-window run of
+2026-10-31 to 11-03). The 167-radius released closure has **not converged**.
+No gate has changed status since [Report 23](../Reports/Report_23.md) §8. The latest
+written report is [Report 25](../Reports/Report_25.md); the next steps are in the
+[v1 execution plan](../Reports/V1_execution_plan_2026-11-06.md) (P0–P3).
+
 ## Component definition and reference boundary
 
 The [predeclared plan](../benchmarks/cmfgen_cool_validation_plan.json) uses the
@@ -244,8 +251,9 @@ run and none changing the convergence criterion:
 - `--natural` (Deuflhard monotonicity test on the simplified Newton correction,
   estimated in the Krylov subspace).
 
-`--merit rowscale` (with `--eq-floor`) and `--trace-sweep` are retained for
-provenance. The trace sweep is wrong for CMFGEN, because trace rows can carry the
+`--trace-sweep` is retained for provenance. (`--merit rowscale` with
+`--eq-floor` was listed here as provenance-only in Report 20; since Report 25 it is
+the active least-squares and acceptance measure, see below.) The trace sweep is wrong for CMFGEN, because trace rows can carry the
 species-conservation equation.
 
 Status (Report 20): the fixed-T problem converges linearly, with the largest
@@ -369,3 +377,36 @@ solve, T continuation, and the omitted wind energy terms (`INC_AD`, `INC_ADV`).
 - **Measures.** The driver's natural measure is dominated by the largest step components and accepted states that the
   fixed measure (`scripts/fixed_metric.py ... --extra`) calls worse; judge progress in the fixed measure, by depth region,
   together with conservation.
+
+**Report 25 additions (exact front columns, soft modes, population PTC).**
+- `--front-probe` installs the exact block-tridiagonal columns at the hydrogen front (1168 columns in stage 1).
+  The front blocks keep the same nearly singular mode, with relative singular values 2e-6 to 6e-5. It is the slow
+  H I n = 2 + 3 / H II mode held by trapped Lyα and weak collisions, and the softness is physical. The exact
+  columns did not change the fit, in stage 1 or in stage 2 (0.986 → 0.980).
+- Driver changes, each tested: population pseudo-transient continuation (`--pop-ptc`, then `--pop-ptc-scale pc`),
+  later used in the preconditioner only (`--pc-ptc`); `--trace-ion-balance` (trace He III balanced against the
+  realized update); `--eq-floor 1e-15`; `--adaptive-cap`; `--merit rowscale` with the exact number and charge rows
+  weighted by themselves; `--target-dirs`; and `--lm-bound 0.5` (with `--lm-bound-t 0.03` in stage 2), a
+  Levenberg–Marquardt step bounded in the subspace. The convergence test keeps the unbounded Newton step.
+- Result: stage 1 (fixed T, `results/nk167_trap/fixedT_b35`) lowered the row-scaled residual 2.125 → 0.051,
+  with conservation to 1e-15 and every native pass complete. It stopped at iterate 29 at a solver limit. Stage 2
+  (T released, `results/nk167_trap/free_r25`) went 0.0302 → 0.0294 in three iterates.
+
+**Stage-2 dense-window run (2026-10-31 to 11-03; no written report).** The run is recorded in
+`results/nk167_trap/free_r25/README.txt`, `driver.log` and `history.json`; the offline checks are in
+`Reports/evidence/report26/`. It was reviewed in the [v1 execution plan](../Reports/V1_execution_plan_2026-11-06.md).
+- `--dense-window 19 47` put about 1,200 exact full columns of the hydrogen-front window into the least-squares
+  span at every base. This is span enrichment, rebuilt per base. It is not the cached two-level subdomain
+  preconditioner proposed in Report 25 §0, which remains untested.
+- There were 13 column builds of about 5.4 h each, about 70 h in total. The frozen reference norm fell only from
+  0.02930 to 0.02837 (about 3.2 %; a solver diagnostic, not a physical error).
+- At iterate 16 the unbounded linear residual ratio was 0.811, but the bounded step's ratio was 0.998766, and the
+  largest unbounded significant step was about 1,396. All eight native trials raised the merit, and the driver
+  stopped.
+- The last valid base is `results/nk167_trap/free_r25/it16_trial_l0.5`. `history.json` records `accepted` before
+  the rejection check, so its last entry names the rejected `it17_trial_l0.125_d16`.
+- Remaining squared weighted residual: depths 62–167 hold 54.8 %, 19–47 hold 21.5 % and 1–9 hold 12.0 %. A
+  hydrogen-window-only strategy misses most of it.
+- Next (v1 plan P1–P2): a stable and component-constrained subspace solve on the stored iterate-4 and
+  iterate-16 products, then deeper global Krylov or a genuine two-level preconditioner, with population
+  relaxation as the fallback. The dense-front run is not to be repeated.

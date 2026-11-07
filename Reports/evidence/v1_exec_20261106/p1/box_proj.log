@@ -1,0 +1,6 @@
+it16_from_it16_trial_l0.5 BOX on the projected step: fit 0.850818, bound ratio 1.000000, components at the bound 1126, max|s_ne| 0.500; {'status': 'AlmostSolved', 'iterations': 55, 'seconds': 9.549400091171265, 'rest': 0.02173420126788991}
+    import clarabel
+ModuleNotFoundError: No module named 'clarabel'
+it04_from_it04_trial_l0.125 BOX on the projected step: fit 0.835199, bound ratio 1.000000, components at the bound 1366, max|s_ne| 0.500; {'status': 'AlmostSolved', 'iterations': 44, 'seconds': 7.771474838256836, 'rest': 0.023602670257650664}
+    import clarabel
+ModuleNotFoundError: No module named 'clarabel'

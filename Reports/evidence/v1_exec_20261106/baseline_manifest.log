@@ -1,0 +1,21 @@
+{
+ "accepted_pointer": {
+  "it": 16,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/free_r25/it16_trial_l0.5",
+  "merit": 0.028372153681630485,
+  "source": "V1 plan P0 (2026-11-06): written after the fact from history.json; iterate 15 accepted l0.5; iterate 16 rejected every trial (its record names the best trial l0.125_d16 as accepted, written before the rejection test)",
+  "written": "2026-11-06 18:29:58"
+ },
+ "last_iterate": {
+  "it": 16,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/free_r25/it16_trial_l0.5",
+  "driver_merit": 0.02837128241917269,
+  "best_trial": "l0.125_d16",
+  "accepted": null,
+  "status": "stopped_no_decrease"
+ }
+}
+frozen measure of the recorded residual: 2.837128e-02
+replay residual_tp: 37 s, state identical True, residual identical True, frozen 2.837128e-02 -> 2.837128e-02 (difference 0.00e+00)
+replay state_pass: 208 s, state identical True, residual identical False, frozen 2.837121e-02 -> 2.837121e-02 (difference 2.62e-13)
+manifest: Reports/evidence/v1_exec_20261106/baseline_manifest.json

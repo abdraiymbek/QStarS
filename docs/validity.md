@@ -6,6 +6,17 @@ composition and explicitly chosen outer boundary conditions. Some hot
 pressure-confined models have quantitative convergence evidence. They are
 not complete quasi-star evolutionary tracks.
 
+Reports 17–25, the stage-2 dense-window run (2026-10-31 to 11-03) and the
+[v1 execution plan](../Reports/V1_execution_plan_2026-11-06.md) leave this domain
+unchanged. The cool CMFGEN closure at 167 radii has not converged, so no cool
+non-LTE state, selected wind or node-coupled envelope is valid input to a
+production run. The CMFGEN-selected wind module (`src/qstars/cmfgen_wind.py`) and
+the `selected_nodes` interface (`src/qstars/wind_node.py`) are implemented and
+tested; neither is validated, and every node run reports `validated: false`. The
+moving cavity exists only on the separate quasi-static path. Its registered
+Ball et al. 2011 replication (Report 23) is FAIL. The thermal engine remains
+fixed-excision only.
+
 Report 15 adds bounded native H-minus FF entry/opacity/derivative checks and
 settled fixed-field cool population initializations. **The fully released cool
 closure remains invalid.** Negative/overflowing intensities and native moment

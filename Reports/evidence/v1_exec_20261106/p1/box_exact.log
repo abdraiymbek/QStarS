@@ -1,0 +1,8 @@
+it16_from_it16_trial_l0.5: 22044 consistency rows; rank of E 140 of 1266 directions
+it16_from_it16_trial_l0.5 BOX consistent: fit 0.911681, bound ratio 1.000000, consistency residual 1.48e-16, components at the bound 422; Solved
+boxe_l1: planned 0.9117, realized 0.9117, max|d| 0.284, projection h 2.9e-15, he 4.0e-13, ne 8.2e-13
+boxe_l0.5: planned 0.9432, realized 0.9432, max|d| 0.142, projection h 8.9e-16, he 1.0e-14, ne 1.1e-13
+it04_from_it04_trial_l0.125: 22044 consistency rows; rank of E 140 of 1265 directions
+it04_from_it04_trial_l0.125 BOX consistent: fit 0.895707, bound ratio 0.993780, consistency residual 1.98e-08, components at the bound 0; InsufficientProgress
+boxe_l1: planned 0.8957, realized 0.8957, max|d| 0.267, projection h 1.4e-12, he 6.0e-13, ne 6.1e-10
+boxe_l0.5: planned 0.9316, realized 0.9316, max|d| 0.156, projection h 7.1e-13, he 3.0e-13, ne 3.1e-10

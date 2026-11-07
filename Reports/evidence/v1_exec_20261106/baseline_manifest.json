@@ -1,0 +1,472 @@
+{
+ "created": "2026-11-06 18:32:37",
+ "run": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/free_r25",
+ "accepted_pointer": {
+  "it": 16,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/free_r25/it16_trial_l0.5",
+  "merit": 0.028372153681630485,
+  "source": "V1 plan P0 (2026-11-06): written after the fact from history.json; iterate 15 accepted l0.5; iterate 16 rejected every trial (its record names the best trial l0.125_d16 as accepted, written before the rejection test)",
+  "written": "2026-11-06 18:29:58"
+ },
+ "restart_check": "admissible (cnk_trap.check_restart_base)",
+ "source": {
+  "head": "726cd25b788be8b035b0641a9f922be50d58841f",
+  "dirty_files": [
+   "README.md                              |  22 +-",
+   " Reports/evidence/completion_gates.json | 215 ++++++++--",
+   " scripts/cnk_trap.py                    | 250 ++++++++++-",
+   " scripts/cool_newton_krylov.py          | 728 +++++++++++++++++++++++++++++++--",
+   " scripts/retain_runs.py                 |   3 +",
+   " tests/test_cnk_trap.py                 | 336 +++++++++++++++",
+   " tests/test_nlte_newton.py              |  34 ++",
+   " 7 files changed, 1512 insertions(+), 76 deletions(-)"
+  ],
+  "diff_file": "Reports/evidence/v1_exec_20261106/baseline_manifest_source.diff",
+  "diff_sha256": "b8fc2870c20f0f9d72867e0d322c8cd525f559dc460d1e1d7f9b39994c75bae8",
+  "files": {
+   "scripts/cool_newton_krylov.py": "38ebaf28e7d437295b233a6acc9ef6394bd5ca0987ce1df4bbfe81a81aaa99c0",
+   "scripts/cnk_trap.py": "c1fa974ceca672f999078a7a676eff18279d4d34018a932d49a11580dcb08f86",
+   "scripts/campaign_norms.py": "d96f03984ad4a2c944a9350d47530cd20c6b4b7621165cbd5b8ec085a0ace497",
+   "src/qstars/nlte_newton.py": "4a47a5a7188d5f640b92eac5641b9639dd5e436dde25eb63dedeebf51f635eaf",
+   "backends/cmfgen/run_component.py": "cd2d6e0892f980f6faa6299c6ba5a4f1149f6e6211b09c2f4a9cf32100c5bf54",
+   "backends/cmfgen/formal_ali_trial.py": "746797ce5bc331927c2ec313b42516109a42bf8931d8210b88cad17725d0178e"
+  },
+  "untracked_scripts": {
+   "Reports/evidence/report25/coarse_check.py": "2f0cb249b7cf5cab552c32b3155406d0dab629dcfafd9c1acf3918b516de0ce5",
+   "Reports/evidence/report25/front_check.py": "2e8016d0d15aadaca796d515ed385bde33d004c47859ebac1a287d50d0852e0c",
+   "Reports/evidence/report25/objective_check.py": "480abf4d65bfc8093ac8af967fe7044b2a7d8f40dc5b824531bcf04b250c105d",
+   "Reports/evidence/report25/pieces_check.py": "74e6c4ae3aeaa33ad1cb93d571ea42bd91236c7fea5080d572ecda37ed64edc9",
+   "Reports/evidence/report25/progress.py": "de618adbf10460b2acbb06b5c67f6630270683dcda30531bfff26f2e31cb1dbc",
+   "Reports/evidence/report25/ptc_check.py": "cabce2a72e6da6e45cca5226ea4ffdafec70df1365b6979b356bcc5b97f2fb9c",
+   "Reports/evidence/report26/fd_check.py": "24799573c43cf9c478d2bbfb19d2251bcf69a5b1567f0bdec6cfc69f5edf3cb1",
+   "Reports/evidence/report26/geodesic_check.py": "5d6855868518cb98cf594c86d1d0ce93eff1cca5a872e5d56603f5f01f75e161",
+   "Reports/evidence/report26/resid_map.py": "27a1a18a566fdd740727a0d688f82e2ec9276c58bc9306f84b8a980431b9e366",
+   "Reports/evidence/report26/resid_rows.py": "90fdcc7c8b6446be80e6c3e110996346ae8fb5c1ee870c8ab03ac1e49cd45287",
+   "Reports/evidence/report26/span_check.py": "d6a85b9b45a4dbc70e77e7f18150ec131641ac2b24b785b790eb2fdada4a4a11",
+   "Reports/evidence/report26/trial_linearity.py": "223f421cf804d847f7ec18739dedc2802151818a2326b852deee5647027c93a7",
+   "Reports/evidence/v1_exec_20261106/ball_q2/quantify_row0_inversion.py": "533f3f0413a51e6db9c704a77878f1e19d2823f67290cc6dda79359c497e91ef",
+   "scripts/attach_qstars.sh": "8295693bbb4469d3b2e549dbdce2331fede177cccb93091bdba56909e05859d0",
+   "scripts/baseline_manifest.py": "37c05fc710ff80877371caa58e263379b49d6e7cd8dea3b61634409b69951ccc",
+   "scripts/campaign_norms.py": "d96f03984ad4a2c944a9350d47530cd20c6b4b7621165cbd5b8ec085a0ace497"
+  }
+ },
+ "state_pass": {
+  "dir": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/free_r25/it16_trial_l0.5",
+  "executable": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/exe_b36/cmfgen_dev.exe",
+  "executable_sha256": "aec762ceb6034c6e9fde9fa2943a91bd7a82b3db24a7f3059da2d45cbf0d0897",
+  "inputs_count": 944,
+  "inputs_digest": "338fbec29861a70e2546af6bace7a1eacd7e18fdfa448c1df5fbe9e63456d0ae",
+  "extra_env": {
+   "QSTARS_PERTURB_FILE": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/free_r25/it16_trial_l0.5/QSTARS_STEP.bin",
+   "QSTARS_PERTURB_EPS": "1.0",
+   "QSTARS_JV_STOP": "1",
+   "QSTARS_REPLACE_FORCE": "/Users/abraiymbek/Projects/QStarS/results/nk167_adv/transfer/replace_167.txt",
+   "QSTARS_BA_DUMP": "1",
+   "QSTARS_RJ_STORE": "1",
+   "QSTARS_ALI_WARM": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/free_r25/it15_trial_l1/QSTARS_RJ.bin",
+   "QSTARS_NO_OBS_FORMAL": "1",
+   "QSTARS_TWO_PHOT_J": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/free_r25/it15_trial_l1/QSTARS_RJ.bin"
+  },
+  "threads": 2,
+  "seconds": 330.45315412495984,
+  "native_status": "numerical_failure",
+  "native_error": "Native radiation iteration failed; finite/stale output is not convergence",
+  "vadat_qstars": [
+   "T                      [INC_AD]",
+   "T                      [INC_ADV]",
+   "F                      [FIX_T]",
+   "F                      [FIX_T_AUTO]",
+   "T                      [COMP_F]",
+   "T                      [QS_FRM_ALI]",
+   "1.000E-10              [QS_ALI_TOL]",
+   "2000                   [QS_ALI_MAX]",
+   "T                      [QS_ALI_LIN]",
+   "0                      [QS_LIN_FAC]",
+   "F                      [STOP_IF_MW]",
+   "USE_RAD                [TWO_METH]"
+  ],
+  "files": {
+   "QSTARS_RESID_TRACE.bin": "8b773cd34e4ffbd8eda48f99fa9fe5e36c7bcc374bf5b6fa6d7929bf7369b809",
+   "QSTARS_STEP.bin": "94dd35278998ac4db2dadb2e51045153fd2abe3bc0b05cc58099d4b6fbfdae32",
+   "QSTARS_RJ.bin": "fcf55babfc2f749df6af41815496f8d66922447a548ea1e609350b06fe1f1802",
+   "QSTARS_BA_TRACE.bin": "cd187a0f32f4f3f8cfd803798af54ff55652707de81cbc401794ad12dc6c9f58"
+  }
+ },
+ "residual_pass": {
+  "dir": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/free_r25/it16_trial_l0.5_tp",
+  "executable": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/exe_b36/cmfgen_dev.exe",
+  "executable_sha256": "aec762ceb6034c6e9fde9fa2943a91bd7a82b3db24a7f3059da2d45cbf0d0897",
+  "inputs_count": 944,
+  "inputs_digest": "338fbec29861a70e2546af6bace7a1eacd7e18fdfa448c1df5fbe9e63456d0ae",
+  "extra_env": {
+   "QSTARS_PERTURB_FILE": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/free_r25/it16_trial_l0.5_tp/QSTARS_STEP.bin",
+   "QSTARS_PERTURB_EPS": "1.0",
+   "QSTARS_JV_STOP": "1",
+   "QSTARS_REPLACE_FORCE": "/Users/abraiymbek/Projects/QStarS/results/nk167_adv/transfer/replace_167.txt",
+   "QSTARS_BA_DUMP": "1",
+   "QSTARS_JV_REPLAY": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/free_r25/it16_trial_l0.5/QSTARS_RJ.bin",
+   "QSTARS_NO_OBS_FORMAL": "1",
+   "QSTARS_TWO_PHOT_J": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/free_r25/it16_trial_l0.5/QSTARS_RJ.bin"
+  },
+  "threads": 1,
+  "seconds": 32.81532041699393,
+  "native_status": "numerical_failure",
+  "native_error": "Native radiation iteration failed; finite/stale output is not convergence",
+  "vadat_qstars": [
+   "T                      [INC_AD]",
+   "T                      [INC_ADV]",
+   "F                      [FIX_T]",
+   "F                      [FIX_T_AUTO]",
+   "T                      [COMP_F]",
+   "T                      [QS_FRM_ALI]",
+   "1.000E-10              [QS_ALI_TOL]",
+   "2000                   [QS_ALI_MAX]",
+   "T                      [QS_ALI_LIN]",
+   "0                      [QS_LIN_FAC]",
+   "F                      [STOP_IF_MW]",
+   "USE_RAD                [TWO_METH]"
+  ],
+  "files": {
+   "QSTARS_RESID_TRACE.bin": "03760d719f9fb9fe2fbef0c13949c22c3ad8537738e1e64432e6b79fc3721e29",
+   "QSTARS_STEP.bin": "94dd35278998ac4db2dadb2e51045153fd2abe3bc0b05cc58099d4b6fbfdae32",
+   "QSTARS_BA_TRACE.bin": "2045572f5140f6632dca386903567c01d1b981d975af72d883799c68f2da10d8"
+  }
+ },
+ "physics": {
+  "executable_sha256_now": "aec762ceb6034c6e9fde9fa2943a91bd7a82b3db24a7f3059da2d45cbf0d0897",
+  "executable_matches": true,
+  "capabilities": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/exe_b36/cmfgen_dev.capabilities.json",
+  "capabilities_sha256": "e99e99e7d3ef91389d875a2bbcbc154d09a08ce56a31a5f7eb6a63896700f29c",
+  "equation_map": "/Users/abraiymbek/Projects/QStarS/results/nk167_adv/transfer/replace_167.txt",
+  "equation_map_sha256": "fd9a240fa003ac76222c1be02f5d1fb540e3587fd8aea974230738764ec7f147",
+  "two_photon_j_of_residual": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/free_r25/it16_trial_l0.5/QSTARS_RJ.bin",
+  "two_photon_j_sha256": "fcf55babfc2f749df6af41815496f8d66922447a548ea1e609350b06fe1f1802",
+  "x0": "/Users/abraiymbek/Projects/QStarS/results/cmfgen_ali_lambda167",
+  "x0_restart_sha256": {
+   "MODEL": "9988908380316dbd9d5160360c1fc4086f1639832efc80ae994fbb7ddd512444"
+  },
+  "x0_base_pass": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/fixedT_b35/it00_base"
+ },
+ "launch": {
+  "last_driver_start": "2026-10-31 10:30: driver started at base /Users/abraiymbek/Projects/QStarS/results/nk167_trap/free_r25/it04_trial_l0.125 iterate 4 (launch_free_r25.sh --pc-svd-floor 1e-2 --trial-workers 4 --conserve --lams 1 0.5 0.25 0.125 --pc-ptc 0.03 --pop-ptc-scale pc --accept-rowscale --merit rowscale --eq-floor 1e-15 --trace-ion-balance --adaptive-cap --target-dirs 10 --lm-bound 0.5 --lm-bound-t 0.03 --dense-window 19 47 --dense-batch 68 --front-workers 3 --front-threads 3 --krylov-split 3 --krylov-threads 3)",
+  "script": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/launch_free_r25.sh",
+  "script_sha256": "eb4aa547e07ab6a9a193942c083870fe5733674ddd5ea3b4b52f98ebf309b22c",
+  "script_text": "#!/bin/bash\n# Report 25, stage 2: the T-released cool closure from the best stage-1 (fixed-T) state, build 36. The native passes are\n# those of stage 1 (FIX_T=F there too: stage 1 pinned T only in the driver); here T is a variable with its RE row.\n# usage: launch_free_r25.sh BASE_PATH K [extra args]   (BASE_PATH absolute, e.g. a pass of fixedT_b35)\ncd /Users/abraiymbek/Projects/QStarS\n[ -f .qstars_project_volume ] || { echo \"project volume not attached: /Volumes/T9/QStarS/attach_qstars.sh\"; exit 1; }\nO=results/nk167_trap/free_r25\nmkdir -p $O\nB=$1; K=$2; shift 2\necho \"$(date '+%Y-%m-%d %H:%M'): driver started at base $B iterate $K (launch_free_r25.sh $*)\" >> $O/README.txt\ncaffeinate -s .venv/bin/python scripts/cool_newton_krylov.py --out $O --x0 results/cmfgen_ali_lambda167 \\\n  --replace results/nk167_adv/transfer/replace_167.txt \\\n  --exe results/nk167_trap/exe_b36/cmfgen_dev.exe --threads 4 --col-workers 6 --col-threads 1 \\\n  --krylov 2 --eta 0.1 --augment 2 --split --split-tol 0 --component-log-cap 0.693 --warm --free-t \\\n  --pc-t-floor 1e-3 --ultra-frac 1e-20 --ultra-weight 0 --weight-ramp 2 \\\n  --full-krylov-near 10 --natural --vadat INC_AD T --vadat INC_ADV T --vadat STOP_IF_MW F \\\n  --ali-precond --sig-rows 3 --update-map linear --two-phot-j \\\n  --start-base $B --start-k $K --max-outer 60 \"$@\" >> $O/stdout.log 2>&1\necho \"$(date '+%Y-%m-%d %H:%M'): driver exited rc=$?\" >> $O/README.txt\n",
+  "resume": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/launch_free_r25.sh <method flags> with --resume replacing BASE K"
+ },
+ "frozen_measure": {
+  "file": "/Users/abraiymbek/Projects/QStarS/Reports/evidence/v1_exec_20261106/frozen_norm_it16.npz",
+  "sha256": "914b7cd4cc3b697a6159284fef286f0924ffbf0b9f4b9b255b1f7541d096f966",
+  "reference": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/free_r25/it16_from_it16_trial_l0.5",
+  "settings": {
+   "sig_frac": 1e-10,
+   "trace_weight": 0.001,
+   "ultra_frac": 1e-20,
+   "ultra_weight": 0.0,
+   "weight_ramp": 2.0,
+   "merit": "rowscale",
+   "eq_floor": 1e-15,
+   "pc_t_floor": 0.001,
+   "sig_rows": [
+    3
+   ],
+   "nrow": 134
+  }
+ },
+ "recorded_residual": {
+  "pass_": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/free_r25/it16_trial_l0.5",
+  "residual_from": "it16_trial_l0.5_tp",
+  "frozen": 0.028371282419172694,
+  "regions": {
+   "d1-9": 0.11995985594986469,
+   "d10-18": 0.02152013942925147,
+   "d19-32": 0.013775652208393063,
+   "d33-47": 0.20074780623994445,
+   "d48-54": 0.018084001890589303,
+   "d55-61": 0.07750683558481007,
+   "d62-100": 0.1410448970735233,
+   "d101-167": 0.40736081162362353
+  },
+  "groups": {
+   "H-": 0.012768281441536857,
+   "H I n=1/bal": 0.009329189144257986,
+   "H I n=2": 0.35023343469573115,
+   "H I n>=3": 0.19486907638372866,
+   "H num": 1.8829764722893892e-21,
+   "He I": 0.41171855602474466,
+   "He II": 0.004487226161722908,
+   "He num": 1.1875730771008965e-15,
+   "charge": 1.5520598556447944e-28,
+   "RE": 0.016594236148276573
+  },
+  "region_groups": {
+   "d1-9": {
+    "He I": 0.10906120848309557
+   },
+   "d10-18": {
+    "H I n>=3": 0.0071095479690408405,
+    "He I": 0.010296470676101128
+   },
+   "d19-32": {
+    "H I n=2": 0.005879394413145278
+   },
+   "d33-47": {
+    "H I n=2": 0.12436806952118135,
+    "H I n>=3": 0.03065713736070573,
+    "He I": 0.0377134007016766,
+    "RE": 0.007844488202191389
+   },
+   "d48-54": {
+    "H I n>=3": 0.011975684377379706
+   },
+   "d55-61": {
+    "H I n>=3": 0.04622401562003271,
+    "He I": 0.029175660552726038
+   },
+   "d62-100": {
+    "H I n>=3": 0.08794187958988817,
+    "He I": 0.048303201869929764
+   },
+   "d101-167": {
+    "H I n=2": 0.21465571176926035,
+    "H I n>=3": 0.0077337382445546434,
+    "He I": 0.17171530622661527
+   }
+  },
+  "largest_cells": [
+   {
+    "row": 3,
+    "depth": 33,
+    "share": 0.0835089659088722
+   },
+   {
+    "row": 33,
+    "depth": 7,
+    "share": 0.03959227561847941
+   },
+   {
+    "row": 3,
+    "depth": 38,
+    "share": 0.02126135420273495
+   },
+   {
+    "row": 33,
+    "depth": 8,
+    "share": 0.01888965914280547
+   },
+   {
+    "row": 3,
+    "depth": 37,
+    "share": 0.01569547070425103
+   },
+   {
+    "row": 33,
+    "depth": 1,
+    "share": 0.012878904962962604
+   },
+   {
+    "row": 3,
+    "depth": 143,
+    "share": 0.01003061624234906
+   },
+   {
+    "row": 3,
+    "depth": 141,
+    "share": 0.008667073563330846
+   },
+   {
+    "row": 3,
+    "depth": 139,
+    "share": 0.007840314766032114
+   },
+   {
+    "row": 3,
+    "depth": 145,
+    "share": 0.007704333845437519
+   },
+   {
+    "row": 3,
+    "depth": 136,
+    "share": 0.007631126621727046
+   },
+   {
+    "row": 3,
+    "depth": 147,
+    "share": 0.007468332473393286
+   }
+  ],
+  "unfloored_largest": [
+   {
+    "row": 103,
+    "depth": 45,
+    "rel": 0.9999824703311697,
+    "frozen_weight": 0.0
+   },
+   {
+    "row": 103,
+    "depth": 53,
+    "rel": 0.9797734937419109,
+    "frozen_weight": 0.0
+   },
+   {
+    "row": 103,
+    "depth": 46,
+    "rel": 0.971980154243785,
+    "frozen_weight": 0.0
+   },
+   {
+    "row": 103,
+    "depth": 33,
+    "rel": 0.9689341467943637,
+    "frozen_weight": 0.0
+   },
+   {
+    "row": 103,
+    "depth": 21,
+    "rel": 0.9340760776939417,
+    "frozen_weight": 0.0
+   },
+   {
+    "row": 103,
+    "depth": 32,
+    "rel": 0.897211149431688,
+    "frozen_weight": 0.0
+   },
+   {
+    "row": 104,
+    "depth": 53,
+    "rel": 0.8726054469238546,
+    "frozen_weight": 0.0
+   },
+   {
+    "row": 103,
+    "depth": 44,
+    "rel": 0.8602947698978655,
+    "frozen_weight": 0.0
+   }
+  ],
+  "local": 0.028376037858265184,
+  "new_significant_rows": {
+   "count": 0,
+   "local_share": 0.0,
+   "cells": []
+  },
+  "conservation_max_rel": {
+   "h": 3.3306690738754696e-16,
+   "he": 6.661338147750939e-16,
+   "ne": 4.440892098500626e-16
+  },
+  "re_net_over_gross_max": 0.0018496791203985365
+ },
+ "last_iterate": {
+  "it": 16,
+  "base": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/free_r25/it16_trial_l0.5",
+  "driver_merit": 0.02837128241917269,
+  "best_trial": "l0.125_d16",
+  "accepted": null,
+  "status": "stopped_no_decrease"
+ },
+ "replay": {
+  "scratch": "/Users/abraiymbek/Projects/QStarS/results/nk167_trap/v1_p0_replay",
+  "residual_tp": {
+   "seconds": 37.4520149230957,
+   "state_identical": true,
+   "residual_identical": true,
+   "frozen_recorded": 0.02837128241917269,
+   "frozen_replayed": 0.02837128241917269,
+   "frozen_of_difference": 0.0,
+   "groups": {
+    "H-": {
+     "rel_l2": 0.0,
+     "frozen_diff": 0.0
+    },
+    "H I n=1/bal": {
+     "rel_l2": 0.0,
+     "frozen_diff": 0.0
+    },
+    "H I n=2": {
+     "rel_l2": 0.0,
+     "frozen_diff": 0.0
+    },
+    "H I n>=3": {
+     "rel_l2": 0.0,
+     "frozen_diff": 0.0
+    },
+    "H num": {
+     "rel_l2": 0.0,
+     "frozen_diff": 0.0
+    },
+    "He I": {
+     "rel_l2": 0.0,
+     "frozen_diff": 0.0
+    },
+    "He II": {
+     "rel_l2": 0.0,
+     "frozen_diff": 0.0
+    },
+    "He num": {
+     "rel_l2": 0.0,
+     "frozen_diff": 0.0
+    },
+    "charge": {
+     "rel_l2": 0.0,
+     "frozen_diff": 0.0
+    },
+    "RE": {
+     "rel_l2": 0.0,
+     "frozen_diff": 0.0
+    }
+   }
+  },
+  "state_pass": {
+   "seconds": 208.3578450679779,
+   "state_identical": true,
+   "residual_identical": false,
+   "frozen_recorded": 0.028371211888266714,
+   "frozen_replayed": 0.028371211888254783,
+   "frozen_of_difference": 2.620060520048904e-13,
+   "groups": {
+    "H-": {
+     "rel_l2": 1.2297128781911193e-16,
+     "frozen_diff": 3.5572011077699744e-16
+    },
+    "H I n=1/bal": {
+     "rel_l2": 1.4809276716353977e-13,
+     "frozen_diff": 1.4932583347223174e-13
+    },
+    "H I n=2": {
+     "rel_l2": 2.984357184925119e-14,
+     "frozen_diff": 3.859615524113764e-15
+    },
+    "H I n>=3": {
+     "rel_l2": 3.0542910125017024e-17,
+     "frozen_diff": 5.72318801450061e-15
+    },
+    "H num": {
+     "rel_l2": 0.0,
+     "frozen_diff": 0.0
+    },
+    "He I": {
+     "rel_l2": 6.339929639284889e-16,
+     "frozen_diff": 2.0661746223263384e-13
+    },
+    "He II": {
+     "rel_l2": 1.3741325808710132e-13,
+     "frozen_diff": 5.96817003236482e-14
+    },
+    "He num": {
+     "rel_l2": 0.0,
+     "frozen_diff": 0.0
+    },
+    "charge": {
+     "rel_l2": 0.0,
+     "frozen_diff": 0.0
+    },
+    "RE": {
+     "rel_l2": 1.175909575114179e-13,
+     "frozen_diff": 6.964742794716098e-15
+    }
+   }
+  }
+ }
+}

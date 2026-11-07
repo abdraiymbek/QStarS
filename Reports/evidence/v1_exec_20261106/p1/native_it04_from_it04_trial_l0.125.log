@@ -1,0 +1,6 @@
+boxp_l1: planned 0.8352, realized 0.8352, max|d| 0.524, projection h 1.9e-05, he 5.2e-10, ne 3.0e-05
+boxp_l0.5: planned 0.8856, realized 0.8856, max|d| 0.262, projection h 2.0e-15, he 1.4e-14, ne 1.8e-15
+boxp_l0.25: planned 0.9359, realized 0.9359, max|d| 0.174, projection h 1.1e-15, he 7.3e-15, ne 1.1e-15
+boxp_l1: planned 0.8352  realized 0.8352  NATIVE 7.1726 (frozen 1.898603e-01)  [633 s]
+boxp_l0.5: planned 0.8856  realized 0.8856  NATIVE 4.2283 (frozen 1.147730e-01)  [623 s]
+boxp_l0.25: planned 0.9359  realized 0.9359  NATIVE 2.4248 (frozen 6.692990e-02)  [607 s]

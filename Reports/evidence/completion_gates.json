@@ -1,6 +1,8 @@
 {
   "schema_version": 2,
   "assessment_date_utc": "2026-10-22",
+  "descriptive_update_utc": "2026-11-06",
+  "descriptive_update_scope": "Descriptive text only, reconciled with Report 25, the 2026-10-31..11-03 dense-window run of stage 2 (results/nk167_trap/free_r25/README.txt, results/nk167_trap/free_r25/driver.log; no Report_26.md exists) and Reports/V1_execution_plan_2026-11-06.md (P0). No status, verdict, threshold or registration was changed. assessment_date_utc and the automated_tests_* counts keep their 2026-10-22 assessment. Per-gate artifact inventory: Reports/evidence/v1_exec_20261106/gate_inventory.json.",
   "software_version": "0.1.0",
   "v1_complete": false,
   "release_status": "DEVELOPMENT_NOT_V1",
@@ -39,7 +41,7 @@
       "name": "Spatial and nonlinear convergence",
       "status": "CONDITIONAL",
       "achieved": "Hot-envelope runs through 2048 zones complete. 1024/2048 profile error below 0.081%; 512/2048 below 0.251%; refined independent time methods agree below 0.81%.",
-      "remaining": "Production atmosphere/cavity/wind models untested. The 256-zone case fails 1% local energy-profile accuracy. Accepted timesteps vary across meshes. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes. Report 21 completes the RE-row Jacobian (level dissolution) and restores INC_AD/INC_ADV; T continuation reaches the full residual at 84 and 167 radii, but the released cool closure still does not converge (H I front cold-branch slide under Newton; pseudo-transient continuation in progress); no released 167/333 or doubled-frequency pair.",
+      "remaining": "Production atmosphere/cavity/wind models untested. The 256-zone case fails 1% local energy-profile accuracy. Accepted timesteps vary across meshes. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes. Report 21 completes the RE-row Jacobian (level dissolution) and restores INC_AD/INC_ADV; T continuation reaches the full residual at 84 and 167 radii, but the released cool closure still does not converge (Report 21 account of an H I front cold-branch slide under Newton; its thermal-instability reading was withdrawn in Report 23 section 9); no released 167/333 or doubled-frequency pair. Reports 23-25 and the 2026-10-31..11-03 dense-window run: Report 23 traced the non-convergence to numerical causes (fixed-J measure blind to trapped transitions, OLD_DEFAULT two-photon in single-iteration passes, free-free Gaunt T derivative; builds 32-35); Report 24 found the solves broke number/charge conservation and that full trial steps made supercritical masers (--conserve, build 36); Report 25 stage 1 (fixed T) reached row-scaled residual 0.051 and stopped at a solver limit; stage 2 (T released) and the dense hydrogen-front window run lowered the frozen reference norm about 3.2 % (0.02930 -> 0.02837) and stopped at iterate 16 with all trials rejected (last valid base results/nk167_trap/free_r25/it16_trial_l0.5). Still no released 167/333 or doubled-frequency pair (v1 plan 2026-11-06, P1-P3).",
       "evidence": [
         "benchmarks/results/2026-09-28-verified-spatial/20260928T033503.024409Z_spatial_validation/campaign.json",
         "benchmarks/results/2026-09-28-closure/20260928T030639.520967Z_robustness_validation/campaign.json",
@@ -50,7 +52,11 @@
         "Reports/Report_14.md",
         "Reports/Report_15.md",
         "Reports/Report_16.md",
-        "Reports/Report_21.md"
+        "Reports/Report_21.md",
+        "Reports/Report_23.md",
+        "Reports/Report_24.md",
+        "Reports/Report_25.md",
+        "Reports/V1_execution_plan_2026-11-06.md"
       ]
     },
     {
@@ -58,7 +64,7 @@
       "name": "Production microphysics",
       "status": "FAIL",
       "achieved": "Native EOS/opacity, atmosphere and full MLT references; direct FreeEOS gas audit; explicit-pressure layer integration and new dilute-gas validity guard. Gas-only FreeEOS energy derivatives independently reproduce its gas critical sound speed. Native CMFGEN spectral/population component and hot transfer controls now execute with explicit energy/frame conventions.",
-      "remaining": "Candidate fails geometry and subsonic-convection validity; no validated conservative atmosphere/envelope/wind coupling. Historical table counterexamples retained. Rosseland opacity does not supply exposed-spectrum absorption/emission or force means. Consistent cool non-LTE material derivatives and global CMF force/source response are not validated. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes.",
+      "remaining": "Candidate fails geometry and subsonic-convection validity; no validated conservative atmosphere/envelope/wind coupling. Historical table counterexamples retained. Rosseland opacity does not supply exposed-spectrum absorption/emission or force means. Consistent cool non-LTE material derivatives and global CMF force/source response are not validated. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes. Reports 23-25: the cool closure is still not converged, so the H/He atom-size and H-minus rate sensitivity and the relaxed-response checks have not been run (v1 plan P3). The Ball 2011 replication (Report 23 Gate 6) uses MESA ABI 7 microphysics in a registered published_assumption mode with QStarS validity screens recorded, not enforced; it does not validate production microphysics.",
       "evidence": [
         "benchmarks/results/2026-09-28-closure/20260928T021532.646459Z_mesa_microphysics_validation/validation.json",
         "benchmarks/results/2026-09-28-closure/20260928T030928.629959Z_mesa_hot_current_verification/termination.json",
@@ -71,7 +77,10 @@
         "Reports/Report_13.md",
         "Reports/Report_14.md",
         "Reports/Report_15.md",
-        "Reports/Report_16.md"
+        "Reports/Report_16.md",
+        "Reports/Report_23.md",
+        "Reports/Report_25.md",
+        "Reports/V1_execution_plan_2026-11-06.md"
       ]
     },
     {
@@ -79,11 +88,13 @@
       "name": "Inner boundary and cavity",
       "status": "FAIL",
       "achieved": "Fixed-excision mass/entropy/enthalpy/potential-work/rest-mass accounting; sourced selectable engine luminosities; static Bondi and saturated families.",
-      "remaining": "No conservative moving physical cavity reservoir or alternative evolving published inner-flow families.",
+      "remaining": "No conservative moving physical cavity reservoir or alternative evolving published inner-flow families. Report 23 (Gate 6): a moving cavity exists on the separate quasi-static path (numerics.mechanics: quasi_static), which evolves conservatively for 1255 steps to M_BH = 46 Msun under the Ball registration (per-step energy residual <= 1.2e-14 of initial internal energy); its registered verdict is FAIL and it does not certify a conservative moving physical cavity/reservoir for the finite-thermal evolution engine, which supports fixed excision only (v1 plan P6).",
       "evidence": [
         "docs/equations.md",
         "docs/model_families.md",
-        "Reports/evidence/development_20260928/final_tests/result.json"
+        "Reports/evidence/development_20260928/final_tests/result.json",
+        "Reports/Report_23.md",
+        "benchmarks/ball2011_track_plan.json"
       ]
     },
     {
@@ -91,7 +102,7 @@
       "name": "Wind physics",
       "status": "FAIL",
       "achieved": "Grey/moving transfer, static thermal frequency-band controls, gas energy critical operator, base-selected adiabatic reference, robust diffusion matching and general conservative lab-radiation interface.",
-      "remaining": "No combined H/He population/energy/force closure, convective handoff or physical envelope-to-escaping-wind eigenvalue. No coupled evolution. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes. Report 21: no CMFGEN-coupled self-selected mdot/sonic-point solve attempted (gated on the released cool closure).",
+      "remaining": "No combined H/He population/energy/force closure, convective handoff or physical envelope-to-escaping-wind eigenvalue. No coupled evolution. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes. Report 21: no CMFGEN-coupled self-selected mdot/sonic-point solve attempted (gated on the released cool closure). Report 23 implemented, but did not validate: the Gate 4 component src/qstars/cmfgen_wind.py (self-selected mdot/sonic-point hydro step from a frozen CMFGEN field; 21 analytic tests in tests/test_cmfgen_wind.py; plan benchmarks/cmfgen_selected_wind_plan.json registered before any result; docs/cmfgen_selected_wind.md) and the Gate 5 node interface src/qstars/wind_node.py with wind.model selected_nodes (11 tests in tests/test_node_wind.py; synthetic node only; every run reports validated: false; docs/wind_node.md). Neither has a real input: Gates 4 and 5 are NOT REACHED until a converged, audited released closure exists (Reports 24-25 unchanged; v1 plan P4).",
       "evidence": [
         "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json",
         "docs/equations.md",
@@ -104,7 +115,11 @@
         "Reports/Report_14.md",
         "Reports/Report_15.md",
         "Reports/Report_16.md",
-        "Reports/Report_21.md"
+        "Reports/Report_21.md",
+        "Reports/Report_23.md",
+        "docs/cmfgen_selected_wind.md",
+        "docs/wind_node.md",
+        "benchmarks/cmfgen_selected_wind_plan.json"
       ]
     },
     {
@@ -112,11 +127,14 @@
       "name": "Multiple full published evolutions",
       "status": "FAIL",
       "achieved": "Several static limits and partial wind-profile comparison; target tables and pinned QUEST execution attempts preserved.",
-      "remaining": "Zero complete published quasi-star evolutionary tracks reproduced. Radius, luminosity, temperature, BH/envelope growth, winds, lifetimes and profiles remain to be tested together.",
+      "remaining": "Zero complete published quasi-star evolutionary tracks reproduced. Radius, luminosity, temperature, BH/envelope growth, winds, lifetimes and profiles remain to be tested together. Report 23 (Gate 6): the registered Ball et al. 2011 replication (benchmarks/ball2011_track_plan.json, amendments 1-4 registered, amendment 5 rejected) has verdict FAIL: its smoke gate is a recorded numerical blocker at M_BH = 46 Msun after 1255 accepted steps (a mesh merge in the super-Eddington outer hydrogen opacity peak), the C0-C7 campaign and the 44-cell comparison were not run, and required check Q2 fails at row 0 at N = 200/400/800; a merge-free diagnostic stalls near 55 Msun (unclassified). The Q2 disposition is an open registration decision (v1 plan P5 and section 4). No second independent evolutionary target is selected (P6).",
       "evidence": [
         "benchmarks/manifest.yaml",
         "benchmarks/results/2026-09-28-closure/20260928T031903.825105Z_validation/validation.json",
-        "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json"
+        "benchmarks/results/2026-09-28-closure/20260928T024813.279478Z_fiacconi_wind_validation/validation.json",
+        "Reports/Report_23.md",
+        "benchmarks/ball2011_track_plan.json",
+        "Reports/evidence/report23/ball/stage7_commands.log"
       ]
     },
     {
@@ -124,11 +142,12 @@
       "name": "Cross-validation without retuning",
       "status": "FAIL",
       "achieved": "Implemented alternatives, coefficients and disagreements are explicit.",
-      "remaining": "No cross-paper evolutionary prediction without retuning has passed.",
+      "remaining": "No cross-paper evolutionary prediction without retuning has passed. The second evolutionary target, its observables, tolerances and no-retuning rules are not yet selected or registered (v1 plan P6 and section 4).",
       "evidence": [
         "src/qstars/data/sources.json",
         "benchmarks/manifest.yaml",
-        "docs/model_families.md"
+        "docs/model_families.md",
+        "Reports/V1_execution_plan_2026-11-06.md"
       ]
     },
     {
@@ -136,19 +155,22 @@
       "name": "Numerical robustness",
       "status": "CONDITIONAL",
       "achieved": "70 regression tests pass with real libraries; prior hot campaigns retained; fresh ABI 5 ten-year MESA state and ledger repeat bitwise. Report 13: 108 full native-enabled regressions pass; zero-status failures, stale outputs and native ray-capacity limits are guarded.",
-      "remaining": "Full production-family campaigns absent. MESA remap-threshold cases do not actually remap. Early campaigns predate unchanged-source guards. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes.",
+      "remaining": "Full production-family campaigns absent. MESA remap-threshold cases do not actually remap. Early campaigns predate unchanged-source guards. Report 14 retains failed cool CMFGEN nonlinear/energy validation; native H-minus defects and nonfinite handling are repaired, but production coupling is not certified. Report 15 repairs native FF defects and all-level stopping, but released cool radiation-moment/rate closure remains a demonstrated numerical blocker; no equilibrium profile/response or selected wind is certified. Report 16 reproduces signed moment propagation and rejects unclipped shared-face/N-H candidates; only bounded native fixed-factor eta/chi response passes. Later suites: 334 passed / 37 skipped (Report 23), 341 / 37 (2026-10-22, automated_tests_*), 357 passed after the move to the external SSD (Report 25 section 9b). v1 plan P0: history.json of the cool-closure driver records \"accepted\" before the merit-rejection check (restart hazard at free_r25 iterate 16), and the closing chain scripts/post_convergence.sh defaults to build 31 while the solve uses build 36.",
       "evidence": [
         "benchmarks/results/2026-09-28-closure/20260928T030639.520967Z_robustness_validation/campaign.json",
         "benchmarks/results/2026-09-28-closure/20260928T025423.972541Z_robustness_validation/campaign.json",
         "Reports/evidence/development_20260928/final_tests/result.json",
         "docs/validity.md",
         "benchmarks/results/2026-09-28-outer-boundary/20260928T042828.972984Z_outer_final_verification/verification.json",
-        "Reports/evidence/outer_report10_20260928/hot_mesa_previous_comparison.json",
+        "Reports/evidence/outer_20260928/hot_mesa_previous_comparison.json",
         "Reports/evidence/spherical_20260928/final_tests.log",
         "Reports/Report_13.md",
         "Reports/Report_14.md",
         "Reports/Report_15.md",
-        "Reports/Report_16.md"
+        "Reports/Report_16.md",
+        "Reports/Report_23.md",
+        "Reports/Report_25.md",
+        "Reports/V1_execution_plan_2026-11-06.md"
       ]
     },
     {
@@ -156,13 +178,15 @@
       "name": "Apple Silicon MacBook",
       "status": "CONDITIONAL",
       "achieved": "Fresh sequential CPU benchmarks: ten years, 512 analytic zones: 24.215 s / 88.9 MiB; 128 MESA zones: 31.293 s / 1045.4 MiB. Fresh ABI 5 verification: 30.830 s / 1045.0 MiB. Fourteen reference atmospheres: 7.159 s / 527.4 MiB, with physical validity failures. Spherical component campaign: 170.41 seconds / 569.16 MiB; scientific closure gates remain open. Native reduced H/He transfer is measured through 665 radii; full metal reference reaches 9.78 GB footprint.",
-      "remaining": "Full published-track cost unknown; Linux MESA bridge unvalidated; development high-resolution timings include concurrent workloads.",
+      "remaining": "Full published-track cost unknown; Linux MESA bridge unvalidated; development high-resolution timings include concurrent workloads. Since 2026-10-29 the cool-closure runs use an always-on Mac mini with the project on an external SSD (Report 25 section 9b; a native replay pass 39.3 s against 37.6 s on the internal disk). The 2026-10-31..11-03 dense-window run spent about 70 h in 13 dense column builds (about 5.4 h each) for about 3.2 % frozen-norm progress (v1 plan section 1).",
       "evidence": [
         "benchmarks/results/2026-09-28-closure/20260928T031938.396825Z_performance_validation/performance.json",
         "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/validation.json",
         "benchmarks/results/2026-09-28-outer-audit/20260928T175917.423111Z_outer_transport/campaign.json",
         "benchmarks/results/2026-09-28-outer-audit/20260928T175246.266274Z_outer_discrepancy/campaign.json",
-        "Reports/Report_13.md"
+        "Reports/Report_13.md",
+        "Reports/Report_25.md",
+        "Reports/V1_execution_plan_2026-11-06.md"
       ]
     },
     {
@@ -194,7 +218,7 @@
       "number": 2,
       "name": "Mass and energy conserved to quantified tolerance",
       "status": "CONDITIONAL",
-      "scope": "Tested resolved-domain equations pass; missing cavity/atmosphere prevent whole quasi-star certification.",
+      "scope": "Tested resolved-domain equations pass; missing cavity/atmosphere prevent whole quasi-star certification. The quasi-static Ball path (Report 23) conserves mass/energy per step to <= 1.2e-14 with a moving cavity, but its registered verdict is FAIL and it is not the finite-thermal engine.",
       "priority_gate_links": [
         3,
         4,
@@ -224,7 +248,7 @@
       "number": 5,
       "name": "Several independent published results reproduced",
       "status": "FAIL",
-      "scope": "Static subsets pass; the clarified complete-evolution requirement fails.",
+      "scope": "Static subsets pass; the clarified complete-evolution requirement fails. Report 23 Gate 6 (Ball et al. 2011, registered): FAIL; zero complete evolutionary replicas.",
       "priority_gate_links": [
         5,
         6
@@ -244,7 +268,7 @@
       "number": 7,
       "name": "Thermal quasi-star evolution through time",
       "status": "CONDITIONAL",
-      "scope": "Finite thermal evolution with BH growth works in restricted envelopes; full lifecycle unverified.",
+      "scope": "Finite thermal evolution with BH growth works in restricted envelopes; full lifecycle unverified. The quasi-static Ball track reaches M_BH = 46 Msun before a numerical blocker (Report 23).",
       "priority_gate_links": [
         2,
         5
@@ -254,7 +278,7 @@
       "number": 8,
       "name": "Independent effective feeding and wind",
       "status": "CONDITIONAL",
-      "scope": "Separate stream accounting works; self-consistent wind/atmosphere coupling is missing.",
+      "scope": "Separate stream accounting works; self-consistent wind/atmosphere coupling is missing. Report 23 adds an unvalidated CMFGEN-selected wind component (src/qstars/cmfgen_wind.py) and node interface (src/qstars/wind_node.py); no real node exists.",
       "priority_gate_links": [
         4
       ]
@@ -282,7 +306,7 @@
       "number": 11,
       "name": "Useful individual MacBook runs",
       "status": "CONDITIONAL",
-      "scope": "Controlled runs fit; full published-track costs unknown.",
+      "scope": "Controlled runs fit; full published-track costs unknown. Cool-closure campaigns now take days per stage (dense-window run about 70 h of column builds, v1 plan 2026-11-06).",
       "priority_gate_links": [
         8
       ]
@@ -416,7 +440,7 @@
     "outer_report": "Reports/Report_8.md",
     "outer_atmosphere_verified": "benchmarks/results/2026-09-28-outer-verified/20260928T044002.683023Z_atmosphere_reference/validation.json",
     "freeeos_verified": "benchmarks/results/2026-09-28-outer-verified/20260928T044002.107801Z_freeeos_audit/audit.json",
-    "outer_bitwise_repeat": "Reports/evidence/outer_report10_20260928/final_abi_guard_repeat.json",
+    "outer_bitwise_repeat": "Reports/evidence/outer_20260928/final_abi_guard_repeat.json",
     "spherical_wind": "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/validation.json",
     "spherical_profiles": "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/published_profile_comparison.json",
     "spherical_matching": "benchmarks/results/2026-09-28-spherical/20260928T172742.131636Z_spherical_wind_validation/matching.json",
@@ -445,7 +469,7 @@
     "working_development_software": "DELIVERED",
     "validation_report": "docs/validation.md",
     "published_benchmark_suite": "PARTIAL; missing full tracks explicit in manifest",
-    "regression_suite": "123 passing with pinned MESA ABI 6 and FreeEOS; zero skips",
+    "regression_suite": "See automated_tests_passed/skipped/scope (341 passed, 37 skipped, 2026-10-22; Report 25 section 9b: 357 passed after the move to the external SSD). Superseded text: \"123 passing with pinned MESA ABI 6 and FreeEOS; zero skips\" (Report 16).",
     "model_families": "docs/model_families.md",
     "performance_report": "docs/performance.md",
     "source_registry": "src/qstars/data/sources.json",
@@ -457,8 +481,8 @@
   "production_atmosphere": "BACKEND_PHYSICS_BLOCKER_native_CMFGEN_component_only",
   "native_full_mlt": "reference_only_not_envelope_transport",
   "freeeos_reference": "153_state_gas_audit_passes_upstream_byte_tests_fail",
-  "latest_report": "Reports/Report_24.md",
-  "release_blocker": "Cool closure at 167 radii, NOT CONVERGED. Report 24: the Report 23 solves violated the exact number and charge conservation rows (He up to 8x, H 2.3x, charge 34x) because the per-component step limiter clips populations separately; the least squares used distant directions through the nearly singular local-ALI front blocks (coefficient 172) and moved T in the fixed-T stage (coefficient 358); full trial steps created supercritical infrared masers (Lambda spectral radius 1.063, 1.058). Fixes: --conserve (trial projection onto the constraints), --pc-svd-floor 1e-2, --freeze-t, build 36 (Newton solve of the scattering fixed point where the local ALI stalls). Status: stage 1 (fixed T) restarted with --conserve, --pc-svd-floor 1e-2 and --freeze-t: conservation to 1e-15, three full Newton steps accepted (fixed measure 224 -> 128), then a stall at iterate 4 (full steps make supercritical masers; quarter step worse in the fixed measure); row-scaled measure 2.32 -> 2.85, not monotone; deep interior degrades; not converged. Narrowest blocker: ill-conditioned H ionization front (Report 24)",
+  "latest_report": "Reports/Report_25.md",
+  "release_blocker": "Cool closure at 167 radii, NOT CONVERGED (unchanged gate status). Report 25: stage 1 (fixed T, results/nk167_trap/fixedT_b35) lowered the row-scaled residual 2.125 -> 0.051 with conservation to 1e-15, then stopped at a solver limit at iterate 29 (every trial raised the residual); stage 2 (T released, results/nk167_trap/free_r25) went 0.0302 -> 0.0294 in three iterates. The 2026-10-31..11-03 dense-window run (--dense-window 19 47, about 1200 exact columns per iterate, 13 column builds of about 70 h in total) lowered the frozen reference norm only from 0.02930 to 0.02837 (about 3.2 %) and stopped at iterate 16 with every native trial rejected (\"no merit decrease along the exact Newton direction\"). Last valid base: results/nk167_trap/free_r25/it16_trial_l0.5 (history.json names it17_trial_l0.125_d16 as accepted because it writes accepted before the rejection check; that state was rejected). At iterate 16 the unbounded linear residual ratio is 0.811 but the bounded-step ratio 0.998766 (largest unbounded significant-variable step about 1396). Remaining squared weighted residual: depths 62-167 54.8 %, 19-47 21.5 %, 1-9 12.0 %. Narrowest blocker: step construction along the physically soft modes (stable/constrained subspace solve, feasible directions, global residual coverage), per Reports/V1_execution_plan_2026-11-06.md section 1; next phases P0-P2 there.",
   "active_request_gates": [
     {
       "name": "Level-dissolution derivatives in the Jacobian/RE response",
@@ -506,7 +530,7 @@
     {
       "name": "167-radius T-released cool closure solved",
       "status": "FAIL",
-      "scope": "Not converged. At lam=1 free Newton slides the H I front (d33-38) down the cool branch (5.5 -> 4.3 -> 3.7 kK), as at 84 radii; the exact coupled response at frozen populations (RE row slope ~ R_RE) explains the direction. Pseudo-transient continuation on T with split directions heats the front from 5.5, 7.9 and 10.5 kK starts, 3-5 % per iterate; the iterates are far from statistical equilibrium (GENCOOL thermal balance vs RE row disagree), so no finite-T root is established or excluded.",
+      "scope": "Report 21 account: Not converged. At lam=1 free Newton slides the H I front (d33-38) down the cool branch (5.5 -> 4.3 -> 3.7 kK), as at 84 radii; the exact coupled response at frozen populations (RE row slope ~ R_RE) explains the direction. Pseudo-transient continuation on T with split directions heats the front from 5.5, 7.9 and 10.5 kK starts, 3-5 % per iterate; the iterates are far from statistical equilibrium (GENCOOL thermal balance vs RE row disagree), so no finite-T root is established or excluded. Superseded detail (status unchanged): Report 23 withdrew the thermal-instability reading and traced the non-convergence to numerical causes (builds 32-35); Report 24 restored exact conservation (--conserve, build 36); Report 25 stage 1 (fixed T) stopped at row-scaled residual 0.051 at a solver limit; stage 2 (T released) plus the 2026-10-31..11-03 dense-window run reached frozen norm 0.02837 from 0.02930 and stopped at iterate 16 with all trials rejected; last valid base results/nk167_trap/free_r25/it16_trial_l0.5.",
       "evidence": [
         "Reports/Report_21.md",
         "Reports/evidence/report21/nk167_adv_history.json",
@@ -515,7 +539,12 @@
         "Reports/evidence/report21/nk167_hot_README.txt",
         "Reports/evidence/report21/thermal_curve_167_d35_hot.json",
         "Reports/evidence/report21/gencool_hot2_start_front.json",
-        "Reports/evidence/report21/gencool_x0_restart_front.json"
+        "Reports/evidence/report21/gencool_x0_restart_front.json",
+        "Reports/Report_23.md",
+        "Reports/Report_24.md",
+        "Reports/Report_25.md",
+        "results/nk167_trap/free_r25/README.txt",
+        "Reports/evidence/v1_plan_20261106/review_summary.json"
       ]
     },
     {
@@ -532,23 +561,55 @@
     {
       "name": "Electron balance, global and cumulative radiation energy, last correction, charge, spectral material temperature",
       "status": "NOT_EVALUATED",
-      "scope": "Require a converged released state; thresholds unchanged; closing chain scripts/post_convergence.sh ready (build 28 carries every audited capability flag).",
-      "evidence": []
+      "scope": "Require a converged released state; thresholds unchanged. Superseded: \"closing chain scripts/post_convergence.sh ready (build 28 carries every audited capability flag)\". Report 23 fixed and hardened post_convergence.sh (default build 31, override), added scripts/native_correction_check.py and registered the closing rule (benchmarks/cmfgen_cool_validation_plan.json closing_phase); the solve now runs build 36, so the chain must be given the accepted executable and full physics flags explicitly, and COMP_EHB should be added to the verify pass (Report 23 section 3; v1 plan P3).",
+      "evidence": [
+        "Reports/Report_23.md",
+        "benchmarks/cmfgen_cool_validation_plan.json",
+        "Reports/V1_execution_plan_2026-11-06.md"
+      ]
     },
     {
       "name": "Spatial (167/333) and doubled-frequency resolution",
       "status": "NOT_REACHED",
-      "scope": "84 radii has no converged state, so the check moves to 167 vs 333: 333-radius nested restart (radius/velocity identical at shared points), equation table and T-released base pass ready; state transfer script ready.",
+      "scope": "84 radii has no converged state, so the check moves to 167 vs 333: 333-radius nested restart (radius/velocity identical at shared points), equation table and T-released base pass ready; state transfer script ready. Superseded \"ready\": Report 23 found the 333 restart carried five stale bootstrap trace files, so the Report 21 base pass was defective (moved to superseded/); it must be rebuilt. The doubled-frequency recipe (85,359 frequencies) is registered in benchmarks/cmfgen_cool_frequency_plan.json, with two criteria pending_user_approval.",
       "evidence": [
         "Reports/evidence/report21/mesh333_control.json",
-        "Reports/evidence/report21/nk333_README.txt"
+        "Reports/evidence/report21/nk333_README.txt",
+        "Reports/Report_23.md",
+        "benchmarks/cmfgen_cool_frequency_plan.json"
       ]
     },
     {
-      "name": "Self-selected wind, coupled evolution, published evolutionary benchmark",
-      "status": "NOT_ATTEMPTED",
-      "scope": "Gated on a converged, audited, resolution-checked released cool closure. Components exist (CMFGEN g_rad from SpectralSnapshot.moments, material_wind critical operator, spherical_wind eigenvalue for an LTE diffusion wind) but no CMFGEN-coupled mdot/sonic-point solver exists; evolution uses winds.rate off/prescribed/dotan2011.",
-      "evidence": []
+      "name": "Self-selected wind (Gate 4)",
+      "status": "NOT_REACHED",
+      "scope": "Split 2026-11-07 (user decision, Report 26) from the composite entry \"Self-selected wind, coupled evolution, published evolutionary benchmark\" (NOT_ATTEMPTED). Component src/qstars/cmfgen_wind.py implemented and tested on analytic inputs only (Report 23); no converged released cool closure supplies its inputs. Previous composite scope: Report 21 text superseded: \"no CMFGEN-coupled mdot/sonic-point solver exists\" is no longer true. Report 23 implemented the Gate 4 component src/qstars/cmfgen_wind.py (21 analytic tests, registered plan benchmarks/cmfgen_selected_wind_plan.json, docs/cmfgen_selected_wind.md) and the Gate 5 node interface src/qstars/wind_node.py (11 tests, docs/wind_node.md); both are implemented and tested, not validated, and remain gated on a converged, audited, resolution-checked released cool closure (Gates 4 and 5 NOT REACHED in Reports 23-25). Evolution still uses winds.rate off/prescribed/dotan2011 or the synthetic-node selected_nodes mode reporting validated: false. The published evolutionary benchmark was attempted in Report 23 (Gate 6, Ball et al. 2011): registered verdict FAIL.",
+      "evidence": [
+        "Reports/Report_23.md",
+        "src/qstars/cmfgen_wind.py",
+        "benchmarks/cmfgen_selected_wind_plan.json",
+        "Reports/Report_26.md"
+      ]
+    },
+    {
+      "name": "Conservative coupled evolution with a validated node (Gate 5)",
+      "status": "NOT_REACHED",
+      "scope": "Split 2026-11-07 from the composite entry. Node interface src/qstars/wind_node.py implemented with synthetic-node tests (Report 23); it reports validated: false without a Gate 4 verifier; no validated node exists.",
+      "evidence": [
+        "Reports/Report_23.md",
+        "src/qstars/wind_node.py",
+        "docs/wind_node.md"
+      ]
+    },
+    {
+      "name": "Published evolutionary benchmark: Ball et al. 2011 (Gate 6)",
+      "status": "FAIL",
+      "scope": "Split 2026-11-07 from the composite entry, which read NOT_ATTEMPTED although the registered Ball 2011 replication was attempted in Report 23: smoke gate a numerical blocker at M_BH = 46 Msun, campaign not run, required check Q2 fails at row 0 by the registered rule. Report 26 / ball_q2 audit: Q2 is stronger than the paper and resolution-dependent; a successor check is authorized in principle only (no threshold yet); the registered FAIL stands.",
+      "evidence": [
+        "Reports/Report_23.md",
+        "benchmarks/ball2011_track_plan.json",
+        "Reports/evidence/v1_exec_20261106/ball_q2/README.md",
+        "Reports/Report_26.md"
+      ]
     }
   ],
   "previous_active_request_gates_report8": [
@@ -640,8 +701,13 @@
     "qsrd_run": false,
     "evidence": [
       "Reports/Report_21.md",
-      "Reports/evidence/report21/"
-    ]
+      "Reports/evidence/report21/",
+      "Reports/Report_23.md",
+      "Reports/Report_24.md",
+      "Reports/Report_25.md",
+      "results/nk167_trap/free_r25/README.txt"
+    ],
+    "outcome_note": "The parenthetical \"constrained re-solve of stage 1 in progress\" is stale: stage 1 stopped at a solver limit (Report 25) and stage 2 stopped at iterate 16 with all trials rejected (2026-11-03). The outcome value is left as recorded; see release_blocker."
   },
   "previous_active_request_gates_report9": [
     {
@@ -794,7 +860,7 @@
       "id": "A1",
       "name": "Published benchmark reproduced or explained",
       "status": "FAIL",
-      "finding": "Historical opacity radius 656.788 Rsun versus published vector band 1333.45\u20131399.20; tested differences do not explain it.",
+      "finding": "Historical opacity radius 656.788 Rsun versus published vector band 1333.45–1399.20; tested differences do not explain it.",
       "evidence": [
         "Reports/evidence/outer_report10_20260928/analysis/analysis.json",
         "benchmarks/results/2026-09-28-outer-audit/20260928T175246.266274Z_outer_discrepancy/cases.json"
@@ -2152,7 +2218,8 @@
       "Reports/evidence/report23/ball/stage7_commands.log",
       "results/two_photon_test/b32/README.txt",
       "results/fast_ali_b33/README.txt"
-    ]
+    ],
+    "evidence_archive_note": "results/two_photon_test and results/fast_ali_b33 were packed by scripts/archive_results.py (2026-10-28/29); their README.txt files are in the records results/_archive/record/two_photon_test.tar.zst and results/_archive/record/fast_ali_b33.tar.zst (restore: scripts/archive_results.py restore <unit> --record; index results/_archive/INDEX.json)."
   },
   "previous_release_blocker_report23": "T-released cool closure at 167 radii, NOT CONVERGED. Diagnosed as numerical (Report 23 section 2): the Newton-Krylov measure used fixed-J Jacobian blocks that hide the error of every optically thick transition (H I n=1-9, He I and He II resonance levels), and every single-iteration pass ran the OLD_DEFAULT two-photon approximation (about 75 % of the RE row at the H I front). Earlier \"converged\" cool states are converged only in that measure. Fixes: build 32 (two-photon USE_RAD from stored J), local-ALI preconditioner for every column (build 33 makes it affordable), trapped-level driver options. Status: not converged; the corrected solves (builds 34-35; results/nk167_trap/free_b35, fixedT_b35) halve the residual in a fixed preconditioned measure (224 -> 118) and then stall: the local-ALI preconditioner is nearly singular at the ionization fronts. Next: regularize it there.",
   "report24_numerical_checks": {
@@ -2202,6 +2269,107 @@
       "Reports/evidence/report24/",
       "results/nk167_trap/fixedT_b35/README.txt",
       "results/nk167_trap/b36_tests/"
+    ]
+  },
+  "latest_report_note": "Report 25 (2026-10-30) is the latest written report. The subsequent dense-window run (2026-10-31..11-03, called Report 26 in the run README) has no written report; its record is results/nk167_trap/free_r25/README.txt, results/nk167_trap/free_r25/driver.log and history.json, Reports/evidence/report26/ and the review in Reports/V1_execution_plan_2026-11-06.md with Reports/evidence/v1_plan_20261106/.",
+  "previous_release_blocker_report24": "Cool closure at 167 radii, NOT CONVERGED. Report 24: the Report 23 solves violated the exact number and charge conservation rows (He up to 8x, H 2.3x, charge 34x) because the per-component step limiter clips populations separately; the least squares used distant directions through the nearly singular local-ALI front blocks (coefficient 172) and moved T in the fixed-T stage (coefficient 358); full trial steps created supercritical infrared masers (Lambda spectral radius 1.063, 1.058). Fixes: --conserve (trial projection onto the constraints), --pc-svd-floor 1e-2, --freeze-t, build 36 (Newton solve of the scattering fixed point where the local ALI stalls). Status: stage 1 (fixed T) restarted with --conserve, --pc-svd-floor 1e-2 and --freeze-t: conservation to 1e-15, three full Newton steps accepted (fixed measure 224 -> 128), then a stall at iterate 4 (full steps make supercritical masers; quarter step worse in the fixed measure); row-scaled measure 2.32 -> 2.85, not monotone; deep interior degrades; not converged. Narrowest blocker: ill-conditioned H ionization front (Report 24)",
+  "active_request_gates_note": "This list is the Report 21 request set. The current v1 chain is Gates 1-6 of Report 23 section 8, restated without status change in Report 24 section 6 and Report 25 section 9; the per-gate inventory with artifacts, registrations and plan phases is Reports/evidence/v1_exec_20261106/gate_inventory.json.",
+  "report25_numerical_checks": {
+    "stage1_fixedT_rowscaled_eqfloor": [
+      2.125,
+      0.051
+    ],
+    "stage1_rowscaled_unfloored_end": 0.06,
+    "stage1_fixed_measure_end": 133.2,
+    "stage1_conservation_max_abs_factor_minus_1": 1e-15,
+    "stage1_re_net_over_gross_at_pinned_T_max": 0.002,
+    "stage1_last_base": "results/nk167_trap/fixedT_b35/it29_trial_l0.5",
+    "stage1_stop": "iterate 29: every trial, 1/16 fallbacks included, raised the residual (solver limit)",
+    "front_soft_mode_relative_singular_values_exact_columns_d23_d26_d31": [
+      2e-06,
+      1.7e-06,
+      6e-05
+    ],
+    "front_exact_columns_stage1": 1168,
+    "stage2_free_r25_driver_measure_it1_to_it3": [
+      0.0302,
+      0.0294
+    ],
+    "stage2_front_probe_fit_without_with_columns": [
+      0.986,
+      0.98
+    ],
+    "tests_after_t9_move": 357,
+    "gate_statuses_changed": false,
+    "evidence": [
+      "Reports/Report_25.md",
+      "Reports/evidence/report25/",
+      "results/nk167_trap/fixedT_b35/README.txt",
+      "results/nk167_trap/free_r25/README.txt"
+    ]
+  },
+  "report26_dense_window_run": {
+    "written_report": null,
+    "note": "Called Report 26 in the run README; no Reports/Report_26.md exists.",
+    "period": "2026-10-31 10:30 .. 2026-11-03 15:29",
+    "run": "results/nk167_trap/free_r25 (stage 2, T released, build 36)",
+    "method_change": "--dense-window 19 47 (one exact full column per variable and depth in the H-front window, about 1200 per iterate, rebuilt at each base, in the least-squares span; not the cached two-level subdomain preconditioner proposed in Report 25)",
+    "dense_column_builds": 13,
+    "dense_column_build_wall_hours_sum": 70.0,
+    "frozen_reference_norm_start_end": [
+      0.0293,
+      0.02837
+    ],
+    "approx_frozen_norm_reduction_fraction": 0.032,
+    "iterates_accepted": "4-15",
+    "iterate16": "all eight native trials (four LM-bounded, four 1/16 fallbacks) raised the merit; driver stopped: \"no merit decrease along the exact Newton direction; stopping for inspection\"",
+    "iterate16_linear_residual_ratio_unbounded_bounded": [
+      0.811,
+      0.998766
+    ],
+    "iterate16_max_unbounded_significant_step": 1396,
+    "last_valid_base": "results/nk167_trap/free_r25/it16_trial_l0.5",
+    "history_json_caveat": "history.json writes accepted before the rejection check; its last entry names it17_trial_l0.125_d16, which was rejected. Do not restart from it.",
+    "residual_squared_share_by_depth_at_last_base": {
+      "1-9": 0.12,
+      "10-18": 0.022,
+      "19-32": 0.014,
+      "33-47": 0.201,
+      "48-54": 0.018,
+      "55-61": 0.078,
+      "62-100": 0.141,
+      "101-167": 0.407
+    },
+    "gate_statuses_changed": false,
+    "evidence": [
+      "results/nk167_trap/free_r25/README.txt",
+      "results/nk167_trap/free_r25/driver.log",
+      "results/nk167_trap/free_r25/history.json",
+      "Reports/evidence/report26/",
+      "Reports/evidence/v1_plan_20261106/review_summary.json",
+      "Reports/evidence/v1_plan_20261106/residual_map.txt"
+    ]
+  },
+  "v1_execution_plan": {
+    "path": "Reports/V1_execution_plan_2026-11-06.md",
+    "date": "2026-11-06",
+    "kind": "planning review, not a convergence result; changed no solver, registration or gate status",
+    "recommendation": "retain the scientific v1 definition; stop repeating the dense-front run; first establish a numerically reliable, conservation-consistent step on the archived problem; advance the Ball replication independently",
+    "phases": {
+      "P0": "freeze the baseline; correct history/restart records; reconcile docs and ledger; gate inventory",
+      "P1": "offline step-construction comparison on stored iterate-4 and iterate-16 products",
+      "P2": "distributed slow modes: deep global Krylov, two-level preconditioner, or Route B relaxation",
+      "P3": "released 167-radius closure, cleanup and audits, 333 radii, doubled frequency, sensitivity checks",
+      "P4": "self-selected outer solution (cmfgen_wind.py) and node-coupled envelope evolution",
+      "P5": "Ball replication repair: Q2 source audit, 46 Msun merge event, 55 Msun stall, C0-C7 campaign",
+      "P6": "moving cavity, second evolutionary benchmark, cross-paper prediction, microphysics, robustness, performance, clean install, qstars validate --require-v1"
+    },
+    "open_registration_decisions": [
+      "Ball Q2 (benchmarks/ball2011_track_plan.json qualitative_checks Q2)",
+      "frequency luminosity and cumulative-heating criteria pending_user_approval (benchmarks/cmfgen_cool_frequency_plan.json)",
+      "floating-point-floor exemptions pending_user_approval (benchmarks/cmfgen_cool_validation_plan.json closing_phase)",
+      "wind mass-loss refinement criterion and stricter dual-opacity / dual thermal-screen defaults (benchmarks/cmfgen_selected_wind_plan.json pending_user_approval)",
+      "second evolutionary target and exact supported families (not yet registered)"
     ]
   }
 }

@@ -3,7 +3,10 @@
 Status: **component implemented and tested; gate not closed.** `src/qstars/cmfgen_wind.py` solves a
 self-selected hydro step for mdot and the sonic point from a frozen CMFGEN radiation field. It runs no
 native code. Its inputs must come from a converged and audited T-released closure, and none exists yet
-(Reports 21–22). Nothing here selects a stellar mass-loss rate, opens `cmfgen_backend.production_outer`,
+(Reports 21–25, and the stage-2 dense-window run of 2026-10-31 to 11-03, which stopped at iterate 16 with every
+trial rejected; see [the cool closure](nlte_cool_closure.md)). Gate 4 is NOT REACHED (Report 23 §8, unchanged in
+Reports 24–25). Exercising this module on converged released states is phase P4 of the
+[v1 execution plan](../Reports/V1_execution_plan_2026-11-06.md). Nothing here selects a stellar mass-loss rate, opens `cmfgen_backend.production_outer`,
 or adds a `winds.rate` mode. Every classification carries `wind_certified=False` and
 `physical_impossibility_claimed=False`.
 

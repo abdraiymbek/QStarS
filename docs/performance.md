@@ -1,5 +1,16 @@
 # Apple Silicon performance report
 
+Later cool-closure costs (Reports 22–25 and the stage-2 dense-window run) are in
+those reports and their run READMEs. Report 22 cut the 167-radius base pass 2.5×
+and the Jv product 1.9× (builds 29–31), to about 28 min per iterate. Since
+2026-10-29 these runs use an always-on Mac mini, and since 2026-10-30 the project
+lives on an external SSD. A native replay pass takes 39.3 s there, against 37.6 s
+on the internal disk (Report 25 §9b). The dense hydrogen-front-window run
+(2026-10-31 to 11-03) spent about 70 h in 13 column builds of about 1,200 exact
+columns each (about 5.4 h per build), for about 3 % frozen-norm progress
+([v1 execution plan](../Reports/V1_execution_plan_2026-11-06.md) §1). No full
+stellar-track or converged-closure cost is established.
+
 Report 16 adds six narrow native closure trials, totaling **96.94 s** of process
 wall time on the same Apple M5 / 16 GiB MacBook. Rejected candidate trials take
 **0.72 / 6.42 s**; read-only diagnostic repeats take about **22–23 s**. The final

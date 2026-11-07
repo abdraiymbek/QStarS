@@ -1,0 +1,3 @@
+it16_from_it16_trial_l0.5 with the dense columns of it15_from_it15_trial_l1: box-consistent fit predicted by the recycled columns 0.9111 (Solved); the same step with this base's exact columns 1.4703 (2 recycled cells absent here, step mismatch 1.13e-01)
+it16_from_it16_trial_l0.5 with the dense columns of it12_from_it12_trial_l0.125: box-consistent fit predicted by the recycled columns 0.9098 (Solved); the same step with this base's exact columns 2.3892 (4 recycled cells absent here, step mismatch 2.57e-01)
+it16_from_it16_trial_l0.5 with the dense columns of it05_from_it05_trial_l0.5: box-consistent fit predicted by the recycled columns 0.9079 (Solved); the same step with this base's exact columns 2.5482 (1 recycled cells absent here, step mismatch 1.23e-02)

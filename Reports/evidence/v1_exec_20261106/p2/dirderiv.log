@@ -1,0 +1,17 @@
+{
+ "product_of_s_vs_sum_of_products": 0.47351988356579383,
+ "product_of_s": 0.2973697026130295,
+ "sum_of_products": 0.4902656349493717,
+ "pieces": {
+  "s": 0.2973697026130295,
+  "pops": 0.5397742516718885,
+  "ne": 0.3334068937864169,
+  "T": 0.4259441553584758
+ },
+ "pieces_sum_vs_s": 1.7628575680864866e-10
+}
+max|y| 3.809e+14, ||y * |z_i| || 5.209e+13 against ||s|| 3.811e-01
+lambda 0.02: ||FD + J s|| / merit with the fresh product of s: 0.0024 (||FD|| / merit 0.2984)
+lambda 0.02: ||FD + J s|| / merit with the sum of stored products: 0.4731 (||FD|| / merit 0.2984)
+lambda 0.005: ||FD + J s|| / merit with the fresh product of s: 0.0025 (||FD|| / merit 0.2984)
+lambda 0.005: ||FD + J s|| / merit with the sum of stored products: 0.4731 (||FD|| / merit 0.2984)

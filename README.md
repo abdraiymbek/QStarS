@@ -12,6 +12,27 @@ photospheres, moving cavities, and coupled transonic winds remain open validatio
 Fiacconi–Rossi stationary wind solver now includes radiation enthalpy advection.
 These examples do not establish quasi-star lifetimes or QSRD recovery results.
 
+**Report 26 (2026-11-07).** [Report 26](Reports/Report_26.md) executes P0–P2 of the v1 plan. The baseline is now
+reproducible (restart pointer, frozen reference norm, bit-for-bit replay). Three defects in the Newton step
+construction, not physics, had stopped the released-T closure: normal equations at condition ~1e53, n_e and the charge
+row dropped from the span at ~150 of 167 depths, and a Krylov least squares whose 1e14 coefficients fitted product
+noise. With opt-in fixes the solve moved 2.837e-2 → 2.185e-2 (−23 %, frozen measure) in four accepted iterates (~9 h).
+**Still not converged; no gate changes; not v1.** The Ball Q2 audit finds the registered row-0 test stronger than the
+paper (successor check needs approval; FAIL stands).
+
+**Latest evidence (2026-11-06).** [Report 25](Reports/Report_25.md) is the latest written report; the 167-radius
+cool closure is **still not converged, no gate changes status, and QStarS is not v1**. Stage 1 (statistical
+equilibrium at fixed T) lowered its row-scaled residual from 2.13 to 0.051 with conservation exact to 1e-15, then
+stopped at a solver limit along physically soft modes at the hydrogen and helium fronts. Stage 2 (T released,
+`results/nk167_trap/free_r25`) then ran a dense hydrogen-front-window experiment from 2026-10-31 to 2026-11-03
+(called Report 26 in its run README; no Report 26 was written): about 1,200 exact columns per iterate, 13 column
+builds totalling about 70 h, for a frozen-norm decrease of only about 3 % (0.02930 → 0.02837). It stopped at
+iterate 16 with every trial rejected; the last valid base is `results/nk167_trap/free_r25/it16_trial_l0.5`
+(not the iterate-17 trial that `history.json` names). The [v1 execution plan](Reports/V1_execution_plan_2026-11-06.md)
+keeps the scientific v1 definition. Its next steps are a trustworthy baseline (P0), stable and constrained step
+construction on the archived products (P1–P2), and, independently, repair of the Ball replication (P5).
+[Gate-to-artifact inventory](Reports/evidence/v1_exec_20261106/gate_inventory.md).
+
 [Report 24](Reports/Report_24.md) re-examines the stalled stage-1 (fixed-T) closure. **Still not converged; no gate
 changes; not v1.** The solves of Report 23 broke exact conservation: the per-component step limiter clips populations
 separately, so hydrogen, helium and charge conservation drifted (He up to 8×, charge up to 34×) and the converged deep
@@ -38,7 +59,10 @@ measure 3× in two iterates. Build 34 corrects the temperature column of the exa
 on it the solves accept full Newton steps and halve the residual, then stall where the local-ALI preconditioner is
 nearly singular at the ionization fronts. No closure has converged. The registered Ball et al. 2011 replication evolves
 conservatively for 1 255 steps to M_BH = 46 M☉, where its smoke gate is a recorded numerical blocker in the
-super-Eddington outer hydrogen opacity peak; its required check Q2 fails at row 0.
+super-Eddington outer hydrogen opacity peak; its required check Q2 fails at row 0. The Gate 4 self-selected wind
+module (`src/qstars/cmfgen_wind.py`, [docs](docs/cmfgen_selected_wind.md)) and the Gate 5 node interface
+(`src/qstars/wind_node.py`) are implemented and tested on analytic or synthetic inputs only; both gates are not
+reached, because no converged closure supplies their inputs.
 
 [Report 22](Reports/Report_22.md) profiles and speeds up the 167-radius cool-closure solve
 without changing the model, the products (≤ 1e-12 per row) or the convergence test. CMFGEN builds
@@ -81,7 +105,9 @@ released cool state, physical resolution pair or selected wind is certified.
 **101 tests pass, 23 optional integration tests skip** with the native tangent
 compiler initialized. [Report 18](Reports/Report_18.md) retains the measured
 failure of the existing population Jacobians and the costly exact-residual
-Newton–Krylov experiment.
+Newton–Krylov experiment. [Report 17](Reports/Report_17.md) replaces the
+Report 16 moment propagation with a nonnegative formal-solution transfer; the
+released population/temperature iteration still does not converge.
 
 [Report 16](Reports/Report_16.md) records **NUMERICAL BLOCKER**: signed previous-frequency
 H/K/N forcing is reproduced, and experimental shared-face and unclipped N/H

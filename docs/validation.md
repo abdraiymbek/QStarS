@@ -5,11 +5,14 @@ important numerical checks for a specified hot-envelope problem and adds direct
 MESA microphysics and a stationary advective-wind reference. It does not
 reproduce complete published quasi-star evolutionary tracks.
 
-The current automated suite has **122 passing tests with MESA and FreeEOS enabled**
-(optional native-library tests require the pinned builds).
-The full `qstars validate --require-v1` campaign has **29 passing checks and two
-retained printed-value discrepancies** and correctly exits 2. Passing software
-tests is distinct from passing the scientific release gates below.
+The latest recorded full automated suite (2026-10-22) has **341 passing tests and
+37 skips**; compiled MESA/FreeEOS and native-compiler tests skip unless their
+environment is configured. Report 25 records 357 passing tests after the project
+moved to the external SSD. (Report 15 recorded 122 passing tests with MESA and
+FreeEOS enabled.) The last recorded `qstars validate --require-v1` campaign
+(2026-09-30) has **29 passing checks and two retained printed-value
+discrepancies** and correctly exits 2. Passing software tests is distinct from
+passing the scientific release gates below.
 
 The [Report 8 atmosphere campaign](../Reports/Report_8.md) now supplies a specific
 physical blocker rather than only a list of missing modules. Native MESA's
@@ -22,7 +25,63 @@ plane-parallel accuracy. These are converged component-model validity failures,
 not physical destruction or completed evolution. See [the equations, sensitivity
 tests and resolution criteria](atmosphere.md). General v1 remains blocked.
 
-## Current outer-closure gate
+## Current status (Reports 17–25, the dense-window run and the v1 plan)
+
+**No gate has changed status since Report 23, and QStarS is not v1.** The chain
+that v1 now waits on is the cool non-LTE closure at 167 radii, followed by
+Gates 1–5 of [Report 23](../Reports/Report_23.md) §8. Gate 6, the Ball et al. 2011
+replication, is independent of that closure.
+
+- [Report 17](../Reports/Report_17.md) replaced the Report 16 moment propagation with a
+  nonnegative formal-solution transfer. The released iteration still did not
+  converge. [Report 18](../Reports/Report_18.md) measured the available
+  linearizations against the exact residual. [Report 19](../Reports/Report_19.md)
+  passed an analytic transfer tangent, a component result.
+- [Report 20](../Reports/Report_20.md) built the exact Jacobian action (RE row conditional),
+  and [Report 21](../Reports/Report_21.md) completed it with level dissolution and
+  INC_AD/INC_ADV. [Report 22](../Reports/Report_22.md) made the solve faster without
+  changing the model. The released closure did not converge in any of them.
+- [Report 23](../Reports/Report_23.md) traced the non-convergence to numerical causes and fixed
+  them in builds 32–35. The causes were a fixed-J measure blind to trapped
+  transitions, the `OLD_DEFAULT` two-photon approximation in single-iteration
+  passes, and a wrong free-free Gaunt-factor T derivative. It withdrew every
+  earlier "converged" cool state. It also delivered the Gate 1–3 closing tooling,
+  the Gate 4 wind module and the Gate 5 node interface (implemented and tested,
+  not validated; see below), and the registered Gate 6 execution: **FAIL**.
+- [Report 24](../Reports/Report_24.md) found that the Report 23 solves broke the exact
+  number and charge conservation rows, and that full trial steps produced
+  supercritical masers. `--conserve` and build 36 fix those defects.
+- [Report 25](../Reports/Report_25.md): stage 1 (fixed T) lowered the row-scaled residual
+  from 2.125 to 0.051 with conservation to 1e-15. It then stopped at a solver
+  limit along physically soft front modes. Stage 2 (T released) started from
+  there.
+- The stage-2 dense hydrogen-front-window run (2026-10-31 to 11-03; recorded in
+  `results/nk167_trap/free_r25/README.txt` and `driver.log`; no Report 26
+  was written) used about 1,200 exact columns per iterate, with 13 builds
+  totalling about 70 h. It lowered the frozen reference norm by only about 3 %
+  (0.02930 → 0.02837). At iterate 16 every trial was rejected. The last valid base
+  is `results/nk167_trap/free_r25/it16_trial_l0.5`; `history.json` names a
+  rejected iterate-17 trial as accepted.
+- The [v1 execution plan](../Reports/V1_execution_plan_2026-11-06.md) (2026-11-06) keeps
+  the scientific v1 definition. It stops repeats of the dense-front run and orders
+  the work: P0 baseline, P1–P2 step construction, P3 component gates, P4 outer
+  solution and coupling, P5 Ball repair, and P6 the requirements beyond Gates 1–6.
+  It changed no registration or gate.
+
+| Gate (Report 23 §8) | Recorded status (Report 25 §9) | Implemented, not validated |
+|---|---|---|
+| 167-radius T-released closure converged | FAIL (not converged) | Builds 32–36, driver options in `scripts/cool_newton_krylov.py` and `scripts/cnk_trap.py` |
+| 1. Post-convergence cleanup and audits | NOT EVALUATED | `scripts/post_convergence.sh`, `scripts/trace_cleanup.py`, `scripts/native_correction_check.py`; closing rule in `benchmarks/cmfgen_cool_validation_plan.json` |
+| 2. 333 radii | NOT REACHED | Nested restart; base pass must be rebuilt (stale traces) |
+| 3. Doubled frequency | NOT REACHED | `benchmarks/cmfgen_cool_frequency_plan.json`, `scripts/compare_resolution.py --profiles` |
+| 4. Self-selected CMFGEN wind | NOT REACHED | `src/qstars/cmfgen_wind.py` (21 tests), `benchmarks/cmfgen_selected_wind_plan.json`, [contract](cmfgen_selected_wind.md) |
+| 5. Node-coupled conservative evolution | NOT REACHED | `src/qstars/wind_node.py` (11 tests, synthetic node; runs report `validated: false`), [contract](wind_node.md) |
+| 6. Ball et al. 2011 benchmark | FAIL | Smoke gate numerical blocker at M_BH = 46 M☉; Q2 fails at row 0; campaign not run |
+
+The per-criterion inventory, with artifacts, registrations, gaps and plan phases,
+is in [gate_inventory.md](../Reports/evidence/v1_exec_20261106/gate_inventory.md).
+
+## Earlier outer-closure campaigns (Reports 13–16)
 
 [Report 15](../Reports/Report_15.md) has outcome **NUMERICAL BLOCKER**. It repairs
 H-minus FF initialization, last-depth opacity and missing continuum/EHB
@@ -262,11 +321,11 @@ missing; none of the failures below is waived as impossible in spherical 1D.
 |---|---|---|
 | Spatial/nonlinear convergence | CONDITIONAL | Hot 512–2048-zone profiles, timestep and inter-method comparisons pass the one-percent target; production atmosphere/cavity/wind models untested |
 | Production microphysics | FAIL | Direct EOS/opacity and native atmosphere/MLT references work; the explicit-pressure candidate fails geometry/subsonic validity; coupled stellar boundary remains unvalidated |
-| Inner cavity and model families | FAIL | Fixed-excision ledger works; conservative moving physical cavity and alternative evolving inner flows absent |
-| Wind physics | FAIL | Stationary advective wind component exists; envelope/atmosphere coupling and complete validation absent |
-| Multiple full published evolutions | FAIL | Static results and wind-component comparisons are insufficient; zero complete evolutionary replicas |
+| Inner cavity and model families | FAIL | Fixed-excision ledger works in the thermal engine; a moving cavity exists only on the quasi-static Ball path (Report 23, verdict FAIL); a conservative moving physical cavity and alternative evolving inner flows remain unvalidated |
+| Wind physics | FAIL | Stationary advective wind component exists; the CMFGEN-selected wind module and node interface (Report 23) are implemented and tested, not validated; envelope/atmosphere coupling and complete validation absent |
+| Multiple full published evolutions | FAIL | Static results and wind-component comparisons are insufficient; the registered Ball et al. 2011 replication is FAIL (Report 23); zero complete evolutionary replicas |
 | Cross-validation without retuning | FAIL | No multi-paper evolutionary predictive validation |
-| Numerical robustness | CONDITIONAL | Hot-model campaigns and 108 tests pass; full production-model campaigns remain |
+| Numerical robustness | CONDITIONAL | Hot-model campaigns pass; latest full suite 341 passed / 37 skipped (357 passed in Report 25); full production-model campaigns remain |
 | Apple Silicon performance | CONDITIONAL | Useful local runs measured; full stellar-track costs unestablished |
 | QSRD readiness after independent v1 | FAIL | Deliberately deferred until the preceding framework gates pass |
 

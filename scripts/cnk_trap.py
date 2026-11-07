@@ -91,6 +91,25 @@ def update_factor(s, mode, cap):
     return np.clip(f, np.exp(-cap), np.exp(cap))
 
 
+def equilibrate(A):
+    """Rows scaled by their largest entry, then columns (as BlockTridiag.factor does): (scaled A, r, c)."""
+    r = 1.0 / np.maximum(np.max(np.abs(A), axis=1), 1e-300)
+    Ar = A * r[:, None]
+    c = 1.0 / np.maximum(np.max(np.abs(Ar), axis=0), 1e-300)
+    return Ar * c[None, :], r, c
+
+
+def block_conditioning(di, active, window):
+    """Smallest / largest singular value of each equilibrated diagonal block (active rows and columns) at the
+    depths of window (d0, d1), 0-based inclusive."""
+    out = []
+    for d in range(window[0], window[1] + 1):
+        idx = np.nonzero(active[:, d])[0]
+        S = np.linalg.svd(equilibrate(di[d][np.ix_(idx, idx)])[0], compute_uv=False)
+        out.append(S[-1] / S[0])
+    return np.array(out)
+
+
 def floor_blocks(di, tau, active=None):
     """Report 24: bound the amplification of nearly singular diagonal blocks of a preconditioner.
     Each block is equilibrated as BlockTridiag.factor does (rows by their largest entry, then columns), its
@@ -106,11 +125,7 @@ def floor_blocks(di, tau, active=None):
         idx = np.arange(nt) if active is None else np.nonzero(active[:, d])[0]
         if idx.size == 0:
             continue
-        A = di[d][np.ix_(idx, idx)]
-        r = 1.0 / np.maximum(np.max(np.abs(A), axis=1), 1e-300)
-        Ar = A * r[:, None]
-        c = 1.0 / np.maximum(np.max(np.abs(Ar), axis=0), 1e-300)
-        As = Ar * c[None, :]
+        As, r, c = equilibrate(di[d][np.ix_(idx, idx)])
         U, S, Vt = np.linalg.svd(As)
         floor = tau * S[0]
         low = S < floor
@@ -152,3 +167,242 @@ def project_conservation(x, totals):
 def conservation_totals(x):
     """(H total, He total) per depth of a state, the targets of project_conservation."""
     return x[H_ROWS].sum(0), x[HE_ROWS].sum(0)
+
+
+def front_window(x, hii_frac=0.5, margin=2):
+    """Report 25: depths (0-based, inclusive) of the hydrogen ionization fronts of a state: from the first to the last
+    depth where H II holds less than hii_frac of the hydrogen, widened by margin depths on each side. None if
+    hydrogen is ionized beyond hii_frac everywhere."""
+    f = x[HII_ROW] / x[H_ROWS].sum(0)
+    neutral = np.nonzero(f < hii_frac)[0]
+    if neutral.size == 0:
+        return None
+    return max(0, int(neutral[0]) - margin), min(x.shape[1] - 1, int(neutral[-1]) + margin)
+
+
+def front_rows(inc, base, sig, active, window, tol, always=()):
+    """Report 25: 1-based variables whose preconditioner columns need exact responses inside `window` (d0, d1): the
+    `always` rows plus every column whose local-ALI increment inc (diagonal blocks, (ND, NT, NT)) changes a
+    significant equation at some window depth by more than tol of that equation's gross direct scale (row l1-norm
+    of `base`). These are the columns with a radiation response: H I and H-, and ultra-trace upper levels of
+    optically thick resonance lines (He I n 1P at the H front), whose fixed-J columns hold untrapped rates.
+    Rows that are inactive at every window depth are left out."""
+    d0, d1 = window
+    rows = set(always)
+    for d in range(d0, d1 + 1):
+        rs = np.abs(base[d]).sum(axis=1)
+        a = np.abs(inc[d]) / np.maximum(rs, 1e-300)[:, None]
+        colinc = (a * sig[:, d][:, None]).max(axis=0)
+        rows.update(int(r) + 1 for r in np.nonzero(active[:, d] & (colinc > tol))[0])
+    return sorted(r for r in rows if active[r - 1, d0:d1 + 1].any())
+
+
+def window_mask(active, window):
+    """active restricted to the depths of window (d0, d1), 0-based inclusive."""
+    m = np.zeros_like(active, dtype=bool)
+    m[:, window[0]:window[1] + 1] = active[:, window[0]:window[1] + 1]
+    return m
+
+
+def dense_cells(windows, active):
+    """Report 26: the cells of a dense exact sub-domain Jacobian. windows: [((d0, d1), rows), ...] with 0-based inclusive
+    depths and 1-based rows; every active (row - 1, depth) of each window, each cell once (overlapping windows share
+    cells), in window, row, depth order. One direction per cell (cell_direction) gives that variable's full nonlocal
+    column, with no colouring and so no aliasing of the response of other perturbed depths."""
+    cells, seen = [], set()
+    for (d0, d1), rows in windows:
+        for r in rows:
+            if not 1 <= r <= active.shape[0]:
+                raise ValueError(f'dense row {r} outside 1..{active.shape[0]}')
+            for d in range(max(0, d0), min(active.shape[1] - 1, d1) + 1):
+                if active[r - 1, d] and (r - 1, d) not in seen:
+                    seen.add((r - 1, d)); cells.append((r - 1, d))
+    return cells
+
+
+def cell_direction(cell, shape):
+    """Unit relative perturbation of one variable at one depth (a dense_cells entry)."""
+    z = np.zeros(shape); z[cell] = 1.0
+    return z
+
+
+def quadratic_term(lams, E):
+    """Report 26 (--geodesic): the second-order term Q of the residual along a trial direction, from the trials'
+    remainders E_lam = R(x_lam) - (R - lam J s) (the actual residual minus its linear model) at step fractions lams.
+    E_lam = lam^2 Q + lam^3 C + ...: per cell, the intercept at lam = 0 of the straight-line fit of E_lam / lam^2
+    against lam (one trial: E / lam^2)."""
+    lams = np.asarray(lams, dtype=float)
+    if lams.size == 0:
+        raise ValueError('quadratic_term needs at least one trial')
+    e = [Ei / li ** 2 for Ei, li in zip(E, lams)]
+    if lams.size == 1 or np.ptp(lams) == 0:
+        return sum(e) / len(e)
+    c = np.linalg.pinv(np.stack([np.ones_like(lams), lams], axis=1))[0]    # intercept weights
+    return sum(ci * ei for ci, ei in zip(c, e))
+
+
+def slow_modes(di, active, window, tau, rows=None, min_weight=0.5, exclude=()):
+    """Report 25: the slow modes of the diagonal blocks inside window (d0, d1), 0-based inclusive. Per depth, every
+    singular pair of the equilibrated block (active rows and columns except `exclude`) with singular value below tau x
+    the largest, and (rows given) with at least min_weight of its left vector's squared norm on those rows. In physical
+    scaling, as (NT, ND) arrays nonzero at that depth only: Y = r*u (the block inverse amplifies the residual component
+    Y.x by 1/s) and Z = c*v (the variable direction it amplifies), each scaled to max |entry| = 1. Returns
+    (Y, Z, [(depth, s/s_max), ...])."""
+    nd, nt, _ = di.shape
+    Y, Z, info = [], [], []
+    for d in range(window[0], window[1] + 1):
+        idx = np.nonzero(active[:, d])[0]
+        idx = idx[~np.isin(idx, exclude)]
+        As, r, c = equilibrate(di[d][np.ix_(idx, idx)])
+        U, S, Vt = np.linalg.svd(As)
+        for j in np.nonzero(S < tau * S[0])[0]:
+            if rows is not None and np.sum(U[np.isin(idx, rows), j] ** 2) < min_weight:
+                continue
+            y = np.zeros((nt, nd)); z = np.zeros((nt, nd))
+            yy, zz = r * U[:, j], c * Vt[j]
+            y[idx, d] = yy / np.max(np.abs(yy)); z[idx, d] = zz / np.max(np.abs(zz))
+            Y.append(y); Z.append(z); info.append((d, float(S[j] / S[0])))
+    return Y, Z, info
+
+
+class CoarseCorrected:
+    """Report 25: two-level preconditioner P^-1 r = Z c + M^-1 (r - (J Z) c) with the EXACT products J Z of the slow
+    modes (slow_modes). P^-1 J z = z for every z in span(Z), whatever the nonlocal coupling of the modes.
+      mode 'ls'       : c = argmin ||W M^-1 (r - J Z c)|| (the fine-level preconditioned residual is minimal); never
+                        singular while the columns W M^-1 J z are independent;
+      mode 'galerkin' : c = E^+ Y^T r, E = Y^T J Z: the fine level only sees residuals with Y^T r = 0, the components
+                        its nearly singular blocks would amplify, but E is singular when slow modes couple only through
+                        their neighbours.
+    M: anything with .solve of an (NT, ND) array; W: weights of the least squares (mode 'ls')."""
+
+    def __init__(self, M, Y, Z, JZ, W=None, mode='ls', rcond=1e-12):
+        self.fine, self.mode = M, mode
+        self.Z = np.stack([z.ravel() for z in Z])
+        self.JZ = np.stack([j.ravel() for j in JZ])
+        if mode == 'galerkin':
+            self.Y = np.stack([y.ravel() for y in Y])
+            E = self.Y @ self.JZ.T
+        elif mode == 'ls':
+            self.W = np.ones(JZ[0].shape) if W is None else W
+            E = np.stack([(self.W * M.solve(j)).ravel() for j in JZ], axis=1)
+        else:
+            raise ValueError(f'unknown coarse mode {mode!r}')
+        sv = np.linalg.svd(E, compute_uv=False)
+        self.cond = float(sv[0] / sv[-1])
+        self.E_pinv = np.linalg.pinv(E, rcond=rcond)
+
+    def coefficients(self, r):
+        if self.mode == 'galerkin':
+            return self.E_pinv @ (self.Y @ r.ravel())
+        return self.E_pinv @ (self.W * self.fine.solve(r)).ravel()
+
+    def solve(self, r):
+        c = self.coefficients(r)
+        return (self.Z.T @ c).reshape(r.shape) + self.fine.solve(r - (self.JZ.T @ c).reshape(r.shape))
+
+
+def trace_ion_balance(R, Js, Jdi, frac, lam, row=101, col=131, sig_frac=1e-10, share=0.1):
+    """Report 25: the step component of a trace upper ion that balances a replaced ground-state row. Where the He II
+    ground row is CMFGEN's He II / He III ionization balance (the He III column carries at least `share` of the row's
+    direct l1-norm) and He III is not significant (fraction <= sig_frac of He, least-squares weight ~0, so no Krylov
+    direction moves it), the row cannot be satisfied by the solve, and the preconditioner turns its imbalance into
+    He II ground corrections (s 17-61 at depths 42-45). The balance is linear in the trace ion: its component is set so
+    that the linearized row vanishes for the trial step lam*s, s_col = (R_row - lam (J s)_row) / J[row, col].
+    R, Js: (NT, ND) residual and exact action of the unit step (without any PTC shift); Jdi: (ND, NT, NT) direct
+    diagonal blocks; frac: (NT, ND) fraction of the element. Returns (mask over depths, s_col)."""
+    a = Jdi[:, row, col]
+    l1 = np.abs(Jdi[:, row, :]).sum(axis=1)
+    mask = (frac[col] <= sig_frac) & (np.abs(a) >= share * np.maximum(l1, 1e-300)) & (R[row] != 0.0)
+    s_col = np.zeros(R.shape[1])
+    s_col[mask] = (R[row, mask] - lam * Js[row, mask]) / a[mask]
+    return mask, s_col
+
+
+def adapt_caps(caps, prev_logf, new_logf, default, shrink=0.5, grow=1.5, floor=0.01, hit=0.9):
+    """Report 25: per-component limits |log f| <= caps for the next update. A component whose limited update reversed
+    direction from the previous accepted update (a limit cycle across its root: He II ground at the inner H front
+    jumped between 1.5e-6 and 3.6e-6 of He for six iterates with steps +32, -3, +54, -5, ...) gets its limit
+    multiplied by `shrink` (not below `floor`); every other component's limit grows back by `grow` up to `default`.
+    prev_logf/new_logf: log(x_new / x_base) of the last two accepted updates. Returns the new caps."""
+    flip = (np.sign(prev_logf) * np.sign(new_logf) < 0) & (np.abs(new_logf) >= hit * caps)
+    return np.where(flip, np.maximum(caps * shrink, floor), np.minimum(caps * grow, default)), int(flip.sum())
+
+
+ACCEPTED_POINTER = 'accepted_state.json'
+
+
+def trial_decision(trials, phi):
+    """V1 plan P0: the outcome of one iterate's line search. trials: (label, pass dir, merit) of every trial pass, phi:
+    the base's merit in the same measure. The best trial is accepted only when it lowers the merit strictly; the history
+    record keeps the best trial apart from the accepted one (iterate 16 of free_r25 recorded its best trial l0.125_d16,
+    merit 2.83717e-2 against 2.83713e-2, as `accepted` although the driver rejected every trial and stopped)."""
+    lab, d, ph = min(trials, key=lambda t_: t_[2])
+    ok = bool(np.isfinite(ph) and ph < phi)
+    return dict(best_trial=lab, best_merit=float(ph), best_dir=d, accepted=lab if ok else None,
+                status='accepted' if ok else 'rejected')
+
+
+def history_accepted(rec):
+    """The accepted trial label of a history record, None when every trial was rejected. Records written before the
+    `status` field (V1 plan P0) named their best trial `accepted` whatever its merit: judged here on merit_new < merit."""
+    if 'status' in rec:
+        return rec.get('accepted')
+    lab = rec.get('accepted')
+    if lab is None or not (rec.get('merit_new', np.inf) < rec.get('merit', -np.inf)):
+        return None
+    return lab
+
+
+def write_accepted_pointer(out, it, base, merit, source):
+    """V1 plan P0: the explicit restart pointer, OUT/accepted_state.json: the accepted state the next iterate starts
+    from (written atomically). source: how it became the accepted state."""
+    import json, os, time
+    from pathlib import Path
+    p = Path(out) / ACCEPTED_POINTER
+    tmp = p.with_suffix('.tmp')
+    tmp.write_text(json.dumps(dict(it=int(it), base=str(Path(base).resolve()), merit=float(merit), source=source,
+                                   written=time.strftime('%Y-%m-%d %H:%M:%S')), indent=1))
+    os.replace(tmp, p)
+
+
+def read_accepted_pointer(out):
+    import json
+    from pathlib import Path
+    p = Path(out) / ACCEPTED_POINTER
+    return json.loads(p.read_text()) if p.exists() else None
+
+
+def check_restart_base(base):
+    """V1 plan P0: None if `base` may start a native solve, else the reason it may not. A pass named itNN_trial_LAB is a
+    trial of iterate NN-1 of its own run directory; it is admissible only if that run's history accepted LAB there
+    (history_accepted). Bases outside such a run (it00_base, start_base, another run's pass) are not judged here."""
+    import json, re
+    from pathlib import Path
+    base = Path(base).resolve()
+    m = re.fullmatch(r'it(\d+)_trial_(.+)', base.name)
+    hp = base.parent / 'history.json'
+    if m is None or not hp.exists():
+        return None
+    k, lab = int(m.group(1)) - 1, m.group(2)
+    recs = [r for r in json.loads(hp.read_text()) if r.get('it') == k and 'trials' in r]
+    if not recs:
+        return f'{base.name}: no history record of iterate {k} in {hp}'
+    acc = history_accepted(recs[-1])
+    if acc != lab:
+        return (f'{base.name}: iterate {k} of {hp.parent.name} did not accept trial {lab} '
+                f'(accepted: {acc}; best trial merit {recs[-1].get("merit_new")} against base {recs[-1].get("merit")})')
+    return None
+
+
+def project_linear(x, z):
+    """V1 plan P1: the linearization of project_conservation at a state x that satisfies it, for a fractional step z
+    (x -> x(1 - z)): H and He rows shifted by their total's relative change, n_e set to the charge-sum change. A
+    direction replaced by project_linear(x, z) changes the number and charge rows only at second order, so the
+    projection of a trial no longer applies an unscored n_e change (at free_r25 iterate 16: an n_e response 16x the
+    merit in the H ionization-balance row)."""
+    zp = np.array(z, dtype=float, copy=True)
+    zp[H_ROWS] -= (x[H_ROWS] * zp[H_ROWS]).sum(0) / x[H_ROWS].sum(0)
+    zp[HE_ROWS] -= (x[HE_ROWS] * zp[HE_ROWS]).sum(0) / x[HE_ROWS].sum(0)
+    zp[NE_ROW] = (x[HII_ROW] * zp[HII_ROW] + (x[HEII_ROWS] * zp[HEII_ROWS]).sum(0) + 2.0 * x[HEIII_ROW] * zp[HEIII_ROW]
+                  - x[HMI_ROW] * zp[HMI_ROW]) / x[NE_ROW]
+    return zp

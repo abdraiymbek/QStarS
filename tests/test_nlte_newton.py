@@ -155,6 +155,28 @@ def test_split_pieces_partition():
     assert np.array_equal(sum(cnk.split_pieces(v, r333, cnk.split_groups(True), 1e-3)), v)
 
 
+def test_front_split_pieces_partition_with_one_h_piece_per_front_depth():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location('cnk', ROOT / 'scripts' / 'cool_newton_krylov.py')
+    cnk = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(cnk)
+    rng = np.random.default_rng(4)
+    regions, groups, window = cnk.split_regions(167), cnk.split_groups(False), (18, 46)
+    v = rng.normal(size=(134, 167))
+    pcs = cnk.front_split_pieces(v, regions, groups, 0.0, window)
+    assert np.allclose(sum(pcs), v, rtol=0, atol=0)
+    assert sum((p != 0).astype(int) for p in pcs).max() == 1
+    fine = [p for p in pcs if np.count_nonzero(np.any(p != 0, axis=0)) == 1 and window[0] <= np.nonzero(p.any(0))[0][0] <= window[1]]
+    assert len(fine) == window[1] - window[0] + 1               # one H/H-/n_e piece per window depth
+    for p in fine:
+        rows = np.nonzero(p.any(1))[0]
+        assert set(rows) == set(range(32)) | {132}
+    # outside the window the regional pieces are unchanged
+    plain = cnk.split_pieces(v, regions, groups, 0.0)
+    outside = [p for p in plain if not np.any(p[:, window[0]:window[1] + 1])]
+    assert all(any(np.array_equal(p, q) for q in pcs) for p in outside)
+
+
 def _driver():
     import importlib.util
     spec = importlib.util.spec_from_file_location('cnk', ROOT / 'scripts' / 'cool_newton_krylov.py')
@@ -411,3 +433,15 @@ def test_significance_weight_ramp_is_continuous_and_default_unchanged():
     f = np.logspace(-14, -8, 2001); ww = cnk.significance_weights(f)
     assert np.all(np.diff(ww) >= 0) and np.max(np.abs(np.diff(np.log10(ww)))) < 0.01
     cnk.WEIGHT_RAMP = 0.0
+
+
+def test_fine_regions_partition_the_depths():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location('cnk', ROOT / 'scripts' / 'cool_newton_krylov.py')
+    cnk = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(cnk)
+    base = cnk.split_regions(167)
+    reg = cnk.fine_regions(base, 0, 60, 5)
+    assert reg[0][0] == 0 and reg[-1][1] == 167 and all(a[1] == b[0] for a, b in zip(reg[:-1], reg[1:]))
+    assert [r for r in reg if r[1] <= 60] == [(e, e + 5) for e in range(0, 60, 5)]
+    assert [r for r in reg if r[0] >= 60] == [(60, 119), (119, 167)]

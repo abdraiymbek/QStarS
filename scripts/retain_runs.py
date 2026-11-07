@@ -39,6 +39,9 @@ def protected(out, keep, extra):
     bases = {Path(h['base']).name for h in hist[:1] + hist[-keep:]}
     if hist and hist[-1].get('accepted') is not None:
         bases.add(f"it{int(hist[-1]['it']) + 1:02d}_trial_{hist[-1]['accepted']}")
+    ptr = out / 'accepted_state.json'          # V1 plan P0: the explicit restart pointer (cnk_trap.write_accepted_pointer)
+    if ptr.exists():
+        bases.add(Path(json.loads(ptr.read_text())['base']).name)
     bases |= {'it00_base', 'start_base'} | set(extra)
     nums = [n for n in (iterate_no(d.name) for d in out.iterdir() if d.is_dir()) if n is not None]
     newest = max(nums, default=0)
