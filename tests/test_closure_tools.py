@@ -34,6 +34,10 @@ ok = os.environ.get('STUB_CONVERGED', '1') == '1'
 hist = [dict(sweep=0, base=start, tol=1e-4, max_trace_step=1e-6 if ok else 0.5, converged=ok)]
 (run / f'cleanup_{tag}_history.json').write_text(json.dumps(hist))
 '''
+STUB_CHECK = '''import sys, os
+open(os.environ['STUB_CALLS'], 'a').write('check ' + ' '.join(sys.argv[1:]) + '\\n')
+sys.exit(int(os.environ.get('STUB_CHECK_RC', '0')))
+'''
 STUB_VERIFY = '''import sys, os
 from pathlib import Path
 open(os.environ['STUB_CALLS'], 'a').write('verify ' + ' '.join(sys.argv[1:]) + '\\n')
@@ -41,15 +45,21 @@ d = Path(sys.argv[2]); d.mkdir(); d.with_name(d.name + '_audit').mkdir()
 '''
 
 
-def _chain(tmp_path, env_extra):
+def _chain(tmp_path, env_extra, two_phot=False):
     (tmp_path / 'scripts').mkdir(exist_ok=True)
     shutil.copy2(ROOT / 'scripts/post_convergence.sh', tmp_path / 'scripts/post_convergence.sh')
     (tmp_path / 'scripts/trace_cleanup.py').write_text(STUB_CLEANUP)
     (tmp_path / 'scripts/verify_cool_state.py').write_text(STUB_VERIFY)
+    (tmp_path / 'scripts/closing_chain_check.py').write_text(STUB_CHECK)
+    (tmp_path / 'other.exe').write_bytes(b'another build')
     (tmp_path / '.venv/bin').mkdir(parents=True, exist_ok=True)
     if not (tmp_path / '.venv/bin/python').exists():
         os.symlink(sys.executable, tmp_path / '.venv/bin/python')
     run = tmp_path / 'run'; (run / 'it30_trial_l1').mkdir(parents=True, exist_ok=True)
+    env_rec = {'QSTARS_TWO_PHOT_J': str(run / 'it30_trial_l1' / 'QSTARS_RJ.bin')} if two_phot else {}
+    # the executable the solve used: the chain's default (V1 plan P3)
+    (run / 'it30_trial_l1' / 'run_manifest.json').write_text(json.dumps(dict(
+        executable='backends/cmfgen/build_31/cur_cmf/exe/cmfgen_dev.exe', extra_env=env_rec)))
     env = {**os.environ, 'STUB_CALLS': str(tmp_path / 'calls.txt'), **env_extra}
     return subprocess.run(['bash', str(tmp_path / 'scripts/post_convergence.sh'), str(run), 'it30_trial_l1', 'X0', 'TABLE',
                            'FRAC_SP', '1.04'], env=env, capture_output=True, text=True)
@@ -60,25 +70,44 @@ def test_post_convergence_chain_guards_and_per_state_destinations(tmp_path):
     assert p.returncode == 0, p.stderr
     calls = (tmp_path / 'calls.txt').read_text().splitlines()
     run = tmp_path / 'run'
+    # the physics check runs first, with the solve's executable (from BASE's manifest) and every VADAT pair
+    assert calls[0].startswith(f'check {run}/it30_trial_l1 ') and 'build_31/cur_cmf/exe/cmfgen_dev.exe' in calls[0]
+    assert '--vadat FRAC_SP 1.04' in calls[0] and '--two-phot-j' not in calls[0]
     # cleanup converged at sweep 0: no cleanup_* pass exists, the base itself is verified (critic B1)
-    assert '--threads 2 --pairing structural --tag it30_trial_l1_structural_build_31 ' in calls[0]
-    assert 'build_31/cur_cmf/exe/cmfgen_dev.exe' in calls[0] and '--vadat FRAC_SP 1.04' in calls[0]
-    assert calls[1].startswith(f'verify {run}/it30_trial_l1 {run}/verify_it30_trial_l1 ') and '--threads 6' in calls[1]
+    assert '--threads 2 --pairing structural --tag it30_trial_l1_structural_build_31 ' in calls[1]
+    assert 'build_31/cur_cmf/exe/cmfgen_dev.exe' in calls[1] and '--vadat FRAC_SP 1.04' in calls[1]
+    assert calls[2].startswith(f'verify {run}/it30_trial_l1 {run}/verify_it30_trial_l1 ') and '--threads 6' in calls[2]
+    assert '--two-phot-j' not in calls[2]
     # a rerun never collides with the earlier verification
     p = _chain(tmp_path, {'EXE': 'other.exe', 'VERIFY_THREADS': '3'})
     assert p.returncode == 0, p.stderr
     calls = (tmp_path / 'calls.txt').read_text().splitlines()
     last = calls[-1]
     assert f'{run}/verify_it30_trial_l1_r2 ' in last and '--exe other.exe' in last and '--threads 3' in last
-    # another executable never reuses the cleanup passes of the previous one (tag carries the build)
-    assert '--tag it30_trial_l1_structural_other ' in calls[-2] and (run / 'cleanup_it30_trial_l1_structural_other_history.json').exists()
+    # another executable never reuses the cleanup passes of the previous one (tag carries the build, else its sha256)
+    tag = 'it30_trial_l1_structural_sha' + hashlib.sha256(b'another build').hexdigest()[:12]
+    assert f'--tag {tag} ' in calls[-2] and (run / f'cleanup_{tag}_history.json').exists()
     # an unconverged cleanup stops the chain before verification
     n = len((tmp_path / 'calls.txt').read_text().splitlines())
     p = _chain(tmp_path, {'STUB_CONVERGED': '0'})
     assert p.returncode != 0 and 'NOT converged' in p.stderr
     calls = (tmp_path / 'calls.txt').read_text().splitlines()
-    assert len(calls) == n + 1 and calls[-1].startswith('cleanup')
+    assert len(calls) == n + 2 and calls[-1].startswith('cleanup')
     assert not (run / 'verify_it30_trial_l1_r3').exists()
+    # a physics mismatch stops the chain before any native pass
+    n = len(calls)
+    p = _chain(tmp_path, {'STUB_CHECK_RC': '2'})
+    assert p.returncode != 0 and 'differs from the solve' in p.stderr
+    assert len((tmp_path / 'calls.txt').read_text().splitlines()) == n + 1
+
+
+def test_post_convergence_chain_carries_the_stored_two_photon_j(tmp_path):
+    p = _chain(tmp_path, {}, two_phot=True)
+    assert p.returncode == 0, p.stderr
+    check, cleanup, verify = (tmp_path / 'calls.txt').read_text().splitlines()
+    run = tmp_path / 'run'
+    assert '--two-phot-j' in check and '--two-phot-j' in cleanup
+    assert f'--two-phot-j {run}/it30_trial_l1/QSTARS_RJ.bin' in verify
 
 
 # ---------------------------------------------------------------- trace classification and pairing

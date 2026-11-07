@@ -406,3 +406,31 @@ def project_linear(x, z):
     zp[NE_ROW] = (x[HII_ROW] * zp[HII_ROW] + (x[HEII_ROWS] * zp[HEII_ROWS]).sum(0) + 2.0 * x[HEIII_ROW] * zp[HEIII_ROW]
                   - x[HMI_ROW] * zp[HMI_ROW]) / x[NE_ROW]
     return zp
+
+
+def orthonormalize_batch(S, dirs, tol=1e-8):
+    """V1 plan, council block (--ortho-dirs): new directions made orthonormal (Euclidean, on the full state vector) to
+    the span of the existing directions S and to each other before their product pass, so the least squares never
+    needs cancelling coefficients (raw v1_p2 spans: 238 directions, 185 independent, coefficients up to 4e14). Two
+    rounds of classical Gram-Schmidt against an orthonormal basis of S, then a QR of the batch; a direction whose
+    remainder is below tol of its own norm is dropped. Linear combinations of conservation-consistent directions stay
+    consistent (cnk_trap.project_linear is linear and idempotent). Returns the list of kept directions."""
+    if not dirs:
+        return []
+    shape = dirs[0].shape
+    V = np.stack([d.ravel() for d in dirs], axis=1)
+    n0 = np.linalg.norm(V, axis=0)
+    if S:
+        Q, _ = np.linalg.qr(np.stack([s.ravel() for s in S], axis=1))
+        for _ in range(2):
+            V = V - Q @ (Q.T @ V)
+    out = []
+    for j in range(V.shape[1]):
+        v = V[:, j].copy()
+        for _ in range(2):
+            for u in out:
+                v -= u * (u @ v)
+        nv = np.linalg.norm(v)
+        if n0[j] > 0 and nv > tol * n0[j]:
+            out.append(v / nv)
+    return [u.reshape(shape) for u in out]

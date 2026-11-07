@@ -842,6 +842,9 @@ def main():
                     help='V1 plan P1, bounded trial step (--lm-bound): ne = the Report 25 normal-equation LM path; qr = the '
                          'same LM family from the augmented QR system; box = the explicit component-constrained least '
                          'squares |s| <= bound (second-order cone, needs the clarabel package)')
+    ap.add_argument('--ortho-dirs', action='store_true',
+                    help='V1 plan, council block: orthonormalize each new batch of directions against the span and '
+                         'within the batch before its product pass (cnk_trap.orthonormalize_batch)')
     ap.add_argument('--span-tau', type=float, default=0.0,
                     help='V1 plan P2: least squares and bounded step in the orthonormal basis of the normalized directions, '
                          'truncated at this relative singular value (bounds coefficient amplification by 1/tau); 0: off')
@@ -1663,6 +1666,13 @@ def main():
                 if not dirs:
                     break
                 dirs = [consistent(d_) for d_ in dirs]
+                if a.ortho_dirs:
+                    n_in = len(dirs)
+                    dirs = cnk_trap.orthonormalize_batch(S, dirs)
+                    R.log(f'it{k:02d} pass {pass_ + 1}: {len(dirs)} of {n_in} directions kept after orthonormalization '
+                          f'against the span')
+                    if not dirs:
+                        break
                 for d_, jd in zip(dirs, apply_J_batch(dirs)):
                     S.append(d_); JS.append(jd)
                 A = np.stack([it.obj(j).ravel() for j in JS], axis=1)

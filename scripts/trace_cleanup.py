@@ -32,6 +32,11 @@ Which rows determine the trace variables (--pairing):
   native correction of the trace levels afterwards is the slaved response to the significant
   native correction, which at the cool front is amplified up to ~4e7 (He III, it24): measure it
   with scripts/native_correction_check.py (closing_phase in benchmarks/cmfgen_cool_validation_plan.json).
+
+V1 plan P3 (Report 26 review): --exe, --x0 and --replace are required (the defaults were build 23 and the 84-radius
+tables). --two-phot-j keeps the solve's residual definition (cool_newton_krylov.py --two-phot-j): each sweep's residual
+and blocks come from a frozen-J replay of the state with its own stored J as the two-photon J (RUN/cleanup_<tag>_NN_tp),
+and each sweep pass uses the previous state's stored J, as the driver's trial passes do.
 """
 import argparse, json, sys
 from pathlib import Path
@@ -50,9 +55,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('run', type=Path, help='Newton-Krylov output directory (it00_base = x0)')
     ap.add_argument('start', type=Path, help='converged base pass (directory)')
-    ap.add_argument('--x0', type=Path, default=ROOT / 'results/cmfgen_ali_lambda84_long_maxlam1e3')
-    ap.add_argument('--exe', type=Path, default=ROOT / 'backends/cmfgen/build_23/cur_cmf/exe/cmfgen_dev.exe')
-    ap.add_argument('--replace', type=Path, default=ROOT / 'results/jv/replace_fac1_x0.txt')
+    ap.add_argument('--x0', type=Path, required=True)
+    ap.add_argument('--exe', type=Path, required=True)
+    ap.add_argument('--replace', type=Path, required=True)
+    ap.add_argument('--two-phot-j', action='store_true',
+                    help='residuals from own-J two-photon replays, sweeps with the previous state\'s stored J (as the solve)')
     ap.add_argument('--free-t', action='store_true')
     ap.add_argument('--vadat', nargs=2, action='append', default=[], metavar=('KEY', 'VALUE'))
     ap.add_argument('--sig-frac', type=float, default=1e-10)
@@ -76,15 +83,23 @@ def main():
     hist = []
     for k in range(a.max_sweeps + 1):
         ncc.one_record(base / 'QSTARS_RESID_TRACE.bin', nt, nd)
-        x, Rv = read_trace_record(base / 'QSTARS_RESID_TRACE.bin')
-        lo, di, up = read_ba_blocks(base / 'QSTARS_BA_TRACE.bin', nt, nd)
+        resd = base
+        if a.two_phot_j:
+            xb_, _ = read_trace_record(base / 'QSTARS_RESID_TRACE.bin')
+            own = base.with_name(base.name + '_tp')
+            resd = own if (own / 'QSTARS_RESID_TRACE.bin').exists() else run / f'cleanup_{tag}_{k:02d}_tp'
+            R.run(resd, 1.0 - xb_ / x0, replay=base / 'QSTARS_RJ.bin', ba=True, store_j=False,
+                  two_phot_j=base / 'QSTARS_RJ.bin')       # reused when it exists at this state with this J
+        x, Rv = read_trace_record(resd / 'QSTARS_RESID_TRACE.bin')
+        lo, di, up = read_ba_blocks(resd / 'QSTARS_BA_TRACE.bin', nt, nd)
         frac = ncc.fractions(x)
         active = Rv != 0.0
         rp = base / 'QSTARS_REPLACE_TRACE'
         rep = ncc.read_replace(rp if rp.exists() else a.replace, nd)
         if not np.array_equal(rep, ncc.read_replace(a.replace, nd)):
             raise SystemExit(f'{rp}: equation selection differs from the forced table {a.replace}')
-        rec = dict(sweep=k, base=str(base), pairing=a.pairing, tol=a.tol, converged=False)
+        rec = dict(sweep=k, base=str(base), residual=str(resd), two_phot_j=a.two_phot_j, pairing=a.pairing, tol=a.tol,
+                   converged=False)
         if a.pairing == 'structural':
             s, solved, held, bw = ncc.structural_step(x, Rv, lo, di, up, rep, a.sig_frac)
             rec.update(trace_variables=int(solved.sum()), held_fixed_unpaired=int(held.sum()), backward_error=bw)
@@ -100,7 +115,7 @@ def main():
         rec['max_trace_step'] = smax
         # native correction of the next complete iteration at this state, per class (reported only; the
         # significant part is unchanged by this phase to first order)
-        cls, _ = ncc.check(base, a.sig_frac, a.replace)
+        cls, _ = ncc.check(resd, a.sig_frac, a.replace)
         rec['native_correction'] = {n: v.get('max_abs', 0.0) for n, v in cls['classes'].items()}
         rec['native_correction_audit_normalized'] = {n: v.get('audit_normalized', 0.0) for n, v in cls['classes'].items()}
         hist.append(rec)
@@ -122,7 +137,8 @@ def main():
         if man.exists() and json.loads(man.read_text()).get('executable_sha256') != sha256(a.exe):
             # Runner.run reuses a pass by state/replay/directions only (the 167 restart relies on that)
             raise SystemExit(f'{dest} was made by another executable than {a.exe}; refusing reuse (use another --tag)')
-        base = R.run(dest, 1.0 - xn / x0, warm=base / 'QSTARS_RJ.bin')
+        base = R.run(dest, 1.0 - xn / x0, warm=base / 'QSTARS_RJ.bin',
+                     two_phot_j=(base / 'QSTARS_RJ.bin') if a.two_phot_j else None)
     R.log(f'cleanup {tag} finished at {base.name} ({"converged" if hist[-1]["converged"] else "NOT converged"})')
 
 

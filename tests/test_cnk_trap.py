@@ -637,3 +637,23 @@ def test_span_basis_keeps_coefficients_bounded_on_a_collinear_span_with_noisy_pr
     np.testing.assert_allclose(A @ y_tr, true, rtol=0, atol=1e-6 * np.linalg.norm(true))
     Sb, Ab, M, k = cnk.span_basis(S, A, 1e-8)
     assert k == 4 and np.allclose(np.stack([u.ravel() for u in Sb], 1).T @ np.stack([u.ravel() for u in Sb], 1), np.eye(4))
+
+
+def test_orthonormalize_batch_drops_dependent_directions_and_keeps_conservation_consistency():
+    rng = np.random.default_rng(9)
+    nd = 3
+    x = np.exp(rng.normal(size=(134, nd)))
+    x, _ = cnk_trap.project_conservation(x, (x[cnk_trap.H_ROWS].sum(0), x[cnk_trap.HE_ROWS].sum(0)))
+    S = [cnk_trap.project_linear(x, rng.normal(size=x.shape)) for _ in range(4)]
+    new = [cnk_trap.project_linear(x, rng.normal(size=x.shape)) for _ in range(3)]
+    new.append(2.0 * S[1] - S[3])                              # already in the span: dropped
+    new.append(new[0] + 1e-3 * cnk_trap.project_linear(x, rng.normal(size=x.shape)))   # nearly new[0], independent: kept
+    out = cnk_trap.orthonormalize_batch(S, new)
+    assert len(out) == 4
+    Q = np.stack([u.ravel() for u in out], 1)
+    np.testing.assert_allclose(Q.T @ Q, np.eye(4), atol=1e-12)
+    Sm = np.stack([z.ravel() for z in S], 1)
+    assert np.abs(Q.T @ Sm).max() < 1e-10
+    for u in out:                                              # still conservation-consistent
+        np.testing.assert_allclose(cnk_trap.project_linear(x, u), u, atol=1e-12)
+    assert cnk_trap.orthonormalize_batch(S, []) == []

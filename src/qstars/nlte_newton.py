@@ -137,6 +137,20 @@ def read_jv_rad(path):
     return s, d
 
 
+def read_rj(path):
+    """Stored mean intensities QSTARS_RJ.bin (CMFGEN qs_rj_write, QSTARS_RJ_STORE): header 'QSRJ0001' + int32 ND, then
+    per frequency int32 ML, float64 nu, float64 J(ND). Returns (ml (NF,), nu (NF,), J (NF, ND))."""
+    data = Path(path).read_bytes()
+    if data[:8] != b'QSRJ0001':
+        raise ValueError(f'{path}: not a QSTARS_RJ.bin file')
+    nd, = struct.unpack_from('<i', data, 8)
+    rec = np.dtype([('ml', '<i4'), ('nu', '<f8'), ('j', '<f8', (nd,))])
+    if (len(data) - 12) % rec.itemsize:
+        raise ValueError(f'{path}: {len(data) - 12} bytes is not a whole number of {rec.itemsize}-byte records')
+    r = np.frombuffer(data, rec, offset=12)
+    return r['ml'].copy(), r['nu'].copy(), r['j'].copy()
+
+
 def write_fortran(path, a):
     """Raw float64 column-major array (ndarray.tofile would always write C order)."""
     Path(path).write_bytes(np.asarray(a, dtype='<f8').tobytes(order='F'))

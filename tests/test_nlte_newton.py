@@ -445,3 +445,20 @@ def test_fine_regions_partition_the_depths():
     assert reg[0][0] == 0 and reg[-1][1] == 167 and all(a[1] == b[0] for a, b in zip(reg[:-1], reg[1:]))
     assert [r for r in reg if r[1] <= 60] == [(e, e + 5) for e in range(0, 60, 5)]
     assert [r for r in reg if r[0] >= 60] == [(60, 119), (119, 167)]
+
+
+def test_read_rj_round_trips_the_native_record_layout(tmp_path):
+    import struct
+    from qstars.nlte_newton import read_rj
+    nd = 3
+    p = tmp_path / 'QSTARS_RJ.bin'
+    with open(p, 'wb') as f:
+        f.write(b'QSRJ0001' + struct.pack('<i', nd))
+        for ml, nu in ((1, 3.0), (2, 2.5)):
+            f.write(struct.pack('<id', ml, nu) + struct.pack(f'<{nd}d', *(ml * 10.0 + np.arange(nd))))
+    ml, nu, J = read_rj(p)
+    assert ml.tolist() == [1, 2] and nu.tolist() == [3.0, 2.5]
+    np.testing.assert_array_equal(J, [[10, 11, 12], [20, 21, 22]])
+    p.write_bytes(p.read_bytes()[:-1])
+    with pytest.raises(ValueError):
+        read_rj(p)
