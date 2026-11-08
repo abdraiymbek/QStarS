@@ -657,3 +657,40 @@ def test_orthonormalize_batch_drops_dependent_directions_and_keeps_conservation_
     for u in out:                                              # still conservation-consistent
         np.testing.assert_allclose(cnk_trap.project_linear(x, u), u, atol=1e-12)
     assert cnk_trap.orthonormalize_batch(S, []) == []
+
+
+def test_lowpop_bounds_allow_factor_f_changes_with_an_exact_linear_update():
+    F = 10.0
+    s = np.array([-9.0, -1.0, 0.5, 0.9, 0.95])
+    f = cnk_trap.update_factor(s, 'linear', np.log(F), knee=1 - 1 / F)
+    np.testing.assert_allclose(f[:4], 1 - s[:4])                     # exact x(1 - s) over [1/F, F]
+    assert 0 < f[4] < 0.1 + 1e-12 and np.isclose(f[4], 0.1, rtol=0.6)  # positive tail beyond the knee
+    np.testing.assert_allclose(cnk_trap.update_factor(np.array([0.3, 0.8]), 'linear', 0.693),
+                               [0.7, np.exp(-0.693)])                   # default knee/cap unchanged
+    frac = np.full((134, 2), 0.5); frac[5:9] = 1e-9; frac[2] = 1e-9; frac[131] = 1e-40
+    lower, upper, knee, cap, m = cnk_trap.lowpop_bounds(frac, np.ones((134, 2), bool), 0.25, 1e-6, F)
+    assert m[5:9].all() and not m[2].any() and not m[131].any() and m.sum() == 8
+    assert np.all(lower[m] == 9.0) and np.allclose(upper[m], 0.9) and np.all(lower[~m] == 0.25)
+    assert np.allclose(cap[m], np.log(F)) and np.allclose(knee[~m], 0.5)
+
+
+def test_bounded_step_respects_asymmetric_bounds_in_both_solvers():
+    cnk = _driver()
+    rng = np.random.default_rng(13)
+    shape = (134, 2)
+    S = [rng.normal(size=shape) for _ in range(5)]
+    A = rng.normal(size=(40, 5)); b = 8.0 * rng.normal(size=40)
+    active = np.ones(shape, dtype=bool)
+    lower = np.full(shape, 0.25); upper = np.full(shape, 0.25)
+    lower[10:20] = 9.0; upper[10:20] = 0.9
+    for solver in ('qr', 'box'):
+        if solver == 'box':
+            pytest.importorskip('clarabel')
+        s_a, _, y_a = cnk.bounded_step((S, A, b), active, (lower, upper), active, solver)
+        assert np.all(s_a <= upper * (1 + 1e-6)) and np.all(-s_a <= lower * (1 + 1e-6))
+        s_s, _, y_s = cnk.bounded_step((S, A, b), active, 0.25, active, solver)
+        assert np.linalg.norm(A @ y_a - b) <= np.linalg.norm(A @ y_s - b) * (1 + 1e-7)   # a larger box fits no worse
+    # the symmetric pair equals the scalar radius
+    s1, _, _ = cnk.bounded_step((S, A, b), active, (0.25, 0.25), active, 'qr')
+    s2, _, _ = cnk.bounded_step((S, A, b), active, 0.25, active, 'qr')
+    np.testing.assert_allclose(s1, s2)

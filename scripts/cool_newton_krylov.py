@@ -151,14 +151,26 @@ def bounded_step(lm_data, active, radius, mask, solver):
     gives 0.938 / 0.969 and the explicit box 0.87-0.91 (Reports/evidence/v1_exec_20261106/p1).
       qr : y(mu) = argmin ||A y - b||^2 + mu ||S y||^2 (active rows) from the QR of [A; sqrt(mu) R_s], bisection in mu
       box: min ||A y - b|| s.t. |S y| <= radius on mask, as a second-order cone program (clarabel), column-scaled QR of A
-    radius: scalar or (NT, ND). Returns (s, mu or nan, y)."""
+    radius: scalar or (NT, ND), or a pair (lower, upper) for -lower <= s <= upper (Report 28, low-population levels).
+    Returns (s, mu or nan, y)."""
     import scipy.linalg as sla
     S, A, b = lm_data
     shape = S[0].shape
     Sm = np.stack([si.ravel() for si in S], axis=1)
-    rad = np.broadcast_to(np.asarray(radius, dtype=float), shape).ravel()
     m = mask.ravel()
-    C = Sm[m] / rad[m][:, None]
+    if isinstance(radius, tuple):
+        lo_r, hi_r = (np.broadcast_to(np.asarray(r_, dtype=float), shape).ravel() for r_ in radius)
+    else:
+        lo_r = hi_r = np.broadcast_to(np.asarray(radius, dtype=float), shape).ravel()
+    sc_ = 0.5 * (lo_r[m] + hi_r[m])
+    C = Sm[m] / sc_[:, None]
+    ub, lb = hi_r[m] / sc_, lo_r[m] / sc_                # -lb <= C y <= ub (both 1 for a symmetric bound)
+    def ratio(y):
+        if not C.shape[0]:
+            return 0.0
+        cy = C @ y
+        return float(max(np.max(cy / ub), np.max(-cy / lb)))
+
     if solver == 'box':
         # the interior point can stop short on these ill-conditioned spans (v1_p2: 0.917 against 0.868 for the LM-QR step,
         # which is feasible for the box): the better feasible step of the two is returned
@@ -174,13 +186,13 @@ def bounded_step(lm_data, active, radius, mask, solver):
         z1 = lambda k: sp.csc_matrix((k, 1))  # noqa: E731
         Ac = sp.vstack([sp.hstack([sp.csc_matrix((1, n)), sp.csc_matrix(np.array([[-1.0]]))]),
                         sp.hstack([sp.csc_matrix(-RA), z1(n)]), sp.hstack([Cs, z1(nb)]), sp.hstack([-Cs, z1(nb)])]).tocsc()
-        bc = np.concatenate([np.zeros(1), -c, np.ones(2 * nb)])
+        bc = np.concatenate([np.zeros(1), -c, ub, lb])
         q = np.zeros(n + 1); q[-1] = 1.0
         st = clarabel.DefaultSettings(); st.verbose = False; st.max_iter = 400
         sol = clarabel.DefaultSolver(sp.csc_matrix((n + 1, n + 1)), q, Ac, bc,
                                      [clarabel.SecondOrderConeT(1 + n), clarabel.NonnegativeConeT(2 * nb)], st).solve()
         y = np.array(sol.x[:n]) / cn
-        viol = float(np.max(np.abs(C @ y))) if nb else 0.0
+        viol = ratio(y)
         if viol > 1.0:
             y = y / viol                       # an inexact interior-point solution, scaled into the box
         if np.linalg.norm(A @ y_q - b) < np.linalg.norm(A @ y - b):
@@ -194,8 +206,6 @@ def bounded_step(lm_data, active, radius, mask, solver):
         Qm, Rm = np.linalg.qr(np.vstack([A, np.sqrt(mu) * Rs]))
         return sla.solve_triangular(Rm, Qm[:A.shape[0]].T @ b)
 
-    def ratio(y):
-        return float(np.max(np.abs(C @ y))) if C.shape[0] else 0.0
     y = solve(0.0)
     if ratio(y) <= 1.0:
         return (Sm @ y).reshape(shape), 0.0, y

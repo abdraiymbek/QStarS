@@ -78,17 +78,20 @@ def coupling_significance(di, scale_inv, sig, npop):
     return c
 
 
-def update_factor(s, mode, cap):
+def update_factor(s, mode, cap, knee=0.5):
     """Multiplicative update x_new = x * f(s) for the Newton step s (native convention x <- x (1 - s)).
     exp   : f = exp(-clip(s, -cap, cap)) (the map used through Report 22).
-    linear: f = 1 - s for s <= 0.5, 0.5 exp(-(s - 0.5)/0.5) beyond; limited to [exp(-cap), exp(cap)]."""
+    linear: f = 1 - s for s <= knee (default 0.5), (1 - knee) exp(-(s - knee)/(1 - knee)) beyond (positive, C1);
+            limited to [exp(-cap), exp(cap)]. knee and cap may be arrays (Report 28: low-population levels take
+            knee 1 - 1/F and cap ln F, so the update stays the exact linear one over a factor-F change)."""
     s = np.asarray(s, dtype=float)
     if mode == 'exp':
         return np.exp(-np.clip(s, -cap, cap))
     if mode != 'linear':
         raise ValueError(f'unknown update map {mode!r}')
-    f = np.where(s <= 0.5, 1.0 - s, 0.5 * np.exp(-(np.maximum(s, 0.5) - 0.5) / 0.5))
-    return np.clip(f, np.exp(-cap), np.exp(cap))
+    k = np.broadcast_to(np.asarray(knee, dtype=float), s.shape)
+    f = np.where(s <= k, 1.0 - s, (1.0 - k) * np.exp(-(np.maximum(s, k) - k) / (1.0 - k)))
+    return np.clip(f, np.exp(-np.asarray(cap, dtype=float)), np.exp(np.asarray(cap, dtype=float)))
 
 
 def equilibrate(A):
@@ -434,3 +437,24 @@ def orthonormalize_batch(S, dirs, tol=1e-8):
         if n0[j] > 0 and nv > tol * n0[j]:
             out.append(v / nv)
     return [u.reshape(shape) for u in out]
+
+
+LOWPOP_EXCLUDE = (0, 2, 31, 131, 132, 133)      # H-, H I n=2 (trapped Lya), H II, He III, n_e, T
+
+
+def lowpop_bounds(frac, active, rad, thresh, factor):
+    """Report 28: asymmetric step bounds (lower, upper) with -lower <= s <= upper, and the matching update-map knee and
+    component cap. Levels with population fraction < thresh of their element (active; never H-, H I n=2, H II, He III,
+    n_e or T) may change by up to `factor` either way in one step: s in [-(factor - 1), 1 - 1/factor], exact under the
+    linear map x(1 - s) (knee 1 - 1/factor, cap ln factor). Their own rate equations are linear in their populations,
+    so the linear model of such a step is exact for them. Every other component keeps the symmetric bound rad.
+    Returns (lower, upper, knee, cap_floor, mask)."""
+    m = (frac < thresh) & active
+    m[list(LOWPOP_EXCLUDE)] = False
+    lower = np.array(np.broadcast_to(rad, frac.shape), dtype=float)
+    upper = lower.copy()
+    lower[m] = factor - 1.0
+    upper[m] = 1.0 - 1.0 / factor
+    knee = np.where(m, 1.0 - 1.0 / factor, 0.5)
+    cap = np.where(m, np.log(factor), 0.0)
+    return lower, upper, knee, cap, m
