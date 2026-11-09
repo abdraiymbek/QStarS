@@ -68,3 +68,35 @@ merit; accepted λ 0.5 (ρ 0.73): local 1.5994e-2 → 1.5308e-2 (−4.3 %), froz
 unbounded step 235 (soft front modes made reachable by the exact columns; the λ 1 overshoot is again curvature).
 
 Continuation: the run goes on with the targeted columns every iterate, stop rule unchanged (< 0.5 %/h twice).
+
+| iterate | dense cols | accepted | trials λ 1 / 0.5 / 0.25 / 0.125 | frozen measure | drop | wall | %/h | sig. max|s| |
+|---|---|---|---|---|---|---|---|---|
+| 33 | 427 | λ 0.5 | 1.141 / 0.957 / 0.968 / 0.983 | 1.6117e-2 | −2.1 % | 3.82 h | 0.56 | 235 |
+| 34 | 427 | λ 0.25 | 1.260 / 1.002 / 0.987 / 0.991 | 1.5928e-2 | −1.2 % | 4.71 h | 0.25 | 738 |
+| 35 | 427 | λ 0.25 | 1.215 / 1.001 / 0.989 / 0.992 | 1.5783e-2 | −0.9 % | 4.29 h | 0.21 | 1582 |
+
+## 6. Stop (2026-11-08 23:57) and the state of the closure
+
+Iterates 34 and 35 ran below 0.5 %/h: stop rule. Best state `results/nk167_trap/v1_p2/it36_trial_l0.25` (pointer
+`accepted_state.json`), frozen it16 measure **1.5783e-2** — Report 26 start 2.837e-2: **−44 %**; conservation ~1e-16;
+RE net/gross max 3.45e-3. Not converged: the unbounded significant step grows (235 → 738 → 1582 over iterates 33–35) and
+every full step overshoots (×1.14–1.26) while λ 0.25–0.5 gains ~1–2 %.
+
+**What this means.** With the step algebra repaired (Reports 26–27), every remaining lever of the Newton–Krylov
+method has been measured on this problem: bound size and shape (no gain), low-population factor bounds (no gain),
+local relaxation (diverges), deeper or split spans (small gain), targeted exact columns (−2.1 %, then ~1 % per 4 h).
+The linear model is accurate for small steps (ρ 0.6–0.9), but within any step where it is accurate it offers only
+~1–2 %; the large corrections it asks for (T up to 40 % at the inner H front; ionization balances at d1–61; soft
+front modes, now unbounded steps of 10³) lie where the equations are strongly nonlinear. The method has reached its
+practical limit on this model: further progress needs a globalization that crosses the nonlinearity, not more linear
+algebra.
+
+**Options (none started):**
+1. **Continuation across the front nonlinearity** — e.g. a homotopy in a physical parameter that softens the fronts
+   (a hotter or more strongly irradiated start, or the T-pin/frontpin homotopies of Reports 22–23 re-run with the
+   corrected algebra), each stage solved by the now-reliable Newton–Krylov. Days of compute; the most direct attack on
+   what limits the solve.
+2. **A mature nonlinear solver comparison** (plan route C: PETSc SNES trust region / nonlinear preconditioning on the same
+   exact residual and products). A week of adapter work; independent check of whether the limit is method or problem.
+3. **The convergence-scope decision** (Report 27 §6.3): whether levels below ~1e-8 of their element belong in the
+   Newton convergence test or in the closing chain's cleanup — a scientific decision for the user.
