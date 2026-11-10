@@ -885,6 +885,9 @@ def main():
     ap.add_argument('--hom-mode', choices=['pin', 'shift', 'ptc', 'frontpin'], default='pin',
                     help='pin: lam*R_RE + (1-lam)*c*(T-T_fix)/T_fix; shift: R_RE - (1-lam)*R_RE(start) (Newton homotopy, '
                          'Jacobian unchanged, path scaled by the RE residual itself)')
+    ap.add_argument('--hom-re-merit', action='store_true',
+                    help='Report 29: during a T homotopy with T free, the (blended) RE row counts in the least squares '
+                         'targets and the acceptance merit (it was left out whenever a homotopy was active)')
     ap.add_argument('--lam0', type=float, default=0.0)
     ap.add_argument('--dlam', type=float, default=0.25)
     ap.add_argument('--lam-tol', type=float, default=1e-2, help='stage tolerance on the Newton step for lam < 1')
@@ -1056,6 +1059,9 @@ def main():
     ap.add_argument('--pc-svd-floor', type=float, default=0.0,
                     help='Report 24: floor the singular values of each equilibrated diagonal preconditioner block at '
                          'this fraction of its largest (bounded amplification of nearly singular local-ALI blocks); 0: off')
+    ap.add_argument('--freeze-t-lam0', action='store_true',
+                    help='Report 29: --freeze-t only while the T homotopy is at lam = 0; T is released (free) for lam > 0, '
+                         'so one run carries the fixed-T stage into the T-release stages')
     ap.add_argument('--freeze-t', action='store_true',
                     help='Report 24: the fixed-T stage (--pin-all) with T removed from the step: no direction (residual '
                          'piece or previous step) has a temperature component, so T stays exactly at T_fix and the least '
@@ -1290,6 +1296,9 @@ def main():
             hom['lam'] = st_['lam']
             hs.write_text(json.dumps(st_, indent=1))
             it = make_iterate()
+        if a.freeze_t_lam0:
+            a.freeze_t = hom is not None and hom['lam'] <= 0.0
+            R.log(f'it{k:02d} T {"held (lam = 0)" if a.freeze_t else "free"} (--freeze-t-lam0)')
         # --- linear solve with exact products (tangent replay passes) ---
         # Objective: || W M^-1 (R - J s) ||, the significance-weighted frozen-J metric
         # (every rate equation weighted by its own fixed-J rates; ultra-trace rows weigh
@@ -1557,7 +1566,7 @@ def main():
                 # the nonlocal coupling
                 if a.target_dirs <= 0:
                     return []
-                nr_ = 134 if (a.free_t and not a.freeze_t and hom is None) else 133
+                nr_ = 134 if (a.free_t and not a.freeze_t and (hom is None or a.hom_re_merit)) else 133
                 rw = np.abs((it.row_weights() * it.D * it.active)[:nr_] * r[:nr_])
                 out_ = []
                 for c_ in np.argsort(rw.ravel())[::-1][:a.target_dirs]:
@@ -1755,7 +1764,7 @@ def main():
             phi_nat = natural(it.R)
             R.log(f'it{k:02d} natural measure ||W s_bar|| = {phi_nat:.4e} (residual merit {phi:.4e})')
             phi_res, phi = phi, phi_nat
-        nrow = 134 if (a.free_t and not a.freeze_t and hom is None) else 133   # the RE row counts when T is free
+        nrow = 134 if (a.free_t and not a.freeze_t and (hom is None or a.hom_re_merit)) else 133   # the RE row counts when T is free
         wrow = (it.row_weights() * it.D * it.active)[:nrow]
 
         def rowscale_merit(Rx):
@@ -2128,7 +2137,7 @@ def main():
             # SER on the row-scaled residual (no inverse) of this base's direct blocks: delta follows ||R_new|| / ||R||
             xn_, Rn_ = read_trace_record(d / 'QSTARS_RESID_TRACE.bin')
             Rn_ = it.hom_resid(Rn_, xn_)
-            nr_ = 134 if (a.free_t and not a.freeze_t and hom is None) else 133
+            nr_ = 134 if (a.free_t and not a.freeze_t and (hom is None or a.hom_re_merit)) else 133
             w_ = (it.row_weights() * it.D * it.active)[:nr_]
             rho = float(np.linalg.norm(w_ * Rn_[:nr_]) / np.linalg.norm(w_ * it.R[:nr_]))
             old = pop['delta']
