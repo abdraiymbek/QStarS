@@ -3,6 +3,10 @@
 **Status: QStarS is NOT v1.** The 167-radius cool closure is not converged. Live record of the continuation block
 chosen by the user (option 1 of Report 28 §6, with a cheap piece of option 3 first).
 
+**Outcome (2026-11-11):** frozen measure −12.6 % in this block (−51.4 % since it16), not converged. **Correction:** the
+running entries of §4 read the small T steps of the homotopy run as the front mode being crossed. The closing diagnostic
+(§6) shows that was a span artefact: with exact columns the mode is unchanged. See §6–7.
+
 ## 1. Option 3, cheap piece: what the convergence scope would change (analysis only)
 
 `evidence/report29/scope_check.py` at it35 (unbounded Newton step of that iterate, frozen it16 measure):
@@ -46,8 +50,8 @@ continuation (`--pop-ptc`, built in).
 n_e 37 / T 98 (free T, it35) to **H I 0.75 (d16), H II and n_e 0.089 (d28), He I 0.155**; only the near-trace He II
 ground at d25 remains large (51.8). The 0.25-box step equals the unbounded one (linear fit 0.918 / 0.918): the bound no
 longer binds — an ordinary Newton regime. Trials λ 1 / 0.5 / 0.25 / 0.125: 0.945 / **0.945** / 0.967 / 0.982 of the stage
-merit; accepted λ 0.5: 1.4937e-2 → 1.4109e-2 (−5.5 %), 2.4 h. **The d33 soft mode is the T ↔ ionization coupling:
-with T held it disappears.** T is the right continuation handle.
+merit; accepted λ 0.5: 1.4937e-2 → 1.4109e-2 (−5.5 %), 2.4 h. ~~The d33 soft mode is the T ↔ ionization coupling: with T held it disappears.~~ (withdrawn, §6: this run has no
+exact columns, it35 had them)
 
 **Stage λ = 0, iterate 37:** same picture (unbounded step: H I 0.88 at d16 row 2, H II/n_e 0.086, He I 0.16; He II d25
 trace 51); 0.25-box fit 0.914 against 0.907 unbounded. Trials 0.930 / 0.944 / 0.967 / 0.982; **full step accepted**
@@ -97,7 +101,7 @@ Iterate 39 (last of stage 0): −1.1 % in 3.3 h (0.33 %/h); frozen measure 1.444
 has given what it can (−17 % of the stage merit, −8.5 % of the frozen measure in four iterates); the cap now releases T
 at λ = 0.25 (iterate 40).
 
-**Iterate 40 — first stage with T free (λ = 0.25).** The soft mode does not return: the unbounded step's largest
+**Iterate 40 — first stage with T free (λ = 0.25).** (Mode comparisons in this entry and the next ones: see §6.) the unbounded step's largest
 major components are H I row 2 at d19 (4.6), He I 0.34, H II / n_e 0.077, **T 3.4e-4** (it35 with T free: H I 175, T 98);
 only the He II d26 trace stays large (42). Accepted λ 0.5 (ρ 0.72): −1.0 % of the λ = 0.25 merit; frozen measure
 1.4358e-2 (**−49.4 %**), RE net/gross 3.64e-3. T moves very little at λ = 0.25 (the pin keeps 3/4 of the RE row's
@@ -112,14 +116,13 @@ iterates (`--stage-max-iters 2`; restart at iterate 42, completed passes reused,
 `_interrupted_it42/`). λ = 1 is now reached at iterate 46 instead of 52; the question the block has to answer is whether
 the Newton step there stays in the ordinary regime.
 
-Iterate 42 (λ = 0.5): no soft mode (largest major step H I row 2 d19 3.8, T 6.6e-4 at d33, He II d26 trace 32); full step
+Iterate 42 (λ = 0.5): (largest major step H I row 2 d19 3.8, T 6.6e-4 at d33, He II d26 trace 32); full step
 accepted, −0.7 %, frozen measure 1.4226e-2 (**−49.9 %**). The 0.25 box binds (box fit 0.992 against 0.972 unbounded):
 the H ionization balance at d19 asks for corrections of ×4.
 
 Iterate 43 (λ = 0.5): −0.5 %, frozen measure 1.4172e-2 (**−50.0 %**); T step 2e-4, H I row 2 d19 4.5, He II d26 trace 21.
 The soft mode stays away, but the per-iterate gain shrinks (−1.1 → −0.7 → −0.5 %): the 8-pass span reaches only 0.972
-even unbounded, and the box (0.994) leaves most of that. The limit is again the linear solve (span/preconditioner), now
-without the soft mode in the way.
+even unbounded, and the box (0.994) leaves most of that. (Read at the time as the linear solve's limit; see §6.)
 
 Iterate 44 (λ = 0.75): −0.6 %, frozen 1.4133e-2 (**−50.2 %**); T step 2.0e-3 at d33 (the front depth starts to ask for T
 again as the pin weakens, still ×5·10⁴ below it35), H I row 2 d19 3.2.
@@ -127,7 +130,7 @@ again as the pin weakens, still ×5·10⁴ below it35), H I row 2 d19 3.2.
 Iterate 45 (λ = 0.75): −0.6 %, frozen 1.4069e-2 (**−50.4 %**), T step 8e-4. Iterate 46 starts the real equations
 (λ = 1, T free, convergence test 1e-3).
 
-**Iterate 46 — the real equations (λ = 1).** The front mode reappears, much weaker: the unbounded step asks T 1.10 and
+**Iterate 46 — the real equations (λ = 1).** (Comparison with it35 withdrawn, §6.) the unbounded step asks T 1.10 and
 H II / n_e 0.34 at **d33** (it35, same equations before the homotopy: T 98, H I n = 2 175, H II 37), H I row 2 d19 4.4,
 He II d25 trace 35. The full step overshoots again (×1.047; it33–35: ×1.14–1.26), λ 0.5 accepted (ρ 0.51): −0.6 %,
 frozen measure **1.3975e-2 (−50.7 % since it16; −11.5 % since the homotopy start)**, 0.34 %/h — the first λ = 1 iterate
@@ -138,18 +141,60 @@ Iterate 47 (λ = 1): T 0.74 / H II, n_e 0.43 at d33 (no growth), full step ×1.0
 
 ## 5. Stop (2026-11-10 23:02) and what the continuation achieved
 
-Iterates 46 and 47 ran below 0.5 %/h at λ = 1: stop rule. Best state `results/nk167_trap/v1_p3/it48_trial_l0.5`
+Iterates 46 and 47 ran below 0.5 %/h at λ = 1: stop rule. End state of the run `results/nk167_trap/v1_p3/it48_trial_l0.5`
 (pointer `accepted_state.json`), frozen it16 measure **1.3932e-2**: −50.9 % since it16 (2.837e-2), **−11.7 % in this
 block** (1.5783e-2 → 1.3932e-2, iterates 36–47, ~29 h of compute including ~4 h lost to machine contention).
 Conservation ~3e-16, RE net/gross max 3.64e-3 (start 3.45e-3). Residual composition (frozen measure share): He I 0.31,
 H I n ≥ 3 0.28, H I n = 2 0.23, RE 0.13, H⁻ 0.03, He II 0.02, H I n = 1 / ionization balance 0.008 (it36: 0.047).
 
-**What the continuation did.** Releasing T gradually from a fixed-T solution moved the state off the branch where the
-front soft mode dominated: at the same equations, the unbounded step at d33 fell from T 98 / H I n = 2 175 / H II 37
-(it35) to **T 0.7–1.1 / H II 0.3–0.4** (it46–47); full steps overshoot by ×1.02–1.05 instead of ×1.14–1.26. The
-fixed-T stage itself gave the largest gains (−17 % of its merit in four iterates; the H ionization balance group −83 %).
+**What the continuation did.** The fixed-T stage gave the block's gains: −17 % of its merit in four iterates (3.6 %/h at
+iterate 37, against 0.2–0.6 %/h for the free-T runs of Report 28), the H ionization balance group −83 %, and −8.5 % of the
+frozen measure. Releasing T over λ = 0.25 → 1 kept the merit decreasing (−0.4 to −1.1 % per iterate) without trouble.
 
-**What it did not do.** Once T is free the per-iterate gain returns to ~0.4–0.6 %: the 8-pass span reaches only
-0.96–0.97 of the residual even unbounded, and the 0.25 box leaves ~0.99. With the soft mode now small, this is the
-linear solve's limit (span / preconditioner quality), not the nonlinearity — the opposite of the Report 28 diagnosis
-for the old state. Closing diagnostic: §6.
+**What it did not do (corrected by §6).** At λ = 1 the per-iterate gain falls back to ~0.4–0.6 % and the stop rule fires.
+I first read the small T steps of iterates 36–47 (T ≤ 1.1 at d33, against T 98 at it35) as the front mode having been
+crossed. That comparison was wrong: it33–35 ran with the 427 exact front columns, v1_p3 without them, and the
+Krylov-only span does not reach the mode (§6).
+
+## 6. Closing diagnostic: targeted exact columns at the end state (`results/nk167_trap/v1_p4`, iterate 48)
+
+One iterate of the real equations from `v1_p3/it48_trial_l0.5` with the Report 28 setting (427 exact columns, d1–61,
+rows 2 3 32 33 102 133 134; 120.6 min) plus 8 Krylov passes:
+
+| | it48, Krylov only (v1_p3 setting) | it48 + 427 exact columns | it35 + columns (Report 28) |
+|---|---|---|---|
+| linear fit unbounded / 0.25 box | ~0.964 / ~0.987 (it47) | **0.916 / 0.956** | 0.84–0.92 / 0.91–0.99 |
+| unbounded step at d33: T / H I n = 2 / H II | 0.74 / — / 0.43 (it47) | **103 / 216 / 51** | 98 / 175 / 37 |
+| trials λ 1 / 0.5 / 0.25 / 0.125 | 1.024 / 0.996 / 0.996 / 0.998 (it47) | 1.318 / 1.003 / **0.988** / 0.992 | 1.215 / 1.001 / 0.989 / 0.992 |
+
+Accepted λ 0.25: local merit −1.2 %, frozen measure 1.3932e-2 → **1.3792e-2 (−1.0 %; −51.4 % since it16)**, 3.9 h →
+0.26 %/h. **The front mode is unchanged.** Once the exact columns make it visible, the Newton step at d33 is as large as
+before the homotopy (T 103, H I n = 2 216), and the full step overshoots by ×1.32. The Krylov-only iterates without
+columns before the homotopy show the same small T steps as v1_p3 (it30–32: T 0.44–0.65, H II 0.32–0.38 at d40). So
+the T homotopy did not move the state off the mode's branch. It is a property of the equations at this front, not of
+the path, and a T continuation does not remove it.
+
+**Corrections to §4–5:**
+- The statements "with T held it disappears" (iterate 36), "the soft mode does not return" (iterates 40, 42, 43) and
+  "reappears ~100× weaker" (iterate 46) compare a Krylov-only span with a span that had the exact columns. They are
+  withdrawn.
+- What stands: the fixed-T stage's real gains (frozen measure −8.5 %) and the block total.
+
+## 7. State and options (2026-11-11)
+
+Best state `results/nk167_trap/v1_p4/it49_trial_l0.25` (pointer), frozen measure **1.3792e-2 (−51.4 % since it16;
+−12.6 % in this block)**, conservation ~3e-16, RE net/gross 3.61e-3. Not converged. The diagnosis of Report 28 stands:
+near the inner H front (d33) the Jacobian has a nearly singular T ↔ hydrogen-ionization direction. Every exact linear
+model asks for corrections of ~10² along it, and the true equations curve away within a fraction of that step. Away
+from that direction the solver makes ~0.5–1 % per iterate.
+
+Options (none started):
+1. **Treat the front direction explicitly.** Compute the near-null direction from the exact columns (local SVD at
+   d25–45). Take the Newton step on its complement, and along it do a one-dimensional nonlinear search with native
+   passes (a few evaluations), not the linear model. This targets exactly what blocks the step. About 1–2 days to build
+   and test.
+2. **Fixed-T / free-T alternation.** Repeat the cheap productive regime: a few fixed-T iterates (3–7 %/h when the
+   populations are out of balance), then one free-T iterate. Cheap to run, but the fixed-T gains shrank to 1 % in four
+   iterates, so it probably adds a few % at most.
+3. **Report 28 options 2–3, unchanged:** a mature nonlinear solver comparison (PETSc SNES, ~1 week), or the
+   convergence-scope decision (yours).
