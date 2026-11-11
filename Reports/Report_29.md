@@ -72,3 +72,84 @@ iterates (4 in total; the He II d25 trace keeps its step above the stage toleran
 and retreats if no trial decreases the merit); then λ = 1 (the real equations) to the convergence tolerance. Automatic
 stops as before (< 0.5 %/h twice at λ = 1, all trials rejected, RE net/gross > 5e-3, the soft mode returning: significant
 step > 16 with < 2 % gain).
+
+| iterate | λ | T | linear fit (8 passes) unbounded / box | accepted | trials λ 1 / 0.5 / 0.25 / 0.125 | stage merit | drop | ρ | frozen measure | wall |
+|---|---|---|---|---|---|---|---|---|---|---|
+| 36 | 0 | held | 0.918 / 0.918 | λ 0.5 | 0.945 / 0.945 / 0.967 / 0.982 | 1.4937e-2 → 1.4109e-2 | −5.5 % | — | 1.5210e-2 | 2.4 h |
+| 37 | 0 | held | 0.907 / 0.914 | λ 1 | 0.930 / 0.944 / 0.967 / 0.982 | 1.3971e-2 → 1.2991e-2 | −7.0 % | 0.82 | 1.4584e-2 | 1.95 h |
+| 38 | 0 | held | 0.954 / 0.961 | λ 1 | 0.968 / 0.973 / 0.983 / 0.990 | 1.2888e-2 → 1.2475e-2 | −3.2 % | 0.83 | 1.4524e-2 | 2.6 h |
+| 39 | 0 | held | 0.970 / 0.981 | λ 0.5 | 0.996 / 0.989 / 0.993 / 0.996 | 1.2477e-2 → 1.2345e-2 | −1.1 % | 0.79 | 1.4444e-2 | 3.3 h |
+| 40 | 0.25 | free | 0.965 / 0.982 | λ 0.5 | 1.000 / 0.990 / 0.993 / 0.996 | 1.2379e-2 → 1.2260e-2 | −1.0 % | 0.72 | 1.4358e-2 | 5.9 h* |
+| 41 | 0.25 | free | 0.965 / 0.988 | λ 1 | 0.989 / 0.992 / 0.995 / 0.997 | 1.2288e-2 → 1.2148e-2 | −1.1 % | 0.92 | 1.4267e-2 | 2.6 h |
+| 42 | 0.5 | free | 0.972 / 0.992 | λ 1 | 0.993 / 0.995 / 0.997 / 0.998 | 1.2229e-2 → 1.2140e-2 | −0.7 % | 0.93 | 1.4226e-2 | 2.2 h |
+| 43 | 0.5 | free | 0.972 / 0.994 | λ 1 | 0.995 / 0.996 / 0.998 / 0.999 | 1.2193e-2 → 1.2127e-2 | −0.5 % | 0.88 | 1.4172e-2 | 3.5 h |
+| 44 | 0.75 | free | 0.971 / 0.993 | λ 1 | 0.994 / 0.995 / 0.997 / 0.998 | 1.2213e-2 → 1.2145e-2 | −0.6 % | 0.76 | 1.4133e-2 | 1.85 h |
+| 45 | 0.75 | free | 0.969 / 0.991 | λ 0.5 | 0.994 / 0.994 / 0.997 / 0.998 | 1.2149e-2 → 1.2081e-2 | −0.6 % | 0.87 | 1.4069e-2 | 1.9 h |
+| 46 | **1** | free | 0.962 / 0.984 | λ 0.5 | 1.047 / 0.994 / 0.994 / 0.997 | 1.2310e-2 → 1.2239e-2 | −0.6 % | 0.51 | 1.3975e-2 | 1.7 h |
+| 47 | 1 | free | 0.964 / 0.987 | λ 0.5 | 1.024 / 0.996 / 0.996 / 0.998 | 1.2249e-2 → 1.2199e-2 | −0.4 % | 0.47 | 1.3932e-2 | 2.25 h |
+
+Iterate 38: the linear model stays accurate (ρ 0.83) but the 8-pass span reaches less (0.954); the unbounded step's
+largest major component is H I row 2 at d19 (3.96), He II d25 trace 61.8. The real-problem measure gains only −0.4 %:
+with T held, the RE part (0.121 of the frozen measure) and the T-coupled H I n = 2 (0.224) cannot improve. Stage 0 is
+near what it can give; iterate 39 is its last (cap 4), then T is released at λ = 0.25.
+
+Iterate 39 (last of stage 0): −1.1 % in 3.3 h (0.33 %/h); frozen measure 1.4444e-2 (**−49.1 %** since it16). Stage 0
+has given what it can (−17 % of the stage merit, −8.5 % of the frozen measure in four iterates); the cap now releases T
+at λ = 0.25 (iterate 40).
+
+**Iterate 40 — first stage with T free (λ = 0.25).** The soft mode does not return: the unbounded step's largest
+major components are H I row 2 at d19 (4.6), He I 0.34, H II / n_e 0.077, **T 3.4e-4** (it35 with T free: H I 175, T 98);
+only the He II d26 trace stays large (42). Accepted λ 0.5 (ρ 0.72): −1.0 % of the λ = 0.25 merit; frozen measure
+1.4358e-2 (**−49.4 %**), RE net/gross 3.64e-3. T moves very little at λ = 0.25 (the pin keeps 3/4 of the RE row's
+weight), as intended: T follows the populations in small steps. \*Wall time inflated: 00:30–05:00 another workload on
+the machine (load average 56–76 on 10 cores) slowed the passes ×5 (75 min instead of 13–15); progress rates for this
+iterate are judged per pass, not per hour.
+
+Iterate 41 (λ = 0.25): −1.1 % (full step, ρ 0.92), frozen measure 1.4267e-2 (**−49.7 %**); the He II d25 trace's step
+fell to 5.8 (from 42–73); largest major step H I row 2 at d19 (5.7), T 1.7e-4. **Change (2026-11-10 08:50):** the
+corrector iterates at intermediate λ gain ~1 % each while T moves by < 1e-3, so the stages are shortened from 4 to 2
+iterates (`--stage-max-iters 2`; restart at iterate 42, completed passes reused, interrupted ones moved to
+`_interrupted_it42/`). λ = 1 is now reached at iterate 46 instead of 52; the question the block has to answer is whether
+the Newton step there stays in the ordinary regime.
+
+Iterate 42 (λ = 0.5): no soft mode (largest major step H I row 2 d19 3.8, T 6.6e-4 at d33, He II d26 trace 32); full step
+accepted, −0.7 %, frozen measure 1.4226e-2 (**−49.9 %**). The 0.25 box binds (box fit 0.992 against 0.972 unbounded):
+the H ionization balance at d19 asks for corrections of ×4.
+
+Iterate 43 (λ = 0.5): −0.5 %, frozen measure 1.4172e-2 (**−50.0 %**); T step 2e-4, H I row 2 d19 4.5, He II d26 trace 21.
+The soft mode stays away, but the per-iterate gain shrinks (−1.1 → −0.7 → −0.5 %): the 8-pass span reaches only 0.972
+even unbounded, and the box (0.994) leaves most of that. The limit is again the linear solve (span/preconditioner), now
+without the soft mode in the way.
+
+Iterate 44 (λ = 0.75): −0.6 %, frozen 1.4133e-2 (**−50.2 %**); T step 2.0e-3 at d33 (the front depth starts to ask for T
+again as the pin weakens, still ×5·10⁴ below it35), H I row 2 d19 3.2.
+
+Iterate 45 (λ = 0.75): −0.6 %, frozen 1.4069e-2 (**−50.4 %**), T step 8e-4. Iterate 46 starts the real equations
+(λ = 1, T free, convergence test 1e-3).
+
+**Iterate 46 — the real equations (λ = 1).** The front mode reappears, much weaker: the unbounded step asks T 1.10 and
+H II / n_e 0.34 at **d33** (it35, same equations before the homotopy: T 98, H I n = 2 175, H II 37), H I row 2 d19 4.4,
+He II d25 trace 35. The full step overshoots again (×1.047; it33–35: ×1.14–1.26), λ 0.5 accepted (ρ 0.51): −0.6 %,
+frozen measure **1.3975e-2 (−50.7 % since it16; −11.5 % since the homotopy start)**, 0.34 %/h — the first λ = 1 iterate
+below 0.5 %/h (stop rule: twice).
+
+Iterate 47 (λ = 1): T 0.74 / H II, n_e 0.43 at d33 (no growth), full step ×1.024, λ 0.5 accepted: −0.4 %, frozen
+**1.3932e-2**, 0.18 %/h.
+
+## 5. Stop (2026-11-10 23:02) and what the continuation achieved
+
+Iterates 46 and 47 ran below 0.5 %/h at λ = 1: stop rule. Best state `results/nk167_trap/v1_p3/it48_trial_l0.5`
+(pointer `accepted_state.json`), frozen it16 measure **1.3932e-2**: −50.9 % since it16 (2.837e-2), **−11.7 % in this
+block** (1.5783e-2 → 1.3932e-2, iterates 36–47, ~29 h of compute including ~4 h lost to machine contention).
+Conservation ~3e-16, RE net/gross max 3.64e-3 (start 3.45e-3). Residual composition (frozen measure share): He I 0.31,
+H I n ≥ 3 0.28, H I n = 2 0.23, RE 0.13, H⁻ 0.03, He II 0.02, H I n = 1 / ionization balance 0.008 (it36: 0.047).
+
+**What the continuation did.** Releasing T gradually from a fixed-T solution moved the state off the branch where the
+front soft mode dominated: at the same equations, the unbounded step at d33 fell from T 98 / H I n = 2 175 / H II 37
+(it35) to **T 0.7–1.1 / H II 0.3–0.4** (it46–47); full steps overshoot by ×1.02–1.05 instead of ×1.14–1.26. The
+fixed-T stage itself gave the largest gains (−17 % of its merit in four iterates; the H ionization balance group −83 %).
+
+**What it did not do.** Once T is free the per-iterate gain returns to ~0.4–0.6 %: the 8-pass span reaches only
+0.96–0.97 of the residual even unbounded, and the 0.25 box leaves ~0.99. With the soft mode now small, this is the
+linear solve's limit (span / preconditioner quality), not the nonlinearity — the opposite of the Report 28 diagnosis
+for the old state. Closing diagnostic: §6.
